@@ -1,0 +1,243 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ejie.${codapp}</groupId>
+	<artifactId>${codapp}EAR</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>${codapp}EAR</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+<#if radjpa>	
+		<eclipselink.version>2.3.0-SNAPSHOT</eclipselink.version>
+		<javax.persistence.version>2.0.1</javax.persistence.version>
+</#if>		
+		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
+		<org.log4j.version>1.2.16</org.log4j.version>
+		<org.slf4j.version>1.6.1</org.slf4j.version>
+	</properties>
+	<dependencies>
+<#if radjpa>
+		<!-- EclipseLink -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version><#noparse>${eclipselink.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version><#noparse>${javax.persistence.version}</#noparse></version>
+		</dependency>
+		<!-- MetaModel Generation -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+			<version><#noparse>${eclipselink.version}</#noparse></version>
+		</dependency>
+</#if>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of Log4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<!-- Spring Security -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-acl</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
+		</dependency>
+		<dependency> 
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+        	<version><#noparse>${org.springframework.security.version}</#noparse></version>
+		</dependency>
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version><#noparse>${org.log4j.version}</#noparse></version>
+<#if entornoEjie != "">
+			<scope>provided</scope>
+<#else>
+			<scope>runtime</scope>
+</#if>			
+		</dependency>
+
+		<!-- JSR 303 with Hibernate Validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+
+		<!-- Joda Time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Jackson JSON Mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.9</version>
+		</dependency>
+
+		<!-- x38 -->
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<!-- Tiles -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.9.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>		
+	</dependencies>
+	<repositories>
+<#if entornoEjie != "">
+		<repository>
+			<id>ejie</id>
+			<name>ejie</name>
+			<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+<#else>
+
+	<#if radjpa>	
+		<!-- For EclipseLink -->
+		<repository>
+			<id>EclipseLink Repo</id>
+			<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+		</repository>
+	</#if>
+		<!-- For Hibernate Validator -->
+		<repository>
+			<id>org.jboss.repository.release</id>
+			<name>JBoss Maven Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>repo2.maven.org</id>
+			<name>Official Maven Repository</name>
+			<url>http://repo2.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+</#if>		
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<excludeTransitive>false</excludeTransitive>
+							<excludeScope>provided</excludeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

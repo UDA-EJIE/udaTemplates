@@ -1,0 +1,317 @@
+{
+	"rup_base": {
+		"developerError":"eu_Error de desarrollo"
+ 	},
+    "rup_maint": {
+		"detailTitle":"eu_Agregar Registro",
+		"deletedOK":"eu_El elemento se ha borrado correctamente.",
+		"insertOK":"eu_El elemento se ha a�adido correctamente.",
+		"modifyOK":"eu_El elemento se ha modificado correctamente.",
+		"insertError":"eu_Error al insertar el elemento.",
+		"validateError":"eu_Se han producido los siguientes errores: <br/>",
+		"last":"Azkena",
+		"first":"Lehena",
+		"next":"Hurrengoa",
+		"previous":"Aurrekoa",
+		"elements":"eu_Elementos",
+		"new":"Gehitu",
+		"edit":"eu_Editar",
+		"delete":"Ezabatu",
+		"filter":"eu_Filtrar",
+"cancel":"eu_Cancelar",
+		"searchOptions":"eu_Criterios de Busqueda:",
+		"noGrid":"eu_NO es poasible crear un mantenimiento sin un grid.",
+		"numResult":"eu_Número de resultados",
+		"de":"eu_de",
+		"changes":"eu_Se han realizado cambios",
+		"saveAndContinue":"eu_¿Se han realizado cambios, desea continuar?",
+		"selectAll":"eu_Ha seleccionado todos los registros de la pagina actual.",
+		"selected":"eu_Registros seleccionados.",
+		"deleteAll":"eu_¿Estaseguro que desea eliminar todos los registros seleccionados?",
+"titleDelAll": "Eliminar los registros",
+		"noReg":"Seleccione un registro."
+    },
+    "rup_breadCrumb" : {
+    	"youAre":"Hemen zaude:",
+    	"start":"Hasiera"
+    },
+    "rup_language" : {
+    	"es":"Gaztelera",
+    	"eu":"Euskara",
+    	"en":"Ingelesera",
+		"fr":"Frantzesa",
+    	"changeLanguage":"Hizkuntza aldatu"
+    }, 
+    "rup_global": {
+        "cerrar":"eu_cerrar",
+        "rupCheckStyleError":"eu_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCI�N SECUNDARIA.",
+        "error":"eu_Error",
+        "cancelar":"eu_Cancelar",
+        "search":"Bilatu",
+        "clean":"eu_Limpiar",
+        "aceptar":"eu_Aceptar",
+        "save":"Gorde",
+        "close":"eu_Cerrar",
+		"save_repeat":"eu_Guardar y Repetir",
+		"cancel":"eu_Cancelar",
+		"initError":"eu_Se ha especificado mas de un elemento en la constructora. <br> Por favor revise la funcion creadora para el objeto con ID: "		
+    },
+    "rup_message": {
+        "aceptar":"eu_Aceptar",
+        "tituloError":"eu_Se ha producido un error",
+        "error":"eu_Error",
+        "confirmacion":"eu_Confirmación",
+        "correct":"eu_Correcto",
+        "alert":"eu_Alerta" 
+    },
+    "rup_blockUI": {
+        "cargando":"eu_Procesando, espere por favor" 
+    },
+    "rup_dialog": {
+        "errorLoadingData":"<b>eu_Error recuperando los datos peticionados para crear el dialogo.</b>",
+        "noURL":"eu_No puede crearse un dialogo de tipo ajax sin URL definida." 
+    },
+	"rup_combo": {
+		"blankNotDefined":"eu_[Falta literal]",
+		"loadingText":"eu_Cargando..."
+	},
+	"rup_date": {
+		"mask":"(aaaa/mm/dd)",
+	 	"dateFormat":"yy/mm/dd",
+		"firstDay":1,
+		"weekHeader":"&nbsp;&nbsp;&nbsp;",
+"buttonText" : "eu_Abrir calendario",
+		"dayNames":["Igandea","Astelehena","Asteartea","Asteazkena","Osteguna","Ostirala","Larunbata"],
+		"dayNamesMin":["Ig","As","As","As","Os","Os","La"],
+		"dayNamesShort":["Iga","Ast","Ast","Ast","Ost","Ost","Lar"],
+		"monthNames":["Urtarrila","Otsaila","Martxoa","Apirila","Maiatza","Ekaina","Uztaila","Abuztua","Iraila","Urria","Azaroa","Abendua"],
+		"monthNamesShort":["Urt","Ots","Mar","Api","Mai","Eka","Uzt","Abu","Ira","Urr","Aza","Abe"],
+		"closeText":"Egina",
+		"currentText":"Gaur",
+		"nextText":"Hur&#x3e;",
+		"prevText":"&#x3c;Aur"
+	},
+"rup_time":{
+		"mask" : "(hh:mm)",
+		"buttonText" : "Abrir hora",
+		"currentText": "Ahora",
+		"closeText": "Cerrar",
+		"timeOnlyTitle": "Seleccione Tiempo",
+		"timeText": "Tiempo",
+		"hourText": "Hora",
+		"minuteText": "Minuto",
+		"secondText": "Segundo"
+	},
+    "rup_grid": {
+    	"selectedElems":"eu_Se han seleccionado los ",
+	"deSelectedElems":"eu_Se han deseleccionado los ",
+    	"ofPage":" eu_elementos de la página.",
+    	"selectAll": "eu_seleccionar los ",
+	"deSelectAll": "eu_deseleccionar los ",
+    	"selectAllRest": "eu_restantes",
+    	"clearSelection":"eu_deshacer selección",
+		"pager": {
+			"selected":"eu_Elementos seleccionados",
+			"primPag":"Hasierako orria",
+			"siguiente":"Hurrengoa",
+			"anterior":"Aurrekoa",
+			"ultiPag":"Azken orria"
+		},
+        "noRecordsFound":"eu_No hay registros.",
+        "defaults": {
+            "recordtext":"eu_Mostrando {0} - {1} de {2}",
+            "emptyrecords":"eu_Sin registros que mostrar",
+            "loadtext":"eu_Cargando...",
+            "pgtext":"eu_Pagina {0} de {1}" 
+        },
+        "search": {
+            "caption":"Bilaketa...",
+            "Find":"Bilatu",
+            "Reset":"Garbitu",
+            "odata": [
+                "eu_igual",
+                "eu_no igual a",
+                "eu_menor que",
+                "eu_menor o igual que",
+                "eu_mayor que",
+                "eu_mayor o igual a",
+                "eu_empiece por",
+                "eu_no empiece por",
+                "eu_está en",
+                "eu_no está en",
+                "eu_termina por",
+                "eu_no termina por",
+                "eu_contiene",
+                "eu_no contiene" 
+            ],
+            "groupOps": [
+                {
+                    "op":"AND",
+                    "text":"dena" 
+                },
+                {
+                    "op":"OR",
+                    "text":"edozein" 
+                } 
+            ],
+            "matchText":" match",
+            "rulesText":"eu_reglas" 
+        },
+        "edit": {
+            "addCaption":"eu_Agregar registro",
+            "editCaption":"eu_Modificar registro",
+            "bSubmit":"eu_Guardar",
+            "bCancel":"eu_Cancelar",
+            "bClose":"eu_Cerrar",
+            "saveData":"eu_Se han modificado los datos, ¿guardar cambios?",
+            "bYes":"Bai",
+            "bNo":"Ez",
+            "bExit":"eu_Cancelar",
+            "msg":{
+                "required":"eu_Campo obligatorio",
+                "number":"eu_Introduzca un n�mero",
+                "minValue":"eu_El valor debe ser mayor o igual a ",
+                "maxValue":"eu_El valor debe ser menor o igual a ",
+                "email":"eu_no es una direcci�n de correo v�lida",
+                "integer":"eu_Introduzca un valor entero",
+                "date":"eu_Introduza una fecha correcta ",
+                "url":"eu_no es una URL v�lida. Prefijo requerido ('http://' or 'https://')",
+                "nodefined":"eu_ no est� definido.",
+                "novalue":"eu_ valor de retorno es requerido.",
+                "customarray":"eu_La funci�n personalizada debe devolver un array.",
+                "customfcheck":"eu_La funci�n personalizada debe estar presente en el caso de validaci�n personalizada." 
+            } 
+        },
+        "view": {
+            "caption":"eu_Consultar registro",
+            "bClose":"eu_Cerrar" 
+        },
+        "del": {
+            "caption":"eu_Eliminar",
+            "msg":"eu_¿sDesea eliminar los registros seleccionados?",
+            "bSubmit":"eu_Eliminar",
+            "bCancel":"eu_Cancelar" 
+        },
+        "nav": {
+            "edittext":" ",
+            "edittitle":"eu_Modificar fila seleccionada",
+            "addtext":" ",
+            "addtitle":"eu_Agregar nueva fila",
+            "deltext":" ",
+            "deltitle":"eu_Eliminar fila seleccionada",
+            "searchtext":" ",
+            "searchtitle":"eu_Buscar informaci�n",
+            "refreshtext":"",
+            "refreshtitle":"eu_Recargar datos",
+            "alertcap":"eu_Aviso",
+            "alerttext":"eu_Seleccione una fila",
+            "viewtext": "",
+            "viewtitle":"eu_Ver fila seleccionada" 
+        },
+        "col": {
+            "caption":"eu_Mostrar/ocultar columnas",
+            "bSubmit":"eu_Enviar",
+            "bCancel":"eu_Cancelar" 
+        },
+        "errors": {
+            "errcap":"eu_Error",
+            "nourl":"eu_No se ha especificado una URL",
+            "norecords":"eu_No hay datos para procesar",
+            "model":"eu_Las columnas de nombres son diferentes de las columnas de modelo" 
+        },
+        "formatter": {
+            "integer": {
+                "thousandsSeparator":".",
+                "defaultValue":"0" 
+            },
+            "number": {
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "defaultValue":"0,00" 
+            },
+            "currency": {
+                "decimalSeparator": ",",
+                "thousandsSeparator": ".",
+                "decimalPlaces": "2",
+                "prefix": "",
+                "suffix": "",
+                "defaultValue": "0,00" 
+            },
+            "date": {
+                "dayNames": [
+                    "Ig",
+                    "As",
+                    "As",
+                    "As",
+                    "Os",
+                    "Os",
+                    "La",
+                    "Igandea",
+                    "Astelehena",
+                    "Asteartea",
+                    "Asteazkena",
+                    "Osteguna",
+                    "Ostirala",
+                    "Larunbata" 
+                ],
+                "monthNames": [
+                    "Urt",
+                    "Ots",
+                    "Mar",
+                    "Api",
+                    "Mai",
+                    "Eka",
+                    "Uzt",
+                    "Abu",
+                    "Ira",
+                    "Urr",
+                    "Aza",
+                    "Abe",
+                    "Urtarrila",
+                    "Otsaila",
+                    "Martzoa",
+                    "Apirila",
+                    "Maiatza",
+                    "Ekaina",
+                    "Uztaila",
+                    "Abuztua",
+                    "Iraila",
+                    "Urria",
+                    "Azaroa",
+                    "Abendua" 
+                ],
+                "AmPm" : [
+                    "am",
+                    "pm",
+                    "AM",
+                    "PM" 
+                ],
+                "S":"function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'}",
+                "srcformat":"Y-m-d",
+                "newformat":"d-m-Y",
+                "masks": {
+                    "ISO8601Long": "Y-m-d H:i:s",
+                    "ISO8601Short": "Y-m-d",
+                    "ShortDate": "n/j/Y",
+                    "LongDate": "l, F d, Y",
+                    "FullDateTime": "l, F d, Y g:i:s A",
+                    "MonthDay": "F d",
+                    "ShortTime": "g:i A",
+                    "LongTime": "g:i:s A",
+                    "SortableDateTime": "Y-m-d\\TH:i:s",
+                    "UniversalSortableDateTime": "Y-m-d H:i:sO",
+                    "YearMonth": "F, Y" 
+                },
+                "reformatAfterEdit": false 
+            },
+            "baseLinkUrl": "",
+            "showAction": "",
+            "target": "",
+            "checkbox": {
+                "disabled": "true" 
+            },
+            "idName": "id" 
+        } 
+    }
+}

@@ -1,0 +1,1 @@
+<div id="${warName}_menu" class="menu"></div>

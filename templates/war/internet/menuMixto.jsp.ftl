@@ -1,0 +1,1 @@
+<div id="${warName}_menu_mixto" class="menu"></div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- contents of beanRefContext.xml: notice that the bean id is the value 
+		specified by the parentContextKey param -->
+	<bean id="ear.context"
+		class="org.springframework.context.support.ClassPathXmlApplicationContext">
+		<constructor-arg>
+			<list>
+				<value>META-INF/spring/dao-config.xml</value>
+				<value>META-INF/spring/log-config.xml</value>
+				<value>META-INF/spring/service-config.xml</value>
+				<value>META-INF/spring/security-config.xml</value>				
+				<value>META-INF/spring/tx-config.xml</value>
+			</list>
+		</constructor-arg>
+	</bean>	
+</beans>

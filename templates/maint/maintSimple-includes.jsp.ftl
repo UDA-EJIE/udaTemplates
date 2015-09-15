@@ -1,0 +1,2 @@
+<%@include file="/WEB-INF/views/includes/includeTemplate.inc"%>
+<script src="<#noparse>${staticsUrl}</#noparse>/${codapp}/scripts/${warNameShort}_${entity}/${warNameShort}_${entity}.js" type="text/javascript"></script>

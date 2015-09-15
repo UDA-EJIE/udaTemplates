@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">	
+				
+	<!-- Manages UDA´s Validation API -->
+	<bean id="validationManager" class="com.ejie.x38.validation.ValidationManager" />
+	
+	<!-- Filter that Validates Required Request Bodies -->
+	<bean id="validationFilter" class="com.ejie.x38.validation.ValidationFilter">
+		<property name="validationManager" ref="validationManager"/>
+		<property name="localeResolver" ref="localeResolver" />
+	</bean>
+	
+	<!-- Servlet that Validates Required Request Parameters -->
+	<bean id="validationServlet" class="com.ejie.x38.validation.ValidationServlet">
+		<property name="validationManager" ref="validationManager"/>
+		<property name="localeResolver" ref="localeResolver" />
+	</bean>
+
+</beans>

@@ -1,0 +1,317 @@
+{
+	"rup_base": {
+		"developerError":"en_Error de desarrollo"
+ 	},
+	"rup_maint": {
+		"detailTitle":"en_Agregar Registro",
+		"deletedOK":"en_El elemento se ha borrado correctamente.",
+		"insertOK":"en_El elemento se ha añadido correctamente.",
+		"modifyOK":"en_El elemento se ha modificado correctamente.",
+		"insertError":"en_Error al insertar el elemento.",
+		"validateError":"en_Se han producido los siguientes errores: <br/>",
+		"last":"en_Ultimo",
+		"first":"en_Primero",
+		"next":"en_Siguiente",
+		"previous":"en_Anterior",
+		"elements":"en_Elementos",
+		"new":"en_Añadir",
+		"edit":"en_Editar",
+		"delete":"en_Eliminar",
+		"filter":"en_Filtrar",
+"cancel":"Cancelar",
+		"searchOptions":"en_Criterios de Búsqueda:",
+		"noGrid":"en_No es posible crear un mantenimiento sin un grid.",
+		"numResult":"en_Número de resultados",
+		"de":"en_de",
+		"changes": "en_Se han realizado cambios",
+		"saveAndContinue": "en_¿Se han realizado cambios, desea continuar?",
+		"selectAll": "en_Ha seleccionado todos los registros de la página actual.",
+		"selected": "en_Registros seleccionados.",
+		"deleteAll": "en_¿Está seguro que desea eliminar todos los registros seleccionados?",
+"titleDelAll": "Eliminar los registros",
+		"noReg":"Seleccione un registro."
+    },
+    "rup_breadCrumb" : {
+    	"youAre" : "You are in:",
+    	"start"  : "Home"
+    },
+    "rup_language" : {
+    	"es" : "Spanish",
+    	"eu":"Euskara",
+    	"en":"English",
+		"fr":"French",
+    	"changeLanguage": "Change Language"
+    }, 
+    "rup_global": {
+        "cerrar": "en_cerrar",
+        "rupCheckStyleError": "en_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
+        "error": "en_Error",
+        "cancelar": "en_Cancelar",
+        "search": "en_Buscar",
+        "clean": "en_Limpiar",
+        "aceptar": "en_Aceptar",
+        "save": "en_Guardar",
+        "close": "en_Cerrar",
+		"save_repeat":"en_Guardar y Repetir",
+		"cancel":"en_Cancelar",
+		"initError":"en_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: " 
+    },
+    "rup_message": {
+        "aceptar": "en_Aceptar",
+        "tituloError": "en_Se ha producido un error",
+        "error": "en_error",
+        "confirmacion": "en_Confirmación",
+        "correct": "en_Correcto",
+        "alert": "en_Alerta" 
+    },
+    "rup_blockUI": {
+        "cargando": "en_Procesando, espere por favor" 
+    },
+    "rup_dialog": {
+        "errorLoadingData": "en_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
+        "noURL": "en_No puede crearse un diálogo de tipo ajax sin URL definida." 
+    },
+	"rup_combo": {
+		"blankNotDefined": "en_[Falta literal]",
+		"loadingText":"en_Cargando..."
+	},
+	"rup_date": {
+		"mask" : "(aaaa/mm/dd)",
+	 	"dateFormat" : "yy/mm/dd",
+		"firstDay" : 1,
+		"weekHeader" : "&nbsp;&nbsp;&nbsp;",
+		"buttonText" : "en_Abrir calendario",
+		"dayNames" : ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+		"dayNamesMin" : ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+		"dayNamesShort" : ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+		"monthNames" : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+		"monthNamesShort" : ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+		"closeText" : "Cerrar",
+		"currentText" : "Hoy",
+		"nextText" : "Siguiente",
+		"prevText" : "Anterior"
+	},
+	"rup_time":{
+		"mask" : "(hh:mm)",
+		"buttonText" : "en_Abrir hora",
+		"currentText": "en_Ahora",
+		"closeText": "en_Cerrar",
+		"timeOnlyTitle": "en_Seleccione Tiempo",
+		"timeText": "en_Tiempo",
+		"hourText": "en_Hora",
+		"minuteText": "en_Minuto",
+		"secondText": "en_Segundo"
+	},
+    "rup_grid": {
+    	"selectedElems":"en_Se han seleccionado los ",
+    	"deSelectedElems":"en_Se han deseleccionado los ",
+    	"ofPage":" en_elementos de la página.",
+    	"selectAll": "en_seleccionar los ",
+    	"deSelectAll": "en_deseleccionar los ",
+    	"selectAllRest": "en_restantes",
+    	"clearSelection":"en_deshacer selección",
+		"pager": {
+			"selected" : "en_Elementos seleccionados",
+			"primPag" : "en_Primera Página",
+			"siguiente" : "en_Siguiente",
+			"anterior" : "en_Anterior",
+			"ultiPag" : "en_Última Página"
+		},
+        "noRecordsFound": "en_No hay registros.",
+        "defaults": {
+            "recordtext": "en_Mostrando {0} - {1} de {2}",
+            "emptyrecords": "en_Sin registros que mostrar",
+            "loadtext": "en_Cargando...",
+            "pgtext" : "en_Página {0} de {1}" 
+        },
+        "search": {
+            "caption": "en_Búsqueda...",
+            "Find": "en_Buscar",
+            "Reset": "en_Limpiar",
+            "odata": [
+                "igual",
+                "no igual a",
+                "menor que",
+                "menor o igual que",
+                "mayor que",
+                "mayor o igual a",
+                "empiece por",
+                "no empiece por",
+                "está en",
+                "no está en",
+                "termina por",
+                "no termina por",
+                "contiene",
+                "no contiene" 
+            ],
+            "groupOps": [
+                {
+                    "op": "AND",
+                    "text": "todo" 
+                },
+                {
+                    "op": "OR",
+                    "text": "cualquier" 
+                } 
+            ],
+            "matchText": " match",
+            "rulesText": " reglas" 
+        },
+        "edit": {
+            "addCaption": "Agregar registro",
+            "editCaption": "Modificar registro",
+            "bSubmit": "Guardar",
+            "bCancel": "Cancelar",
+            "bClose": "Cerrar",
+            "saveData": "Se han modificado los datos, ¿guardar cambios?",
+            "bYes": "Si",
+            "bNo": "No",
+            "bExit": "Cancelar",
+            "msg": {
+                "required": "Campo obligatorio",
+                "number": "Introduzca un número",
+                "minValue": "El valor debe ser mayor o igual a ",
+                "maxValue": "El valor debe ser menor o igual a ",
+                "email": "No es una dirección de correo válida",
+                "integer": "Introduzca un valor entero",
+                "date": "Introduza una fecha correcta ",
+                "url": "No es una URL válida. Prefijo requerido ('http://' or 'https://')",
+                "nodefined": " no está definido.",
+                "novalue": " valor de retorno es requerido.",
+                "customarray": "La función personalizada debe devolver un array.",
+                "customfcheck": "La función personalizada debe estar presente en el caso de validación personalizada." 
+            } 
+        },
+        "view": {
+            "caption": "Consultar registro",
+            "bClose": "Cerrar" 
+        },
+        "del": {
+            "caption": "Eliminar",
+            "msg": "¿Desea eliminar los registros seleccionados?",
+            "bSubmit": "Eliminar",
+            "bCancel": "Cancelar" 
+        },
+        "nav": {
+            "edittext": " ",
+            "edittitle": "Modificar fila seleccionada",
+            "addtext": " ",
+            "addtitle": "Agregar nueva fila",
+            "deltext": " ",
+            "deltitle": "Eliminar fila seleccionada",
+            "searchtext": " ",
+            "searchtitle": "Buscar información",
+            "refreshtext": "",
+            "refreshtitle": "Recargar datos",
+            "alertcap": "Aviso",
+            "alerttext": "Seleccione una fila",
+            "viewtext": "",
+            "viewtitle": "Ver fila seleccionada" 
+        },
+        "col": {
+            "caption": "Mostrar/ocultar columnas",
+            "bSubmit": "Enviar",
+            "bCancel": "Cancelar" 
+        },
+        "errors": {
+            "errcap": "Error",
+            "nourl": "No se ha especificado una URL",
+            "norecords": "No hay datos para procesar",
+            "model": "Las columnas de nombres son diferentes de las columnas de modelo" 
+        },
+        "formatter": {
+            "integer": {
+                "thousandsSeparator": ".",
+                "defaultValue": "0" 
+            },
+            "number": {
+                "decimalSeparator": ",",
+                "thousandsSeparator": ".",
+                "decimalPlaces": "2",
+                "defaultValue": "0,00" 
+            },
+            "currency": {
+                "decimalSeparator": ",",
+                "thousandsSeparator": ".",
+                "decimalPlaces": "2",
+                "prefix": "",
+                "suffix": "",
+                "defaultValue": "0,00" 
+            },
+            "date": {
+                "dayNames": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa",
+                    "Domingo",
+                    "Lunes",
+                    "Martes",
+                    "Miércoles",
+                    "Jueves",
+                    "Viernes",
+                    "Sábado" 
+                ],
+                "monthNames": [
+                    "Ene",
+                    "Feb",
+                    "Mar",
+                    "Abr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Ago",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dic",
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre" 
+                ],
+                "AmPm" : [
+                    "am",
+                    "pm",
+                    "AM",
+                    "PM" 
+                ],
+                "S": "function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'}",
+                "srcformat": "Y-m-d",
+                "newformat": "d-m-Y",
+                "masks": {
+                    "ISO8601Long": "Y-m-d H:i:s",
+                    "ISO8601Short": "Y-m-d",
+                    "ShortDate": "n/j/Y",
+                    "LongDate": "l, F d, Y",
+                    "FullDateTime": "l, F d, Y g:i:s A",
+                    "MonthDay": "F d",
+                    "ShortTime": "g:i A",
+                    "LongTime": "g:i:s A",
+                    "SortableDateTime": "Y-m-d\\TH:i:s",
+                    "UniversalSortableDateTime": "Y-m-d H:i:sO",
+                    "YearMonth": "F, Y" 
+                },
+                "reformatAfterEdit": false 
+            },
+            "baseLinkUrl": "",
+            "showAction": "",
+            "target": "",
+            "checkbox": {
+                "disabled": "true" 
+            },
+            "idName": "id" 
+        } 
+    }
+}

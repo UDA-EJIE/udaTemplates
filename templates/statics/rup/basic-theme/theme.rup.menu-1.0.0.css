@@ -1,0 +1,75 @@
+.ui-menu { width: auto; min-width: 16em; white-space: nowrap; position: absolute; text-align: left; z-index: 900;}
+
+
+.ui-menu .ui-icon { float: right; }
+
+
+.rup-menu_horizontalIcon { /* Icono desplegable menu horizontal */
+	background-position:-64px -16px;
+}
+.rup-menu_verticalIcon { /* Icono desplegable menu vertical */
+	margin-top: 0px !important;
+    position: relative!important;
+}
+
+
+/* MENU HORIZONTAL */ 
+.rup_menu a.ui-button{ 
+	background:none; 
+	border-style: none solid none none;
+	border-width: medium 1px medium medium;
+	border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color -moz-use-text-color;
+	border-radius: 0px 0px 0px 0px;
+	margin:0.3em 0em 0.3em 0em;
+}
+
+.rup_menu a.ui-button:last-child{ 
+	border-style: none none none none;
+}
+
+.rup_menu a.ui-button span.ui-button-text{ 
+	margin:0.0em 4px 0.0em 0em;
+}
+
+.rup_menu a.ui-button.ui-button-text-only.ui-state-hover span.ui-button-text{ 
+	margin:0.0em 0em 0.0em 0em;
+}
+
+.rup_menu a.ui-button.ui-button-text-only.ui-state-hover span.ui-button-text{ 
+	margin:0.0em -1px 0.0em 0em;
+}
+	
+.rup_menu a.ui-button.ui-state-hover span.ui-button-text{ 
+	font-weight: bold;
+	margin:0.0em 0px 0.0em 0em;
+}
+
+.rup_menu a span.ui-button-text{ 
+	padding : 0.2em 2em 0.2em 1em;
+	text-align: right;
+}
+	
+.rup_menu a ul.ui-menu{ 
+	border-radius: 0px 0px 0px 0px;
+}
+
+
+.rup_menu a ul.ui-menu a.ui-state-hover{ 
+	font-weight:bold;
+}
+	
+
+
+/* MENU VERTICAL */
+
+.rup_menu li ul.ui-menu.ui-widget.ui-widget-content{
+	border-radius: 0px 0px 0px 0px;
+}
+
+.rup_menu.ui-menu.ui-widget.ui-widget-content.ui-corner-all{
+	border-radius: 0px 0px 0px 0px;
+}
+
+.rup_menu li.ui-menu-item { 
+	border-radius: 0px 0px 0px 0px;
+}

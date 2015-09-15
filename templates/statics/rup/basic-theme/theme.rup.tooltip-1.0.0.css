@@ -1,0 +1,15 @@
+/* Capa del tooltip */
+.rup-tooltip {
+	padding:8px;
+	position:absolute;
+	z-index:9999;
+}
+
+/* Capa del texto del tooltip */
+.rup-tooltip_content {
+	
+}
+
+/* Evitar problemas en IE6  */
+* html .rup-tooltip { background-image: none; }
+body .rup-tooltip { border-width:2px; }
