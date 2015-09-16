@@ -1,3 +1,18 @@
+<#-- 
+ -- Copyright 2011 E.J.I.E., S.A.
+ --
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ --
+ --      http://ec.europa.eu/idabc/eupl.html
+ --
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia.
+ -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -9,12 +24,12 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 <#if radjpa>	
-		<eclipselink.version>2.3.0-SNAPSHOT</eclipselink.version>
+		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
 </#if>		
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
-		<org.log4j.version>1.2.16</org.log4j.version>
+		<org.logback.version>0.9.29</org.logback.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 	</properties>
 	<dependencies>
@@ -37,13 +52,13 @@
 			<version><#noparse>${eclipselink.version}</#noparse></version>
 		</dependency>
 </#if>
-		<!-- Spring -->
+		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version><#noparse>${org.springframework.version}</#noparse></version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of Log4j -->
+				<!-- Exclude Commons Logging in favor of logback -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -88,11 +103,7 @@
 		</dependency>
 		
 		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version><#noparse>${org.slf4j.version}</#noparse></version>
-		</dependency>
+			<!-- SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
@@ -101,20 +112,31 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+			<artifactId>slf4j-api</artifactId>
 			<version><#noparse>${org.slf4j.version}</#noparse></version>
-			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version><#noparse>${org.log4j.version}</#noparse></version>
-<#if entornoEjie != "">
-			<scope>provided</scope>
-<#else>
-			<scope>runtime</scope>
-</#if>			
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-ext</artifactId>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
+			<exclusions>
+				<!-- Exclude Compiler assisted localization library (CAL10N) -->
+				<exclusion>
+					<groupId>ch.qos.cal10n</groupId>
+					<artifactId>cal10n-api</artifactId>
+				</exclusion>				
+			</exclusions>			
+		</dependency>
+			<!-- Logback -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version><#noparse>${org.logback.version}</#noparse></version>						
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version><#noparse>${org.logback.version}</#noparse></version>
 		</dependency>
 
 		<!-- JSR 303 with Hibernate Validator -->
@@ -150,7 +172,7 @@
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
-			<version>1.0.1</version>
+			<version>1.1.0</version>
 		</dependency>
 		
 		<!-- Tiles -->
@@ -194,7 +216,7 @@
 		<!-- For EclipseLink -->
 		<repository>
 			<id>EclipseLink Repo</id>
-			<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
 		</repository>
 	</#if>
 		<!-- For Hibernate Validator -->

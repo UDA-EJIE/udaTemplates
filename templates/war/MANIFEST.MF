@@ -1,2 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: javax.persistence-2.0.1.jar eclipselink-2.1.2.jar
