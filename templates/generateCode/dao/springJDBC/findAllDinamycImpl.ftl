@@ -129,7 +129,7 @@
 	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
 		
-		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 
 		<#-- sentencias para crear las querys dinamicas -->
@@ -163,7 +163,7 @@
 	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, ?> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
 		
-		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 
 		<#-- sentencias para crear las querys dinamicas -->

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 E.J.I.E., S.A.
+ * Copyright 2013 E.J.I.E., S.A.
  *
  * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -42,9 +42,7 @@
       // Comprobamos si se esta monitorizando la anchura de la capa
       if ($(settings.fluidBaseLayer).data("fluidWidth")!==true){
     	  //Inidicamos que la capa esta siendo monitorizada
-    	  $(settings.fluidBaseLayer).data("fluidWidth",true);
-    	  
-    	  
+    	  $(settings.fluidBaseLayer).data("fluidWidth", true);
     	  
     	  setInterval(function(){
     		  resizeLayer($(settings.fluidBaseLayer), false);

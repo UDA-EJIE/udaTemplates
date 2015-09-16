@@ -78,7 +78,7 @@
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
     public ${pojo.getDeclarationName()} find${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
 
-		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 		<#assign whereFindMN = utilidadesDao.wherefindMN(pojo,cfg,property)>
 		
@@ -97,16 +97,16 @@
 		</#list>	
 		
 		<#assign selectCamposRelacionados = utilidadesDao.selectFieldsMN(pojo,cfg,property)>
-		StringBuffer query =  new StringBuffer("SELECT <#list selectCamposRelacionados as param>${param}<#if param_has_next>, </#if></#list> FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
+		StringBuilder query =  new StringBuilder("SELECT <#list selectCamposRelacionados as param>${param}<#if param_has_next>, </#if></#list> FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
 		query.append(where);
 
-		StringBuffer order = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
 			if (pagination.getSort() != null) {
 				order.append(" order by " + pagination.getSort() + " " + pagination.getAscDsc());
 				query.append(order);
 			}
-			query = new StringBuffer(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination, query.toString()));
+			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination, query.toString()));
       	}	
 		${pojo.importType("java.util.List")}<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}> listaHijo =  this.jdbcTemplate.query(query.toString(),
 			new RowMapper<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}>() {
@@ -131,7 +131,7 @@
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
     public Long find${tablaMNName}Count(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}) {
 
-		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 		<#assign whereFindMNCont = whereFindMN >
 		where.append("where <#list whereFindMNCont as param>${param}<#if param_has_next> AND </#if></#list>");
@@ -148,7 +148,7 @@
 		}	
 		</#list>	
 
-		StringBuffer query =  new StringBuffer("SELECT count(1) FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
+		StringBuilder query =  new StringBuilder("SELECT count(1) FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
 		query.append(where);	
 		return this.jdbcTemplate.queryForLong(query.toString(), params.toArray());
     }

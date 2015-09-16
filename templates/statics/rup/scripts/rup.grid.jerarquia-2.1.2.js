@@ -57,11 +57,15 @@
 		},
 		//Obtener elementos seleccionados (multiselect)
 		getMultiselect : function () {
-			var self = this,
-				separator = self.data("settings").separator;
-			return $.map(this.data("treeSelection"), function (value, key) {
-				return value.substring(value.lastIndexOf(separator)+separator.length);
-			});
+			var self = this;
+			if (self.data("settings")!==undefined){
+				var separator = self.data("settings").separator;
+				return $.map(this.data("treeSelection"), function (value, key) {
+					return value.substring(value.lastIndexOf(separator)+separator.length);
+				});
+			} else {
+				return [];
+			}
 		}
 	});
 	
@@ -150,98 +154,104 @@
 	        		var maintName = self.data("maintName");
 	        			toolbar = $("#"+maintName)[0].prop.toolbar.self;
 	        		
-	        		//EDITAR y BORRAR
-	        		toolbar.find(
-	        				"[id$='rup-maint_toolbar-"+maintName+"##edit'], " +
-	        				"[id$='rup-maint_toolbar-"+maintName+"##delete']"
-	        			).click(function (){
-	        			ajaxData = $(self).getGridParam("postData");
-	        			ajaxData.mult = $(self).data("treeSelection").toString();
-	        			$.rup_ajax({
-							url: self[0].rup_gridProps.url,
-							dataType: 'json',
-							type: "GET",
-							async: false,
-							data: $(self).getGridParam("postData"),
-							contentType: 'application/json',		    
-							beforeSend: function (xhr) {
-								xhr.setRequestHeader("JQGridModel_selected", true);
-							},
-							success : function (xhr, ajaxOptions) {
-								var selectedRows = [],
-									allPksArray = [],
-									separator = self.data("settings").separator;
-								$.map(xhr, function(pageValue, pageKey) {
-									selectedRows.push(parseInt(pageKey));
-									var pageArr = [];
-									$.map(pageValue, function(id, line) {
-										pageArr.push(parseInt(line));
-										var lineArr = [];
-										lineArr.push(id);
-										allPksArray.push(id);
-										lineArr["id_"+id] = separator + id;
-										pageArr["l_"+line] = lineArr;
+	        			function getRUPGridSelected(){
+	        				var ajaxData = jQuery.extend({},$(self).getGridParam("postData"));
+		        			ajaxData.mult = $(self).data("treeSelection").toString();
+		        			$.rup_ajax({
+								url: self[0].rup_gridProps.url,
+								dataType: 'json',
+								type: "GET",
+								async: false,
+								data: ajaxData,
+								contentType: 'application/json',		    
+								beforeSend: function (xhr) {
+									xhr.setRequestHeader("JQGridModel_selected", true);
+								},
+								success : function (xhr, ajaxOptions) {
+									var selectedRows = [],
+										allPksArray = [],
+										separator = self.data("settings").separator;
+									$.map(xhr, function(pageValue, pageKey) {
+										selectedRows.push(parseInt(pageKey));
+										var pageArr = [];
+										$.map(pageValue, function(id, line) {
+											pageArr.push(parseInt(line));
+											var lineArr = [];
+											lineArr.push(id);
+											allPksArray.push(id);
+											lineArr["id_"+id] = separator + id;
+											pageArr["l_"+line] = lineArr;
+										});
+										selectedRows["p_"+pageKey] = pageArr;
 									});
-									selectedRows["p_"+pageKey] = pageArr;
-								});
-								//Necesario por grid y maint
-								$("#"+maintName)[0].prop.selectedRows = selectedRows;
-								self[0].rup_gridProps.allPksArray = allPksArray;
-								$("#"+maintName)[0].prop.selectedRowsCont = allPksArray.length;
-							},
-							error : function (xhr, ajaxOptions, thrownError) {
-								$.rup_messages("msgError", {
-									title: $.rup.i18nParse($.rup.i18n.base,"rup_grid_jerarquia.errorTitle"),
-									message: $.rup.i18nParse($.rup.i18n.base,"rup_grid_jerarquia.errorMessageSelected")
-								});
-							},
-							complete : function (xhr, textStatus){
-								//Borrar parametro multiseleccion
-								delete $(self).getGridParam("postData").mult;
-							}
-						});
-					});
-
-	        		//NUEVO
-	        		var okCallback = function(){
-		        			//Reiniciar los elementos seleccionados
-		        			self.data("treeSelection", []);	
-		        			//Refrescar seleccionados
-		        			self._reloadMultiselect.call(self);
-		        		};
-	        		toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##new']").click(function (event){
-	        			if(self.data("treeSelection").length>0 && $("#"+maintName)[0].prop.selectedRows.length===0){
-	        				$.rup_messages("msgConfirm", {
-	        					message: $.rup.i18nParse($.rup.i18n.base,"rup_maint.checkSelectedElems"),
-	        					title: $.rup.i18nParse($.rup.i18n.base,"rup_maint.changes"),
-	        					OKFunction : function () {
-	        						okCallback.call(self);
-	        						$("#"+maintName).rup_maint("newElement");
-	        					}
-	        				});
-	        				event.stopImmediatePropagation();
-	        			}else{
-	        				okCallback.call(self);
+									//Necesario por grid y maint
+									$("#"+maintName)[0].prop.selectedRows = selectedRows;
+									self[0].rup_gridProps.allPksArray = allPksArray;
+									$("#"+maintName)[0].prop.selectedRowsCont = allPksArray.length;
+								},
+								error : function (xhr, ajaxOptions, thrownError) {
+									$.rup_messages("msgError", {
+										title: $.rup.i18nParse($.rup.i18n.base,"rup_grid_jerarquia.errorTitle"),
+										message: $.rup.i18nParse($.rup.i18n.base,"rup_grid_jerarquia.errorMessageSelected")
+									});
+								},
+								complete : function (xhr, textStatus){
+								}
+							});
+		        		}
+	        			
+		        		//EDITAR
+	        			if (toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##edit']").length>0){
+	        				toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##edit']").click(getRUPGridSelected);
+	        				$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##edit']")[0], "events")["click"].reverse();
+		        		}
+			        
+	        			//BORRAR
+	        			if (toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']").length>0){
+	        				toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']").click(getRUPGridSelected);
+	        				$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']")[0], "events")["click"].reverse();
+	        				//Resetear selección jerarquía al eliminar elementos
+			        		toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']").click(function (){
+			        			//Aceptar -> Borrar selección
+			        			$(".ui-dialog:visible").find("button").click(function(){
+			        				$(self).rup_grid_jerarquia("resetMultiselect");
+			        			});
+			        			//Cerrar -> Vaciar selección para grid/maint
+			        			$(".ui-dialog:visible").on('dialogclose', function(event){
+			        				var maintName = self.data("maintName");
+			        				$("#"+maintName)[0].prop.selectedRows = [];
+			        				self[0].rup_gridProps.allPksArray = [];
+			        				$("#"+maintName)[0].prop.selectedRowsCont = 0;
+			        			 });
+			        		});
 	        			}
-	        		});
 	        		
-	        		$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##edit']")[0], "events")["click"].reverse();
-	        		$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']")[0], "events")["click"].reverse();
-	        		//Resetear selección jerarquía al eliminar elementos
-	        		toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##delete']").click(function (){
-	        			//Aceptar -> Borrar selección
-	        			$(".ui-dialog:visible").find("button").click(function(){
-	        				$(self).rup_grid_jerarquia("resetMultiselect");
-	        			});
-	        			//Cerrar -> Vaciar selección para grid/maint
-	        			$(".ui-dialog:visible").on('dialogclose', function(event){
-	        				var maintName = self.data("maintName");
-	        				$("#"+maintName)[0].prop.selectedRows = [];
-	        				self[0].rup_gridProps.allPksArray = [];
-	        				$("#"+maintName)[0].prop.selectedRowsCont = 0;
-	        			 });
-	        		});
-	        		$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##new']")[0], "events")["click"].reverse();
+		        		//NUEVO
+		        		if (toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##new']").length>0){
+			        		var okCallback = function(){
+				        			//Reiniciar los elementos seleccionados
+				        			self.data("treeSelection", []);	
+				        			//Refrescar seleccionados
+				        			self._reloadMultiselect.call(self);
+				        		};
+			        		toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##new']").click(function (event){
+			        			if(self.data("treeSelection").length>0 && $("#"+maintName)[0].prop.selectedRows.length===0){
+			        				$.rup_messages("msgConfirm", {
+			        					message: $.rup.i18nParse($.rup.i18n.base,"rup_maint.checkSelectedElems"),
+			        					title: $.rup.i18nParse($.rup.i18n.base,"rup_maint.changes"),
+			        					OKFunction : function () {
+			        						okCallback.call(self);
+			        						$("#"+maintName).rup_maint("newElement");
+			        					}
+			        				});
+			        				event.stopImmediatePropagation();
+			        			}else{
+			        				okCallback.call(self);
+			        			}
+			        		});
+			        		//eventos
+			        		$._data(toolbar.find("[id$='rup-maint_toolbar-"+maintName+"##new']")[0], "events")["click"].reverse();
+		        		}
 	        	};
 	        	
 			}
@@ -628,7 +638,7 @@
 				gridID = $(self).attr("id"),
 				treeSelection = $(self).data("treeSelection"),
 				rowNodes = $(self).getRowData(rowid).treeNodes;
-				ajaxData = $(self).getGridParam("postData"),
+				ajaxData = jQuery.extend({},$(self).getGridParam("postData")),
 				checkMenuValue = self.data("checkMenuValue"),
 				separator = self.data("settings").separator;
 				
@@ -670,7 +680,7 @@
 						dataType: 'json',
 						type: "GET",
 						async: false,
-						data: $(self).getGridParam("postData"),
+						data: ajaxData,
 						contentType: 'application/json',		    
 						beforeSend: function (xhr) {
 							xhr.setRequestHeader("RUP", $.toJSON({"treeNodes":"treeNodes"})); //Serializar solo atributo nodos arbol
@@ -745,13 +755,13 @@
 						complete : function (xhr, textStatus){
 							//Recargar seleccionados
 							self._reloadMultiselect.call(self);
-							//Borrar parametro multiseleccion
-							delete $(self).getGridParam("postData").mult;
-							//Restablecer elementos
-							$(self).getGridParam("postData").tree = $(self).data("tree").toString();
 							//Desbloquear tabla
 							$("#lui_"+gridID).hide();
 							$("#load_"+gridID).hide();
+							//Invocar callback (si existe)
+							if (self.data("settings").multiMenuCallback!==undefined){
+								self.data("settings").multiMenuCallback.call(this);
+							}
 						}
 					});
 					break;

@@ -635,7 +635,7 @@
 						self.trigger("reloadGrid");
 					}, 0);
 					
-					return "stop";
+//					return "stop";
 				};
 				
 				/* Evento de click con el boton derecho sobre una fila */

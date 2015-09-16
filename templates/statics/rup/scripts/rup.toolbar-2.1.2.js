@@ -45,59 +45,22 @@
 			
 			var boton = $("<button/>").text($.rup.i18nParse(json_i18n,obj.i18nCaption)).addClass("rup-toolbar_button").attr("id",buttonId);
 			boton.button().button("option", "icons", {primary:obj.css, secondary:null} );
-
+			
 			// Si fuera necesario, se añade el estilo para la ubicación derecha y se gestiona su indexado	
 			if(obj.right !== undefined && obj.right === true){
-				boton.addClass("right_button");
-				
-				rightObjects = $(this).find(".right_button");
-				boton.attr("rup_toolbar_index",$(this).find("[rup_toolbar_index]").size()-rightObjects.size());
-				
-				rightObjects.each(function(index,object){
-					$(object).attr("rup_toolbar_index", parseInt($(object).attr("rup_toolbar_index"))+1);
-				});
+				//Añadir botón a la derecha
+				var $div_rightObjects = this.children("div");
+				if ($div_rightObjects.length===0){
+					$div_rightObjects = $("<div />").attr("id",this.attr("id")+"-rightButtons").css("float", "right");
+					this.append($div_rightObjects);
+				}
+				boton.prependTo($div_rightObjects);
 			} else {				
-				boton.attr("rup_toolbar_index",$(this).find("[rup_toolbar_index]").size());
+				$(this).append(boton);
 			}
 			
-			boton.bind("keydown", function(event){
-				var object = $(event.currentTarget), objectParent = $(event.currentTarget).parent(), tabIndex = parseInt(object.attr("rup_toolbar_index")), nextObject;
-				
-				switch ( event.keyCode ) {
-					case $.ui.keyCode.TAB:
-						if(!event.shiftKey){
-							tabIndex = tabIndex+1;
-							nextObject = objectParent.find("[rup_toolbar_index = '"+tabIndex+"']");
-							if (nextObject.size() === 1){
-								nextObject.focus();
-								$.rup_toolbar.focusedExternally[objectParent.attr("id")] = true;
-								event.preventDefault();
-								event.stopImmediatePropagation();
-							} else {
-								if(object.hasClass("right_button")){
-									objectParent.find(".right_button").last().focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = false;
-								}
-							}
-						} else {
-							if(object.hasClass("right_button")){
-								if (tabIndex !== 0){
-									tabIndex = tabIndex-1;
-									nextObject = objectParent.find("[rup_toolbar_index = '"+tabIndex+"']");
-									nextObject.focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = true;
-									event.preventDefault();
-									event.stopImmediatePropagation();
-								} else {
-									objectParent.find(".right_button").first().focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = false;
-								}
-							}
-						}
-				}
-			});
-			
-			$(this).append(boton);
+			//Añadir evento keydown
+			this._setKeyDown(boton);
 			
 			if (obj.click) { //Añadir eventos 
 				boton.click({i18nCaption: obj.i18nCaption}, obj.click); 
@@ -133,55 +96,19 @@
 			
 			// Si fuera necesario, se añade el estilo para la ubicación derecha y se gestiona su indexado
 			if(obj.right !== undefined && obj.right === true){
-				boton.addClass("right_button");
-				
-				rightObjects = $(this).find(".right_button");
-				boton.attr("rup_toolbar_index",$(this).find("[rup_toolbar_index]").size()-rightObjects.size());
-				
-				rightObjects.each(function(index,object){
-					$(object).attr("rup_toolbar_index", parseInt($(object).attr("rup_toolbar_index"))+1);
-				});
+				//Añadir botón a la derecha
+				var $div_rightObjects = this.children("div");
+				if ($div_rightObjects.length===0){
+					$div_rightObjects = $("<div />").attr("id",this.attr("id")+"-rightButtons").css("float", "right");
+					this.append($div_rightObjects);
+				}
+				boton.prependTo($div_rightObjects);
 			} else {				
-				boton.attr("rup_toolbar_index",$(this).find("[rup_toolbar_index]").size());
+				$(this).append(boton);
 			}
 			
-			boton.bind("keydown", function(event){
-				var object = $(event.currentTarget), objectParent = $(event.currentTarget).parent(), tabIndex = parseInt(object.attr("rup_toolbar_index")), nextObject;
-				
-				switch ( event.keyCode ) {
-					case $.ui.keyCode.TAB:
-						if(!event.shiftKey){
-							tabIndex = tabIndex+1;
-							nextObject = objectParent.find("[rup_toolbar_index = '"+tabIndex+"']");
-							if (nextObject.size() === 1){
-								nextObject.focus();
-								$.rup_toolbar.focusedExternally[objectParent.attr("id")] = true;
-								event.preventDefault();
-								event.stopImmediatePropagation();
-							} else {
-								if(object.hasClass("right_button")){
-									objectParent.find(".right_button").last().focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = false;
-								}
-							}
-						} else {
-							if(object.hasClass("right_button")){
-								if (tabIndex !== 0){
-									tabIndex = tabIndex-1;
-									nextObject = objectParent.find("[rup_toolbar_index = '"+tabIndex+"']");
-									nextObject.focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = true;
-									event.preventDefault();
-									event.stopImmediatePropagation();
-								} else {
-									objectParent.find(".right_button").first().focus();
-									$.rup_toolbar.focusedExternally[objectParent.attr("id")] = false;
-								}
-							}
-						}
-				}
-			});
-			$(this).append(boton);
+			//Añadir evento keydown
+			this._setKeyDown(boton);
 			
 			if (obj.click) { //Añadir eventos 
 				boton.click({i18nCaption: obj.i18nCaption}, obj.click); 
@@ -190,18 +117,25 @@
 		},
 		
 		addButtonsToMButton : function (buttons, menuButton, json_i18n) { //añade botones al 'mbutton'
-			//Contenedor del menuButton
-			var div = $('<div>')
-					.addClass("ui-widget ui-widget-content rup-toolbar_menuButtonContainer")
-					.attr("id","mbutton_"+menuButton[0].id)
-					.css("display","none"),
-			//Lista no numerada del menuButton
-				ul = $('<ul>')
-					.attr("role","menu")
-					.attr("aria-activedescendant","active-menuitem")
-					.attr("aria-labelledby","active-menuitem"),
-			//numero de botones a añadir
+			var div, ul,
+				//numero de botones a añadir
 				length = buttons.length, boton, buttonId;
+			
+			if ($("[id='mbutton_"+menuButton.attr("id")+"']").length === 0){
+				//Contenedor del menuButton
+				div = $('<div>')
+						.addClass("ui-widget ui-widget-content rup-toolbar_menuButtonContainer")
+						.attr("id","mbutton_"+menuButton[0].id)
+						.css("display","none");
+				//Lista no numerada del menuButton
+				ul = $('<ul>')
+						.attr("role","menu")
+						.attr("aria-activedescendant","active-menuitem")
+						.attr("aria-labelledby","active-menuitem");
+			} else {
+				div = $("[id='mbutton_"+menuButton.attr("id")+"']");
+				ul = div.children("ul");
+			}
 			
 			menuButton.attr("href","#");
 			
@@ -263,78 +197,66 @@
 				return false;
 		},
 		disableButton : function(id){
-						
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
-			var joder = $("[id='"+id+"']");
-			var valueIndex = $("[id='"+id+"']").attr("rup_toolbar_index");
-			
-			if (valueIndex !== undefined){
-				$("[id='"+id+"']").parent().find("[rup_toolbar_index]").each(function(index,object){
-					var jObject = $(object); 
-					if(jObject.attr("rup_toolbar_index") > valueIndex){
-						jObject.attr("rup_toolbar_index", parseInt(jObject.attr("rup_toolbar_index"))-1);
-					}
-				});
-				
-				$("[id='"+id+"']").removeAttr("rup_toolbar_index");
-				$("[id='"+id+"']").attr("rup_toolbar_index_disable", valueIndex);
-			}
-			
 			$("[id='"+id+"']").button("disable");
 		},
 		enableButton : function(id){
-			
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
-			var valueIndex = $("[id='"+id+"']").attr("rup_toolbar_index_disable");
-			
-			if (valueIndex !== undefined){
-				$("[id='"+id+"']").parent().find("[rup_toolbar_index]").each(function(index,object){
-					var jObject = $(object); 
-					if(jObject.attr("rup_toolbar_index") >= valueIndex){
-						jObject.attr("rup_toolbar_index", parseInt(jObject.attr("rup_toolbar_index"))+1);
-					}
-				});
-				$("[id='"+id+"']").removeAttr("rup_toolbar_index_disable");
-				$("[id='"+id+"']").attr("rup_toolbar_index", valueIndex);
-			}
-			
 			$("[id='"+id+"']").button("enable");
 		},
 		pressButton : function(id, css){
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
-//			$("#"+$.rup_utils.escapeId(id)).addClass(css);
 			$("[id='"+id+"']").addClass(css);
 		},
 		unpressButton : function(id, css){
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
 			$("[id='"+id+"']").removeClass(css);
 		},
 		tooglePressButton : function(id, css){
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
 			$("[id='"+id+"']").toggleClass(css);
 		},
 		refreshButton : function(id){
-			
 			if (id.indexOf(this.attr("id"))===-1){
 				id = this.attr("id")+"##"+id;
 			}
-			
 			$("[id='"+id+"']").button("refresh");
+		},
+		_setKeyDown : function(boton){
+			boton.bind("keydown", function(event){
+				var object = $(event.currentTarget), 
+					objectParent = object.parent(), 
+					nextObject;
+				switch ( event.keyCode ) {
+					case $.ui.keyCode.TAB:
+						if(!event.shiftKey){
+							if (object.next().attr("id") !== objectParent.attr("id")+"-rightButtons"){
+								//Siguiente boton
+								nextObject = object.next(":focusable");
+							} else {
+								//Primer botón de los alineados derecha
+								nextObject = object.next().children(":focusable:first");
+							}
+							
+							//Navegar entre botones
+							if (nextObject.size() === 1){
+								nextObject.focus();
+								$.rup_toolbar.focusedExternally[objectParent.attr("id")] = true;
+								return false;
+							} 
+						}
+				}
+			});
 		}
 	});
 	
@@ -417,26 +339,6 @@
 					t.addButton(dObj,json_i18n);
 				}
 			}
-			
-			//Gestion de eventos generales de la toolbar
-			$(this).find(".right_button").last().bind("focus", function (event){
-				if ($.rup_toolbar.focusedExternally[$(this).parent().attr("id")] === false){
-					$.rup_toolbar.focusedExternally[$(this).parent().attr("id")] = true;
-					$(this).parent().find(".right_button").first().focus();
-				}
-			});
-
-			if (settings.buttons.length === rightButtons.length){
-				$(this).find(".right_button").first().bind("focus", function (event){
-					if ($.rup_toolbar.focusedExternally[$(this).parent().attr("id")] === false){
-						$.rup_toolbar.focusedExternally[$(this).parent().attr("id")] = true;
-						$(this).parent().find("[rup_toolbar_index = '0']").focus();
-					}
-				});
-			}
-			
-			$(this).bind("click", function(event){$.rup_toolbar.focusedExternally[this.id] = true;}).bind("mouseleave", function(event){$.rup_toolbar.focusedExternally[this.id] = false;});
-			
 		});
 	};
 	

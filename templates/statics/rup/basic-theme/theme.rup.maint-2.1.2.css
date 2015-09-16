@@ -35,6 +35,10 @@
 	background:transparent url("images/toolbar/borrar.png") no-repeat !important;
 	width:14px;
 }
+.rup-maint_save {
+	background:transparent url("images/toolbar/guardar.png") no-repeat !important;
+	width:14px;
+}
 .rup-maint_filter {
 	background:transparent url("images/toolbar/filtrar.png") no-repeat !important;
 	width:16px;

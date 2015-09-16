@@ -94,7 +94,6 @@
 	line-height: 1.5em;
 	position: absolute;
 	text-decoration: none;
-	/*top: 5px;*/
 }
 
 .rup-language_language_list {
@@ -105,7 +104,6 @@
 	padding-bottom: 0.6em;
 	position: absolute;
 	left: 0px;
-	top: 20px;
 }
 
 .rup-language_language_list ul li {

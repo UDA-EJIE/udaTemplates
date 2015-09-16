@@ -30,20 +30,16 @@
 	//*******************************
 	$.fn.rup_time("extend",{
 		getRupValue : function(){
-			var tmpDate = new Date("00/00/0000 "+$(this).rup_time("getTime"));
-			var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
-			var timeformat = $(this).data("datepicker").settings.timeFormat;
-			var formattedTime = $.timepicker._formatTime(dateObj, "hh:mm:ss");
-			return formattedTime;
+			var timeformat, dateObj;
+			timeformat = $(this).data("datepicker").settings.timeFormat;
+			dateObj = $.datepicker.parseTime(timeformat,$(this).rup_time("getTime"));
+			return  dateObj? $.timepicker._formatTime(dateObj, "hh:mm:ss") : "";
 		},
 		setRupValue : function(param){
-			var timeformat = $(this).data("datepicker").settings.timeFormat;
-			var tmpDate = new Date("00/00/0000 "+param);
-			if(tmpDate.toString()==="Invalid Date"){
-				$(this).val("");
-			}
-			var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
-			var formattedTime = $.timepicker._formatTime(dateObj, timeformat);
+			var timeformat, tmpDate, formattedTime;
+			timeformat = $(this).data("datepicker").settings.timeFormat;
+			tmpDate = $.datepicker.parseTime("hh:mm:ss",param);
+			formattedTime = tmpDate?$.timepicker._formatTime(tmpDate, timeformat):"";
 			$(this).val(formattedTime);
 		},
 		destroy : function(){

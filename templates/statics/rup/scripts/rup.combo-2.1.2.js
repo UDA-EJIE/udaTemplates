@@ -14,6 +14,7 @@
  * que establece la Licencia.
  */
 
+//Modificado "jquery.ui.selectmenu.js" línea 70
 //Modificado "jquery.ui.selectmenu.js" línea 438-442
 //Modificado "jquery.ui.selectmenu.js" línea 270 [jQuery 1.8 compatible]
 
@@ -21,6 +22,8 @@
 //Añadido	 "jquery.multiselect.js" línea 65 [Id al componete]
 //Modificado "jquery.multiselect.js" línea 581 [jQuery 1.8 compatible]
 //Modificadro "IE Fixes" (evitar problemas con elementos deshabilitados en IE) 
+
+//Arregos para resaltado con el teclado (UDA - focus): líneas 446-448, 494-496, 519-522
 
 (function ($) {
 	
@@ -178,7 +181,14 @@
 		}, 
 		disable : function(){
 			//Tipo de combo
+			var $self = $(this);
 			$("#"+$(this).attr("id")+"-button").attr("tabindex",-1);
+
+			// Añadimos el handler del evento focus para evitar que adquiera el foco cuando está deshabilitado
+			$("#"+$(this).attr("id")+"-button").on("focus.rup_combo", function(event){
+				$("#"+$self.attr("id")+"-button").blur();
+				return false;
+			});
 			if (this.length===0 || !$(this).data("settings").multiselect){
 				//Simple > selectmenu
 				$(this).selectmenu("disable");
@@ -189,7 +199,10 @@
 		},
 		enable : function(){
 			//Tipo de combo
-			var settings = $(this).data("settings");
+			var $self = $(this), settings = $(this).data("settings");
+			// Eliminamos el handler del evento focus para evitar que adquiera el foco cuando está deshabilitado 
+			$("#"+$(this).attr("id")+"-button").off("focus.rup_combo");
+			
 			$("#"+$(this).attr("id")+"-button").attr("tabindex",(settings.tabindex ? settings.tabindex : 0));
 			if (this.length===0 || !$(this).data("settings").multiselect){
 				//Simple > selectmenu
@@ -660,16 +673,16 @@
 					}
 					
 					//Seleccionar elemento (valor del input, valor settings combo)
-					if (settings.inputValue!=="" && settings.inputValue!==undefined){
+					if (!settings.loadFromSelect && (settings.inputValue === undefined || settings.inputValue === "") || 
+						 settings.loadFromSelect && settings.selected !== undefined){
+						this._setElement($("#"+settings.id), settings.selected, settings.multiselect);
+					} else {
 						if (settings.multiselect){
 							//Convertir inputValue en array
 							settings.inputValue = settings.inputValue.split("##"); 
 						}
 						this._setElement($("#"+settings.id), settings.inputValue, settings.multiselect);
-					} else{
-						this._setElement($("#"+settings.id), settings.selected, settings.multiselect);
 					}
-					
 					
 					//Habilitar/Deshabilitar combo
 					if (!settings.disabled) { 
@@ -728,7 +741,7 @@
 						}
 						value = array[i]["value"];
 					}
-					if (array[i]["style"]){
+					if (array[i]!=undefined && array[i]["style"]){
 						imgs[imgs.length] = {};
 						imgs[imgs.length-1][value] = array[i]["style"];
 						settings.imgs = imgs;
@@ -901,8 +914,8 @@
 					//Guardar valor del INPUT
 					settings.inputValue = $("#"+settings.id).attr('value');
 					
-					//Contenido combo
-					html = $("<select>").attr({"id" : $(this).attr("id"), "name" : settings.name, "ruptype":"combo"}).addClass("rup_combo");
+					//Contenido combo					html = $("<select>").attr({"id" : $(this).attr("id"), "name" : settings.name, "ruptype":"combo", "class":$(this).attr("class")}).addClass("rup_combo");
+
 					if ($(this).hasClass("validableElem")){
 						isValidableElem = true;
 						html.addClass("validableElem");

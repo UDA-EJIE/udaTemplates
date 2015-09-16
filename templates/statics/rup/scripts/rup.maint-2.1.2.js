@@ -345,7 +345,9 @@
 									if (typeof combo === 'object'){
 										var data = $.rup["rup_combo_"+combo.attr("id")];
 										
-										combo["rup_"+data.rupType]("setRupValue",relatedGrid.data("Collection_rup_combo")[data.rowN][data.name]["value"]);
+										if (relatedGrid.data("Collection_rup_combo") !== undefined){
+											combo["rup_"+data.rupType]("setRupValue",relatedGrid.data("Collection_rup_combo")[data.rowN][data.name]["value"]);
+										}
 										combo.attr("rup_combo_col_position",data.index);
 										$("#gview_"+relatedGrid.attr("id")).append($('#'+ relatedGrid.attr("id") + " ul.rup_combo").attr("rup_combo_col_position",data.index));
 										$('#'+ relatedGrid.attr("id") + " a.rup_combo[id='"+combo.attr("id")+"-button']").attr("rup_combo_col_position",data.index);
@@ -1142,6 +1144,168 @@
 		getPrimaryKey : function () {//obtiene la clave primaria del mantenimiento
 			return this[0].prop.primaryKey;
 		},
+		clearSearchCriteria: function(){
+			var $self = this, prop = $self[0].prop;
+			$('#titleSearch_' + prop.name)
+			.text($.rup.i18nParse($.rup.i18n.base,"rup_maint.searchOptions"))
+			.removeClass("rup-maint_searchCriteria ");
+		
+			//Eliminar tooltip
+			$('#titleSearch_' + prop.name).rup_tooltip("destroy");
+		},
+		showSearchCriteria: function(){
+			var $self = this, prop = $self[0].prop,		
+			searchString = " ", temp = "", aux, searchForm,
+			field, fieldId, fieldName, fieldValue;
+			
+			aux = prop.searchForm.serializeArray();
+			searchForm = prop.searchForm;
+
+			for (var i = 0; i < aux.length; i++) {
+				if (aux[i].value !== "") {
+
+					//CAMPO a tratar
+					field = $("[name='" + aux[i].name + "']",searchForm);
+
+					//Comprobar si se debe excluir el campo
+					if ($.inArray(field.attr("id"), prop.filterExclude) !== -1){
+						continue;
+					}
+					
+					//Seleccionar radio
+					if (field.length > 1){
+						field = $("[name='" + aux[i].name + "']:checked",searchForm);
+					}
+					//Omitir campos hidden
+					if ($(field).attr("type") === "hidden"){
+						continue;
+					}
+					
+					//ID del campo
+					fieldId = $(field).attr("id");
+						//ID para elementos tipo rup.combo
+						if ($(field).attr("ruptype") === "combo"){
+							if (field.next(".ui-multiselect").length==0){
+								fieldId += "-button";
+							}
+						}
+						//ID para elementos tipo rup.autocomplete
+						if ($(field).attr("ruptype") === "autocomplete"){
+							fieldId = fieldId.substring(0, fieldId.indexOf("_label"));
+						}
+					
+					//NAME
+					label = $("label[for^='" + fieldId + "']",searchForm);
+					if (label.length>0){
+						// <label for='xxx' />
+						fieldName = label.html();
+					} else {
+						// <div />
+						// <div />
+						if ($(field).attr("ruptype") !== "combo"){
+							//fieldName= $("[name='" + aux[i].name + "']",searchForm).prev('div').html();
+							fieldName= $("[name='" + aux[i].name + "']",searchForm).prev('div').find('label').first().html();
+						} else {
+							//fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').html();
+							fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').find('label').first().html();
+						}
+					}
+					if (fieldName === null || fieldName === undefined){
+						fieldName = "";
+					}
+					
+					//VALUE
+					fieldValue = " = ";
+					switch($(field)[0].tagName){
+						case "INPUT":
+							fieldValue = fieldValue + $(field).val();
+							if ($(field)[0].type === "checkbox" || $(field)[0].type === "radio"){
+								fieldValue = "";
+							}
+							break;
+						case "SELECT":
+							if (field.next(".ui-multiselect").length==0){
+								fieldValue = fieldValue + $("option[value='"+aux[i].value+"']",field).html();
+							} else {
+								if ($.inArray($(field).attr("id"), filterMulticombo)===-1){
+									numSelected = field.rup_combo("value").length;
+									if (numSelected !== 0){
+										fieldValue += numSelected; 
+									} else {
+										fieldName = "";
+										fieldValue = "";
+									}
+									filterMulticombo.push($(field).attr("id"));
+								} else {
+									fieldName = "";
+									fieldValue = "";
+								}
+							}
+							break;
+					}
+					
+					//Parsear NAME
+					var parseableChars = new Array(":","=");
+					for (var j=0; j<parseableChars.length; j++){
+						if (fieldName !== "" && fieldName.indexOf(parseableChars[j])!== -1){
+							fieldName = fieldName.substring(0,fieldName.indexOf(parseableChars[j]));
+							break;
+						}
+					}
+					
+					//Controlar rup.combo con valor vacío
+					while (fieldValue.indexOf("&amp;nbsp;")!==-1){
+						fieldValue = fieldValue.replace ("&amp;nbsp;","");
+					}
+					
+					//Si no tiene NAME sacar solo el valor
+					if (fieldName === "" && fieldValue.indexOf(" = ")!==-1){
+						fieldValue = fieldValue.substring(2, fieldValue.length); 
+					}
+					
+					
+					//Si no tiene NAME ni VALUE omitir
+					if (fieldName === "" && $.trim(fieldValue) === ""){
+						continue;
+					}
+					searchString = searchString + fieldName + fieldValue + ", ";
+				}
+			}
+			//Contiene criterios
+			if (searchString.length>1){
+				searchString = searchString.substring(0, searchString.length-2);
+				
+				var initialHeight = $('#titleSearch_' + prop.name).css("height"),
+					height,
+					tmp = searchString,
+					tooltip = false;
+
+				//Añadir criterios
+				while(true){
+					$('#titleSearch_' + prop.name).html($.rup.i18nParse($.rup.i18n.base,"rup_maint.searchOptions")+"<i>" + tmp + "</i>");
+					height = $('#titleSearch_' + prop.name).css("height");
+					if (height === initialHeight){
+						break;
+					}
+					tmp = tmp.substring(0, tmp.lastIndexOf(",")) + " <b>...</b>";
+					tooltip = true;
+				}
+
+				//Tooltip con criterios
+				if (tooltip){
+					$('#titleSearch_' + prop.name)
+						.rup_tooltip({
+							content: {
+								text: searchString.substring(1)
+							},
+							position: {
+								my: 'bottom center',
+								at: 'top center'
+							}
+						});
+				}
+			} 
+		},
 		toggleSearchForm : function (capa, filterCriteriaLoad) {//Apertura/Cierre del formulario de busqueda
 			var filterMulticombo = new Array();
 			return this.each(function () {
@@ -1151,172 +1315,21 @@
 					var searchString = " ", temp = "", aux, searchForm,
 						field, fieldId, fieldName, fieldValue;
 					if ($("#" + capa).is(":hidden") && filterCriteriaLoad===undefined) {
-						$("#" + capa+" div").slideDown("slow");
-						$("#" + capa).show("slow");
-						$('#titleSearch_' + this.prop.name)
-							.text($.rup.i18nParse($.rup.i18n.base,"rup_maint.searchOptions"))
-							.removeClass("rup-maint_searchCriteria ");
-						
+						$("#" + capa).show({
+							duration: "slow",
+							effect: "blind"
+						});
+						$('#titleSearch_' + this.prop.name).removeClass("rup-maint_searchCriteria");
+
 						// Anadido el foco al primer campo del formulario
 						$("input:first",this.prop.searchForm).focus();
 						
-						//Eliminar tooltip
-						$('#titleSearch_' + this.prop.name).rup_tooltip("destroy");
 					} else {
-						$("#" + capa+" div").slideUp("slow");
-						$("#" + capa).hide("slow");
-						
-						aux = this.prop.searchForm.serializeArray();
-						searchForm = this.prop.searchForm;
-
-						for (var i = 0; i < aux.length; i++) {
-							if (aux[i].value !== "") {
-
-								//CAMPO a tratar
-								field = $("[name='" + aux[i].name + "']",searchForm);
-
-								//Comprobar si se debe excluir el campo
-								if ($.inArray(field.attr("id"), this.prop.filterExclude) !== -1){
-									continue;
-								}
-								
-								//Seleccionar radio
-								if (field.length > 1){
-									field = $("[name='" + aux[i].name + "']:checked",searchForm);
-								}
-								//Omitir campos hidden
-								if ($(field).attr("type") === "hidden"){
-									continue;
-								}
-								
-								//ID del campo
-								fieldId = $(field).attr("id");
-									//ID para elementos tipo rup.combo
-									if ($(field).attr("ruptype") === "combo"){
-										if (field.next(".ui-multiselect").length==0){
-											fieldId += "-button";
-										}
-									}
-									//ID para elementos tipo rup.autocomplete
-									if ($(field).attr("ruptype") === "autocomplete"){
-										fieldId = fieldId.substring(0, fieldId.indexOf("_label"));
-									}
-								
-								//NAME
-								label = $("label[for^='" + fieldId + "']",searchForm);
-								if (label.length>0){
-									// <label for='xxx' />
-									fieldName = label.html();
-								} else {
-									// <div />
-									// <div />
-									if ($(field).attr("ruptype") !== "combo"){
-										//fieldName= $("[name='" + aux[i].name + "']",searchForm).prev('div').html();
-										fieldName= $("[name='" + aux[i].name + "']",searchForm).prev('div').find('label').first().html();
-									} else {
-										//fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').html();
-										fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').find('label').first().html();
-									}
-								}
-								if (fieldName === null || fieldName === undefined){
-									fieldName = "";
-								}
-								
-								//VALUE
-								fieldValue = " = ";
-								switch($(field)[0].tagName){
-									case "INPUT":
-										fieldValue = fieldValue + $(field).val();
-										if ($(field)[0].type === "checkbox" || $(field)[0].type === "radio"){
-											fieldValue = "";
-										}
-										break;
-									case "SELECT":
-										if (field.next(".ui-multiselect").length==0){
-											fieldValue = fieldValue + $("option[value='"+aux[i].value+"']",field).html();
-										} else {
-											if ($.inArray($(field).attr("id"), filterMulticombo)===-1){
-												numSelected = field.rup_combo("value").length;
-												if (numSelected !== 0){
-													fieldValue += numSelected; 
-												} else {
-													fieldName = "";
-													fieldValue = "";
-												}
-												filterMulticombo.push($(field).attr("id"));
-											} else {
-												fieldName = "";
-												fieldValue = "";
-											}
-										}
-										break;
-								}
-								
-								//Parsear NAME
-								var parseableChars = new Array(":","=");
-								for (var j=0; j<parseableChars.length; j++){
-									if (fieldName !== "" && fieldName.indexOf(parseableChars[j])!== -1){
-										fieldName = fieldName.substring(0,fieldName.indexOf(parseableChars[j]));
-										break;
-									}
-								}
-								
-								//Controlar rup.combo con valor vacío
-								while (fieldValue.indexOf("&amp;nbsp;")!==-1){
-									fieldValue = fieldValue.replace ("&amp;nbsp;","");
-								}
-								
-								//Si no tiene NAME sacar solo el valor
-								if (fieldName === "" && fieldValue.indexOf(" = ")!==-1){
-									fieldValue = fieldValue.substring(2, fieldValue.length); 
-								}
-								
-								
-								//Si no tiene NAME ni VALUE omitir
-								if (fieldName === "" && $.trim(fieldValue) === ""){
-									continue;
-								}
-								searchString = searchString + fieldName + fieldValue + ", ";
-							}
-						}
-						//Contiene criterios
-						if (searchString.length>1){
-							searchString = searchString.substring(0, searchString.length-2);
-							
-							var initialHeight = $('#titleSearch_' + this.prop.name).css("height"),
-								height,
-								tmp = searchString,
-								tooltip = false;
-
-							//Añadir criterios
-							while(true){
-								$('#titleSearch_' + this.prop.name).html($.rup.i18nParse($.rup.i18n.base,"rup_maint.searchOptions")+"<i>" + tmp + "</i>");
-								height = $('#titleSearch_' + this.prop.name).css("height");
-								if (height === initialHeight){
-									break;
-								}
-								tmp = tmp.substring(0, tmp.lastIndexOf(",")) + " <b>...</b>";
-								tooltip = true;
-							}
-
-							
-							//Añadir estilo criterios
-							$('#titleSearch_' + this.prop.name).addClass("rup-maint_searchCriteria");
-							
-							//Tooltip con criterios
-							if (tooltip){
-								$('#titleSearch_' + this.prop.name)
-									.rup_tooltip({
-										content: {
-											text: searchString.substring(1)
-										},
-										position: {
-											my: 'bottom center',
-											at: 'top center'
-										}
-									});
-							}
-						} 
+						$("#" + capa).hide({
+							duration: "slow",
+							effect: "blind"
+						});
+						$('#titleSearch_' + this.prop.name).addClass("rup-maint_searchCriteria");
 					}
 					this.prop.toolbar.self.tooglePressButton("filter","rup-maint_filter_pressed");
 				}
@@ -1355,6 +1368,7 @@
 				}
 				
 				if(realizarBusqueda){
+					$(this).rup_maint("showSearchCriteria");
 					this.prop.jQueryGrid.rup_grid("reloadGrid");
 				}
 			});
@@ -1371,6 +1385,8 @@
 		cleanSearchForm : function () {//Limpia el formulario de búsqueda y dependiendo la propiedad del mantenimiento loadOnStartUp relanzará la carga del grid o la limpieza del mismo.
 			return this.each(function () {
 				$(this).rup_maint("resetForm", this.prop.searchForm);
+				$(this).rup_maint("clearSearchCriteria");
+				
 				if (this.prop.jQueryGrid[0].rup_gridProps.loadOnStartUp) {//si el grid se carga al arrancar la ventana cuando se limpia el formulario se debe vovler a lanzar la carga del grid sino se borran los datos y listo
 					//Hay que vovler a establecer la URL incial para que no relance la busqueda con el querystring incorrecto
 					this.prop.jQueryGrid.rup_grid("setGridParam", {url: this.prop.jQueryGrid[0].rup_gridProps.url, page: "rup"});
@@ -1431,11 +1447,17 @@
 		showFieldValidationErrors: function(responseText){
 			// console.log("maint - showFieldValidationErrors");
 			return this.each(function () {	
-				var mant=this, errorTXT = $.rup.i18nParse($.rup.i18n.base,"rup_maint.validateError"), errors = null, errorKey = null, detailFormName, preMode, errors, causedErrors;
+				var mant=this, errorTXT = $.rup.i18nParse($.rup.i18n.base,"rup_maint.validateError"), errors = null, errorKey = null, detailFormName, preMode, errors, causedErrors = {};
 				
 				// Se procesa el mensaje de error
 				if(typeof responseText === "string"){
-					errors = $.parseJSON(responseText);
+					try{
+						errors = $.parseJSON(responseText);
+					}catch (e) {
+						mant.prop.detailForm.validate().settings.feedback.rup_feedback("option", "delay", null);
+						mant.prop.detailForm.validate().settings.feedback.rup_feedback("set", responseText, "error");
+						mant.prop.detailForm.validate().settings.feedback.rup_feedback("option", "delay", 1000);
+					}
 				}else{
 					errors = responseText;
 				}
@@ -2136,12 +2158,14 @@
 			
 			//Si fuera necesario, se actualiza el modelo, "Collection_rup_combo", de combos del grid
 			if (rowId!==undefined && rowId!==null){
-				var rowComboData = jqGrid.data("Collection_rup_combo")[rowId];
-				$.each(rowComboData, function(index, object){
-					var ffe = object[0];
-					object.label = jqGrid.rup_grid("getCol", rowId, index);
-					object.value = xhr[index];
-				});
+				if (jqGrid.data("Collection_rup_combo") !== undefined){
+					var rowComboData = jqGrid.data("Collection_rup_combo")[rowId];
+					$.each(rowComboData, function(index, object){
+						var ffe = object[0];
+						object.label = jqGrid.rup_grid("getCol", rowId, index);
+						object.value = xhr[index];
+					});
+				}
 			}
 			
 			return false;
@@ -2294,6 +2318,7 @@
 					prop.currentSelectedRow = rowid;
 					self.rup_maint("editElement", rowid);
 				}
+				return false;
 			};
 			
 			prop.toolbar.defaultFunctionDeleteButton = function () {
@@ -2385,6 +2410,9 @@
 					}
 					if (object.obj !== undefined && object.click !== undefined){
 						prop.toolbar.self.addButton(object.obj, object.json_i18n).bind("click", object.click);
+					} else if (object.buttons !== undefined){
+						var mButton = prop.toolbar.self.addMButton(object, object.json_i18n).bind("click", prop.toolbar.self.showMButton);
+						prop.toolbar.self.addButtonsToMButton(object.buttons, mButton, object.json_i18n);
 					} else{
 						$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base,"rup_maint.toolbarNewButtonError"));
 					}
@@ -3303,12 +3331,17 @@
 		},
 		_selectAllGetPrimaryKeys_multiselect : function () {
 			// console.log("maint - _selectAllGetPrimaryKeys_multiselect");
-			var self = this, prop = self[0].prop, jqGrid = prop.jQueryGrid;
+			var self = this, prop = self[0].prop, jqGrid = prop.jQueryGrid, data;
+			if (prop.searchDivFunc===undefined){
+				data = form2object(prop.searchForm[0]);
+			} else {
+				data = prop.searchDivFunc.call();
+			}
 			$.rup_ajax({                           
 			      url:jqGrid.rup_grid("getGridParam", "url"),
 			      dataType: 'json',
 			      type: "GET",
-			      data: form2object(prop.searchForm[0]),
+			      data: data,
 			      contentType: 'application/json',             
 			      success: function (pks, ajaxOptions) {
 						var colPks = self.rup_maint("getPrimaryKey").split(";"), pksArray = [], aux = "";

@@ -21,13 +21,6 @@
 .rup_accordion_create{
 }
 
-
-/** Correción estilos bug accordion **/
-.ui-accordion-content {
-	margin-right: -2px;
-}
-
-.ui-accordion .ui-accordion-content {
-    padding: 0.5em 2.75%;
-    width: 94.5%;
+.ui-accordion .ui-accordion-header {
+	width: 99.8%;
 }

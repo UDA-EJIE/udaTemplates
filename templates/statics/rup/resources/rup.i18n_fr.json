@@ -116,7 +116,8 @@
 		"parameterError":"fr_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"fr_Error de desarrollo",
 		"metodError":"fr_Error en el método:",
-		"selectorError":"fr_El selector especificado es incorrecto (no devuelve nada)"  
+		"selectorError":"fr_El selector especificado es incorrecto (no devuelve nada)",
+		"parametro":"fr_Parametro: "  
     },
     "rup_menu":{
     	"developerError":"fr_Error de desarrollo",
@@ -483,5 +484,24 @@
 		"regexp":{
 			"decimal":"^-?(?:\\d+|\\d{1,3}(?:.\\d{3})+)(?:\\,\\d+)?$"
 		}
-    }
+    },
+	"rup_report":{
+		"waitTitle":"fr_Descargar informe",
+		"waitMsg":"fr_Generando el documento, por favor espere...",
+		"errorTitle":"fr_Error al generar informe",
+		"errorMsg":"fr_Se ha producido un error al generar el documento, por favor vuelva a intentarlo."
+	},
+	"rup_tree":{
+		"loading":"Cargando ..._fr",
+		"new_node":"Nuevo nodo_fr",
+		"create":"Nuevo_fr",
+		"rename":"Cambiar nombre_fr",
+		"remove":"Eliminar_fr",
+		"ccp":{
+			"label":"Edición_fr",
+			"copy":"Copiar_fr",
+			"paste":"Pegar_fr",
+			"cut":"Cortar_fr"
+		}
+	}
 }

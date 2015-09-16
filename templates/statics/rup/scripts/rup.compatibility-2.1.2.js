@@ -518,8 +518,72 @@
 				this.refresh();
 
 			}
-		}
+		},
 		
+		jstree : {
+			hotkeys : {
+				"ctrl+space" : function (event) { 
+					delete event.target;
+					event.type = "click";
+					if(this.data.ui.hovered) { this.data.ui.hovered.children("a:eq(0)").trigger(event); }
+					return false;
+				},
+				"shift+space" : function (event) {
+					delete event.target;
+					event.type = "click";
+					if(this.data.ui.hovered) { this.data.ui.hovered.children("a:eq(0)").trigger(event); }
+					return false;
+				}
+			},
+			rup_extend : {
+				_fn : {
+					"cleanCut" : function () {
+						this.data.crrm.ct_nodes = false;
+					},
+					"set_contextmenu_items" : function (s) {
+						var settings = this.get_settings();
+						settings.contextmenu.items = s;
+						this._set_settings(settings);
+					},
+					"set_theme_data" : function (themeName) {
+						this.data.themes["theme"] = themeName;
+					},
+					"types_portal_css" : function () {
+						var s = this._get_settings().types;
+						var types = s.types, 
+							attr  = s.type_attr, 
+							icons_css = "", 
+							_this = this;
+						$.each(types, function (i, tp) {
+							$.each(tp, function (k, v) { 
+								if(!/^(max_depth|max_children|icon|valid_children)$/.test(k)) { _this.data.types.attach_to.push(k); }
+							});
+							if(!tp.icon) { return true; }
+							if( tp.icon.image || tp.icon.position) {
+								icons_css += 'div.r01gContainer '; 
+								if(i == "default")	{ 
+									icons_css += '.jstree-' + _this.get_index() + ' a > .jstree-icon { ';
+								} else{
+									icons_css += '.jstree-' + _this.get_index() + ' li[' + attr + '="' + i + '"] > a > .jstree-icon { ';
+								}
+								if(tp.icon.image)	{ icons_css += ' background-image:url(' + tp.icon.image + '); '; }
+								if(tp.icon.position){ icons_css += ' background-position:' + tp.icon.position + '; '; }
+								else				{ icons_css += ' background-position:0 0; '; }
+								icons_css += '} ';
+							}
+						});
+				
+						var jstreeTypesStylesheet = $("#jstree-types-stylesheet");
+						
+						if(jstreeTypesStylesheet !== undefined){
+							jstreeTypesStylesheet.remove();
+						}
+						
+						if(icons_css !== "") { $.vakata.css.add_sheet({ 'str' : icons_css, title : "jstree-porta-types" }); }
+					}
+				}
+			}
+		}
 	});
 
 	

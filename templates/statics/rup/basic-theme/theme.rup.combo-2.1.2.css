@@ -14,7 +14,7 @@
  * que establece la Licencia.
  */
  
-.rup-combo { display:none; }
+.rup-combo {}
 .rup-combo_loading { background-image: url('images/rup.ajaxLoader.gif') !important; color: black; font-weight: bold;}
 .rup-combo_loadingText { color: black; font-weight: bold;}
 

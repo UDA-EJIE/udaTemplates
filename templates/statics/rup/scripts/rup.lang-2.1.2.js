@@ -132,6 +132,7 @@
 				listadoIdiomas.width((liListado.position()).left - ajust);
 				listadoIdiomas.css("padding-left","0.6em");
 				listadoIdiomas.css("padding-right","0.2em");
+				listadoIdiomas.css("top",liIdiomaActivo.height()-1);
 				liListado.hide(); 
 				liListado.css("visibility","");
 				liEnlace.css("margin-right",saveMargin);

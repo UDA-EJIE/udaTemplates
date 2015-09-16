@@ -871,11 +871,11 @@ function QTip(target, options, id, attr)
 					result = PLUGINS.offset(tooltip, options.position.container);
 				break;
 
-				default:
-					o = convertNotation(notation.toLowerCase());
-					result = o[0][ o[1] ];
-					result = result.precedance ? result.string() : result;
-				break;
+//				default:
+//					o = convertNotation(notation.toLowerCase());
+//					result = o[0][ o[1] ];
+//					result = result.precedance ? result.string() : result;
+//				break;
 			}
 
 			return result;
