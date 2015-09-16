@@ -543,7 +543,72 @@
 		}, $self.data("mousestop").delay);
 	}
 	
-
+	// Control de teclas especiales Ctrl y Shift
+	
+	jQuery("body").on({
+		"keydown.rup": function(event){
+			var $body = jQuery("body"), ret;
+			
+			
+			switch (event.which){
+			case 16:
+				if ($body.data("tmp.multiselect.shiftPressed")!==true){
+					$body.data("tmp.multiselect.shiftPressed", true);
+					ret = $body.triggerHandler("rup_shiftKeyDown");
+					if (ret===false){
+						event.preventDefault();
+						return false;
+					}
+				}
+				break;
+			case 17:
+				if ($body.data("tmp.multiselect.ctrlPressed")!==true){
+					$body.data("tmp.multiselect.ctrlPressed",true);
+					ret = $body.triggerHandler("rup_ctrlKeyDown");
+					if (ret===false){
+						event.preventDefault();
+						return false;
+					}
+				}
+				break;
+			}
+		},
+		"keyup.rup": function(event){
+			var $body = jQuery("body"), ret;
+			
+			switch (event.which){
+			case 16:
+				if ($body.data("tmp.multiselect.shiftPressed")!==false){
+					$body.data("tmp.multiselect.shiftPressed",false);
+					ret = $body.triggerHandler("rup_shiftKeyUp");
+					if (ret===false){
+						return false;
+					}
+				}
+				break;
+			case 17:
+				if ($body.data("tmp.multiselect.ctrlPressed")!==false){
+					$body.data("tmp.multiselect.ctrlPressed",false);
+					ret = $body.triggerHandler("rup_ctrlKeyUp");
+					if (ret===false){
+						return false;
+					}
+				}
+				break;
+			}
+		}
+	});
+	
+	jQuery.extend($.rup, {
+		isCtrlPressed : function(){
+			return jQuery("body").data("tmp.multiselect.ctrlPressed") === true;
+		},
+		isShiftPressed : function(){
+			return jQuery("body").data("tmp.multiselect.shiftPressed") === true;
+		}
+	});
+	
+	
 	//Ejemplo de extension de la funcion de inicio 
 	//$.extend($.rup.iniRup, console.log("mundo")) ;
 	

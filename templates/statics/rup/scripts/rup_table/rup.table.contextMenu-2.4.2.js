@@ -115,11 +115,11 @@
 					jQuery.extend(true, contextRowItems, settings.contextMenu.items);
 
 					// En caso de especificar solo para unas columnas
-					thArray = jQuery(settings.contextMenu.theadThSelector);
+					thArray = jQuery(settings.contextMenu.theadThSelector, "#gview_"+settings.id);
 					
 					if (globalCellLevelContextMenu && !cellLevelContextMenu){
 						for (var i=0;i< contextMenuSettings.colNames.length;i++){
-							jQuery(contextMenuSettings.tbodyTdSelector+":nth-child("+getTdIndex(thArray, index)+")", $self).rup_contextMenu({
+							jQuery(contextMenuSettings.tbodyTdSelector+":nth-child("+getTdIndex(thArray, contextMenuSettings.colNames[i])+")", $self).rup_contextMenu({
 								items: contextRowItems
 							});
 						}
@@ -154,7 +154,7 @@
 						});
 						
 						jQuery.each(itemsPerColumn, function(index, item){
-							jQuery(contextMenuSettings.tbodyTdSelector+":nth-child("+getTdIndex(thArray, index)+")", $self).rup_contextMenu({
+						jQuery(contextMenuSettings.tbodyTdSelector+":nth-child("+getTdIndex(thArray, index)+")", $self).rup_contextMenu({
 								items: item
 							});
 						});

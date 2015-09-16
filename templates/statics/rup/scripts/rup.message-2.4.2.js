@@ -62,7 +62,7 @@
 			docHeight = $(document).height();
 			docWidth = $(document).width();
             self.dialog("open");
-            this._dialogInPortal(docWidth, docHeight);
+            this._dialogInPortal(docWidth, docHeight, self, settings);
         },
         msgConfirm : function (properties) {    
         	//Se recogen y cruzan las paremetrizaciones del objeto
@@ -95,7 +95,7 @@
 			docHeight = $(document).height();
 			docWidth = $(document).width();
             self.dialog("open");
-            this._dialogInPortal(docWidth, docHeight);
+            this._dialogInPortal(docWidth, docHeight, self, settings);
             
             //Le ponemos el foco al botón aceptar en vez de al enlace
             $('div[aria-labelledby=ui-dialog-title-' + self[0].id + '] .ui-dialog-buttonpane button:first').focus();
@@ -128,7 +128,7 @@
 			docHeight = $(document).height();
 			docWidth = $(document).width();
             self.dialog("open");
-            this._dialogInPortal(docWidth, docHeight);
+            this._dialogInPortal(docWidth, docHeight, self, settings);
         },
         msgAlert : function (properties) {
         	//Se recogen y cruzan las paremetrizaciones del objeto
@@ -152,13 +152,12 @@
         	
             var self = this._createDiv().appendTo("body");
             self.dialog(settings);      
-              
             this._createCloseLink(self);
 			this._addStyles(self, "alert", settings.message);
 			docHeight = $(document).height();
 			docWidth = $(document).width();
             self.dialog("open");
-            this._dialogInPortal(docWidth, docHeight);
+            this._dialogInPortal(docWidth, docHeight, self, settings);
         }
 	});
 	
@@ -221,12 +220,19 @@
 					$('div[aria-labelledby=ui-dialog-title-' + self[0].id + '] .ui-dialog-buttonset ').prepend(cancelHREF);
 				},
 			//Ajuste para el comportamiento de portales
-			 _dialogInPortal : function(docWidth, docHeight){
-                  if($.rup_utils.aplicatioInPortal()){
-                	  $(".ui-widget-overlay").css("height",docHeight).css("width",docWidth);
-                	  $(".r01gContainer").append($(".ui-dialog [rup_message = 'true']").parent()).append($(".ui-widget-overlay"));
-                	  $(".ui-dialog [rup_message = 'true']").parent().css("position","absolute").css("top",(docHeight/2)-($(".ui-dialog:visible").height()/2));
-                  }
+			 _dialogInPortal : function(docWidth, docHeight, $self, settings){
+				 var $overlayEl;
+				 
+	              if($.rup_utils.aplicatioInPortal()){
+	            	  if ($self.data("dialog").overlay !== null){
+	            		  $overlayEl = $self.data("dialog").overlay.$el;
+	            		  $overlayEl.css("height",docHeight).css("width",docWidth);
+	            		  $(".r01gContainer").append($self.data("dialog").uiDialog).append($overlayEl);
+	            	  }
+	            	  if (settings.position === undefined || settings.position === null){
+	            		  $self.data("dialog").uiDialog.css("position","absolute").css("top",(docHeight/2)-($(".ui-dialog:visible").height()/2));
+	            	  }
+	              }
 			 },
 			_rupProperties : function(properties, title){
 				properties.autoOpen= false;

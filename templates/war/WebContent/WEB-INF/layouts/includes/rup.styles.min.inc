@@ -1,5 +1,5 @@
 ﻿<%--  
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2014 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -17,5 +17,5 @@
 
 <!-- BASE (sub-productos para patrones) -->
 <link href="${staticsUrl}/rup/custom-theme/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.1.css" rel="stylesheet" type="text/css" />
+<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.2.css" rel="stylesheet" type="text/css" />
 

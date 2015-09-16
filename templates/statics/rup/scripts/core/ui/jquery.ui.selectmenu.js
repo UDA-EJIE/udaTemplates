@@ -19,6 +19,7 @@ $.widget("ui.selectmenu", {
 	eventPrefix: "selectmenu",
 	options: {
 		transferClasses: true,
+		typeAhead: 500,
 		style: 'dropdown',
 		positionOptions: {
 			my: "left top",
@@ -120,18 +121,37 @@ $.widget("ui.selectmenu", {
 					case $.ui.keyCode.TAB:
 						ret = true;
 						break;
+					case $.ui.keyCode.PAGE_UP:
+					case $.ui.keyCode.HOME:
+						self.index(0);
+						break;
+					case $.ui.keyCode.PAGE_DOWN:
+					case $.ui.keyCode.END:
+						self.index(self._optionLis.length);
+						break;
 					default:
 						ret = true;
-						self._typeAhead(event.keyCode, 'mouseup');
-						break;	
+						
 				}
 				return ret;
 			})
-			.bind('mouseover.selectmenu focus.selectmenu', function(){ 
-				if (!o.disabled) $(this).addClass(self.widgetBaseClass+'-focus ui-state-hover'); 
+.bind('keypress.selectmenu', function(event) {
+				if (event.which > 0) {
+					self._typeAhead(event.which, 'mouseup');
+				}
+				return true;
 			})
-			.bind('mouseout.selectmenu blur.selectmenu', function(){  
-				if (!o.disabled) $(this).removeClass(self.widgetBaseClass+'-focus ui-state-hover'); 
+			.bind('mouseover.selectmenu', function() {
+				if (!o.disabled) $(this).addClass('ui-state-hover');
+			})
+			.bind('mouseout.selectmenu', function() {
+				if (!o.disabled) $(this).removeClass('ui-state-hover');
+			})
+			.bind('focus.selectmenu', function() {
+				if (!o.disabled) $(this).addClass('ui-state-focus');
+			})
+			.bind('blur.selectmenu', function() {
+				if (!o.disabled) $(this).removeClass('ui-state-focus');
 			});
 		
 		//document click closes menu
@@ -211,7 +231,12 @@ $.widget("ui.selectmenu", {
 						break;	
 				}
 				return ret;
-			});			
+			}).bind('keypress.selectmenu', function(event) {
+				if (event.which > 0) {
+					self._typeAhead(event.which, 'focus');
+				}
+				return true;
+			});		
 		
 		// needed when window is resized
 		$(window).bind("resize.selectmenu", function(){
@@ -270,6 +295,13 @@ $.widget("ui.selectmenu", {
 //					if ($(this).is( self._selectedOptionLi().selector )){ $(this).addClass(activeClass); }
 					$(this).removeClass(self.widgetBaseClass + '-item-focus ui-state-hover'); 
 				});
+			
+			thisLi.find("a").bind('focus.selectmenu', function() {
+				$(this).parent().mouseover();
+			})
+			.bind('blur.selectmenu', function() {
+				$(this).parent().mouseout();
+			});
 				
 			//optgroup or not...
 			if (selectOptionData[i].parentOptGroup){
@@ -392,30 +424,77 @@ $.widget("ui.selectmenu", {
 		// call widget destroy function
 		$.Widget.prototype.destroy.apply(this, arguments);
 	},
-	_typeAhead: function(code, eventType){
-		var self = this;
-		//define self._prevChar if needed
-		if (!self._prevChar){ self._prevChar = ['',0]; }
-		var C = String.fromCharCode(code);
-		c = C.toLowerCase();
-		var focusFound = false;
-		function focusOpt(elem, ind){
-			focusFound = true;
-			$(elem).trigger(eventType);
-			self._prevChar[1] = ind;
+	_typeAhead: function( code, eventType ) {
+		var self = this,
+			c = String.fromCharCode(code).toLowerCase(),
+			matchee = null,
+			nextIndex = null;
+
+		// Clear any previous timer if present
+		if ( self._typeAhead_timer ) {
+			window.clearTimeout( self._typeAhead_timer );
+			self._typeAhead_timer = undefined;
 		}
-		this.list.find('li a').each(function(i){	
-			if(!focusFound){
-				var thisText = $(this).text();
-				if( thisText.indexOf(C) == 0 || thisText.indexOf(c) == 0){
-						if(self._prevChar[0] == C){
-							if(self._prevChar[1] < i){ focusOpt(this,i); }	
-						}
-						else{ focusOpt(this,i); }	
+
+		// Store the character typed
+		self._typeAhead_chars = (self._typeAhead_chars === undefined ? "" : self._typeAhead_chars).concat(c);
+
+		// Detect if we are in cyciling mode or direct selection mode
+		if ( self._typeAhead_chars.length < 2 ||
+		     (self._typeAhead_chars.substr(-2, 1) === c && self._typeAhead_cycling) ) {
+			self._typeAhead_cycling = true;
+
+			// Match only the first character and loop
+			matchee = c;
+		}
+		else {
+			// We won't be cycling anymore until the timer expires
+			self._typeAhead_cycling = false;
+
+			// Match all the characters typed
+			matchee = self._typeAhead_chars;
+		}
+
+		// We need to determine the currently active index, but it depends on
+		// the used context: if it's in the element, we want the actual
+		// selected index, if it's in the menu, just the focused one
+		// I copied this code from _moveSelection() and _moveFocus()
+		// respectively --thg2k
+		var selectedIndex = (eventType !== 'focus' ?
+			this._selectedOptionLi().data('index') :
+			this._focusedOptionLi().data('index')) || 0;
+
+		for (var i = 0; i < this._optionLis.length; i++) {
+			var thisText = this._optionLis.eq(i).text().substr(0, matchee.length).toLowerCase();
+
+			if ( thisText === matchee ) {
+				if ( self._typeAhead_cycling ) {
+					if ( nextIndex === null )
+						nextIndex = i;
+
+					if ( i > selectedIndex ) {
+						nextIndex = i;
+						break;
+					}
+				} else {
+					nextIndex = i;
 				}
 			}
-		});
-		this._prevChar[0] = C;
+		}
+
+		if ( nextIndex !== null ) {
+			// Why using trigger() instead of a direct method to select the
+			// index? Because we don't what is the exact action to do, it
+			// depends if the user is typing on the element or on the popped
+			// up menu
+			this._optionLis.eq(nextIndex).find("a").trigger( eventType );
+		}
+
+		self._typeAhead_timer = window.setTimeout(function() {
+			self._typeAhead_timer = undefined;
+			self._typeAhead_chars = undefined;
+			self._typeAhead_cycling = undefined;
+		}, self.options.typeAhead);
 	},
 	// returns some usefull information, called by callbacks only
 	_uiHash: function(){

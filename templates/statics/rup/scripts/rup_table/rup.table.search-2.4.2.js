@@ -59,6 +59,7 @@
 			if (settings.search.url === null){
 				settings.search.url = settings.baseUrl +"/search";
 			}
+			
 		},
 		/*
 		 * Realiza la configuración interna necesaria para la gestión correcta de la edición mediante un formulario.
@@ -85,9 +86,20 @@
 //							$($self.jqGrid("getInd",newIndexPos, true)).find("td[aria-describedby='"+settings.id+"_infoSearch']").html($("<img/>").addClass("ui-icon ui-icon-search")[0]);
 //						}
 					}
+					
+					$self.rup_table("updateSearchPagination");
 				},
-				"jqGridSelectRow.rupTable.search": function(event, id, status, obj){
+				"jqGridSelectRow.rupTable.search rupTable_setSelection.search": function(event, id, status, obj){
 					$self.rup_table("updateSearchPagination", id);
+				},
+				"jqGridGridComplete.rup_table.search": function(event){
+					var $self = $(this), settings = $self.data("settings");
+					
+					if ($self.rup_grid("getGridParam","records")===0){
+						settings.search.$searchRow.hide();
+					}else{
+						settings.search.$searchRow.show();
+					}
 				},
 				"rupTable_searchAfterCreateToolbar": function(event, $searchRow){
 					var props = $self[0].p, colModel = props.colModel, cellColModel, $elem, editOptions, searchRupType, searchEditOptions;
@@ -114,12 +126,12 @@
 								 */ 
 								switch(searchRupType){
 								case "combo":
-									editOptions = $.extend({menuWidth:$elem.width()}, searchEditOptions, {width:"auto"});
+									searchEditOptions = $.extend({},{menuWidth:$elem.width()}, searchEditOptions, {width:"97%"});
 									break;
 								}
 								
 								// Invocación al componente RUP
-								$elem["rup_"+searchRupType](editOptions);
+								$elem["rup_"+searchRupType](searchEditOptions);
 								
 								/*
 								 * POST Configuración de los componentes RUP
@@ -401,6 +413,7 @@
 			$searchForm = jQuery("<form>").attr("id",settings.id+"_search_searchForm");
 			settings.search.$searchRow.parent().parent().wrap($searchForm);
 			settings.search.$searchForm = jQuery("#"+settings.id+"_search_searchForm");
+			settings.search.$searchRow.hide();
 			
 		},
 		navigateToMatchedRow: function(matchedRow){
@@ -480,9 +493,9 @@
 //					$($self.jqGrid("getInd",newIndexPos, true)).find("td[aria-describedby='"+settings.id+"_infoSearch']").html($("<img/>").addClass("ui-icon ui-icon-search")[0]);
 //				}
 				
+				$self.rup_table("setSelection", settings.search.matchedRowsPerPage[page][0], true);
 				$self.rup_table("highlightMatchedRowsInPage", page);
 				
-				$self.jqGrid("setSelection", settings.search.matchedRowsPerPage[page][0], false);
 			}else{
 				$self.rup_table("navigateToMatchedRow", 'first');
 			}
@@ -494,12 +507,16 @@
 			npos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])(),
 			page = parseInt($self.rup_table("getGridParam", "page"),10),
 			newPage=page,
+			activeLineId,
 //			lastPage = parseInt(Math.ceil($self.rup_table("getGridParam", "records")/$self.rup_table("getGridParam", "rowNum")),10),
 			currentArrayIndex, selectedLines, pageArrayIndex;
 			
 			$self.trigger("rupTableAfterSearchNav",[linkType]);
 			
 			npos[0] = parseInt(npos[0],10);
+			
+			activeLineId = $self.rup_table("getActiveLineId");
+			
 			$("#"+settings.formEdit.feedbackId, settings.$detailForm).hide();
 			switch (linkType){
 				case 'first':
@@ -521,16 +538,16 @@
 					// Navegar al anterior elemento seleccionado
 					execute = true;
 					// Obtenemos un array con los index de los registros seleccionados en la página actual
-					selectedLines = settings.search.matchedLinesPerPage[page];
+					selectedLines = settings.search.matchedLinesPerPage[page] || [];
 					// Obtenemos la posición que ocupa el elemento actual en el array de seleccionados
-					currentArrayIndex = $.inArray(npos[0]+1,selectedLines);
+					currentArrayIndex = $.inArray(activeLineId+1,selectedLines);
 					
 					// La línea no se encuentra entre los registros que se corresponden a la búsqueda
 					if (currentArrayIndex===-1){
-						currentArrayIndex = $.rup_utils.insertSorted($.merge([],selectedLines), npos[0]+1);
-						if(currentArrayIndex>1){
-							currentArrayIndex--;
-						}
+						currentArrayIndex = $.rup_utils.insertSorted($.merge([],selectedLines), activeLineId+1);
+//						if(currentArrayIndex>1){
+//							currentArrayIndex--;
+//						}
 					}
 					
 					// Se comprueba si ocupa el lugar del primer elemento seleccionado
@@ -538,6 +555,13 @@
 						// En caso de tratarse del primer elemento seleccionado de la página, se deberá de realizar una navegación a la página anterior que disponga de elementos seleccionados
 						changePage = true;
 						pageArrayIndex = $.inArray(page, settings.search.matchedPages);
+						
+						// En caso de no estar posicionados en una página en la que se encuentran ocurrencias de registros
+						if (pageArrayIndex ===-1){
+							// Se obtiene la posición en la que se encontraría la página
+							pageArrayIndex = $.rup_utils.insertSorted($.merge([],settings.search.matchedPages), page);
+						}
+						
 						// Recorremos las páginas anteriores
 						newPage = settings.search.matchedPages[pageArrayIndex-1];
 						// Obtenemos los identificadores de los registros seleccionados de la nueva página
@@ -555,13 +579,13 @@
 					// Navegar al siguiente elemento seleccionado
 					execute = true;
 					// Obtenemos un array con los index de los registros seleccionados en la página actual
-					selectedLines = settings.search.matchedLinesPerPage[page];
+					selectedLines = settings.search.matchedLinesPerPage[page]  || [];
 					// Obtenemos la posición que ocupa el elemento actual en el array de seleccionados
-					currentArrayIndex = $.inArray(npos[0]+1,selectedLines);
+					currentArrayIndex = $.inArray(activeLineId+1,selectedLines);
 					
 					// La línea no se encuentra entre los registros que se corresponden a la búsqueda
 					if (currentArrayIndex===-1){
-						currentArrayIndex = $.rup_utils.insertSorted($.merge([],selectedLines), npos[0]+1);
+						currentArrayIndex = $.rup_utils.insertSorted($.merge([],selectedLines), activeLineId+1);
 						currentArrayIndex--;
 					}
 
@@ -570,6 +594,13 @@
 						// En caso de tratarse del primer elemento seleccionado de la página, se deberá de realizar una navegación a la página anterior que disponga de elementos seleccionados
 						changePage = true;
 						pageArrayIndex = $.inArray(page, settings.search.matchedPages);
+						
+						// En caso de no estar posicionados en una página en la que se encuentran ocurrencias de registros
+						if (pageArrayIndex ===-1){
+							// Se obtiene la posición en la que se encontraría la página
+							pageArrayIndex = $.rup_utils.insertSorted($.merge([],settings.search.matchedPages), page)-1;
+						}
+						
 						// Recorremos las páginas anteriores
 						newPage = settings.search.matchedPages[pageArrayIndex+1];
 						// Obtenemos los identificadores de los registros seleccionados de la nueva página
@@ -603,7 +634,7 @@
 			return [linkType, execute, changePage, index-1, npos, newPage, newPageIndex-1];
 		},
 		doSearchNavigation: function(arrParams, execute, changePage, index, npos, newPage, newPageIndex ){
-			var $self = this, settings = $self.data("settings"), execute, changePage, index, newPage, newPageIndex, indexAux;
+			var $self = this, settings = $self.data("settings"), execute, changePage, index, newPage, newPageIndex, indexAux, ret, actualRowId, rowId;
 			
 			if ($.isArray(arrParams)){
 				linkType = arrParams[0];
@@ -618,34 +649,49 @@
 					$self.rup_table("hideFormErrors", settings.$detailForm);
 //					$self.triggerHandler("jqGridAddEditClickPgButtons", [linkType, settings.$detailForm, npos[1][npos[index]]]);
 					pagePos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])();
+					
+//					actualRowId = npos[1][npos[0]];
+					actualRowId = $self.rup_table("getActiveRowId");
+					
+//					ret = $self.triggerHandler("rupTable_searchNavigation_deselect", actualRowId);
+//					if (ret!==false){
+					$row = jQuery($self.jqGrid("getInd", actualRowId, true));
+					if ($row.data("tmp.search.notToDeselect")!=="true"){
+						$self.rup_table("setSelection", actualRowId, false);
+						if ($row.data("tmp.search.notToDeselect")!==undefined){
+							delete $row.data("tmp.search.notToDeselect");
+						}
+					}
+					
 					if (changePage){
 //						$self.jqGrid("setSelection", pagePos[1][pagePos[0]], false);
 						$self.trigger("reloadGrid",[{page: newPage}]);
 						$self.on("jqGridAfterLoadComplete.rupTable.serach.pagination",function(event,data){
 							indexAux = jQuery.inArray(newPageIndex+1, settings.search.matchedLinesPerPage[newPage]);
-//							$row = jQuery($self.jqGrid("getInd",settings.search.matchedRowsPerPage[parseInt(data.page,10)][indexAux],true));
-//							if ($row.attr("aria-selected")!=="true"){
-								$self.jqGrid("setSelection", settings.search.matchedRowsPerPage[parseInt(data.page,10)][indexAux], false);
-//							}else{
-//								$self.rup_table("highlightRowAsSelected", $row);
-//							}
+							
+							rowId = settings.search.matchedRowsPerPage[parseInt(data.page,10)][indexAux];
+							
+							$row = jQuery($self.jqGrid("getInd", rowId, true));
+							if ($row.attr("aria-selected")==="true"){
+								$row.data("tmp.search.notToDeselect","true");
+							}
+							
+							$self.rup_table("setSelection", rowId, true);
+
 							$self.off("jqGridAfterLoadComplete.rupTable.serach.pagination");
 						});
 					}else{
 						indexAux = jQuery.inArray(index+1, settings.search.matchedLinesPerPage[newPage]);
-//						$self.jqGrid("setSelection", pagePos[1][pagePos[0]], false);
-//						$row = jQuery($self.jqGrid("getInd",settings.search.matchedRowsPerPage[newPage][indexAux],true));
-//						if ($row.attr("aria-selected")!=="true"){
-							$self.jqGrid("setSelection", settings.search.matchedRowsPerPage[newPage][indexAux], false);
-//						}else{
-//							$self.rup_table("highlightRowAsSelected", $row);
-//						}
+						
+						rowId = settings.search.matchedRowsPerPage[newPage][indexAux];
+						
+						$row = jQuery($self.jqGrid("getInd", rowId, true));
+						if ($row.attr("aria-selected")==="true"){
+							$row.data("tmp.search.notToDeselect","true");
+						}
+						
+						$self.rup_table("setSelection", rowId, true);
 					}
-//					$self.triggerHandler("jqGridAddEditAfterClickPgButtons", [linkType,settings.$detailForm,npos[1][npos[index]]]);
-//					fncAfterclickPgButtons = (props!==undefined?props.afterclickPgButtons:settings.afterclickPgButtons);
-//					if(jQuery.isFunction(fncAfterclickPgButtons)) {
-//						props.fncAfterclickPgButtons.call($self, linkType, settings.$detailForm,npos[1][npos[index]]);
-//					}
 				}
 			}
 		},
@@ -728,7 +774,7 @@
 						settings.search.$matchedLabel.html(jQuery.jgrid.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_table.plugins.search.matchedRecords"),$.fmatter.util.NumberFormat(settings.search.numMatched,formatter)));
 					}
 					settings.search.$firstNavLink.removeClass("ui-state-disabled");
-//					settings.search.$backNavLink.removeClass("ui-state-disabled");
+					settings.search.$backNavLink.removeClass("ui-state-disabled");
 					settings.search.$forwardNavLink.removeClass("ui-state-disabled");
 					settings.search.$lastNavLink.removeClass("ui-state-disabled");
 					
@@ -736,19 +782,23 @@
 					if (jQuery.inArray(settings.search.matchedPages, page) > 0){
 						settings.search.$backNavLink.removeClass("ui-state-disabled");
 					}else if (jQuery.inArray(page, settings.search.matchedPages) === -1 && $.rup_utils.insertSorted($.merge([],settings.search.matchedPages), page)===0){
+						// Anterior a las páginas en las que se han encontrado ocurrencias
 						settings.search.$backNavLink.addClass("ui-state-disabled");
-					}else if (jQuery.inArray(page, settings.search.matchedPages) === -1 && $.rup_utils.insertSorted($.merge([],settings.search.matchedPages), page)>0){
-						settings.search.$backNavLink.removeClass("ui-state-disabled");
+						settings.search.$firstNavLink.addClass("ui-state-disabled");
+					}else if (jQuery.inArray(page, settings.search.matchedPages) === -1 && $.rup_utils.insertSorted($.merge([],settings.search.matchedPages), page)>=settings.search.matchedPages.length){
+						// Posterior a las páginas en las que se han encontrado ocurrencias
+						settings.search.$forwardNavLink.addClass("ui-state-disabled");
+						settings.search.$lastNavLink.addClass("ui-state-disabled");
 					}else{
-						pagePos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])();
-						currentArrayIndex = $.rup_utils.insertSorted($.merge([],settings.search.matchedLinesPerPage[page]), pagePos[0]+1);
+						pagePos = $self.rup_table("getActiveLineId");
+						currentArrayIndex = $.rup_utils.insertSorted($.merge([],settings.search.matchedLinesPerPage[page]), pagePos+1);
 						if (currentArrayIndex===0){
 							settings.search.$backNavLink.addClass("ui-state-disabled");
-						}else{
-							settings.search.$backNavLink.removeClass("ui-state-disabled");
+						}
+						if (currentArrayIndex === settings.search.matchedLinesPerPage[page].length){
+							settings.search.$forwardNavLink.addClass("ui-state-disabled");
 						}
 					}
-					
 				}
 			}
 		},

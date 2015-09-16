@@ -388,7 +388,7 @@
 					if (data===null){ return false; } //Se para la petición porque algún padre no tiene el dato cargado
 					
 					$.rup_ajax({
-						url: settings.source,
+						url: settings.source?settings.source:settings.sourceGroup,
 						data : data,
 						dataType: 'json',
 						contentType: 'application/json',
@@ -671,6 +671,25 @@
 						$("#"+settings.id).data("multiselect").button.attr("id",settings.id+"-button");
 						$("#"+settings.id).rup_combo("refresh");	//Actualizar cambios (remotos)
 						$("#"+settings.id).attr("multiple", "multiple");
+						
+						// Asignaci�n de eventos de teclado
+						var self = this;
+						$("#"+settings.id).data("multiselect").button.on('keypress.selectmenu', function(event) {
+							if (event.which > 0) {
+								self._typeAheadMultiselect(event.which, 'focus', settings);
+							}
+							return true;
+						});
+//						$("#rup-multiCombo_remoteGroup_comboHijo").on('keypress', function(event) {
+						 $("#"+settings.id).data("multiselect").menu.delegate('label', 'keydown.multiselect', function( event ){
+							if (event.which > 0) {
+								self._typeAheadMultiselect(event.which, 'focus', settings);
+							}
+							return true;
+						});
+						
+						
+						
 					}
 
 					//Buscar el UL del combo y colocarlo tras el elemento sobre el que debe ir
@@ -696,7 +715,10 @@
 					} else {
 						if (settings.multiselect){
 							//Convertir inputValue en array
-							settings.inputValue = settings.inputValue.split("##"); 
+							if (jQuery.isArray(settings.inputValue)===false){
+								settings.inputValue = settings.inputValue.split("##"); 
+							}
+							
 						}
 						this._setElement($("#"+settings.id), settings.inputValue, settings.multiselect, true);
 					}
@@ -907,6 +929,108 @@
 								);
 				$(object).append($("<span />").text(" ]"));
 			},
+			_selectedOptionLiMultiselect: function(settings) {
+				var multiselectSettings = $("#"+settings.id).data("multiselect");
+				return this._optionLis.eq(this._selectedIndex());
+			},
+
+			_focusedOptionLiMultiselect: function(settings) {
+				var multiselectSettings = $("#"+settings.id).data("multiselect");
+//				return this.list.find('.' + this.widgetBaseClass + '-item-focus');
+				var $elem=undefined;
+
+				jQuery.each(multiselectSettings.inputs, function(index,elem){
+				    if ($(elem).parent().has(".ui-state-hover")){
+				        $elem = $(elem);
+				    }
+				});
+
+				return $elem;
+			},
+			_typeAheadMultiselect: function( code, eventType, settings ) {
+				var self = this,
+					c = String.fromCharCode(code).toLowerCase(),
+					matchee = null,
+					nextIndex = null;
+
+				// Clear any previous timer if present
+				if ( self._typeAhead_timer ) {
+					window.clearTimeout( self._typeAhead_timer );
+					self._typeAhead_timer = undefined;
+				}
+
+				// Store the character typed
+				self._typeAhead_chars = (self._typeAhead_chars === undefined ? "" : self._typeAhead_chars).concat(c);
+
+				// Detect if we are in cyciling mode or direct selection mode
+				if ( self._typeAhead_chars.length < 2 ||
+				     (self._typeAhead_chars.substr(-2, 1) === c && self._typeAhead_cycling) ) {
+					self._typeAhead_cycling = true;
+
+					// Match only the first character and loop
+					matchee = c;
+				}
+				else {
+					// We won't be cycling anymore until the timer expires
+					self._typeAhead_cycling = false;
+
+					// Match all the characters typed
+					matchee = self._typeAhead_chars;
+				}
+
+				// We need to determine the currently active index, but it depends on
+				// the used context: if it's in the element, we want the actual
+				// selected index, if it's in the menu, just the focused one
+				// I copied this code from _moveSelection() and _moveFocus()
+				// respectively --thg2k
+				var selectedIndex = (eventType !== 'focus' ?
+					this._selectedOptionLiMultiselect(settings).data('index') :
+					this._focusedOptionLiMultiselect(settings).data('index')) || 0;
+
+				
+				var multiselectSettings = $("#"+settings.id).data("multiselect");
+				
+				for (var i = 0; i < multiselectSettings.inputs.length; i++) {
+					var thisText =multiselectSettings.inputs.eq(i).next("span").text().substr(0, matchee.length).toLowerCase();
+
+					if ( thisText === matchee ) {
+						if ( self._typeAhead_cycling ) {
+							if ( nextIndex === null )
+								nextIndex = i;
+
+							if ( i > selectedIndex ) {
+								nextIndex = i;
+								break;
+							}
+						} else {
+							nextIndex = i;
+						}
+					}
+				}
+
+				if ( nextIndex !== null ) {
+					// Why using trigger() instead of a direct method to select the
+					// index? Because we don't what is the exact action to do, it
+					// depends if the user is typing on the element or on the popped
+					// up menu
+					multiselectSettings.inputs.eq(i).parent().trigger('mouseover');
+					multiselectSettings.inputs.eq(i).trigger( eventType );
+//					jQuery.each(multiselectSettings.inputs, function(index, elem){
+//					    if($(elem).parent().has(".ui-state-hover") && index!==i){
+//					    	$(elem).parent().removeClass("ui-state-hover");
+//					    }
+//					});
+//					multiselectSettings.inputs.eq(i).parent().addClass("ui-state-hover");
+//					multiselectSettings.inputs.eq(i).parent().focus();
+					
+				}
+
+				self._typeAhead_timer = window.setTimeout(function() {
+					self._typeAhead_timer = undefined;
+					self._typeAhead_chars = undefined;
+					self._typeAhead_cycling = undefined;
+				}, settings.typeAhead);
+			},
 			_init : function(args){
 				if (args.length > 1) {
 					$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base,"rup_global.initError") + $(this).attr("id"));
@@ -1097,7 +1221,8 @@
 		multiOptgroupIconText:true,
 		submitAsString: false,
 		submitAsJSON: false,
-		rowStriping : false
+		rowStriping : false,
+		typeAhead:1000
 	};	
 	
 	

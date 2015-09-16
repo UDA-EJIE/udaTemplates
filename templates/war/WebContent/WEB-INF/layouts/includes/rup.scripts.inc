@@ -1,12 +1,27 @@
+<%--  
+ -- Copyright 2014 E.J.I.E., S.A.
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ -- 
+ -- http://ec.europa.eu/idabc/eupl.html
+ -- 
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia. 
+ --%>
+ 
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <!-- jQuery 1.8.0-->
 <script src="${staticsUrl}/rup/scripts/core/jquery-1.8.0.js" type="text/javascript"></script>
 
 <!-- RUP-CORE -->
-<script src="${staticsUrl}/rup/scripts/rup.utils-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.base-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.compatibility-2.4.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.utils-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.base-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.compatibility-2.4.2.js" type="text/javascript"></script>
 
 <!-- jQuery UI 1.8.23-->
 <script src="${staticsUrl}/rup/scripts/core/ui/jquery-ui-1.8.23.custom.js" type="text/javascript"></script>
@@ -41,46 +56,46 @@
 <script src="${staticsUrl}/rup/scripts/core/utils/jquery.contextMenu.js" type="text/javascript"></script>
 
 <!-- Patrones RUP -->
-<script src="${staticsUrl}/rup/scripts/rup.accordion-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.autocomplete-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.breadCrumb-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.combo-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.contextMenu-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.date-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.dav-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.dialog-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.feedback-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.form-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.grid-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.grid.jerarquia-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.lang-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.maint-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.menu-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.message-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.report-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.core-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.contextMenu-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.filter-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.search-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.toolbar-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.feedback-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.fluid-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.formEdit-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.inlineEdit-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.multiselection-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.jerarquia-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.masterDetail-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.report-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.tabs-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.time-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.toolbar-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.tooltip-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.upload-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.validate-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.wizard-2.4.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.tree-2.4.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.accordion-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.autocomplete-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.breadCrumb-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.combo-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.contextMenu-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.date-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.dav-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.dialog-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.feedback-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.form-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.grid-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.grid.jerarquia-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.lang-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.maint-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.menu-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.message-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.report-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.core-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.contextMenu-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.filter-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.search-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.toolbar-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.feedback-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.fluid-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.formEdit-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.inlineEdit-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.multiselection-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.jerarquia-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.masterDetail-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup_table/rup.table.report-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.tabs-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.time-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.toolbar-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.tooltip-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.upload-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.validate-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.wizard-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.tree-2.4.2.js" type="text/javascript"></script>
 
-<!-- Ajustes de compatibilidad de menÃº -->
+<!-- Ajustes de compatibilidad de menú -->
 <script src="${staticsUrl}/rup/scripts/core/jquery-1.7.2.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/core/ui/menu/jquery.ui.core.menu.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/core/ui/menu/jquery.ui.widget.menu.js" type="text/javascript"></script>

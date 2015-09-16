@@ -69,6 +69,19 @@
 				return settings.multiselection.numSelected === 1;
 			};
 			
+			settings.getActiveLineId = function (){
+				var $self = this, settings = $self.data("settings"),
+				npos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])();
+				
+				return jQuery.inArray(settings.multiselection.rowForEditing, npos[1]);
+			};
+			
+			settings.getActiveRowId = function (){
+				var $self = this, settings = $self.data("settings");
+				
+				return settings.multiselection.rowForEditing;
+			};
+			
 			settings.getSelectedRows = function (){
 				var $self = this, settings = $self.data("settings");
 				
@@ -111,8 +124,52 @@
 					}
 					
 					$self.data("tmp.lastSearch", getLastSearchStr(postData));
+				},
+				"rupTable_setSelection.multiselection": function(events, selectedRows, status, reorderSelection){
+					var page = parseInt($self.rup_table("getGridParam", "page"),10);
+					
+					if (jQuery.isArray(selectedRows)){
+						for (var i=0;i<selectedRows.length;i++){
+							$self._processSelectedRow(settings, selectedRows[i], status);
+						}
+					}else{
+						$self._processSelectedRow(settings, selectedRows, status);
+					}
+					
+					// En caso de que se solicite la reordenación de los identificadores seleccionados
+					if (reorderSelection===true){
+						$self.on("rupTable_serializeGridData.multiselection.reorderSelection", function(events, postData){
+							$self.off("rupTable_serializeGridData.multiselection.reorderSelection");
+						    
+							jQuery.extend(true, postData, {"multiselection": $self.rup_table("getSelectedIds")});
+						});
+					}
+					
+					$self.triggerHandler("rupTable_multiselectionUpdated");
+					
+					$self.triggerHandler("jqGridSelectRow.rupTable.multiselection", [selectedRows,status]);
+					
+//					if ($self._hasPageSelectedElements(page)){
+//						$self.rup_table("highlightFirstEditableRow");
+//					}
+					return false;
 				}
+//				,
+//				"rupTable_searchNavigation_deselect.multiselection" : function(events, rowId){
+//					var page = parseInt($self.rup_table("getGridParam", "page"),10);
+//
+//					if (settings.multiselection.selectedAll===true){
+//						if (jQuery.inArray(rowId, settings.multiselection.deselectedRowsPerPage[page]===-1)){
+//							return false;
+//						}
+//					}else{
+//						if (jQuery.inArray(rowId, settings.multiselection.selectedRowsPerPage[page]!==-1)){
+//							return false;
+//						}
+//					}
+//				}
 			});
+			
 		},
 		postConfigureMultiselection: function(settings){
 			var $self = this;
@@ -398,12 +455,40 @@
 				 *  obj: Objeto interno del jqGrid.
 				 */
 				"jqGridSelectRow.rupTable.multiselection": function(event, id, status, obj){
-					var page, firstSelectedId, firstSelectedLine;
+					var page, firstSelectedId, firstSelectedLine, activeLineId, selectedLineId, toLine, fromLine, idsArr;
 					if (obj!==false){
 						if (obj!==undefined && jQuery(obj.target).hasClass("treeclick")){ return false;}
-						if(settings.multiboxonly === true && obj !== undefined && !(obj.originalEvent !== undefined && jQuery(obj.originalEvent.target).is(":checkbox") && jQuery(obj.originalEvent.target).attr("id").indexOf("jqg_")!==-1)){
+						
+						if(jQuery.rup.isCtrlPressed()===true || jQuery.rup.isShiftPressed()===true){
+							window.getSelection().removeAllRanges();
+						}
+						
+						if(!(jQuery.rup.isCtrlPressed() || jQuery.rup.isShiftPressed()) && (settings.multiboxonly === true && obj !== undefined && !(obj.originalEvent !== undefined && jQuery(obj.originalEvent.target).is(":checkbox") && jQuery(obj.originalEvent.target).attr("id").indexOf("jqg_")!==-1))){
 							$self.rup_table("deselectRemainingRows");
 						}
+						
+						// Shift presed
+						
+						if(jQuery.rup.isShiftPressed()===true){
+							selectedLineId = $self.jqGrid("getInd",id, false);
+							activeLineId = $self.rup_table("getActiveLineId");
+							if (activeLineId<selectedLineId){
+								toLine = selectedLineId-1;
+								fromLine = activeLineId+1;
+							}else{
+								toLine = activeLineId;
+								fromLine = selectedLineId;
+							}
+							
+							idsArr = $self.jqGrid("getDataIDs");
+							
+							for (var i=fromLine;i<toLine;i++){
+								$self._processSelectedRow(settings, idsArr[i], status);
+								$self.rup_table("highlightRowAsSelected", jQuery($self.jqGrid("getInd",idsArr[i], true)));  
+							}
+							
+						}
+						
 						// Se gestiona la selección o deselección del registro indicado
 						$self._processSelectedRow(settings, id, status);
 						// Actualización del número de registros seleccionados
@@ -435,6 +520,15 @@
 					 $self.rup_table("clearHighlightedEditableRows");
 					 $self.rup_table("highlightEditableRow", $self.jqGrid("getInd",rowid, true));
 				 },
+				 "jqGridGridComplete.rup_table.multiselection": function(event){
+					var $self = $(this), settings = $self.data("settings");
+					
+					if ($self.rup_grid("getGridParam","records")===0){
+						jQuery(jQuery("#cb_"+$self.attr("id"),settings.core.$tableDiv)[0]).attr("disabled", "disabled");
+					}else{
+						jQuery(jQuery("#cb_"+$self.attr("id"),settings.core.$tableDiv)[0]).removeAttr("disabled");
+					}
+				},
 				/*
 				 * Capturador del evento jqGridLoadComplete. 
 				 * Se ejecuta una vez se haya completado la carga de la tabla.
@@ -562,16 +656,23 @@
 				 */
 				"jqGridSelectAll.rupTable.multiselection": function(event, selectedRows, status){
 					var page = $self.rup_table("getGridParam", "page"),
-					selectMsg, deselectMsg, elementosRestantes, selectRestMsg, remainingSelectButton, remainingDeselectButton;
+					selectMsg, deselectMsg, elementosRestantes, selectRestMsg, remainingSelectButton, remainingDeselectButton, cont;
+					
+					// Se oculta el posible mensaje de feedback que se muestre
+					$self.triggerHandler("rupTable_internalFeedbackClose");
 					
 					// Se gestiona la selección de todos los registros de la página
+					cont=0;
 					for (var i=0;i<selectedRows.length;i++){
-						$self._processSelectedRow(settings, selectedRows[i], status);
+						if (selectedRows[i].indexOf(settings.id+"ghead_") === -1){
+							$self._processSelectedRow(settings, selectedRows[i], status);
+							cont++;
+						}
 					}
 					
 					
-					selectMsg = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_grid.selectMsg", "<b>" + selectedRows.length + "</b>", "<b>" + page + "</b>");
-					deselectMsg = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_grid.deselectMsg", "<b>" + selectedRows.length + "</b>", "<b>" + page + "</b>");
+					selectMsg = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_grid.selectMsg", "<b>" + cont + "</b>", "<b>" + page + "</b>");
+					deselectMsg = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_grid.deselectMsg", "<b>" + cont + "</b>", "<b>" + page + "</b>");
 					
 					// Se comprueba el valor de status para determinar si se está seleccionando (true) o deseleccionando (false) todos los registos de la página
 					if (status){
@@ -599,6 +700,9 @@
 							selectRestMsg = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_table.deselectRestMsg", settings.multiselection.numSelected);
 							remainingDeselectButton = jQuery.rup.i18nTemplate(jQuery.rup.i18n.base,"rup_table.templates.multiselection.deselectRemainingRecords", $self[0].id, selectRestMsg, jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_grid.deSelectAll"));
 							$self.rup_table("showFeedback", settings.$internalFeedback,  deselectMsg + remainingDeselectButton, "alert");
+						} else {
+							// Si no hay elementos restantes por deseleccionar se muestra solo un mensaje informativo
+							$self.rup_table("showFeedback", settings.$internalFeedback,  deselectMsg, "alert");
 						}
 						
 						// Se asocia el handler al evento click del botón de deseleccionar el resto de registros
@@ -623,6 +727,9 @@
 					rows,
 					selectedRows = settings.multiselection.selectedRowsPerPage[page],
 					deselectedRows = settings.multiselection.deselectedRowsPerPage[page] || [];
+					
+					// Se oculta el posible mensaje de feedback que se muestre
+					$self.triggerHandler("rupTable_internalFeedbackClose");
 					
 					/*
 					 * Gestión de la persistencia de la multiselección entre páginas.
@@ -696,9 +803,30 @@
 				}
 			});
 			
+			if (settings.multiboxonly===true){
+				settings.multiselection.multiboxonly = true;
+			}
+			
+			// Control del uso de Ctrl y Shift
+			jQuery("body").on({
+				"rup_ctrlKeyDown rup_shiftKeyDown": function(){
+					if (settings.multiselection.multiboxonly === true){
+						$self[0].p.multiboxonly = false;
+					}
+					return false;
+				},
+				"rup_ctrlKeyUp rup_shiftKeyUp": function(){
+					if (settings.multiselection.multiboxonly === true){
+						$self[0].p.multiboxonly = true;
+					}
+					return false;
+				}
+			});
+			
 			/**
 			 * MENUS CONTEXTUALES
 			 */
+			jQuery.contextMenu('destroy', "[id='"+settings.id+"_cb']");
 			jQuery("[id='"+settings.id+"_cb']").rup_contextMenu({
 				trigger: "none",
 	        	callback: settings.multiselection.headerContextMenu.callback,
@@ -709,6 +837,7 @@
 	        	}
 		    });
 			if (settings.multiselection.rowContextMenu_enabled){
+				jQuery.contextMenu('destroy', "td[aria-describedby='"+settings.id+"_cb']");
 				jQuery("td[aria-describedby='"+settings.id+"_cb']").rup_contextMenu({
 					trigger: "none",
 					callback: settings.multiselection.rowContextMenu.callback,
@@ -752,28 +881,28 @@
 			
 			return multiselectionObj;
 		},
-		setSelection: function(selectedRows, status, reorderSelection){
-			var $self = this, settings = $self.data("settings");
-			
-			if (jQuery.isArray(selectedRows)){
-				for (var i=0;i<selectedRows.length;i++){
-					$self._processSelectedRow(settings, selectedRows[i], status);
-				}
-			}else{
-				$self._processSelectedRow(settings, selectedRows, status);
-			}
-			
-			// En caso de que se solicite la reordenación de los identificadores seleccionados
-			if (reorderSelection===true){
-				$self.on("rupTable_serializeGridData.multiselection.reorderSelection", function(events, postData){
-					$self.off("rupTable_serializeGridData.multiselection.reorderSelection");
-				    
-					jQuery.extend(true, postData, {"multiselection": $self.rup_table("getSelectedIds")});
-				});
-			}
-			
-			$self.triggerHandler("rupTable_multiselectionUpdated");
-		},
+//		setSelection: function(selectedRows, status, reorderSelection){
+//			var $self = this, settings = $self.data("settings");
+//			
+//			if (jQuery.isArray(selectedRows)){
+//				for (var i=0;i<selectedRows.length;i++){
+//					$self._processSelectedRow(settings, selectedRows[i], status);
+//				}
+//			}else{
+//				$self._processSelectedRow(settings, selectedRows, status);
+//			}
+//			
+//			// En caso de que se solicite la reordenación de los identificadores seleccionados
+//			if (reorderSelection===true){
+//				$self.on("rupTable_serializeGridData.multiselection.reorderSelection", function(events, postData){
+//					$self.off("rupTable_serializeGridData.multiselection.reorderSelection");
+//				    
+//					jQuery.extend(true, postData, {"multiselection": $self.rup_table("getSelectedIds")});
+//				});
+//			}
+//			
+//			$self.triggerHandler("rupTable_multiselectionUpdated");
+//		},
 		clearHighlightedEditableRows: function(){
 			var $self = this, settings = $self.data("settings");
 			$self.find("td[aria-describedby='"+settings.id+"_rupInfoCol'] span.ui-icon.ui-icon-pencil").removeClass("ui-icon-pencil");
@@ -1281,7 +1410,8 @@
 					if (jQuery.inArray(rowId, settings.multiselection.selectedIds)===-1){
 						settings.multiselection.selectedIds.push(rowId);
 						settings.multiselection.selectedRows.push({id:rowId, page:page});
-						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.selectedLinesPerPage[page], $self.jqGrid("getInd",rowId));
+//						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.selectedLinesPerPage[page], $self.jqGrid("getInd",rowId));
+						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.selectedLinesPerPage[page], $self._getLineIndex(rowId));
 						settings.multiselection.selectedRowsPerPage[page].splice(lineIndex,0,rowId);
 						if (settings.multiselection.selectedRowsPerPage[page].length>0
 								&& jQuery.inArray(pageInt, settings.multiselection.selectedPages)===-1){
@@ -1302,7 +1432,8 @@
 					if (jQuery.inArray(rowId, settings.multiselection.deselectedIds)===-1){
 						settings.multiselection.deselectedIds.push(rowId);
 						settings.multiselection.deselectedRows.push({id:rowId, page:page});
-						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.deselectedLinesPerPage[page], $self.jqGrid("getInd",rowId));
+//						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.deselectedLinesPerPage[page], $self.jqGrid("getInd",rowId));
+						lineIndex = jQuery.rup_utils.insertSorted(settings.multiselection.deselectedLinesPerPage[page], $self._getLineIndex(rowId));
 						settings.multiselection.deselectedRowsPerPage[page].splice(lineIndex,0,rowId);
 						if (settings.multiselection.deselectedRowsPerPage[page].length>0
 								&& jQuery.inArray(pageInt, settings.multiselection.deselectedPages)===-1){

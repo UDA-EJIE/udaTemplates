@@ -128,7 +128,7 @@
 			
 			//Se comprueba si hay nuevos botones definidos y se ejecuta la función addButton con la parametrizacion de los nuevos botones
 			if (toolbarSettings.buttons !== undefined && toolbarSettings.buttons !== null){
-				$.each(toolbarSettings.buttons, function (index, object){
+				jQuery.each(toolbarSettings.buttons, function (index, object){
 					if (object.json_i18n === undefined){
 						object.json_i18n = {};
 					}
@@ -150,7 +150,7 @@
 			 * EVENTOS
 			 */
 			$self.on({
-				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow": function(event, id, status, obj){
+				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow rupTable_toolbarButtonsStateRefresh": function(event, id, status, obj){
 					var $self = jQuery(this), settings = $self.data("settings");
 					// Existe elementos seleccionados para ser editados
 							
@@ -164,9 +164,11 @@
 						}
 					}
 					
-					jQuery.each(settings.toolbar.defaultButtons, function(buttonId, value){
-						if (value===true){
-							operationCfg = settings.core.operations[buttonId];
+					jQuery.each(settings.core.operations, function(buttonId, operationCfg){
+						
+//						if (value===true){
+						if (settings.toolbar.showOperations[buttonId]===true){
+//							operationCfg = settings.core.operations[buttonId];
 							if (operationCfg!==undefined){
 								processButton(settings.toolbar["btn"+buttonId.capitalize()], jQuery.proxy(operationCfg.enabled, $self)());
 							}
@@ -179,8 +181,14 @@
 //					processButton(settings.toolbar.btnCancel, jQuery.proxy(settings.isOnCancel, $self)());
 //					processButton(settings.toolbar.btnSave, jQuery.proxy(settings.isOnSave, $self)());
 //					processButton(settings.toolbar.btnClone, jQuery.proxy(settings.isOnClone, $self)());
+				},
+				"rupTable_internalFeedbackClose": function(){
+					var $self = jQuery(this), settings = $self.data("settings");
+//					console.log("rupTable_internalFeedbackClose");
+					settings.$internalFeedback.rup_feedback("close");
 				}
 			});
+			
 		}
 	});
 	

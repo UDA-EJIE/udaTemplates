@@ -733,7 +733,7 @@
         	},
         	"search":{
         		"searchCriteria":"Bilaketa irizpideak",
-        		"matchedRecords":"{0} elementu aurikitu dira",
+        		"matchedRecords":"{0} elementu aurkitu dira",
         		"matchedRecordsCount":"{1}-tik {0} erakusten"
         	},
         	"multiselection":{

@@ -160,7 +160,7 @@
                                     if(!($("#qtip-overlay").size() === 0)){
                                     	$("div.r01gContainer").append($("#qtip-overlay"));
                                     }
-                                    api.set('position.my.x', api.get('position.my.x'));
+                                   // api.set('position.my.x', api.get('position.my.x'));
 								}
 							};
 							

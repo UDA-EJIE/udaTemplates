@@ -2188,7 +2188,7 @@ $.fn.jqGrid = function( pin ) {
 			ts.p.scroll = false;
 			ts.p.rownumbers = false;
 			//ts.p.subGrid = false; expiremental
-			ts.p.treeGrid = false;
+//			ts.p.treeGrid = false;
 			ts.p.gridview = true;
 		}
 		if(this.p.treeGrid === true) {
@@ -10463,6 +10463,7 @@ $.jgrid.extend({
 				//else {
 					//row.parent_id = rd[$t.p.treeReader.parent_id_field];
 				//}
+				if (ldat===undefined){i++,len++;continue;}
 				curLevel = parseInt(ldat[level],10);
 				if($t.p.tree_root_level === 0) {
 					ident = curLevel+1;

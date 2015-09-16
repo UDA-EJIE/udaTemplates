@@ -145,6 +145,9 @@
 			// Se almacena el identificador del objeto en la propiedad settings.id
 			settings.id=$self.attr("id");
 			
+			// Se da valor a la propiedad ruptype
+			$self.attr("ruptype","table");
+			
 			settings.core.tableDiv = settings.id + "_div";
 			settings.core.$tableDiv = jQuery("#"+settings.core.tableDiv);
 			
@@ -170,7 +173,7 @@
 			
 			if (settings.loadOnStartUp===false){
 				$self.data("tmp.loadOnStartUp.datatype", settings.datatype);
-				settings.datatype = "clientSide"; 
+				settings.datatype = "clientSide";
 			}
 			
 			// Configuración del colModel para los campos sobre los que se debe de configurar un componente RUP
@@ -276,7 +279,13 @@
 			
 			// Sobreescritura del método serialize grid data
 			settings.serializeGridData = function(postData){
-				var newPostData;
+				var newPostData,
+				pageNum = parseInt(postData.page),
+				lastpage = parseInt($self.rup_grid("getGridParam","lastpage"));
+				
+				if (lastpage!==0 && pageNum>lastpage){
+					postData.page = lastpage;
+				}
 				
 				jQuery.extend(true, postData,{core:{
 					"pkToken":settings.multiplePkToken,
@@ -310,6 +319,43 @@
 				return true;
 			};
 			
+			// Gestión de errores por defecto
+//			if (!jQuery.isFunction(settings.loadError)){
+//				settings.userDefined
+//				settings.loadError = function(xhr,st,err){
+//					jQuery.rup_messages("msgError", {
+//						title: settings.core.defaultLoadErrorTitle,
+//						message: xhr.responseText
+//					});
+//				};
+//			}
+			
+			var userLoadError = settings.loadError;
+			settings.loadError = function(xhr,st,err){
+				var $self = $(this), ret;
+				
+				ret = $self.triggerHandler("rupTable_loadError", xhr,st,err);
+				
+				if (ret!==false){
+					jQuery.proxy(userLoadError, $self)(xhr,st,err);
+				}
+			};
+			
+			settings.getActiveLineId = function (){
+				var $self = this,
+				rowsInGrid = $self.jqGrid("getDataIDs"),
+				selrow = $self.jqGrid('getGridParam','selrow');
+				
+				return $.inArray(selrow,rowsInGrid);
+				
+			};
+			
+			settings.getActiveRowId = function (){
+				var $self = this;
+				
+				return $self.rup_table("getGridParam", "selrow");
+			};
+			
 			settings.getSelectedRows = function (){
 				var $self = this, selrow = $self.rup_table("getGridParam", "selrow");
 				return selrow===null ? [] : [selrow];
@@ -336,15 +382,46 @@
 				},
 				"jqGridLoadComplete.rup_table.tooltip": function(event, data){
 					var $self = $(this);
-					
-					// Redimensionado del campo de número de página en base al número de página máximo
-					jQuery(".pagControls input.ui-pg-input",settings.$pager).attr({
-						size:data.total.length,
-						maxlength:data.total.length
-					});
+					if (data!==undefined){
+						// Redimensionado del campo de número de página en base al número de página máximo
+						jQuery(".pagControls input.ui-pg-input",settings.$pager).attr({
+							size:data.total.length,
+							maxlength:data.total.length
+						});
+					}
 				},
-				"jqGridGridComplete.rup_table.tooltip": function(){
+				"jqGridGridComplete.rup_table.core": function(event){
 					var $self = $(this), $tbody;
+					
+					if ($self.rup_grid("getGridParam","records")===0){
+						// No se han encontrado registros
+						
+						$self.prev().remove(); //Borrar div vacío
+						$($self.jqGrid("getGridParam", "pager")).hide();
+						var content = '<tr class="ui-widget-content jqgrow ui-row-ltr" role="row" id="' + $self[0].id + '_noRecords" aria-selected="false">';
+						content += '<td aria-describedby="' + $self[0].id + '_NO_REGISTROS" title="' + $.rup.i18nParse($.rup.i18n.base,"rup_grid.noRecordsFound") + '" style="border:0;padding-left: 0.5em ! important;text-align: left;width:' + $("#gview_"+$self.attr("id")).width() + 'px;background:white;" role="gridcell">';
+							//content += 	'<div id="RUP_GRID_' + self[0].id + '_noRecord_ext" class="cellLayout" style="padding-left: 0.5em ! important;">' + $.rup.i18nParse($.rup.i18n.base,"rup_grid.noRecordsFound");
+							//content += '</div></td></tr>'; 
+							content += 	$.rup.i18nParse($.rup.i18n.base,"rup_grid.noRecordsFound");
+							content += '</td></tr>';
+						$self.before(content);
+						$('[aria-describedby="' + $self[0].id + '_NO_REGISTROS"]').rup_tooltip({
+							position: {
+								my: 'center',
+								at: 'center'
+						}});
+						
+					}else{
+						
+						jQuery("#" + $self[0].id + "_noRecords").remove(); //si tenemos la capa de no hay registros la borramos
+						jQuery($self.jqGrid("getGridParam", "pager")).show();
+						
+					}
+				},
+				"jqGridGridComplete.rup_table.tooltip": function(event){
+					var $self = $(this), $tbody;
+					
+					// Se han encontrado registros
 					// Tooltips de la tabla
 //					jQuery("[title]", $self).rup_tooltip({show:{delay:settings.tooltipDelay}});
 					//Se le aplica el tooltip de uda
@@ -532,6 +609,15 @@
 			$(this).jqGrid("setGridParam", newParams);
 			return $(this);
 		},
+		setSelection : function (selection, status, e){
+			var $self = this, settings = $self.data("settings"), ret;
+			
+			ret = $self.triggerHandler("rupTable_setSelection", arguments);
+			
+			if (ret!==false){
+				$self.jqGrid("setSelection", selection, status, e);
+			}
+		},
 		/*
 		 * Función encargada de mostrar los errores producidos en la gestión de los datos del mantenimiento.
 		 */
@@ -651,7 +737,17 @@
 				
 				// Pager center
 				jQuery(".pager_center table td",settings.$pager).addClass('pagControls');
-	
+
+				// Evento de control de página máxima
+				jQuery(".pagControls input.ui-pg-input", $pagerCenter).on("change", function(){
+					var pageNum = parseInt($(this).val()),
+					totalNum = parseInt($self.rup_grid("getGridParam","lastpage"));
+					
+					if (isNaN(pageNum)===false && pageNum>totalNum){
+						$(this).val(totalNum);
+					}
+				});
+				
 				// Tooltip al combo de selección de número de registros
 				jQuery(".pagControls select.ui-pg-selbox", $pagerCenter).attr("title",jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_grid.pager.select")).rup_tooltip();
 				// Tooltip al input de selección de página
@@ -761,6 +857,24 @@
 				// Se almacenan los settings medainte el data para ser accesibles en las invocaciones a los métodos públicos.
 				$self.data("settings",settings);
 			}
+		},
+		_getLineIndex: function(rowId){
+			var $self = this, settings = $self.data("settings"),
+				tableghead = settings.id+"ghead_", count=0, $row, id;
+			if ($self.rup_table("getGridParam","grouping")===true){
+				for (var i=0; i<$self[0].rows.length;i++){
+					$row = jQuery($self[0].rows[i]);
+					id = $row.attr("id");
+				    if (id !== undefined && id.indexOf(tableghead)===-1){
+				        count++;
+				        if (id===rowId){
+				         return count;
+				        }        
+				    }
+				}
+			}else{
+				return $self.jqGrid("getInd",rowId);
+			}
 		}
 	});
 	
@@ -800,6 +914,16 @@
 			
 			return $self;
 		},
+		getActiveRowId : function(){
+			var $self = this, settings = $self.data("settings");
+			
+			return jQuery.proxy(settings.getActiveRowId, $self)();
+		},
+		getActiveLineId : function(){
+			var $self = this, settings = $self.data("settings");
+			
+			return jQuery.proxy(settings.getActiveLineId, $self)();
+		},
 		setRowData : function (rowid, data, cssp) {
 			var $self = $(this);
 			
@@ -825,7 +949,7 @@
 //		},
 		clearGridData : function (clearfooter) {
 			var $self = $(this);
-			$self.jqGrid("clearGridData", clearfooter);
+			return $self.jqGrid("clearGridData", clearfooter);
 		},
 		getColModel : function () {// Función que devuelve el colModel directamente.
 			var $self = $(this);
@@ -840,6 +964,7 @@
 		}
 	});
 	
+	
 	//*******************************************************
 	// DEFINICIÓN DE LA CONFIGURACION POR DEFECTO DEL PATRON  
 	//*******************************************************
@@ -849,7 +974,8 @@
 		core:{
 			operations:{},
 			defaultOperations:{},
-			showOperations:{}
+			showOperations:{},
+			defaultLoadErrorTitle:$.rup.i18n.base.rup_ajax.errorTitle
 		}
 	};
 	
@@ -868,6 +994,14 @@
 			sortable: true,						// Determina si se puede realizar drag&drop con las columnas de la tabla (jqGrid)
 			viewrecords: true,					// Muestra el rango de elementos que se están mostrando en la tabla (jqGrid)
 			mtype: "POST",
+			loadError : function(xhr,st,err){
+				var $self = $(this), settings = $self.data("settings");
+				
+				jQuery.rup_messages("msgError", {
+					title: settings.core.defaultLoadErrorTitle,
+					message: xhr.responseText
+				});
+			},
 			loadOnStartUp: true,
 			// Callback ejecutado en las peticiones AJAX de la tabla
 			loadBeforeSend: function rup_table_defaults_loadBeforeSend(xhr, settings){

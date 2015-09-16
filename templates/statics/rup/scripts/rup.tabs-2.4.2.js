@@ -255,6 +255,21 @@
 					enable : settings.enable,
 					disable : settings.disable						      
 				}); 
+				
+				// Tabs at bottoms
+				if (settings.tabsAtBottom===true){
+					$(div).addClass("tabs-bottom");
+					$(div).find(".tabs-spacer").css("float", "left").css("height", "200px");
+					$(".ui-tabs-nav, .ui-tabs-nav > *",$(div))
+					.removeClass( "ui-corner-all ui-corner-top" )
+					.addClass( "ui-corner-bottom" );
+					
+					$(".ui-tabs-panel.ui-widget-content.ui-corner-bottom",$(div)).removeClass("ui-corner-bottom").addClass("ui-corner-top");
+					
+					// move the nav to the bottom
+					$(".ui-tabs-nav",$(div)).appendTo( ".tabs-bottom" );
+					
+				}
 			},
 			
 			//Funcion encargada de gestionar el objeto definido por el usuario (se parsea el JSon y se actua en consecuencia)
@@ -399,7 +414,8 @@
 		add : null,
 		remove : null,
 		enable : null,
-		disable : null
+		disable : null,
+		tabsAtBottom:false
 	};
 	
 

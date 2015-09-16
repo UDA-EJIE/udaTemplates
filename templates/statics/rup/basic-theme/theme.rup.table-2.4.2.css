@@ -398,3 +398,10 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search{
 	text-decoration: underline;
 }
 
+.ui-icon.rup-rss-icon-16 {
+	background: url("images/rup.rss.16.png") no-repeat !important;
+}
+
+.ui-icon.rup-rss-icon-24 {
+	background: url("images/rup.rss.24.png") no-repeat !important;
+}

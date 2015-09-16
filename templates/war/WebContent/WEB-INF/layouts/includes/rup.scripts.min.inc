@@ -1,5 +1,5 @@
 ﻿<%--  
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2014 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -14,6 +14,6 @@
  --%>
  
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<script src="${staticsUrl}/rup/scripts/min/rup.min-2.4.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/min/rup.min-2.4.2.js" type="text/javascript"></script>
 
 <script type="text/javascript"> widgetMenu = $.noConflict(true); </script> 

@@ -58,7 +58,7 @@
 		 * TODO: internacionalizar mensajes de error.
 		 */
 		preConfigureFeedback: function(settings){
-			var feedbackId, feedbackSettings = settings.feedback, $feedback;
+			var $self = this, feedbackId, feedbackSettings = settings.feedback, $feedback;
 			
 			/*
 			 * Inicialización de los identificadores por defecto de los componentes del toolbar  
@@ -73,6 +73,13 @@
 				settings.$feedback = $feedback;
 				settings.$feedback.rup_feedback(feedbackSettings.config).attr("ruptype","feedback");
 			}
+			
+			if (!jQuery.isFunction(settings.loadError)){
+				settings.loadError = function(xhr,st,err){
+					$self.rup_table("showFeedback", settings.$feedback, xhr.responseText, "error");
+				};
+			}
+			
 		},
 		/*
 		 * Método que define la postconfiguración necesaria para el correcto funcionamiento del componente.
@@ -122,6 +129,10 @@
 	 */
 	jQuery.fn.rup_table.plugins.feedback = {};
 	jQuery.fn.rup_table.plugins.feedback.defaults = {
+			loadError : function(xhr,st,err){
+				var $self = $(this), settings = $self.data("settings");
+				$self.rup_table("showFeedback", settings.$feedback, xhr.responseText, "error");
+			},
 			feedback:{
 				okFeedbackConfig:{
 					closeLink: true,

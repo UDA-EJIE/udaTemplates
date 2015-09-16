@@ -304,7 +304,7 @@
 								 */ 
 								switch(cellColModel.rupType){
 								case "combo":
-									editOptions = $.extend({menuWidth:$elem.width()}, editOptions, {width:"auto"});
+									editOptions = $.extend({menuWidth:$elem.width()}, editOptions, {width:"100%"});
 									break;
 								}
 								

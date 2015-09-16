@@ -181,7 +181,7 @@
         },
 
         _onProgress: function (e, data) {
-            if (e.originalEvent.lengthComputable) {
+            if (e.originalEvent !== undefined && e.originalEvent.lengthComputable) {
                 var total = data.total || this._getTotal(data.files),
                     loaded = parseInt(
                         e.originalEvent.loaded / e.originalEvent.total * (data.chunkSize || total),

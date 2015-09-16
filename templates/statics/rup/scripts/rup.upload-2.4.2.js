@@ -227,7 +227,29 @@
 	                    $(this).is(':checked')
 	                );
 	            });
+	    },
+	    _getAJAXSettings: function (data) {
+	        var options = $.extend({}, this.options, data);
+	        this._initFormSettings(options);
+	        this._initDataSettings(options);
+	        return options;
 	    }
+//	    ,_initProgressListener: function (options) {
+//            var that = this,
+//                xhr = options.xhr ? options.xhr() : $.ajaxSettings.xhr();
+//            // Accesss to the native XHR object is required to add event listeners
+//            // for the upload progress event:
+//                if (options.pif ===null && xhr.upload) {
+//    				//-- fix start --
+//    				$( xhr.upload ).bind( "progress", function (e) {
+//    				that._onProgress(e, options);
+//    				});
+//    				options.xhr = function () {
+//                        return xhr;
+//                    };
+//    				//-- fix end --
+//                }
+//        }
 //	    destroy: function (e, data) {
 //            var that = $(this).data('fileupload');
 //            if (data.url) {
@@ -285,6 +307,7 @@
 			$(this).fileupload("send",data);
 		}
 	});
+	
 	
 	//********************************
 	// DEFINICIÓN DE MÉTODOS PRIVADOS
@@ -363,6 +386,59 @@
 			_init : function(args){
 				
 				var settings = $.extend({}, $.fn.rup_upload.defaults, args[0]), upload=this;
+				
+				// Se configura el uso del PIF
+				if (settings.pif!==null){
+					var url="", 
+//						n38UidSesionCookie = $.rup_utils.readCookie("n38UidSesion"), 
+//						n38DominioUidCookie = $.rup_utils.readCookie("n38DominioUid"),
+//						n38UidSesionGlobal = $.rup_utils.readCookie("n38UidSesionGlobal"),
+//						n38UidSistemasXLNetS = $.rup_utils.readCookie("n38UidSistemasXLNetS"),
+						pifSettings = jQuery.extend(true, $.fn.rup_upload.pif.defaults, settings.pif );
+					
+//					if (pifSettings.base_url===undefined){
+//						alert("RUP_UPLOAD - No se ha especificado el valor del parámetro base_url para el uso del PIF.");
+//						return -1;
+//					}
+					if (pifSettings.userFolder!==true && pifSettings.folderPath===undefined){
+						alert("RUP_UPLOAD - No se ha especificado el valor del parámetro folderPath para el uso del PIF.");
+						return -1;
+					}
+					
+					
+					jQuery.extend(true, settings,{
+						formData:{
+							base_url: settings.url,
+							hadoop_folder_path: pifSettings.folderPath,
+							hadoop_preserve_name: pifSettings.preserveName,
+							y31_ttl: pifSettings.fileTtl,
+							securityToken: pifSettings.securityToken
+						}
+					}); 
+					
+					
+//					url += pifSettings.base_url;  // Url base del PIF
+//					url += pifSettings._JANO_PUT_SERVLET; // Servlet PUT
+//					url += "/"+n38UidSesionCookie; // Cookie XLNets n38UidSesionCookie
+//					url += "/"+n38DominioUidCookie; // Cookie XLNets n38DominioUidCookie
+//					url += "/"+n38UidSesionGlobal; // Cookie XLNets n38UidSesionGlobal
+//					url += "/"+n38UidSistemasXLNetS; // Cookie XLNets n38UidSistemasXLNetS
+					
+					// Se añaden los parámetros de configuración del PIF a la url
+					
+//					url +="?hadoop_folder_path="+pifSettings.folderPath; // Parámetro folderPath
+//					url +="&hadoop_preserve_name="+pifSettings.preserveName; // Parámetro preserveName
+//					url +="&y31_ttl="+pifSettings.fileTtl; // Parámetro fileTtl
+					
+					
+					// Configruamos la url final
+//					settings.url = url;
+					
+//					settings.xhr = function(){
+//						
+//					};
+				}
+				
 				$.data(this[0], "settings", settings);
 				
 				$(this).fileupload(settings);
@@ -398,8 +474,16 @@
 		label:null,
 		fileInput:null,
 		submitInForm:false,
-		submitFormButton:undefined
+		submitFormButton:undefined,
+		pif:null
 	};		
 	
+	$.fn.rup_upload.pif={};
+	$.fn.rup_upload.pif.defaults ={
+		fileTtl: 129600,
+		preserveName: false,
+		_JANO_PUT_SERVLET: "/y31ApiJSWAR/Y31JanoServicePutServlet",
+		securityToken:"app"
+	};
 
 })(jQuery);
