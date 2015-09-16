@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -20,7 +20,8 @@
 
 <html>
 <head>
-	<title>Uda</title>
+	<%@include file="/WEB-INF/includeTemplate.inc"%>
+	<title><spring:message code="app.title" /></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	
@@ -32,22 +33,22 @@
 <body>
 	<div class="contenedor">	
 		<!-- Cabecera -->
-			<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="header" />
 		
 		<!-- Idioma -->
 		<tiles:insertAttribute name="language" /><br/>
 		
 		<!-- Menu -->
-			<tiles:insertAttribute name="menu" />
+		<tiles:insertAttribute name="menu" />
 			
 		<!-- Migas de pan -->
 		<tiles:insertAttribute name="breadCrumb" /><br/>
 		
 		<!-- Contenidos -->
-			<tiles:insertAttribute name="content"/>
+		<tiles:insertAttribute name="content"/>
 		
 		<!-- Pie -->
-			<tiles:insertAttribute name="footer" />
+		<tiles:insertAttribute name="footer" />
 		
 		<!-- Includes JS -->
 		<tiles:insertAttribute name="base-includes" />

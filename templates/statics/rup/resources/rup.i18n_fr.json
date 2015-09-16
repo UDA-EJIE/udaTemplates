@@ -2,11 +2,13 @@
 	"rup_ajax":{
 		"errorTitle":"fr_Error",
 		"httpStatus0":"fr_No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+		"httpStatus401":"fr_No tiene permisos",
 		"httpStatus404":"fr_La url a la que intenta acceder no es válida",
 		"httpStatus500":"fr_Se ha producido un error interno",
 		"httpStatus503":"fr_El servicio solicitado no está disponible"
-	},"rup_maint": {
-		"detailTitle":"fr_Agregar Registro",
+	},
+	"rup_maint": {
+		"detailTitle":"fr_Detalle de Registro",
 		"deletedOK":"fr_El elemento se ha borrado correctamente.",
 		"insertOK":"fr_El elemento se ha añadido correctamente.",
 		"modifyOK":"fr_El elemento se ha modificado correctamente.",
@@ -32,24 +34,36 @@
 		"checkSelectedElems": "fr_Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"fr_Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
 		"selectAll": "fr_Ha seleccionado todos los registros de la página actual.",
-		"selected": "fr_Registros seleccionados.",
+		"selected": "fr_seleccionados",
 		"deleteAll": "fr_¿Está seguro que desea eliminar todos los registros seleccionados?",
 		"titleDelAll": "fr_Eliminar los registros",
 		"noReg":"fr_Seleccione un registro.",
 		"emptyChanges": "fr_No se han realizado cambios.",
 		"invalidRowId": "fr_El identificador de la fila no es válido. No se puede completar la acción",
-		"toolbarNewButtonError": "fr_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas."
+		"toolbarNewButtonError": "fr_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
+		"multiselectHeader": "fr_Seleccionar todos los elementos de la página"
     },
     "rup_breadCrumb" : {
+    	"disconnect" : "fr_Desconectar",
+    	"menuDisconnectTitle" : "fr_Desconexión de Usuario",
+    	"menuDisconnectMessage" : "fr_¿Está seguro de que desea desconectar su sesión de usuario actual?",
+    	"userAre" : " êtes ici:",
     	"youAre" : "Vous êtes ici:",
     	"start"  : "Accueil"
+    },"rup_feedback" : {
+    	"closingLiteral": "fr_Cierre del mensage"
     },
     "rup_language" : {
-    	"es" : "Espagnole",
-    	"eu":"Euskara",
-    	"en":"Anglais",
-		"fr":"Français",
-    	"changeLanguage": "Changement de langue"
+    	"es" : "Castellano",
+    	"eu" : "Euskara",
+    	"en" : "English",
+		"fr" : "Français",
+    	"changeLanguage": "Changement de langue",
+    	"closingLiteral": "fr_Cierre del menu ideomático",
+    	"changeLanguageLiteral_es": "Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_eu": "eu_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_en": "en_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_fr": "fr_Cambia el idioma de la aplicación a "
     }, 
     "rup_global": {
         "cerrar": "fr_cerrar",
@@ -62,7 +76,7 @@
         "aceptar": "fr_Aceptar",
         "save": "fr_Guardar",
         "close": "fr_Cerrar",
-		"save_repeat":"fr_Guardar y Repetir",
+		"save_repeat":"fr_Guardar y continuar",
 		"cancel":"fr_Cancelar",
 		"initError":"fr_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
 		"parameterError":"fr_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
@@ -72,7 +86,8 @@
     },
     "rup_menu": {
     	"developerError":"fr_Error de desarrollo",
-    	"structuralError":"fr_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)" 
+    	"structuralError":"fr_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)",
+    	"displayMenuError":"fr_El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores: &#34vertical&#34 o &#34horizontal&#34. " 
     },
     "rup_message": {
         "aceptar": "fr_Aceptar",
@@ -126,29 +141,42 @@
 		"paramsError" : "fr_Alguno de los parámetros especificados es 'null' o 'undefined'"
 	},
 	"rup_tabs":{
-		"serverError" : "Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
+		"serverError" : "fr_Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
     "rup_grid": {
+    	"summary" : {
+    		"cabecera" : "fr_Cabecera de la tabla",
+    		"datos" : "fr_Datos de la tabla",
+    		"paginador" : "fr_Elemento de paginación de la tabla",
+    		"paginador_navegar" :  "fr_Elemento de navegación de la paginación de la tabla"
+    	},
     	"selectedElems":"fr_Se han seleccionado los ",
     	"deSelectedElems":"fr_Se han deseleccionado los ",
     	"ofPage":" fr_elementos de la página.",
     	"selectAll": "fr_seleccionar los ",
     	"deSelectAll": "fr_deseleccionar los ",
     	"selectAllRest": "fr_restantes",
+    	"selectMsg": "fr_Se han seleccionado los {0} elementos de la página {1}.",
+    	"selectRestMsg": "fr_Seleccionar los {0} restantes",
+    	"deselectMsg": "fr_Se han deseleccionado los {0} elementos de la página {1}.",
+    	"deselectRestMsg": "fr_Deseleccionar los {0} restantes",
     	"clearSelection":"fr_deshacer selección",
 		"pager": {
-			"selected" : "fr_Elementos seleccionados",
+			"selected" : "fr_seleccionados",
 			"primPag" : "fr_Primera Página",
 			"siguiente" : "fr_Siguiente",
 			"anterior" : "fr_Anterior",
-			"ultiPag" : "fr_Última PÁgina"
+			"ultiPag" : "fr_Última Página",
+			"input" : "fr_Página actual",
+			"select" : "fr_Número de elementos por página"
 		},
         "noRecordsFound": "No hay registros.",
         "defaults": {
             "recordtext": "Mostrando {0} - {1} de {2}",
             "emptyrecords": "Sin registros que mostrar",
             "loadtext": "Cargando...",
-            "pgtext" : "Página {0} de {1}" 
+            "pgtext" : "Página {0} de {1}",
+            "detailForm_pager" : "Mostrando {0} de {1}" 
         },
         "search": {
             "caption": "Búsqueda...",
@@ -364,5 +392,49 @@
     "rup_accordion": {
     	"strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general._fr",
     	"headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general._fr"
+    },
+    "rup_wizard": {
+    	"prev": "Anterior_fr",
+    	"next": "Siguiente_fr",
+    	"summary" : "Resumen_fr"
+    },
+    "rup_form":{
+    },
+    "rup_validate":{
+    	"messages":{
+			"required": "Ce champ est requis.",
+			"remote": "Veuillez remplir ce champ pour continuer.",
+			"email": "Veuillez entrer une adresse email valide.",
+			"url": "Veuillez entrer une URL valide.",
+			"date": "Veuillez entrer une date valide.",
+			"dateISO": "Veuillez entrer une date valide (ISO).",
+			"number": "Veuillez entrer un nombre valide.",
+			"digits": "Veuillez entrer (seulement) une valeur numérique.",
+			"creditcard": "Veuillez entrer un numéro de carte de crédit valide.",
+			"equalTo": "Veuillez entrer une nouvelle fois la même valeur.",
+			"accept": "Veuillez entrer une valeur avec une extension valide.",
+			"maxlength": "Veuillez ne pas entrer plus de {0} caractères.",
+			"minlength": "Veuillez entrer au moins {0} caractères.",
+			"rangelength": "Veuillez entrer entre {0} et {1} caractères.",
+			"range": "Veuillez entrer une valeur entre {0} et {1}.",
+			"max": "Veuillez entrer une valeur inférieure ou égale à {0}.",
+			"min": "Veuillez entrer une valeur supérieure ou égale à {0}.",
+			"dni": "Veuillez entrer un carte d'identité valide.",
+			"maxWords": "Veuillez ne pas entrer plus de {0} mots.",
+			"minWords": "Veuillez entrer au moins {0} mots.",
+			"rangeWords": "Veuillez entrer entre {0} et {1} mots.",
+			"letterswithbasicpunc": "fr_Por favor, introduzca únicamente letras y signos de puntuación.",
+			"alphanumeric": "fr_Por favor, introduzca letras, números, espacios o guiones bajos.",
+			"lettersonly": "Veuillez entrer (seulement) lettres.",
+			"nowhitespace": "fr_Por favor, no introduzca espacios en blanco.",
+			"integer": "fr_Por favor, introduzca un número entero positivo o negativo.",
+			"pattern": "fr_El formato no es válido"
+		},
+		"format":{
+			"date":"dd/mm/yyyy"
+		},
+		"regexp":{
+			"decimal":"^-?(?:\\d+|\\d{1,3}(?:.\\d{3})+)(?:\\,\\d+)?$"
+		}
     }
 }

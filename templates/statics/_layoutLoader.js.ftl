@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,7 +14,7 @@
  -- que establece la Licencia.
  -->
 /*!
- * Copyright 2011 E.J.I.E., S.A.
+ * Copyright 2012 E.J.I.E., S.A.
  *
  * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -30,46 +30,24 @@
  */
 
 jQuery(document).ready(function(){
+	//logo
 	$("#rup_dept_logo").attr("src", $.rup.APP_STATICS + "/images/dept_logo_" + $.rup.lang + ".gif");
-	var vertical = false, mixto = false;
-	if ($.rup.LAYOUT === "vertical") {
-		vertical = true;
-	} else if ($.rup.LAYOUT === "mixto") {
-		mixto = true;
-	}
-	
+		
 	//rastro de migas
 	$("#${warName}_migas").rup_breadCrumb({
 		breadCrumb: {}	
 	});
+	
 	//idioma
-	$("#${warName}_language").rup_language({languages: [${languages}]});
+	$("#${warName}_language").rup_language({languages: $.rup.AVAILABLE_LANGS_ARRAY});
 	
+	//menu
 	$("#${warName}_menu").rup_menu({
-		display: (vertical ? 'vertical' : 'horizontal'),
-		menu: [
-				{"i18nCaption":"inicio", "url": "" },
-				{"i18nCaption":"menu1", "submenu":[
-				{"i18nCaption":"inicio", "url": "" },
-				{"i18nCaption":"menu11", "url" : "" },
-				{"i18nCaption":"menu12", "url" : "" },
-				{"i18nCaption":"menu13", "url" : "" }
-				]}
-		]
+		display: ($.rup.LAYOUT === "vertical" ? 'vertical' : 'horizontal')
 	});
-	
-	if (mixto) {
+	if ($.rup.LAYOUT === "mixto") {
 		$("#${warName}_menu_mixto").rup_menu({
-			display: 'vertical',
-			menu: [
-				{"i18nCaption":"inicio", "url": "" },
-				{"i18nCaption":"menu1", "submenu":[
-				{"i18nCaption":"inicio", "url": "" },
-				{"i18nCaption":"menu11", "url" : "" },
-				{"i18nCaption":"menu12", "url" : "" },
-				{"i18nCaption":"menu13", "url" : "" }
-				]}
-			]
+			display: 'vertical'
 		});
 	}
 });

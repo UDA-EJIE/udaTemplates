@@ -62,15 +62,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- Validates data transparently -->
-	<filter>
-		<filter-name>validationFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>validationFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 	<!-- Reads request input using UTF-8 encoding -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
@@ -101,15 +92,6 @@
 	<servlet-mapping>
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
 		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-	<!-- Handles data validation requests -->
-	<servlet>
-		<servlet-name>validationServlet</servlet-name>
-		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>validationServlet</servlet-name>
-		<url-pattern>/validate/*</url-pattern>
 	</servlet-mapping>
 	<!-- JSP encoding  -->
 	<jsp-config>

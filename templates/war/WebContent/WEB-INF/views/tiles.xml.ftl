@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -34,17 +34,43 @@
 		<put-attribute name="base-includes" value="/WEB-INF/layouts/base-includes.jsp" />
 		<put-attribute name="includes" value=""/>				
 	</definition>
-	<definition name="errorTemplate" template="/WEB-INF/layouts/errorTemplate.jsp"></definition>
+	
+	<definition name="templateLogin" template="/WEB-INF/layouts/templateLogin.jsp">	
+		<put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/>
+		<put-attribute name="language" value="/WEB-INF/layouts/language.jsp"/>
+		<put-attribute name="breadCrumb" value="/WEB-INF/layouts/breadCrumb.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/>
+		<put-attribute name="base-includes" value="/WEB-INF/layouts/base-includes.jsp"/>
+		<put-attribute name="includes" value=""/>				
+	</definition>
+	
+	<definition name="templateError" template="/WEB-INF/layouts/templateError.jsp">	
+		<put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/>
+		<put-attribute name="base-includes" value="/WEB-INF/layouts/base-includes.jsp"/>
+	</definition>
 	
 	<!-- ***************************** -->
   	<!--          PANTALLAS            -->
   	<!-- ***************************** -->
-	<definition name="error" extends="errorTemplate">
+	<definition name="welcome" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
+    </definition>	
+    
+    <definition name="mockLoginPage" extends="templateLogin">
+        <put-attribute name="content" value="/WEB-INF/views/mockLogin/mockLoginPage.jsp"/>
+        <put-attribute name="includes" value="/WEB-INF/views/mockLogin/mockLoginPage-includes.jsp"/>
+    </definition>
+   	<definition name="mockLoginAjaxPage" extends="templateLogin">
+        <put-attribute name="content" value="/WEB-INF/views/mockLogin/mockLoginAjaxPage.jsp"/>
+        <put-attribute name="includes" value="/WEB-INF/views/mockLogin/mockLoginAjaxPage-includes.jsp"/>
+    </definition>
+    
+    <definition name="error" extends="templateError" >
 		<put-attribute name="content" value="/WEB-INF/views/error.jsp"/>	
 	</definition>
-	<definition name="accessDenied" extends="errorTemplate">
+	<definition name="accessDenied" extends="templateError" >
 		<put-attribute name="content" value="/WEB-INF/views/accessDenied.jsp"/>
 	</definition>	
-	<definition name="welcome" template="/WEB-INF/views/welcome.jsp"/>
 
 </tiles-definitions>

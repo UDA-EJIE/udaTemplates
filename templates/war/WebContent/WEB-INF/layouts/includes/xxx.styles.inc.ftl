@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -17,3 +17,6 @@
 
 <!-- Aplicacion -->
 <link href="<#noparse>${staticsUrl}</#noparse>/${codapp}/styles/${codapp}.css" rel="stylesheet" type="text/css" />
+
+<!-- Icono -->
+<link rel="shortcut icon" href="<#noparse>${staticsUrl}</#noparse>/${codapp}/favicon.ico">

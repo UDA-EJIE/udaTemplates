@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -13,44 +13,126 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
+	<!-- Crea un bean por cada clase anotada con @Component -->
+	<context:component-scan base-package="com.ejie.${codapp}.control" />
 
-	<!-- Configures the @Controller programming model -->
-	<mvc:annotation-driven />
+	<!-- Mapeos directos -->
 	<mvc:view-controller path="/" view-name="welcome" />
-	<mvc:view-controller path="/error" view-name="error"/>
-	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
-	
-	<!-- Configures Handler Interceptors -->	
-	<mvc:interceptors>
-		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-	</mvc:interceptors>
+	<mvc:view-controller path="/error" view-name="error" />
+	<mvc:view-controller path="/accessDenied" view-name="accessDenied" />
+	<mvc:view-controller path="/mockLoginPage" view-name="mockLoginPage" />
+	<mvc:view-controller path="/mockLoginAjaxPage" view-name="mockLoginAjaxPage" />
 
-	<!-- Saves a locale change using a cookie -->
-	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" >
-		<property name="cookieName"><value>language</value></property>
+ 	<!-- Recursos idiomáticos (i18n) -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="parentMessageSource" ref="appMessageSource" />
+		<property name="basename" value="/WEB-INF/resources/${warNameShort}.i18n" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="useCodeAsDefaultMessage" value="true" />
+        <property name="fallbackToSystemLocale" value="false" />
 	</bean>
-	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
-		<property name="definitions">
+
+	<!-- Gestiona la locale (idioma) mediante cookie  -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieName" value="language" />
+    </bean>
+    
+    <!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
+    <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
+		<!-- <property name="paramName" value="locale" /> -->
+       	<property name="defaultLanguage" value="${defaultlanguage}" />
+       	<property name="defaultLayout" value="${layout}" />
+       	<property name="availableLangs" value="${languageswithoutquotes}" />
+		<!-- <property name="portalCookie" value="r01euskadiCookie" /> -->
+     </bean>
+
+	<!-- Declaración del interceptor (Gestión idomática) -->
+    <mvc:interceptors>
+         <ref bean="mvcInterceptor"/>
+    </mvc:interceptors>
+
+    <!-- Configurar Excepciones propagadas en los Controller -->
+	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
+<!-- 		<property name="handlers"> -->
+<!-- 			<list> -->
+<!-- 				<bean class="MyExceptionHandler" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+	</bean>
+	
+	<!-- Configurar Excepción de límite de subida de ficheros -->
+	<bean id="fileExceedsFileSizeLimitHandler" class="com.ejie.x38.control.exception.FileExceedsFileSizeLimitHandler" />
+	
+	<!-- Configurar Validaciones -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>
+    
+    <!-- Configuracion Converters -->
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
 			<list>
-				<value>/WEB-INF/views/tiles.xml</value>
+				<!-- Converter para el tratamiento de las fechas -->
+				<bean class="com.ejie.x38.converter.DateConverter" />
 			</list>
 		</property>
 	</bean>
-  	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+
+	<!-- Configurar MVC -->
+	    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	        <property name="order" value="1" />
+	    </bean>
+	    
+		<!-- Permite la subida de ficheros -->	
+		<bean id="multipartResolver" class="com.ejie.x38.util.UdaMultipartResolver" >
+			<property name="maxUploadSize" value="10000" />
+		</bean>
+		
+	    <!-- Bean encargado de las peticiones -->
+	    <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		    <property name="webBindingInitializer">
+		        <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+		            <property name="conversionService" ref="conversionService" />
+		        	<property name="validator" ref="validator" />
+		    	</bean>
+		    </property>
+	       	<property name="messageConverters">
+	            <list>
+	            	<ref bean="udaMappingJacksonHttpMessageConverter"/>
+	            </list>
+       		</property>
+		</bean>
+	<!-- FIN -->
+		
+	<!-- Gestión de la Vista (View) -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/views/tiles.xml</value>
+            </list>
+        </property>
     </bean>
-    
-	<!-- Web Module Message Bundle -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    	<property name="parentMessageSource" ref="appMessageSource" />
-        <property name="basename" value="/WEB-INF/resources/${warNameShort}.i18n" />
-		<property name="defaultEncoding" value="UTF-8"/>
-    </bean>
+	<bean id="viewResolver" class="com.ejie.x38.control.view.UdaViewResolver">
+        <property name="viewClass" value="com.ejie.x38.control.view.UdaTilesView"/>
+        <property name="exposedContextBeanNames">
+        	<list>
+        		<value>localeResolver</value>
+        		<value>mvcInterceptor</value>
+        	</list>
+        </property>
+    </bean> 
 </beans>

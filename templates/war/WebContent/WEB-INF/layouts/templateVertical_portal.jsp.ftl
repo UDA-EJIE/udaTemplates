@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -25,7 +25,8 @@
 
 	<!-- Modulo asociado a la cabecera de portal -->
 	<!-- El contenido de este modulo será el que se incluya en el fichero de la aplicación asociado a la carga de la cabecera del portal -->
-	<title>Uda</title>
+	<%@include file="/WEB-INF/includeTemplate.inc"%>
+	<title><spring:message code="app.title" /></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	

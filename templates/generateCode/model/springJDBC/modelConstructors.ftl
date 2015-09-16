@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,9 +14,9 @@
  -- que establece la Licencia.
  -->
 <#--  /** default constructor */ -->
-	/** Method '${pojo.getDeclarationName()}'.
-	*
-	*/
+	/** 
+	 * Method '${pojo.getDeclarationName()}'.
+	 */
     public ${pojo.getDeclarationName()}() {
     }
 <#--  /** Recoge las propiedades y la clave compuesta desglosada */ -->
@@ -68,12 +68,13 @@
     </#if>
     <#-- queremos que los manytoOne se muestren al final de los constructores, para asi poder manejarlos mejor en los daos  -->
     <#assign javadocFields= utilidades.getListFromCommaSeparatedString(propertiesFullColec + propertiesFullColecMany)>
-    /** Method '${pojo.getDeclarationName()}'.
+    /** 
+     * Method '${pojo.getDeclarationName()}'.
     <#foreach field in javadocFields>
-    * @param ${field[1]} ${field[0]}
+     * @param ${field[1]} ${field[0]}
     </#foreach>
-    */
-    public ${pojo.getDeclarationName()}(${propertiesFullColec} ${propertiesFullColecMany}) {	
+     */
+     public ${pojo.getDeclarationName()}(${propertiesFullColec} ${propertiesFullColecMany}) {	
     <#foreach field in pojo.getPropertiesForFullConstructor()> 
         <#if clazz.identifierProperty.composite && field.equals(clazz.identifierProperty)>
           <#assign primaryKeys = clazz.identifierProperty.value.getPropertyIterator()>
@@ -114,15 +115,14 @@
          <#assign propertiesFull = propertiesKeys>
       </#if>	
    <#assign javadocFields= utilidades.getListFromCommaSeparatedString(propertiesFull + propertiesFullColecMany + propertiesFullColecManyMany)>
-   /** Method '${pojo.getDeclarationName()}'.
+   /** 
+    * Method '${pojo.getDeclarationName()}'.
    <#foreach field in javadocFields>
    * @param ${field[1]} ${field[0]}
    </#foreach>
    */
    public ${pojo.getDeclarationName()}(${propertiesFull} ${propertiesFullColecMany} ${propertiesFullColecManyMany}) {
    <#else>
-<#-- para cambiar el Set que devuelve hibernate tenemos que que manipular cada dato a mano -->
-<#--	public ${pojo.getDeclarationName()}(${c2j.asParameterList(pojo.getPropertyClosureForFullConstructor(), jdk5, pojo)}) { -->
      <#assign propertiesFull=''>
      <#assign propertiesFullColecMany='' >
      <#assign propertiesFullManytoMany='' >
@@ -171,11 +171,12 @@
     </#if>
     <#assign parametros=parametros+propertiesFullManytoMany>
     <#assign javadocFields= utilidades.getListFromCommaSeparatedString(parametros)>
-    /** Method '${pojo.getDeclarationName()}'.
+    /** 
+     * Method '${pojo.getDeclarationName()}'.
    <#foreach field in javadocFields>
-    * @param ${field[1]} ${field[0]}
+     * @param ${field[1]} ${field[0]}
     </#foreach>
-    */
+     */
    public ${pojo.getDeclarationName()}(${parametros}) {	
    </#if>
    <#if pojo.isSubclass() && !pojo.getPropertyClosureForSuperclassFullConstructor().isEmpty()>

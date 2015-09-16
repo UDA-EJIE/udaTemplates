@@ -19,7 +19,8 @@ xlnets.path = http://xlnets.servicios.jakina.ejiedes.net/n38a/N38LoginInicioServ
 <#else>
 statics.path = /${codapp?lower_case}Statics
 </#if>
-xlnets.inPortal=FALSE #TRUE if it is portal embedded
+#TRUE if it is portal embedded
+xlnets.inPortal=FALSE 
 
 #Loggin parameters
 log.path=c:/datos/${codapp}/log
@@ -27,7 +28,3 @@ log.level.salidaEstandar=INFO
 log.level.udaTrazas=TRACE
 log.level.aplicTrazas=INFO
 log.level.auditoriaAccesos=INFO
-
-#${warName} config
-${warName}.default.language = ${defaultlanguage}
-${warName}.default.layout = ${layout}

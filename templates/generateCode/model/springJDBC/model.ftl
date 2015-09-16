@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -19,7 +19,7 @@ package ${pojo.getPackageName()}.model;
 <#include "modelTypeDeclaration.ftl"/> {
 
 <#if !pojo.isInterface()>
- <#include "modelFields.ftl"/>
+<#include "modelFields.ftl"/>
 
 <#include "modelConstructors.ftl"/>
 

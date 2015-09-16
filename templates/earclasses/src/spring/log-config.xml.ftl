@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,28 +14,26 @@
  -- que establece la Licencia.
  -->
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xsi:schemaLocation="
-            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 		
 	<!-- Se especifica la inicializacion de los log's mediante logback -->
 	<bean id="logSystemInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">  
 		<property name="staticMethod" value="com.ejie.x38.log.LogbackConfigurer.initLogging" />  
    		<property name="arguments">  
       		<list>  
-      			<!-- Se especifica la ubicaci�n del fichero de configuraci�n de logback (puede ser una ruta del classpath o absoluta) -->
+      			<!-- Se especifica la ubicación del fichero de configuración de logback (puede ser una ruta del classpath o absoluta) -->
         		<value>${codapp}/logback.xml</value>
-        		<!-- Se especifica si se desea que se pinte el estado de la configuraci�n de logback por la salida de log correspondiente -->
+        		<!-- Se especifica si se desea que se pinte el estado de la configuración de logback por la salida de log correspondiente -->
         		<value>true</value>
       		</list>  
    		</property>  
 	</bean>
 		
-	<!-- Se configuran los aspectos que gestionaran las trazas en las distintas capas de la aplicaci�n (services, dao,...) -->
+	<!-- Se configuran los aspectos que gestionaran las trazas en las distintas capas de la aplicación (services, dao,...) -->
 	<bean id="loggingManager" class="com.ejie.x38.log.LoggingManagerImpl" />
 	
 	<bean id="serviceLoggingAdvice" class="com.ejie.x38.log.ServiceLoggingAdviceImpl">

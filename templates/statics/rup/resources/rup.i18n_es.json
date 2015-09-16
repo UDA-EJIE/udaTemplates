@@ -2,12 +2,13 @@
 	"rup_ajax":{
 		"errorTitle":"Error",
 		"httpStatus0":"No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+		"httpStatus401":"No tiene permisos",
 		"httpStatus404":"La url a la que intenta acceder no es válida",
 		"httpStatus500":"Se ha producido un error interno",
 		"httpStatus503":"El servicio solicitado no está disponible"
 	},
 	"rup_maint": {
-		"detailTitle":"Modificar registro",
+		"detailTitle":"Detalle de registro",
 		"deletedOK":"El elemento se ha borrado correctamente.",
 		"insertOK":"El elemento se ha añadido correctamente.",
 		"modifyOK":"El elemento se ha modificado correctamente.",
@@ -33,24 +34,37 @@
 		"checkSelectedElems": "Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
 		"selectAll": "Ha seleccionado todos los registros de la página actual.",
-		"selected": "Registros seleccionados.",
+		"selected": "seleccionados",
 		"deleteAll": "¿Está seguro que desea eliminar todos los registros seleccionados?",
 		"titleDelAll": "Eliminar los registros",
 		"noReg":"Seleccione un registro.",
 		"emptyChanges": "No se han realizado cambios.",
 		"invalidRowId": "El identificador de la fila no es válido. No se puede completar la acción",
-		"toolbarNewButtonError": "Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas."
+		"toolbarNewButtonError": "Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
+		"multiselectHeader": "Seleccionar todos los elementos de la página"
     },
     "rup_breadCrumb" : {
+    	"disconnect" : "Desconectar",
+    	"menuDisconnectTitle" : "Desconexión de Usuario",
+    	"menuDisconnectMessage" : "¿Está seguro de que desea desconectar su sesión de usuario actual?",
+    	"userAre" : " está en:",
     	"youAre" : "Usted está en:",
     	"start"  : "Inicio"
     },
+    "rup_feedback" : {
+    	"closingLiteral": "Cierre del mensage"
+    },
     "rup_language" : {
     	"es" : "Castellano",
-    	"eu":"Euskara",
-    	"en":"Inglés",
-		"fr":"Francés",
-    	"changeLanguage": "Cambiar Idioma"
+    	"eu" : "Euskara",
+    	"en" : "English",
+		"fr" : "Français",
+    	"changeLanguage": "Cambiar Idioma",
+    	"closingLiteral": "Cierre del menu ideomático",
+    	"changeLanguageLiteral_es": "Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_eu": "eu_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_en": "en_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_fr": "fr_Cambia el idioma de la aplicación a "
     }, 
     "rup_global": {
         "cerrar": "cerrar",
@@ -63,7 +77,7 @@
         "aceptar": "Aceptar",
         "save": "Guardar",
         "close": "Cerrar",
-		"save_repeat":"Guardar y Repetir",
+		"save_repeat":"Guardar y continuar",
 		"cancel":"Cancelar",
 		"initError":"Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
 		"parameterError":"Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
@@ -73,7 +87,8 @@
     },
     "rup_menu": {
     	"developerError":"Error de desarrollo",
-    	"structuralError":"No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)" 
+    	"structuralError":"No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)",
+    	"displayMenuError":"El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores: &#34vertical&#34 o &#34horizontal&#34. "  
     },
     "rup_message": {
         "aceptar": "Aceptar",
@@ -130,26 +145,39 @@
 		"paramsError" : "Alguno de los parámetros especificados es 'null' o 'undefined'"
 	},
     "rup_grid": {
+    	"summary" : {
+    		"cabecera" : "Cabecera de la tabla",
+    		"datos" : "Datos de la tabla",
+    		"paginador" : "Elemento de paginación de la tabla",
+    		"paginador_navegar" :  "Elemento de navegación de la paginación de la tabla"
+    	},
     	"selectedElems":"Se han seleccionado los ",
     	"deSelectedElems":"Se han deseleccionado los ",
     	"ofPage":" elementos de la página.",
     	"selectAll": "seleccionar los ",
     	"deSelectAll": "deseleccionar los ",
     	"selectAllRest": "restantes",
+    	"selectMsg": "Se han seleccionado los {0} elementos de la página {1}.",
+    	"selectRestMsg": "Seleccionar los {0} restantes",
+    	"deselectMsg": "Se han deseleccionado los {0} elementos de la página {1}.",
+    	"deselectRestMsg": "Deseleccionar los {0} restantes",
     	"clearSelection":"deshacer selección",
 		"pager": {
-			"selected" : "Elementos seleccionados",
+			"selected" : "seleccionados",
 			"primPag" : "Primera Página",
 			"siguiente" : "Siguiente",
 			"anterior" : "Anterior",
-			"ultiPag" : "Última Página"
+			"ultiPag" : "Última Página",
+			"input" : "Página actual",
+			"select" : "Número de elementos por página"
 		},
         "noRecordsFound": "No hay registros.",
         "defaults": {
             "recordtext": "Mostrando {0} - {1} de {2}",
             "emptyrecords": "Sin registros que mostrar",
             "loadtext": "Cargando...",
-            "pgtext" : "Página {0} de {1}" 
+            "pgtext" : "Página {0} de {1}",
+            "detailForm_pager" : "Mostrando {0} de {1}" 
         },
         "search": {
             "caption": "Búsqueda...",
@@ -365,5 +393,49 @@
     "rup_accordion": {
     	"strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general.",
     	"headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general."
-    }
+    },
+    "rup_wizard": {
+    	"prev": "Anterior",
+    	"next": "Siguiente",
+    	"summary" : "Resumen"
+    },
+    "rup_form":{
+    },
+    "rup_validate":{
+    	"messages":{
+			  "required": "Campo obligatorio.",
+			  "remote": "Por favor, rellena este campo.",
+			  "email": "Por favor, escribe una dirección de correo válida",
+			  "url": "Por favor, escribe una URL válida.",
+			  "date": "Por favor, escribe una fecha válida.",
+			  "dateISO": "Por favor, escribe una fecha (ISO) válida.",
+			  "number": "Por favor, escribe un número entero válido.",
+			  "digits": "Por favor, escribe sólo dígitos.",
+			  "creditcard": "Por favor, escribe un número de tarjeta válido.",
+			  "equalTo": "Por favor, escribe el mismo valor de nuevo.",
+			  "accept": "Por favor, escribe un valor con una extensión aceptada.",
+			  "maxlength": "Por favor, no escribas más de {0} caracteres.",
+			  "minlength": "Por favor, no escribas menos de {0} caracteres.",
+			  "rangelength": "Por favor, escribe un valor entre {0} y {1} caracteres.",
+			  "range": "Por favor, escribe un valor entre {0} y {1}.",
+			  "max": "Por favor, escribe un valor menor o igual a {0}.",
+			  "min": "Por favor, escribe un valor mayor o igual a {0}.",
+			  "dni": "Por favor, introduzca un dni válido.",
+			  "maxWords": "Por favor, no escribas mas de {0} palabras.",
+			  "minWords": "Por favor, no escribas menos de {0} palabras.",
+			  "rangeWords": "Por favor, escribe un valor entre {0} y {1} palabras.",
+			  "letterswithbasicpunc": "Por favor, introduzca únicamente letras y signos de puntuación.",
+			  "alphanumeric": "Por favor, introduzca letras, números, espacios o guiones bajos.",
+			  "lettersonly": "Por favor, introduzca únicamente letras.",
+			  "nowhitespace": "Por favor, no introduzca espacios en blanco.",
+			  "integer": "Por favor, introduzca un número entero positivo o negativo.",
+			  "pattern": "El formato no es válido"
+		},
+		"format":{
+			"date":"dd/mm/yyyy"
+		},
+		"regexp":{
+			"decimal":"^-?(?:\\d+|\\d{1,3}(?:.\\d{3})+)(?:\\,\\d+)?$"
+		}
+	}
 }

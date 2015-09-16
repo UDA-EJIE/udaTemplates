@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -20,12 +20,17 @@
 <script type="text/javascript">
 	APP_RESOURCES = '${codapp}',
 	CTX_PATH = '<%= request.getContextPath()%>/',
-	RUP = '<#noparse>${staticsUrl}</#noparse>/rup',
 	STATICS = '<#noparse>${staticsUrl}</#noparse>',
-	DEFAULT_LANGUAGE = "<#noparse>${defaultLanguage}</#noparse>",
-	LAYOUT = "<#noparse>${defaultLayout}</#noparse>",
-	WAR_NAME = "${warNameShort}",
-	AVAILABLE_LANGS = "${languageswithoutquotes}";
+	RUP = '<#noparse>${staticsUrl}</#noparse>/rup',
+	WAR_NAME = '${warNameShort}',
+	//model
+	LAYOUT = '<#noparse>${defaultLayout}</#noparse>',
+	//mvc-config.xml
+	LOCALE_COOKIE_NAME = '<#noparse>${localeResolver.cookieName}</#noparse>',
+	LOCALE_PARAM_NAME = '<#noparse>${mvcInterceptor.paramName}</#noparse>',
+	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
+	//breadCrumbs
+	LOGGED_USER = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal : sessionScope.userName}</#noparse>';
 </script>
 
 <%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%>

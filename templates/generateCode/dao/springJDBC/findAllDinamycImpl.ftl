@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -22,35 +22,28 @@
     */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
-		StringBuffer where = new StringBuffer(3000);
-		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
-		<#assign  wheretablaJoin =utilidadesDao.whereDynamicSelect(pojo,cfg)>
-		where.append(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>	");
-		
 		<#assign paramtabSelectDinamyc = paramTablaSelect >
 		<#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		StringBuffer query = new StringBuffer("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> " 
-			+ "FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
+		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> "); 
+		query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
 		
-		<#-- sentencias para crear las querys dinamicas -->
-		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
-		<#list listaPropiedades as propiedades >
-		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
-			where.append(" AND ${propiedades[2]} = ?");
-			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
-		}
-		</#list>			
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereMap(${pojo.getDeclarationName()?lower_case}); <#assign  wheretablaJoin =utilidadesDao.whereDynamicSelect(pojo,cfg)>
+		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
+		where.append(mapaWhere.get("query"));
 		query.append(where);
+		
+		List<?> params = (List<?>) mapaWhere.get("params");
 
-		StringBuffer order = new StringBuffer(3000);
+		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
 			if (pagination.getSort() != null) {
-				order.append(" ORDER BY " + pagination.getSort() + " " + pagination.getAscDsc());
+				order.append(" ORDER BY ").append(pagination.getSort()).append(" ").append(pagination.getAscDsc());
 				query.append(order);
 			}
-			query = new StringBuffer(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
+			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
 		}
-		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(),rwMap, params.toArray());
+		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
 	
     /**
@@ -61,24 +54,17 @@
      */
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public Long findAllCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
-
-		StringBuffer where = new StringBuffer(3000);
-		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
-		<#assign wheretablaJoinCont= wheretablaJoin >
-		where.append(" WHERE 1=1  <#list wheretablaJoinCont as param>and ${param} </#list>");
-
 		<#assign paramtabSelectDinamycCont = paramTablaSelect >
-		StringBuffer query = new StringBuffer("SELECT COUNT(1) FROM <#list paramtabSelectDinamycCont as param> ${param} <#if param_has_next> , </#if></#list>");
-		<#-- sentencias para crear las querys dinamicas -->
-	
-		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
-		<#list listaPropiedades as propiedades >
-		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
-			where.append(" AND ${propiedades[2]} = ?");
-			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
-		}
-		</#list>
-		query.append(where);
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM <#list paramtabSelectDinamycCont as param>${param}<#if param_has_next>, </#if></#list>");
+		
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereMap(${pojo.getDeclarationName()?lower_case}); <#assign wheretablaJoinCont= wheretablaJoin >
+		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoinCont as param>AND ${param} </#list>");
+		where.append(mapaWhere.get("query"));
+		query.append(where);		
+		
+		List<?> params = (List<?>) mapaWhere.get("params");
+		
 		return this.jdbcTemplate.queryForLong(query.toString(), params.toArray());
 	}
 	
@@ -92,39 +78,131 @@
      */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination, Boolean startsWith) {
-		StringBuffer where = new StringBuffer(3000);
-		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
-		<#assign  wheretablaJoin =utilidadesDao.whereDynamicSelect(pojo,cfg)>
-		where.append(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>	");
-		
-		<#assign paramtabSelectDinamyc = paramTablaSelect >
-		<#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		StringBuffer query = new StringBuffer("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> " 
-        	+ "FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
+		<#assign paramtabSelectDinamyc = paramTablaSelect > <#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
+		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> "); 
+        query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
       	
-      	<#-- sentencias para crear las querys dinamicas -->
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case},startsWith); <#assign  wheretablaJoin =utilidadesDao.whereDynamicSelect(pojo,cfg)>
+		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		if (pagination != null) {
+			if (pagination.getSort() != null) {
+				order.append(" ORDER BY ").append(pagination.getSort()).append(" ").append(pagination.getAscDsc());
+				query.append(order);
+			}
+			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
+		}
+		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
+	}
+	
+	/**
+	 * Counts rows in the ${pojo.getDeclarationName()} table using like.
+     * 
+     * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     * @param startsWith Boolean
+     * @return Long 
+     */
+	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
+    public Long findAllLikeCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith) {
+		<#assign paramtabSelectDinamycCont = paramTablaSelect >
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM <#list paramtabSelectDinamycCont as param>${param}<#if param_has_next>,</#if></#list>");
+
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case},startsWith); <#assign wheretablaJoinCont= wheretablaJoin >
+		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		return this.jdbcTemplate.queryForLong(query.toString(), params.toArray());
+	}
+	
+	/**
+	 * Returns a map with the needed value to create the conditions to filter by 
+	 * the ${pojo.getDeclarationName()} entity 
+	 * 
+	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+	 *            Bean with the criteria values to filter by.
+	 * @return Map created with two keys
+	 *         key query stores the sql query syntax
+	 *         key params stores the parameter values to be used in the condition sentence.
+	 */
+	// CSOFF: CyclomaticComplexity - Generación de código de UDA
+	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
+		
+		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
+
+		<#-- sentencias para crear las querys dinamicas -->
+		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
+		<#list listaPropiedades as propiedades >
+		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
+			where.append(" AND ${propiedades[2]} = ?");
+			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
+		}
+		</#list>
+
+		${pojo.importType("java.util.Map")}<String,Object> mapWhere = new ${pojo.importType("java.util.HashMap")}<String, Object>();
+		mapWhere.put("query", where);
+		mapWhere.put("params", params);
+		
+		return mapWhere;		
+	}
+	// CSON: CyclomaticComplexity
+	
+	/**
+	 * Returns a map with the needed value to create the conditions to filter by  
+	 * the ${pojo.getDeclarationName()} entity 
+	 * 
+	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+	 *            Bean with the criteria values to filter by.
+     * @param startsWith Boolean	 
+	 * @return Map created with two keys
+	 *         key query stores the sql query syntax
+	 *         key params stores the parameter values to be used in the condition sentence.
+	 */
+	// CSOFF: CyclomaticComplexity - Generación de código de UDA
+	private Map<String, ?> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
+		
+		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
+		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
+
+		<#-- sentencias para crear las querys dinamicas -->
 		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
 		<#list listaPropiedades as propiedades >
 		<#assign strings=propiedades[4]> 
+		<#-- si es una fecha entonces comparar con igual sino utilizar like -->
 		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
-			where.append(" AND <#if strings!='0'>UPPER(</#if>${propiedades[2]}<#if strings!='0'>)</#if> like ? ESCAPE  '\\'");
+		<#if strings!='0'>
+			where.append(" AND UPPER(${propiedades[2]}) like ? ESCAPE  '\\'");
 			if (startsWith){
-				params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]}<#if strings!='0'>.toUpperCase()</#if>  +"%");
+				params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() +"%");
 			}else{
-				params.add("%"+${pojo.getDeclarationName()?lower_case}.${propiedades[0]}<#if strings!='0'>.toUpperCase()</#if> +"%");
-			}	
-			where.append(" AND ${propiedades[2]} IS NOT NULL");
-        }
-		</#list>			
-        query.append(where);
-
-		StringBuffer order = new StringBuffer(3000);
-		if (pagination != null) {
-			if (pagination.getSort() != null) {
-				order.append(" ORDER BY " + pagination.getSort() + " " + pagination.getAscDsc());
-				query.append(order);
+				params.add("%"+${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() +"%");
 			}
-			query = new StringBuffer(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
-		}
-		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(),rwMap, params.toArray());
+			where.append(" AND ${propiedades[2]} IS NOT NULL");
+		<#else>
+			where.append(" AND ${propiedades[2]} = ?");
+		</#if>
+	     }			
+		</#list>
+
+		${pojo.importType("java.util.Map")}<String,Object> mapWhere = new ${pojo.importType("java.util.HashMap")}<String, Object>();
+		mapWhere.put("query", where);
+		mapWhere.put("params", params);
+		
+		return mapWhere;		
 	}
+	// CSON: CyclomaticComplexity
+	
+	/**
+	 * StringBuilder initilization value
+	 */
+	 public static final int STRING_BUILDER_INIT = 4096;

@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -31,7 +31,7 @@ jQuery(function($){
 	});
 	
 	<#if maint.getToolbarMaint() != "">
-	//Botonera de gesti�n de la tabla
+	//Botonera de gestión de la tabla
 	$("#${maint.getToolbarMaint()}").rup_toolbar();
 	</#if>
 

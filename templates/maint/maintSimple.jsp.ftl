@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -18,13 +18,13 @@
 	<div id="error" style="display:none"></div>
 	<div id="${maint.getNameMaint()}">
 		<#if maint.getToolbarMaint() != "">
-		<!-- Botonera de gesti�n de la tabla -->
+		<!-- Botonera de gestiónn de la tabla -->
 		<div id="${maint.getToolbarMaint()}" class="botonera"></div>
 		</#if>
 		<div id="contenido" style="margin-top:0.5em;margin-bottom:0.5em;width:${grid.getWidth()}px;">
 			<#if maint.getSearchMaint() != "" && maint.getSearchMaint() != "searchForm">
 			<form id="${maint.getSearchMaint()}">
-			<!-- Introducir c�digo del formulario de búsqueda -->
+			<!-- Introducir código del formulario de búsqueda -->
 			<#else>
 			<form id="searchForm">
 				<div  class="formulario_legend" id="titleSearch_${maint.getNameMaint()}"><spring:message code="searchCriteria" />:</div>
@@ -43,7 +43,7 @@
 			</#if>
 			<!-- Tabla -->
 			<table id="GRID_${maint.getNameMaint()}" cellpadding="0" cellspacing="0"></table>
-			<!-- Barra de paginaci�n -->
+			<!-- Barra de paginacion -->
 			<div id="${grid.getPagerName()}" style="text-align:center;"></div>
 		</div>
 	</div>

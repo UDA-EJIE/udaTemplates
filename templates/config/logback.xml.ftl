@@ -141,7 +141,7 @@
 		<appender-ref ref="udaTrazasAppender"/>
 	</logger>
 	
-	<logger name="com.ejie.${codapp}" level="<#noparse>${log.level.aplicTrazas}</#noparse>">
+	<logger name="com.ejie.<#noparse>${CONTEXT_NAME}</#noparse>" level="<#noparse>${log.level.aplicTrazas}</#noparse>">
 		<appender-ref ref="aplicTrazasAppender"/>
 	</logger>
 	

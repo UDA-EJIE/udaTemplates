@@ -13,5 +13,33 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
- 
-<div id="${warName}_menu_mixto" class="menu"></div>
+<%@include file="/WEB-INF/includeTemplate.inc"%>
+<ul id="${warName}_menu_mixto" class="rup_invisible_menu">
+	<li>
+		<a href="#">
+			<spring:message code="inicio" />
+		</a>
+	</li>
+	<li>
+		<a>
+			<spring:message code="menu1" />
+		</a>
+		<ul>
+			<li>
+				<a href="#">
+					<spring:message code="submenu11" />
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<spring:message code="submenu12" />
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<spring:message code="submenu13" />
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul>

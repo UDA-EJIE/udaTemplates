@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -19,14 +19,14 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
-            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	
 	<security:global-method-security>
-        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.find*(..))" access="${codroleAux}"/>
-		<security:protect-pointcut expression="execution(* com.ejie.*.service..*.add*(..))"  access="${codroleAux}"/>
-        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.remove*(..))" access="${codroleAux}"/>
-        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.update*(..))" access="${codroleAux}"/>
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.find*(..))" access="${codroleAux}"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.add*(..))"  access="${codroleAux}"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.remove*(..))" access="${codroleAux}"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.update*(..))" access="${codroleAux}"/> -->
 	</security:global-method-security>
 </beans>

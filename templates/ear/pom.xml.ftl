@@ -27,11 +27,11 @@
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
 </#if>		
-		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
-		<org.logback.version>0.9.29</org.logback.version>
+		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+		<org.springframework.security.version>3.1.0.RELEASE</org.springframework.security.version>
+		<org.logback.version>1.0.6</org.logback.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
-		<com.ejie.x38.version>1.2.1</com.ejie.x38.version>
+		<com.ejie.x38.version>2.0.0</com.ejie.x38.version>
 	</properties>
 	<dependencies>
 <#if radjpa>
@@ -166,7 +166,7 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.2</version>
+			<version>1.9.7</version>
 		</dependency>
 
 		<!-- AspectJ -->
