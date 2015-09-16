@@ -35,8 +35,7 @@
 	 </#list>
 	 <#list listaMNPk as auxListMN> 
 	 * @param ${auxListMN[0]} ${pojo.importType(auxListMN[1])} 
-	 </#list>
-	 * @return	 
+	 </#list>	 
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/unbind${tablaMN}", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	public void unBind${tablaMN}(

@@ -26,6 +26,8 @@
 	  <security:filter-chain-map request-matcher="regex">
 	  	<security:filter-chain pattern="/error.*" filters="none"/>
 		<security:filter-chain pattern="/accessDenied.*" filters="none"/>
+		<security:filter-chain pattern="/mockLoginPage.*" filters="none"/>
+	  	<security:filter-chain pattern="/mockLoginAjaxPage.*" filters="none"/>
 		<security:filter-chain pattern="**" filters="	    	
 	    	exceptionTranslationFilter,
 	    	securityContextPersistenceFilter,
@@ -57,7 +59,7 @@
 	</bean>
 
 	<!-- Se define el sistema especifico de autenticación aplicado al sistema de seguridad -->
-	<!-- Se define que con cambios de usuario se recargen los datos de seguridad y se mate la session, cual es el "perimetralSecurityWrapper" y el "authenticationManager" -->
+	<!-- Se define que con cambios de usurio se recargen los datos de seguridad y se mate la session, cual es el "perimetralSecurityWrapper" y el "authenticationManager" -->
 	<bean id="preAuthenticateProcessingFilter" class="com.ejie.x38.security.PreAuthenticateProcessingFilter">
 		<property name="checkForPrincipalChanges" value="true" />
 		<property name="invalidateSessionOnPrincipalChange" value="true" />

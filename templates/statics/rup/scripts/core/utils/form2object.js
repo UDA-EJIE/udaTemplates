@@ -124,7 +124,7 @@
 
         function getFormValues(rootNode)
         {
-                var result = [];
+                var result = [], name;
                 var currentNode = rootNode.firstChild;
                 
                 while (currentNode)
@@ -132,8 +132,16 @@
                         if (currentNode.nodeName.match(/INPUT|SELECT|TEXTAREA|HIDDEN/i))
                         {
                                 var fieldValue = getFieldValue(currentNode);
-                                var name = jQuery(currentNode).attr("name");
-                                if (fieldValue !== null) result.push({ name: name, value: fieldValue});
+                                
+                                if (jQuery(currentNode).is("select") && currentNode.multiple){
+                            		var nameParts = jQuery(currentNode).attr("name").split(".");
+                            		name = nameParts.length>1?nameParts[nameParts.length-2]:nameParts[0];
+                            	}else{
+                            		name = jQuery(currentNode).attr("name");
+                            	}
+                                if (fieldValue !== null){
+                               		result.push({ name: name, value: fieldValue});
+                                }
                         }
                         else
                         {
@@ -196,7 +204,14 @@
                 var result = [];
                 for (var options = selectNode.getElementsByTagName("option"), i = 0, l = options.length; i < l; i++)
                 {
-                        if (options[i].selected) result.push(options[i].value);
+                		var nameParts = selectNode.name.split(".");
+                		nameParts[nameParts.length-1];
+//                        if (options[i].selected) result.push(options[i].value);
+                		if (options[i].selected){
+                			var jsonObj = {};
+                			jsonObj[nameParts[nameParts.length-1]] = options[i].value;
+                			result.push(jsonObj);
+                		}
                 }
 
                 return result;

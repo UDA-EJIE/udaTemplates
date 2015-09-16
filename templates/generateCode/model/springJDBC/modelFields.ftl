@@ -45,7 +45,7 @@
           <#if c2h.isCollection(field) && warSupresor.getJavaTypeName(field, jdk5,pojo,true)?starts_with('List') >
             ${pojo.getFieldModifiers(field)} ${pojo.importType("java.util.List")}<${pojo.importType((cfg.getClassMapping(field.getValue().getElement().getReferencedEntityName())).getClassName())}> ${field.name} = new ${pojo.importType("java.util.ArrayList")}<${pojo.importType((cfg.getClassMapping(field.getValue().getElement().getReferencedEntityName())).getClassName())}>();
           <#else>
-            ${pojo.getFieldModifiers(field)} ${warSupresor.typeConverter(warSupresor.getJavaTypeName(field, jdk5,pojo,true),true)} ${field.name}<#if pojo.hasFieldInitializor(field, jdk5)> = ${pojo.getFieldInitialization(field, jdk5)}</#if>;
+            ${pojo.getFieldModifiers(field)} ${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(field, jdk5,pojo,true),true))} ${field.name}<#if pojo.hasFieldInitializor(field, jdk5)> = ${pojo.getFieldInitialization(field, jdk5)}</#if>;
           </#if>
         </#if>
 	</#if>

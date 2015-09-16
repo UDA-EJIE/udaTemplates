@@ -106,7 +106,7 @@
 				order.append(" order by " + pagination.getSort() + " " + pagination.getAscDsc());
 				query.append(order);
 			}
-			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination, query.toString()));
+			query = new StringBuilder(${pojo.importType("com.ejie.x38.dto.PaginationManager")}.getPaginationQuery(pagination, query));
       	}	
 		${pojo.importType("java.util.List")}<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}> listaHijo =  this.jdbcTemplate.query(query.toString(),
 			new RowMapper<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}>() {

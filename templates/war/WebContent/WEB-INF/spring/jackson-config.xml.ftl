@@ -1,16 +1,16 @@
 <#-- 
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃAS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 <?xml version="1.0" encoding="utf-8"?>
@@ -26,8 +26,17 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-	<!-- Serializador utilizado por UDA para serializar unicamente unas propiedades concretas de un model a partir de la metainfomacion especificada en las cabeceras de la peticion -->
+
+	<!-- Serializador utilizado por UDA para serializar unicamente las  -->
     <bean id="customSerializer" class="com.ejie.x38.serialization.CustomSerializer" />
+    
+    <bean id="jsonViewSupportFactoryBean" class="com.ejie.x38.control.view.JsonViewSupportFactoryBean" />
+    
+    
+    <bean id="udaMappingJacksonHttpMessageConverter" class="com.ejie.x38.serialization.UdaMappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" ref="jacksonSupportedMediaTypes" />
+		<property name="udaModule" ref="udaModule" />
+	</bean>
     
     <!-- Modulo de UDA para Jackson -->
     <bean id="udaModule" class="com.ejie.x38.serialization.UdaModule" >
@@ -37,7 +46,7 @@
 				<#foreach reg in listaClases>
 					<entry key="<#noparse>#{T</#noparse>(com.ejie.${codapp}.model.${ctrUtils.stringCapitalize(reg)})<#noparse>}</#noparse>" value-ref="customSerializer" />
 				</#foreach>
-				<entry key="#{T(com.ejie.x38.dto.Jerarquia)}" value-ref="customSerializer" />
+				<entry key="<#noparse>#{T</#noparse>(com.ejie.x38.dto.Jerarquia)<#noparse>}</#noparse>" value-ref="customSerializer" />
 	        </util:map>
       	</property>
 		</#if>      	
@@ -61,12 +70,6 @@
 				value="<#noparse>#{T(org.springframework.http.converter.json.MappingJacksonHttpMessageConverter).DEFAULT_CHARSET}</#noparse>" />
 		</bean>
 	</util:list>
-	
-	<!-- Conversor de UDA -->
-	<bean id="udaMappingJacksonHttpMessageConverter" class="com.ejie.x38.serialization.UdaMappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes" ref="jacksonSupportedMediaTypes" />
-		<property name="udaModule" ref="udaModule" />
-	</bean>
 	
 	<!-- Features de configuracion de la serializacion -->
 	<util:map id="serializationConfigFeatures">

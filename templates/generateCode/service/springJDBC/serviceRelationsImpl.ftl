@@ -59,7 +59,7 @@
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
-	 * @return ${pojo.importType("java.util.List")}
+	 * @return Long
 	 */
 	public Long find${tablaMN}Count(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize((nombreSubclass)))} ${nombreSubclass?lower_case}) {
 		return this.${nombreDao}.find${tablaMN}Count(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${nombreSubclass?lower_case});

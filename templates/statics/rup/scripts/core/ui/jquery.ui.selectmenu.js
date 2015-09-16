@@ -67,7 +67,7 @@ $.widget("ui.selectmenu", {
 		this.newelement.prepend('<span class="'+self.widgetBaseClass+'-status" />');
 			
 		//make associated form label trigger focus
-		$('label[for='+this.element.attr('id')+']')
+		$('label[for="'+this.element.attr('id')+'"]')
 			.attr('for', this.ids[0])
 			.bind('click.selectmenu', function(){
 				self.newelement[0].focus();
@@ -443,6 +443,9 @@ $.widget("ui.selectmenu", {
 			this.list.addClass(self.widgetBaseClass + '-open')
 				.attr('aria-hidden', false)
 				.find('li:not(.'+ self.widgetBaseClass +'-group):eq('+ this._selectedIndex() +') a')[0].focus();	
+				//UDA - focus
+				this._optionLis.removeClass("ui-selectmenu-item-selected ui-state-hover");
+				this._optionLis.eq(this.index()).addClass("ui-selectmenu-item-selected ui-state-hover");
 			if (this.options.style == "dropdown"){ this.newelement.removeClass('ui-corner-all').addClass('ui-corner-top'); }	
 			this._refreshPosition();
 			this.list.css("z-index", this.list.css("z-index")+1);
@@ -488,7 +491,9 @@ $.widget("ui.selectmenu", {
 		return this._optionLis.eq(this._selectedIndex());
 	},
 	_focusedOptionLi: function(){
-		return this.list.find('.'+ this.widgetBaseClass +'-item-focus');
+		//return this.list.find('.'+ this.widgetBaseClass +'-item-focus');
+		//UDA - focus
+		return this.list.find('.'+ this.widgetBaseClass +'-item-selected');
 	},
 	_moveSelection: function(amt){
 		var currIndex = parseInt(this._selectedOptionLi().data('index'), 10);
@@ -511,6 +516,10 @@ $.widget("ui.selectmenu", {
 		this._focusedOptionLi().find('a:eq(0)').attr('id','');
 		this._optionLis.eq(newIndex).find('a:eq(0)').attr('id',activeID).focus();
 		this.list.attr('aria-activedescendant', activeID);
+		//UDA - focus
+		this._focusedOptionLi().removeClass("ui-selectmenu-item-selected ui-state-hover");
+		this._optionLis.eq(newIndex).addClass("ui-selectmenu-item-selected ui-state-hover");
+		this.index(newIndex);
 	},
 	_scrollPage: function(direction){
 		var numPerPage = Math.floor(this.list.outerHeight() / this.list.find('li:first').outerHeight());

@@ -1,16 +1,16 @@
 <#-- 
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃAS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 <?xml version="1.0" encoding="utf-8"?>
@@ -27,7 +27,7 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<!-- Crea un bean por cada clase anotada con @Component -->
+	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.${codapp}.control' -->
 	<context:component-scan base-package="com.ejie.${codapp}.control" />
 
 	<!-- Mapeos directos -->
@@ -36,6 +36,10 @@
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied" />
 	<mvc:view-controller path="/mockLoginPage" view-name="mockLoginPage" />
 	<mvc:view-controller path="/mockLoginAjaxPage" view-name="mockLoginAjaxPage" />
+
+	<!-- Filtro utilizado para emular el comportamiento de los mensajes de error 
+		http en peticiones realizadas desde iframes -->
+	<bean id="iframeXHREmulationFilter" class="com.ejie.x38.IframeXHREmulationFilter" />
 
  	<!-- Recursos idiomáticos (i18n) -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -73,8 +77,7 @@
 <!-- 			</list> -->
 <!-- 		</property> -->
 	</bean>
-	
-	<!-- Configurar Excepción de límite de subida de ficheros -->
+	<!-- Configurar Excepcion de límite de subida de ficheros -->
 	<bean id="fileExceedsFileSizeLimitHandler" class="com.ejie.x38.control.exception.FileExceedsFileSizeLimitHandler" />
 	
 	<!-- Configurar Validaciones -->
@@ -115,6 +118,11 @@
 	            	<ref bean="udaMappingJacksonHttpMessageConverter"/>
 	            </list>
        		</property>
+       		<property name="customArgumentResolvers">
+       			<list>
+	            	<bean class="com.ejie.x38.control.method.annotation.RequestJsonBodyMethodArgumentResolver"/>
+	            </list>
+	        </property>
 		</bean>
 	<!-- FIN -->
 		
@@ -132,7 +140,16 @@
         	<list>
         		<value>localeResolver</value>
         		<value>mvcInterceptor</value>
+        		<value>udaAuthenticationProvider</value>
         	</list>
         </property>
     </bean> 
+	
+	<!-- Reports -->	
+<!--	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
+<!-- 	   <property name="location"> -->
+<!-- 	       <value>/WEB-INF/spring/reports-config.xml</value> -->
+<!-- 	   </property> -->
+<!-- 	   <property name="order" value="0" /> -->
+<!--	</bean> -->
 </beans>

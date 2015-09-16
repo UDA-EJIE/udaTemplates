@@ -1,4 +1,4 @@
-﻿/*
+/*
 	xBreadcrumbs (Extended Breadcrums) jQuery Plugin
 	(c) 2009 ajaxBlender.com
 	For any questions please visit www.ajaxblender.com 

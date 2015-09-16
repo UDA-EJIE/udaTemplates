@@ -33,4 +33,5 @@
 	<import resource="log-config.xml"/>
 	<import resource="security-core-config.xml"/>
 	<import resource="security-config.xml"/>
+<!-- 	<import resource="reports-config.xml"/> -->
 </beans>

@@ -22,8 +22,8 @@
 		${pojo.getPropertyGetModifiers(property)}  ${pojo.importType("java.util.List")}<${pojo.importType((cfg.getClassMapping(property.getValue().getElement().getReferencedEntityName())).getClassName())}> ${warSupresor.getGetterSignature(property,pojo)}();
 		${pojo.getPropertySetModifiers(property)} void set${pojo.getPropertyName(property)}( ${pojo.importType("java.util.List")}<${pojo.importType((cfg.getClassMapping(property.getValue().getElement().getReferencedEntityName())).getClassName())}> ${property.name});
 	<#else> 
-		${pojo.getPropertyGetModifiers(property)} ${warSupresor.getJavaTypeName(property, jdk5,pojo,true)} ${warSupresor.getGetterSignature(property,pojo)}();
-		${pojo.getPropertySetModifiers(property)} void set${pojo.getPropertyName(property)}(${warSupresor.getJavaTypeName(property, jdk5,pojo,true)} ${property.name});	
+		${pojo.getPropertyGetModifiers(property)} ${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(property, jdk5,pojo,true)))} ${warSupresor.getGetterSignature(property,pojo)}();
+		${pojo.getPropertySetModifiers(property)} void set${pojo.getPropertyName(property)}(${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(property, jdk5,pojo,true)))} ${property.name});	
 	</#if>	
 	</#if>
 </#foreach>

@@ -27,10 +27,13 @@
 	<!-- El contenido de este modulo será el que se incluya en el fichero de la aplicación asociado a la carga de la cabecera del portal -->
 	<title>Uda</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	
-	<%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%>
-	<!--%@include file="/WEB-INF/layouts/includes/rup.styles.min.css"%-->
+	<%-- Estilos RUP sin minimizar (DESARROLLO) --%>
+<%-- <%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%> --%>
+	<%-- Estilos RUP sin minimizar (PRODUCCION) --%>
+	<%@include file="/WEB-INF/layouts/includes/rup.styles.min.inc" %>
+	<%-- Estilos Aplicacion --%>
 	<%@include file="/WEB-INF/layouts/includes/${codapp}.styles.inc"%>
 	<!-- FIN Modulo asociado a la cabecera de portal -->
 	

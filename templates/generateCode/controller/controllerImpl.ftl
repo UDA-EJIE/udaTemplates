@@ -37,31 +37,25 @@ public class ${pojo.getDeclarationName()}Controller  {
 	<#if annot!=0>@${pojo.importType("org.springframework.beans.factory.annotation.Autowired")}</#if>
 	private ${pojo.importType(pojo.getPackageName()+'.service.'+pojo.getDeclarationName()+'Service')} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service;
 	
-	/**
-	 * Method 'getCreateForm'.
-	 *
-	 * @param model ${pojo.importType("org.springframework.ui.Model")}
-	 * @return String
+	/*
+	 * OPERACIONES CRUD (Create, Read, Update, Delete)
+	 * 
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "maint", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
-	public String getCreateForm(${pojo.importType("org.springframework.ui.Model")} model) {
-		${pojo.getDeclarationName()}Controller.logger.info("[GET - View] : ${pojo.getDeclarationName()?lower_case}");
-		return "${pojo.getDeclarationName()?lower_case}";
-	}
-
+	
 	<#assign camposDoc = ctrlUtils.getPrimaryKey(pojo,cfg)> 
 	/**
-	 * Method 'getById'.
-	 *
+	 * Operacion CRUD Read. Devuelve el bean correspondiente al identificador indicado.
+	 * 
 	 <#list camposDoc as camposPrim>
 	 * @param ${camposPrim[0]} ${pojo.importType(camposPrim[1])}
 	 </#list>
-	 * @return ${ctrl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 * @return ${pojo.getDeclarationName()} 
+	 *            Objeto correspondiente al identificador indicado.
 	 */
 	<#assign primaria = ctrlUtils.getPrimaryKey(pojo,cfg)> 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "<#list primaria as camposPrim>/{${camposPrim[0]}}</#list>", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
 	<#assign primariaParam = ctrlUtils.getPrimaryKey(pojo,cfg)> 
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} getById(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
 	<#if !isJpa>	
 		<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
@@ -81,10 +75,14 @@ public class ${pojo.getDeclarationName()}Controller  {
 	}
 
 	/**
-	 * Method 'getAll'.
+	 * Devuelve una lista de beans correspondientes a los valores de filtrados
+	 * indicados en el objeto pasado como parametro.
 	 *
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @return List
+	 *            Objeto que contiene los parametros de filtrado utilizados en
+	 *            la busqueda.
+	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> 
+	 *            Lista de objetos correspondientes a la busqueda realizada.
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getAll(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}) {
@@ -93,10 +91,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 	}
 
 	/**
-	 * Method 'edit'.
+	 * Operacion CRUD Edit. Modificacion del bean indicado.
 	 *
 	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()} 
-	 * @return ${pojo.getDeclarationName()}
+	 *            Bean que contiene la informacion a modificar.
+	 * @return ${pojo.getDeclarationName()} 
+	 *            Bean resultante de la modificacion.
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.PUT)
     public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} edit(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
@@ -106,10 +106,14 @@ public class ${pojo.getDeclarationName()}Controller  {
     }
 
 	/**
-	 * Method 'add'.
+	 * Operacion CRUD Create. Creacion de un nuevo registro a partir del bean
+	 * indicado.
 	 *
 	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()} 
+	 *            Bean que contiene la informacion con la que se va a crear el
+	 *            nuevo registro.
 	 * @return ${pojo.getDeclarationName()}
+	 *            Bean resultante del proceso de creacion.
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} add(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
@@ -119,12 +123,15 @@ public class ${pojo.getDeclarationName()}Controller  {
 	}
 
 	/**
-	 * Method 'remove'.
+	 * Operacion CRUD Delete. Borrado del registro correspondiente al
+	 * identificador especificado.
 	 *
 	 <#foreach field in ctrlUtils.getPrimaryKey(pojo,cfg)> 
 	 * @param ${field[0]} ${pojo.importType(field[1])}
 	 </#foreach>
-	 * @return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}
+	 *            Identificador del objeto que se desea eliminar.
+	 * @return ${pojo.getDeclarationName()}
+	 *            Bean eliminado.
 	 */
     <#assign primariaParam = ctrlUtils.getPrimaryKey(pojo,cfg)> 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "<#foreach field in ctrlUtils.getPrimaryKey(pojo,cfg)>/{${field[0]}}</#foreach>", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.DELETE)
@@ -148,53 +155,135 @@ public class ${pojo.getDeclarationName()}Controller  {
        	return ${ctrl.stringDecapitalize(pojo.getDeclarationName())};
     }
 	
-	/**
-	 * Method 'removeAll'.
-	 *
-	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids ${pojo.importType("java.util.List")}
-	 * @return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List
-	 */	
-	@RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
-	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<${pojo.importType("java.util.List")}<String>> removeMultiple(@RequestBody ${pojo.importType("java.util.List")}<${pojo.importType("java.util.List")}<String>> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
-        ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List = new ${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}>();
-        for (${pojo.importType("java.util.List")}<String> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Id:${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
-		    ${pojo.importType("java.util.Iterator")}<String> iterator = ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Id.iterator();
-		    ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}(); //NOPMD - Objeto nuevo en la lista (parametro del servicio)
-			<#if !isJpa>	
-				<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
-					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.set${pojo.beanCapitalize(field[0])}; //NOPMD - Objeto nuevo en la lista (parametro del servicio)
-				</#foreach>	
-			<#else>
-				<#if  clazz.getIdentifierProperty().isComposite()>
-					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.setId(new ${pojo.getDeclarationName()}Id()); //NOPMD - Objeto nuevo en la lista (parametro del servicio)
-				</#if>	
-			</#if>
-		<#assign parametros = ctrlUtils.getPrimaryKey(pojo,cfg)> 
-		<#foreach field in parametros>					
-	        ${field[2]}.set${pojo.beanCapitalize(field[3])}(${pojo.importType("com.ejie.x38.util.ObjectConversionManager")}.convert(iterator.next(), ${field[1]}.class));
-        </#foreach>
-		    ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List.add(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
-	    }
-        this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(${ctrl.stringDecapitalize(pojo.getDeclarationName())}List);
-		${pojo.getDeclarationName()}Controller.logger.info("[POST - DELETE_ALL] : ${pojo.getDeclarationName()} borrados correctamente");
-		return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids;
-	}	
-
-	/**
-	 * Method 'getAllJQGrid'.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param pagination Pagination
-	 * @return JQGridJSONModel
+	/*
+	 * METODOS COMPONENTE RUP_TABLE
+	 * 
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET, headers={"JQGridModel=true"})
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridJSONModel")} getAllJQGrid(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, @${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
-        ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}s = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAll(filter${pojo.getDeclarationName()}, pagination);
-        Long recordNum = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAllCount(filter${pojo.getDeclarationName()});
-        ${pojo.getDeclarationName()}Controller.logger.info("[GET - jqGrid] : Obtener ${pojo.getDeclarationName()}");
-		return new JQGridJSONModel(pagination, recordNum, ${ctrl.stringDecapitalize(pojo.getDeclarationName())}s);
+
+	 /**
+	 * Metodo de presentacion del RUP_TABLE.
+	 * 
+	 * @param model ${pojo.importType("org.springframework.ui.Model")}
+	 * @return String
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/maint", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	public String getFormEdit(${pojo.importType("org.springframework.ui.Model")} model) {
+		${pojo.getDeclarationName()}Controller.logger.info("[GET - View] : ${pojo.getDeclarationName()?lower_case}");
+		return "${pojo.getDeclarationName()?lower_case}";
 	}
+	 
+	 /**
+	 * Operacion de filtrado del componente RUP_TABLE.
+	 * 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de filtrado a emplear.
+	 * @param jqGridRequestDto
+	 *            Dto que contiene los parametros de configuracion propios del
+	 *            RUP_TABLE a aplicar en el filtrado.
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}>
+	 *            Dto que contiene el resultado del filtrado realizado por el 
+	 *            componente RUP_TABLE.
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/filter", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}> filter(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - filter] : Obtener ${pojo.getDeclarationName()}s");
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.filter(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+	}
+	 
+	/**
+	 * Operacion de busqueda del componente RUP_TABLE.
+	 * 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de filtrado a emplear.
+	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de busqueda a emplear.
+	 * @param jqGridRequestDto
+	 *            Dto que contiene los parametros de configuracion propios del
+	 *            RUP_TABLE a aplicar en la búsqueda.
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}> 
+	 *            Dto que contiene el resultado de la busqueda realizada por el
+	 *            componente RUP_TABLE. 
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/search", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="search") ${pojo.getDeclarationName()} search${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - search] : Buscar ${pojo.getDeclarationName()}s");
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.search(filter${pojo.getDeclarationName()}, search${pojo.getDeclarationName()}, jqGridRequestDto, false);
+	}
+	
+	/**
+	 * Borrado multiple de registros
+	 * 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de filtrado a emplear.
+	 * @param jqGridRequestDto
+	 *            Dto que contiene los parametros de configuracion propios del
+	 *            RUP_TABLE a aplicar en la busqueda.
+	 * @return List<String>
+	 *            Lista de los identificadores de los registros eliminados.
+	 * 
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/deleteAll", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> removeMultiple(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - search] : [POST - removeMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+		${pojo.getDeclarationName()}Controller.logger.info("All entities correctly deleted!");
+		
+		return jqGridRequestDto.getMultiselection().getSelectedIds();
+	}
+	
+	/*
+	 * METODOS COMPONENTE RUP_TABLE - JERARQUIA
+	 */
+	
+	/**
+	 * Operacion de filtrado del componente RUP_TABLE para presentar los
+	 * registros mediante visualizacion jerarquica.
+	 * 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de filtrado a emplear.
+	 * @param jqGridRequestDto
+	 *            Dto que contiene los parametros de configuracion propios del
+	 *            RUP_TABLE a aplicar en el filtrado.
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
+	 *            Dto que contiene el resultado del filtrado realizado por el
+	 *            componente RUP_TABLE. 
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/jerarquia/filter", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - jerarquia] : Obtener ${pojo.getDeclarationName()}s jerarquia");
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquia(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+	}
+	
+	/**
+	 * Recupera los hijos de los registros desplegados en la visualizacion jerarquica.
+	 * 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *            Bean que contiene los parametros de filtrado a emplear.
+	 * @param jqGridRequestDto
+	 *            Dto que contiene los parametros de configuracion propios del
+	 *            RUP_TABLE a aplicar en el filtrado.
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
+	 *            Dto que contiene el resultado del filtrado realizado por el
+	 *            componente RUP_TABLE. 
+	 */
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/jerarquiaChildren", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}  jqGridRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - jerarquia] : Obtener ${pojo.getDeclarationName()}s jerarquia - Hijos");
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquiaChildren(filter${pojo.getDeclarationName()}, jqGridRequestDto);
+	}
+
 	
 <#if annot==0>
 	/**

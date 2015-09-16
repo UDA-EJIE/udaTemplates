@@ -27,22 +27,22 @@
 	/**
      * Method '${warSupresor.getGetterSignature(pKey,pojo)}'.
      *
-     * @return ${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true),true)}
+     * @return ${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,false),false)}
      */
 	${utilidades.generateJsonIgnoreAnnotationJdbc(pKey,pojo)}
 	${utilidades.generateTimeStampAnnotationGetter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true) ,pojo)}
-	${pojo.getPropertyGetModifiers(pKey)} ${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true),true)} ${warSupresor.getGetterSignature(pKey,pojo)}() {
+	${pojo.getPropertyGetModifiers(pKey)} ${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,false),false))} ${warSupresor.getGetterSignature(pKey,pojo)}() {
 		return this.${pKey.name};
 	}
 	
 	/**
 	 * Method 'set${pojo.getPropertyName(pKey)}'.
 	 *
-	 * @param ${pKey.name} ${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true),true)}
+	 * @param ${pKey.name} ${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,false),false)}
 	 * @return
 	 */
-	${utilidades.generateTimeStampAnnotationSetter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true) ,pojo)}
-	${pojo.getPropertySetModifiers(pKey)} void set${pojo.getPropertyName(pKey)}(${warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,true),true)} ${pKey.name}) {
+	${utilidades.generateTimeStampAnnotationSetter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,false) ,pojo)}
+	${pojo.getPropertySetModifiers(pKey)} void set${pojo.getPropertyName(pKey)}(${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(pKey, jdk5,pojo,false),false))} ${pKey.name}) {
 		this.${pKey.name} = ${pKey.name};
 	}
        </#if>
@@ -83,7 +83,7 @@
 	 */
 	${utilidades.generateJsonIgnoreAnnotationJdbc(property,pojo)}
 	${utilidades.generateTimeStampAnnotationGetter(warSupresor.getJavaTypeName(property, jdk5,pojo,true),pojo)}
-	${pojo.getPropertyGetModifiers(property)} ${warSupresor.typeConverter(warSupresor.getJavaTypeName(property, jdk5,pojo,true),true)} ${warSupresor.getGetterSignature(property,pojo)}() {
+	${pojo.getPropertyGetModifiers(property)} ${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(property, jdk5,pojo,true),true))} ${warSupresor.getGetterSignature(property,pojo)}() {
 		return this.${property.name};
 	}
 
@@ -94,7 +94,7 @@
 	 * @return
      */
 	${utilidades.generateTimeStampAnnotationSetter(warSupresor.getJavaTypeName(property, jdk5,pojo,true),pojo)}
-	${pojo.getPropertySetModifiers(property)} void set${pojo.getPropertyName(property)}(${warSupresor.typeConverter(warSupresor.getJavaTypeName(property,jdk5,pojo,true),true)} ${property.name}) {
+	${pojo.getPropertySetModifiers(property)} void set${pojo.getPropertyName(property)}(${pojo.importType(warSupresor.typeConverter(warSupresor.getJavaTypeName(property,jdk5,pojo,true),true))} ${property.name}) {
 		this.${property.name} = ${property.name};
 	}
         </#if>

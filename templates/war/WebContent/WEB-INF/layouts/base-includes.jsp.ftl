@@ -34,6 +34,9 @@
 	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>';
 </script>
 
-<%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%>
-<!--%@include file="/WEB-INF/layouts/includes/rup.scripts.min.js"%-->
+<%-- Scripts RUP sin minimizar (DESARROLLO) --%>
+<%-- <%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%> --%>
+<%-- Scripts RUP minimizados (PRODUCCION) --%>
+<%@include file="/WEB-INF/layouts/includes/rup.scripts.min.inc"%>
+
 <%@include file="/WEB-INF/layouts/includes/${codapp}.scripts.inc"%>

@@ -52,56 +52,98 @@ public interface ${pojo.getDeclarationName()}Service {
 	${pojo.getDeclarationName()} find(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 
 	/**
-	 * Finds a List of rows in the ${pojo.getDeclarationName()} table.
+	 * Deletes a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
-	 * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
-	 * @return ${pojo.importType("java.util.List")}
 	 */
-	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination);
+	void remove(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 
 	/**
-	 * Counts rows in the ${pojo.getDeclarationName()} table.
+	 * Finds a list of rows in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
-	 * @return Long
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	Long findAllCount(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
-	
+	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto);
+
 	/**
 	 * Finds rows in the ${pojo.getDeclarationName()} table using like.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
-	 * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
      * @param startsWith Boolean	 
-	 * @return ${pojo.importType("java.util.List")}
+	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination, Boolean startsWith) ;
+	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith);
+
+	/*
+	 * OPERACIONES RUP_TABLE
+	 */
 
 	/**
-	 * Counts rows in the ${pojo.getDeclarationName()} table using like.
+	 * Removes rows from the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
-     * @param startsWith Boolean	 
-	 * @return Long
-	 */
-	Long findAllLikeCount(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, Boolean startsWith) ;
-  
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @param startsWith Boolean
+	 */	
+	void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto,  Boolean startsWith);
+   
+    
 	/**
-	 * Deletes a single row in the ${pojo.getDeclarationName()} table.
+	 * Filter method in the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
-	 * @return 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @param startsWith Boolean
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}>
+	 */	
+	${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto,  Boolean startsWith);
+    
+    /**
+	 * Searches rows in the ${pojo.getDeclarationName()} table.
+	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @param startsWith Boolean
+	 * @return ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
+	 */	
+    ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith);
+    
+    /**
+	 * Reorder the selection made in ${pojo.getDeclarationName()} table.
+	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @param startsWith Boolean
+	 * @return ${pojo.importType("java.lang.Object")}
+	 */	
+    ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith);
+    
+    /*
+	 * OPERACIONES RUP_TABLE JERARQUIA
 	 */
-	void remove(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
+	 
+	/**
+	 * Finder method in the hierarchical the ${pojo.getDeclarationName()} table.
+	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @param startsWith Boolean
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
+	 */	
+	${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith);
 	
 	/**
-	 * Deletes multiple rows in the ${pojo.getDeclarationName()} table.
+	 * Finder method for siblings rows in the hierarchical the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List List
-	 * @return 
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
 	 */	
-	void removeMultiple(${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List);
+	${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto);
     
       <#foreach property in pojo.getAllPropertiesIterator()>
         <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>

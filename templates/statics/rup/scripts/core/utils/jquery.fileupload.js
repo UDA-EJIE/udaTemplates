@@ -181,23 +181,23 @@
         },
 
         _onProgress: function (e, data) {
-            if (e.lengthComputable) {
+            if (e.originalEvent.lengthComputable) {
                 var total = data.total || this._getTotal(data.files),
                     loaded = parseInt(
-                        e.loaded / e.total * (data.chunkSize || total),
+                        e.originalEvent.loaded / e.originalEvent.total * (data.chunkSize || total),
                         10
                     ) + (data.uploadedBytes || 0);
                 this._loaded += loaded - (data.loaded || data.uploadedBytes || 0);
                 data.lengthComputable = true;
                 data.loaded = loaded;
-                data.total = total;
+                data.total = total;				
                 // Trigger a custom progress event with a total data property set
                 // to the file size(s) of the current upload and a loaded data
                 // property calculated accordingly:
-                this._trigger('progress', e, data);
+                this._trigger("progress", e, data);
                 // Trigger a global progress event for all current file uploads,
                 // including ajax calls queued for sequential file uploads:
-                this._trigger('progressall', e, {
+                this._trigger("progressall", e, {
                     lengthComputable: true,
                     loaded: this._loaded,
                     total: this._total
@@ -210,16 +210,17 @@
                 xhr = options.xhr ? options.xhr() : $.ajaxSettings.xhr();
             // Accesss to the native XHR object is required to add event listeners
             // for the upload progress event:
-            if (xhr.upload && xhr.upload.addEventListener) {
-                xhr.upload.addEventListener('progress', function (e) {
-                    that._onProgress(e, options);
-                }, false);
-                options.xhr = function () {
-                    return xhr;
-                };
-            }
+                if (xhr.upload) {
+    				//-- fix start --
+    				$( xhr.upload ).bind( "progress", function (e) {
+    				that._onProgress(e, options);
+    				});
+    				options.xhr = function () {
+                        return xhr;
+                    };
+    				//-- fix end --
+                }
         },
-
         _initXHRData: function (options) {
             var formData,
                 file = options.files[0];
