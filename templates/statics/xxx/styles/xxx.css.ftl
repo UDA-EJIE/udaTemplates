@@ -114,7 +114,7 @@ input.disabled { background-color: #D3D3D3; }
 	float: left;
 	width: 8em;
 }
-.formulario_linea_input { 
+.formulario_linea_input:not(.ui-selectmenu-menu) {
 	border:0.1em solid #D1D1D1;
 	color:#666666;
 	font-size:100%;

@@ -57,10 +57,8 @@
 	</bean>
 
 	<!-- Se define el sistema especifico de autenticación aplicado al sistema de seguridad -->
-	<!-- Se define que con cambios de usurio se recargen los datos de seguridad y se mate la session, cual es el "perimetralSecurityWrapper" y el "authenticationManager" -->
-	<bean id="stockUdaSecurityPadlocks" class="com.ejie.x38.security.StockUdaSecurityPadlocksImpl"/>
+	<!-- Se define que con cambios de usuario se recargen los datos de seguridad y se mate la session, cual es el "perimetralSecurityWrapper" y el "authenticationManager" -->
 	<bean id="preAuthenticateProcessingFilter" class="com.ejie.x38.security.PreAuthenticateProcessingFilter">
-		<property name="stockUdaSecurityPadlocks" ref="stockUdaSecurityPadlocks" />
 		<property name="checkForPrincipalChanges" value="true" />
 		<property name="invalidateSessionOnPrincipalChange" value="true" />
 		<property name="perimetralSecurityWrapper" ref="perimetralSecurityWrapper" />

@@ -28,7 +28,7 @@
     <#if annot=0>
 		 <#assign listClas = listaClases>
 		 <#foreach reg in listClas>
-			<bean id="${reg?lower_case}Controller" class="com.ejie.${codapp}.${reg}Controller">
+			<bean id="${reg?lower_case}Controller" class="com.ejie.${codapp}.control.${reg}Controller">
 				<property name="${reg?lower_case}Service" ref="${reg?lower_case}Service" />
 			</bean>		
 		 </#foreach>	
