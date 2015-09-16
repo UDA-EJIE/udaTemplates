@@ -227,7 +227,11 @@
 					if (jQuery.isPlainObject(ajaxOptions.data)){
 						ajaxOptions.data = $.rup_utils.unnestjson(ajaxOptions.data);
 					}
-					ajaxOptions.beforeSubmit=function(a, $this, options){
+					ajaxOptions.beforeSubmit=function(a, $form, options){
+						var hasFileInputs = jQuery('input:file', $form).length > 0;
+						if ((!$.rup.browser.xhrFileUploadSupport && hasFileInputs) || options.iframe===true){
+							options.extraData={};
+						}
 						delete a;
 					};
 					ajaxOptions.propperFormSerialization = false; 
@@ -253,7 +257,8 @@
 				// Obtenemos el identificador del registro seleccionado
 				rowId = $self.rup_table("getGridParam","selrow");
 				// Obtenemos el numero de linea
-				rowNum = $self.jqGrid("getInd", rowId);
+//				rowNum = $self.jqGrid("getInd", rowId);
+				rowNum = jQuery.inArray(rowId,jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])()[1])+1;
 				// Numero de registros por pagina que se visualizan
 				rowsPerPage = parseInt($self.rup_table("getGridParam", "rowNum"),10);
 				// Flag de todos los registros seleccionados
@@ -636,6 +641,10 @@
 				return true;
 			};
 			
+			deleteOptions.afterComplete = function(){
+				$self.triggerHandler("rupTable_afterDeleteRow");
+			};
+			
 			if ($self.triggerHandler("rupTable_beforeDeleteRow",[deleteOptions, selectedRow])!==false){
 				$self.jqGrid('delGridRow',selectedRow, deleteOptions);
 			}
@@ -854,7 +863,7 @@
 						vl = "";
 						if(opt.defaultValue ) {
 							vl = $.isFunction(opt.defaultValue) ? opt.defaultValue.call($t) : opt.defaultValue;
-							if(fld[0].type=='checkbox') {
+							if(fld[0].type=='checkbox' || fld[0].type=='radio') {
 								vlc = vl.toLowerCase();
 								if(vlc.search(/(false|0|no|off|undefined)/i)<0 && vlc!=="") {
 									fld[0].checked = true;
@@ -866,7 +875,7 @@
 								}
 							} else {fld.val(vl);}
 						} else {
-							if( fld[0].type=='checkbox' ) {
+							if( fld[0].type=='checkbox'  ||fld[0].type=='radio') {
 								fld[0].checked = false;
 								fld[0].defaultChecked = false;
 								vl = $(fld).attr("offval");
@@ -932,6 +941,7 @@
 							});
 							break;
 						case "checkbox":
+					
 							tmp = String(tmp);
 							if(cm[i].editoptions && cm[i].editoptions.value) {
 								var cb = cm[i].editoptions.value.split(":");
@@ -990,6 +1000,8 @@
 					rp_ge[$t.p.id]._savedData = $.rup_utils.unnestjson(xhr);
 					rp_ge[$t.p.id]._savedData[settings.id+"_id"]=rowid;
 					$("#id_g",$form).val(rowid);
+					
+					$self.triggerHandler("rupTable_afterFormFillDataServerSide", [xhr, $detailFormToPopulate, ajaxOptions]);
 				
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -1027,63 +1039,6 @@
 			return true;
 			
 		},
-//		getFormData : function(postdata, extpost){
-//			var $t = this, $self = $(this), settings = $self.data("settings"), gID = $t.p.id, frmgr = $.fn.jqGrid.rup.edit.detail.detailFormId +gID, frmtborg = $.fn.jqGrid.rup.edit.detail.detailBodyId +gID, frmtb = "#"+$.jgrid.jqID(frmtborg);
-//			$(frmtb+" .FormElement").each(function() {
-////				var celm = $("input,select .customelement");
-//				if ($(this).hasClass("customelement")) {
-//					var  elem = this, nm = $(elem).attr('name');
-//					$.each($t.p.colModel, function(){
-//						if(this.name === nm && this.editoptions && $.isFunction(this.editoptions.custom_value)) {
-//							try {
-//								postdata[nm] = this.editoptions.custom_value.call($t, $("#"+$.jgrid.jqID(this.id!==undefined?this.id:nm),frmtb),'get');
-//								if (postdata[nm] === undefined) {throw "e1";}
-//							} catch (e) {
-//								if (e==="e1") {$.jgrid.info_dialog(jQuery.jgrid.errors.errcap,"function 'custom_value' "+$.jgrid.edit.msg.novalue,jQuery.jgrid.edit.bClose);}
-//								else {$.jgrid.info_dialog(jQuery.jgrid.errors.errcap,e.message,jQuery.jgrid.edit.bClose);}
-//							}
-//							return true;
-//						}
-//					});
-//				} else {
-//				switch ($(this).get(0).type) {
-//					case "checkbox":
-//						if($(this).is(":checked")) {
-//							postdata[this.name]= $(this).val();
-//						}else {
-//							var ofv = $(this).attr("offval");
-//							postdata[this.name]= ofv;
-//						}
-//					break;
-//					case "select-one":
-//						postdata[this.name]= $("option:selected",this).val();
-//						extpost[this.name]= $("option:selected",this).text();
-//					break;
-//					case "select-multiple":
-//						postdata[this.name]= $(this).val();
-//						if(postdata[this.name]) {postdata[this.name] = postdata[this.name].join(",");}
-//						else {postdata[this.name] ="";}
-//						var selectedText = [];
-//						$("option:selected",this).each(
-//							function(i,selected){
-//								selectedText[i] = $(selected).text();
-//							}
-//						);
-//						extpost[this.name]= selectedText.join(",");
-//					break;
-//					case "password":
-//					case "text":
-//					case "textarea":
-//					case "button":
-//						postdata[this.name] = $(this).val();
-//
-//					break;
-//				}
-//				if($t.p.autoencode) {postdata[this.name] = $.jgrid.htmlEncode(postdata[this.name]);}
-//				}
-//			});
-//			return true;
-//		},
 		postIt : function(postdata, extpost, frmoper) {
 			var $t = this, self = $t, $self = jQuery(self), settings =  $self.data("settings"), gID = $t.p.id, frmgr = $.fn.jqGrid.rup.edit.detail.detailFormId +gID, frmtborg = $.fn.jqGrid.rup.edit.detail.detailBodyId +gID, frmtb = "#"+$.jgrid.jqID(frmtborg),
 			copydata, ret=[true,"",""], onCS = {}, opers = $t.p.prmNames, idname, oper, key, selr, i;
@@ -1184,6 +1139,20 @@
 							$.each($t.p.colModel, function(){
 								if(extpost[this.name] && this.formatter && this.formatter=='select') {
 									try {delete extpost[this.name];} catch (e) {}
+								}
+								if(this.formatter=="checkbox" && postdata[this.name]==undefined){
+									 postdata[this.name]=null;
+								}
+								if (this.formatter && (this.formatter!=="checkbox" && this.formatter!=='select')){
+									if (postdata[this.name]===undefined){
+										postdata[this.name] = this.formatter.call($($t),undefined, postdata,postdata[oper]);
+									}
+								}
+								if (this.formatterOnUpdate ){
+									postdata[this.name] = this.formatterOnUpdate.call($($t), $("#"+frmgr));
+								}
+								if (this.updateFromDetail ){
+									postdata[this.name] = this.updateFromDetail.call($($t), $("#"+frmgr));
 								}
 							});
 							postdata = $.extend(postdata,extpost);
@@ -1320,23 +1289,34 @@
 				unnestNObj = jQuery.rup_utils.unnestjson(nObj), 
 				unnestOObj = jQuery.rup_utils.unnestjson(oObj);
 			
-			for (key in nObj) {
-				if(nObj.hasOwnProperty(key) && String(unnestNObj[key]) !== String(unnestOObj[key])) {
+			for (key in unnestNObj) {
+				if(unnestNObj.hasOwnProperty(key) && String(unnestNObj[key]) !== String(unnestOObj[key])) {
 					ret = true;
+					// Descomentar para debug
+//					console.log(" Compare data: "+ key+ " new: "+String(unnestNObj[key]) + " old: "+String(unnestOObj[key]));
 					break;
 				}
 			}
 			return ret;
 		},checkUpdates : function(extpost, okCallback) {
-			var $self = $(this), $t = this, gID = $t.p.id, frmgr = $.fn.jqGrid.rup.edit.detail.detailFormId +gID, frmtborg = $.fn.jqGrid.rup.edit.detail.detailBodyId +gID, frmtb = "#"+$.jgrid.jqID(frmtborg),
-			stat = true;
+			var $self = $(this), settings = $self.data("settings"), $t = this, gID = $t.p.id, frmgr = $.fn.jqGrid.rup.edit.detail.detailFormId +gID, frmtborg = $.fn.jqGrid.rup.edit.detail.detailBodyId +gID, frmtb = "#"+$.jgrid.jqID(frmtborg),
+			stat = true, diff = false;
 //			$("#"+settings.formEdit.feedbackId,frmtb).hide();
 			if(rp_ge[$t.p.id].checkOnUpdate) {
 				postdata = {};extpost={};
 				$.proxy($.jgrid.getFormData, $t)(postdata, extpost);
 				newData = $.extend({},postdata,extpost);
-				diff = $.proxy($.jgrid.compareData, $t)(newData,rp_ge[$t.p.id]._savedData);
-				if(diff) {
+				
+				if (settings.formEdit.addEditOptions.defaultCompareData===true){
+					diff = $.proxy($.jgrid.compareData, $t)(newData,rp_ge[$t.p.id]._savedData);
+				}
+				
+				var compareDataEvent = jQuery.Event("rupTable_formEditCompareData");
+				compareDataEvent.isDifferent = diff;
+				
+				$self.triggerHandler(compareDataEvent, [rp_ge[$t.p.id]._savedData, newData]);
+			
+				if(compareDataEvent.isDifferent) {
 					$.rup_messages("msgConfirm", {
 						message: $.rup.i18nParse($.rup.i18n.base,"rup_table.saveAndContinue"),
 						title: $.rup.i18nParse($.rup.i18n.base,"rup_table.changes"),
@@ -1723,11 +1703,13 @@
 							});
 						}
 						
-						if (jQuery.isFunction(p.onClose)){
-							jQuery(".ui-dialog-titlebar-close, a:has(#closeText_" +settings.formEdit.$detailFormDiv.first()[0].id+")", settings.formEdit.$detailFormDiv.parent()).off("click").on("click", function(event){
-								p.onClose.call(event);
-							});
+						if (!jQuery.isFunction(p.onClose)){
+							p.onClose = fncCancelLink;
 						}
+						
+						jQuery(".ui-dialog-titlebar-close, a:has(#closeText_" +settings.formEdit.$detailFormDiv.first()[0].id+")", settings.formEdit.$detailFormDiv.parent()).off("click").on("click", function(event){
+							p.onClose.call(event);
+						});
 						
 						IDs.themodal = settings.formEdit.$detailFormDiv.attr("id");
 					}else{
@@ -1818,32 +1800,6 @@
 						$("#cData",frmtb+"_2").addClass(p.closeicon[1] == "right" ? 'fm-button-icon-right' : 'fm-button-icon-left')
 						.append("<span class='ui-icon "+p.closeicon[2]+"'></span>");
 					}
-//					if(rp_ge[$t.p.id].checkOnSubmit || rp_ge[$t.p.id].checkOnUpdate) {
-//						bS  ="<a href='javascript:void(0)' id='sNew' class='fm-button ui-state-default ui-corner-all' style='z-index:1002'>"+p.bYes+"</a>";
-//						bN  ="<a href='javascript:void(0)' id='nNew' class='fm-button ui-state-default ui-corner-all' style='z-index:1002'>"+p.bNo+"</a>";
-//						bC  ="<a href='javascript:void(0)' id='cNew' class='fm-button ui-state-default ui-corner-all' style='z-index:1002'>"+p.bExit+"</a>";
-//						var zI = p.zIndex  || 999;zI ++;
-//						$("<div class='ui-widget-overlay jqgrid-overlay confirm' style='z-index:"+zI+";display:none;'>&#160;"+"</div><div class='confirm ui-widget-content ui-jqconfirm' style='z-index:"+(zI+1)+"'>"+p.saveData+"<br/><br/>"+bS+bN+bC+"</div>").insertAfter("#"+frmgr);
-//						$("#sNew","#"+$.jgrid.jqID(IDs.themodal)).click(function(){
-///* DEL						postIt(); */
-///* ADD */					$.proxy($.jgrid.postIt, $t)(postdata, extpost, frmoper);
-//							$("#"+frmgr).data("disabled",false);
-//							$(".confirm","#"+$.jgrid.jqID(IDs.themodal)).hide();
-//							return false;
-//						});
-//						$("#nNew","#"+$.jgrid.jqID(IDs.themodal)).click(function(){
-//							$(".confirm","#"+$.jgrid.jqID(IDs.themodal)).hide();
-//							$("#"+frmgr).data("disabled",false);
-//							setTimeout(function(){$(":input","#"+frmgr)[0].focus();},0);
-//							return false;
-//						});
-//						$("#cNew","#"+$.jgrid.jqID(IDs.themodal)).click(function(){
-//							$(".confirm","#"+$.jgrid.jqID(IDs.themodal)).hide();
-//							$("#"+frmgr).data("disabled",false);
-//							$.jgrid.hideModal("#"+$.jgrid.jqID(IDs.themodal),{gb:"#gbox_"+$.jgrid.jqID(gID),jqm:p.jqModal,onClose: rp_ge[$t.p.id].onClose});
-//							return false;
-//						});
-//					}
 					// here initform - only once
 					$($t).triggerHandler("jqGridAddEditInitializeForm", [settings.formEdit.$detailForm, frmoper]);
 					if(onInitializeForm) {onInitializeForm.call($t,settings.formEdit.$detailForm);}
@@ -1948,6 +1904,7 @@
 			bSubmit: jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_message.aceptar"),
 			closeicon:[false],
 			checkOnUpdate:true,
+			defaultCompareData: true,
 			fillDataMethod:"serverSide", // clientSide || serverSide
 			saveicon:[false],
 			linkStyleButtons: ["#cData"],
@@ -1957,14 +1914,6 @@
 			resize:false,
 			viewPagerButtons: false, // TODO: no permitir el habilitarlo
 			width:569,
-//			serializeEditData:function serializeEditData_default(postdata){
-//				var $self = $(this), 
-//					settings = $self.data("settings"),
-//					jsonData = $.extend({},postdata, form2object(settings.formEdit.$detailForm[0],null,false)),
-//					strJsonData = jQuery.toJSON(jQuery.rup_utils.unnestjson(jsonData));
-//				
-//				return strJsonData.split('null').join(''); //IE FIX (null values)
-//			},
 			ajaxEditOptions:{
 				type:"PUT",
 				dataType: 'json',

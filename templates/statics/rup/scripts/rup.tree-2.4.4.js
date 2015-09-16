@@ -266,7 +266,7 @@
 	//********************************
 	// DEFINICIÓN DE MÉTODOS PRIVADOS
 	//********************************
-
+	
 	jQuery.fn.rup_tree("extend", {
 		_init : function(args) {
 			if (args.length > 1) {
@@ -286,6 +286,9 @@
 				}
 				
 				var settings = jQuery.extend(true, {}, jQuery.fn.rup_tree.defaults, args[0]), self = this[0], selectorSelf = this;
+				
+				// Se guarda la referencia al $self
+				settings.$self = $(this);
 				
 				//validacion de carga por defecto
 				if(settings.ui === undefined || settings.ui.enable !== false){

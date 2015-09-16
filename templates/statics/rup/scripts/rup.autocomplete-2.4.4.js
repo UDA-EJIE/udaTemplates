@@ -21,6 +21,35 @@
 	
 	var rup_autocomplete = {};
 	
+	$.extend( $.ui.autocomplete.prototype, {
+		_renderMenu: function(ul, items ){
+		var settings =this.options;
+		
+		if (settings.category){
+			//categorización de los resultados
+			var that = this,
+			 currentCategory = "";
+			 $.each( items, function( index, item ) {
+			 var li;
+			 if ( item.category != currentCategory ) {
+				 ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+			 	currentCategory = item.category;
+			 }
+			 	li = that._renderItem( ul, item );
+			 if ( item.category ) {
+				 li.attr( "aria-label", item.category + " : " + item.label );
+			 }
+			 });
+		}
+		else{	 		
+			var self = this;
+			$.each( items, function( index, item ) {
+				self._renderItem( ul, item );
+			});
+		}
+		}	
+	});
+	
 	//Se configura el arranque de UDA para que alberge el nuevo patrón 
 	$.extend($.rup.iniRup, $.rup.rupSelectorObjectConstructor("rup_autocomplete", rup_autocomplete));
 	
@@ -76,6 +105,11 @@
 				self = $("#"+$(this).attr("id")+"_label");
 			}
 			
+			//si es un combobox ocultamos el boton del combo
+			if ($('#'+this.attr('id')+"_label").has('.rup-combobox-input'))
+				$('span').has($('#'+this.attr('id')+"_label")).find("a").attr("style","display:none");
+			
+			
 			self.attr("disabled","disabled");
 		},
 		enable:function(){
@@ -86,6 +120,10 @@
 			} else {
 				self = $("#"+$(this).attr("id")+"_label");
 			}
+			
+			//si es un combobox mostramos el boton del combobox
+			if ($('#'+this.attr('id')+"_label").has('.rup-combobox-input'))
+				$('span').has($('#'+this.attr('id')+"_label")).find("a").removeAttr("style");
 			
 			self.removeAttr("disabled");
 		},
@@ -111,11 +149,15 @@
 					self.autocomplete("option" , "minLength" , settings.minLength !== undefined?settings.minLength:0);
 				} else {
 					if (aux !== undefined){
+						if (optionName=="data"){
+							self.autocomplete("option" , "data" , aux);
+						}else{
 						//REMOTO
 						settings.sourceParam = aux;
 						//Nos aseguramos que el número mínimo de teclas para búsquedas sea 3
 						self.autocomplete("option" , optionName , this._sourceREMOTE);
 						self.autocomplete("option" , "minLength" , settings.minLength>3?settings.minLength:3);
+						}
 					} else {
 						return undefined;
 					}
@@ -159,14 +201,29 @@
 	// DEFINICIÓN DE MÉTODOS PRIVADOS
 	//*******************************
 	$.fn.rup_autocomplete("extend", {
-			_parseResponse : function(term, label, value) {
+			_parseResponse : function(term, label, value, category) {
+				if (category===undefined){
+					return {
+						
+						label: label.replace(
+									new RegExp("(?![^&;]+;)(?!<[^<>]*)(" +$.ui.autocomplete.escapeRegex(term) +	")(?![^<>]*>)(?![^&;]+;)", "gi"),
+									"<strong>$1</strong>" 
+							),
+						value: value
+					};
+		
+			}else{
 				return {
+					
 					label: label.replace(
 								new RegExp("(?![^&;]+;)(?!<[^<>]*)(" +$.ui.autocomplete.escapeRegex(term) +	")(?![^<>]*>)(?![^&;]+;)", "gi"),
 								"<strong>$1</strong>" 
 						),
-					value: value
+					value: value,
+					category: category
 				};
+			}
+		
 			},
 			_sourceLOCAL : function (request, response) {
 				var settings, loadObjects = {}, returnValue, stock;
@@ -188,7 +245,7 @@
 					json_i18n = $.rup.i18n.app[settings.i18nId];
 				matcher = new RegExp(matcher, "i");
 				data = $.map(settings.data,function(item) {
-					var label=item, value=item;
+					var label=item, value=item, category;
 					if (typeof item === "object"){ //multi-idioma
 						if(item["i18nCaption"] !== undefined){
 							label = $.rup.i18nParse(json_i18n,item["i18nCaption"]);
@@ -198,9 +255,14 @@
 							label = item["value"];
 						}
 						value = item["value"];
+						if (settings.category)
+							category=item["category"];
 					} 
 					if (!request.term || matcher.test(label)) {
-						returnValue = settings._parseResponse(request.term, label, value);
+						if (settings.category)
+							returnValue = settings._parseResponse(request.term, label, value, category);
+						else
+							returnValue = settings._parseResponse(request.term, label, value);
 						loadObjects[returnValue.label.replace(/<strong>/g,"").replace(/<\/strong>/g,"")] = returnValue.value ;
 						return returnValue;
 					};
@@ -215,7 +277,7 @@
 			},
 			_sourceREMOTE : function (request, response){
 				//Se escapan los comodines/wildcards de BD
-				var settings, loadObjects = {}, returnValue, stock;
+				var $self = this.element ,settings, loadObjects = {}, returnValue, stock, term, data, lastTerm, bckData, $stock;
 								
 				if (this.element.data("settings") !== undefined){
 					settings = this.element.data("settings");
@@ -229,50 +291,109 @@
 					stock = settings.id;
 				}
 				
-				var term = request.term.replace(/%/g,"\\%").replace(/_/g,"\\_"),
-					data = $.extend({q:term,c:this.options.contains},this.options.extraParams);
+				$stock = jQuery("#"+stock);
 				
-				$.rup_ajax({
-					url: settings.data,
-					data : data,
-					dataType: 'json',
-					contentType: 'application/json',
-					//Cabecera RUP
-					beforeSend: function (xhr){
-						//LOADING...
-						$("#"+settings.id+"_label").addClass("rup-autocomplete_loading");
-						
-						xhr.setRequestHeader("RUP", $.toJSON(settings.sourceParam));
-					},
-					success: function(data) {
-						response($.map(data, function(item) {
-							returnValue =  settings._parseResponse(request.term, item["label"], item["value"]);
-							loadObjects[returnValue.label.replace(/<strong>/g,"").replace(/<\/strong>/g,"")] = returnValue.value ;
-							return returnValue;
-						}));
-						
-						//se almacenan los datos cargados
-						$("#"+stock).data("loadObjects",loadObjects);
-					},
-					error: function (xhr, textStatus, errorThrown){
-						if (settings.onLoadError!==null && typeof settings.onLoadError === "function"){
-							jQuery(settings.onLoadError(xhr, textStatus, errorThrown));
-						}else{
-							$.rup.showErrorToUser($.rup.i18n.base.rup_autocomplete.ajaxError);
+				term = request.term.replace(/%/g,"\\%").replace(/_/g,"\\_");
+				data = $.extend({q:term,c:this.options.contains},this.options.extraParams);
+				
+				// Comprobar si se puede cachear
+				lastTerm = $stock.data("tmp.loadObjects.term");
+				
+				if (term.indexOf(lastTerm)===0){
+					
+					$stock.data("tmp.loadObjects.term",term);
+					
+					bckData = settings.data;
+					
+					settings.data = $stock.data("tmp.data");
+					jQuery.proxy(settings.$self._sourceLOCAL, this, request, response)();
+					settings.data = bckData;
+					
+				}else{
+				
+					$.rup_ajax({
+						url: settings.data,
+						data : data,
+						dataType: 'json',
+						contentType: 'application/json',
+						//Cabecera RUP
+						beforeSend: function (xhr){
+							//LOADING...
+							$("#"+settings.id+"_label").addClass("rup-autocomplete_loading");
+							
+							xhr.setRequestHeader("RUP", $.toJSON(settings.sourceParam));
+						},
+						success: function(data) {
+							response($.map(data, function(item) {
+								if (settings.category==true)
+									returnValue =  settings._parseResponse(request.term, item["label"], item["value"], item["category"]);
+								else
+									returnValue =  settings._parseResponse(request.term, item["label"], item["value"]);
+
+								loadObjects[returnValue.label.replace(/<strong>/g,"").replace(/<\/strong>/g,"")] = returnValue.value ;
+								return returnValue;
+							}));
+							
+							//se almacenan los datos cargados
+							$stock.data("loadObjects",loadObjects);
+							$stock.data("tmp.loadObjects.term",term);
+							$stock.data("tmp.data",data);
+
+							$self.triggerHandler("rupAutocomplete_loadComplete", [data]);
+						},
+						error: function (xhr, textStatus, errorThrown){
+							if (settings.onLoadError!==null && typeof settings.onLoadError === "function"){
+								jQuery(settings.onLoadError(xhr, textStatus, errorThrown));
+							}else{
+								$.rup.showErrorToUser($.rup.i18n.base.rup_autocomplete.ajaxError);
+							}
+						},
+						complete: function(xhr, textStatus) {
+							//UNLOADING...
+							$("#"+settings.id+"_label").removeClass("rup-autocomplete_loading");
 						}
+					});
+					
+				}
+			},
+			_createShowAllButton : function() {
+				var input = this, wasOpen = false;
+				input.wrap(jQuery("<span>").addClass("rup-combobox"));
+				var $wrapper = input.parent();
+				var $button = $("<a>").attr("tabIndex", -1).attr("title",
+						$.rup.i18n.base.rup_autocomplete.showAllItems).rup_tooltip().button({
+					icons : {
+						primary : "ui-icon-triangle-1-s"
 					},
-					complete: function(xhr, textStatus) {
-						//UNLOADING...
-						$("#"+settings.id+"_label").removeClass("rup-autocomplete_loading");
-					}
-				});
+					text : false
+				}).removeClass("ui-corner-all").addClass(
+						"rup-combobox-toggle ui-corner-right")
+						.mousedown(
+								function() {
+									wasOpen = input.autocomplete(
+											"widget")
+											.is(":visible");
+								}).click(function() {
+							input.focus();
+							// Close if already visible
+							if (wasOpen) {
+								return true;
+							}
+							// Pass empty string as value to search
+							// for, displaying all results
+							input.autocomplete("search", "");
+						});
+				
+				$button.appendTo($wrapper);
 			},
 			_init : function(args){
+				var visible;
+				
 				if (args.length > 1) {
 					$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base,"rup_global.initError") + $(this).attr("id"));
 				} else {
 					//Se recogen y cruzan las paremetrizaciones del objeto
-					var settings = $.extend({}, $.fn.rup_autocomplete.defaults, args[0]),
+					var $self = $(this), settings = $.extend({}, $.fn.rup_autocomplete.defaults, args[0]),
 						name = $(this).attr("name"),
 						selected_value;
 					
@@ -283,6 +404,8 @@
 					settings.loadObjects = settings.id;
 					settings.data = settings.source; //Guardar los datos en "data" ya que source la emplea autocomplete internamente
 					settings._parseResponse = this._parseResponse; //Guardar referencia a rup.autocomplete para invocar las funciones privadas
+					settings._sourceLOCAL = this._sourceLOCAL; //Guardar referencia a rup.autocomplete para invocar las funciones privadas
+					settings.$self = this; //Guardar referencia a rup.autocomplete para invocar las funciones privadas
 					
 					//Guardar valor del INPUT
 					settings.loadValue = $("#"+settings.id).attr('value');
@@ -305,12 +428,14 @@
 							}
 							selected_value = null;
 							if (settings._change!==undefined){settings._change(event,ui);}
+							$self.triggerHandler('rupAutocomplete_change');
 						};
 						settings.select = function(event, ui) {
 						 	selected_value = ui.item["label"].replace(/<strong>/g,"").replace(/<\/strong>/g,"");
 							if (settings._select!==undefined){settings._select(event, ui);}
 							$("#"+settings.id).attr("rup_autocomplete_label",selected_value);
 							$("#"+settings.id).data("selected",true);
+							$self.triggerHandler("rupAutocomplete_select", [ui]);
 						}; 
 						settings.focus = function(event, ui) {
 							$("#"+event.target.id).val(ui.item["label"].replace(/<strong>/g,"").replace(/<\/strong>/g,""));
@@ -342,19 +467,72 @@
 					//Se prepara el almacenaje de datos 
 					$("#"+settings.id).data("loadObjects",{});
 					
+					if (settings.combobox===true){
+						$("#"+settings.id).addClass("rup-combobox-input ui-corner-left");
+						settings.minLength = 0;
+					}
+					
+					
+					jQuery(settings.appendTo).addClass("ui-front");
+					
 					//Invocación al componente subyacente
-					$("#"+settings.id).autocomplete(settings);
+					jQuery("#"+settings.id).autocomplete(settings);
+					
+					//Se anyade un id al menu desplegable del autocomplete
+					settings.$menu = jQuery("#"+settings.id).data("autocomplete").menu.element.attr("id",settings.id+"_menu");
+					
+					// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown)
+					settings.$menu.mousedown(function() {
+					// use another timeout to make sure the blur-event-handler on the input was already triggered
+						setTimeout(function() {
+							clearTimeout($("#"+settings.id+"_label").data("autocomplete").closing );
+						}, 13);
+					})
+											
+					if (settings.combobox===true){
+						this._createShowAllButton();
+					}
+					
+					// Altura del menu desplegable
+					if (settings.menuMaxHeight!==false){
+						jQuery("#"+settings.id).on("autocompleteopen",function(){
+							settings.$menu.css("overflow-y","auto")
+								.css("overflow-x","hidden")
+								.css("max-height",settings.menuMaxHeight)
+								.css("width",jQuery('#'+settings.id+"_label").innerWidth());
+						});
+					}
 					
 					//Buscar el UL del autocomplete y colocarlo tras el elemento sobre el que debe ir
 					//$("#"+settings.id).after($("body > .ui-autocomplete"));
 					
+					
 					//Buscar el UL del autocomplete y colocarlo tras el elemento sobre el que debe ir
-					if($.rup_utils.aplicatioInPortal()){
-						$("div.r01gContainer").append($("body > .ui-autocomplete"));
+					
+					if (settings.menuAppendTo!==null){
+						if (jQuery(settings.menuAppendTo).length===0){
+							alert("Es necesario especificar un selector válido para la propiedad menuAppendTo");
+						}else{
+							jQuery(settings.menuAppendTo).append(settings.$menu);
+						}
+					}else{
+						if($.rup_utils.aplicatioInPortal()){
+	//						$("div.r01gContainer").append($("body > .ui-autocomplete"));
+							$("div.r01gContainer").append(settings.$menu);
+						}
 					}
 					
 					//Deshabilitar
-					if (settings.disabled) { $("#"+settings.id).rup_autocomplete("disable"); }
+					if (settings.disabled===true) { $("#"+settings.id).rup_autocomplete("disable");
+						if (settings.combobox)
+							$('span').has('#'+settings.id+'_label').find("a").attr("style","display:none");
+
+					}else if (settings.disabled===false){ //habilitar
+						$("#"+settings.id).rup_autocomplete("enable");
+						if (settings.combobox){
+							$('span').has('#'+settings.id+'_label').find("a").removeAttr("style");
+						}
+					}
 					
 					//Valor por defecto
 					if (settings.defaultValue) { $("#"+settings.id).rup_autocomplete("search", settings.defaultValue); }
@@ -372,6 +550,15 @@
 					
 					
 					//eventos internos de borrado y perdida de foco
+					$("#"+settings.id+"_menu").on('mousedown',function (event){
+						var selected = $("#"+settings.id).data("selected"),
+						isShowingMenu = $(".ui-autocomplete:visible").length>0?true:false;
+						if(!selected && isShowingMenu){
+							visible=true;
+							event.preventDefault();
+						}
+					
+					});
 					$("#"+settings.id+"_label").bind("blur keydown", function(event){
 						//Obtener datos de si viene de seleccionar elemento o si el menú de selección está desplegado
 						var selected = $("#"+settings.id).data("selected"),
@@ -380,6 +567,15 @@
 						$("#"+settings.id).data("selected",false);
 						//Si es un evento de teclado pero no es ENTER, omitir esta función
 						if (event.type==="keydown" && event.keyCode!==13){return true;}
+						if (visible===true)
+							{
+								$("#"+settings.id).focus();
+								event.stopPropagation();
+								visible=false;
+								return true;
+							}
+						
+					
 						
 						var autoCompObject = $(event.currentTarget), 
 							loadObjects = $("#"+settings.loadObjects).data("loadObjects");
@@ -397,6 +593,7 @@
 								$("#"+settings.id).val(loadObjects[autoCompObject.val()]);
 								$("#"+settings.id).attr("rup_autocomplete_label",loadObjects[autoCompObject.val()]);
 							} else {
+								
 								$("#"+settings.id).val("");
 								$("#"+settings.id).attr("rup_autocomplete_label","");
 								autoCompObject.val("");
@@ -420,7 +617,10 @@
 		contains : true,
 		valueName: null,
 		labelName: null,
-		getText: false
+		getText: false,
+		combobox: false,
+		menuMaxHeight: false,
+		menuAppendTo:null
 	};	
 	
 	

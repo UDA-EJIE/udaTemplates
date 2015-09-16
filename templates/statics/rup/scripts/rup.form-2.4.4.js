@@ -189,18 +189,18 @@
 				
 				hasFileInputs = jQuery('input:file', $form).length > 0;
 				// Implementacion para realizar la emulacion de xhr al utilizar iframes
-				if (($.rup.browser.isIE && hasFileInputs) || options.iframe===true){
+				if ((!$.rup.browser.xhrFileUploadSupport && hasFileInputs) || options.iframe===true){
 					
 					// Configuracion necesaria para permitir con iframes el uso de metodos http diferentes a GET o POST
 					httpMethod = settings.type!==undefined ? settings.type : options.type;
 					if ($.inArray(httpMethod.toUpperCase(),$.rup.IFRAME_ONLY_SUPPORTED_METHODS) === -1){
-						options.extraData = $.extend({},options.extraData,{"_method":httpMethod.toUpperCase()});
+						options.extraData = $.extend({}, options.extraData, {"_method":httpMethod.toUpperCase()});
 					}
 					
 					//Se valida la presencia de portal y, llegados al caso, se adecuan las llamadas ajax para trabajar con portales
 					options.url=$.rup_utils.setNoPortalParam(options.url);
 					// Envio del parametro emulate_iframe_http_status para activar la emulacion en el lado servidor
-					options.extraData = $.extend({},options.extraData,{"_emulate_iframe_http_status":"true"});	
+					options.extraData = $.extend({}, options.extraData, {"_emulate_iframe_http_status":"true"});	
 					options.url = options.url + (options.url.match("\\?") === null ? "?" : "&") + "_emulate_iframe_http_status=true";
 					
 					// Callback de error por defecto a ejecutar cuando se produzca un error al utilizar la emulacion 

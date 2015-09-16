@@ -150,7 +150,7 @@
 			 * EVENTOS
 			 */
 			$self.on({
-				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow rupTable_toolbarButtonsStateRefresh": function(event, id, status, obj){
+				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow rupTable_toolbarButtonsStateRefresh rupTable_afterDeleteRow.rupTable.toolbar rupTable_coreConfigFinished.toolbar": function(event, id, status, obj){
 					var $self = jQuery(this), settings = $self.data("settings");
 					// Existe elementos seleccionados para ser editados
 							
@@ -175,16 +175,9 @@
 						}
 					});
 						
-//					processButton(settings.toolbar.btnEdit, jQuery.proxy(settings.isOnEdit, $self)());
-//					processButton(settings.toolbar.btnAdd, jQuery.proxy(settings.isOnAdd, $self)());
-//					processButton(settings.toolbar.btnDelete, jQuery.proxy(settings.isOnDelete, $self)());
-//					processButton(settings.toolbar.btnCancel, jQuery.proxy(settings.isOnCancel, $self)());
-//					processButton(settings.toolbar.btnSave, jQuery.proxy(settings.isOnSave, $self)());
-//					processButton(settings.toolbar.btnClone, jQuery.proxy(settings.isOnClone, $self)());
 				},
 				"rupTable_internalFeedbackClose": function(){
 					var $self = jQuery(this), settings = $self.data("settings");
-//					console.log("rupTable_internalFeedbackClose");
 					settings.$internalFeedback.rup_feedback("close");
 				}
 			});

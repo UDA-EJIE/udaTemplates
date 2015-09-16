@@ -1048,7 +1048,7 @@
 							}else{
 
 								// Implementacion para realizar la emulacion de xhr al utilizar iframes
-								if ($.rup.browser.isIE || options.iframe===true){
+								if (!$.rup.browser.xhrFileUploadSupport || options.iframe===true){
 									
 									// Configuracion necesaria para permitir con iframes el uso de metodos http diferentes a GET o POST
 									httpMethod = options.type;

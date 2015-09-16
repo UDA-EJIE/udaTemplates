@@ -285,7 +285,7 @@
 		showFilterForm: function(){
 			var $self = $(this), settings = $self.data("settings"), filterSettings = settings.filter;
 			// Se muestra el formulario de búsqueda
-			filterSettings.$collapsableLayer.show($.extend(settings.filter.transitionConfig,{
+			filterSettings.$collapsableLayer.show($.extend({},settings.filter.transitionConfig,{
 				complete: function(){
 					// Anadido el foco al primer campo del formulario
 					jQuery("input:first", filterSettings.$filterContainer).focus();
@@ -443,6 +443,12 @@
 					searchString = searchString + fieldName + fieldValue + ", ";
 				}
 			}
+			
+			if (jQuery.isFunction(settings.filter.fncSearchCriteria)){
+				searchString = jQuery.proxy(settings.filter.fncSearchCriteria, $self, searchString)();
+			}
+			
+			
 			//Contiene criterios
 //			if (searchString.length>1){
 				searchString = searchString.substring(0, searchString.length-2);

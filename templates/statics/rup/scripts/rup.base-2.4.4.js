@@ -103,11 +103,13 @@
 		},
 		browser : {
 			version :  $.browser.version,
+			versionNumber : $.isNumeric($.browser.version)?parseInt($.browser.version):undefined,
 			isIE : $.browser.msie ? true:false,
 			isSafari : $.browser.safari && $.browser.webkit ? true:false,
 			isChrome : $.browser.safari && $.browser.webkit ? true:false,
 			isFF : $.browser.mozilla ? true:false,
-			isOpera : $.browser.opera ? true:false
+			isOpera : $.browser.opera ? true:false,
+			xhrFileUploadSupport : new XMLHttpRequest().upload!==undefined?true:false
 		},
 		
 		

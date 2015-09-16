@@ -23,7 +23,7 @@ statics.path = /${codapp?lower_case}Statics
 xlnets.inPortal=FALSE 
 
 #Loggin parameters
-log.path=c:/datos/${codapp}/log
+log.path=/datos/${codapp}/log
 log.level.salidaEstandar=INFO
 log.level.udaTrazas=TRACE
 log.level.aplicTrazas=INFO

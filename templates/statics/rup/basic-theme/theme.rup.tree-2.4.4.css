@@ -72,7 +72,7 @@
 #vakata-dragged.jstree-rup-default .jstree-invalid { background:url("images/tree/d.png") -18px -53px no-repeat !important; }
 #jstree-marker.jstree-rup-default { background:url("images/tree/d.png") -41px -57px no-repeat !important; text-indent:-100px; }
 
-.jstree-rup-default a.jstree-search { color:aqua; }
+.jstree-rup-default a.jstree-search { font-weight:bold; }
 .jstree-rup-default .jstree-locked a { color:silver; cursor:default; }
 
 #vakata-contextmenu.jstree-rup-default-context, 

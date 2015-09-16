@@ -14,6 +14,6 @@
  --%>
  
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<script src="${staticsUrl}/rup/scripts/min/rup.min-2.4.2.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/min/rup.min-2.4.4.js" type="text/javascript"></script>
 
 <script type="text/javascript"> widgetMenu = $.noConflict(true); </script> 

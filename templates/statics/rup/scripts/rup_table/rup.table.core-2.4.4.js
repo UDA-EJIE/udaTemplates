@@ -390,6 +390,18 @@
 						});
 					}
 				},
+				"jqGridResizeStart":function(event, index){
+					//rup_combo , close the menu of the rup_combo when a column is resized
+					$('#'+$self[0].id+'_search_rowInputs select').each(function(){ $(this).selectmenu('close')});
+
+				},
+				"jqGridResizeStop":function(event, index){
+					//rup_combo, adjust the width of the menu to the new width after a column has been resized
+					$('#'+$self[0].id+'_search_rowInputs select').each(function(){ 
+						$("[id='"+this.id+"-menu']").width($("[id='"+this.id+"-button']").width());});
+
+				},
+				
 				"jqGridGridComplete.rup_table.core": function(event){
 					var $self = $(this), $tbody;
 					
@@ -697,6 +709,13 @@
 			}
 				
 			$("#rup_maint_selectedElements_"+$self.attr("id")).text(jQuery.jgrid.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_grid.defaults.detailForm_pager"),currentRowNum, totalRowNum));
+		},
+		updateSavedData: function(arg){
+			var $self = this, settings = $self.data("settings");
+			
+			if (jQuery.isFunction(arg)){
+				jQuery.proxy(arg, $self)(rp_ge[settings.id]._savedData);
+			}			
 		}
 	});
 	
@@ -856,6 +875,8 @@
 				
 				// Se almacenan los settings medainte el data para ser accesibles en las invocaciones a los métodos públicos.
 				$self.data("settings",settings);
+				
+				$self.triggerHandler("rupTable_coreConfigFinished");
 			}
 		},
 		_getLineIndex: function(rowId){
@@ -905,12 +926,6 @@
 			var $self = $(this);
 			
 			$self.jqGrid("delRowData", rowid);
-			
-//			if ($self.jqGrid("getDataIDs").length === Number($self.jqGrid("getGridParam", "rowNum"))) {
-//				//si tengo el mismo numero de registro que el numeroi de filas hay que quitar la barra
-//				//de nuevo registro
-//				$("#" +  $self[0].id + " #separadorAadidos").remove();
-//			}
 			
 			return $self;
 		},

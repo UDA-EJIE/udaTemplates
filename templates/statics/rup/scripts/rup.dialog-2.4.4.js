@@ -251,7 +251,7 @@
 								break;
 							}
 							
-							//Para que no se habra hasta que terminemos con todas nuestra acciones
+							//Para que no se abra hasta que terminemos con todas nuestra acciones
 							if (settings.autoOpen === true) {
 								autopen = true;
 								settings.autoOpen = false;

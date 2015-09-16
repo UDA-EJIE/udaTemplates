@@ -201,6 +201,9 @@
 			this.element.find("[title]").rup_tooltip({position:{at:"bottom center", my:"top center"},applyToPortal: true});
 			
 			delete element;
+
+			jQuery(this.element).triggerHandler("rupFeedback_show");
+
 		}
 	});
 })( jQuery );

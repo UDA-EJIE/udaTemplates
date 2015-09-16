@@ -102,8 +102,10 @@
 				if (settings.filter !== undefined && settings.filter.$filterContainer!== undefined){
 					filterData = $self.rup_table("getFilterParams");
 				}
-				
+
 				jQuery.extend(true, data, filterData);
+				
+				$self.triggerHandler("rupTable_serializeReportData", [data]);
 				
 				return $.rup_utils.unnestjson(data);
 			};

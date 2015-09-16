@@ -35,6 +35,7 @@
 	
 }
 
+
 .rup-tabs_loading_img { 
 	vertical-align: middle;
 	background-image: url("images/rup.ajaxLoader.gif");
@@ -68,3 +69,55 @@
 .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
 .tabs-bottom .ui-tabs-nav li { top: auto; margin: 0 .2em 1px 0; border-bottom: 1px solid #d3d3d3; border-top: 0; }
 .tabs-bottom .ui-tabs-nav li.ui-state-active { margin-top: -1px; padding-top: 1px; }
+
+/*estilos para efecto hover del boton close de la pestaña*/
+.rup-tabs-close{	
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    margin-left: 1px;
+}
+
+.rup-tabs-close-hover{
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 4px;
+	
+}
+
+/* Pestañas falsas */
+
+.ui-tabs .ui-tabs-nav li a.rup-tabs-link-close {
+    padding: 1px;
+    position: relative;
+    right: 0.3em;
+    top: 50%;
+    width: 19px;
+}
+
+.ui-tabs .ui-tabs-nav li a.rup-tabs-link-close:hover {
+	margin: -1px;
+    cursor: pointer;
+    border: 1px solid #999999; 
+    background: #dadada url(../custom-theme/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; 
+/*     font-weight: normal;  */
+    color: #212121; 
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active a.rup-tabs-link-close:hover {
+	margin: -1px;
+    cursor: pointer;
+    border: 1px solid #999999; 
+    background: #dadada url(../custom-theme/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; 
+/*     font-weight: normal;  */
+    color: #212121; 
+}
+
+.rup-tabs-close {
+    box-sizing: border-box;
+    float: left;
+}
+
+
+
