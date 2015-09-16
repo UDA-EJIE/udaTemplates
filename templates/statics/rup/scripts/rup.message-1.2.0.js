@@ -48,10 +48,8 @@
             }];
 			
             var self = this._createDiv().appendTo("body");
-            self.dialog(settings);    
-            if ($.isFunction(properties.beforeClose)) {//la funcion recibira dos par?metros event, ui
-                self.bind("dialogbeforeclose", properties.beforeClose);
-            }
+            self.dialog(settings);  
+            
 			this._createCloseLink(self);
 			this._addStyles(self, "error", properties.message);
 			docHeight = $(document).height();
@@ -77,9 +75,6 @@
                 }];
             self.dialog("option", "buttons", aceptButton);
             
-            if ($.isFunction(properties.beforeClose)) {//la funcion recibira dos par?metros event, ui
-                self.bind("dialogbeforeclose", properties.beforeClose);
-            }
 			this._createCloseLink(self);
 			this._addStyles(self, "confirm", properties.message);
 			this._createLinkButton(self);
@@ -107,9 +102,6 @@
             var self = this._createDiv().appendTo("body");
             self.dialog(settings);      
                         
-            if ($.isFunction(properties.beforeClose)) {//la funcion recibira dos par?metros event, ui
-                self.bind("dialogbeforeclose", properties.beforeClose);
-            }
             this._createCloseLink(self);
 			this._addStyles(self, "ok", properties.message);
 			docHeight = $(document).height();
@@ -133,9 +125,6 @@
             var self = this._createDiv().appendTo("body");
             self.dialog(settings);      
               
-            if ($.isFunction(properties.beforeClose)) {//la funcion recibira dos par?metros event, ui
-                self.bind("dialogbeforeclose", properties.beforeClose);
-            }                
             this._createCloseLink(self);
 			this._addStyles(self, "alert", properties.message);
 			docHeight = $(document).height();

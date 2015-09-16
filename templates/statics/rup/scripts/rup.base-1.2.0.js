@@ -200,7 +200,7 @@
 		//Funcion encargada de presentar los errores
 		errorGestor : function (message) {			
 			$.rup_messages("msgError", {
-				title: $.rup.i18n.base.rup_base.developerError,
+				title: $.rup.i18n.base.rup_global.developerError,
 				message: "<p>"+message+"</p>"
 			});
 
@@ -238,6 +238,16 @@
 				}
 				$.rup_utils.set("language", this.lang, {path:'/'});
 			}
+			
+			var availableLangsArray = $.map($.rup.AVAILABLE_LANGS.split(","),function(elem){
+				return elem.replace(/^\s*|\s*$/g,"");
+			});
+			
+			if ($.inArray(this.lang,availableLangsArray)===-1){
+				this.lang=this.DEFAULTLANGUAGE;
+			}
+			
+			
 			//Se cargan los literales por defecto
 			$.rup.setLiterals();			
 			//Carga de ficheros de literales de la apliaccion

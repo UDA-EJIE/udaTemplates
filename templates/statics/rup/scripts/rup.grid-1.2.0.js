@@ -89,6 +89,7 @@
 								}
 							}
 						}
+						self[0].rup_gridProps.sourceEvent=null;
 					}
 					$(self.jqGrid("getGridParam", "pager")).show();
 					//comprobar si tenemos que seleccionar todos
@@ -249,12 +250,12 @@
 			onSelectRowUserEvent = settings.onSelectRow;
 			
 			settings.onSelectRow = function (id, selectR) {
-				
+			
 				function executeSelectRow(){
 					if($("body").data("e_click")) {
 		            	
 						if (onSelectRowUserEvent !== null) {
-					        if (onSelectRowUserEvent(xhr) === false) {
+					        if (onSelectRowUserEvent(id, selectR) === false) {
 					            return false;
 					        }
 					    }
@@ -500,19 +501,19 @@
 			$('#' + settings.pagerName + ' .pager_center table td').addClass('pagControls');
 		
 			//Cambiar flechas paginación por literales
-			$('#' + settings.pagerName + '_center .ui-pg-table #first_pager')
+			$('#' + settings.pagerName + '_center .ui-pg-table #first_'+ settings.pagerName)
 				.html($('<span />').html($.rup.i18n.base.rup_grid.pager.primPag))
 				.addClass('linkPaginacion')
 				.removeClass('ui-pg-button');
-			$('#' + settings.pagerName + '_center .ui-pg-table #prev_pager')
+			$('#' + settings.pagerName + '_center .ui-pg-table #prev_'+ settings.pagerName)
 				.html($('<span />').html($.rup.i18n.base.rup_grid.pager.anterior))
 				.addClass('linkPaginacion')
 				.removeClass('ui-pg-button');
-			$('#' + settings.pagerName + '_center .ui-pg-table #next_pager')
+			$('#' + settings.pagerName + '_center .ui-pg-table #next_'+ settings.pagerName)
 				.html($('<span />').html($.rup.i18n.base.rup_grid.pager.siguiente))
 				.addClass('linkPaginacion')
 				.removeClass('ui-pg-button');
-			$('#' + settings.pagerName + '_center .ui-pg-table #last_pager')
+			$('#' + settings.pagerName + '_center .ui-pg-table #last_'+ settings.pagerName)
 				.html($('<span />').html($.rup.i18n.base.rup_grid.pager.ultiPag))
 				.addClass('linkPaginacion')
 				.removeClass('ui-pg-button');

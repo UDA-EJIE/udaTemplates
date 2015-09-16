@@ -32,6 +32,46 @@
 	//*******************************
 	
 	$.fn.rup_date("extend",{
+		getRupValue : function(){
+			if ($(this).data("datepicker").settings.datetimepicker){
+
+				var tmpDate = $(this).datepicker("getDate");
+				if(tmpDate.toString()==="Invalid Date"){
+					return "";
+				}
+				var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
+				var formattedTime = $.timepicker._formatTime(dateObj, "hh:mm:ss");
+				var dateFormat = $(this).data("datepicker").settings.dateFormat;
+				
+				return $.datepicker.formatDate(dateFormat, tmpDate)+" "+$.timepicker._formatTime(dateObj, "hh:mm:ss"); 
+			}else{
+				return $(this).rup_date("getDate");
+			}
+		},
+		setRupValue : function(param){
+			
+			if ($(this).data("datepicker").settings.datetimepicker){
+				var fechaArray = param.split(" ");
+				
+				var tmpDate = new Date(fechaArray[0]);
+				var time = fechaArray[1];
+				
+				var tmpDate = new Date(param);
+				if(tmpDate.toString()==="Invalid Date"){
+					return "";
+				}
+				var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
+				
+				var formattedTime = $.timepicker._formatTime(dateObj, $(this).data("datepicker").settings.timeFormat);
+
+				$(this).datepicker("setTime", param);
+				
+				$(this).val(fechaArray[0]+" "+formattedTime);
+				
+			}else{
+				$(this).val(param);
+			}
+		},
 		destroy : function(){
 			//Eliminar máscara
 			var labelMaskId = $(this).data("datepicker").settings.labelMaskId;
@@ -84,6 +124,8 @@
 
 					//Se carga el identificador del padre del patron
 					settings.id = $(this).attr("id");
+					
+					(this).attr("ruptype","date");
 
 					//Carga de propiedades/literales
 					var literales = $.rup.i18n.base["rup_date"];
@@ -123,7 +165,11 @@
 
 					//Datepicker
 					if (!settings.multiSelect){
-						$("#"+settings.id).datepicker(settings);
+						if (settings.datetimepicker){
+							$("#"+settings.id).datetimepicker(settings);
+						}else{
+							$("#"+settings.id).datepicker(settings);
+						}
 					} else {
 						if (typeof settings.multiSelect === 'number'){
 							settings.mode = {
@@ -185,6 +231,7 @@
 	// DEFINICIÓN DE LA CONFIGURACION POR DEFECTO DEL PATRON  
 	//******************************************************
 	$.fn.rup_date.defaults = {
+		datetimepicker: false,
 		multiSelect: false,
 		changeMonth: true,
 		changeYear: true,

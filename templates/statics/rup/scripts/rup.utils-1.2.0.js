@@ -18,6 +18,7 @@
 
 	$.rup_utils  = {};
 	$.rup_utils.arr = [];
+	$.rup_utils.autoGenerateIdNum = 0;
 	$.extend($.rup_utils, {
 		//Funcion encargada de devolver el idioma capitalizado
 		capitalizedLang : function (){
@@ -61,7 +62,6 @@
 		unnestjson : function(obj){
 			
 			var array = $.rup_utils.jsontoarray(obj);
-			
 			var json='{';
 			var primero=true;
 			for (key in array) {
@@ -77,21 +77,27 @@
 			return eval("("+json+")");
 			
 		},
-		populateForm : function (aData, formid) { //rellena un formulario que recibe como segundo parametro con los datos que recibe en el segundo parametro 
+		populateForm : function (aData, formid) { //rellena un formulario que recibe como segundo parametro con los datos que recibe en el segundo parametro
+			var ruptype, formElem;
 			if (aData) {
 				for (var i in aData) {
-					if ($("[name='" + i + "']", formid).is("input:radio") || $("[name='" + i + "']", formid).is("input:checkbox"))  {
-						$("[name='" + i + "']", formid).each(function () {
+					formElem = $("[name='" + i + "']", formid);
+					
+					if (formElem.is("[ruptype]")){
+						// Forma de evitar el EVAL
+						formElem["rup_"+formElem.attr("ruptype")]("setRupValue",aData[i]);
+					}else if (formElem.is("input:radio") || formElem.is("input:checkbox"))  {
+						formElem.each(function () {
 							if ($(this).val() == aData[i]) {
 								$(this).attr("checked", "checked");
 							} else {
 								$(this).attr("checked", "");
 							}
 						});
-					} else if ($("[name='" + i + "']").is("select") ){
-						$("[name='" + i + "']", formid).val(aData[i]).click();
+					} else if (formElem.is("select") ){
+						formElem.val(aData[i]).click();
 					} else {// this is very slow on big table and form.
-						$("[name='" + i + "']", formid).val(aData[i]);
+						formElem.val(aData[i]);
 					}
 				}
 			}
@@ -234,10 +240,19 @@
 			
 			return ""; 
 		},
+		//Genera un identificador aleatorio para un objeto determinado
+		randomIdGenerator:function(selectObject){
+			var id = "rupRandomLayerId-"+$.rup_utils.autoGenerateIdNum;
+			selectObject.attr("id", id).addClass("rupRandomLayerId");
+			$.rup_utils.autoGenerateIdNum = $.rup_utils.autoGenerateIdNum+1;
+			return id;
+		},
 		//Función encargada de gestionar las url's de las aplicaciones en portal 
 		setNoPortalParam:function(url){
-			if (url && $.rup_utils.readCookie("r01PortalInfo") !== null && url.match("R01HNoPortal") === null && $("div.r01gContainer").length > 0){
-				return url + (url.match("\\?") === null ? "?" : "&") + "R01HNoPortal=true";
+			if(url !== undefined && url !== null){
+            	if ($.rup_utils.readCookie("r01PortalInfo") !== null && url.match("R01HNoPortal") === null && (($("div.r01gContainer").length > 0)) || ($("div.r01gApplication").length > 0)){
+            		return url + (url.match("\\?") === null ? "?" : "&") + "R01HNoPortal=true";
+            	}
 			}
 			return url;
 		},

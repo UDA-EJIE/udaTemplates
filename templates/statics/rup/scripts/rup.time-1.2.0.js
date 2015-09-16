@@ -29,6 +29,23 @@
 	// DEFINICIÓN DE MÉTODOS PÚBLICOS
 	//*******************************
 	$.fn.rup_time("extend",{
+		getRupValue : function(){
+			var tmpDate = new Date("00/00/0000 "+$(this).rup_time("getTime"));
+			var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
+			var timeformat = $(this).data("datepicker").settings.timeFormat;
+			var formattedTime = $.timepicker._formatTime(dateObj, "hh:mm:ss");
+			return formattedTime;
+		},
+		setRupValue : function(param){
+			var timeformat = $(this).data("datepicker").settings.timeFormat;
+			var tmpDate = new Date("00/00/0000 "+param);
+			if(tmpDate.toString()==="Invalid Date"){
+				$(this).val("");
+			}
+			var dateObj={hour:tmpDate.getHours(),minute:tmpDate.getMinutes(),second:tmpDate.getSeconds()};
+			var formattedTime = $.timepicker._formatTime(dateObj, timeformat);
+			$(this).val(formattedTime);
+		},
 		destroy : function(){
 			//Eliminar máscara
 			var labelMaskId = $(this).data("datepicker").settings.labelMaskId;
@@ -84,6 +101,8 @@
 
 					//Se carga el identificador del padre del patron
 					settings.id = $(this).attr("id");
+					
+					(this).attr("ruptype","time");
 					
 					//Carga de propiedades/literales
 					var literales = $.rup.i18n.base["rup_time"];
@@ -145,7 +164,8 @@
 		stepHour: 1,
 		stepMinute: 1,
 		stepSecond: 1,
-		showButtonPanel: false
+		showButtonPanel: false,
+		timeOnly:true
 	};	
 	
 	//Sobreescribir EVENTOS

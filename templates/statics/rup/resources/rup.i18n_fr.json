@@ -51,6 +51,7 @@
     "rup_global": {
         "cerrar": "fr_cerrar",
         "rupCheckStyleError": "fr_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
+        "dialogTypeError": "fr_¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
         "error": "fr_Error",
         "cancelar": "fr_Cancelar",
         "search": "fr_Buscar",
@@ -61,8 +62,10 @@
 		"save_repeat":"fr_Guardar y Repetir",
 		"cancel":"fr_Cancelar",
 		"initError":"fr_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
+		"parameterError":"fr_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"fr_Error de desarrollo",
-		"metodError":"fr_Error en el método: " 
+		"metodError":"fr_Error en el método: ",
+		"selecctorError":"fr_El selector especificado es incorrecto (no devuelve nada)"  
     },
     "rup_menu": {
     	"developerError":"fr_Error de desarrollo",
@@ -116,6 +119,9 @@
 	},
 	"rup_utils":{
 		"paramsError" : "fr_Alguno de los parámetros especificados es 'null' o 'undefined'"
+	},
+	"rup_tabs":{
+		"serverError" : "Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
     "rup_grid": {
     	"selectedElems":"fr_Se han seleccionado los ",
@@ -304,7 +310,7 @@
                     "PM" 
                 ],
                 "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
-                "srcformat": "d/m/y",
+                "srcformat": "d/m/y H:i:s",
                 "newformat": "d/m/Y",
                 "masks": {
                     "ISO8601Long": "Y-m-d H:i:s",
@@ -317,7 +323,12 @@
                     "LongTime": "g:i:s A",
                     "SortableDateTime": "Y-m-d\\TH:i:s",
                     "UniversalSortableDateTime": "Y-m-d H:i:sO",
-                    "YearMonth": "F, Y" 
+                    "YearMonth": "F, Y",
+                    "RupDate": "d/m/Y",
+                    "RupDateTime": "d/m/Y H:i",
+                    "RupDateTimeSec": "d/m/Y H:i:s",
+                    "RupTime": "H:i",
+                    "RupTimeSec": "H:i:s"
                 },
                 "reformatAfterEdit": false 
             },
@@ -329,5 +340,15 @@
             },
             "idName": "id" 
         } 
+    },
+    "rup_upload": {
+    	"maxFileSizeError": "El fichero supera el límite máximo de tamaño_fr",
+    	"minFileSizeError": "El fichero no supera el límite mínimo de tamaño_fr",
+    	"acceptFileTypesError": "El tipo de archivo no es válido_fr",
+    	"maxNumberOfFilesError": "Se ha excedido el número máximo de ficheros_fr",
+    	"startUpload":"Subir_fr",
+    	"cancelUpload":"Cancelar_fr",
+    	"deleteUploaded":"Eliminar_fr",
+    	"openUploaded":"Abrir_fr"
     }
 }

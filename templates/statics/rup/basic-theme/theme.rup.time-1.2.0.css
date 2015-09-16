@@ -14,35 +14,12 @@
  * que establece la Licencia.
  */
  
-.ui-tabs .ui-tabs-panel { border-width: 1px;  }
+ /* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left;  margin-top: 0.5em; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 
-/* Estilo de la imagen de carga de cada pestañas */
-.rup-tabs_loading { 
-	float:left;
-	width: 1.2em;
-	height: 1.2em;
-	margin-left: 0.3em;
-	margin-right: 0em;
-	margin-top: 0em;
-	margin-bottom: 0em;
-	
-}
-
-.rup-tabs_loading_img { 
-	vertical-align: middle;
-	background-image: url("images/rup.ajaxLoader.gif");
-	background-position:center center;
-	background-repeat:no-repeat;
-	float:right;
-	width: 1.2em;
-	height: 1.2em;
-	margin-left: 0.3em;
-	margin-right: 0em;
-	margin-top: 0em;
-	margin-bottom: 0em;
-	
-}
-
-.rup-tabs_title { 
-	float:left;
-}
+.ui-slider-handle { z-index: 1 !important;}

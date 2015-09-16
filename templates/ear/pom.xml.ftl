@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
 		<org.logback.version>0.9.29</org.logback.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
-		<com.ejie.x38.version>1.1.1</com.ejie.x38.version>
+		<com.ejie.x38.version>1.2.0</com.ejie.x38.version>
 	</properties>
 	<dependencies>
 <#if radjpa>

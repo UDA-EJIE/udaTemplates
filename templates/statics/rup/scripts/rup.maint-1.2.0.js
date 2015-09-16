@@ -213,24 +213,33 @@
 							rowPos = ((parseInt(page) * parseInt(rowsXpage)) - parseInt(rowsXpage)) + rowNumber;
 						}
 						$(mnt).rup_maint("updateDetailPagination", rowPos, totalElements);
-						if ($.isFunction(mnt.prop.onbeforeDetailShow)) {
-							mnt.prop.onbeforeDetailShow.call(mnt, mnt.prop.detailDiv);
-						}
+						
 						if (xhr.id && xhr.id instanceof Object){//estamos en JPA
 							if (xhr.id instanceof Object) {//es que estamos en jpa y traemos una clave compuesta
 								xhr["JPA_ID"] = xhr.id;
 								delete xhr.id;
 							}
 						}
+
 						$.rup_utils.populateForm($.rup_utils.jsontoarray(xhr), mnt.prop.detailForm);
+						
+						if ($.isFunction(mnt.prop.onbeforeDetailShow)) {
+							mnt.prop.onbeforeDetailShow.call(mnt, mnt.prop.detailDiv);
+						}
+						
+						$("select[rupType='combo']", mnt.prop.detailForm).bind("change",function(){
+							mnt.prop.detailForm.data('initialData', mnt.prop.detailForm.serialize());
+							$(this).unbind("change");
+						});
+						
 						//Gestor de cambios
 						mnt.prop.detailForm.data('initialData', mnt.prop.detailForm.serialize());
-						if (mnt.prop.detailDiv.rup_dialog("isOpen")) {
-							if ($.isFunction(mnt.prop.onafterDetailShow)) {
-								mnt.prop.onafterDetailShow.call(mnt, mnt.prop.detailDiv);
-							}
-						} else {
+						if (!mnt.prop.detailDiv.rup_dialog("isOpen")) {
 							mnt.prop.detailDiv.rup_dialog("open");
+						}
+						
+						if ($.isFunction(mnt.prop.onafterDetailShow)) {
+							mnt.prop.onafterDetailShow.call(mnt, mnt.prop.detailDiv);
 						}
 
 						//establecemos el foco al primer elemento
@@ -828,7 +837,6 @@
 						data: dt,	
 						contentType: 'application/json',		    
 						success: function (xhr, ajaxOptions) {
-							
 							// Obtenemos un json desanidado para evitar los problemas al utilizar la notacion dot
 							var jsonxhr = $.rup_utils.unnestjson(xhr);
 							// Cerramos los feedbacks
@@ -1091,8 +1099,8 @@
 						if (!mant.prop.jQueryGrid.rup_grid("isEditable")) {
 							detailFormName = mant.prop.detailForm.attr("id");
 							// Si el mantenimiento no es editable obtenemos el literal del campo a partir del label asociado
-							if ($("#" + detailFormName + "_" + key).parent().find("label").length === 1) { //intenetamos acceder al label asociado al campo a ha fallado a la hora de la validación para obtener su texto
-								errorKey = $("#" + detailFormName + "_" + key).parent().find("label").text();
+							if ($("[name='" + key+"']",mant.prop.detailForm).parent().find("label").length === 1) { //intenetamos acceder al label asociado al campo a ha fallado a la hora de la validación para obtener su texto
+								errorKey = $("[name='" + key+"']",mant.prop.detailForm).parent().find("label").text();
 							} else {
 								if (mant.prop.rupCheckStyle) {
 									$.rup.msgAlert({message: $.rup.i18n.base.rup_global.rupCheckStyleError});
@@ -1182,6 +1190,7 @@
 			
 			//RUP custom formatter for jqGrid
 			$.fn.fmatter.rup_combo = function (cellval, opts, rwd, act) {
+				
 				var source = opts.colModel.editoptions.source,
 					i18n = "", entidad;
 				if (typeof source === "string"){
@@ -1207,13 +1216,27 @@
 				}else{
 					$.each(source, function (index, element){
 						if (element.value === cellval){
-							i18n = $.rup.i18nParse($.rup.i18n.app[opts.gid+"##"+opts.colModel.name],element.i18nCaption);
+							if(opts.colModel.editoptions.i18nId === undefined){
+								i18n = $.rup.i18nParse($.rup.i18n.app[opts.gid+"##"+opts.colModel.name],element.i18nCaption);
+							} else {
+								i18n = $.rup.i18nParse($.rup.i18n.app[opts.colModel.editoptions.i18nId],element.i18nCaption);
+							}
 							return false;
 						}
 					});
 					return i18n;
 				}
 			};
+			
+			$.fn.fmatter.rup_time = function (cellval, opts, rwd, act) {
+				if (!cellval){
+					return "";
+				}
+				var op = opts.colModel.formatoptions, dateFormatterOps = $.rup.i18n.base.rup_grid.formatter.date;
+				return $.fmatter.util.DateFormat(op.newformat,cellval,op.newformat,dateFormatterOps);
+				
+			};
+			
 			
 //			$.fn.fmatter.rup_combo.unformat= function (cellvalue, opts, rwd, act){
 //				var valor;
@@ -1273,7 +1296,7 @@
 				obj = settings.jQueryGrid[0], nm, trdata, dc, elc, frmopt;
 				detaiBody.append(dtForm);
 				detailDiv.append(detaiBody);
-				$("#contenido").append(detailDiv);
+				$("#"+settings.name).append(detailDiv);
 				$(obj.p.colModel).each(function (i) {
 						dc='';
 						nm = this.name;
@@ -1288,7 +1311,7 @@
 							
 							// Se anyade el sufijo al identificador del control para evitar problemas de referenciar a varios controles con el mismo identificador en la misma pagina
 							opt.id='detailForm_' + settings.name + '_'+opt.id.replace(/[.]/g,'_');
-							elc = $.jgrid.createEl(this.edittype, opt, null, false, $.extend({}, $.jgrid.ajaxOptions, obj.p.ajaxSelectOptions || {}));
+							elc = $.jgrid.createEl(this.edittype, opt, "", false, $.extend({}, $.jgrid.ajaxOptions, obj.p.ajaxSelectOptions || {}));
 
 							$(elc).attr('class', 'formulario_linea_input');
 							
@@ -1300,24 +1323,44 @@
 								trdata.attr("style", dc);
 							}
 							//creación del tipo de control en  el formulario de detalle
-							switch (this.rupType) {
-							case "datepicker":
-								$(elc).rup_date(this.editoptions);
-								$(elc).addClass("datepicker");
-								break;
-							case "numeric":
-								$(elc).numeric(",");
-								$(elc).addClass("numeric");
-								break;
-							case "integer":
-								$(elc).numeric(false);
-								$(elc).addClass("integer");
-								break;
-							case "combo":
-								this.editoptions.i18nId = settings.jQueryGrid.selector.substring(1) + "##" + this.name;
-								$(elc).rup_combo(this.editoptions);
-								break;
+//							switch (this.rupType) {
+//							case "datepicker":
+//								$(elc).rup_date(this.editoptions);
+//								$(elc).addClass("datepicker");
+//								break;
+//							case "numeric":
+//								$(elc).numeric(",");
+//								$(elc).addClass("numeric");
+//								break;
+//							case "integer":
+//								$(elc).numeric(false);
+//								$(elc).addClass("integer");
+//								break;
+//							case "combo":
+//								if(this.editoptions.i18nId === undefined){
+//									this.editoptions.i18nId = settings.jQueryGrid.selector.substring(1) + "##" + this.name;
+//								}
+//								$(elc).rup_combo(this.editoptions);
+//								break;
+//							}
+							if (this.rupType){
+								if (this.rupType==="numeric"){
+									$(elc).numeric(",");
+									$(elc).addClass("numeric");
+								}else if (this.rupType==="integer"){
+									$(elc).numeric(false);
+									$(elc).addClass("integer");
+								}else if (this.rupType==="datepicker"){
+									$(elc).rup_date(this.editoptions);
+									$(elc).addClass("datepicker");
+								}else{
+									if(this.editoptions.i18nId === undefined){
+										this.editoptions.i18nId = settings.jQueryGrid.selector.substring(1) + "##" + this.name;
+									}
+									$(elc)["rup_"+this.rupType](this.editoptions);
+								}
 							}
+							
 						}					
 					});
 				return dtForm;
@@ -1358,6 +1401,7 @@
 						numPag = page.substring(2, page.length);
 						gsr = t[0].prop.selectedRows[page][t[0].prop.selectedRows[page].length - 1];
 						t[0].prop.currentSelectedRow = page + ";" + gsr;
+						gsr = gsr.substring(3, gsr.length);
 					}
 				} 
 				
@@ -1408,6 +1452,7 @@
 						numPag = page.substring(2, page.length);
 						gsr = t[0].prop.selectedRows[page][0];
 						t[0].prop.currentSelectedRow = page + ";" + gsr;
+						gsr = gsr.substring(3, gsr.length);
 					}
 				} else {					
 					numPag = 1;  
@@ -1489,8 +1534,8 @@
 				
 				// En caso de ser necesario realizar una paginacion se realiza
 				if (reloadNewPage){
-//					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent = e;
-//					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent.parentMaintName = t[0].id;
+					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent = e;
+					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent.parentMaintName = t[0].id;
 					t[0].prop.jQueryGrid.rup_grid("setGridParam", {page: intNewPage});
 					t[0].prop.jQueryGrid.rup_grid("reloadGrid");
 				}
@@ -1568,8 +1613,8 @@
 				}
 				// En caso de ser necesario realizar una paginacion se realiza
 				if (reloadNewPage){
-//					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent = e;
-//					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent.parentMaintName = t[0].id;
+					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent = e;
+					t[0].prop.jQueryGrid[0].rup_gridProps.sourceEvent.parentMaintName = t[0].id;
 					t[0].prop.jQueryGrid.rup_grid("setGridParam", {page: intNewPage});
 					t[0].prop.jQueryGrid.rup_grid("reloadGrid");
 					$.data(t[0].prop.jQueryGrid[0], "detailPagAction",'');
@@ -1838,7 +1883,7 @@
 				} else {
 					createDetailForm();
 				}
-				settings.detailDiv.rup_dialog({type: jQuery.rup.dialog.DIV, autoOpen: false, modal: true, width: 569, 
+				settings.detailDiv.rup_dialog({type: jQuery.rup.dialog.DIV, autoOpen: false, modal: true, width: 569, specificLocation: settings.name, create: settings.eventCreateDetailForm, 
 					open: function () {
 						//Gestor de cambios
 						t[0].prop.detailForm.data('initialData', t[0].prop.detailForm.serialize());
@@ -2037,9 +2082,20 @@
 				}
 				if (postData.page!== undefined && postData.page !== null && Number(postData.page) > $(this).rup_grid("getGridParam","lastpage") && $(this).rup_grid("getGridParam","lastpage") > 0){//pq si laspage es 0 es la primera vez
 					postData.page = $(this).rup_grid("getGridParam","lastpage");
-				}
+				}	
+				
+				var formFieldNames = $.map($.makeArray(t[0].prop.searchForm.find("[name]")),function(elem){
+					  return $(elem).attr("name");  
+				});
+				
+				$.each(formFieldNames, function(index){
+				    delete postData[formFieldNames[index]];
+				});
+				
 				//SUF : modificado para unifcar en un unico metodo $.extend(postData, settings.searchForm.serializeToObject()); //Solo se envian los campos que tienen valor y sean diferentes a ""
-				$.extend(postData, form2object(t[0].prop.searchForm[0])); //Solo se envian los campos que tienen valor y sean diferentes a ""
+//				$.extend(postData, form2object(t[0].prop.searchForm[0])); //Solo se envian los campos que tienen valor y sean diferentes a ""
+				// Se desanida el json para permitir el uso de notacion dot en los controles del formulario de busqueda
+				$.extend(postData, $.rup_utils.unnestjson(form2object(t[0].prop.searchForm[0])));
 				}
 				if (t[0].prop.parent) {//SUF: si tenemos padre tendremos que añadir la clave primaria del padre como dato a enviar
 					var parent = $("#" + t[0].prop.parent), colPks = parent.rup_maint("getPrimaryKey").split(";"), parentPKObject = {}, row = parent[0].prop.jQueryGrid.rup_grid("getSelectedRows")[0];
@@ -2311,6 +2367,7 @@
 					
 					$('#' + t[0].prop.jQueryGrid[0].rup_gridProps.pagerName + '_left').html(selectedTotalRows + " " + $.rup.i18n.base.rup_grid.pager.selected);
 				};
+				
 				//Sobreescritura de la función para obtener las primary de toda la entidad
 				settings.jQueryGrid[0].rup_gridProps.selectAllGetPrimaryKeys = function () {
 					var relatedGrd = this;
@@ -2367,7 +2424,6 @@
 			}
 			
 			// ################### FIN SOBREESCRITURA MULTISELECCION ##################
-			
 			if (settings.searchForm !== null) {//si tenemos formulario de busqueda añadimos la capa con los botones de busqueda y el enlace de limpiar.
 				btSearch = $("<input type='button' />").attr('id', 'bt_search_' + settings.name).bind("click", 
 				function () { 
@@ -2649,6 +2705,7 @@
 		detailDiv: null,
 		searchForm: null,
 		detailForm: null,
+		eventCreateDetailForm: undefined,
 		toolbar: null,	
 		showFeedback: true,//para que se mantenga el area de feedback siempre
 		feedback: null,

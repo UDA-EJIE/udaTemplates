@@ -37,7 +37,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import com.ejie.x38.remote.RemoteEJBFactory;
+<#if isEjb3>
 import com.ejie.x38.remote.TransactionMetadata;
+</#if>
 import com.ejie.x38.remote.TransactionMetadataStubInterceptor;
 import com.ejie.x38.util.StackTraceManager;
 
@@ -51,13 +53,14 @@ import com.ejie.x38.util.StackTraceManager;
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 @Interceptors({SpringBeanAutowiringInterceptor.class, TransactionMetadataStubInterceptor.class})
 @Remote(${serviceName}StubRemote.class)
+@SuppressWarnings("rawtypes")
 public class ${serviceName}Stub implements ${serviceName}StubRemote   {
 	private static final Logger logger = LoggerFactory.getLogger(${serviceName}Stub.class);
 	<#if isEjb3>
-		private ${serviceName}SkeletonRemote ${ctrUtils.stringDecapitalize(serviceName)}SkeletonRemote;
+		private ${serviceName}SkeletonRemote ${serviceName?uncap_first}SkeletonRemote;
 	<#else>
-		private ${serviceName}Home ${ctrUtils.stringDecapitalize(serviceName)}Home;
-		private ${serviceName} ${ctrUtils.stringDecapitalize(serviceName)};
+		private ${serviceName}Home ${serviceName?uncap_first}Home;
+		private ${serviceName} ${serviceName?uncap_first};
 	</#if>
 	@Autowired
 	private RemoteEJBFactory remoteEJBFactory;
@@ -67,22 +70,24 @@ public class ${serviceName}Stub implements ${serviceName}StubRemote   {
 	<#list methods as metodo>
 	    <#assign param = metodo[3]>
 		<#assign creator=stubUtils.generateParameterConstructor(metodo[1])>
-	/*   method ${metodo[0]}.
-	 *<#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,false)>
-	 * @param ${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))} ${stubUtils.replaceDto(parametro)} </#foreach>
+	/**
+	 * Method ${metodo[0]}.
+	<#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,false)>
+	 * @param ${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))} ${stubUtils.replaceDto(parametro)} 
+	</#foreach>
 	 * @return <#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${stubUtils.replaceDto(parametro)}</#foreach>
 	 */
 	<#if isEjb3>
 	@Override
 	${skeletonUtils.generateTransactionAttribute(metodo[0])}
-	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${stubUtils.replaceDto(parametro)}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${stubUtils.replaceDto(parametro)} ${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))}Var<#if parametro_has_next>,</#if></#list> ) {
-		<#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)><#if parametro!='void'>return</#if></#foreach> this.${ctrUtils.stringDecapitalize(serviceName)}SkeletonRemote.${metodo[0]}( <#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro><#if parametro!='Pagination' && parametro!='ArrayList' && parametro!='List'>${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))}Var,<#else>${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))}Var,</#if></#list>new TransactionMetadata(this.getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName()));
+	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${stubUtils.replaceDto(parametro)}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${stubUtils.replaceDto(parametro)} arg${parametro_index}<#if parametro_has_next>, </#if></#list>) <#if metodo[4]!= ""> throws ${metodo[4]}</#if> {
+		<#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)><#if parametro!='void'>return</#if></#foreach> this.${serviceName?uncap_first}SkeletonRemote.${metodo[0]}(<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>arg${parametro_index}, </#list>new TransactionMetadata(this.getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName()));
 	}
 	<#else>
 	@Override
 	${skeletonUtils.generateTransactionAttribute(metodo[0])}
-	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${parametro}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${parametro} ${ctrUtils.stringDecapitalize(parametro)}Var<#if parametro_has_next>,</#if></#list> )throws Exception{
-		<#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)><#if parametro!='void'>return</#if></#foreach> this.${ctrUtils.stringDecapitalize(serviceName)}.${metodo[0]}( <#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro><#if parametro!='Pagination' && parametro!='ArrayList' && parametro!='List'>${ctrUtils.stringDecapitalize(parametro)}Var<#else>${ctrUtils.stringDecapitalize(parametro)}Var</#if><#if parametro_has_next>,</#if></#list>);
+	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${parametro}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${parametro} arg${parametro_index}<#if parametro_has_next>, </#if></#list>) throws Exception {
+		<#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)><#if parametro!='void'>return</#if></#foreach> this.${serviceName?uncap_first}.${metodo[0]}(<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>arg${parametro_index}<#if parametro_has_next>, </#if></#list>);
 	}
 	</#if>	
 	</#list>
@@ -92,8 +97,8 @@ public class ${serviceName}Stub implements ${serviceName}StubRemote   {
 	@PostConstruct
 	private void init(){
 		try{
-			${ctrUtils.stringDecapitalize(serviceName)}SkeletonRemote = (${serviceName}SkeletonRemote) remoteEJBFactory.lookup("${nameServer}", ${serviceName}SkeletonRemote.class);
-			logger.info("Obtained remote Skeleton is: "+${ctrUtils.stringDecapitalize(serviceName)}SkeletonRemote.toString());
+			${serviceName?uncap_first}SkeletonRemote = (${serviceName}SkeletonRemote) remoteEJBFactory.lookup("${nameServer}", ${serviceName}SkeletonRemote.class);
+			logger.info("Obtained remote Skeleton is: "+${serviceName?uncap_first}SkeletonRemote.toString());
 		}catch(Exception e){
 			logger.error(StackTraceManager.getStackTrace(e));
 		}
@@ -103,9 +108,9 @@ public class ${serviceName}Stub implements ${serviceName}StubRemote   {
 	@PostConstruct
 	private void init() throws Exception{
 		try{
-			${ctrUtils.stringDecapitalize(serviceName)}Home = (${serviceName}Home) remoteEJBFactory.lookup("${nameServer}", ${serviceName}Home.class);
-			this.${ctrUtils.stringDecapitalize(serviceName)} = ${ctrUtils.stringDecapitalize(serviceName)}Home.create();
-			logger.info(${ctrUtils.stringDecapitalize(serviceName)}.toString());
+			${serviceName?uncap_first}Home = (${serviceName}Home) remoteEJBFactory.lookup("${nameServer}", ${serviceName}Home.class);
+			this.${serviceName?uncap_first} = ${serviceName?uncap_first}Home.create();
+			logger.info(${serviceName?uncap_first}.toString());
 		}catch(Exception e){
 			logger.error(StackTraceManager.getStackTrace(e));
 			throw e;

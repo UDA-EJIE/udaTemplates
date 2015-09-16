@@ -15,7 +15,6 @@
  -->
 package ${packageNameSkeleton};
 import javax.ejb.Remote;
-import com.ejie.x38.dto.Pagination;
 import com.ejie.x38.remote.TransactionMetadata;
 <#foreach parametro in skeletonUtils.generateParameterImports(methods,isJpa)>
 import ${parametro};
@@ -27,17 +26,24 @@ import ${parametro};
  */
 
 @Remote
+@SuppressWarnings("rawtypes")
 public interface ${serviceName}SkeletonRemote{
-	<#assign listaMetodos = methods >
-	<#assign param ="">
-	<#list listaMetodos as metodo>
-		   <#assign param = metodo[3]>
-	/* Method ${metodo[0]}.
+<#assign listaMetodos = methods >
+<#assign param ="">
+<#list listaMetodos as metodo>
+	   <#assign param = metodo[3]>
+
+	/**
+	 * Method ${metodo[0]}.
 	 *
-	 * <#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,isJpa)>@param ${ctrUtils.stringDecapitalize(parametro)} ${parametro} </#foreach>
-	 * @param  transactionMetadata TransactionMetadata
-	 * @return <#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,isJpa)>${parametro}</#foreach>
+<#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,isJpa)>
+	 * @param arg${parametro_index} ${parametro} 
+</#foreach>
+	 * @param transactionMetadata TransactionMetadata
+<#if metodo[1]!= "void"> 
+	 * @return ${metodo[1]}
+</#if>
 	 */
-	${metodo[2]} ${metodo[0]} (  <#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,isJpa)>${parametro} ${ctrUtils.stringDecapitalize(parametro)}Var,</#foreach>TransactionMetadata transactionMetadata);
-	</#list>
+	${metodo[2]} ${metodo[0]} (<#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,isJpa)>${parametro} arg${parametro_index}, </#foreach>TransactionMetadata transactionMetadata)<#if metodo[4]!= ""> throws ${metodo[4]}</#if>;
+</#list>
 }

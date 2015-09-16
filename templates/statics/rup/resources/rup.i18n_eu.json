@@ -51,6 +51,7 @@
     "rup_global": {
         "cerrar":"eu_cerrar",
         "rupCheckStyleError":"eu_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCI�N SECUNDARIA.",
+        "dialogTypeError": "eu_¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
         "error":"eu_Error",
         "cancelar":"eu_Cancelar",
         "search":"Bilatu",
@@ -61,8 +62,10 @@
 		"save_repeat":"eu_Guardar y Repetir",
 		"cancel":"eu_Cancelar",
 		"initError":"eu_Se ha especificado mas de un elemento en la constructora. <br> Por favor revise la funcion creadora para el objeto con ID: ",
+		"parameterError":"eu_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"eu_Error de desarrollo",
-		"metodError":"eu_Error en el método: "		
+		"metodError":"eu_Error en el método: ",
+		"selecctorError":"eu_El selector especificado es incorrecto (no devuelve nada)" 		
     },
     "rup_menu": {
     	"developerError":"eu_Error de desarrollo",
@@ -116,6 +119,9 @@
 	},
 	"rup_utils":{
 		"paramsError" : "eu_Alguno de los parámetros especificados es 'null' o 'undefined'"
+	},
+	"rup_tabs":{
+		"serverError" : "Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
     "rup_grid": {
     	"selectedElems":"eu_Se han seleccionado los ",
@@ -304,7 +310,7 @@
                     "PM" 
                 ],
                 "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
-                "srcformat": "d/m/y",
+                "srcformat": "Y/m/d H:i:s",
                 "newformat": "Y/m/d",
                 "masks": {
                     "ISO8601Long": "Y-m-d H:i:s",
@@ -317,7 +323,12 @@
                     "LongTime": "g:i:s A",
                     "SortableDateTime": "Y-m-d\\TH:i:s",
                     "UniversalSortableDateTime": "Y-m-d H:i:sO",
-                    "YearMonth": "F, Y" 
+                    "YearMonth": "F, Y",
+                    "RupDate": "Y/m/d",
+                    "RupDateTime": "Y/m/d H:i",
+                    "RupDateTimeSec": "Y/m/d H:i:s",
+                    "RupTime": "H:i",
+                    "RupTimeSec": "H:i:s"
                 },
                 "reformatAfterEdit": false 
             },
@@ -328,6 +339,16 @@
                 "disabled": true
             },
             "idName": "id" 
-        } 
+        }
+    },
+    "rup_upload": {
+    	"maxFileSizeError": "El fichero supera el límite máximo de tamaño_eu",
+    	"minFileSizeError": "El fichero no supera el límite mínimo de tamaño_eu",
+    	"acceptFileTypesError": "El tipo de archivo no es válido_eu",
+    	"maxNumberOfFilesError": "Se ha excedido el número máximo de ficheros_eu",
+    	"startUpload":"Subir_eu",
+    	"cancelUpload":"Cancelar_eu",
+    	"deleteUploaded":"Eliminar_eu",
+    	"openUploaded":"Abrir_eu"
     }
 }

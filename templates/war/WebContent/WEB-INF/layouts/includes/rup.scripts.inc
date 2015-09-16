@@ -4,8 +4,8 @@
 <script src="${staticsUrl}/rup/scripts/core/jquery-1.6.2.js" type="text/javascript"></script>
 
 <!-- RUP-CORE -->
-<script src="${staticsUrl}/rup/scripts/rup.utils-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.base-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.utils-1.2.0.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.base-1.2.0.js" type="text/javascript"></script>
 
 <!-- jQuery UI 1.8.14 (+ patrones subyacentes) -->
 <script src="${staticsUrl}/rup/scripts/core/jquery.blockUI.js" type="text/javascript"></script>
@@ -17,6 +17,13 @@
 <script src="${staticsUrl}/rup/scripts/core/ui/jquery.ui.selectmenu.js" type="text/javascript"></script><!-- combo -->
 <script src="${staticsUrl}/rup/scripts/core/ui/jquery-ui.timepicker.js" type="text/javascript"></script>
 
+<!-- FileUpload -->
+<script src="${staticsUrl}/rup/scripts/core/jquery.fileupload.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/core/jquery.fileupload-ui.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/core/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/core/jquery.xdr-transport.js" type="text/javascript"></script>
+
+
 <!-- jqGrid 4.1.2 -->
 <script src="${staticsUrl}/rup/scripts/core/jqGrid-4.1.2.js" type="text/javascript"></script>
 
@@ -27,18 +34,19 @@
 <script src="${staticsUrl}/rup/scripts/core/jquery.numeric.js" type="text/javascript"></script>
 
 <!-- Patrones RUP -->
-<script src="${staticsUrl}/rup/scripts/rup.autocomplete-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.autocomplete-1.2.0.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.breadCrumb-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.combo-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.date-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.dialog-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.combo-1.2.0.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.date-1.2.0.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.dialog-1.2.0.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.feedback-1.1.0.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.grid-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.grid-1.2.0.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.lang-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.maint-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.maint-1.2.0.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.menu-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.message-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.tabs-1.1.1.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/scripts/rup.time-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.message-1.2.0.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.tabs-1.2.0.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.time-1.2.0.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.toolbar-1.1.1.js" type="text/javascript"></script>
 <script src="${staticsUrl}/rup/scripts/rup.tooltip-1.1.1.js" type="text/javascript"></script>
+<script src="${staticsUrl}/rup/scripts/rup.upload-1.0.0.js" type="text/javascript"></script>

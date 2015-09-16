@@ -31,10 +31,16 @@
 	// DEFINICIÓN DE MÉTODOS PÚBLICOS
 	//*******************************
 	$.fn.rup_combo("extend",{
+		getRupValue : function(param){
+			return $(this).rup_combo("value");
+		},
+		setRupValue : function(param){
+			$.data(this[0],"setRupValue",param.toString());
+			$(this).rup_combo("select",param.toString());
+		},
 		select : function(param){
 			//Cargar elemento
 			var elementSet = this._setElement($(this).selector, param);
-			
 			//Si se ha cargado un elemento válido
 			if (elementSet){
 				//Lanzar cambio para que se recarguen hijos
@@ -105,6 +111,8 @@
 				$.rup_ajax({
 					url: settings.source,
 					data : data,
+					dataType: 'json',
+					contentType: 'application/json',
 					beforeSend: function (xhr){
 						rupCombo._ajaxBeforeSend(xhr, settings);
 					},
@@ -183,7 +191,7 @@
 				delete combo;
 				delete options;
 				delete arrVals;
-			}
+			}			
 		}
 	});
 	
@@ -194,7 +202,7 @@
 			//Establece un elemento del combo por posición o valor
 			_setElement : function(selector, param){
 				if (typeof param === "string" ){
-					if ($('option[value="'+param+'"]', selector).length>0){//Controlamos que se intenten seleccionar un valor existente
+					if ($("option[value='"+param+"']", selector).length>0){//Controlamos que se intenten seleccionar un valor existente
 						$(selector).selectmenu("value", param);
 					} else {
 						return false;
@@ -362,7 +370,7 @@
 			},
 			_parseREMOTE : function(array, settings, html, optGroupKey){
 				var remoteImgs = settings.imgs?settings.imgs:[],
-					item;
+					item, setRupValue;
 				for (var i in array){
 					item = array[i];
 					if (item["style"]){
@@ -426,6 +434,13 @@
 					//Crear combo
 					this._makeCombo(settings);
 					
+					setRupValue = $.data($("#"+settings.id)[0],"setRupValue");
+					if (setRupValue){
+						
+					//Vaciar combo, quitarle valor y deshabilitar
+						$("#"+settings.id).rup_combo("select",setRupValue);
+					}
+					
 					//Lanzar cambio para que se recarguen hijos
 					$("#"+settings.id).selectmenu("change");
 				}
@@ -443,12 +458,12 @@
 					//Se carga el identificador del padre del patron
 					settings.id = $.rup_utils.escapeId($(this).attr("id"));
 					settings.name = $(this).attr("name");
-
+					
 					//Si no se recibe identificador para el acceso a literales se usa el ID del objeto
 					if (!settings.i18nId){ settings.i18nId = settings.id; }
 					
 					//Contenido combo
-					html = $("<select>").attr({"id" : $(this).attr("id"), "name" : settings.name}).addClass("rup_combo");
+					html = $("<select>").attr({"id" : $(this).attr("id"), "name" : settings.name, "ruptype":"combo"}).addClass("rup_combo");
 					
 					if (settings.parent){
 					//DEPENDIENTE

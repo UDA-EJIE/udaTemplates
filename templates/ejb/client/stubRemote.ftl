@@ -16,12 +16,11 @@
 package ${packageNameRemoting};
 import javax.ejb.Remote;
 <#if isEjb3>
-	import ${namePackageService}.${serviceName} ;
+import ${namePackageService}.${serviceName};
 <#else>
-  	<#--import ${namePackageEjb}.${serviceName} ;-->
-	<#foreach parametro in skeletonUtils.generateParameterImports(methods,false)>	
-		import ${stubUtils.replaceDto(parametro)};
-	</#foreach>
+<#foreach parametro in skeletonUtils.generateParameterImports(methods,false)>
+import ${parametro};
+</#foreach>
 </#if>
 
 /**
@@ -33,6 +32,7 @@ import javax.ejb.Remote;
 <#if isEjb3>
 public interface ${serviceName}StubRemote extends ${serviceName}{
 <#else>
+@SuppressWarnings("rawtypes")
 public interface ${serviceName}StubRemote{ 
 	<#assign listaMetodos = methods>
 	<#list methods as metodo>
@@ -42,7 +42,7 @@ public interface ${serviceName}StubRemote{
 	 *
 	 * @return <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${parametro}</#foreach><#else>${metodo[2]}</#if>
 	 */	
-	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${parametro}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${parametro} ${ctrUtils.stringDecapitalize(parametro)}Var<#if parametro_has_next>,</#if></#list> )throws Exception;
+	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${parametro}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${parametro} arg${parametro_index}<#if parametro_has_next>,</#if></#list>) throws Exception;
 	</#list>	
 </#if>
 

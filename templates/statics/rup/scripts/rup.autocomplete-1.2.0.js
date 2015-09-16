@@ -28,6 +28,12 @@
 	// DEFINICIÓN DE MÉTODOS PÚBLICOS
 	//*******************************
 	$.fn.rup_autocomplete("extend",{
+		getRupValue : function(){
+			return $(this).rup_autocomplete("val");
+		},
+		setRupValue : function(param){
+			$(this).val(param);
+		},
 		destroy:function(){
 			$(this).autocomplete("destroy");
 		},
@@ -60,7 +66,8 @@
 			$(this).autocomplete("close");
 		},
 		val:function(){
-			return $("#"+$(this).attr("id")+"_value").val();
+//			return $("#"+$(this).attr("id")+"_value").val();
+			return $("#"+$(this).attr("id")).val();
 		}
 	});
 	
@@ -108,6 +115,8 @@
 				$.rup_ajax({
 					url: settings.data,
 					data : data,
+					dataType: 'json',
+					contentType: 'application/json',
 					//Cabecera RUP
 					beforeSend: function (xhr){
 						xhr.setRequestHeader("RUP", $.toJSON(settings.sourceParam));
@@ -130,6 +139,8 @@
 					var settings = $.extend({}, $.fn.rup_autocomplete.defaults, args[0]),
 						name = $(this).attr("name"),
 						selected_value;
+					
+					$(this).attr("ruptype","autocomplete");
 					
 					//Recopilar datos necesarios
 					settings.id = $(this).attr("id");
@@ -158,6 +169,7 @@
 						settings.select = function(event, ui) { 
 						 	selected_value = ui.item["label"].replace(/<strong>/g,"").replace(/<\/strong>/g,"");
 							if (settings._select!==undefined){settings._select(event, ui);}
+							$("#"+settings.id).val(ui.item["value"]);
 						}; 
 						settings.focus = function(event, ui) {
 							$("#"+event.target.id).val(ui.item["label"].replace(/<strong>/g,"").replace(/<\/strong>/g,""));
@@ -169,10 +181,10 @@
 
 					//Generación de campo oculto para almacenar 'value' (en el input definido se guarda el 'label')
 					$("#"+settings.id).after($("<hidden>").attr({
-						id: settings.id+"_value",	
-						name: name
-					})).attr("name", name+"_label");
-
+						id: settings.id+"_value",
+						name: (settings.valueName===null?name:settings.valueName),
+						ruptype:"autocomplete"
+					})).attr("name", (settings.labelName===null?name+"_label":settings.labelName));
 
 					if (typeof settings.source === "object"){
 						//LOCAL						
@@ -191,11 +203,15 @@
 					//Buscar el UL del autocomplete y colocarlo tras el elemento sobre el que debe ir
 					$("#"+settings.id).after($("body > .ui-autocomplete"));
 					
+					
 					//Deshabilitar
 					if (settings.disabled) { $("#"+settings.id).rup_autocomplete("disable"); }
 					
 					//Valor por defecto
 					if (settings.defaultValue) { $("#"+settings.id).rup_autocomplete("search", settings.defaultValue); }
+					// Modificar identificadores
+					$("#"+settings.id).attr("id", settings.id+"_label");
+					$("#"+settings.id+"_value").attr("id", settings.id);
 				}
 			}
 		});
@@ -204,7 +220,9 @@
 	// DEFINICIÓN DE LA CONFIGURACION POR DEFECTO DEL PATRON  
 	//******************************************************
 	$.fn.rup_autocomplete.defaults = {
-		contains : true
+		contains : true,
+		valueName: null,
+		labelName: null
 	};	
 	
 	
