@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -39,7 +39,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//idioma
-	$("#${warName}_language").rup_language({languages: $.rup.AVAILABLE_LANGS_ARRAY});
+	$("#${warName}_language").rup_language({languages: $.rup.AVAILABLE_LANGS_ARRAY, modo: "portal"});
 	
 	//menu
 	$("#${warName}_menu").rup_menu({
@@ -50,4 +50,7 @@ jQuery(document).ready(function(){
 			display: 'vertical'
 		});
 	}
+	
+	//pie
+	$(".footer [title]").rup_tooltip();
 });

@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.1.2.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.0.6</org.logback.version>
 		<org.slf4j.version>1.6.6</org.slf4j.version>
-		<com.ejie.x38.version>2.1.0</com.ejie.x38.version>
+		<com.ejie.x38.version>2.1.1</com.ejie.x38.version>
 	</properties>
 	<dependencies>
 <#if radjpa>

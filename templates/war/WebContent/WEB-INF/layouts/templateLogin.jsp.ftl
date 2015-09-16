@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -36,10 +36,10 @@
 		<tiles:insertAttribute name="header" />
 
 		<!-- Idioma -->
-		<tiles:insertAttribute name="language" /><br/>
+		<tiles:insertAttribute name="language" />
 		
 		<!-- Migas de pan -->
-		<tiles:insertAttribute name="breadCrumb" /><br/>
+		<tiles:insertAttribute name="breadCrumb" />
 		
 		<!-- Contenidos -->
 		<tiles:insertAttribute name="content"/>

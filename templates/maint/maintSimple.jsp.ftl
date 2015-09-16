@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,14 +14,14 @@
  -- que establece la Licencia.
  -->
 	<%@include file="/WEB-INF/includeTemplate.inc"%>
-	<h1>${maint.getTitleMaint()}</h1>
+	<h2>${maint.getTitleMaint()}</h2>
 	<div id="error" style="display:none"></div>
 	<div id="${maint.getNameMaint()}">
 		<#if maint.getToolbarMaint() != "">
 		<!-- Botonera de gestiónn de la tabla -->
 		<div id="${maint.getToolbarMaint()}" class="botonera"></div>
 		</#if>
-		<div id="contenido" style="margin-top:0.5em;margin-bottom:0.5em;width:${grid.getWidth()}px;">
+		<div id="contenido" style="margin-top:0.3em;margin-bottom:0.3em;width:${grid.getWidth()}px;">
 			<#if maint.getSearchMaint() != "" && maint.getSearchMaint() != "searchForm">
 			<form id="${maint.getSearchMaint()}">
 			<!-- Introducir código del formulario de búsqueda -->

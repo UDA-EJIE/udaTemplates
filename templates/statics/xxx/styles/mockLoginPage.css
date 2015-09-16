@@ -21,7 +21,7 @@
 }
 
 .login-inner {
-	padding-top: 2em;
+	padding-top: 2.5em;
 	padding-right: 0.5em;
 	padding-left: 2em;
 	
@@ -39,8 +39,7 @@
 	box-shadow: 0px 0px 20px #000000;
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 	background-image: -moz-linear-gradient(top, #D9DDF2, #F2FFFA);
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#D9DDF2),
-		to(#F2FFFA) );
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#D9DDF2), to(#F2FFFA) );
 	background-image: -o-linear-gradient(top, #D9DDF2, #F2FFFA);
 	filter: "progid:DXImageTransform.Microsoft.gradient ( startColorstr = '#D9DDF2', endColorstr = '#F2FFFA' )";
 	/*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
@@ -53,6 +52,7 @@
 	-moz-background-clip: padding-box;
 	-webkit-background-clip: padding-box;
 	background-clip: padding-box;
+	margin-top: 3em;
 }
 
 .login-up {
@@ -63,6 +63,10 @@
 	width: 100%;
 }
 
+.login-down h2 {
+    float: none;
+    font-size: 1.5em;
+}
 .form-item {
 	margin-top: 1.5em;
 	margin-bottom: 1.5em;
@@ -135,7 +139,7 @@ span.selectedUserName {
 }
 
 div.loginButton {
-	margin-top: 3.6em;
+	margin-top: 2em;
 	width: 100%;
 	text-align: center;
 }

@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -15,7 +15,7 @@
  --> 
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<h2>ERROR</h2> <br>
+<h2 style="float:none;">ERROR</h2> <br>
 <a href="<%= request.getContextPath() %>/"><spring:message code="error.volver" /></a>
 
 <h3>Name: </h3><#noparse>${(empty param)? exception_name : param.exception_name}</#noparse><br>

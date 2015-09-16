@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -31,7 +31,7 @@
 	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
 	//breadCrumbs
 	LOGGED_USER = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.fullName : sessionScope.userData.fullName}</#noparse>',
-	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroyXLNetsSession : sessionScope.destroyXLNetsSession}</#noparse>';
+	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>';
 </script>
 
 <%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%>

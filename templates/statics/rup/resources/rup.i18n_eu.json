@@ -10,6 +10,29 @@
 	"rup_autocomplete":{
 		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean"
 	},
+	"rup_grid_jerarquia":{
+		"errorTitle":"AKATS",
+	    "errorMessageMulti":"Azpimaila lortzean akats bat gertatu da",
+	    "errorMessageSelected":"Hutaketako elementuen datuak lortzean akats bat gertatu da",
+	    "icons" : {
+            "expanded" :"Okertu elementua",
+            "unexpanded" :"Tiratu elementua",
+            "nochild":"Semerik gabeko elementua",
+            "filtered" :"Elementuak iragazkia betetzen du"
+        },
+        "menu":{
+            "opt_1":"Markatu semeak",
+            "opt_2":"Markatu ondorengoak",
+            "opt_3":"Kendu markatutako semeak",
+            "opt_4":"Kendu markatutako ondorengoak",
+            "opt_5":"Markatu guztiak",
+        	"opt_6":"Kendu markatutako guztiak"
+        },
+        "feedbackVisualSelect":"<strong>Ikusten diren</strong> elementu guztiak hautatu dira",
+        "feedbackVisualDeselect":"<strong>Ikusten diren</strong> elementu guztiak hautaketatik kenduko dira",
+        "feedbackTableSelect":"<strong>Elementu guztiak</strong> hautatu dira",
+        "feedbackTableDeselect":"<strong>Elementu guztiak</strong> hautaketatik kenduko dira"
+	},
 	"rup_maint":{
 		"detailTitle":"Erregistroaren xehetasuna",
 		"deletedOK":"Elementua zuzen ezabatu da.",
@@ -64,12 +87,17 @@
     	"eu" :"Euskara",
     	"en" :"English",
 		"fr" :"Français",
+		"es_short" :"es",
+    	"eu_short" :"eu",
+    	"en_short" :"en",
+		"fr_short" :"fr",
     	"changeLanguage":"Hizkuntza aldatu",
-    	"closingLiteral":"Hizkuntzaren menua itxi",
-    	"changeLanguageLiteral_es":"Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_eu":"Aplikazioen hizkuntza aldatu ",
-    	"changeLanguageLiteral_en":"Change application language to ",
-    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la aplicación a "
+		"closingLiteral":"Hizkuntza menua itxi",
+		"changeLanguageLiteral":"Orrialdearen uneko hizkuntza ",
+		"changeLanguageLiteral_es":"Cambia el idioma de la página a ",
+		"changeLanguageLiteral_eu":"Web-aren hizkuntza aldatu ",
+		"changeLanguageLiteral_en":"Switch the language of the website ",
+		"changeLanguageLiteral_fr":"De changer la langue du site "
     }, 
     "rup_global":{
         "cerrar":"Itxi",
@@ -113,13 +141,19 @@
 	"rup_combo":{
 		"blankNotDefined":"[Literala falta da]",
 		"loadingText":"Kargatzen...",
-		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean"
-	},
-	"rup_multicombo":{
-		 "checkAllText":"Hautatu dena",
-         "uncheckAllText":"Garbitu hautapena",
-         "noneSelectedText":"Hautatu aukera",
-         "selectedText":"# hautatuta"
+		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean",
+		"multiselect":{
+			"checkAllText":"Hautatu dena",
+         	"uncheckAllText":"Garbitu hautapena",
+         	"noneSelectedText":"Hautatu aukera",
+         	"selectedText":"# hautatuta",
+         	"checkAllTitle":"Aukera guztiak hautatu",
+		    "uncheckAllTitle":"Aukera guztiak garbitu",
+      		"optGroupSelect":"Talde osoa hautatu",
+      		"optGroupDeselect":"Talde osoa garbitu",
+      		"optGroupSelectTitle":"Talde honen aukera guztiak hautatu",
+      		"optGroupDeselectTitle":"Talde honen aukera guztiak garbitu"
+        }
 	},
 	"rup_date":{
 		"mask" :"(aaaa/mm/dd)",

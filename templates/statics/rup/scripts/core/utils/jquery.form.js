@@ -489,13 +489,22 @@ $.fn.ajaxSubmit = function(options) {
 				var dt = (s.dataType || '').toLowerCase();
 				var scr = /(json|script|text)/.test(dt);
 				if (scr || s.textarea) {
+					
+					var documentContent, isTextArea;
 					// see if user embedded response in textarea
-					var ta = doc.getElementsByTagName('textarea')[0];
-					if (ta) {
-						xhr.responseText = ta.value;
+					try {
+						documentContent = $($(doc).text());
+						isTextArea = documentContent.is("textarea");
+					}catch(e){
+						isTextArea = false;
+					}
+					
+//					var ta = doc.getElementsByTagName('textarea')[0];
+					if (isTextArea) {
+						xhr.responseText = documentContent.text();
 						// support for XHR 'status' & 'statusText' emulation :
-						xhr.status = Number( ta.getAttribute('status') ) || xhr.status;
-						xhr.statusText = ta.getAttribute('statusText') || xhr.statusText;
+						xhr.status = Number( documentContent.attr('status') ) || xhr.status;
+						xhr.statusText = documentContent.attr('statusText') || xhr.statusText;
 					}
 					else if (scr) {
 						// account for browsers injecting pre around json response

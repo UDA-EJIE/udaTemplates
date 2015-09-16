@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -37,6 +37,7 @@
 				<#foreach reg in listaClases>
 					<entry key="<#noparse>#{T</#noparse>(com.ejie.${codapp}.model.${ctrUtils.stringCapitalize(reg)})<#noparse>}</#noparse>" value-ref="customSerializer" />
 				</#foreach>
+				<entry key="#{T(com.ejie.x38.dto.Jerarquia)}" value-ref="customSerializer" />
 	        </util:map>
       	</property>
 		</#if>      	

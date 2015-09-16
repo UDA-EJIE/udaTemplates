@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -182,6 +182,7 @@
 			where.append(" AND ${propiedades[2]} IS NOT NULL");
 		<#else>
 			where.append(" AND ${propiedades[2]} = ?");
+			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
 		</#if>
 	     }			
 		</#list>

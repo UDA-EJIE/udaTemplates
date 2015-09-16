@@ -17,9 +17,11 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <div id="cabecera" class="cabecera">
-	<span style="font-size: 2em;color: #000000;">${codapp} - Demo RUP</span>
+	<h1>
+		<span id="tituloAplicacion"><a href="<%= request.getContextPath()%>/" >${codapp} - Demo RUP</a></span>
 	
-	<a href="<%= request.getContextPath()%>/" style="float: right;margin-right:0.8em;">
-		<img id="rup_dept_logo" alt="Departamento"/>
-	</a>
+		<span style="float: right;">
+			<img id="rup_dept_logo" alt="Departamento"/>
+		</span>
+	</h1>
 </div>

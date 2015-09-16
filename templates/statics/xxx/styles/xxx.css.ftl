@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2012 E.J.I.E., S.A.
+ -- Copyright 2013 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -16,19 +16,23 @@
 body {
 	margin: 0;
 	padding: 0;
-	background: #efefef;
-	font-family:Arial, Helvetica, sans-serif;
-	font-size: 73%;
+	background: none repeat scroll 0 0 #EFEFEF;
+	font-family:Arial,Verdana,Helvetica, sans-serif;
+	font-size: 71.5% !important;
 	color: #666666;
 }
 
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {margin:0; padding:0}
 a img,:link img,:visited img,form,fieldset {border:none}
 
+.ui-widget { font-size: 0.96em; }
+
 /* Hx */
-h1 { font-size:2.2em; color:#000000; display:block; margin:0 0 0.5em 0; padding:0 0 0.3em 0; border-bottom:1px solid #cccccc;width: 100%}
-h2 { font-size:1.8em; color:#000000; display:block; margin:1.5em 0 0 0; padding:0; }
-h3 { font-size:1.4em; color:#555555; display:block; margin:1.5em 0 0.5em 0; padding:0; }
+#tituloAplicacion{color: #000000; margin: 0 0 0.5em; padding: 0 0 0.3em 0;}
+
+h1 { font-size:2.0em; color:#000000; display:block; margin:0 0 0.5em; padding:0;}
+h2 { font-size:1.7em; color:#000000; display:block; margin:0 0 0.5em; padding:0; border-bottom: 1px solid #CCCCCC; width: 100%;}
+h3 { font-size:1.4em; color:#000000; display:block; margin:0 0 0.5em 0.5em; padding:0; }
 
 /* Parrafo */
 p { color:#000000; line-height:1.7em; margin:0; }
@@ -41,12 +45,26 @@ input.disabled { background-color: #D3D3D3; }
 	width:90%; 
 	margin:0 auto; 
 	padding: 2em; 
-	background:#FFF;  
+	background:#FFFFFF;  
 }
+
 .cabecera {
 	margin-bottom: 2em;
 	width: 100%;
 }
+.cabecera a {
+	color: #000000;
+	text-decoration:none;
+}
+
+.languageHelpContact {
+	float: right;
+	cursor: pointer;
+}
+.languageHelpContact a {
+    color: #000000;
+}
+
 .menu {
 	margin-top: 1em; 
 	margin-bottom: 1em;
@@ -61,18 +79,13 @@ input.disabled { background-color: #D3D3D3; }
 	padding-bottom: 0em;
 }
 .footer a {
-	color:#000;
+	color:#000000;
 }
 
-/** FEEDBACK **/
-.feedbackImgPruebas {
-	background-image: url("../images/feedbackImgPruebas.png");
-	background-repeat: no-repeat;
-	background-position: 8px 12px;
-	padding-bottom:1em;
-	padding-left:4.5em;
-	padding-right:0.5em;
-	padding-top:1em;
+
+
+.rup_external_link {
+    float: none;
 }
 
 /*Posicionamiento a la derecha de los botones*/
@@ -81,11 +94,11 @@ input.disabled { background-color: #D3D3D3; }
 	margin-bottom:5px;
 }
 
-.formulario_legend { 
-	color:#000000 !important; 
-	font-size:1.2em;
+/* FORMULARIOS */
+.formulario_legend {
+    color: #000000 !important;
+    font-size: 0.96em;
 }
-
 .formulario_columna_cnt {
 	color:#666666; 
 	float:left; 
@@ -104,14 +117,16 @@ input.disabled { background-color: #D3D3D3; }
 .formulario_linea_input { 
 	border:0.1em solid #D1D1D1;
 	color:#666666;
-	/*font-size:1.2em;*/ 
 	font-size:100%;
-	/*width: 15em; */
+	height: 16px;
+}
+.formulario_required {
+    color: #FF0000;
 }
 .floating_left_pad_right {
 	float:left;
 	padding-right:10px;
-	font-family:Verdana,Arial,Helvetica,sans-serif;	
+	font-family:Arial,Verdana,Helvetica,sans-serif;	
 	font-size:11px;
 	text-align:left;
 	margin-top:5px;

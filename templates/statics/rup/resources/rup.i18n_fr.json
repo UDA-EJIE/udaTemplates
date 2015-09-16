@@ -10,6 +10,29 @@
 	"rup_autocomplete":{
 		"ajaxError":"fr_Se ha producido un error al recuperar los datos del servidor"
 	},
+	"rup_grid_jerarquia":{
+	    "errorTitle":"fr_ERROR",
+	    "errorMessageMulti":"fr_Error al obtener los hijos",
+	    "errorMessageSelected":"fr_Error al obtener los datos de los elementos seleccionados",
+	    "icons" : {
+	    	"expanded" :"fr_Contraer el elemento", 
+	    	"unexpanded" :"fr_Expandir el elemento", 
+	    	"nochild":"fr_Elemento sin hijos",
+	    	"filtered" :"fr_El elemento cumple el filtro"
+	    },
+	    "menu":{
+	    	"opt_1":"fr_Marcar hijos",
+	    	"opt_2":"fr_Marcar descendientes",
+	    	"opt_3":"fr_Desmarcar hijos",
+	    	"opt_4":"fr_Desmarcar descendientes",
+	    	"opt_5":"fr_Marcar todos",
+	    	"opt_6":"fr_Desmarcar todos"
+	    },
+	    "feedbackVisualSelect":"fr_Se han seleccionado todos los elementos <strong>visibles</strong>",
+	    "feedbackVisualDeselect":"fr_Se han deseleccionado todos los elementos <strong>visibles</strong>",
+	    "feedbackTableSelect":"fr_Se han seleccionado <strong>todos los elementos</strong>",
+	    "feedbackTableDeselect":"fr_Se han deseleccionado <strong>todos los elementos</strong>"
+	},
 	"rup_maint":{
 		"detailTitle":"fr_Detalle de Registro",
 		"deletedOK":"fr_El elemento se ha borrado correctamente.",
@@ -64,12 +87,17 @@
     	"eu" :"Euskara",
     	"en" :"English",
 		"fr" :"Français",
+		"es_short" :"es",
+    	"eu_short" :"eu",
+    	"en_short" :"en",
+		"fr_short" :"fr",
     	"changeLanguage":"Changement de langue",
     	"closingLiteral":"fr_Cierre del menu ideomático",
-    	"changeLanguageLiteral_es":"Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_eu":"eu_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_en":"en_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la aplicación a "
+    	"changeLanguageLiteral":"fr_Idioma actual de la página en ",
+    	"changeLanguageLiteral_es":"Cambia el idioma de la página a ",
+    	"changeLanguageLiteral_eu":"eu_Cambia el idioma de la página a ",
+    	"changeLanguageLiteral_en":"en_Cambia el idioma de la página a ",
+    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la página a "
     }, 
     "rup_global":{
         "cerrar":"fr_cerrar",
@@ -113,13 +141,19 @@
 	"rup_combo":{
 		"blankNotDefined":"fr_[Falta literal]",
 		"loadingText":"fr_Cargando...",
-		"ajaxError":"fr_Se ha producido un error al recuperar los datos del servidor"
-	},
-	"rup_multicombo":{
-		"checkAllText":"Tout cocher",
-		"uncheckAllText":"Tout décocher",
-		"noneSelectedText":"Selectionner les options",
-		"selectedText":"# selectionnés"
+		"ajaxError":"fr_Se ha producido un error al recuperar los datos del servidor",
+		"multiselect":{
+			"checkAllText":"Tout cocher",
+			"uncheckAllText":"Tout décocher",
+			"noneSelectedText":"Selectionner les options",
+			"selectedText":"# selectionnés",
+			"checkAllTitle":"Seleccionar todos los elementos_fr",
+			"uncheckAllTitle":"Deseleccionar todos los elementos_fr",
+			"optGroupSelect":"Seleccionar grupo_fr",
+			"optGroupDeselect":"Deseleccionar grupo_fr",
+			"optGroupSelectTitle":"Seleccionar todos los elementos de este grupo_fr",
+			"optGroupDeselectTitle":"Deseleccionar todos los elementos de este grupo_fr"
+		}
 	},
 	"rup_date":{
 		"mask" :"(dd/mm/aaaa)",
