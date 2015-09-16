@@ -18,6 +18,7 @@
 		"next":"Siguiente",
 		"previous":"Anterior",
 		"elements":"Elementos",
+		"element(s)":"Elemento(s)",
 		"new":"Añadir",
 		"edit":"Editar",
 		"delete":"Eliminar",
@@ -27,8 +28,8 @@
 		"noGrid":"No es posible crear un mantenimiento sin un grid.",
 		"numResult":"Número de resultados",
 		"de":"de",
-		"changes": "Se han realizado cambios",
-		"saveAndContinue": "¿Se han realizado cambios, desea continuar?",
+		"changes": "Control de cambios",
+		"saveAndContinue": "Se perderán los cambios en los datos modificados, ¿desea continuar?",
 		"checkSelectedElems": "Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
 		"selectAll": "Ha seleccionado todos los registros de la página actual.",
@@ -36,7 +37,9 @@
 		"deleteAll": "¿Está seguro que desea eliminar todos los registros seleccionados?",
 		"titleDelAll": "Eliminar los registros",
 		"noReg":"Seleccione un registro.",
-		"emptyChanges": "No se han realizado cambios."
+		"emptyChanges": "No se han realizado cambios.",
+		"invalidRowId": "El identificador de la fila no es válido. No se puede completar la acción",
+		"toolbarNewButtonError": "Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas."
     },
     "rup_breadCrumb" : {
     	"youAre" : "Usted está en:",
@@ -66,7 +69,7 @@
 		"parameterError":"Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"Error de desarrollo",
 		"metodError":"Error en el método: ",
-		"selecctorError":"El selector especificado es incorrecto (no devuelve nada)" 
+		"selectorError":"El selector especificado es incorrecto (no devuelve nada)" 
     },
     "rup_menu": {
     	"developerError":"Error de desarrollo",
@@ -93,6 +96,8 @@
 	},
 	"rup_date": {
 		"mask" : "(dd/mm/aaaa)",
+		"maskDateTime" : "(dd/mm/aaaa hh:mm)",
+		"maskDateTimeSec" : "(dd/mm/aaaa hh:mm:ss)",
 	 	"dateFormat" : "dd/mm/yy",
 		"firstDay" : 1,
 		"weekHeader" : "&nbsp;&nbsp;&nbsp;",
@@ -351,5 +356,14 @@
     	"cancelUpload":"Cancelar",
     	"deleteUploaded":"Eliminar",
     	"openUploaded":"Abrir"
+    },
+    "rup_utils": {
+    	"relToAbsUrlParamFormatError": "Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String.",
+    	"relToAbsUrlParamError": "La url => <b style='color:red'>&#34",
+    	"relToAbsUrlParamErrorEnd": "&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta."
+    },
+    "rup_accordion": {
+    	"strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general.",
+    	"headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general."
     }
 }

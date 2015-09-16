@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -39,7 +39,7 @@
     	</encoder>
     	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       		<!-- rollover daily -->
-     		<fileNamePattern><#noparse>${log.path}</#noparse>/salidaEstandar_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+     		<fileNamePattern><#noparse>${log.path}</#noparse>/salidaEstandar_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
       		<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -61,7 +61,7 @@
 	    </encoder>
     	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern><#noparse>${log.path}</#noparse>/incidencias_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+			<fileNamePattern><#noparse>${log.path}</#noparse>/incidencias_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -81,7 +81,7 @@
 	    </encoder>
 	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern><#noparse>${log.path}</#noparse>/udaTrazas_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+			<fileNamePattern><#noparse>${log.path}</#noparse>/udaTrazas_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -101,7 +101,7 @@
 	    </encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern><#noparse>${log.path}</#noparse>/<#noparse>${CONTEXT_NAME}</#noparse>Trazas_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+			<fileNamePattern><#noparse>${log.path}</#noparse>/<#noparse>${CONTEXT_NAME}</#noparse>Trazas_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
@@ -121,7 +121,7 @@
 	    </encoder>
     	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern><#noparse>${log.path}</#noparse>/auditoriaAccesos_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+			<fileNamePattern><#noparse>${log.path}</#noparse>/auditoriaAccesos_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>

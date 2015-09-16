@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
 		<org.logback.version>0.9.29</org.logback.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
-		<com.ejie.x38.version>1.2.0</com.ejie.x38.version>
+		<com.ejie.x38.version>1.2.1</com.ejie.x38.version>
 	</properties>
 	<dependencies>
 <#if radjpa>
@@ -53,6 +53,7 @@
 			<version><#noparse>${eclipselink.version}</#noparse></version>
 		</dependency>
 </#if>
+		
 		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -76,6 +77,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
+		
 		<!-- Spring Security -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -105,40 +107,40 @@
 		
 		<!-- Logging -->
 			<!-- SLF4J -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version><#noparse>${org.slf4j.version}</#noparse></version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version><#noparse>${org.slf4j.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-ext</artifactId>
-			<version><#noparse>${org.slf4j.version}</#noparse></version>
-			<exclusions>
-				<!-- Exclude Compiler assisted localization library (CAL10N) -->
-				<exclusion>
-					<groupId>ch.qos.cal10n</groupId>
-					<artifactId>cal10n-api</artifactId>
-				</exclusion>				
-			</exclusions>			
-		</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version><#noparse>${org.slf4j.version}</#noparse></version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version><#noparse>${org.slf4j.version}</#noparse></version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-ext</artifactId>
+				<version><#noparse>${org.slf4j.version}</#noparse></version>
+				<exclusions>
+					<!-- Exclude Compiler assisted localization library (CAL10N) -->
+					<exclusion>
+						<groupId>ch.qos.cal10n</groupId>
+						<artifactId>cal10n-api</artifactId>
+					</exclusion>				
+				</exclusions>			
+			</dependency>
 			<!-- Logback -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version><#noparse>${org.logback.version}</#noparse></version>						
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version><#noparse>${org.logback.version}</#noparse></version>
-		</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version><#noparse>${org.logback.version}</#noparse></version>						
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version><#noparse>${org.logback.version}</#noparse></version>
+			</dependency>
 
 		<!-- JSR 303 with Hibernate Validator -->
 		<dependency>
@@ -146,6 +148,11 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
+		<dependency>
+		   <groupId>javax.validation</groupId>
+		   <artifactId>validation-api</artifactId>
+		   <version>1.0.0.GA</version>
+		</dependency>		
 
 		<!-- Joda Time -->
 		<dependency>

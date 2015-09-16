@@ -1,0 +1,65 @@
+/*!
+ * Copyright 2012 E.J.I.E., S.A.
+ *
+ * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ * Solo podrá usarse esta obra si se respeta la Licencia.
+ * Puede obtenerse una copia de la Licencia en
+ *
+ *      http://ec.europa.eu/idabc/eupl.html
+ *
+ * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ * el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ * que establece la Licencia.
+ */
+ 
+.ui-tabs .ui-tabs-panel { border-width: 1px;  }
+
+/* Estilo asociado al error de carga de una pestaña */
+.rup-loading_tab_error {
+	font-size: 2em;
+	margin: 1.5em 0.5em 1.5em 0.5em;
+	color: #F71229;
+}
+
+/* Estilo de la imagen de carga de cada pestañas */
+.rup-tabs_loading { 
+	float:left;
+	width: 1.2em;
+	height: 1.2em;
+	margin-left: 0.3em;
+	margin-right: 0em;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	
+}
+
+.rup-tabs_loading_img { 
+	vertical-align: middle;
+	background-image: url("images/rup.ajaxLoader.gif");
+	background-position:center center;
+	background-repeat:no-repeat;
+	float:right;
+	width: 1.2em;
+	height: 1.2em;
+	margin-left: 0.3em;
+	margin-right: 0em;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	
+}
+
+/* Estilo especifico para la separación entre las pestañas que albergan otras pestañas */ 
+.ui-tabs .ui-tabs-panel.rup-tabs_container {
+	padding: 0.4em;
+}
+
+.rup-tabs_title { 
+	float:left;
+}
+
+/* Estilo para mostrar scrollbar cuando sea necesario */
+.rup-tabs_overflow { 
+	overflow:scroll;
+}

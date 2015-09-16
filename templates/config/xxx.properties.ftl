@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -17,8 +17,9 @@
 statics.path = http://desarrollo.jakina.ejiedes.net:7001/${codapp?lower_case}Statics
 xlnets.path = http://xlnets.servicios.jakina.ejiedes.net/n38a/N38LoginInicioServlet
 <#else>
-statics.path = http://localhost:7001/${codapp?lower_case}Statics
+statics.path = /${codapp?lower_case}Statics
 </#if>
+xlnets.inPortal=FALSE #TRUE if it is portal embedded
 
 #Loggin parameters
 log.path=c:/datos/${codapp}/log

@@ -1,4 +1,8 @@
 * html
+*html
+* +html
+*+html
+* + html
 *:first-child+html
 *:first-child+html
 html>body

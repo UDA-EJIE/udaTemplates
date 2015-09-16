@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2012 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -24,10 +24,10 @@
 	</wls:application-param>
     <wls:prefer-application-packages>	
 <#if radjpa>
-		<wls:package-name>javax.persistence.*</wls:package-name>
 		<wls:package-name>org.eclipse.persistence.*</wls:package-name>
 </#if>
 		<wls:package-name>org.apache.xerces.*</wls:package-name>
-		<wls:package-name>org.apache.xerces.jaxp.*</wls:package-name> 
+		<wls:package-name>org.apache.xerces.jaxp.*</wls:package-name>
+		<wls:package-name>javax.persistence.*</wls:package-name>
 	</wls:prefer-application-packages>
 </wls:weblogic-application>
