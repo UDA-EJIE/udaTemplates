@@ -12,10 +12,6 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 			
-<#if isexamples>			
-	<!-- Scans the classpath of this application for @Components to deploy as beans -->
-	<context:component-scan base-package="com.ejie.${codapp}.control" />
-</#if>
 	<import resource="mvc-config.xml" />
 	<import resource="log-config.xml"/>
 	<import resource="validation-config.xml"/>

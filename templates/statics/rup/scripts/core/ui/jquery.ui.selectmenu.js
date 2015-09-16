@@ -9,6 +9,8 @@
  * https://github.com/fnagel/jquery-ui/wiki/Selectmenu
  */
 
+//Modificado por UDA-CAC
+
 (function($) {
 
 $.widget("ui.selectmenu", {
@@ -432,11 +434,12 @@ $.widget("ui.selectmenu", {
 			this._closeOthers(event);
 			this.newelement
 				.addClass('ui-state-active');
-			if (self.options.wrapperElement) {
+			//Comentado para que no mueva el UL cada vez que se abre
+			/*if (self.options.wrapperElement) {
 				this.list.parent().appendTo('body');
 			} else {
 				this.list.appendTo('body');
-			}
+			}*/
 			this.list.addClass(self.widgetBaseClass + '-open')
 				.attr('aria-hidden', false)
 				.find('li:not(.'+ self.widgetBaseClass +'-group):eq('+ this._selectedIndex() +') a')[0].focus();	

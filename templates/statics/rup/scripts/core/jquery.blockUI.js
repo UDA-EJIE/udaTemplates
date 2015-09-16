@@ -453,7 +453,7 @@ function handler(e) {
 			var fwd = !e.shiftKey && e.target === els[els.length-1];
 			var back = e.shiftKey && e.target === els[0];
 			if (fwd || back) {
-				setTimeout(function(){focus(back)},10);
+				setTimeout(function(){focus(back);},10);
 				return false;
 			}
 		}

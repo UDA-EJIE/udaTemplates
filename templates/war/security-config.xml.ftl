@@ -10,7 +10,7 @@
 <#if idSecurity != "">
 	<!-- Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperN38Impl">		
-		<property name="xlnetCachingPeriod" value="2" />
+		<property name="xlnetCachingPeriod" value="120" />
 	</bean>
 <!--	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperMockImpl">-->
 <!--		<property name="principal" value="${codrole?upper_case}U001" />-->
@@ -24,7 +24,7 @@
 <#else>
 	<!-- Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
 <!--	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperN38Impl">-->		
-<!--		<property name="xlnetCachingPeriod" value="2" />-->
+<!--		<property name="xlnetCachingPeriod" value="120" />-->
 <!--	</bean>-->
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperMockImpl">
 		<property name="principal" value="USER_${codrole}" />

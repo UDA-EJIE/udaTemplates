@@ -150,7 +150,7 @@
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		
 		<!-- Tiles -->
@@ -185,7 +185,7 @@
 			<name>ejie</name>
 			<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
 			</snapshots>
 		</repository>
 <#else>

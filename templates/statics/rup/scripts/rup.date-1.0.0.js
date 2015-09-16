@@ -149,11 +149,11 @@
 					from_settings.onSelect = function (selectedDate) {
 						$("#"+settings.to).rup_date("option", "minDate", selectedDate);
 						if (settings.onSelect!==undefined){ settings.onSelect(selectedDate); }
-					}
+					};
 					to_settings.onSelect = function (selectedDate) {
 						$("#"+settings.from).rup_date("option", "maxDate", selectedDate);
 						if (settings.onSelect!==undefined){ settings.onSelect(selectedDate); }
-					}
+					};
 					
 					//Lanzar componente
 					$("#"+settings.from).rup_date(from_settings);

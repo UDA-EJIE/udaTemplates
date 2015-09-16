@@ -1,0 +1,19 @@
+/* Enlaces */
+a {color:#0052c7; text-decoration:underline; }
+a:hover {text-decoration: none;}
+ 
+/*Estilo basico para los botones con formato enlace*/
+.rup-enlaceCancelar { 
+	 float: right;
+	 margin: .5em .4em .5em 0; 
+	 cursor: pointer; 
+	 padding: .2em .6em .3em .6em; 
+	 line-height: 1.4em; 
+	 width:auto; 
+	 overflow:visible; 
+	 color:blue;
+}
+
+input.ui-button { padding: 0.2em 0.6em; }
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {font-weight: bold; }

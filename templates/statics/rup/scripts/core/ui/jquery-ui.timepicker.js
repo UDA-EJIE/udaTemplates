@@ -472,7 +472,7 @@ $.extend(Timepicker.prototype, {
 				var inputEl = tp_inst.$input ? tp_inst.$input[0] : null;
 				var onSelectHandler = function() {
 					onSelect.apply(inputEl, [tp_inst.formattedDateTime, tp_inst]); // trigger custom callback*/
-				}
+				};
 				this.hour_slider.bind('slidestop',onSelectHandler);		
 				this.minute_slider.bind('slidestop',onSelectHandler);		
 				this.second_slider.bind('slidestop',onSelectHandler);		

@@ -1,8 +1,11 @@
 {
-	"rup_base": {
-		"developerError":"eu_Error de desarrollo"
- 	},
-    "rup_maint": {
+    "rup_ajax":{
+		"errorTitle":"eu_Error",
+		"httpStatus0":"eu_No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+		"httpStatus404":"eu_La url a la que intenta acceder no es válida",
+		"httpStatus500":"eu_Se ha producido un error interno",
+		"httpStatus503":"eu_El servicio solicitado no está disponible"
+	},"rup_maint": {
 		"detailTitle":"eu_Agregar Registro",
 		"deletedOK":"eu_El elemento se ha borrado correctamente.",
 		"insertOK":"eu_El elemento se ha a�adido correctamente.",
@@ -18,7 +21,7 @@
 		"edit":"eu_Editar",
 		"delete":"Ezabatu",
 		"filter":"eu_Filtrar",
-"cancel":"eu_Cancelar",
+		"cancel":"eu_Cancelar",
 		"searchOptions":"eu_Criterios de Busqueda:",
 		"noGrid":"eu_NO es poasible crear un mantenimiento sin un grid.",
 		"numResult":"eu_Número de resultados",
@@ -28,8 +31,9 @@
 		"selectAll":"eu_Ha seleccionado todos los registros de la pagina actual.",
 		"selected":"eu_Registros seleccionados.",
 		"deleteAll":"eu_¿Estaseguro que desea eliminar todos los registros seleccionados?",
-"titleDelAll": "Eliminar los registros",
-		"noReg":"Seleccione un registro."
+		"titleDelAll": "eu_Eliminar los registros",
+		"noReg":"eu_Seleccione un registro.",
+		"emptyChanges": "eu_No se han realizado cambios."
     },
     "rup_breadCrumb" : {
     	"youAre":"Hemen zaude:",
@@ -54,7 +58,12 @@
         "close":"eu_Cerrar",
 		"save_repeat":"eu_Guardar y Repetir",
 		"cancel":"eu_Cancelar",
-		"initError":"eu_Se ha especificado mas de un elemento en la constructora. <br> Por favor revise la funcion creadora para el objeto con ID: "		
+		"initError":"eu_Se ha especificado mas de un elemento en la constructora. <br> Por favor revise la funcion creadora para el objeto con ID: ",
+		"developerError":"eu_Error de desarrollo"		
+    },
+    "rup_menu": {
+    	"developerError":"eu_Error de desarrollo",
+    	"structuralError":"eu_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)" 
     },
     "rup_message": {
         "aceptar":"eu_Aceptar",
@@ -221,14 +230,14 @@
         },
         "formatter": {
             "integer": {
-                "thousandsSeparator":".",
-                "defaultValue":"0" 
+                "thousandsSeparator": ".",
+                "defaultValue": "0" 
             },
             "number": {
-                "decimalSeparator":",",
-                "thousandsSeparator":".",
-                "decimalPlaces":"2",
-                "defaultValue":"0,00" 
+                "decimalSeparator": ",",
+                "thousandsSeparator": ".",
+                "decimalPlaces": "2",
+                "defaultValue": "0,00" 
             },
             "currency": {
                 "decimalSeparator": ",",
@@ -287,9 +296,9 @@
                     "AM",
                     "PM" 
                 ],
-                "S":"function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'}",
-                "srcformat":"Y-m-d",
-                "newformat":"d-m-Y",
+                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
+                "srcformat": "d/m/y",
+                "newformat": "Y/m/d",
                 "masks": {
                     "ISO8601Long": "Y-m-d H:i:s",
                     "ISO8601Short": "Y-m-d",
@@ -309,7 +318,7 @@
             "showAction": "",
             "target": "",
             "checkbox": {
-                "disabled": "true" 
+                "disabled": true
             },
             "idName": "id" 
         } 

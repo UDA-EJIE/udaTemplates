@@ -1,7 +1,11 @@
 {
-	"rup_base": {
-		"developerError":"en_Error de desarrollo"
- 	},
+	"rup_ajax":{
+		"errorTitle":"en_Error",
+		"httpStatus0":"en_No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+		"httpStatus404":"en_La url a la que intenta acceder no es válida",
+		"httpStatus500":"en_Se ha producido un error interno",
+		"httpStatus503":"en_El servicio solicitado no está disponible"
+	},
 	"rup_maint": {
 		"detailTitle":"en_Agregar Registro",
 		"deletedOK":"en_El elemento se ha borrado correctamente.",
@@ -18,7 +22,7 @@
 		"edit":"en_Editar",
 		"delete":"en_Eliminar",
 		"filter":"en_Filtrar",
-"cancel":"Cancelar",
+		"cancel":"Cancelar",
 		"searchOptions":"en_Criterios de Búsqueda:",
 		"noGrid":"en_No es posible crear un mantenimiento sin un grid.",
 		"numResult":"en_Número de resultados",
@@ -28,8 +32,9 @@
 		"selectAll": "en_Ha seleccionado todos los registros de la página actual.",
 		"selected": "en_Registros seleccionados.",
 		"deleteAll": "en_¿Está seguro que desea eliminar todos los registros seleccionados?",
-"titleDelAll": "Eliminar los registros",
-		"noReg":"Seleccione un registro."
+		"titleDelAll": "en_Eliminar los registros",
+		"noReg":"en_Seleccione un registro.",
+		"emptyChanges": "en_No se han realizado cambios."
     },
     "rup_breadCrumb" : {
     	"youAre" : "You are in:",
@@ -54,7 +59,12 @@
         "close": "en_Cerrar",
 		"save_repeat":"en_Guardar y Repetir",
 		"cancel":"en_Cancelar",
-		"initError":"en_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: " 
+		"initError":"en_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
+		"developerError":"en_Error de desarrollo" 
+    },
+    "rup_menu": {
+    	"developerError":"en_Error de desarrollo",
+    	"structuralError":"en_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)" 
     },
     "rup_message": {
         "aceptar": "en_Aceptar",
@@ -287,9 +297,9 @@
                     "AM",
                     "PM" 
                 ],
-                "S": "function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'}",
-                "srcformat": "Y-m-d",
-                "newformat": "d-m-Y",
+                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
+                "srcformat": "d/m/y",
+                "newformat": "m/d/Y",
                 "masks": {
                     "ISO8601Long": "Y-m-d H:i:s",
                     "ISO8601Short": "Y-m-d",
@@ -309,7 +319,7 @@
             "showAction": "",
             "target": "",
             "checkbox": {
-                "disabled": "true" 
+                "disabled": true
             },
             "idName": "id" 
         } 

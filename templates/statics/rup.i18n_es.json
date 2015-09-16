@@ -1,7 +1,11 @@
 {
-	"rup_base": {
-		"developerError":"Error de desarrollo"
- 	},
+	"rup_ajax":{
+		"errorTitle":"Error",
+		"httpStatus0":"No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+		"httpStatus404":"La url a la que intenta acceder no es válida",
+		"httpStatus500":"Se ha producido un error interno",
+		"httpStatus503":"El servicio solicitado no está disponible"
+	},
 	"rup_maint": {
 		"detailTitle":"Agregar Registro",
 		"deletedOK":"El elemento se ha borrado correctamente.",
@@ -19,7 +23,7 @@
 		"delete":"Eliminar",
 		"filter":"Filtrar",
 		"cancel":"Cancelar",
-		"searchOptions":"Criterios de Búsqueda:",
+		"searchOptions":"Criterio de búsqueda:",
 		"noGrid":"No es posible crear un mantenimiento sin un grid.",
 		"numResult":"Número de resultados",
 		"de":"de",
@@ -29,7 +33,8 @@
 		"selected": "Registros seleccionados.",
 		"deleteAll": "¿Está seguro que desea eliminar todos los registros seleccionados?",
 		"titleDelAll": "Eliminar los registros",
-		"noReg":"Seleccione un registro."
+		"noReg":"Seleccione un registro.",
+		"emptyChanges": "No se han realizado cambios."
     },
     "rup_breadCrumb" : {
     	"youAre" : "Usted está en:",
@@ -54,7 +59,12 @@
         "close": "Cerrar",
 		"save_repeat":"Guardar y Repetir",
 		"cancel":"Cancelar",
-		"initError":"Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: " 
+		"initError":"Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
+		"developerError":"Error de desarrollo" 
+    },
+    "rup_menu": {
+    	"developerError":"Error de desarrollo",
+    	"structuralError":"No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)" 
     },
     "rup_message": {
         "aceptar": "Aceptar",
@@ -287,9 +297,9 @@
                     "AM",
                     "PM" 
                 ],
-                "S": "function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'}",
-                "srcformat": "Y-m-d",
-                "newformat": "d-m-Y",
+                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
+                "srcformat": "d/m/y",
+                "newformat": "d/m/Y",
                 "masks": {
                     "ISO8601Long": "Y-m-d H:i:s",
                     "ISO8601Short": "Y-m-d",
@@ -309,7 +319,7 @@
             "showAction": "",
             "target": "",
             "checkbox": {
-                "disabled": "true" 
+                "disabled": true
             },
             "idName": "id" 
         } 

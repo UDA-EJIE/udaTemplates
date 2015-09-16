@@ -7,8 +7,6 @@ jQuery(document).ready(function(){
 		mixto = true;
 	}
 	
-	//Theme Roller
-	$('#themeroller').click($.rup.themeRoller);
 	//rastro de migas
 	$("#${warName}_migas").rup_breadCrumb({
 		breadCrumb: {}	

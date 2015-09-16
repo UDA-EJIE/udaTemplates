@@ -19,7 +19,7 @@ $.fn.numeric = function(decimal, callback)
 	    }, 0);
     });
 	return this.data("numeric.decimal", decimal).data("numeric.callback", callback).keypress($.fn.numeric.keypress).blur($.fn.numeric.blur);
-}
+};
 
 $.fn.numeric.keypress = function(e)
 {
@@ -102,7 +102,7 @@ $.fn.numeric.keypress = function(e)
 		allow = true;
 	}
 	return allow;
-}
+};
 
 $.fn.numeric.blur = function()
 {
@@ -117,11 +117,11 @@ $.fn.numeric.blur = function()
 			callback.apply(this);
 		}
 	}
-}
+};
 
 $.fn.removeNumeric = function()
 {
 	return this.data("numeric.decimal", null).data("numeric.callback", null).unbind("keypress", $.fn.numeric.keypress).unbind("blur", $.fn.numeric.blur);
-}
+};
 
 })(jQuery);

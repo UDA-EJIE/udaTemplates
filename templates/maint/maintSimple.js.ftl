@@ -16,11 +16,11 @@ jQuery(function($){
 	});
 	
 	<#if maint.getToolbarMaint() != "">
-	//Botonera de gestiÃ³n de la tabla
+	//Botonera de gestión de la tabla
 	$("#${maint.getToolbarMaint()}").rup_toolbar();
 	</#if>
 
-	$("#EJIE_MAINT_${maint.getNameMaint()}").rup_maint({
+	$("#${maint.getNameMaint()}").rup_maint({
 		${maint.printMaintProperties()}<#if maint.hasMaintEvents()>,
 		//Eventos</#if>
 		${maint.printMaintEvents()}		
