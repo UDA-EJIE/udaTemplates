@@ -31,6 +31,7 @@
 		<org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
 		<org.logback.version>0.9.29</org.logback.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
+		<com.ejie.x38.version>1.1.1</com.ejie.x38.version>
 	</properties>
 	<dependencies>
 <#if radjpa>
@@ -143,7 +144,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.1.0.Final</version>
+			<version>4.2.0.Final</version>
 		</dependency>
 
 		<!-- Joda Time -->
@@ -172,7 +173,7 @@
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
-			<version>1.1.0</version>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
 		
 		<!-- Tiles -->

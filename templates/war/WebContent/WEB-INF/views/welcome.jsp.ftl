@@ -1,4 +1,4 @@
-<#-- 
+<#--  
  -- Copyright 2011 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
@@ -13,13 +13,7 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
-<?xml version="1.0" encoding="UTF-8"?>
-<system-libraries>
-    <module id="javax.ejb"/>
-    <module id="javax.interceptor"/>
-	<module id="javax.persistence"/>
-<#if entornoEjie != "">
-    <library path="%MODULES_DIR%/features/weblogic.client.modules_10.3.1.0.jar"/>
-    <library path="%MODULES_DIR%/features/weblogic.server.modules.extra_10.3.1.0.jar"/>
-</#if>	
-</system-libraries>
+<div class="container" style="margin-top: 2em;"> 
+	<h2><img alt="El contenido estático no está correctamente desplegado." src="/<%=pageContext.getServletContext().getInitParameter("webAppName")%>Statics/rup/basic-theme/images/uda_logo.png"></h2>
+	<h2>¡Hola UDA!</h2>
+</div>

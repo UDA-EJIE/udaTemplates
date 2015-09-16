@@ -44,7 +44,7 @@ public interface ${pojo.getDeclarationName()}Dao extends ${pojo.importType("com.
 	void setEntityManager(${pojo.importType("javax.persistence.EntityManager")} entityManager);
 	
 	/**
-	 * Finds a List of rows in the${pojo.getDeclarationName()} table.
+	 * Finds a List of rows in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
@@ -53,7 +53,7 @@ public interface ${pojo.getDeclarationName()}Dao extends ${pojo.importType("com.
 	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination);
 
 	/**
-	 * Counts the rows in the${pojo.getDeclarationName()} table.
+	 * Counts the rows in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 * @return Long
@@ -61,7 +61,7 @@ public interface ${pojo.getDeclarationName()}Dao extends ${pojo.importType("com.
 	Long findAllCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
 	
 	/**
-	 * Finds a List of rows in the${pojo.getDeclarationName()} table using like.
+	 * Finds a List of rows in the ${pojo.getDeclarationName()} table using like.
 	 *
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}

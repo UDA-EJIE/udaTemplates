@@ -14,7 +14,7 @@
  -- que establece la Licencia.
  -->
 <#-- Obtenemos el nombre de la tabla M:N -->
-<#assign tablaMN =property.getValue().getCollectionTable().getName() > 
+<#assign tablaMN = ctrTl.getRelationName(property.getValue().getCollectionTable().getName()) >
 <#-- Obtenemos el nombre de la tabla hijo -->
 <#assign subclass = cfg.getClassMapping(property.getValue().getElement().getReferencedEntityName())>
 <#assign nombreSubclassEntero=subclass.getClassName()>
@@ -24,7 +24,7 @@
 <#-- Obtenemos las columnas relacionadas de la tabla actual con la M:N -->
 <#assign campoPadre = property.getValue().getKey().getColumnIterator() > 
      /**
-      * Find a single row in the Vendor_payment Many To Many relationship.
+      * Find a single row in the ${tablaMN} Many To Many relationship.
       * 
       * @param ${ctrTl.stringDecapitalize(nombreSubclass)}
       *            ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
@@ -33,10 +33,10 @@
 	  * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}	  
       * @return ${pojo.getDeclarationName()}
       */
-     ${pojo.getDeclarationName()} find${ctrTl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}( ${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())},${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${ctrTl.stringDecapitalize(nombreSubclass)}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination);
+     ${pojo.getDeclarationName()} find${tablaMN}( ${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())},${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${ctrTl.stringDecapitalize(nombreSubclass)}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination);
 
 	/**
-      * Counts the rows in the Vendor_payment Many To Many relationship.
+      * Counts the rows in the ${tablaMN} Many To Many relationship.
       * 
       * @param ${ctrTl.findHibernateName(ctrTl.stringDecapitalize(nombreSubclass))}
       *            ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
@@ -44,5 +44,5 @@
       *            ${pojo.getDeclarationName()}
       * @return ${pojo.getDeclarationName()}
       */
-    public Long find${ctrTl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}Count(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())},${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${ctrTl.stringDecapitalize(nombreSubclass)});
+    public Long find${tablaMN}Count(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())},${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${ctrTl.stringDecapitalize(nombreSubclass)});
     

@@ -15,6 +15,8 @@
  -->
 <#-- Obtenemos el nombre de la tabla M:N -->
 <#assign tablaMN =property.getValue().getCollectionTable().getName() > 
+<#assign tablaMNName = ctrTl.getRelationName(tablaMN) >
+
 <#-- Obtenemos el nombre de la tabla hijo -->
 <#assign subclass = cfg.getClassMapping(property.getValue().getElement().getReferencedEntityName())>
 <#assign nombreSubclassEntero=subclass.getClassName()>
@@ -23,13 +25,14 @@
 <#assign primariasMN = property.getValue().getCollectionTable().getPrimaryKey().getColumns() >	
 <#-- Obtenemos las columnas relacionadas de la tabla actual con la M:N -->
 <#assign campoPadre = property.getValue().getKey().getColumnIterator() > 
+	
 	/**
-     * Inserts a single row in the ${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))} table.
+     * Inserts a single row in the ${tablaMNName} table.
      * 
      * @param ${pojo.getDeclarationName()?lower_case}  ${pojo.getDeclarationName()}
      * @return ${pojo.getDeclarationName()} 
      */
- 	public ${pojo.getDeclarationName()} add${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))} (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
+ 	public ${pojo.getDeclarationName()} add${tablaMNName} (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
     	<#assign inserMNFields = utilidadesDao.insertMNFields(pojo,cfg,property)>
      	String query = "INSERT INTO ${tablaMN} " 
      		+ "( <#list inserMNFields as prim>${prim}<#if prim_has_next>,</#if></#list>) " 
@@ -46,12 +49,12 @@
 	}
 
     /**
-     * Deletes a single row in the ${pojo.beanCapitalize(tablaMN?lower_case)} table.
+     * Deletes a single row in the ${tablaMNName} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @return
      */
-    public  void remove${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
+    public  void remove${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
 		<#assign deleteMNFields = utilidadesDao.deleteMNWhere(pojo,cfg,property)>
 		String query = "DELETE  FROM ${tablaMN} "
 			+ " WHERE <#list deleteMNFields as param>${param}=?<#if param_has_next> AND </#if></#list>" ;
@@ -65,7 +68,7 @@
 	}
 	
     /**
-     * Find a single row in the find${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))} Many To Many relationship.
+     * Find a single row in the find${tablaMNName} Many To Many relationship.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
@@ -73,7 +76,7 @@
      * @return ${pojo.getDeclarationName()}
      */
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
-    public ${pojo.getDeclarationName()} find${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
+    public ${pojo.getDeclarationName()} find${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
 
 		StringBuffer where = new StringBuffer(3000);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
@@ -119,14 +122,14 @@
 	}
 
     /**
-     * Counts rows in the ${pojo.getDeclarationName()} table.
+     * Counts rows in the ${tablaMNName} table.
      * 
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
      * @return Long
      */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
-    public Long find${pojo.beanCapitalize(ctrTl.findHibernateName(tablaMN?lower_case))}Count(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}) {
+    public Long find${tablaMNName}Count(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}) {
 
 		StringBuffer where = new StringBuffer(3000);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();

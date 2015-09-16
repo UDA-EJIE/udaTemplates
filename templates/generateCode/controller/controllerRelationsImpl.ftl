@@ -13,7 +13,9 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
-<#assign tablaMN =property.getValue().getCollectionTable().getName() > 
+<#-- Obtenemos el nombre de la tabla M:N -->
+<#assign tablaMN = ctrl.getRelationName(property.getValue().getCollectionTable().getName()) >
+
 <#-- Obtenemos el nombre de la tabla hijo -->
 <#assign subclass = cfg.getClassMapping(property.getValue().getElement().getReferencedEntityName())>
 <#assign nombreSubclassEntero=subclass.getClassName()>
@@ -26,7 +28,7 @@
 <#assign listaMNPkSetter =listaMNPk >
 <#assign tablaHija= property?substring(property?last_index_of("(")+1,property?length-1)>
 	/**
-	 * Method 'unBind'.${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}
+	 * Method 'unBind' ${tablaMN}
 	 *
 	 <#list listaPk as auxList>
 	 * @param ${auxList[0]} ${pojo.importType(auxList[1])}
@@ -36,8 +38,8 @@
 	 </#list>
 	 * @return	 
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/unbind${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	public void unBind${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}(
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/unbind${tablaMN}", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public void unBind${tablaMN}(
 	  <#list listaPk as auxList>@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "${auxList[0]}", required = false) ${pojo.importType(auxList[1])} ${auxList[0]}<#if auxList_has_next>,</#if></#list>,
 	  <#list listaMNPk as auxListMN> 
 				@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "${auxListMN[0]}", required = false) ${pojo.importType(auxListMN[1])} ${auxListMN[0]}<#if auxListMN_has_next>,</#if>
@@ -53,11 +55,11 @@
 		    <#list listaMNPkSetter as auxList>${ctrl.stringDecapitalize(nombreSubclass)}.set${pojo.beanCapitalize(auxList[2])}(${auxList[0]});</#list>
 		}
 		${ctrl.stringDecapitalize(pojo.getDeclarationName())}.get${pojo.beanCapitalize(tablaHija)}().add(${ctrl.stringDecapitalize(nombreSubclass)});
-	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.remove${pojo.beanCapitalize(ctrl.findHibernateName(tablaMN?lower_case))}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
+	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.remove${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
 	}
 	
 	/**
-	 * Method 'bind'.${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}
+	 * Method 'bind' ${tablaMN}
 	 *
 	 <#list listaPk as auxList>
 	 * @param ${auxList[0]} ${pojo.importType(auxList[1])}
@@ -66,8 +68,8 @@
 	 * @param ${auxListMN[0]} ${pojo.importType(auxListMN[1])} 
 	 </#list>
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/bind${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	public void bind${ctrl.findHibernateName(pojo.beanCapitalize(tablaMN?lower_case))}(
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/bind${tablaMN}", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public void bind${tablaMN}(
 	  <#list listaPk as auxList>@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "${auxList[0]}", required = false) ${pojo.importType(auxList[1])} ${auxList[0]}<#if auxList_has_next>,</#if></#list>,
 	  <#list listaMNPk as auxListMN> 
 				@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "${auxListMN[0]}", required = false) ${pojo.importType(auxListMN[1])} ${auxListMN[0]}<#if auxListMN_has_next>,</#if>
@@ -83,5 +85,5 @@
 		    <#list listaMNPkSetter as auxList>${ctrl.stringDecapitalize(nombreSubclass)}.set${pojo.beanCapitalize(auxList[2])}(${auxList[0]});</#list>
 		}
 		${ctrl.stringDecapitalize(pojo.getDeclarationName())}.get${pojo.beanCapitalize(tablaHija)}().add(${ctrl.stringDecapitalize(nombreSubclass)});
-	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.add${pojo.beanCapitalize(ctrl.findHibernateName(tablaMN?lower_case))}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
+	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.add${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
 	}
