@@ -17,5 +17,5 @@
 
 <!-- BASE (sub-productos para patrones) -->
 <link href="${staticsUrl}/rup/custom-theme/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.0.css" rel="stylesheet" type="text/css" />
+<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.1.css" rel="stylesheet" type="text/css" />
 

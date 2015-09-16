@@ -62,7 +62,7 @@
 .rup-breadCrumb_main LI A:HOVER, .rup-breadCrumb_main LI.hover A {
 	color: #0A8ECC;
 }
-.rup-breadCrumb_main LI IMG.rup-icon{
+.rup-breadCrumb_main LI IMG.rup-icon, .rup-breadCrumb_main LI SPAN.rup-icon{
 	display: inline-block;
 	margin-left: 1em;
 }

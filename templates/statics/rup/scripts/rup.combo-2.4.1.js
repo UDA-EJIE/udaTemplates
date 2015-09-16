@@ -543,6 +543,8 @@
 								$("input[name='multiselect_" + $(this).attr("id") + "'][value='"+param[i]+"']").attr('checked', true);
 							}
 						}
+						// Se altualiza el valor almacenado en el objeto HTML select.
+						$(selector).val(param);
 						//Actualizar literal de elementos seleccionados
 						$(selector).multiselect("update");
 					}
@@ -550,9 +552,11 @@
 				}
 			},
 			_selectLabel : function(selector, param){
+				var $option;
 				for(var i = 0; i<$("option", selector).length; i=i+1){
-					if($("option", selector)[i].label === param){
-						$(selector).selectmenu("index", $("option", selector)[i].index);
+					$option = jQuery("option:eq("+i+")", selector);
+					if(jQuery("option:eq("+i+")", selector).text() === param){
+						$(selector).selectmenu("index", $option.prop("index"));
 						return true;
 					}
 				}
@@ -664,6 +668,7 @@
 						$("#"+settings.id).width("0"); //Iniciar a tamaño cero para que el multiselect calcule el tamaño
 						settings.minWidth = settings.width;
 						$("#"+settings.id).multiselect(settings);
+						$("#"+settings.id).data("multiselect").button.attr("id",settings.id+"-button");
 						$("#"+settings.id).rup_combo("refresh");	//Actualizar cambios (remotos)
 						$("#"+settings.id).attr("multiple", "multiple");
 					}

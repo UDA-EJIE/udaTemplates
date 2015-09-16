@@ -92,7 +92,7 @@ $.fn.ajaxSubmit = function(options) {
 		traditional = $.ajaxSettings.traditional;
 	}
 	
-	var qx,n,v,a = this.formToArray(options.semantic);
+	var qx,n,v,a = options.propperFormSerialization !== false?this.formToArray(options.semantic):[];
 	if (options.data) {
 		options.extraData = options.data;
 		qx = $.param(options.data, traditional);
@@ -111,7 +111,7 @@ $.fn.ajaxSubmit = function(options) {
 		return this;
 	}
 
-	var q = $.param(a, traditional);
+var q = $.param(a, traditional);
 	if (qx) {
 		q = ( q ? (q + '&' + qx) : qx );
 	}	

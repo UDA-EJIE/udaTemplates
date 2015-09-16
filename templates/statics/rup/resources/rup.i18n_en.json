@@ -327,19 +327,19 @@
         },
         "formatter":{
             "integer":{
-                "thousandsSeparator":".",
+                "thousandsSeparator":",",
                 "defaultValue":"0" 
             },
             "number":{
-                "decimalSeparator":",",
-                "thousandsSeparator":".",
-                "decimalPlaces":"2",
+                "decimalSeparator":".",
+                "thousandsSeparator":",",
+                "decimalPlaces":2,
                 "defaultValue":"0,00" 
             },
             "currency":{
-                "decimalSeparator":",",
-                "thousandsSeparator":".",
-                "decimalPlaces":"2",
+                "decimalSeparator":"",
+                "thousandsSeparator":",",
+                "decimalPlaces":2,
                 "prefix":"",
                 "suffix":"",
                 "defaultValue":"0,00" 
@@ -460,7 +460,7 @@
 		"emptyChanges":"en_No se han realizado cambios.",
 		"invalidRowId":"en_El identificador de la fila no es válido. No se puede completar la acción",
 		"toolbarNewButtonError":"en_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
-		"multiselectHeader":"en_Seleccionar todos los elementos de la página"
+		"multiselectHeader":"en_Seleccionar todos los elementos de la página",
     	"summary" :{
     		"cabecera" :"en_Cabecera de la tabla",
     		"datos" :"en_Datos de la tabla",

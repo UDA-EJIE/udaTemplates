@@ -141,6 +141,17 @@
 		},
 		val:function(){
 			return $("#"+$(this).attr("id")).val();
+		},
+		set:function(value, label){
+			var $self = $(this), $selfLabel = jQuery("[id='"+$self.attr("id")+"_label']"), loadObjects, newObject={};
+			
+			$self.val(value);
+			$self.attr("rup_autocomplete_label",label);
+			$selfLabel.val(label);
+			loadObjects = $selfLabel.data("loadObjects");
+			newObject[label]=value;
+			$selfLabel.data("loadObjects", jQuery.extend(true, {}, loadObjects, newObject));
+			
 		}
 	});
 	

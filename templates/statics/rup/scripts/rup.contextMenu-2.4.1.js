@@ -61,16 +61,19 @@
 					$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base,"rup_global.initError") + $(this).attr("id"));
 				} else {
 					//Se recogen y cruzan las paremetrizaciones del objeto
-					var settings = $.extend({}, $.fn.rup_contextMenu.defaults, args[0]), background_image, background_position;
+					var $self = this, settings = $.extend({}, $.fn.rup_contextMenu.defaults, args[0]), background_image, background_position;
 					
 					//Asociar el selector
-					settings.selector = this.selector;
+					settings.selector = $self.selector;
 					
 					//TODO:ejemplo de title en el contextMenu
 					//Procesar items para i18n
 					
 					//Lanzar el plugin subyaciente
 					jQuery.contextMenu(settings);
+					
+					/* Añadir el estilo para la modificación del estilo del puntero del ratón */
+					$self.addClass("context-menu-cursor");
 					
 					/* Adecuar los cssSprites */
 					$.each($(".context-menu-list.context-menu-root"), function(index, elem){
@@ -87,7 +90,10 @@
 						    			cssSprite = itemCfg.cssSprite;
 						    			if (cssSprite!==undefined && !$item.hasClass("rup-css-sprite")){
 						    				$item.addClass("rup-css-sprite");
-						    				$item.prepend($("<img>").addClass(cssSprite));
+						    				$item.prepend($("<span>").addClass(cssSprite));
+						    			}
+						    			if (itemCfg.id!==undefined){
+						    				$item.attr("id", itemCfg.id);
 						    			}
 					    			}
 					    		}
@@ -102,7 +108,8 @@
 	// DEFINICIÓN DE LA CONFIGURACION POR DEFECTO DEL PATRON  
 	//******************************************************
 	$.fn.rup_contextMenu.defaults = {
-		autoHide: true
+		autoHide: true,
+		showCursor:true
 	};	
 	
 })(jQuery);

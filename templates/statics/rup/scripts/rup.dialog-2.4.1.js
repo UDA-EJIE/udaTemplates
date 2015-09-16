@@ -374,7 +374,7 @@
 						settings.ajaxOptions.error(XMLHttpRequest, textStatus, errorThrown);
 					}
 				};
-				ajaxOptions.url = $.rup_utils.setNoPortalParam(settings.url);;
+				ajaxOptions.url = $.rup_utils.setNoPortalParam(settings.url);
 				ajaxOptions.type= 'GET';
 				ajaxOptions.cache= false;
 				ajaxOptions.dataType= 'text'; 

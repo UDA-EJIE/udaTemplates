@@ -3343,7 +3343,7 @@
 			// console.log("maint - _selectAllGetPrimaryKeys_multiselect");
 			var self = this, prop = self[0].prop, jqGrid = prop.jQueryGrid, data;
 			if (prop.searchDivFunc===undefined){
-				data = form2object(prop.searchForm[0]);
+				data = $.rup_utils.unnestjson(form2object(prop.searchForm[0]));
 			} else {
 				data = prop.searchDivFunc.call();
 			}

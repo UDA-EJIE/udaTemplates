@@ -96,40 +96,45 @@
 			}
 			
 			// createDefaultToolButtons: Determina la creacion de los botones basicos por defecto del toolbar.
+			// Se unifican los parámetros de configuración de mostrar/ocultar los botones de la toolbar
+			if (toolbarSettings.createDefaultToolButtons===true) {
+				toolbarSettings.showOperations = jQuery.extend(true, {}, toolbarSettings.defaultButtons, settings.core.showOperations, toolbarSettings.showOperations);
+			}
 			
+			// Retrocompatibilidad: se mantiene el antiguo parámetro newButtons
+			toolbarSettings.buttons = jQuery.extend(true, {}, toolbarSettings.newButtons, toolbarSettings.buttons);
 			
-			
-
 		},
 		postConfigureToolbar: function(settings){
 			var $self = this, toolbarSettings = settings.toolbar, counter=1;
 			
-			if (toolbarSettings.createDefaultToolButtons) {
-				
-				// Se generan los botones de la toolbar en base a las operaciones
-				jQuery.each(settings.toolbar.defaultButtons, function(buttonId, value){
-					var operationCfg;
-					if (value===true){
-						operationCfg = settings.core.operations[buttonId];
-						if (operationCfg!==undefined){
-							toolbarSettings["btn"+buttonId.capitalize()] = settings.$toolbar.addButton({
-								i18nCaption: operationCfg.name,
-								css: operationCfg.icon,
-								index: counter++
-							}, jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_table")).bind("click", function(event){
-								jQuery.proxy(operationCfg.callback,$self)($self, event);
-							});
-						}
+			// Se generan los botones de la toolbar en base a las operaciones
+			jQuery.each(settings.toolbar.showOperations, function(buttonId, value){
+				var operationCfg;
+				if (value===true){
+					operationCfg = settings.core.operations[buttonId];
+					if (operationCfg!==undefined){
+						toolbarSettings["btn"+buttonId.capitalize()] = settings.$toolbar.addButton({
+							id:"btn"+buttonId.capitalize(),
+							i18nCaption: operationCfg.name,
+							css: operationCfg.icon,
+							index: counter++
+						}, jQuery.rup.i18nParse(jQuery.rup.i18n.base,"rup_table")).bind("click", function(event){
+							jQuery.proxy(operationCfg.callback,$self)($self, event);
+						});
 					}
-				});
-			}
+				}
+			});
 			
 			//Se comprueba si hay nuevos botones definidos y se ejecuta la función addButton con la parametrizacion de los nuevos botones
-			if (toolbarSettings.newButtons !== undefined && toolbarSettings.newButtons !== null){
-				$.each(toolbarSettings.newButtons, function (index, object){
+			if (toolbarSettings.buttons !== undefined && toolbarSettings.buttons !== null){
+				$.each(toolbarSettings.buttons, function (index, object){
 					if (object.json_i18n === undefined){
 						object.json_i18n = {};
 					}
+//					if (object.obj===undefined)
+					
+					
 					if (object.obj !== undefined && object.click !== undefined){
 						settings.$toolbar.addButton(object.obj, object.json_i18n).bind("click", object.click);
 					} else if (object.buttons !== undefined){
@@ -198,7 +203,9 @@
 				defaultClone : true,
 				defaultCancel : true,
 				defaultDelete : true,
-				defaultFilter : false
+				defaultFilter : false,
+				defaultButtons:{},
+				showOperations:{}
 			}
 	};
 	

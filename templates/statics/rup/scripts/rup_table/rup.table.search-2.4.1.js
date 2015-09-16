@@ -257,6 +257,8 @@
 					$elc.css("width","97%");
 //					$searchCol.append($elc);
 					$searchHeader.append($elc);
+				}
+				if (colM.name !==settings.defaultGridInfoCol.name && colM.name !== settings.defaultGridMultiplePkCol.name && colM.name !== 'cb'){
 					$searchRow.append($searchHeader);
 				}
 			});
@@ -487,7 +489,7 @@
 			
 			
 		},
-		fncGetSearchNavigationParams : function(linkType ){
+		fncGetSearchNavigationParams : function(linkType){
 			var $self = this, settings = $self.data("settings"), execute = false, changePage = false, index=0, newPageIndex=0,
 			npos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])(),
 			page = parseInt($self.rup_table("getGridParam", "page"),10),

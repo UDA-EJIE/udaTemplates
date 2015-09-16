@@ -134,6 +134,23 @@
 							}
 						};
 						
+						if (settings.multiSelect){
+							settings._beforeShow = settings.beforeShow;
+							settings.beforeShow = function(ui, obj) {
+								if (settings._beforeShow!==undefined){settings._beforeShow(ui, obj);}
+								
+								var $dateInput = $(ui), dateValue = $dateInput.attr("value"), dates;
+								
+								if (dateValue!==undefined && dateValue!==''){
+									dates = dateValue.split(",");
+									if (dates.length>1){
+										$dateInput.multiDatesPicker("addDates",dates);
+									}
+								}
+							};
+						}
+						
+						
 					//Se carga el identificador del padre del patron
 					settings.id = $(this).attr("id");
 					
@@ -260,15 +277,31 @@
 
 					//Gestionar intervalo del campo desde				
 					from_settings.onClose = function(dateText, inst) {
-				        var endDateTextBox = $("#"+settings.to);
-				        if (endDateTextBox.val() != '') {
-				            var testStartDate = new Date(dateText);
-				            var testEndDate = new Date(endDateTextBox.val());
-				            if (testStartDate > testEndDate)
-				                endDateTextBox.val(dateText);
+//				        var endDateTextBox = $("#"+settings.to);
+						var $endDateTextBox = $("#"+settings.to),
+					        $startDateTextBox = inst.input, startDateData, toDateData, testStartDate, testEndDate;
+						
+				        if ($endDateTextBox.attr("value") != '') {
+				        	startDateData = $startDateTextBox.data("datepicker");
+				        	toDateData = $endDateTextBox.data("datepicker");
+				        	
+				        	if (startDateData.settings.timepicker!==undefined){
+				        		testStartDate = new Date(startDateData.selectedYear, startDateData.selectedMonth, startDateData.selectedDay, startDateData.settings.hour, startDateData.settings.minute, startDateData.settings.second);
+				        	}else{
+				        		testStartDate = new Date(startDateData.selectedYear, startDateData.selectedMonth, startDateData.selectedDay);
+				        	}
+				        	if (toDateData.settings.timepicker!==undefined){
+				        		testEndDate = new Date(toDateData.selectedYear, toDateData.selectedMonth, toDateData.selectedDay, toDateData.settings.hour, toDateData.settings.minute, toDateData.settings.second);
+				        	}else{
+				        		testEndDate = new Date(toDateData.selectedYear, toDateData.selectedMonth, toDateData.selectedDay);
+				        	}
+				            
+				            if (testStartDate > testEndDate){
+				                $endDateTextBox.attr("value",dateText);
+				            }
 				        }
 				        else {
-				            endDateTextBox.val(dateText);
+				            $endDateTextBox.attr("value",dateText);
 				        }
 				        if (settings.onClose!==undefined){ settings.onClose(dateText, inst); }
 					};
@@ -285,15 +318,30 @@
 				        
 				  //Gestionar intervalo del campo hasta	
 				    to_settings.onClose = function(dateText, inst) {
-				        var startDateTextBox = $("#"+settings.from);
-				        if (startDateTextBox.val() != '') {
-				            var testStartDate = new Date(startDateTextBox.val());
-				            var testEndDate = new Date(dateText);
-				            if (testStartDate > testEndDate)
-				                startDateTextBox.val(dateText);
+				        var $startDateTextBox = $("#"+settings.from),
+				        $endDateTextBox = inst.input, startDateData, toDateData, testStartDate, testEndDate;
+				        
+				        if ($startDateTextBox.attr("value")  != '') {
+				        	startDateData = $startDateTextBox.data("datepicker");
+				        	toDateData = $endDateTextBox.data("datepicker");
+				        	
+				        	if (startDateData.settings.timepicker!==undefined){
+				        		testStartDate = new Date(startDateData.selectedYear, startDateData.selectedMonth, startDateData.selectedDay, startDateData.settings.hour, startDateData.settings.minute, startDateData.settings.second);
+				        	}else{
+				        		testStartDate = new Date(startDateData.selectedYear, startDateData.selectedMonth, startDateData.selectedDay);
+				        	}
+				        	if (toDateData.settings.timepicker!==undefined){
+				        		testEndDate = new Date(toDateData.selectedYear, toDateData.selectedMonth, toDateData.selectedDay, toDateData.settings.hour, toDateData.settings.minute, toDateData.settings.second);
+				        	}else{
+				        		testEndDate = new Date(toDateData.selectedYear, toDateData.selectedMonth, toDateData.selectedDay);
+				        	}
+				            
+				            if (testStartDate > testEndDate){
+				            	$startDateTextBox.attr("value",dateText);
+				            }
 				        }
 				        else {
-				            startDateTextBox.val(dateText);
+				            $startDateTextBox.attr("value",dateText);
 				        }
 				        if (settings.onClose!==undefined){ settings.onClose(dateText, inst); }
 				    };

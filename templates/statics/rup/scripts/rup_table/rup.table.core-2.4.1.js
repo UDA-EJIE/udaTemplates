@@ -253,6 +253,8 @@
 					settings.primaryKeyCol = "pkCol";
 					settings.colModel = $.merge([pkColModel], settings.colModel);
 				}
+				// Se actualiza el nombre de la columna que va a ejercer como clave primaria
+				$.extend(settings, {prmNames:{id:settings.primaryKeyCol}});
 			}
 			
 			// Configuración del colModel para la gestión de la edición de las claves primarias en los modos add y edit
@@ -318,6 +320,15 @@
 				return selrow===null ? [] : [$.inArray(selrow, $self.jqGrid("getDataIDs"))];
 			};
 			
+			// Gestión de las operaciones que se pueden realizar sobre los registros
+			
+			// Se unifican las operaciones por defecto con las indicadas por el usaurio
+			jQuery.each(settings.core.operations, function(index, operation){
+				settings.core.showOperations[index] = true;
+			});
+			
+			jQuery.extend(true, settings.core.defaultOperations, settings.core.operations);
+			
 			
 			$self.on({
 				"jqGridBeforeRequest":function(){
@@ -344,12 +355,14 @@
 					$tbody = jQuery("tbody:first", $self);
 					$tbody.on("mousestop", {delay:500}, function(event, originalEvent){
 						var obj = $.rup_utils.elementFromPoint(originalEvent.clientX, originalEvent.clientY, true), 
-						$obj = $(obj);
+						$obj = $(obj), toolipTmpId;
 						
 						if (!$obj.attr("rup_tooltip") && $obj.attr("grid_tooltip")){
 							$obj.attr("title",$obj.attr("grid_tooltip"));
+							toolipTmpId = $obj.parent().attr("id")+"_"+$obj.attr("aria-describedby");
 							$obj.rup_tooltip({
 								show:{delay:0},
+								id: toolipTmpId,
 								position:{
 									viewport:$(window),
 									adjust:{
@@ -357,7 +370,8 @@
 									}
 								}
 							});
-							$obj.triggerHandler("mouseenter");
+							$obj.triggerHandler("mouseenter.qtip-"+toolipTmpId+"-create");
+//							$obj.triggerHandler("mouseenter");
 							$obj.rup_tooltip("option","show.delay",500);
 						}
 					});
@@ -463,19 +477,21 @@
 			}else{
 				tmpRowId = rowId;
 			}
-			return tmpRowId.replace(settings.multiplePkToken,"/");
+			
+			return tmpRowId.split(settings.multiplePkToken).join('/');
 		},
 		reloadGrid: function(async){
-			var page = $self.rup_table("getGridParam", "page");
+			var $self = this, settings = $self.data("settings"), page = $self.rup_table("getGridParam", "page");
 			var ajaxOptions = $self.jqGrid("getGridParam", "ajaxGridOptions");
 			var ajaxOptionsAsync =  ajaxOptions.async;
 			ajaxOptions.async = false;
-			var ajaxOptions = $self.jqGrid("setGridParam", {ajaxGridOptions:ajaxOptions});
+//			var ajaxOptions = $self.jqGrid("setGridParam", {ajaxGridOptions:ajaxOptions});
+			$self.jqGrid("setGridParam", {ajaxGridOptions:ajaxOptions});
 			
-			$self.jqGrid("setGridParam", {page: parseInt(page,10)+1});
+			$self.jqGrid("setGridParam", {page: 1});
 			$self.trigger("reloadGrid");
 			ajaxOptions.async = true;
-			var ajaxOptions = $self.jqGrid("setGridParam", {ajaxGridOptions:ajaxOptions});
+			$self.jqGrid("setGridParam", {ajaxGridOptions:ajaxOptions});
 			var nextPagePos = jQuery.proxy(jQuery.jgrid.getCurrPos, $self[0])();
 			$self.jqGrid("setSelection",nextPagePos[1][0]);
 		},
@@ -492,7 +508,7 @@
 			jQuery("input[type='checkbox']", $form).not("[name*='jqg_GRID_']", $form).not("[disabled='disabled']", $form).removeAttr("checked");
 			// Se realiza el reset de los rup_combo
 			jQuery.each($("select.rup_combo",$form), function(index,elem){
-				if(settings.filter.clearSearchFormMode==="reset"){
+				if(settings.filter && settings.filter.clearSearchFormMode==="reset"){
 					jQuery(elem).rup_combo("reset");
 				}else{
 					jQuery(elem).rup_combo("clear");
@@ -504,7 +520,7 @@
 			});
 			
 			// Se realiza el reset del fomulario
-			if(settings.filter.clearSearchFormMode==="reset"){
+			if(settings.filter && settings.filter.clearSearchFormMode==="reset"){
 				$form.resetForm();
 			}else{
 				$("input[type='radio']", $form).removeAttr("checked");
@@ -676,19 +692,13 @@
 				 * *************************/
 				var defaultPugins = (jQuery.isArray(args[0].defaultPlugins)?args[0].defaultPlugins:jQuery.fn.rup_table.defaults.defaultPlugins),
 				userPlugins = jQuery.merge([], args[0].usePlugins),
-//				tmpConfiguredPlugins = jQuery.merge(jQuery.merge([], defaultPugins), userPlugins),
 				configuredPlugins = jQuery.merge(jQuery.merge([], defaultPugins), userPlugins);
-				
-//				configuredPlugins = new Array(tmpConfiguredPlugins.length);
-				
-//				for (var i=0;i<tmpConfiguredPlugins.length;i++){
-//					configuredPlugins[rup_table.plugins[tmpConfiguredPlugins[i]].loadOrder-1]=tmpConfiguredPlugins[i];
-//				}
 				
 				
 				jQuery.rup_utils.sortArray(configuredPlugins, function(obj1,obj2){
-					return (rup_table.plugins[obj2].loadOrder - rup_table.plugins[obj1].loadOrder>0?-1:1);
+					return rup_table.plugins[obj2].loadOrder - rup_table.plugins[obj1].loadOrder;
 				});
+				
 				
 				/* *********************************************************
 				 * SE PROCESA LAS CONFIGURACION POR DEFECTO DEL CORE
@@ -805,14 +815,14 @@
 			var $self = $(this);
 			return $self.jqGrid("getDataIDs");
 		},
-		getGridParam : function (pName) {
-			var $self = $(this);
-			return $self.jqGrid("getGridParam", pName);
-		},
-		setGridParam : function (newParams) {
-			var $self = $(this);
-			$self.jqGrid("setGridParam", newParams);
-		},
+//		getGridParam : function (pName) {
+//			var $self = $(this);
+//			return $self.jqGrid("getGridParam", pName);
+//		},
+//		setGridParam : function (newParams) {
+//			var $self = $(this);
+//			$self.jqGrid("setGridParam", newParams);
+//		},
 		clearGridData : function (clearfooter) {
 			var $self = $(this);
 			$self.jqGrid("clearGridData", clearfooter);
@@ -837,11 +847,9 @@
 	jQuery.fn.rup_table.plugins.core = {}; 
 	jQuery.fn.rup_table.plugins.core.defaults = {
 		core:{
-			operations:{
-			},
-			defaultOperations:{
-				
-			}
+			operations:{},
+			defaultOperations:{},
+			showOperations:{}
 		}
 	};
 	
@@ -869,6 +877,7 @@
 				// Se indica que el tipo de contenido enviado en la cabecera es application/jsons
 				xhr.setRequestHeader("Content-Type", "application/json");
 			},
+			loadui: "block",
 			validate:{},
 			defaultPlugins:[],
 			dataProxy: jQuery.rup_table.proxyAjax,
@@ -876,9 +885,10 @@
 				name: "rupInfoCol", index: "rupInfoCol", editable:false, fixed:true, sortable:false, width:16, resizable: false, classes:"rupInfoCol", search:false, formatter:function(){return "<span class='ui-icon ui-icon-rupInfoCol'/>";}
 			},
 			defaultGridMultiplePkCol:{
-				name: "pkCol", index: "pkCol", editable:false, fixed:true, sortable:false, width:25, resizable: false,search:false
+				name: "pkCol", index: "pkCol", hidden:true,  editable:false, fixed:true, sortable:false, width:25, resizable: false,search:false
 			},
 			multiplePkToken:"~",
+			scrollOffset:0,
 			showGridInfoCol:false,
 			tooltipDelay: 500
 		};

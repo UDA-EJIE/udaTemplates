@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.1.2.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.0.6</org.logback.version>
 		<org.slf4j.version>1.6.6</org.slf4j.version>
-		<com.ejie.x38.version>2.4.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>2.4.1-RELEASE</com.ejie.x38.version>
 	</properties>
 	
 <!-- 	<modules> -->

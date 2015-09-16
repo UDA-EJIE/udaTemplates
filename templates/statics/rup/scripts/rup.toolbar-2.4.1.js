@@ -43,7 +43,10 @@
 				buttonId = $(this).attr("id")+"##"+buttonId;
 			}
 			
-			var boton = $("<button/>").text($.rup.i18nParse(json_i18n,obj.i18nCaption)).addClass("rup-toolbar_button").attr("id",buttonId);
+			var boton = $("<button type='button'/>").text($.rup.i18nParse(json_i18n,obj.i18nCaption)).addClass("rup-toolbar_button").attr({
+				"id":buttonId				
+			});
+			
 			boton.button().button("option", "icons", {primary:obj.css, secondary:null} );
 			
 			// Si fuera necesario, se añade el estilo para la ubicación derecha y se gestiona su indexado	

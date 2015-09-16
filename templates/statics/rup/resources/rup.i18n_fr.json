@@ -333,13 +333,13 @@
             "number":{
                 "decimalSeparator":",",
                 "thousandsSeparator":".",
-                "decimalPlaces":"2",
+                "decimalPlaces":2,
                 "defaultValue":"0,00" 
             },
             "currency":{
                 "decimalSeparator":",",
                 "thousandsSeparator":".",
-                "decimalPlaces":"2",
+                "decimalPlaces":2,
                 "prefix":"",
                 "suffix":"",
                 "defaultValue":"0,00" 
@@ -460,7 +460,7 @@
 		"emptyChanges":"fr_No se han realizado cambios.",
 		"invalidRowId":"fr_El identificador de la fila no es válido. No se puede completar la acción",
 		"toolbarNewButtonError":"fr_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
-		"multiselectHeader":"fr_Seleccionar todos los elementos de la página"
+		"multiselectHeader":"fr_Seleccionar todos los elementos de la página",
     	"summary" :{
     		"cabecera" :"Cabecera de la tabla",
     		"datos" :"Datos de la tabla",

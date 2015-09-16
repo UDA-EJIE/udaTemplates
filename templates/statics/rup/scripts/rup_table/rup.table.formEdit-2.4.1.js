@@ -90,7 +90,8 @@
 
 			
 			settings.ondblClickRow = function(rowid, iRow, iCol, e){
-				$self.jqGrid("setSelection", rowid);
+//				debugger;
+//				$self.jqGrid("setSelection", rowid, true);
 				$self.rup_table('editElement', rowid);
 				return false;
 			};
@@ -223,6 +224,15 @@
 					ajaxOptions.beforeSend = beforeSendUserEvent;
 					ajaxOptions.validate = settings.formEdit.validate;
 					ajaxOptions.feedback = settings.$detailFeedback;
+					// Se elimina el valor de la propiedad contentType para que la gestione automáticamente el componente rup.form
+					delete ajaxOptions.contentType;
+					if (jQuery.isPlainObject(ajaxOptions.data)){
+						ajaxOptions.data = $.rup_utils.unnestjson(ajaxOptions.data);
+					}
+					ajaxOptions.beforeSubmit=function(a, $this, options){
+						delete a;
+					};
+					ajaxOptions.propperFormSerialization = false; 
 					settings.formEdit.$detailForm.rup_form("ajaxSubmit", ajaxOptions);
 					rp_ge[settings.id].processing = false;
 					return false;
@@ -597,10 +607,9 @@
 		deleteElement: function (rowId, options){
 			var $self = this, 
 				settings = $self.data("settings"),
-//				deleteOptions = jQuery.extend(true, {}, jQuery.fn.rup_table.defaults.deleteOptions, options),
 				deleteOptions = jQuery.extend(true, {}, settings.formEdit.deleteOptions, options),
 				selectedRow = (rowId===undefined?$self.rup_table('getSelectedRows'):rowId);
-
+		
 			// En caso de especificarse el uso del método HTTP DELETE, se anyade el identificador como PathParameter
 			if (selectedRow.length===1){
 				if (deleteOptions.mtype==="DELETE"){
@@ -613,7 +622,6 @@
 				deleteOptions.ajaxDelOptions.dataType = 'json';
 				deleteOptions.url = settings.formEdit.editurl+"/deleteAll";
 				deleteOptions.serializeDelData = function(ts,postData){
-//					$self.rup_table("getFilterParams")
 					return jQuery.toJSON({
 						"core":{
 							"pkToken":settings.multiplePkToken,
@@ -631,11 +639,8 @@
 			};
 			
 			if ($self.triggerHandler("rupTable_beforeDeleteRow",[deleteOptions, selectedRow])!==false){
-				$self.jqGrid('editGridRow', selectedRow, settings.formEdit.editOptions);
+				$self.jqGrid('delGridRow',selectedRow, deleteOptions);
 			}
-			
-			$self.jqGrid('delGridRow',selectedRow, deleteOptions);
-			
 			
 			return $self;
 		},
@@ -1582,10 +1587,9 @@
 					
 					
 					frm = settings.formEdit.$detailForm[0];
-					if (frmoper==="edit"){
-						$.proxy($.jgrid.fillData, $t)(rowid, $t);
+					
+					$.proxy($.jgrid.fillData, $t)(rowid, $t);
 						
-					}
 	
 					// buttons at footer
 					var bP = "<a href='javascript:void(0)' id='"+bp+"' class='fm-button ui-state-default ui-corner-left'><span class='ui-icon ui-icon-triangle-1-w'></span></a>",
@@ -1963,7 +1967,6 @@
 //				return strJsonData.split('null').join(''); //IE FIX (null values)
 //			},
 			ajaxEditOptions:{
-				contentType: 'application/json',
 				type:"PUT",
 				dataType: 'json',
 				processData:false

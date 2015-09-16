@@ -99,7 +99,7 @@
 			//se le añade al ultimo elemento el estilo current
 			//$("li:last-child", ulBreadCrumb).addClass("rup-breadCrumb_current");
 			//$("li:last", ulBreadCrumb).addClass("rup-breadCrumb_current");
-			$(ulBreadCrumb.children()[ulBreadCrumb.children().length - 1]).addClass("rup-breadCrumb_current").find("img.rup-icon").remove();
+			$(ulBreadCrumb.children()[ulBreadCrumb.children().length - 1]).addClass("rup-breadCrumb_current").find("img.rup-icon, span.rup-icon").remove();
 			//el último elemento no es navegable
 			//lastCrum = $("li:last a", ulBreadCrumb);
 			lastCrum = $("a:first", $(ulBreadCrumb.children()[ulBreadCrumb.children().length - 1]));
@@ -111,10 +111,12 @@
 			ulBreadCrumb.xBreadcrumbs();
 		},
 		//Funcion que crear el li correspondiente de la miga accediendo al fichero de lenguage correspondiente
-		_createLI :  function (i18nCaption, href) {
+		_createLI :  function (i18nCaption, href, separator) {
 			var li = $("<li>"), a = $("<a>").attr("href", /*$.rup.CTX_PATH + */href).text(i18nCaption);
 			li.append(a);
-			li.append($("<img>").addClass("ui-icon rup-icon rup-icon-separator-arrow"));
+			if (separator!==false){
+				li.append($("<span>").addClass("ui-icon rup-icon rup-icon-separator-arrow"));
+			}
 			return li;
 		},
 		//Funcion que añade al ul el li correspondiente en cada nivel y devuelve la nueva entructura en la que seguir iterando
@@ -128,7 +130,7 @@
 				//nos recorremos todos los submenus
 				for (var i = 0; i < breadCrumbStruct.subLevel.length; i++) {
 					//creamos cada li y se lo añadimos al ul nuevo
-					subLevelUL.append(this._createLI($.rup.i18nParse($.rup.i18n.app[i18nId],breadCrumbStruct.subLevel[i].i18nCaption), (breadCrumbStruct.subLevel[i].url ? breadCrumbStruct.subLevel[i].url : "#")).css("background", "none"));
+					subLevelUL.append(this._createLI($.rup.i18nParse($.rup.i18n.app[i18nId],breadCrumbStruct.subLevel[i].i18nCaption), (breadCrumbStruct.subLevel[i].url ? breadCrumbStruct.subLevel[i].url : "#"), false).css("background", "none"));
 				}
 				//añadimos al li padre el nuevo ul con todos li de los sublevels
 				createdLI.append(subLevelUL);

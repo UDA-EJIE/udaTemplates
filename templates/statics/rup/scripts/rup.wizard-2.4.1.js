@@ -221,33 +221,49 @@
 				//Ir al paso inicial
 				this.rup_wizard("step",0);
 			},
-			_gotoNextStep : function (rupWizard, settings, event){
-				
-				//Obtener paso siguiente
-				var nextStep = parseInt($("#steps li.current").attr("id").substring(8))+1;					
-				
-				//Comprobar que no está deshabilitado (o buscar el siguiente habilitado)
-				if (rupWizard.isStepDisabled(nextStep)){
-					nextStep = $("#stepDesc"+(nextStep-1)).nextAll("li:not(.disabled)").first().attr("id");
-					if (nextStep !== undefined){
+			_gotoNextStep : function(rupWizard, settings, event) {
+				// Obtener paso siguiente
+				var nextStep = parseInt($("#steps li.current")
+						.attr("id").substring(8)) + 1;
+
+				// Comprobar que no está deshabilitado (o buscar el
+				// siguiente
+				// habilitado)
+				if (rupWizard.isStepDisabled(nextStep)) {
+					nextStep = $("#stepDesc" + (nextStep - 1))
+							.nextAll("li:not(.disabled)").first()
+							.attr("id");
+					if (nextStep !== undefined) {
 						nextStep = parseInt(nextStep.substring(8));
 					} else {
 						return false;
 					}
+
+					// Si fuera necesario, se generar el resumen
+					if (jQuery("#steps").children().size() - 1 === nextStep) {
+						rupWizard._generateSummary(nextStep,
+								rupWizard, settings);
+					}
 				}
-				
-				//Invocar f(x) del paso (si existe)
-				if (settings.stepFnc[nextStep] !== undefined){
-					if ($("#stepDesc"+nextStep).not(".rup-wizard_summary").length>0){ //Evitar resumen (mala configuracion desarrollador)
-						if (settings.stepFnc[nextStep].call() === false){
+
+				// Invocar f(x) del paso (si existe)
+				if (settings.stepFnc[nextStep] !== undefined) {
+					if ($("#stepDesc" + nextStep).not(
+							".rup-wizard_summary").length > 0) { // Evitar
+						// resumen
+						// (mala
+						// configuracion
+						// desarrollador)
+						if (settings.stepFnc[nextStep].call() === false) {
 							event.stopImmediatePropagation();
 							return false;
 						}
 					}
 				}
-				
-				//Cambiar de paso
-				$("#stepDesc"+nextStep).rup_wizard("step", nextStep);
+
+				// Cambiar de paso
+				$("#stepDesc" + nextStep).rup_wizard("step",
+						nextStep);
 			},
 			_gotoPrevStep : function (rupWizard, settings, event){
 				
@@ -384,7 +400,7 @@
 				});
 				
 				//Gestionar SELECTS
-				$("#step"+stepNumber+" select").each( function() {
+				$("#step"+stepNumber+" select:not('.ui-pg-selbox')").each( function() {
 				   $(settings.labelElement, { text: ($("#"+this.id+" option:selected").text()!=="&nbsp;")?$("#"+this.id+" option:selected").text():"", "class":"rup-wizard_summaryValue" }).insertAfter(this);
 				   $(this).remove();
 				});

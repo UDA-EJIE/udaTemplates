@@ -176,7 +176,7 @@
 					}
 				},
 				"save": {
-					name: $.rup.i18nParse($.rup.i18n.base,"rup_table.modify"),
+					name: $.rup.i18nParse($.rup.i18n.base,"rup_table.save"),
 					icon: "rup-icon rup-icon-save", 
 					enabled: function(){
 						var $self = this;
@@ -606,7 +606,6 @@
 					var $self = $(this), settings = $self.data("settings"),
 					operationCfg = settings.core.operations["save"];
 					if (jQuery.proxy(operationCfg.enabled, $self)()){
-						console.log("borrar");
 						jQuery.proxy(operationCfg.callback,$self)($self, event);
 					}
 				}
