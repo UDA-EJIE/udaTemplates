@@ -24,6 +24,7 @@
 		class="org.springframework.context.support.ClassPathXmlApplicationContext">
 		<constructor-arg>
 			<list>
+				<!-- <value>spring/cache-config.xml</value> -->
 				<value>spring/dao-config.xml</value>
 				<value>spring/log-config.xml</value>
 				<value>spring/service-config.xml</value>

@@ -405,3 +405,33 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search{
 .ui-icon.rup-rss-icon-24 {
 	background: url("images/rup.rss.24.png") no-repeat !important;
 }
+
+/* MULTIFILTER */
+
+
+
+.rup_multifilter_dropdown{
+	
+}
+
+.rup_multifilter_dropdown input{
+	margin-left:0.3em;
+
+/* 	margin-right:0.3em; */
+}
+
+.rup_multifilter_dropdown input[type=checkbox]{
+	margin-right:0.3em;
+}
+
+
+
+.rup_multifilter_dropdown .rup-feedback{
+ padding-left: 2.5em;
+ }
+
+.rup_multifilter_selector{
+	background-image: none;
+	padding-left: 0.5em;
+	width:23em;
+}

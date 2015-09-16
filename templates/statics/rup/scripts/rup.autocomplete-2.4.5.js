@@ -324,10 +324,18 @@
 							xhr.setRequestHeader("RUP", $.toJSON(settings.sourceParam));
 						},
 						success: function(data) {
+							
+							$self.triggerHandler("rupAutocomplete_beforeLoadComplete", [data]);
+							//Si no hay datos en el autocomplete que se cierre
+							if (data.length==0){
+								jQuery("#"+settings.id+"_label").autocomplete("close");
+								return null;
+							}
 							response($.map(data, function(item) {
 								if (settings.category==true)
 									returnValue =  settings._parseResponse(request.term, item["label"], item["value"], item["category"]);
 								else
+									
 									returnValue =  settings._parseResponse(request.term, item["label"], item["value"]);
 
 								loadObjects[returnValue.label.replace(/<strong>/g,"").replace(/<\/strong>/g,"")] = returnValue.value ;
@@ -481,8 +489,28 @@
 					//Se anyade un id al menu desplegable del autocomplete
 					settings.$menu = jQuery("#"+settings.id).data("autocomplete").menu.element.attr("id",settings.id+"_menu");
 					
-					// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown)
-					settings.$menu.mousedown(function() {
+					//override mousedown para corregir el fallo del scrollbar en IE (bug 5610)
+					settings.$menu.off("mousedown");
+					// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown) y corrección del bug 5610 (scrollbar en IE)
+					settings.$menu.on("mousedown",function(event) {
+						
+					var menuElement =jQuery("#"+settings.id+"_menu")[0];
+						
+						if ( !$( event.target ).closest( ".ui-menu-item" ).length ) {
+							setTimeout(function() {
+								$( document ).one( 'mousedown', function( event ) {
+									if ( event.target !== jQuery("#"+settings.id+"_label") &&
+										event.target !== menuElement &&
+										!$.ui.contains( menuElement, event.target ) ) {
+										jQuery("#"+settings.id+"_label").autocomplete("close");
+									}
+								});
+							}, 1 );
+						}else{
+
+							$("#"+settings.id+"_label").triggerHandler("blur");
+						}	
+						
 					// use another timeout to make sure the blur-event-handler on the input was already triggered
 						setTimeout(function() {
 							clearTimeout($("#"+settings.id+"_label").data("autocomplete").closing );
@@ -492,6 +520,8 @@
 					if (settings.combobox===true){
 						this._createShowAllButton();
 					}
+					
+
 					
 					// Altura del menu desplegable
 					if (settings.menuMaxHeight!==false){
@@ -620,7 +650,8 @@
 		getText: false,
 		combobox: false,
 		menuMaxHeight: false,
-		menuAppendTo:null
+		menuAppendTo:null,
+		disabled:false
 	};	
 	
 	

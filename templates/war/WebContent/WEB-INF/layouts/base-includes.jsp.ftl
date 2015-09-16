@@ -30,7 +30,7 @@
 	LOCALE_PARAM_NAME = '<#noparse>${mvcInterceptor.paramName}</#noparse>',
 	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
 	//breadCrumbs
-	LOGGED_USER = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.fullName : sessionScope.userData.fullName}</#noparse>',
+	LOGGED_USER = '<#noparse>${udaAuthenticationProvider.userCredentials.fullName}</#noparse>',
 	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>';
 </script>
 

@@ -171,7 +171,7 @@
 			
 			colModel = settings.colModel;
 			
-			if (settings.loadOnStartUp===false){
+			if (settings.loadOnStartUp===false || settings.multifilter!=undefined){
 				$self.data("tmp.loadOnStartUp.datatype", settings.datatype);
 				settings.datatype = "clientSide";
 			}
@@ -292,6 +292,8 @@
 					"pkNames":settings.primaryKey
 					}
 				});
+				
+		
 				
 				newPostData = $.extend({},{"filter":{}}, postData);
 				
@@ -524,7 +526,7 @@
 				
 			}
 			
-			if (settings.loadOnStartUp===false){
+			if (settings.loadOnStartUp===false || settings.multifilter!=undefined){
 				settings.datatype = $self.data("tmp.loadOnStartUp.datatype");
 				$self.rup_table("setGridParam",{datatype:$self.data("tmp.loadOnStartUp.datatype")});
 				$self.removeData("tmp.loadOnStartUp.datatype");
@@ -606,6 +608,11 @@
 			//Vaciar los autocompletes
 			$("[ruptype='autocomplete']", $form).each(function (index, element) {
 				$(element).val("");
+			});
+			
+			//Vaciar los arboles
+			$("[ruptype='tree']", $form).each(function (index, element) {
+				$(element).rup_tree("setRupValue",	"");
 			});
 			
 			// Se realiza el reset del fomulario
@@ -941,10 +948,16 @@
 		},
 		setRowData : function (rowid, data, cssp) {
 			var $self = $(this);
-			
+                  
 			$self.jqGrid("setRowData", rowid, data, cssp);
-			
-			$self._tooltip(rowid); //Actualizar tooltip del elemento
+                  
+			//Actualizar tooltip de las celdas de la fila
+			jQuery("td[title]", $self).each(function(index, elem){
+				var $cell = jQuery(elem),
+	            	title = $cell.prop("title");
+	             
+				$cell.attr({"grid_tooltip":title, "oldtitle":title}).removeAttr("title");
+			});
 		},
 		getRowData: function(rowid){
 			var $self = $(this);

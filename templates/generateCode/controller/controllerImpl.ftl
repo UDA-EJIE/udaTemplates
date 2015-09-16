@@ -154,6 +154,8 @@ public class ${pojo.getDeclarationName()}Controller  {
        	${pojo.getDeclarationName()}Controller.logger.info("[DELETE] : ${pojo.getDeclarationName()} borrado correctamente");
        	return ${ctrl.stringDecapitalize(pojo.getDeclarationName())};
     }
+    
+<#if !isJpa>
 	
 	/*
 	 * METODOS COMPONENTE RUP_TABLE
@@ -283,7 +285,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - jerarquia] : Obtener ${pojo.getDeclarationName()}s jerarquia - Hijos");
 		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquiaChildren(filter${pojo.getDeclarationName()}, jqGridRequestDto);
 	}
-
+</#if>
 	
 <#if annot==0>
 	/**

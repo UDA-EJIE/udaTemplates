@@ -8,7 +8,8 @@
 		"httpStatus503":"en_El servicio solicitado no está disponible"
 	},
 	"rup_autocomplete":{
-		"ajaxError":"en_Se ha producido un error al recuperar los datos del servidor"
+		"ajaxError":"en_Se ha producido un error al recuperar los datos del servidor",
+		"showAllItems":"Show all items"
 	},
 	"rup_grid_jerarquia":{
 	    "errorTitle":"en_ERROR",
@@ -730,6 +731,25 @@
         "plugins":{
         	"filter":{
         		"filterCriteria":"en_Criterios de filtrado"
+        	},
+        	"multifilter":{
+        		"save":"en_Guardar",
+        		"apply":"en_Aplicar",
+        		"remove":"en_Eliminar",
+        		"tittle":"en_Administrador de filtros",
+        		"close": "en_Cerrar",
+        		"filters":"en_Nombre",
+        		"defaultFilter":"en_Filtro por defecto",
+        		"cancel":"en_Cancelar",
+        		"ok":"en_Acción completada con éxito",
+        		"error":"en_Error al completar la acción",
+        		 "emptyName":"en_Seleccione un filtro",
+        		"noRecords":"en_No existe un filtro con ese nombre",
+        		"tooLong":"en_Nombre demasiado largo",
+        		"errorNoexiste":"eu_Nombre de filtro inexistente"
+        		
+        		 
+        		
         	},
         	"search":{
         		"searchCriteria":"en_Criterios de búsqueda",

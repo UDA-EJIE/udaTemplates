@@ -854,8 +854,10 @@
 			var $self = this, settings = $self.data("settings"), multiselectionObj={};
 			
 			if (!settings.multiselection.selectedAll){
-				if (settings.multiselection.selectedIds.length>0){
-					jQuery.extend(true, multiselectionObj,{"selectedIds":settings.multiselection.selectedIds});
+				if(settings.multiselection.selectedIds!=undefined){
+					if (settings.multiselection.selectedIds.length>0){
+						jQuery.extend(true, multiselectionObj,{"selectedIds":settings.multiselection.selectedIds});
+					}
 				}
 				jQuery.extend(true, multiselectionObj,{
 					"selectedAll":false

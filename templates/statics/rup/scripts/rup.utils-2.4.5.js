@@ -166,14 +166,40 @@
 		},
 		populateForm : function (aData, formid) { //rellena un formulario que recibe como segundo parametro con los datos que recibe en el segundo parametro
 			var ruptype, formElem;
+			var tree_data,selectorArray;
 			if (aData) {
+				
 				for (var i in aData) {
-					
+					tree_data= new Array();
 					formElem = $("[name='" + i + "']", formid);
-					
+					if (formElem.length==0){
+						selectorArray=i.substr(0,i.indexOf('['));
+						formElem= $("[name='" + selectorArray + "']", formid);
+						
+							
+					}
 					if (formElem.is("[ruptype]")){
+						if (formElem.hasClass("jstree")){
+							
+							for (var a in aData){
+								if (a.substr(0,a.indexOf('['))==selectorArray){
+									tree_data.push(aData[a]);
+								}
+							}
+							formElem["rup_"+formElem.attr("ruptype")]("setRupValue",tree_data);
+							var $arbol=[];
+							$arbol[selectorArray]=tree_data;
+							formElem.on("loaded.jstree", function (event, data) {
+								var selectorArbol= this.id;
+								//$(this).rup_tree("setRupValue",$arbol[selectorArbol]);
+								
+								$(this).trigger("rup_filter_treeLoaded",$arbol[selectorArbol]);
+							});
+							
+						}else{
 						// Forma de evitar el EVAL
 						formElem["rup_"+formElem.attr("ruptype")]("setRupValue",aData[i]);
+						}
 					}else if (formElem.is("input:radio") || formElem.is("input:checkbox"))  {
 						formElem.each(function () {
 							if ($(this).val() == aData[i]) {
@@ -533,9 +559,66 @@
 				$.rup_utils.sortArray(array, defaultSortFnc);
 			}
 			
-			
 			return $.inArray(elem, array);
+		},
+		getRupValueAsJson: function(name, value){
+			var arrTmp, returnArray, dotNotation=false, dotProperty, tmpJson, returnArray=[];
+			
+			if (name){
+				// Miramos si el name contiene notación dot
+				arrTmp =  name.split(".");
+				if (arrTmp.length>1){
+					dotNotation = true;
+					dotProperty = arrTmp[arrTmp.length-1];
+				}else{
+					dotProperty = arrTmp[0];
+				}
+				
+				if (jQuery.isArray(value)){
+					// Devolvemos un array de resultados.
+					for (var i=0; i<value.length;i++){
+						tmpJson={};
+						if (dotNotation){
+							tmpJson[dotProperty]=value[i];
+							returnArray.push(tmpJson)
+						}else{
+							tmpJson[dotProperty]=value[i];
+							returnArray.push(tmpJson)
+						}
+					}
+					
+					return returnArray;
+				}else{
+					// Devolvemos un único valor.
+					tmpJson={};
+					tmpJson[dotProperty]=value;
+					
+					return tmpJson;
+				}
+			}
+			
+			return null;
+		},
+		getRupValueWrapped: function(name, value){
+			var arrTmp, dotNotation = false, dotProperty, wrapObj={};
+			if (name){
+				// Miramos si el name contiene notación dot
+				arrTmp =  name.split(".");
+				if (arrTmp.length>1){
+					dotNotation = true;
+					dotProperty = arrTmp[arrTmp.length-1];
+				}else{
+					return value;
+				}
+			
+				wrapObj[dotProperty] = value;
+				
+				return wrapObj;
+			}
+			
+			return null;
 		}
+		
 	});
 	
 	//Utilidades de los formularios

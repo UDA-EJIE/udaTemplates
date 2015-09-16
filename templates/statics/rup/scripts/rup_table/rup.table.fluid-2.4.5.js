@@ -57,8 +57,8 @@
 				
 			settings.fluid.baseLayer = $.rup_utils.getJQueryId(settings.fluid.baseLayer!==null?settings.fluid.baseLayer:settings.id+"_div");
 			settings.fluid.$baseLayer = jQuery(settings.fluid.baseLayer);
-			if (settings.$pager.length===0){
-				alert("El identificador "+settings.pager+" especificado para la capa sobre la que se va a aplicar el diseño líquido no existe.");
+			if (settings.fluid.$baseLayer.length===0){
+				alert("El identificador "+settings.baseLayer+" especificado para la capa sobre la que se va a aplicar el diseño líquido no existe.");
 				return;
 			}
 		

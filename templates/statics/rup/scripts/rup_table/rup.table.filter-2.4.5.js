@@ -77,6 +77,9 @@
 			filterSettings.$filterContainer = jQuery("#"+filterSettings.id);
 			filterSettings.$filterToolbar = jQuery("#"+filterSettings.filterToolbarId);
 			
+			
+			
+			
 			if (filterSettings.$filterContainer.length===0){
 				alert("El identificador especificado para el fomulario de búsqueda no existe.");
 			}else if (filterSettings.$filterToolbar.length===0){
@@ -106,6 +109,11 @@
 				
 				filterSettings.$filterContainer = jQuery("#"+filterSettings.id);
 				filterSettings.$filterButton = jQuery("#"+filterSettings.filterButtonId);
+				
+				//Creacion del boton de filtrado
+				//filterSettings.$filterButton.addClass("dropdownButton");
+				//filterSettings.$filterButton.append('<ul><li class="dropdownButton-list"><a  class="dropdownButton-trigger" href="#">Filtro</a><div class="dropdownButton-content"><form><fieldset class="dropdownButton-inputs"><div id="dropdownButton-combo"></div></fieldset>       <fieldset class="dropdownButton-actions"><input class="ui-button ui-widget ui-state-default ui-corner-all"  value="Guardar" type="submit"><input  class="ui-button ui-widget ui-state-default ui-corner-all"  value="Aplicar" type="submit"> <input class="ui-button ui-widget ui-state-default ui-corner-all"  value="Eliminar" type="submit"></fieldset>                 </form>               </div></li>             <li class="dropdownButton-menu"><a class="dropdownButton-lanzador" href="#"><span>▼</span></a></li> </ul>');
+				
 				filterSettings.$cleanLink = jQuery("#"+filterSettings.cleanLinkId);
 				filterSettings.$collapsableLayer = jQuery("#"+filterSettings.collapsableLayerId);
 				
@@ -137,11 +145,17 @@
 				settings.searchURL = $self.rup_table("getGridParam", "url");
 				
 				
+	
+				
+
+
+				
+
 				// Se asigna a la tecla ENTER la funcion de busqueda. 
 				filterSettings.$filterContainer.bind("keydown", function(evt) {
 					if (evt.keyCode == 13) {
 						// TODO : poner como evento 
-						$self.rup_table("showSearchCriteria");
+						//$self.rup_table("showSearchCriteria");
 						$self.rup_table("filter");
 					}
 				});
@@ -150,18 +164,30 @@
 				filterSettings.$filterButton.bind("click", function () {
 					// TODO: Control cambios
 					// TODO : poner como evento 
-					$self.rup_table("showSearchCriteria");
+					
+					//Deshabilitar el nombre del filtro en el filterSummary una vez que ha terminado el filtro por defecto
+					if (settings.$firstStartUp){
+					
+					settings.$firstStartUp=false;
+					}
+					//$self.rup_table("showSearchCriteria");
 					$self.rup_table("filter");
 				});
 				
+
 				// Creacion del enlace de limpiar formulario.
 				filterSettings.$cleanLink.bind("click", function () {
-					// TODO : poner como evento 
+					// TODO : poner como evento
+					if (settings.$firstStartUp){
+						
+						settings.$firstStartUp=false;
+					}
+					
 					$self.rup_table("cleanFilterForm").rup_table("filter");
 					if (filterSettings.validate!==undefined){
 						jQuery(".rup-maint_validateIcon", filterSettings.$filterContainer).remove();
 					}
-					$self.rup_table("showSearchCriteria");
+					//$self.rup_table("showSearchCriteria");
 				});
 				
 				filterSettings.$toggleIcon1.add(filterSettings.$toggleLabel).add(filterSettings.$toggleIcon2)
@@ -190,13 +216,13 @@
 				// Configuración de validaciones
 				if (filterSettings.validate!==undefined){
 					filterSettings.$filterContainer.rup_validate(filterSettings.validate);
-					
+					/*
 					$self.on({
 						"rupTable_beforeFilter.filter.validate": function(){
 //							filterSettings.$filterContainer.rup_validate("resetForm");
 							return filterSettings.$filterContainer.valid();
 						}
-					});
+					});*/
 				}
 			}
 			
@@ -215,6 +241,81 @@
 					
 				}
 			});
+
+			
+			$self.on("jqGridGridComplete",function(event){
+				if ($self.data("settings")!==undefined){
+					$self.rup_table("showSearchCriteria");
+				}
+			});
+										
+			// gestion de evento por defecto Multifiltro
+
+							if (settings.multifilter != undefined
+									&& settings.multifilter != null) {
+								var $filterForm, $filterDefaultName,$firstStartUp;
+								var multifilterSettings = settings.multifilter;
+								settings.filter.$filterForm = $("#"
+										+ settings.id + "_filter_form");
+
+								var selector;
+								
+								settings.$firstStartUp=true;	
+								
+								if (multifilterSettings.idFilter != null) {
+									selector = multifilterSettings.idFilter;
+								} else {
+									selector = settings.id;
+								}
+								var usuario;
+								if (multifilterSettings.userFilter != null) {
+									usuario = multifilterSettings.userFilter;
+								} else {
+									usuario = LOGGED_USER;
+								}
+
+								// getDefault
+								$
+										.rup_ajax({
+											url : settings.baseUrl
+													+ "/multiFilter/getDefault?filterSelector="
+													+ selector + "&user="
+													+ usuario,
+											type : "GET",
+											dataType : 'json',
+											showLoading : false,
+											contentType : 'application/json',
+											//async : false,
+											complete : function(jqXHR,
+													textStatus) {
+											if (settings.loadOnStartUp){
+												$self.rup_table("filter");											}
+												$self.triggerHandler("rupTable_multifilter_fillForm",form2object(settings.filter.$filterContainer[0]));
+											},
+											success : function(data, status,
+													xhr) {
+												if (data != null) {
+													var valorFiltro = $
+															.parseJSON(data.filterValue);
+
+													
+
+													$self._fillForm(valorFiltro);
+
+													
+													//settings.filter.$filterSummary.html("<i>"+data.filterName+"</i>");
+													multifilterSettings.$filterDefaultName = data.filterName;
+												}
+
+											},
+											error : function(xhr, ajaxOptions,
+													thrownError) {
+
+											}
+										});
+
+							}
+			
 		},
 		/*
 		 * Método que define la preconfiguración necesaria para el correcto funcionamiento del componente.
@@ -245,7 +346,7 @@
 				settings = $self.data("settings");
 			
 			$self.rup_table("resetForm", settings.filter.$filterContainer);
-			
+			$self.triggerHandler("rupTable_filter_beforeClean");
 			return $self;
 		},
 		filter : function(async){
@@ -321,9 +422,21 @@
 			aux = settings.filter.$filterContainer.serializeArray();
 			searchForm = settings.filter.$filterContainer,
 			filterMulticombo = new Array();  
+			var obj;
+			
+			//añadir arbol
+			var nombreArbol=$('.jstree',settings.filter.$filterContainer)
+			var arboles=	$('.jstree',settings.filter.$filterContainer);
+			$.each(arboles,function( index,item ){
+				obj= new Object();
+				obj.name=$(item).attr("name")
+				obj.value=$(item).rup_tree("getRupValue").length;
+				obj.type="rup_tree";
+				aux.push(obj);
+			});
 
 			for (var i = 0; i < aux.length; i++) {
-				if (aux[i].value !== "") {
+				if (aux[i].value !== ""  && $.inArray(aux[i].name,settings.filter.excludeSummary)!=0) {
 
 					//CAMPO a tratar
 					field = $("[name='" + aux[i].name + "']",searchForm);
@@ -378,7 +491,9 @@
 							if ($labelField.length>0){
 								fieldName = $labelField.first().text();
 							}else{
-								fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').find('label').first().html();
+							
+									fieldName= $("[name='" + aux[i].name + "']",searchForm).parent().prev('div').find('label').first().html();
+								
 							}
 						}
 					}
@@ -394,6 +509,23 @@
 							if ($(field)[0].type === "checkbox" || $(field)[0].type === "radio"){
 								fieldValue = "";
 							}
+							break;
+						//Rup-tree
+						case "DIV":
+							$.each(aux,function( index,item ){
+								if (item.name==field.attr('id')){
+									if (item.value!=0){
+									fieldValue +=" = "+ item.value;
+									}
+								} else {
+									fieldValue = "";
+								}
+								
+								
+							});
+							if (fieldValue==""){
+								fieldName = "";
+							}	
 							break;
 						case "SELECT":
 							if (field.next(".ui-multiselect").length==0){
@@ -448,10 +580,19 @@
 				searchString = jQuery.proxy(settings.filter.fncSearchCriteria, $self, searchString)();
 			}
 			
+			if ($.trim(searchString).length-1==$.trim(searchString).lastIndexOf(","))
+			{
+				searchString=searchString.substr(0,searchString.lastIndexOf(','))+" ";
+			}
 			
+			if (settings.multifilter) {
+				if (jQuery.isFunction(settings.multifilter.fncFilterName)){
+					searchString = jQuery.proxy(settings.multifilter.fncFilterName, $self, searchString)();
+				}
+			}
 			//Contiene criterios
 //			if (searchString.length>1){
-				searchString = searchString.substring(0, searchString.length-2);
+				//searchString = searchString.substring(0, searchString.length-2);
 				
 				var initialHeight = $('#titleSearch_' + settings.id.name).css("height"),
 					height,

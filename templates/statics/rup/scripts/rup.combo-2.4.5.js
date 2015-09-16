@@ -41,22 +41,39 @@
 	//*******************************
 	$.fn.rup_combo("extend",{
 		getRupValue : function(param){
-			if ($(this).data("settings").submitAsJSON){
-				var arrayTMP = $(this).attr("name").split("."),
-					prop = arrayTMP[arrayTMP.length-1],
-					valueArray = $(this).rup_combo("value"),
-					valueArray_length = valueArray.length,
-					returnArray = [];
-				for(var i=0; i<valueArray_length; i++){
-					var map = {};
-					map[prop] = valueArray[i];
-					returnArray.push(map);
-				}
-				return returnArray;
+			var $self = $(this), settings = $self.data("settings"), retObj, arrayTMP, prop, valueArray, valueArray_length, returnArray, wrapObj={}, name;
+			
+			name = $self.attr("name");
+			
+			if (name){
+				arrayTMP = $self.attr("name").split(".");
 			}
-			return $(this).data("settings").submitAsString?$(this).rup_combo("value").toString():$(this).rup_combo("value");
+			
+			if (settings.submitAsJSON){
+//					arrayTMP = $self.attr("name").split(".");
+//					prop = arrayTMP[arrayTMP.length-1];
+//					valueArray = $self.rup_combo("value");
+//					valueArray_length = valueArray.length;
+//					returnArray = [];
+//				for(var i=0; i<valueArray_length; i++){
+//					var map = {};
+//					map[prop] = valueArray[i];
+//					returnArray.push(map);
+//				}
+				return jQuery.rup_utils.getRupValueAsJson(name,  $self.rup_combo("value"));
+			}
+			
+			retObj = settings.submitAsString?$self.rup_combo("value").toString():$self.rup_combo("value");
+
+			if (arrayTMP !== undefined && arrayTMP !== null && settings.multiselect){
+				wrapObj[arrayTMP[arrayTMP.length-1]] = retObj;
+			}
+
+			return (settings.multiselect===true && arrayTMP!== undefined && arrayTMP.length>1) && settings.legacyWrapMode===false?wrapObj:retObj;
 		},
 		setRupValue : function(param){
+			var $self = $(this), settings = $self.data("settings");
+			
 			//Tipo de combo
 			if (this.length===0 || !$(this).data("settings").multiselect){
 				//Simple > selectmenu
@@ -64,7 +81,7 @@
 				$(this).rup_combo("select",param.toString());
 			} else {
 				//Multiple > multiselect
-				$(this).rup_combo("select",param);
+				$(this).rup_combo("select",(settings.readAsString===true?param.split(","):param));
 			}
 		},
 		clear : function(){
@@ -672,7 +689,7 @@
 						$("#"+settings.id).rup_combo("refresh");	//Actualizar cambios (remotos)
 						$("#"+settings.id).attr("multiple", "multiple");
 						
-						// Asignación de eventos de teclado
+						// Asignaciï¿½n de eventos de teclado
 						var self = this;
 						$("#"+settings.id).data("multiselect").button.on('keypress.selectmenu', function(event) {
 							if (event.which > 0) {
@@ -801,7 +818,7 @@
 						}
 						html = $(html).children("optgroup:last-child");
 						self._parseLOCAL(elemGroup, settings, html);
-						html = $(html).parent();
+						html = $(html).parent();											
 					});
 				}
 			},
@@ -1186,7 +1203,11 @@
 					//Asociar evento CHANGE para propagar cambios a los hijos
 					$("#"+settings.id).bind("change", function(event, ui) {
 						// En caso de modificarse el valor del select, se actualiza el valor del rup.combo (con esta accion se recargan tambien los hijos)
-						$("#"+settings.id).rup_combo("select",$("#"+settings.id).val());
+						if (!settings.multiselect){
+							$("#"+settings.id).rup_combo("select",$("#"+settings.id).val());
+						}else{
+							$("#"+settings.id).rup_combo("select",$("#"+settings.id).rup_combo('getRupvalue'));
+						}
 					});
 					
 					//Borrar referencia
@@ -1221,8 +1242,10 @@
 		multiOptgroupIconText:true,
 		submitAsString: false,
 		submitAsJSON: false,
+		readAsString: false,
 		rowStriping : false,
-		typeAhead:1000
+		typeAhead:1000,
+		legacyWrapMode:false
 	};	
 	
 	

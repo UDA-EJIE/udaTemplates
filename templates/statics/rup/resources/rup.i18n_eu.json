@@ -8,7 +8,8 @@
 		"httpStatus503":"Zerbitzua ez dago erabilgarri"
 	},
 	"rup_autocomplete":{
-		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean"
+		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean",
+		"showAllItems":"Emaitz guztiak erakutsi"
 	},
 	"rup_grid_jerarquia":{
 		"errorTitle":"AKATS",
@@ -731,6 +732,26 @@
         	"filter":{
         		"filterCriteria":"Iragazketa irizpideak"
         	},
+        	"multifilter":{
+        		"save":"Gorde",
+        		"apply":"eu_Aplicar",
+        		"remove":"Ezabatu",
+        		"tittle":"eu_Administrador de filtros",
+        		"close": "Itxi",
+        		"filters":"Izena",
+        		"defaultFilter":"eu_Filtro por defecto",
+        		"cancel":"Ezeztatu",
+        		"ok":"eu_Acción completada con éxito",
+        		"error":"eu_Error al completar la acción",
+        		 "emptyName":"eu_Seleccione un filtro",
+        		 "noRecords":"eu_No existe un filtro con ese nombre",
+        		 "tooLong":"eu_Nombre demasiado largo",
+        		 "input": "eu_Introduzca un nombre para el filtro"
+        		 "errorNoexiste":"eu_Nombre de filtro inexistente"
+        		 
+        		        		
+        	},
+        	
         	"search":{
         		"searchCriteria":"Bilaketa irizpideak",
         		"matchedRecords":"{0} elementu aurkitu dira",

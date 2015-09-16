@@ -123,10 +123,25 @@
 			        return retObj; 
 			    }
 			}
-			if (masterPkValue.length===1){	
-				return nestJSON(masterPkName, masterPkValue[0]);
-			}else if(masterPkValue.length===0){
-				return null;
+			//Inicio compatibilidad con masterPrimaryKey compuestas
+			if($.isArray(masterPkName) && masterPkName.length>0 && (masterPkValue.length===1)){
+                var multiplePkToken = $master.rup_table("getGridParam","multiplePkToken");
+                var splitedMasterPkValue = masterPkValue[0].split(multiplePkToken);
+                var retPkObj = {};
+                if(splitedMasterPkValue.length===masterPkName.length){
+                                $.each( masterPkName, function( index, value ) {
+                                               jQuery.extend(true, retPkObj, nestJSON(value, splitedMasterPkValue[index]));
+                                });
+                }                              
+                return retPkObj;
+			//Fin compatibilidad con masterPrimaryKey compuestas            
+			}else{
+                if (masterPkValue.length===1){              
+                                return nestJSON(masterPkName, masterPkValue[0]);
+                }else if(masterPkValue.length===0){
+                                return null;
+                }
+
 			}
 		}
 	});

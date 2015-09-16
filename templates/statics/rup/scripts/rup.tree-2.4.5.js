@@ -31,8 +31,65 @@
 	//********************************
 	
 	jQuery.fn.rup_tree("extend", {
-		
 		/* Metodos publicos del core */
+		getRupValue: function(){
+			var $self = this, settings = $self.data("settings"), selectedItems, tmpId, name = $self.attr("name"), wrapObj;
+			
+			if (jQuery.inArray("checkbox", settings.plugins) !==-1){
+				selectedItems = $self.rup_tree("get_checked", null, true)
+			}else{
+				selectedItems = $self.rup_tree("get_selected");
+			}
+			
+			var returnArray =  jQuery.map(selectedItems, function(item, index){
+				var $item = jQuery(item);
+
+				if (jQuery.isFunction(settings.core.getValue)){
+					return jQuery.proxy(settings.core.getValue, $self)($item, $item.data());
+				}
+				
+				tmpId = $item.attr("id");
+				return tmpId?tmpId:$item.text();
+			});
+			
+			if (settings.core.submitAsJSON){
+				return jQuery.rup_utils.getRupValueAsJson(name, returnArray);
+			}else{
+				
+				if (settings.core.submitAsString){
+					return jQuery.rup_utils.getRupValueWrapped(name, returnArray.toString());
+				}else{
+					return jQuery.rup_utils.getRupValueWrapped(name, returnArray);
+				}
+				
+			}
+		},
+		setRupValue: function(valuesArray){
+			var $self = this, settings = $self.data("settings"), $items, $item, itemValue, tmpId, dataArray;
+			
+			$self.rup_tree("uncheck_all");
+			
+			$items = $self.get_container_ul().find("li");
+			
+			dataArray = settings.core.readAsString===true?valuesArray.split(","):valuesArray;
+			
+			jQuery.each($items, function(index, item){
+				$item = jQuery(item);
+				
+				if (jQuery.isFunction(settings.core.getValue)){
+					itemValue = jQuery.proxy(settings.core.getValue, $self)($item, $item.data());
+				}else{
+					tmpId = $item.attr("id");
+					itemValue = tmpId?tmpId:$item.text();
+				}
+				
+				if (jQuery.inArray(itemValue, dataArray)!==-1){
+					$self.rup_tree("check_node", item);	
+				}
+			});
+			
+			
+		},
 		rollback: function(rollback_object){			
 			jQuery.jstree.rollback (rollback_object);
 		},
@@ -289,6 +346,7 @@
 				
 				// Se guarda la referencia al $self
 				settings.$self = $(this);
+				settings.$self.attr("ruptype","tree");
 				
 				//validacion de carga por defecto
 				if(settings.ui === undefined || settings.ui.enable !== false){
@@ -539,7 +597,11 @@
 			"strings" : {
 				"loading" : $.rup.i18nParse($.rup.i18n.base,"rup_tree.loading"),
 				"new_node" : $.rup.i18nParse($.rup.i18n.base,"rup_tree.new_node")
-			}
+			},
+			"getValue":undefined,
+			"submitAsJSON":false,
+			"submitAsString":false,
+			"readAsString":false
 		},
 		"themes" : {
 			"theme" : ""
