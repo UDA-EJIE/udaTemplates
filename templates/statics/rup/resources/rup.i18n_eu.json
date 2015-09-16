@@ -7,13 +7,16 @@
 		"httpStatus500":"Barne akats bat sortu da",
 		"httpStatus503":"Zerbitzua ez dago erabilgarri"
 	},
-	"rup_maint": {
+	"rup_autocomplete":{
+		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean"
+	},
+	"rup_maint":{
 		"detailTitle":"Erregistroaren xehetasuna",
 		"deletedOK":"Elementua zuzen ezabatu da.",
 		"insertOK":"Elementua zuzen gehitu da.",
 		"modifyOK":"Elementua zuzen aldatu da.",
 		"insertError":"Akats bat sortu da elementua gordetzean.",
-		"validateError":"Hurrengo erroreak sortu dira: <br/>",
+		"validateError":"Hurrengo erroreak sortu dira:<br/>",
 		"last":"Azkena",
 		"first":"Lehenengoa",
 		"next":"Hurrengoa",
@@ -29,160 +32,170 @@
 		"noGrid":"Grid-ik gabe ezin da mantenimendurik sortu.",
 		"numResult":"Emaitz kopurua",
 		"de":"(e)tik",
-		"changes": "Aldaketaren egiaztapena",
-		"saveAndContinue": "Datuen aldaketak galduko dira, jarraitu nahi duzu?",
-		"checkSelectedElems": "Hautatutako elementuak galduko dira, jarraitu nahi duzu?",
+		"changes":"Aldaketaren egiaztapena",
+		"saveAndContinue":"Datuen aldaketak galduko dira, jarraitu nahi duzu?",
+		"checkSelectedElems":"Hautatutako elementuak galduko dira, jarraitu nahi duzu?",
 		"checkAddedSelectedElems":"Erantsitako elementuak galduko dira, jarraitu nahi duzu?",
-		"selectAll": "Erregistro guztiak aukeratu dituzu.",
-		"selected": "hautatuta",
-		"deleteAll": "Hautatutako erregistroak ezabatu nahi al dituzu?",
-		"titleDelAll": "Erregistroak ezabatu",
+		"selectAll":"Erregistro guztiak aukeratu dituzu.",
+		"selected":"hautatuta",
+		"deleteAll":"Hautatutako erregistroak ezabatu nahi al dituzu?",
+		"titleDelAll":"Erregistroak ezabatu",
 		"noReg":"Hautatu erregistro bat.",
-		"emptyChanges": "Ez da aldaketarik izan.",
-		"invalidRowId": "Lerroaren identifikatzaile baliogabea. Ezin da ekintza burutu.",
-		"toolbarNewButtonError": "Botoi berri baten sortzean errore bat izan da.<br/>Botoi berri baten hiru ezaugarriak informatuta egon behar dira.",
-		"multiselectHeader": "Orrialdeko elementu guztiak hautatu"
+		"emptyChanges":"Ez da aldaketarik izan.",
+		"invalidRowId":"Lerroaren identifikatzaile baliogabea. Ezin da ekintza burutu.",
+		"toolbarNewButtonError":"Botoi berri baten sortzean errore bat izan da.<br/>Botoi berri baten hiru ezaugarriak informatuta egon behar dira.",
+		"multiselectHeader":"Orrialdeko elementu guztiak hautatu"
     },
-    "rup_breadCrumb" : {
-    	"disconnect" : "Saioa itxi",
-    	"menuDisconnectTitle" : "Erabiltzailearen saioa itxi",
-    	"menuDisconnectMessage" : "Uneko saioa itxi egingo duzu, ziur zaude?",
+    "rup_breadCrumb" :{
+    	"disconnect" :"Saioa itxi",
+    	"menuDisconnectTitle" :"Erabiltzailearen saioa itxi",
+    	"menuDisconnectMessage" :"Uneko saioa itxi egingo duzu, ziur zaude?",
+    	"menuSecuritySystemDisconnectMessage" :"Uneko erabiltzailearen saioa segurtasun-sistematik itxiko duzu, ziur zaude?",
     	"userAre":" dago:",
     	"youAre":"Hemen zaude:",
-    	"start":"Hasiera"
-    },"rup_feedback" : {
+    	"start":"Hasiera",
+ 	   	"exit":"Irten"
+    },
+    "rup_feedback" : {
     	"closingLiteral": "Mezua itxi"
     },
-    "rup_language" : {
-    	"es" : "Castellano",
-    	"eu" : "Euskara",
-    	"en" : "English",
-		"fr" : "Français",
-    	"changeLanguage": "Hizkuntza Aldatu",
-    	"closingLiteral": "Hizkuntzaren menua itxi",
-    	"changeLanguageLiteral_es": "Cambia el idioma de la aplicación ",
-    	"changeLanguageLiteral_eu": "Aplikazioen hizkuntza aldatu ",
-    	"changeLanguageLiteral_en": "Change application language ",
-    	"changeLanguageLiteral_fr": "Changer la langue de l'application "
+    "rup_language" :{
+    	"es" :"Castellano",
+    	"eu" :"Euskara",
+    	"en" :"English",
+		"fr" :"Français",
+    	"changeLanguage":"Hizkuntza aldatu",
+    	"closingLiteral":"Hizkuntzaren menua itxi",
+    	"changeLanguageLiteral_es":"Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_eu":"Aplikazioen hizkuntza aldatu ",
+    	"changeLanguageLiteral_en":"Change application language to ",
+    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la aplicación a "
     }, 
-    "rup_global": {
-        "cerrar": "Itxi",
-        "rupCheckStyleError": "RUP ESTILOEN GIDAKO ARAUAK EZ DIRA BETETZEN. BIGARREN MAILAKO EKINTZA BAT BEHARREZKOA DA.",
-        "dialogTypeError": "ERROREA</br> Dialogo-mota zehaztu gabe ezin da dialogorik zuzen sortu.",
-        "error": "Errorea",
-        "cancelar": "Ezeztatu",
-        "search": "Bilatu",
-        "clean": "Garbitu",
-        "aceptar": "Onartu",
-        "save": "Gorde",
-        "close": "Itxi",
+    "rup_global":{
+        "cerrar":"Itxi",
+        "rupCheckStyleError":"RUP ESTILOEN GIDAKO ARAUAK EZ DIRA BETETZEN. BIGARREN MAILAKO EKINTZA BAT BEHARREZKOA DA.",
+        "dialogTypeError":"ERROREA</br> Dialogo-mota zehaztu gabe ezin da dialogorik zuzen sortu.",
+        "error":"Errorea",
+        "cancelar":"Ezeztatu",
+        "search":"Bilatu",
+        "clean":"Garbitu",
+        "aceptar":"Onartu",
+        "save":"Gorde",
+        "close":"Itxi",
 		"save_repeat":"Gorde eta jarraitu",
 		"cancel":"Ezeztatu",
-		"initError":"Elementu bat baino gehiago aukeratu egin da.<br> Honako ID-a daukan funtzioa berrikusi, mesedez: ",
+		"initError":"Elementu bat baino gehiago aukeratu egin da.<br> Honako ID-a daukan funtzioa berrikusi, mesedez:",
 		"parameterError":"Funtzioaren parametroak zehaztean akats bat gertatu da. Edozein parametro txarto zehaztu da ala derrigorrezkoa izanez gero ez da zehaztu egin.",
 		"developerError":"Errorea garapenean",
-		"metodError":"Metodoan Errorea: ",
+		"metodError":"Metodoan Errorea:",
 		"selectorError":"Zehaztutako selektorea ez da zuzena (ez da ezer bueltatu)" 		
     },
-    "rup_menu": {
+    "rup_menu":{
     	"developerError":"Errorea garapenean",
     	"structuralError":"Orriaren ikespen eremua ez da zuzena.<br> Menu bertikal edo mixtoa sartzean, eremu hori (&#60;div&#62;) contentMV bat izan behar da(id=&#34;contentMV&#34;)",
     	"displayMenuError":"&#34display&#34 atributuren balioa okerra da. Onartutako balioak &#34vertical&#34 edo &#34horizontal&#34 izaten dira."
     },
-    "rup_message": {
-        "aceptar": "Onartu",
-        "tituloError": "Errore bat sortu da",
-        "error": "Errorea",
-        "confirmacion": "Baieztapena",
-        "correct": "Zuzena",
-        "alert": "Alerta"
+    "rup_message":{
+        "aceptar":"Onartu",
+        "tituloError":"Errore bat sortu da",
+        "error":"Errorea",
+        "confirmacion":"Baieztapena",
+        "correct":"Zuzena",
+        "alert":"Alerta"
     },
-    "rup_blockUI": {
-        "cargando": "Lanean, itxaron mesedez"  
+    "rup_blockUI":{
+        "cargando":"Lanean, itxaron mesedez"  
     },
-    "rup_dialog": {
-        "errorLoadingData": "<b>Eskatutako informazio berreskuratzean errore bat gertatu da.</b>",
-        "noURL": "Ezin da ajax motako 'dialog' bat sortu URL bat zehaztu gabe."  
+    "rup_dialog":{
+        "errorLoadingData":"<b>Eskatutako informazio berreskuratzean errore bat gertatu da.</b>",
+        "noURL":"Ezin da ajax motako 'dialog' bat sortu URL bat zehaztu gabe."  
     },
-	"rup_combo": {
-		"blankNotDefined": "[Literala falta da]",
-		"loadingText":"Kargatzen..."
+	"rup_combo":{
+		"blankNotDefined":"[Literala falta da]",
+		"loadingText":"Kargatzen...",
+		"ajaxError":"Errorea gertatu da datuak berreskuratzen saiatzean"
 	},
-	"rup_date": {
-		"mask" : "(aaaa/mm/dd)",
-		"maskDateTime" : "(aaaa/mm/dd hh:mm)",
-		"maskDateTimeSec" : "(aaaa/mm/dd hh:mm:ss)",
-	 	"dateFormat" : "yy/mm/dd",
-		"firstDay" : 1,
-		"weekHeader" : "&nbsp;&nbsp;&nbsp;",
-		"buttonText" : "Egutegia zabaldu",
-		"dayNames" : ["Igandea", "Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala", "Larunbata"],
-		"dayNamesMin" : ["Ig", "Al", "Ar", "Az", "Og", "Or", "La"],
-		"dayNamesShort" : ["Iga", "Asl", "Asr", "Asz", "Osg", "Osr", "Lar"],
-		"monthNames" : ["Urtarrila", "Otsaila", "Martxoa", "Apirila", "Maiatza", "Ekaina", "Uztaila", "Abuztua", "Iraila", "Urria", "Azaroa", "Abendua"],
-		"monthNamesShort" : ["Urt", "Ots", "Mar", "Api", "Mai", "Eka", "Uzt", "Abu", "Ira", "Urr", "Aza", "Abe"],
-		"closeText" : "Itxi",
-		"currentText" : "Gaur",
-		"nextText" : "Hurrengoa",
-		"prevText" : "Aurrekoa"
+	"rup_multicombo":{
+		 "checkAllText":"Hautatu dena",
+         "uncheckAllText":"Garbitu hautapena",
+         "noneSelectedText":"Hautatu aukera",
+         "selectedText":"# hautatuta"
+	},
+	"rup_date":{
+		"mask" :"(aaaa/mm/dd)",
+		"maskDateTime" :"(aaaa/mm/dd hh:mm)",
+		"maskDateTimeSec" :"(aaaa/mm/dd hh:mm:ss)",
+	 	"dateFormat" :"yy/mm/dd",
+		"firstDay" :1,
+		"weekHeader" :"&nbsp;&nbsp;&nbsp;",
+		"buttonText" :"Egutegia zabaldu",
+		"dayNames" :["Igandea", "Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala", "Larunbata"],
+		"dayNamesMin" :["Ig", "Al", "Ar", "Az", "Og", "Or", "La"],
+		"dayNamesShort" :["Iga", "Asl", "Asr", "Asz", "Osg", "Osr", "Lar"],
+		"monthNames" :["Urtarrila", "Otsaila", "Martxoa", "Apirila", "Maiatza", "Ekaina", "Uztaila", "Abuztua", "Iraila", "Urria", "Azaroa", "Abendua"],
+		"monthNamesShort" :["Urt", "Ots", "Mar", "Api", "Mai", "Eka", "Uzt", "Abu", "Ira", "Urr", "Aza", "Abe"],
+		"closeText" :"Itxi",
+		"currentText" :"Gaur",
+		"nextText" :"Hurrengoa",
+		"prevText" :"Aurrekoa"
 	},
 	"rup_time":{
-		"mask" : "(hh:mm)",
-		"buttonText" : "Ordua zabaldu",
-		"currentText": "Orain",
-		"closeText": "Itxi",
-		"timeOnlyTitle": "Aukeratu denbora",
-		"timeText": "Denbora",
-		"hourText": "Ordua",
-		"minuteText": "Minutua",
-		"secondText": "Segundua"
-	},
-	"rup_utils":{
-		"paramsError" : "Aukeratutako parametroren bat 'null' edo 'undefined' da"
+		"mask" :"(hh:mm)",
+		"buttonText" :"Ordua zabaldu",
+		"currentText":"Orain",
+		"closeText":"Itxi",
+		"timeOnlyTitle":"Aukeratu denbora",
+		"timeText":"Denbora",
+		"hourText":"Ordu",
+		"minuteText":"Minutu",
+		"secondText":"Segundu"
 	},
 	"rup_tabs":{
-		"serverError" : "Erlaitz deiaren errore bat gertatu da.<br>Itzulitako errorea: "
+		"serverError":"Erlaitz deiaren errore bat gertatu da.<br>Itzulitako errorea:"
 	},
-    "rup_grid": {
-    	"summary" : {
-    		"cabecera" : "Taularen goiburua",
-    		"datos" : "Taularen datuak",
-    		"paginador" : "Taularen orrikatzeko elementua",
-    		"paginador_navegar": "Taularen orrikatzeko nabigazio elementua"
+	"rup_utils":{
+		"paramsError":"Aukeratutako parametroren bat 'null' edo 'undefined' da"
+	},	
+    "rup_grid":{
+    	"summary" :{
+    		"cabecera" :"Taularen goiburua",
+    		"datos" :"Taularen datuak",
+    		"paginador" :"Taularen orrikatzeko elementua",
+    		"paginador_navegar":"Taularen orrikatzeko nabigazio elementua"
     	},
     	"selectedElems":"Hautatuko dira hurrengo ",
     	"deSelectedElems":"Hautaketatik kenduko dira hurrengo ",
     	"ofPage":" orrialdeko elementuak.",
-    	"selectAll": "Hautatu ",
-    	"deSelectAll": "Hautaketatik kendu ",
-    	"selectAllRest": "gainerakoak",
-    	"selectMsg": "{1}. orrialdeko {0} elementuak hautatu dira.",
-    	"selectRestMsg": "Gainerako {0}ak hautatu.",
-    	"deselectMsg": "{1}. orrialdeko {0} elementuak hautaketik kenduko dira.",
-      	"deselectRestMsg": "Gainerako {0}ak hautaketatik kendu.",
+    	"selectAll":"Hautatu ",
+    	"deSelectAll":"Hautaketatik kendu ",
+    	"selectAllRest":"gainerakoak",
+    	"selectMsg":"{1}. orrialdeko {0} elementuak hautatu dira.",
+    	"selectRestMsg":"Gainerako {0}ak hautatu.",
+    	"deselectMsg":"{1}. orrialdeko {0} elementuak hautaketik kenduko dira.",
+      	"deselectRestMsg":"Gainerako {0}ak hautaketatik kendu.",
     	"clearSelection":"Hautaketa kendu",
-		"pager": {
-			"selected" : "hautatuta",
-			"primPag" : "Lehenengo orrialdea",
-			"siguiente" : "Hurrengoa",
-			"anterior" : "Aurrekoa",
-			"ultiPag" : "Azken orrialdea",
-			"input": "Uneko orrialdea",
-			"select": "Orrialdeko elementu kopurua"
+		"pager":{
+			"selected" :"hautatuta",
+			"primPag" :"Lehenengo orrialdea",
+			"siguiente" :"Hurrengoa",
+			"anterior" :"Aurrekoa",
+			"ultiPag" :"Azken orrialdea",
+			"input":"Uneko orrialdea",
+			"select":"Orrialdeko elementu kopurua"
 		},
-        "noRecordsFound": "Ez dago erregistrorik.",
-        "defaults": {
-            "recordtext": "{0} - {2}(e)tik {1} erakusten",
-            "emptyrecords": "Ez dago erregistrorik erakusteko",
-            "loadtext": "Kargatzen...",
-            "pgtext" : "{1} orrialdetik {0}",
-            "detailForm_pager" : "{1}-tik {0} erakusten"
+        "noRecordsFound":"Ez dago erregistrorik.",
+        "defaults":{
+            "recordtext":"{0} - {2}(e)tik {1} erakusten",
+            "emptyrecords":"Ez dago erregistrorik erakusteko",
+            "loadtext":"Kargatzen...",
+            "pgtext" :"{1} orrialdetik {0}",
+            "detailForm_pager" :"{1}-tik {0} erakusten"
         },
-        "search": {
-            "caption": "Bilaketa...",
-            "Find": "Bilatu",
-            "Reset": "Garbitu",
-            "odata": [
+        "search":{
+            "caption":"Bilaketa...",
+            "Find":"Bilatu",
+            "Reset":"Garbitu",
+            "odata":[
 				"berdin",
 				"ez da hau:" ,
 				"hau baino txikiagoa:",
@@ -198,7 +211,7 @@
 				"badauka:",
 				"ez dauka:" 
             ],
-            "groupOps": [
+            "groupOps":[
                 {
                     "op":"AND",
                     "text":"dena" 
@@ -211,90 +224,90 @@
             "matchText":"match",
             "rulesText":"arauak" 
         },
-        "edit": {
-            "addCaption": "Gehitu erregistroa",
-            "editCaption": "Aldatu erregistroa",
-            "bSubmit": "Gorde",
-            "bCancel": "Ezeztatu",
-            "bClose": "Itxi",
-            "saveData": "Datuak aldatu dira. Aldaketak gorde nahi al dituzu?",
-            "bYes": "Bai",
-            "bNo": "Ez",
-            "bExit": "Ezeztatu",
-            "msg": {
-                "required": "Derrigorrezko eremua",
-                "number": "Sartu zenbaki bat",
-                "minValue": "Gutxieneko balioa: ",
-                "maxValue": "Gehienezko balioa:  ",
-                "email": "Helbide elektronikoa ez da zuzena",
-                "integer": "Sartu zenbaki zuzen bat",
-                "date": "Sartu data zuzen bat",
-                "url": "URL-a ez da zuzena. Aurrizki hau izan behar du ('http://' or 'https://')",
-                "nodefined": " ez dago zehaztuta.",
-                "novalue": " itzulera-balioa nahitaez sartu behar da.",
-                "customarray": "Funtzio pertsonalizatuak array bat itzuli behar du.",
-                "customfcheck": "Baliozkotze pertsonalizatuaren kasuan funtzio pertsonalizatua egon behar da." 
+        "edit":{
+            "addCaption":"Gehitu erregistroa",
+            "editCaption":"Aldatu erregistroa",
+            "bSubmit":"Gorde",
+            "bCancel":"Ezeztatu",
+            "bClose":"Itxi",
+            "saveData":"Datuak aldatu dira. Aldaketak gorde nahi al dituzu?",
+            "bYes":"Bai",
+            "bNo":"Ez",
+            "bExit":"Ezeztatu",
+            "msg":{
+                "required":"Derrigorrezko eremua",
+                "number":"Sartu zenbaki bat",
+                "minValue":"Gutxieneko balioa:",
+                "maxValue":"Gehienezko balioa: ",
+                "email":"Helbide elektronikoa ez da zuzena",
+                "integer":"Sartu zenbaki zuzen bat",
+                "date":"Sartu data zuzen bat",
+                "url":"URL-a ez da zuzena. Aurrizki hau izan behar du ('http://' or 'https://')",
+                "nodefined":" ez dago zehaztuta.",
+                "novalue":" itzulera-balioa nahitaez sartu behar da.",
+                "customarray":"Funtzio pertsonalizatuak array bat itzuli behar du.",
+                "customfcheck":"Baliozkotze pertsonalizatuaren kasuan funtzio pertsonalizatua egon behar da." 
             } 
         },
-        "view": {
-            "caption": "Kontsultatu erregistroa",
-            "bClose": "Itxi" 
+        "view":{
+            "caption":"Kontsultatu erregistroa",
+            "bClose":"Itxi" 
         },
-        "del": {
-            "caption": "Ezabatu",
-            "msg": "Hautatutako erregistroak ezabatu nahi al dituzu?",
-            "bSubmit": "Ezabatu",
-            "bCancel": "Ezeztatu" 
+        "del":{
+            "caption":"Ezabatu",
+            "msg":"Hautatutako erregistroak ezabatu nahi al dituzu?",
+            "bSubmit":"Ezabatu",
+            "bCancel":"Ezeztatu" 
         },
-        "nav": {
-            "edittext": " ",
-            "edittitle": "Aldatu hautatutako errenakada",
-            "addtext": " ",
-            "addtitle": "Gehitu beste errenkada bat",
-            "deltext": " ",
-            "deltitle": "AEzabatu hautatutako errenkada",
-            "searchtext": " ",
-            "searchtitle": "Bilatu informazioa",
-            "refreshtext": "",
-            "refreshtitle": "Kargatu berriro datuak",
-            "alertcap": "Oharra",
-            "alerttext": "Hautatu errenkada bat",
-            "viewtext": "",
-            "viewtitle": "Ikusi hautatutako errenkada" 
+        "nav":{
+            "edittext":" ",
+            "edittitle":"Aldatu hautatutako errenakada",
+            "addtext":" ",
+            "addtitle":"Gehitu beste errenkada bat",
+            "deltext":" ",
+            "deltitle":"Ezabatu hautatutako errenkada",
+            "searchtext":" ",
+            "searchtitle":"Bilatu informazioa",
+            "refreshtext":"",
+            "refreshtitle":"Kargatu berriro datuak",
+            "alertcap":"Oharra",
+            "alerttext":"Hautatu errenkada bat",
+            "viewtext":"",
+            "viewtitle":"Ikusi hautatutako errenkada" 
         },
-        "col": {
-            "caption": "Bistaratu/ezkutatu zutabeak",
-            "bSubmit": "Bidali",
-            "bCancel": "Ezeztatu" 
+        "col":{
+            "caption":"Bistaratu/ezkutatu zutabeak",
+            "bSubmit":"Bidali",
+            "bCancel":"Ezeztatu" 
         },
-        "errors": {
-            "errcap": "Errorea",
-            "nourl": "Ez da URLrik zehaztu",
-            "norecords": "Ez dago daturik prozesatzeko",
-            "model": "Izenen eta ereduen zutabeak ezberdinak dira",
-            "errorOnGet": "Errorea gertatu da datuak berreskuratzen saiatzean"
+        "errors":{
+            "errcap":"Errorea",
+            "nourl":"Ez da URLrik zehaztu",
+            "norecords":"Ez dago daturik prozesatzeko",
+            "model":"Izenen eta ereduen zutabeak ezberdinak dira",
+            "errorOnGet":"Errorea gertatu da datuak berreskuratzen saiatzean"
         },
-        "formatter": {
-            "integer": {
-                "thousandsSeparator": ".",
-                "defaultValue": "0" 
+        "formatter":{
+            "integer":{
+                "thousandsSeparator":".",
+                "defaultValue":"0" 
             },
-            "number": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "defaultValue": "0,00" 
+            "number":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "defaultValue":"0,00" 
             },
-            "currency": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "prefix": "",
-                "suffix": "",
-                "defaultValue": "0,00" 
+            "currency":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "prefix":"",
+                "suffix":"",
+                "defaultValue":"0,00" 
             },
-            "date": {
-                "dayNames": [
+            "date":{
+                "dayNames":[
                     "Ig",
                     "Al",
                     "Ar",
@@ -310,7 +323,7 @@
                     "Ostirala",
                     "Larunbata" 
                 ],
-                "monthNames": [
+                "monthNames":[
                     "Urt",
                     "Ots",
                     "Mar",
@@ -336,100 +349,99 @@
                     "Azaroa",
                     "Abendua" 
                 ],
-                "AmPm" : [
+                "AmPm" :[
                     "am",
                     "pm",
                     "AM",
                     "PM" 
                 ],
-                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
-                "srcformat": "Y/m/d H:i:s",
-                "newformat": "Y/m/d",
-                "masks": {
-                    "ISO8601Long": "Y-m-d H:i:s",
-                    "ISO8601Short": "Y-m-d",
-                    "ShortDate": "n/j/Y",
-                    "LongDate": "l, F d, Y",
-                    "FullDateTime": "l, F d, Y g:i:s A",
-                    "MonthDay": "F d",
-                    "ShortTime": "g:i A",
-                    "LongTime": "g:i:s A",
-                    "SortableDateTime": "Y-m-d\\TH:i:s",
-                    "UniversalSortableDateTime": "Y-m-d H:i:sO",
-                    "YearMonth": "F, Y",
-                    "RupDate": "Y/m/d",
-                    "RupDateTime": "Y/m/d H:i",
-                    "RupDateTimeSec": "Y/m/d H:i:s",
-                    "RupTime": "H:i",
-                    "RupTimeSec": "H:i:s"
+                "S":"return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] :'th';",
+                "srcformat":"Y/m/d H:i:s",
+                "newformat":"Y/m/d",
+                "masks":{
+                    "ISO8601Long":"Y-m-d H:i:s",
+                    "ISO8601Short":"Y-m-d",
+                    "ShortDate":"n/j/Y",
+                    "LongDate":"l, F d, Y",
+                    "FullDateTime":"l, F d, Y g:i:s A",
+                    "MonthDay":"F d",
+                    "ShortTime":"g:i A",
+                    "LongTime":"g:i:s A",
+                    "SortableDateTime":"Y-m-d\\TH:i:s",
+                    "UniversalSortableDateTime":"Y-m-d H:i:sO",
+                    "YearMonth":"F, Y",
+                    "RupDate":"Y/m/d",
+                    "RupDateTime":"Y/m/d H:i",
+                    "RupDateTimeSec":"Y/m/d H:i:s",
+                    "RupTime":"H:i",
+                    "RupTimeSec":"H:i:s"
                 },
-                "reformatAfterEdit": false 
+                "reformatAfterEdit":false 
             },
-            "baseLinkUrl": "",
-            "showAction": "",
-            "target": "",
-            "checkbox": {
-                "disabled": true
+            "baseLinkUrl":"",
+            "showAction":"",
+            "target":"",
+            "checkbox":{
+                "disabled":true
             },
-            "idName": "id" 
+            "idName":"id" 
         }
     },
-    "rup_upload": {
-    	"maxFileSizeError": "Fitxategiak tamaina muga handiena gainditzen da",
-    	"minFileSizeError": "Fitxategiak ez da tamaina muga txikiena gainditzen",
-    	"acceptFileTypesError": "Fitxategi mota ez du balio",
-    	"maxNumberOfFilesError": "Fitxategi zenbaki muga handiena gainditzen da",
+    "rup_upload":{
+    	"maxFileSizeError":"Fitxategiak tamaina muga handiena gainditzen da",
+    	"minFileSizeError":"Fitxategiak ez da tamaina muga txikiena gainditzen",
+    	"acceptFileTypesError":"Fitxategi mota ez du balio",
+    	"maxNumberOfFilesError":"Fitxategi zenbaki muga handiena gainditzen da",
     	"startUpload":"Igo",
     	"cancelUpload":"Ezeztatu",
     	"deleteUploaded":"Ezabatu",
     	"openUploaded":"Ireki"
     },
-    "rup_utils": {
-    	"relToAbsUrlParamFormatError": "&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da.",
-    	"relToAbsUrlParamError": "<b style='color:red'>&#34",
-    	"relToAbsUrlParamErrorEnd": "&#34</b><br/> &#34$.rup_utils.relToAbsUrl&#34; funtzioaren url-a ez da zuzena"
+    "rup_utils":{
+    	"relToAbsUrlParamFormatError":"&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da.",
+    	"relToAbsUrlParamError":"<b style='color:red'>&#34",
+    	"relToAbsUrlParamErrorEnd":"&#34</b><br/> &#34$.rup_utils.relToAbsUrl&#34; funtzioaren url-a ez da zuzena"
     },
-    "rup_accordion": {
-    	"strucPairError": "HTML egituraren errorea.<br/>Accordion-ek goiburu eta eduki objektu pareak behar ditu.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko.",
-    	"headFormatError": "HTML egituraren errorea.<br/>Accordion-ek htmlko &#34&#60a&#62&#34 objektu goiburu bakoitzaren barruan behar du.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko."
+    "rup_accordion":{
+    	"strucPairError":"HTML egituraren errorea.<br/>Accordion-ek goiburu eta eduki objektu pareak behar ditu.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko.",
+    	"headFormatError":"HTML egituraren errorea.<br/>Accordion-ek htmlko &#34&#60a&#62&#34 objektu goiburu bakoitzaren barruan behar du.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko."
    	},
-    "rup_wizard": {
-    	"prev": "Aurrekoa",
-    	"next": "Hurrengoa",
-    	"summary" : "Laburpena"
+    "rup_wizard":{
+    	"prev":"Aurrekoa",
+    	"next":"Hurrengoa",
+    	"summary" :"Laburpena"
     },
     "rup_form":{
     },
     "rup_validate":{
     	"messages":{
-			  "required": "Eremu hau beharrezkoa da.",
-			  "remote": "Mesedez, bete eremu hau.",
-			  "email": "Mesedez, idatzi baliozko posta helbide bat.",
-			  "url": "Mesedez, idatzi URL zuzen bat.",
-			  "date": "Mesedez, idatzi data zuzen bat.",
-			  "dateISO": "Mesedez, idatzi 'ISO' data zuzen bat.",
-			  "number": "Mesedez, idatzi zenbaki oso zuzen bat.",
-			  "digits": "Mesedez, idatzi digituak soilik.",
-			  "creditcard": "Mesedez, idatzi txartel zenbaki zuzen bat.",
-			  "equalTo": "Mesedez, idatzi berdina berriro ere.",
-			  "accept": "Mesedez, idatzi onartutako telefono-luzapen zuzen bat.",
-			  "maxlength": "Mesedez, ez idatzi {0} karaktere baino gehiago.",
-			  "minlength": "Mesedez, ez idatzi {0} karaktere baino gutxiago.",
-			  "rangelength": "Mesedez, idatzi {0} eta {1} karaktere arteko balio bat.",
-			  "range": "Mesedez, idatzi {0} eta {1} arteko balio bat.",
-			  "max": "Mesedez, idatzi {0} edo txikiagoa den balio bat.",
-			  "min": "Mesedez, idatzi {0} edo handiagoa den balio bat.",
-			  "dni": "Mesedez, idatzi NAN zuzen bat.",
-			  "maxWords": "Mesedez, ez idatzi {0} hitz baino gehiago.",
-			  "minWords": "Mesedez, ez idatzi {0} hitz baino gutxiago.",
-			  "rangeWords": "Mesedez, idatzi {0} y {1} hitz arteko balio bat.",
-			  "letterswithbasicpunc": "Mesedez, idatzi letrak eta puntuazio-markak bakarrik.",
-			  "alphanumeric": "Mesedez, idatzi letrak, zenbakiak, hutsuneak edo azpi-marrak.",
-			  "lettersonly": "Mesedez, idatzi letrak bakarrik.",
-			  "nowhitespace": "Mesedez, ez idatzi hutsuneak.",
-			  "integer": "Mesedez, idatzi positibo edo negatibo zenbaki osoa.",
-			  "pattern": "Idatzitako formatua ez da baliozkoa."
-		
+			  "required":"Eremu hau beharrezkoa da.",
+			  "remote":"Mesedez, bete eremu hau.",
+			  "email":"Mesedez, idatzi baliozko posta helbide bat.",
+			  "url":"Mesedez, idatzi URL zuzen bat.",
+			  "date":"Mesedez, idatzi data zuzen bat.",
+			  "dateISO":"Mesedez, idatzi 'ISO' data zuzen bat.",
+			  "number":"Mesedez, idatzi zenbaki oso zuzen bat.",
+			  "digits":"Mesedez, idatzi digituak soilik.",
+			  "creditcard":"Mesedez, idatzi txartel zenbaki zuzen bat.",
+			  "equalTo":"Mesedez, idatzi berdina berriro ere.",
+			  "accept":"Mesedez, idatzi onartutako telefono-luzapen zuzen bat.",
+			  "maxlength":"Mesedez, ez idatzi {0} karaktere baino gehiago.",
+			  "minlength":"Mesedez, ez idatzi {0} karaktere baino gutxiago.",
+			  "rangelength":"Mesedez, idatzi {0} eta {1} karaktere arteko balio bat.",
+			  "range":"Mesedez, idatzi {0} eta {1} arteko balio bat.",
+			  "max":"Mesedez, idatzi {0} edo txikiagoa den balio bat.",
+			  "min":"Mesedez, idatzi {0} edo handiagoa den balio bat.",
+			  "dni":"Mesedez, idatzi NAN zuzen bat.",
+			  "maxWords":"Mesedez, ez idatzi {0} hitz baino gehiago.",
+			  "minWords":"Mesedez, ez idatzi {0} hitz baino gutxiago.",
+			  "rangeWords":"Mesedez, idatzi {0} y {1} hitz arteko balio bat.",
+			  "letterswithbasicpunc":"Mesedez, idatzi letrak eta puntuazio-markak bakarrik.",
+			  "alphanumeric":"Mesedez, idatzi letrak, zenbakiak, hutsuneak edo azpi-marrak.",
+			  "lettersonly":"Mesedez, idatzi letrak bakarrik.",
+			  "nowhitespace":"Mesedez, ez idatzi hutsuneak.",
+			  "integer":"Mesedez, idatzi positibo edo negatibo zenbaki osoa.",
+			  "pattern":"Idatzitako formatua ez da baliozkoa."		
 		},
 		"format":{
 			"date":"yyyy/mm/dd"

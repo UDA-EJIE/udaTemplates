@@ -98,10 +98,10 @@ public interface ${pojo.getDeclarationName()}Service {
 	/**
 	 * Deletes multiple rows in the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List  ArrayList
+	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List List
 	 * @return 
 	 */	
-	void removeMultiple(${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}> ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List);
+	void removeMultiple(${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List);
     
       <#foreach property in pojo.getAllPropertiesIterator()>
         <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>

@@ -124,11 +124,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	/**
 	 * Deletes multiple rows in the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List ArrayList
+	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List List
 	 * @return
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public void removeMultiple(${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}> ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List) {
+	public void removeMultiple(${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List) {
 		for (${pojo.getDeclarationName()}  ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}Aux:${ctrTl.stringDecapitalize(pojo.getDeclarationName())}List) {
 			this.${nombreDao}.remove(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}Aux);
 		}

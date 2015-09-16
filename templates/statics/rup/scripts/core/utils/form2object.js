@@ -132,7 +132,7 @@
                         if (currentNode.nodeName.match(/INPUT|SELECT|TEXTAREA|HIDDEN/i))
                         {
                                 var fieldValue = getFieldValue(currentNode);
-                                var name = $(currentNode).attr("name");
+                                var name = jQuery(currentNode).attr("name");
                                 if (fieldValue !== null) result.push({ name: name, value: fieldValue});
                         }
                         else
@@ -149,9 +149,9 @@
 
         function getFieldValue(fieldNode)
         {
-        		var ruptype = $(fieldNode).attr("ruptype");
+        		var ruptype = jQuery(fieldNode).attr("ruptype");
         		if (ruptype){
-        			return $(fieldNode)["rup_"+ruptype]("getRupValue");
+        			return jQuery(fieldNode)["rup_"+ruptype]("getRupValue");
         		}else{
 	                switch (fieldNode.nodeName) {
 	                		case 'HIDDEN':

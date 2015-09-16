@@ -34,6 +34,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 			<list>
 				<map>
 					<entry key="userName" value="USER_${codrole}"/>
+					<entry key="name" value="${codrole}"/>
+					<entry key="surname" value="User"/>
+					<entry key="fullName" value="${codrole} User"/>
+					<entry key="nif" value="17398234h"/>
 					<entry key="nif" value="00000001R"/>
 					<entry key="policy" value="1"/>
 					<entry key="position" value="01"/>

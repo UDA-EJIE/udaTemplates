@@ -88,7 +88,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getAll(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}) {
-		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL] : Obtener ${pojo.getDeclarationName()}s por filtro");
+		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL] : Obtener ${pojo.getDeclarationName()} por filtro");
 	    return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAll(filter${pojo.getDeclarationName()}, null);
 	}
 
@@ -128,6 +128,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
     <#assign primariaParam = ctrlUtils.getPrimaryKey(pojo,cfg)> 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "<#foreach field in ctrlUtils.getPrimaryKey(pojo,cfg)>/{${field[0]}}</#foreach>", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.DELETE)
+	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
     public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} remove(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
 		<#if !isJpa>	
@@ -150,22 +151,23 @@ public class ${pojo.getDeclarationName()}Controller  {
 	/**
 	 * Method 'removeAll'.
 	 *
-	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids ${pojo.importType("java.util.ArrayList")}
+	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids ${pojo.importType("java.util.List")}
 	 * @return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List
 	 */	
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}> removeMultiple(@RequestBody ${pojo.importType("java.util.ArrayList")}<${pojo.importType("java.util.ArrayList")}<String>> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
-        ${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List = new ${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}>();
-        for (${pojo.importType("java.util.ArrayList")}<String> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Id:${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
+	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<${pojo.importType("java.util.List")}<String>> removeMultiple(@RequestBody ${pojo.importType("java.util.List")}<${pojo.importType("java.util.List")}<String>> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
+        ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List = new ${pojo.importType("java.util.ArrayList")}<${pojo.getDeclarationName()}>();
+        for (${pojo.importType("java.util.List")}<String> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Id:${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids) {
 		    ${pojo.importType("java.util.Iterator")}<String> iterator = ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Id.iterator();
 		    ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}(); //NOPMD - Objeto nuevo en la lista (parametro del servicio)
 			<#if !isJpa>	
 				<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
-					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.set${pojo.beanCapitalize(field[0])};
+					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.set${pojo.beanCapitalize(field[0])}; //NOPMD - Objeto nuevo en la lista (parametro del servicio)
 				</#foreach>	
 			<#else>
 				<#if  clazz.getIdentifierProperty().isComposite()>
-					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.setId(new ${pojo.getDeclarationName()}Id());
+					${ctrl.stringDecapitalize(pojo.getDeclarationName())}.setId(new ${pojo.getDeclarationName()}Id()); //NOPMD - Objeto nuevo en la lista (parametro del servicio)
 				</#if>	
 			</#if>
 		<#assign parametros = ctrlUtils.getPrimaryKey(pojo,cfg)> 
@@ -175,8 +177,8 @@ public class ${pojo.getDeclarationName()}Controller  {
 		    ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List.add(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
 	    }
         this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(${ctrl.stringDecapitalize(pojo.getDeclarationName())}List);
-		${pojo.getDeclarationName()}Controller.logger.info("[POST - DELETE_ALL] : ${pojo.getDeclarationName()}s borrados correctamente");
-		return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}List;
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - DELETE_ALL] : ${pojo.getDeclarationName()} borrados correctamente");
+		return ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Ids;
 	}	
 
 	/**
@@ -190,7 +192,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridJSONModel")} getAllJQGrid(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, @${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
         ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> ${ctrl.stringDecapitalize(pojo.getDeclarationName())}s = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAll(filter${pojo.getDeclarationName()}, pagination);
         Long recordNum = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAllCount(filter${pojo.getDeclarationName()});
-        ${pojo.getDeclarationName()}Controller.logger.info("[GET - jqGrid] : Obtener ${pojo.getDeclarationName()}s");
+        ${pojo.getDeclarationName()}Controller.logger.info("[GET - jqGrid] : Obtener ${pojo.getDeclarationName()}");
 		return new JQGridJSONModel(pagination, recordNum, ${ctrl.stringDecapitalize(pojo.getDeclarationName())}s);
 	}
 	
@@ -214,5 +216,5 @@ public class ${pojo.getDeclarationName()}Controller  {
     </#foreach>	
 }	
 </#assign>
-${pojo.generateImports()}
+${ctrl.generateImports(pojo.getPackageName()+'.model', pojo.generateImports(), classbody)}
 ${classbody}

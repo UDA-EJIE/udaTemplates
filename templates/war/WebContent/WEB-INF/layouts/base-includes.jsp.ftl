@@ -24,13 +24,14 @@
 	RUP = '<#noparse>${staticsUrl}</#noparse>/rup',
 	WAR_NAME = '${warNameShort}',
 	//model
-	LAYOUT = '<#noparse>${defaultLayout}</#noparse>',
+	LAYOUT = '<#noparse>${empty defaultLayout ?  mvcInterceptor.defaultLayout : defaultLayout}</#noparse>',
 	//mvc-config.xml
 	LOCALE_COOKIE_NAME = '<#noparse>${localeResolver.cookieName}</#noparse>',
 	LOCALE_PARAM_NAME = '<#noparse>${mvcInterceptor.paramName}</#noparse>',
 	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
 	//breadCrumbs
-	LOGGED_USER = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal : sessionScope.userName}</#noparse>';
+	LOGGED_USER = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.fullName : sessionScope.userData.fullName}</#noparse>',
+	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroyXLNetsSession : sessionScope.destroyXLNetsSession}</#noparse>';
 </script>
 
 <%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%>

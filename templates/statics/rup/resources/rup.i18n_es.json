@@ -7,13 +7,16 @@
 		"httpStatus500":"Se ha producido un error interno",
 		"httpStatus503":"El servicio solicitado no está disponible"
 	},
-	"rup_maint": {
+	"rup_autocomplete":{
+		"ajaxError":"Se ha producido un error al recuperar los datos del servidor"
+	},
+	"rup_maint":{
 		"detailTitle":"Detalle de registro",
 		"deletedOK":"El elemento se ha borrado correctamente.",
 		"insertOK":"El elemento se ha añadido correctamente.",
 		"modifyOK":"El elemento se ha modificado correctamente.",
 		"insertError":"Error al insertar el elemento.",
-		"validateError":"Se han producido los siguientes errores: <br/>",
+		"validateError":"Se han producido los siguientes errores:<br/>",
 		"last":"Último",
 		"first":"Primero",
 		"next":"Siguiente",
@@ -29,161 +32,170 @@
 		"noGrid":"No es posible crear un mantenimiento sin un grid.",
 		"numResult":"Número de resultados",
 		"de":"de",
-		"changes": "Control de cambios",
-		"saveAndContinue": "Se perderán los cambios en los datos modificados, ¿desea continuar?",
-		"checkSelectedElems": "Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
+		"changes":"Control de cambios",
+		"saveAndContinue":"Se perderán los cambios en los datos modificados, ¿desea continuar?",
+		"checkSelectedElems":"Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
-		"selectAll": "Ha seleccionado todos los registros de la página actual.",
-		"selected": "seleccionados",
-		"deleteAll": "¿Está seguro que desea eliminar todos los registros seleccionados?",
-		"titleDelAll": "Eliminar los registros",
+		"selectAll":"Ha seleccionado todos los registros de la página actual.",
+		"selected":"seleccionados",
+		"deleteAll":"¿Está seguro que desea eliminar todos los registros seleccionados?",
+		"titleDelAll":"Eliminar los registros",
 		"noReg":"Seleccione un registro.",
-		"emptyChanges": "No se han realizado cambios.",
-		"invalidRowId": "El identificador de la fila no es válido. No se puede completar la acción",
-		"toolbarNewButtonError": "Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
-		"multiselectHeader": "Seleccionar todos los elementos de la página"
+		"emptyChanges":"No se han realizado cambios.",
+		"invalidRowId":"El identificador de la fila no es válido. No se puede completar la acción",
+		"toolbarNewButtonError":"Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
+		"multiselectHeader":"Seleccionar todos los elementos de la página"
     },
-    "rup_breadCrumb" : {
-    	"disconnect" : "Desconectar",
-    	"menuDisconnectTitle" : "Desconexión de Usuario",
-    	"menuDisconnectMessage" : "¿Está seguro de que desea desconectar su sesión de usuario actual?",
-    	"userAre" : " está en:",
-    	"youAre" : "Usted está en:",
-    	"start"  : "Inicio"
+    "rup_breadCrumb" :{
+    	"disconnect" :"Desconectar",
+    	"menuDisconnectTitle" :"Desconexión de Usuario",
+    	"menuDisconnectMessage" :"¿Está seguro de que desea desconectar su sesión de usuario actual?",
+    	"menuSecuritySystemDisconnectMessage" :"¿Está seguro de que desea finalizar la sesión de usuario actual del sistema de seguridad?",
+    	"userAre" :" está en:",
+    	"youAre" :"Usted está en:",
+    	"start" :"Inicio",
+ 	   	"exit" :"Salir"
     },
-    "rup_feedback" : {
-    	"closingLiteral": "Cierre del mensage"
+    "rup_feedback" :{
+    	"closingLiteral":"Cierre del mensaje"
     },
-    "rup_language" : {
-    	"es" : "Castellano",
-    	"eu" : "Euskara",
-    	"en" : "English",
-		"fr" : "Français",
-    	"changeLanguage": "Cambiar Idioma",
-    	"closingLiteral": "Cierre del menu ideomático",
-    	"changeLanguageLiteral_es": "Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_eu": "eu_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_en": "en_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_fr": "fr_Cambia el idioma de la aplicación a "
+    "rup_language" :{
+    	"es" :"Castellano",
+    	"eu" :"Euskara",
+    	"en" :"English",
+		"fr" :"Français",
+    	"changeLanguage":"Cambiar Idioma",
+    	"closingLiteral":"Cierre del menu idiomático",
+    	"changeLanguageLiteral_es":"Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_eu":"eu_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_en":"en_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la aplicación a "
     }, 
-    "rup_global": {
-        "cerrar": "cerrar",
-        "rupCheckStyleError": "NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
-        "dialogTypeError": "¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
-        "error": "Error",
-        "cancelar": "Cancelar",
-        "search": "Buscar",
-        "clean": "Limpiar",
-        "aceptar": "Aceptar",
-        "save": "Guardar",
-        "close": "Cerrar",
+    "rup_global":{
+        "cerrar":"cerrar",
+        "rupCheckStyleError":"NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
+        "dialogTypeError":"¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
+        "error":"Error",
+        "cancelar":"Cancelar",
+        "search":"Buscar",
+        "clean":"Limpiar",
+        "aceptar":"Aceptar",
+        "save":"Guardar",
+        "close":"Cerrar",
 		"save_repeat":"Guardar y continuar",
 		"cancel":"Cancelar",
-		"initError":"Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
+		"initError":"Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID:",
 		"parameterError":"Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"Error de desarrollo",
-		"metodError":"Error en el método: ",
+		"metodError":"Error en el método:",
 		"selectorError":"El selector especificado es incorrecto (no devuelve nada)" 
     },
-    "rup_menu": {
+    "rup_menu":{
     	"developerError":"Error de desarrollo",
     	"structuralError":"No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)",
-    	"displayMenuError":"El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores: &#34vertical&#34 o &#34horizontal&#34. "  
+    	"displayMenuError":"El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores:&#34vertical&#34 o &#34horizontal&#34. "  
     },
-    "rup_message": {
-        "aceptar": "Aceptar",
-        "tituloError": "Se ha producido un error",
-        "error": "error",
-        "confirmacion": "Confirmación",
-        "correct": "Correcto",
-        "alert": "Alerta" 
+    "rup_message":{
+        "aceptar":"Aceptar",
+        "tituloError":"Se ha producido un error",
+        "error":"error",
+        "confirmacion":"Confirmación",
+        "correct":"Correcto",
+        "alert":"Alerta" 
     },
-    "rup_blockUI": {
-        "cargando": "Procesando, espere por favor" 
+    "rup_blockUI":{
+        "cargando":"Procesando, espere por favor" 
     },
-    "rup_dialog": {
-        "errorLoadingData": "<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
-        "noURL": "No puede crearse un diálogo de tipo ajax sin URL definida." 
+    "rup_dialog":{
+        "errorLoadingData":"<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
+        "noURL":"No puede crearse un diálogo de tipo ajax sin URL definida." 
     },
-	"rup_combo": {
-		"blankNotDefined": "[Falta literal]",
-		"loadingText":"Cargando..."
+	"rup_combo":{
+		"blankNotDefined":"[Falta literal]",
+		"loadingText":"Cargando...",
+		"ajaxError":"Se ha producido un error al recuperar los datos del servidor"
 	},
-	"rup_date": {
-		"mask" : "(dd/mm/aaaa)",
-		"maskDateTime" : "(dd/mm/aaaa hh:mm)",
-		"maskDateTimeSec" : "(dd/mm/aaaa hh:mm:ss)",
-	 	"dateFormat" : "dd/mm/yy",
-		"firstDay" : 1,
-		"weekHeader" : "&nbsp;&nbsp;&nbsp;",
-		"buttonText" : "Abrir calendario",
-		"dayNames" : ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-		"dayNamesMin" : ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-		"dayNamesShort" : ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-		"monthNames" : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-		"monthNamesShort" : ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-		"closeText" : "Cerrar",
-		"currentText" : "Hoy",
-		"nextText" : "Siguiente",
-		"prevText" : "Anterior"
+	"rup_multicombo":{
+		"checkAllText":"Marca todas",
+		"uncheckAllText":"Desmarque todas",
+		"noneSelectedText":"Seleccione las opciones",
+		"selectedText":"# seleccionado"
+	},
+	"rup_date":{
+		"mask" :"(dd/mm/aaaa)",
+		"maskDateTime" :"(dd/mm/aaaa hh:mm)",
+		"maskDateTimeSec" :"(dd/mm/aaaa hh:mm:ss)",
+	 	"dateFormat" :"dd/mm/yy",
+		"firstDay" :1,
+		"weekHeader" :"&nbsp;&nbsp;&nbsp;",
+		"buttonText" :"Abrir calendario",
+		"dayNames" :["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+		"dayNamesMin" :["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+		"dayNamesShort" :["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+		"monthNames" :["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+		"monthNamesShort" :["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+		"closeText" :"Cerrar",
+		"currentText" :"Hoy",
+		"nextText" :"Siguiente",
+		"prevText" :"Anterior"
 	},
 	"rup_time":{
-		"mask" : "(hh:mm)",
-		"buttonText" : "Abrir hora",
-		"currentText": "Ahora",
-		"closeText": "Cerrar",
-		"timeOnlyTitle": "Seleccione Tiempo",
-		"timeText": "Tiempo",
-		"hourText": "Hora",
-		"minuteText": "Minuto",
-		"secondText": "Segundo"
+		"mask" :"(hh:mm)",
+		"buttonText" :"Abrir hora",
+		"currentText":"Ahora",
+		"closeText":"Cerrar",
+		"timeOnlyTitle":"Seleccione tiempo",
+		"timeText":"Tiempo",
+		"hourText":"Hora",
+		"minuteText":"Minuto",
+		"secondText":"Segundo"
 	},
-	"rup_tabs": {
-		"serverError": "Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
+	"rup_tabs":{
+		"serverError":"Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
 	"rup_utils":{
-		"paramsError" : "Alguno de los parámetros especificados es 'null' o 'undefined'"
+		"paramsError" :"Alguno de los parámetros especificados es 'null' o 'undefined'"
 	},
-    "rup_grid": {
-    	"summary" : {
-    		"cabecera" : "Cabecera de la tabla",
-    		"datos" : "Datos de la tabla",
-    		"paginador" : "Elemento de paginación de la tabla",
-    		"paginador_navegar" :  "Elemento de navegación de la paginación de la tabla"
+    "rup_grid":{
+    	"summary" :{
+    		"cabecera" :"Cabecera de la tabla",
+    		"datos" :"Datos de la tabla",
+    		"paginador" :"Elemento de paginación de la tabla",
+    		"paginador_navegar" : "Elemento de navegación de la paginación de la tabla"
     	},
     	"selectedElems":"Se han seleccionado los ",
     	"deSelectedElems":"Se han deseleccionado los ",
     	"ofPage":" elementos de la página.",
-    	"selectAll": "seleccionar los ",
-    	"deSelectAll": "deseleccionar los ",
-    	"selectAllRest": "restantes",
-    	"selectMsg": "Se han seleccionado los {0} elementos de la página {1}.",
-    	"selectRestMsg": "Seleccionar los {0} restantes",
-    	"deselectMsg": "Se han deseleccionado los {0} elementos de la página {1}.",
-    	"deselectRestMsg": "Deseleccionar los {0} restantes",
+    	"selectAll":"seleccionar los ",
+    	"deSelectAll":"deseleccionar los ",
+    	"selectAllRest":"restantes",
+    	"selectMsg":"Se han seleccionado los {0} elementos de la página {1}.",
+    	"selectRestMsg":"Seleccionar los {0} restantes",
+    	"deselectMsg":"Se han deseleccionado los {0} elementos de la página {1}.",
+    	"deselectRestMsg":"Deseleccionar los {0} restantes",
     	"clearSelection":"deshacer selección",
-		"pager": {
-			"selected" : "seleccionados",
-			"primPag" : "Primera Página",
-			"siguiente" : "Siguiente",
-			"anterior" : "Anterior",
-			"ultiPag" : "Última Página",
-			"input" : "Página actual",
-			"select" : "Número de elementos por página"
+		"pager":{
+			"selected" :"seleccionados",
+			"primPag" :"Primera Página",
+			"siguiente" :"Siguiente",
+			"anterior" :"Anterior",
+			"ultiPag" :"Última Página",
+			"input" :"Página actual",
+			"select" :"Número de elementos por página"
 		},
-        "noRecordsFound": "No hay registros.",
-        "defaults": {
-            "recordtext": "Mostrando {0} - {1} de {2}",
-            "emptyrecords": "Sin registros que mostrar",
-            "loadtext": "Cargando...",
-            "pgtext" : "Página {0} de {1}",
-            "detailForm_pager" : "Mostrando {0} de {1}" 
+        "noRecordsFound":"No hay registros.",
+        "defaults":{
+            "recordtext":"Mostrando {0} - {1} de {2}",
+            "emptyrecords":"Sin registros que mostrar",
+            "loadtext":"Cargando...",
+            "pgtext" :"Página {0} de {1}",
+            "detailForm_pager" :"Mostrando {0} de {1}" 
         },
-        "search": {
-            "caption": "Búsqueda...",
-            "Find": "Buscar",
-            "Reset": "Limpiar",
-            "odata": [
+        "search":{
+            "caption":"Búsqueda...",
+            "Find":"Buscar",
+            "Reset":"Limpiar",
+            "odata":[
                 "igual",
                 "no igual a",
                 "menor que",
@@ -199,103 +211,103 @@
                 "contiene",
                 "no contiene" 
             ],
-            "groupOps": [
+            "groupOps":[
                 {
-                    "op": "AND",
-                    "text": "todo" 
+                    "op":"AND",
+                    "text":"todo" 
                 },
                 {
-                    "op": "OR",
-                    "text": "cualquier" 
+                    "op":"OR",
+                    "text":"cualquier" 
                 } 
             ],
-            "matchText": " match",
-            "rulesText": " reglas" 
+            "matchText":" match",
+            "rulesText":" reglas" 
         },
-        "edit": {
-            "addCaption": "Agregar registro",
-            "editCaption": "Modificar registro",
-            "bSubmit": "Guardar",
-            "bCancel": "Cancelar",
-            "bClose": "Cerrar",
-            "saveData": "Se han modificado los datos, ¿guardar cambios?",
-            "bYes": "Si",
-            "bNo": "No",
-            "bExit": "Cancelar",
-            "msg": {
-                "required": "Campo obligatorio",
-                "number": "Introduzca un número",
-                "minValue": "El valor debe ser mayor o igual a ",
-                "maxValue": "El valor debe ser menor o igual a ",
-                "email": "No es una dirección de correo válida",
-                "integer": "Introduzca un valor entero",
-                "date": "Introduza una fecha correcta ",
-                "url": "No es una URL válida. Prefijo requerido ('http://' or 'https://')",
-                "nodefined": " no está definido.",
-                "novalue": " valor de retorno es requerido.",
-                "customarray": "La función personalizada debe devolver un array.",
-                "customfcheck": "La función personalizada debe estar presente en el caso de validación personalizada." 
+        "edit":{
+            "addCaption":"Agregar registro",
+            "editCaption":"Modificar registro",
+            "bSubmit":"Guardar",
+            "bCancel":"Cancelar",
+            "bClose":"Cerrar",
+            "saveData":"Se han modificado los datos, ¿guardar cambios?",
+            "bYes":"Si",
+            "bNo":"No",
+            "bExit":"Cancelar",
+            "msg":{
+                "required":"Campo obligatorio",
+                "number":"Introduzca un número",
+                "minValue":"El valor debe ser mayor o igual a ",
+                "maxValue":"El valor debe ser menor o igual a ",
+                "email":"No es una dirección de correo válida",
+                "integer":"Introduzca un valor entero",
+                "date":"Introduza una fecha correcta ",
+                "url":"No es una URL válida. Prefijo requerido ('http://' or 'https://')",
+                "nodefined":" no está definido.",
+                "novalue":" valor de retorno es requerido.",
+                "customarray":"La función personalizada debe devolver un array.",
+                "customfcheck":"La función personalizada debe estar presente en el caso de validación personalizada." 
             } 
         },
-        "view": {
-            "caption": "Consultar registro",
-            "bClose": "Cerrar" 
+        "view":{
+            "caption":"Consultar registro",
+            "bClose":"Cerrar" 
         },
-        "del": {
-            "caption": "Eliminar",
-            "msg": "¿Desea eliminar los registros seleccionados?",
-            "bSubmit": "Eliminar",
-            "bCancel": "Cancelar" 
+        "del":{
+            "caption":"Eliminar",
+            "msg":"¿Desea eliminar los registros seleccionados?",
+            "bSubmit":"Eliminar",
+            "bCancel":"Cancelar" 
         },
-        "nav": {
-            "edittext": " ",
-            "edittitle": "Modificar fila seleccionada",
-            "addtext": " ",
-            "addtitle": "Agregar nueva fila",
-            "deltext": " ",
-            "deltitle": "Eliminar fila seleccionada",
-            "searchtext": " ",
-            "searchtitle": "Buscar información",
-            "refreshtext": "",
-            "refreshtitle": "Recargar datos",
-            "alertcap": "Aviso",
-            "alerttext": "Seleccione una fila",
-            "viewtext": "",
-            "viewtitle": "Ver fila seleccionada" 
+        "nav":{
+            "edittext":" ",
+            "edittitle":"Modificar fila seleccionada",
+            "addtext":" ",
+            "addtitle":"Agregar nueva fila",
+            "deltext":" ",
+            "deltitle":"Eliminar fila seleccionada",
+            "searchtext":" ",
+            "searchtitle":"Buscar información",
+            "refreshtext":"",
+            "refreshtitle":"Recargar datos",
+            "alertcap":"Aviso",
+            "alerttext":"Seleccione una fila",
+            "viewtext":"",
+            "viewtitle":"Ver fila seleccionada" 
         },
-        "col": {
-            "caption": "Mostrar/ocultar columnas",
-            "bSubmit": "Enviar",
-            "bCancel": "Cancelar" 
+        "col":{
+            "caption":"Mostrar/ocultar columnas",
+            "bSubmit":"Enviar",
+            "bCancel":"Cancelar" 
         },
-        "errors": {
-            "errcap": "Error",
-            "nourl": "No se ha especificado una URL",
-            "norecords": "No hay datos para procesar",
-            "model": "Las columnas de nombres son diferentes de las columnas de modelo",
-            "errorOnGet": "Se ha producido un error al tratar de recuperar los datos"
+        "errors":{
+            "errcap":"Error",
+            "nourl":"No se ha especificado una URL",
+            "norecords":"No hay datos para procesar",
+            "model":"Las columnas de nombres son diferentes de las columnas de modelo",
+            "errorOnGet":"Se ha producido un error al tratar de recuperar los datos"
         },
-        "formatter": {
-            "integer": {
-                "thousandsSeparator": ".",
-                "defaultValue": "0" 
+        "formatter":{
+            "integer":{
+                "thousandsSeparator":".",
+                "defaultValue":"0" 
             },
-            "number": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "defaultValue": "0,00" 
+            "number":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "defaultValue":"0,00" 
             },
-            "currency": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "prefix": "",
-                "suffix": "",
-                "defaultValue": "0,00" 
+            "currency":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "prefix":"",
+                "suffix":"",
+                "defaultValue":"0,00" 
             },
-            "date": {
-                "dayNames": [
+            "date":{
+                "dayNames":[
                     "Do",
                     "Lu",
                     "Ma",
@@ -311,7 +323,7 @@
                     "Viernes",
                     "Sábado" 
                 ],
-                "monthNames": [
+                "monthNames":[
                     "Ene",
                     "Feb",
                     "Mar",
@@ -337,99 +349,99 @@
                     "Noviembre",
                     "Diciembre" 
                 ],
-                "AmPm" : [
+                "AmPm" :[
                     "am",
                     "pm",
                     "AM",
                     "PM" 
                 ],
-                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
-                "srcformat": "d/m/y H:i:s",
-                "newformat": "d/m/Y",
-                "masks": {
-                    "ISO8601Long": "Y-m-d H:i:s",
-                    "ISO8601Short": "Y-m-d",
-                    "ShortDate": "n/j/Y",
-                    "LongDate": "l, F d, Y",
-                    "FullDateTime": "l, F d, Y g:i:s A",
-                    "MonthDay": "F d",
-                    "ShortTime": "g:i A",
-                    "LongTime": "g:i:s A",
-                    "SortableDateTime": "Y-m-d\\TH:i:s",
-                    "UniversalSortableDateTime": "Y-m-d H:i:sO",
-                    "YearMonth": "F, Y",
-                    "RupDate": "d/m/Y",
-                    "RupDateTime": "d/m/Y H:i",
-                    "RupDateTimeSec": "d/m/Y H:i:s",
-                    "RupTime": "H:i",
-                    "RupTimeSec": "H:i:s"
+                "S":"return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] :'th';",
+                "srcformat":"d/m/y H:i:s",
+                "newformat":"d/m/Y",
+                "masks":{
+                    "ISO8601Long":"Y-m-d H:i:s",
+                    "ISO8601Short":"Y-m-d",
+                    "ShortDate":"n/j/Y",
+                    "LongDate":"l, F d, Y",
+                    "FullDateTime":"l, F d, Y g:i:s A",
+                    "MonthDay":"F d",
+                    "ShortTime":"g:i A",
+                    "LongTime":"g:i:s A",
+                    "SortableDateTime":"Y-m-d\\TH:i:s",
+                    "UniversalSortableDateTime":"Y-m-d H:i:sO",
+                    "YearMonth":"F, Y",
+                    "RupDate":"d/m/Y",
+                    "RupDateTime":"d/m/Y H:i",
+                    "RupDateTimeSec":"d/m/Y H:i:s",
+                    "RupTime":"H:i",
+                    "RupTimeSec":"H:i:s"
                 },
-                "reformatAfterEdit": false 
+                "reformatAfterEdit":false 
             },
-            "baseLinkUrl": "",
-            "showAction": "",
-            "target": "",
-            "checkbox": {
-                "disabled": true
+            "baseLinkUrl":"",
+            "showAction":"",
+            "target":"",
+            "checkbox":{
+                "disabled":true
             },
-            "idName": "id" 
+            "idName":"id" 
         } 
     },
-    "rup_upload": {
-    	"maxFileSizeError": "El fichero supera el límite máximo de tamaño",
-    	"minFileSizeError": "El fichero no supera el límite mínimo de tamaño",
-    	"acceptFileTypesError": "El tipo de archivo no es válido",
-    	"maxNumberOfFilesError": "Se ha excedido el número máximo de ficheros",
+    "rup_upload":{
+    	"maxFileSizeError":"El fichero supera el límite máximo de tamaño",
+    	"minFileSizeError":"El fichero no supera el límite mínimo de tamaño",
+    	"acceptFileTypesError":"El tipo de archivo no es válido",
+    	"maxNumberOfFilesError":"Se ha excedido el número máximo de ficheros",
     	"startUpload":"Subir",
     	"cancelUpload":"Cancelar",
     	"deleteUploaded":"Eliminar",
     	"openUploaded":"Abrir"
     },
-    "rup_utils": {
-    	"relToAbsUrlParamFormatError": "Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String.",
-    	"relToAbsUrlParamError": "La url => <b style='color:red'>&#34",
-    	"relToAbsUrlParamErrorEnd": "&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta."
+    "rup_utils":{
+    	"relToAbsUrlParamFormatError":"Parametro del método &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String.",
+    	"relToAbsUrlParamError":"La url => <b style='color:red'>&#34",
+    	"relToAbsUrlParamErrorEnd":"&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta."
     },
-    "rup_accordion": {
-    	"strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general.",
-    	"headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general."
+    "rup_accordion":{
+    	"strucPairError":"Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general.",
+    	"headFormatError":"Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general."
     },
-    "rup_wizard": {
-    	"prev": "Anterior",
-    	"next": "Siguiente",
-    	"summary" : "Resumen"
+    "rup_wizard":{
+    	"prev":"Anterior",
+    	"next":"Siguiente",
+    	"summary" :"Resumen"
     },
     "rup_form":{
     },
     "rup_validate":{
     	"messages":{
-			  "required": "Campo obligatorio.",
-			  "remote": "Por favor, rellena este campo.",
-			  "email": "Por favor, escribe una dirección de correo válida",
-			  "url": "Por favor, escribe una URL válida.",
-			  "date": "Por favor, escribe una fecha válida.",
-			  "dateISO": "Por favor, escribe una fecha (ISO) válida.",
-			  "number": "Por favor, escribe un número entero válido.",
-			  "digits": "Por favor, escribe sólo dígitos.",
-			  "creditcard": "Por favor, escribe un número de tarjeta válido.",
-			  "equalTo": "Por favor, escribe el mismo valor de nuevo.",
-			  "accept": "Por favor, escribe un valor con una extensión aceptada.",
-			  "maxlength": "Por favor, no escribas más de {0} caracteres.",
-			  "minlength": "Por favor, no escribas menos de {0} caracteres.",
-			  "rangelength": "Por favor, escribe un valor entre {0} y {1} caracteres.",
-			  "range": "Por favor, escribe un valor entre {0} y {1}.",
-			  "max": "Por favor, escribe un valor menor o igual a {0}.",
-			  "min": "Por favor, escribe un valor mayor o igual a {0}.",
-			  "dni": "Por favor, introduzca un dni válido.",
-			  "maxWords": "Por favor, no escribas mas de {0} palabras.",
-			  "minWords": "Por favor, no escribas menos de {0} palabras.",
-			  "rangeWords": "Por favor, escribe un valor entre {0} y {1} palabras.",
-			  "letterswithbasicpunc": "Por favor, introduzca únicamente letras y signos de puntuación.",
-			  "alphanumeric": "Por favor, introduzca letras, números, espacios o guiones bajos.",
-			  "lettersonly": "Por favor, introduzca únicamente letras.",
-			  "nowhitespace": "Por favor, no introduzca espacios en blanco.",
-			  "integer": "Por favor, introduzca un número entero positivo o negativo.",
-			  "pattern": "El formato no es válido"
+			  "required":"Campo obligatorio.",
+			  "remote":"Por favor, rellena este campo.",
+			  "email":"Por favor, escribe una dirección de correo válida",
+			  "url":"Por favor, escribe una URL válida.",
+			  "date":"Por favor, escribe una fecha válida.",
+			  "dateISO":"Por favor, escribe una fecha (ISO) válida.",
+			  "number":"Por favor, escribe un número entero válido.",
+			  "digits":"Por favor, escribe sólo dígitos.",
+			  "creditcard":"Por favor, escribe un número de tarjeta válido.",
+			  "equalTo":"Por favor, escribe el mismo valor de nuevo.",
+			  "accept":"Por favor, escribe un valor con una extensión aceptada.",
+			  "maxlength":"Por favor, no escribas más de {0} caracteres.",
+			  "minlength":"Por favor, no escribas menos de {0} caracteres.",
+			  "rangelength":"Por favor, escribe un valor entre {0} y {1} caracteres.",
+			  "range":"Por favor, escribe un valor entre {0} y {1}.",
+			  "max":"Por favor, escribe un valor menor o igual a {0}.",
+			  "min":"Por favor, escribe un valor mayor o igual a {0}.",
+			  "dni":"Por favor, introduzca un dni válido.",
+			  "maxWords":"Por favor, no escribas mas de {0} palabras.",
+			  "minWords":"Por favor, no escribas menos de {0} palabras.",
+			  "rangeWords":"Por favor, escribe un valor entre {0} y {1} palabras.",
+			  "letterswithbasicpunc":"Por favor, introduzca únicamente letras y signos de puntuación.",
+			  "alphanumeric":"Por favor, introduzca letras, números, espacios o guiones bajos.",
+			  "lettersonly":"Por favor, introduzca únicamente letras.",
+			  "nowhitespace":"Por favor, no introduzca espacios en blanco.",
+			  "integer":"Por favor, introduzca un número entero positivo o negativo.",
+			  "pattern":"El formato no es válido"
 		},
 		"format":{
 			"date":"dd/mm/yyyy"

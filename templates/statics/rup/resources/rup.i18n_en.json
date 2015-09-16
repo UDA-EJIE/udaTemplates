@@ -7,13 +7,16 @@
 		"httpStatus500":"en_Se ha producido un error interno",
 		"httpStatus503":"en_El servicio solicitado no está disponible"
 	},
-	"rup_maint": {
+	"rup_autocomplete":{
+		"ajaxError":"en_Se ha producido un error al recuperar los datos del servidor"
+	},
+	"rup_maint":{
 		"detailTitle":"en_Detalle de Registro",
 		"deletedOK":"en_El elemento se ha borrado correctamente.",
 		"insertOK":"en_El elemento se ha añadido correctamente.",
 		"modifyOK":"en_El elemento se ha modificado correctamente.",
 		"insertError":"en_Error al insertar el elemento.",
-		"validateError":"en_Se han producido los siguientes errores: <br/>",
+		"validateError":"en_Se han producido los siguientes errores:<br/>",
 		"last":"en_Ultimo",
 		"first":"en_Primero",
 		"next":"en_Siguiente",
@@ -29,161 +32,170 @@
 		"noGrid":"en_No es posible crear un mantenimiento sin un grid.",
 		"numResult":"en_Número de resultados",
 		"de":"en_de",
-		"changes": "en_Control de cambios",
-		"saveAndContinue": "en_Se perderan los cambios en los datos modificados, ¿desea continuar?",
-		"checkSelectedElems": "en_Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
+		"changes":"en_Control de cambios",
+		"saveAndContinue":"en_Se perderan los cambios en los datos modificados, ¿desea continuar?",
+		"checkSelectedElems":"en_Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"en_Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
-		"selectAll": "en_Ha seleccionado todos los registros de la página actual.",
-		"selected": "en_seleccionados",
-		"deleteAll": "en_¿Está seguro que desea eliminar todos los registros seleccionados?",
-		"titleDelAll": "en_Eliminar los registros",
+		"selectAll":"en_Ha seleccionado todos los registros de la página actual.",
+		"selected":"en_seleccionados",
+		"deleteAll":"en_¿Está seguro que desea eliminar todos los registros seleccionados?",
+		"titleDelAll":"en_Eliminar los registros",
 		"noReg":"en_Seleccione un registro.",
-		"emptyChanges": "en_No se han realizado cambios.",
-		"invalidRowId": "en_El identificador de la fila no es válido. No se puede completar la acción",
-		"toolbarNewButtonError": "en_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
-		"multiselectHeader": "en_Seleccionar todos los elementos de la página"
+		"emptyChanges":"en_No se han realizado cambios.",
+		"invalidRowId":"en_El identificador de la fila no es válido. No se puede completar la acción",
+		"toolbarNewButtonError":"en_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
+		"multiselectHeader":"en_Seleccionar todos los elementos de la página"
     },
-    "rup_breadCrumb" : {
-    	"disconnect" : "Disconnect",
-    	"menuDisconnectTitle" : "en_Desconexión de Usuario",
-    	"menuDisconnectMessage" : "en_¿Está seguro de que desea desconectar su sesión de usuario actual?",
-    	"userAre" : " is in:",
-    	"youAre" : "You are in:",
-    	"start"  : "Home"
+    "rup_breadCrumb" :{
+    	"disconnect" :"Disconnect",
+    	"menuDisconnectTitle" :"en_Desconexión de Usuario",
+    	"menuDisconnectMessage" :"en_¿Está seguro de que desea desconectar su sesión de usuario actual?",
+    	"menuSecuritySystemDisconnectMessage" :"en_¿Está seguro de que desea finalizar la sesión de usuario actual del sistema de seguridad?",
+    	"userAre" :" is in:",
+    	"youAre" :"You are in:",
+    	"start"  :"Home",
+ 	   	"exit" :"Exit"
     },
-    "rup_feedback" : {
-    	"closingLiteral": "en_Cierre del mensage"
+    "rup_feedback" :{
+    	"closingLiteral":"en_Cierre del mensage"
     },
-    "rup_language" : {
-    	"es" : "Castellano",
-    	"eu" : "Euskara",
-    	"en" : "English",
-		"fr" : "Français",
-    	"changeLanguage": "Change Language",
-    	"closingLiteral": "en_Cierre del menu ideomático",
-    	"changeLanguageLiteral_es": "Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_eu": "eu_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_en": "en_Cambia el idioma de la aplicación a ",
-    	"changeLanguageLiteral_fr": "fr_Cambia el idioma de la aplicación a "
+    "rup_language" :{
+    	"es" :"Castellano",
+    	"eu" :"Euskara",
+    	"en" :"English",
+		"fr" :"Français",
+    	"changeLanguage":"Change Language",
+    	"closingLiteral":"en_Cierre del menu ideomático",
+    	"changeLanguageLiteral_es":"Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_eu":"eu_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_en":"en_Cambia el idioma de la aplicación a ",
+    	"changeLanguageLiteral_fr":"fr_Cambia el idioma de la aplicación a "
     }, 
-    "rup_global": {
-        "cerrar": "en_cerrar",
-        "rupCheckStyleError": "en_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
-        "dialogTypeError": "en_¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
-        "error": "en_Error",
-        "cancelar": "en_Cancelar",
-        "search": "en_Buscar",
-        "clean": "en_Limpiar",
-        "aceptar": "en_Aceptar",
-        "save": "en_Guardar",
-        "close": "en_Cerrar",
+    "rup_global":{
+        "cerrar":"en_cerrar",
+        "rupCheckStyleError":"en_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
+        "dialogTypeError":"en_¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
+        "error":"en_Error",
+        "cancelar":"en_Cancelar",
+        "search":"en_Buscar",
+        "clean":"en_Limpiar",
+        "aceptar":"en_Aceptar",
+        "save":"en_Guardar",
+        "close":"en_Cerrar",
 		"save_repeat":"en_Guardar y continuar",
 		"cancel":"en_Cancelar",
-		"initError":"en_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID: ",
+		"initError":"en_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID:",
 		"parameterError":"en_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
 		"developerError":"en_Error de desarrollo",
-		"metodError":"en_Error en el método: ",
+		"metodError":"en_Error en el método:",
 		"selectorError":"en_El selector especificado es incorrecto (no devuelve nada)"   
     },
-    "rup_menu": {
+    "rup_menu":{
     	"developerError":"en_Error de desarrollo",
     	"structuralError":"en_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)",
-    	"displayMenuError":"en_El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores: &#34vertical&#34 o &#34horizontal&#34." 
+    	"displayMenuError":"en_El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores:&#34vertical&#34 o &#34horizontal&#34." 
     },
-    "rup_message": {
-        "aceptar": "en_Aceptar",
-        "tituloError": "en_Se ha producido un error",
-        "error": "en_error",
-        "confirmacion": "en_Confirmación",
-        "correct": "en_Correcto",
-        "alert": "en_Alerta" 
+    "rup_message":{
+        "aceptar":"en_Aceptar",
+        "tituloError":"en_Se ha producido un error",
+        "error":"en_error",
+        "confirmacion":"en_Confirmación",
+        "correct":"en_Correcto",
+        "alert":"en_Alerta" 
     },
-    "rup_blockUI": {
-        "cargando": "en_Procesando, espere por favor" 
+    "rup_blockUI":{
+        "cargando":"en_Procesando, espere por favor" 
     },
-    "rup_dialog": {
-        "errorLoadingData": "en_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
-        "noURL": "en_No puede crearse un diálogo de tipo ajax sin URL definida." 
+    "rup_dialog":{
+        "errorLoadingData":"en_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
+        "noURL":"en_No puede crearse un diálogo de tipo ajax sin URL definida." 
     },
-	"rup_combo": {
-		"blankNotDefined": "en_[Falta literal]",
-		"loadingText":"en_Cargando..."
+	"rup_combo":{
+		"blankNotDefined":"en_[Falta literal]",
+		"loadingText":"en_Cargando...",
+		"ajaxError":"en_Se ha producido un error al recuperar los datos del servidor"
 	},
-	"rup_date": {
-		"mask" : "(aaaa/mm/dd)",
-		"maskDateTime" : "(aaaa/mm/dd hh:mm)",
-		"maskDateTimeSec" : "(aaaa/mm/dd hh:mm:ss)",
-	 	"dateFormat" : "yy/mm/dd",
-		"firstDay" : 1,
-		"weekHeader" : "&nbsp;&nbsp;&nbsp;",
-		"buttonText" : "en_Abrir calendario",
-		"dayNames" : ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-		"dayNamesMin" : ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-		"dayNamesShort" : ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-		"monthNames" : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-		"monthNamesShort" : ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-		"closeText" : "Cerrar",
-		"currentText" : "Hoy",
-		"nextText" : "Siguiente",
-		"prevText" : "Anterior"
+	"rup_multicombo":{
+		"checkAllText":"Check all",
+		"uncheckAllText":"Uncheck all",
+		"noneSelectedText":"Select options",
+		"selectedText":"# selected"
+	},
+	"rup_date":{
+		"mask" :"(aaaa/mm/dd)",
+		"maskDateTime" :"(aaaa/mm/dd hh:mm)",
+		"maskDateTimeSec" :"(aaaa/mm/dd hh:mm:ss)",
+	 	"dateFormat" :"yy/mm/dd",
+		"firstDay" :1,
+		"weekHeader" :"&nbsp;&nbsp;&nbsp;",
+		"buttonText" :"en_Abrir calendario",
+		"dayNames" :["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+		"dayNamesMin" :["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+		"dayNamesShort" :["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+		"monthNames" :["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+		"monthNamesShort" :["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+		"closeText" :"Cerrar",
+		"currentText" :"Hoy",
+		"nextText" :"Siguiente",
+		"prevText" :"Anterior"
 	},
 	"rup_time":{
-		"mask" : "(hh:mm)",
-		"buttonText" : "en_Abrir hora",
-		"currentText": "en_Ahora",
-		"closeText": "en_Cerrar",
-		"timeOnlyTitle": "en_Seleccione Tiempo",
-		"timeText": "en_Tiempo",
-		"hourText": "en_Hora",
-		"minuteText": "en_Minuto",
-		"secondText": "en_Segundo"
+		"mask" :"(hh:mm)",
+		"buttonText" :"en_Abrir hora",
+		"currentText":"en_Ahora",
+		"closeText":"en_Cerrar",
+		"timeOnlyTitle":"en_Seleccione Tiempo",
+		"timeText":"en_Tiempo",
+		"hourText":"en_Hora",
+		"minuteText":"en_Minuto",
+		"secondText":"en_Segundo"
 	},
 	"rup_utils":{
-		"paramsError" : "en_Alguno de los parámetros especificados es 'null' o 'undefined'"
+		"paramsError" :"en_Alguno de los parámetros especificados es 'null' o 'undefined'"
 	},
 	"rup_tabs":{
-		"serverError" : "Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
+		"serverError" :"Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
-    "rup_grid": {
-    	"summary" : {
-    		"cabecera" : "en_Cabecera de la tabla",
-    		"datos" : "en_Datos de la tabla",
-    		"paginador" : "en_Elemento de paginación de la tabla",
-    		"paginador_navegar" : "en_Elemento de navegación de la paginación de la tabla"
+    "rup_grid":{
+    	"summary" :{
+    		"cabecera" :"en_Cabecera de la tabla",
+    		"datos" :"en_Datos de la tabla",
+    		"paginador" :"en_Elemento de paginación de la tabla",
+    		"paginador_navegar" :"en_Elemento de navegación de la paginación de la tabla"
     	},
     	"selectedElems":"en_Se han seleccionado los ",
     	"deSelectedElems":"en_Se han deseleccionado los ",
     	"ofPage":" en_elementos de la página.",
-    	"selectAll": "en_seleccionar los ",
-    	"deSelectAll": "en_deseleccionar los ",
-    	"selectAllRest": "en_restantes",
-    	"selectMsg": "en_Se han seleccionado los {0} elementos de la página {1}.",
-    	"selectRestMsg": "en_Seleccionar los {0} restantes",
-    	"deselectMsg": "en_Se han deseleccionado los {0} elementos de la página {1}.",
-    	"deselectRestMsg": "en_Deseleccionar los {0} restantes",
+    	"selectAll":"en_seleccionar los ",
+    	"deSelectAll":"en_deseleccionar los ",
+    	"selectAllRest":"en_restantes",
+    	"selectMsg":"en_Se han seleccionado los {0} elementos de la página {1}.",
+    	"selectRestMsg":"en_Seleccionar los {0} restantes",
+    	"deselectMsg":"en_Se han deseleccionado los {0} elementos de la página {1}.",
+    	"deselectRestMsg":"en_Deseleccionar los {0} restantes",
     	"clearSelection":"en_deshacer selección",
-		"pager": {
-			"selected" : "en_seleccionados",
-			"primPag" : "en_Primera Página",
-			"siguiente" : "en_Siguiente",
-			"anterior" : "en_Anterior",
-			"ultiPag" : "en_Última Página",
-			"input" : "en_Página actual",
-			"select" : "en_Número de elementos por página"
+		"pager":{
+			"selected" :"en_seleccionados",
+			"primPag" :"en_Primera Página",
+			"siguiente" :"en_Siguiente",
+			"anterior" :"en_Anterior",
+			"ultiPag" :"en_Última Página",
+			"input" :"en_Página actual",
+			"select" :"en_Número de elementos por página"
 		},
-        "noRecordsFound": "en_No hay registros.",
-        "defaults": {
-            "recordtext": "en_Mostrando {0} - {1} de {2}",
-            "emptyrecords": "en_Sin registros que mostrar",
-            "loadtext": "en_Cargando...",
-            "pgtext" : "en_Página {0} de {1}",
-            "detailForm_pager" : "en_Mostrando {0} de {1}"  
+        "noRecordsFound":"en_No hay registros.",
+        "defaults":{
+            "recordtext":"en_Mostrando {0} - {1} de {2}",
+            "emptyrecords":"en_Sin registros que mostrar",
+            "loadtext":"en_Cargando...",
+            "pgtext" :"en_Página {0} de {1}",
+            "detailForm_pager" :"en_Mostrando {0} de {1}"  
         },
-        "search": {
-            "caption": "en_Búsqueda...",
-            "Find": "en_Buscar",
-            "Reset": "en_Limpiar",
-            "odata": [
+        "search":{
+            "caption":"en_Búsqueda...",
+            "Find":"en_Buscar",
+            "Reset":"en_Limpiar",
+            "odata":[
                 "igual",
                 "no igual a",
                 "menor que",
@@ -199,103 +211,103 @@
                 "contiene",
                 "no contiene" 
             ],
-            "groupOps": [
+            "groupOps":[
                 {
-                    "op": "AND",
-                    "text": "todo" 
+                    "op":"AND",
+                    "text":"todo" 
                 },
                 {
-                    "op": "OR",
-                    "text": "cualquier" 
+                    "op":"OR",
+                    "text":"cualquier" 
                 } 
             ],
-            "matchText": " match",
-            "rulesText": " reglas" 
+            "matchText":" match",
+            "rulesText":" reglas" 
         },
-        "edit": {
-            "addCaption": "Agregar registro",
-            "editCaption": "Modificar registro",
-            "bSubmit": "Guardar",
-            "bCancel": "Cancelar",
-            "bClose": "Cerrar",
-            "saveData": "Se han modificado los datos, ¿guardar cambios?",
-            "bYes": "Si",
-            "bNo": "No",
-            "bExit": "Cancelar",
-            "msg": {
-                "required": "Campo obligatorio",
-                "number": "Introduzca un número",
-                "minValue": "El valor debe ser mayor o igual a ",
-                "maxValue": "El valor debe ser menor o igual a ",
-                "email": "No es una dirección de correo válida",
-                "integer": "Introduzca un valor entero",
-                "date": "Introduza una fecha correcta ",
-                "url": "No es una URL válida. Prefijo requerido ('http://' or 'https://')",
-                "nodefined": " no está definido.",
-                "novalue": " valor de retorno es requerido.",
-                "customarray": "La función personalizada debe devolver un array.",
-                "customfcheck": "La función personalizada debe estar presente en el caso de validación personalizada." 
+        "edit":{
+            "addCaption":"Agregar registro",
+            "editCaption":"Modificar registro",
+            "bSubmit":"Guardar",
+            "bCancel":"Cancelar",
+            "bClose":"Cerrar",
+            "saveData":"Se han modificado los datos, ¿guardar cambios?",
+            "bYes":"Si",
+            "bNo":"No",
+            "bExit":"Cancelar",
+            "msg":{
+                "required":"Campo obligatorio",
+                "number":"Introduzca un número",
+                "minValue":"El valor debe ser mayor o igual a ",
+                "maxValue":"El valor debe ser menor o igual a ",
+                "email":"No es una dirección de correo válida",
+                "integer":"Introduzca un valor entero",
+                "date":"Introduza una fecha correcta ",
+                "url":"No es una URL válida. Prefijo requerido ('http://' or 'https://')",
+                "nodefined":" no está definido.",
+                "novalue":" valor de retorno es requerido.",
+                "customarray":"La función personalizada debe devolver un array.",
+                "customfcheck":"La función personalizada debe estar presente en el caso de validación personalizada." 
             } 
         },
-        "view": {
-            "caption": "Consultar registro",
-            "bClose": "Cerrar" 
+        "view":{
+            "caption":"Consultar registro",
+            "bClose":"Cerrar" 
         },
-        "del": {
-            "caption": "Eliminar",
-            "msg": "¿Desea eliminar los registros seleccionados?",
-            "bSubmit": "Eliminar",
-            "bCancel": "Cancelar" 
+        "del":{
+            "caption":"Eliminar",
+            "msg":"¿Desea eliminar los registros seleccionados?",
+            "bSubmit":"Eliminar",
+            "bCancel":"Cancelar" 
         },
-        "nav": {
-            "edittext": " ",
-            "edittitle": "Modificar fila seleccionada",
-            "addtext": " ",
-            "addtitle": "Agregar nueva fila",
-            "deltext": " ",
-            "deltitle": "Eliminar fila seleccionada",
-            "searchtext": " ",
-            "searchtitle": "Buscar información",
-            "refreshtext": "",
-            "refreshtitle": "Recargar datos",
-            "alertcap": "Aviso",
-            "alerttext": "Seleccione una fila",
-            "viewtext": "",
-            "viewtitle": "Ver fila seleccionada" 
+        "nav":{
+            "edittext":" ",
+            "edittitle":"Modificar fila seleccionada",
+            "addtext":" ",
+            "addtitle":"Agregar nueva fila",
+            "deltext":" ",
+            "deltitle":"Eliminar fila seleccionada",
+            "searchtext":" ",
+            "searchtitle":"Buscar información",
+            "refreshtext":"",
+            "refreshtitle":"Recargar datos",
+            "alertcap":"Aviso",
+            "alerttext":"Seleccione una fila",
+            "viewtext":"",
+            "viewtitle":"Ver fila seleccionada" 
         },
-        "col": {
-            "caption": "Mostrar/ocultar columnas",
-            "bSubmit": "Enviar",
-            "bCancel": "Cancelar" 
+        "col":{
+            "caption":"Mostrar/ocultar columnas",
+            "bSubmit":"Enviar",
+            "bCancel":"Cancelar" 
         },
-        "errors": {
-            "errcap": "Error",
-            "nourl": "No se ha especificado una URL",
-            "norecords": "No hay datos para procesar",
-            "model": "Las columnas de nombres son diferentes de las columnas de modelo",
-            "errorOnGet": "Se ha producido un error al tratar de recuperar los datos"
+        "errors":{
+            "errcap":"Error",
+            "nourl":"No se ha especificado una URL",
+            "norecords":"No hay datos para procesar",
+            "model":"Las columnas de nombres son diferentes de las columnas de modelo",
+            "errorOnGet":"Se ha producido un error al tratar de recuperar los datos"
         },
-        "formatter": {
-            "integer": {
-                "thousandsSeparator": ".",
-                "defaultValue": "0" 
+        "formatter":{
+            "integer":{
+                "thousandsSeparator":".",
+                "defaultValue":"0" 
             },
-            "number": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "defaultValue": "0,00" 
+            "number":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "defaultValue":"0,00" 
             },
-            "currency": {
-                "decimalSeparator": ",",
-                "thousandsSeparator": ".",
-                "decimalPlaces": "2",
-                "prefix": "",
-                "suffix": "",
-                "defaultValue": "0,00" 
+            "currency":{
+                "decimalSeparator":",",
+                "thousandsSeparator":".",
+                "decimalPlaces":"2",
+                "prefix":"",
+                "suffix":"",
+                "defaultValue":"0,00" 
             },
-            "date": {
-                "dayNames": [
+            "date":{
+                "dayNames":[
                     "Do",
                     "Lu",
                     "Ma",
@@ -311,7 +323,7 @@
                     "Viernes",
                     "Sábado" 
                 ],
-                "monthNames": [
+                "monthNames":[
                     "Ene",
                     "Feb",
                     "Mar",
@@ -337,99 +349,99 @@
                     "Noviembre",
                     "Diciembre" 
                 ],
-                "AmPm" : [
+                "AmPm" :[
                     "am",
                     "pm",
                     "AM",
                     "PM" 
                 ],
-                "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';",
-                "srcformat": "d/m/y H:i:s",
-                "newformat": "m/d/Y",
-                "masks": {
-                    "ISO8601Long": "Y-m-d H:i:s",
-                    "ISO8601Short": "Y-m-d",
-                    "ShortDate": "n/j/Y",
-                    "LongDate": "l, F d, Y",
-                    "FullDateTime": "l, F d, Y g:i:s A",
-                    "MonthDay": "F d",
-                    "ShortTime": "g:i A",
-                    "LongTime": "g:i:s A",
-                    "SortableDateTime": "Y-m-d\\TH:i:s",
-                    "UniversalSortableDateTime": "Y-m-d H:i:sO",
-                    "YearMonth": "F, Y",
-                    "RupDate": "Y/m/d",
-                    "RupDateTime": "Y/m/d H:i",
-                    "RupDateTimeSec": "Y/m/d H:i:s",
-                    "RupTime": "H:i",
-                    "RupTimeSec": "H:i:s"
+                "S":"return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] :'th';",
+                "srcformat":"d/m/y H:i:s",
+                "newformat":"m/d/Y",
+                "masks":{
+                    "ISO8601Long":"Y-m-d H:i:s",
+                    "ISO8601Short":"Y-m-d",
+                    "ShortDate":"n/j/Y",
+                    "LongDate":"l, F d, Y",
+                    "FullDateTime":"l, F d, Y g:i:s A",
+                    "MonthDay":"F d",
+                    "ShortTime":"g:i A",
+                    "LongTime":"g:i:s A",
+                    "SortableDateTime":"Y-m-d\\TH:i:s",
+                    "UniversalSortableDateTime":"Y-m-d H:i:sO",
+                    "YearMonth":"F, Y",
+                    "RupDate":"Y/m/d",
+                    "RupDateTime":"Y/m/d H:i",
+                    "RupDateTimeSec":"Y/m/d H:i:s",
+                    "RupTime":"H:i",
+                    "RupTimeSec":"H:i:s"
                 },
-                "reformatAfterEdit": false 
+                "reformatAfterEdit":false 
             },
-            "baseLinkUrl": "",
-            "showAction": "",
-            "target": "",
-            "checkbox": {
-                "disabled": true
+            "baseLinkUrl":"",
+            "showAction":"",
+            "target":"",
+            "checkbox":{
+                "disabled":true
             },
-            "idName": "id" 
+            "idName":"id" 
         } 
     },
-    "rup_upload": {
-    	"maxFileSizeError": "El fichero supera el límite máximo de tamaño_en",
-    	"minFileSizeError": "El fichero no supera el límite mínimo de tamaño_en",
-    	"acceptFileTypesError": "El tipo de archivo no es válido_en",
-    	"maxNumberOfFilesError": "Se ha excedido el número máximo de ficheros_en",
+    "rup_upload":{
+    	"maxFileSizeError":"El fichero supera el límite máximo de tamaño_en",
+    	"minFileSizeError":"El fichero no supera el límite mínimo de tamaño_en",
+    	"acceptFileTypesError":"El tipo de archivo no es válido_en",
+    	"maxNumberOfFilesError":"Se ha excedido el número máximo de ficheros_en",
     	"startUpload":"Subir_en",
     	"cancelUpload":"Cancelar_en",
     	"deleteUploaded":"Eliminar_en",
     	"openUploaded":"Abrir_en"
     },
-    "rup_utils": {
-    	"relToAbsUrlParamFormatError": "Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String._en",
-    	"relToAbsUrlParamError": "La url => <b style='color:red'>&#34",
-    	"relToAbsUrlParamErrorEnd": "&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta._en"
+    "rup_utils":{
+    	"relToAbsUrlParamFormatError":"Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String._en",
+    	"relToAbsUrlParamError":"La url => <b style='color:red'>&#34",
+    	"relToAbsUrlParamErrorEnd":"&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta._en"
     },
-    "rup_accordion": {
-    	"strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general._en",
-    	"headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general._en"
+    "rup_accordion":{
+    	"strucPairError":"Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general._en",
+    	"headFormatError":"Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general._en"
     },
-    "rup_wizard": {
-    	"prev": "Anterior_en",
-    	"next": "Siguiente_en",
-    	"summary" : "Resumen_en"
+    "rup_wizard":{
+    	"prev":"Anterior_en",
+    	"next":"Siguiente_en",
+    	"summary" :"Resumen_en"
     },
     "rup_form":{
     },
     "rup_validate":{
     	"messages":{
-		  	"required": "This field is required.",
-			"remote": "Please fix this field.",
-			"email": "Please enter a valid email address.",
-			"url": "Please enter a valid URL.",
-			"date": "Please enter a valid date.",
-			"dateISO": "Please enter a valid date (ISO).",
-			"number": "Please enter a valid number.",
-			"digits": "Please enter only digits.",
-			"creditcard": "Please enter a valid credit card number.",
-			"equalTo": "Please enter the same value again.",
-			"accept": "Please enter a value with a valid extension.",
-			"maxlength": "Please enter no more than {0} characters.",
-			"minlength": "Please enter at least {0} characters.",
-			"rangelength": "Please enter a value between {0} and {1} characters long.",
-			"range": "Please enter a value between {0} and {1}.",
-			"max": "Please enter a value less than or equal to {0}.",
-			"min": "Please enter a value greater than or equal to {0}.",
-			"dni": "Please enter a valid identity number.",
-			"maxWords": "Please enter no more than {0} words.",
-			"minWords": "Please enter at least {0} words.",
-			"rangeWords": "Please enter a value between {0} and {1} words long.",
-			"letterswithbasicpunc": "Please, enter only letters and punctuation marks.",
-			"alphanumeric": "Please enter letters, numbers, whitespaces or underscores.",
-			"lettersonly": "Please enter only letters.",
-			"nowhitespace": "Please enter no whitespaces.",
-			"integer": "Please, enter a positive or negative number.",
-			"pattern": "Invalid format"
+		  	"required":"This field is required.",
+			"remote":"Please fix this field.",
+			"email":"Please enter a valid email address.",
+			"url":"Please enter a valid URL.",
+			"date":"Please enter a valid date.",
+			"dateISO":"Please enter a valid date (ISO).",
+			"number":"Please enter a valid number.",
+			"digits":"Please enter only digits.",
+			"creditcard":"Please enter a valid credit card number.",
+			"equalTo":"Please enter the same value again.",
+			"accept":"Please enter a value with a valid extension.",
+			"maxlength":"Please enter no more than {0} characters.",
+			"minlength":"Please enter at least {0} characters.",
+			"rangelength":"Please enter a value between {0} and {1} characters long.",
+			"range":"Please enter a value between {0} and {1}.",
+			"max":"Please enter a value less than or equal to {0}.",
+			"min":"Please enter a value greater than or equal to {0}.",
+			"dni":"Please enter a valid identity number.",
+			"maxWords":"Please enter no more than {0} words.",
+			"minWords":"Please enter at least {0} words.",
+			"rangeWords":"Please enter a value between {0} and {1} words long.",
+			"letterswithbasicpunc":"Please, enter only letters and punctuation marks.",
+			"alphanumeric":"Please enter letters, numbers, whitespaces or underscores.",
+			"lettersonly":"Please enter only letters.",
+			"nowhitespace":"Please enter no whitespaces.",
+			"integer":"Please, enter a positive or negative number.",
+			"pattern":"Invalid format"
 		},
 		"format":{
 			"date":"dd/mm/yyyy"

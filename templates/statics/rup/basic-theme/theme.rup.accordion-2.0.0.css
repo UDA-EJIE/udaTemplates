@@ -18,6 +18,10 @@
 	display: none;
 }
 
+.rup_accordion_create{
+}
+
+
 /** Correción estilos bug accordion **/
 .ui-accordion-content {
 	margin-right: -2px;

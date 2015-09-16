@@ -58,7 +58,9 @@
 
 	<!-- Se define el sistema especifico de autenticación aplicado al sistema de seguridad -->
 	<!-- Se define que con cambios de usurio se recargen los datos de seguridad y se mate la session, cual es el "perimetralSecurityWrapper" y el "authenticationManager" -->
+	<bean id="stockUdaSecurityPadlocks" class="com.ejie.x38.security.StockUdaSecurityPadlocksImpl"/>
 	<bean id="preAuthenticateProcessingFilter" class="com.ejie.x38.security.PreAuthenticateProcessingFilter">
+		<property name="stockUdaSecurityPadlocks" ref="stockUdaSecurityPadlocks" />
 		<property name="checkForPrincipalChanges" value="true" />
 		<property name="invalidateSessionOnPrincipalChange" value="true" />
 		<property name="perimetralSecurityWrapper" ref="perimetralSecurityWrapper" />
@@ -97,7 +99,7 @@
 	
 	<!-- Se define el "AccessDeniedHandler" que gestiona los casos en los que el usuario no tiene los permisos necesarios -->
 	<!-- Por defecto, se configura para que se redireccione a una pagina de error (/accessDenied) -->
-	<bean id="myAccessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+	<bean id="myAccessDeniedHandler" class="com.ejie.x38.security.MyAccessDeniedHandler">
 		<property name="errorPage" value="/accessDenied" />
 	</bean> 
 	

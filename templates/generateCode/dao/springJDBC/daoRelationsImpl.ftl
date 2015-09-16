@@ -78,7 +78,7 @@
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
     public ${pojo.getDeclarationName()} find${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
 
-		StringBuffer where = new StringBuffer(3000);
+		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 		<#assign whereFindMN = utilidadesDao.wherefindMN(pojo,cfg,property)>
 		
@@ -100,7 +100,7 @@
 		StringBuffer query =  new StringBuffer("SELECT <#list selectCamposRelacionados as param>${param}<#if param_has_next>, </#if></#list> FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
 		query.append(where);
 
-		StringBuffer order = new StringBuffer(3000);
+		StringBuffer order = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
 			if (pagination.getSort() != null) {
 				order.append(" order by " + pagination.getSort() + " " + pagination.getAscDsc());
@@ -131,7 +131,7 @@
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
     public Long find${tablaMNName}Count(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}) {
 
-		StringBuffer where = new StringBuffer(3000);
+		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 		<#assign whereFindMNCont = whereFindMN >
 		where.append("where <#list whereFindMNCont as param>${param}<#if param_has_next> AND </#if></#list>");

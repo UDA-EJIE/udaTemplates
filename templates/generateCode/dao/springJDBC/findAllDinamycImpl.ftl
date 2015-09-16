@@ -35,14 +35,10 @@
 		
 		List<?> params = (List<?>) mapaWhere.get("params");
 
-		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
-			if (pagination.getSort() != null) {
-				order.append(" ORDER BY ").append(pagination.getSort()).append(" ").append(pagination.getAscDsc());
-				query.append(order);
-			}
-			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
+			query = pagination.getPaginationQuery(query);
 		}
+		
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
 	
@@ -90,14 +86,10 @@
 
 		List<?> params = (List<?>) mapaWhere.get("params");
 
-		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
-			if (pagination.getSort() != null) {
-				order.append(" ORDER BY ").append(pagination.getSort()).append(" ").append(pagination.getAscDsc());
-				query.append(order);
-			}
-			query = new StringBuilder(${pojo.importType("com.ejie.x38.util.PaginationManager")}.getQueryLimits(pagination,query.toString()));
+			query = pagination.getPaginationQuery(query);
 		}
+		
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
 	
@@ -134,7 +126,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CSOFF: CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
 		
 		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -155,7 +147,7 @@
 		
 		return mapWhere;		
 	}
-	// CSON: CyclomaticComplexity
+	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
 	
 	/**
 	 * Returns a map with the needed value to create the conditions to filter by  
@@ -168,7 +160,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CSOFF: CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, ?> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
 		
 		StringBuffer where = new StringBuffer(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -200,7 +192,7 @@
 		
 		return mapWhere;		
 	}
-	// CSON: CyclomaticComplexity
+	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
 	
 	/**
 	 * StringBuilder initilization value
