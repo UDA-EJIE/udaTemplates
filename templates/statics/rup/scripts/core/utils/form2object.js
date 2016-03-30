@@ -134,7 +134,7 @@
                                 
                                 if ((jQuery(currentNode).is("select") && currentNode.multiple) || jQuery(currentNode).is("[ruptype='tree']")){
                             		var nameParts = jQuery(currentNode).attr("name").split(".");
-                            		name = nameParts.length>1?nameParts[nameParts.length-2]:nameParts[0];
+                            		name = nameParts.length>1?nameParts.slice(0,nameParts.length-1).join('.'):nameParts[0];
                             	}else{
                             		name = jQuery(currentNode).attr("name");
                             	}

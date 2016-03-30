@@ -734,22 +734,20 @@
         	},
         	"multifilter":{
         		"save":"Gorde",
-        		"apply":"eu_Aplicar",
+        		"apply":"Aplikatu",
         		"remove":"Ezabatu",
-        		"tittle":"eu_Administrador de filtros",
+        		"tittle":"Iragazki-kudeatzailea",
         		"close": "Itxi",
         		"filters":"Izena",
-        		"defaultFilter":"eu_Filtro por defecto",
+        		"defaultFilter":"Gutxiagozko iragazkia",
         		"cancel":"Ezeztatu",
-        		"ok":"eu_Acción completada con éxito",
-        		"error":"eu_Error al completar la acción",
-        		 "emptyName":"eu_Seleccione un filtro",
-        		 "noRecords":"eu_No existe un filtro con ese nombre",
-        		 "tooLong":"eu_Nombre demasiado largo",
-        		 "input": "eu_Introduzca un nombre para el filtro"
-        		 "errorNoexiste":"eu_Nombre de filtro inexistente"
-        		 
-        		        		
+        		"ok":"Ekintza ongi burutu da",
+        		"error":"Errorea ekintza burutzean",
+        		"emptyName":"Hautatu iragazki bat",
+        		"noRecords":"Ez da existitzen iragazki bat izen horrekin",
+        		"tooLong":"Izen luzeegia",
+        		"input": "Sartu izen bat iragazkia identifikatzeko",
+        		"errorNoexiste":"Ez da existitzen izen hori"
         	},
         	
         	"search":{
