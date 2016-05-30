@@ -23,7 +23,7 @@
 	
 	
 	<!-- MINIMIZAR -->
-	<property name="version" value="2.4.6"/>
+	<property name="version" value="2.4.7"/>
 	<property name="codApp" value="${codapp}"/>
 	
 	<property name="srcDir" value="../<#noparse>${codApp}</#noparse>Statics/WebContent"/>

@@ -234,10 +234,10 @@
 					enabled: function(){
 						var $self = this,
 						selrow=$self.jqGrid('getGridParam','selrow');
-						
-						selrow = (selrow===null?false:selrow);
+												
+						selrow = (selrow===null || selrow.indexOf("jqg")!==-1?false:selrow);
 
-						return jQuery("tr[editable='1']", $self).length>0 || selrow;
+						return jQuery("tr[editable='1']:not(.jqgrid-new-row)", $self).length>0 || selrow;
 					},
 					callback: function(key, options){
 						$self.rup_table("deleteRow");			
@@ -436,7 +436,7 @@
 					jQuery(ind).on({
 						"keydown": function(event) {
 							if (event.keyCode === 27) {
-								$self.jqGrid("restoreRow",$(this).attr("id"), settings.afterrestorefunc);
+								$self.rup_table("restoreRow",$(this).attr("id"), settings.afterrestorefunc);
 								return false;
 							}
 							if (event.keyCode === 13) {
@@ -548,6 +548,41 @@
 					}else{
 						return false;
 					}
+				},
+				"jqGridInlineAfterRestoreRow.inlineEditing.processRupObjects": function(event, rowid){
+					var self = this, $self = $(this),
+						json = self.p.savedRow[0];
+					
+					$self.rup_table("restoreInlineRupFields", rowid, json);
+				},
+				"rupTable_beforeSaveRow.inlineEditing.processRupObjects": function(event, rowid, options){
+					var self = this, $self = $(this), $row, $cell, ruptypeObj;
+					
+					$(self.p.colModel).each(function(i){
+						
+						$row= $(self.rows.namedItem(rowid));
+						$cell = $row.find("td:eq("+i+")");
+						ruptypeObj = $cell.find("[ruptype]");
+						
+						if (ruptypeObj.attr("ruptype")==="combo"){
+							
+							if ($self.data("rup.table.formatter")!==undefined){
+								$self.data("rup.table.formatter")[rowid][this.name]["rup_"+ruptypeObj.attr("rupType")]= {
+									"label":ruptypeObj.rup_combo("label"),
+									"value":ruptypeObj.rup_combo("getRupValue")
+								};
+							}
+						}
+					});
+				},
+				"jqGridInlineSuccessSaveRow.rupTable.inlineEditing.processRupObjects": function(event, res, rowid, o){
+					
+					var json = jQuery.parseJSON(res.responseText),
+						self = this, $self = $(self);
+					
+					$self.rup_table("restoreInlineRupFields", rowid, json);
+					
+					return [true, json, rowid];
 				},
 				"jqGridBeforeSelectRow.rupTable.inlineEditing": function(event, rowid, obj){
 					var $self = $(this),
@@ -802,9 +837,13 @@
 				};
 			}
 			
-			deleteOptions.afterSubmit = function(){
-				$self.triggerHandler("rupTable_deleteAfterSubmit");
-				return true;
+			deleteOptions.afterSubmit = function(data, postd){
+				$self.triggerHandler("rupTable_deleteAfterSubmit", [data, postd]);
+				return [true];
+			};
+			
+			deleteOptions.afterComplete = function(data, postd){
+				$self.triggerHandler("rupTable_deleteAfterComplete", [data, postd]);
 			};
 			
 			if ($self.triggerHandler("rupTable_beforeDeleteRow",[deleteOptions, selectedRow])!==false){
@@ -846,7 +885,7 @@
 //				settings.$inlineForm.rup_form("ajaxSubmit", rupFormSettings);
 //				return false;
 //			};
-			
+			$self.triggerHandler("rupTable_beforeSaveRow", [selectedRow, options]);
 			if(selectedRow.indexOf("jqg")!==-1){
 				$self[0].p.ajaxRowOptions = settings.inlineEdit.addOptions.ajaxRowOptions;
 				$self.jqGrid('saveRow', selectedRow, settings.inlineEdit.addOptions);
@@ -857,12 +896,32 @@
 			
 			return $self;
 		},
-		restoreRow: function(rowId){
+		restoreRow: function(rowId, afterrestorefunc){
 			var $self = this,
 			rowToRestore = (rowId===undefined?$self.jqGrid('getGridParam','selrow'):rowId);
 				
+			$self.triggerHandler("rupTable_beforeRestoreRow", [rowId]);
+			$self.jqGrid("restoreRow", rowToRestore, afterrestorefunc);
+		},
+		restoreInlineRupFields: function (rowid, json){
+			var $self = this, self = this[0], $row, $cell, ruptypeObj;
+			
+			
+			$(self.p.colModel).each(function(i){
 				
-			$self.jqGrid("restoreRow",rowToRestore);
+				$row= $(self.rows.namedItem(rowid));
+				$cell = $row.find("td:eq("+i+")");
+				//ruptypeObj = $cell.find("[ruptype]");
+//				ruptypeObj = this.editoptions.ruptype;
+				if ( this.rupType){
+					if (this.rupType==="combo"){
+						if ($self.data("rup.table.formatter")!==undefined){
+							var val =  $self.data("rup.table.formatter")[rowid][this.name]["rup_"+this.rupType]["label"];
+							$cell.html(val);
+						}
+					}
+				}
+			});
 		}
 	});
 	

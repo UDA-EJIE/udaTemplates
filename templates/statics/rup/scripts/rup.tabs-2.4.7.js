@@ -191,7 +191,8 @@
 		//Funcion encargada de añadir una nueva pestanya cuando el componnete ya esta creado 
 		removeTab : function(args){
 			$("#"+args.idTab).tabs("remove",args.position);
-		}
+		},
+		selected : 0
 	});
 	
 	//********************************
@@ -276,7 +277,7 @@
 					
 					//Se gestiona la primera carga de la primera pestanya de cada tab
 					if ($(ui.panel).data("cargado") !== undefined && $(ui.panel).data("cargado") === false && $(ui.panel).length > 0){
-							$(ui.panel).tabs("load", 0);
+							$(ui.panel).tabs("load", settings.selected);
 							$(ui.panel).data("cargado", true);
 					}
 					if(settings.select !== undefined && settings.select !== null && typeof settings.select === "function"){
@@ -335,7 +336,7 @@
 					fx: settings.fx, //son los efectos que se aplican al presentar u ocultar una pestanya
 					idPrefix: 'rup-tabs-',
 					panelTemplate: settings.panelTemplate,
-					selected : 0, //se presenta, siempre, la primera pestanya
+					selected : settings.selected, 
 					spinner : "<span class='rup-tabs_loading_img' />",
 					//eventos
 					create : settings.create,
@@ -497,8 +498,11 @@
 						tabs = $(tabs).children('div:first-child'); //Seleccionar capa
 	
 						//Subpestanyas
-						tabs.append(this._parseJSON(element.tabs, json_i18n, tabs, rupLevel, profundidad+1, settings));
-						this._tabify(tabs,settings); //Si no tiene 1 es que es el primer elemento y lo convertimos a pestanyas
+						var subsettings = jQuery.extend(true, {}, settings);
+						subsettings.selected = element.selected;
+						tabs.append(this._parseJSON(element.tabs, json_i18n, tabs, rupLevel, profundidad+1, subsettings));
+						
+						this._tabify(tabs,subsettings); //Si no tiene 1 es que es el primer elemento y lo convertimos a pestanyas
 					
 						//Reposicionar 'puntero' para siguiente pasada del bucle
 						tabs = $(tabs).parents("div[actualTab=true]").find("ul").first();
@@ -748,6 +752,7 @@
 		fx: null,
 		panelTemplate: '<div></div>',
 		profun: 0,
+		selected : 0,
 		//eventos
 		create : null,
 		select : null,

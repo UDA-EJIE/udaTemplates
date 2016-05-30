@@ -40,21 +40,19 @@
 
 .rup-combobox {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
 }
 
 .rup-combobox-toggle {
-	position: absolute;
-	top: 0;
-	bottom: 0;
 	margin-left: -1px;
-	padding: 0;
 }
 
 .rup-combobox-input {
 	margin: 0;
-	background-color: white;
-	/*padding: 5px 10px;*/
+}
+
+.rup-combobox a.rup-combobox-toggle.ui-button-disabled{
+	opacity:0.6
 }
 
  .ui-autocomplete-category {
