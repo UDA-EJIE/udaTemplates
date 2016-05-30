@@ -748,7 +748,8 @@
         		"noRecords":"No existe un filtro con ese nombre",
         		"tooLong":"Nombre demasiado largo",
         		 "input": "Introduzca un nombre para el filtro",
-        		 "errorNoexiste":"Nombre de filtro inexistente"
+        		 "errorNoexiste":"Nombre de filtro inexistente",
+        		 "errorValidate":"Formulario sin validar"
         		
         	},
         	"search":{

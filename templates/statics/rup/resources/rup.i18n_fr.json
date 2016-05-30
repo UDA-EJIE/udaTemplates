@@ -746,7 +746,8 @@
         		"emptyName":"fr_Seleccione un filtro",
         		"noRecords":"fr_No existe un filtro con ese nombre",
         		"tooLong":"fr_Nombre demasiado largo",
-        		 "errorNoexiste":"eu_Nombre de filtro inexistente"
+        		 "errorNoexiste":"fr_Nombre de filtro inexistente",
+        		 "errorValidate":"fr_Formulario sin validar"
         		
         		
         		

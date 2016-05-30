@@ -60,8 +60,28 @@
 		getRupValue : function(){
 			return $(this).val();
 		},
-		setRupValue : function(param){
-			$(this).val(param);
+		setRupValue : function(value){
+			var $self = this, data = $self.data("rup.autocomplete"), $hidden, loadObjects, newObject = {};
+			
+			if(data){
+				
+				// Comprobamos si tiene la referencia al campo hidden
+				if (data.$hiddenField){
+					data.$hiddenField.attr("rup_autocomplete_label",value);
+					
+					loadObjects = $self.data("loadObjects");
+					newObject[value]=data.$hiddenField.val();
+					$self.data("loadObjects", jQuery.extend(true, {}, loadObjects, newObject));
+				}
+				
+				if (data.$labelField){
+					loadObjects = data.$labelField.data("loadObjects");
+					newObject[$self.attr("rup_autocomplete_label")]=value;
+					data.$labelField.data("loadObjects", jQuery.extend(true, {}, loadObjects, newObject));
+				}
+			}
+			
+			$(this).val(value);
 		},
 		destroy:function(){
 			var self;
@@ -97,7 +117,7 @@
 			self.restoreEvents();
 		},
 		disable:function(){
-			var self;
+			var self, settings;
 			
 			if ($(this).attr("id").indexOf("_label") >= 0){
 				self = $(this);
@@ -105,15 +125,16 @@
 				self = $("#"+$(this).attr("id")+"_label");
 			}
 			
-			//si es un combobox ocultamos el boton del combo
-			if ($('#'+this.attr('id')+"_label").has('.rup-combobox-input'))
-				$('span').has($('#'+this.attr('id')+"_label")).find("a").attr("style","display:none");
+			settings = self.data("settings");
 			
+			if (settings.combobox){
+				settings.$comboboxToogle.button("disable")
+			}
 			
 			self.attr("disabled","disabled");
 		},
 		enable:function(){
-			var self;
+			var self, settings;
 			
 			if ($(this).attr("id").indexOf("_label") >= 0){
 				self = $(this);
@@ -121,9 +142,11 @@
 				self = $("#"+$(this).attr("id")+"_label");
 			}
 			
-			//si es un combobox mostramos el boton del combobox
-			if ($('#'+this.attr('id')+"_label").has('.rup-combobox-input'))
-				$('span').has($('#'+this.attr('id')+"_label")).find("a").removeAttr("style");
+			settings = self.data("settings");
+			
+			if (settings.combobox){
+				settings.$comboboxToogle.button("enable")
+			}
 			
 			self.removeAttr("disabled");
 		},
@@ -364,12 +387,12 @@
 					
 				}
 			},
-			_createShowAllButton : function() {
+			_createShowAllButton : function(settings) {
 				var input = this, wasOpen = false;
 				input.wrap(jQuery("<span>").addClass("rup-combobox"));
 				var $wrapper = input.parent();
 				var $button = $("<a>").attr("tabIndex", -1).attr("title",
-						$.rup.i18n.base.rup_autocomplete.showAllItems).rup_tooltip().button({
+						$.rup.i18n.base.rup_autocomplete.showAllItems).rup_tooltip().rup_button({
 					icons : {
 						primary : "ui-icon-triangle-1-s"
 					},
@@ -393,6 +416,7 @@
 						});
 				
 				$button.appendTo($wrapper);
+				settings.$comboboxToogle = $button;
 			},
 			_init : function(args){
 				var visible;
@@ -453,14 +477,18 @@
 
 
 					//Generación de campo oculto para almacenar 'value' (en el input definido se guarda el 'label')
-					$("#"+settings.id).after($("<input>").attr({
+					var $hidden = $("<input>").attr({
 						type:"hidden",
 						id: settings.id+"_value",
 						name: (settings.valueName===null?name:settings.valueName),
 						ruptype:"autocomplete"
-										}))
+					});
+					
+					$("#"+settings.id).after($hidden)
 									  .attr("name", (settings.labelName===null?name+"_label":settings.labelName))
 									  .addClass("rup-autocomplete_label");
+					
+//					settings.$hidden = $hidden;
 					
 					if (typeof settings.source === "object"){
 						//LOCAL						
@@ -518,7 +546,7 @@
 					})
 											
 					if (settings.combobox===true){
-						this._createShowAllButton();
+						this._createShowAllButton(settings);
 					}
 					
 
@@ -552,17 +580,7 @@
 						}
 					}
 					
-					//Deshabilitar
-					if (settings.disabled===true) { $("#"+settings.id).rup_autocomplete("disable");
-						if (settings.combobox)
-							$('span').has('#'+settings.id+'_label').find("a").attr("style","display:none");
-
-					}else if (settings.disabled===false){ //habilitar
-						$("#"+settings.id).rup_autocomplete("enable");
-						if (settings.combobox){
-							$('span').has('#'+settings.id+'_label').find("a").removeAttr("style");
-						}
-					}
+					
 					
 					//Valor por defecto
 					if (settings.defaultValue) { $("#"+settings.id).rup_autocomplete("search", settings.defaultValue); }
@@ -633,9 +651,26 @@
 						//Si el evento es ENTER y viene de seleccionar un elemento o el menú se estaba mostrando, omitir resto de funciones (ej. buscar)	
 						if (event.type==="keydown" && event.keyCode===13 && (selected || isShowingMenu)){return false;}
 					});
+					
+					//se guarda la configuracion general (settings) del componente
+					$("#"+settings.id+"_label").data("settings",settings);
+					$("#"+settings.id+"_label").data("rup.autocomplete",{
+						$hiddenField: $("#"+settings.id)
+					});
+					$("#"+settings.id).data("rup.autocomplete",{
+						$labelField: $("#"+settings.id+"_label")
+					});
+					
+					
+					//Deshabilitar
+					if (settings.disabled===true) { 
+						$("#"+settings.id).rup_autocomplete("disable");
+
+					}else if (settings.disabled===false){ //habilitar
+						$("#"+settings.id).rup_autocomplete("enable");
+					}
 				}
-				//se guarda la configuracion general (settings) del componente
-				$("#"+settings.id+"_label").data("settings",settings);
+				
 			}
 		});
 		

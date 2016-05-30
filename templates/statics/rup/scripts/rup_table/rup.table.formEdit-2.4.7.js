@@ -508,7 +508,7 @@
 					 
 					 // Se ocultan los errores de validación mostrados en el formulario de detalle
 					 $self.rup_table("hideFormErrors", settings.formEdit.$detailForm);	
-					 if (frmoper==="add"){
+					 if (frmoper==="add" || frmoper==="clone" || frmoper==="clone_clear"){
 						 $title.html(rp_ge[$self[0].p.id].addCaption);
 						 $("#pagination_"+settings.id+",#pag_"+settings.id).hide();
 					 }else{
@@ -523,7 +523,7 @@
 					for (var i=0;i<colModel.length;i++){
 						
 						if (settings.ownFormEdit!==true || (settings.ownFormEdit===true && jQuery.inArray(colmodel[i].name,settings.primaryKey))){
-							if (frmoper==="add"){
+							if (frmoper==="add" || frmoper==="clone" || frmoper==="clone_clear"){
 								if (colModel[i].editableOnAdd===false){
 									jQuery("[name='"+colModel[i].name+"']", settings.formEdit.$detailFormDiv).attr("readonly","readonly");
 								}else{
@@ -730,11 +730,28 @@
 		cloneElement : function(rowId, options, cloneEvent){
 			var $self = this, 
 			settings = $self.data("settings"),
+			colModel = $self[0].p.colModel,
 			selectedRow = (rowId===undefined?$.proxy(settings.getRowForEditing,$self)():rowId);
 			
+			// Controlar los campos editables en modo edición
+			for (var i=0;i<colModel.length;i++){
+				if (colModel[i].editable === true && colModel[i].editableOnAdd!==false){
+					if (colModel[i].editable === true && colModel[i].editableOnAdd===false){
+						if (colModel[i].editoptions=== undefined){
+							colModel[i].editoptions={};
+						}
+						colModel[i].editoptions.readonly="readonly";
+					}else {
+						if (colModel[i].editoptions !== undefined && colModel[i].editoptions.readonly !== undefined){
+							delete colModel[i].editoptions.readonly;
+						}
+					}
+				}
+			}
+			
 			if (cloneEvent===false || (cloneEvent!==false &&$self.triggerHandler("rupTable_beforeCloneRow",[settings, selectedRow])!==false)){
-				$self.rup_table("newElement", false);
-				jQuery.proxy(jQuery.jgrid.fillData, $self[0])(selectedRow, $self[0]);
+				$self.jqGrid('editGridRow', "cloned", settings.formEdit.addOptions);
+				jQuery.proxy(jQuery.jgrid.fillData, $self[0])(selectedRow, $self[0], settings.formEdit.$detailForm, "clone" );
 				jQuery("#id_g",settings.formEdit.$detailForm).val("_empty");
 			}
 			
@@ -1000,7 +1017,10 @@
 				
 				$.proxy($.jgrid.getFormData, $t)(postdata, {});
 				rp_ge[$t.p.id]._savedData = $.rup_utils.unnestjson(postdata);
-				$self.triggerHandler("jqGridAddEditAfterFillData", [$form, frmoper]);
+				if (frmoper!=="clone_clear"){
+					$self.triggerHandler("jqGridAddEditAfterFillData", [$form, frmoper]);
+				}
+				$("#id_g",$form).val(rowid);
 				return;
 			}
 			
@@ -1476,7 +1496,11 @@
 					rowid = "_empty";
 					frmoper = "add";
 					p.caption=rp_ge[$t.p.id].addCaption;
-				} else {
+				}else if (rowid === "cloned") {
+					p.caption=rp_ge[$t.p.id].addCaption;
+					rowid = "_empty";
+					frmoper = "clone_clear";
+				}else {
 					p.caption=rp_ge[$t.p.id].editCaption;
 					frmoper = "edit";
 				}
@@ -1590,7 +1614,7 @@
 					
 					frm = settings.formEdit.$detailForm[0];
 					
-					$.proxy($.jgrid.fillData, $t)(rowid, $t);
+					$.proxy($.jgrid.fillData, $t)(rowid, $t, frmgr, frmoper);
 						
 	
 					// buttons at footer

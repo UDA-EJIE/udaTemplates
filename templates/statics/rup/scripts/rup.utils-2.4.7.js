@@ -25,6 +25,33 @@
 			if ($.rup.lang==null){ return ""; }
     		return $.rup.lang.charAt(0).toUpperCase() + $.rup.lang.slice(1);
 		},
+		getJson: function(obj, path){
+            var ret = $.extend({}, obj), 
+                split = path.split(".");
+            
+            if (split.length ===1){
+            	return obj[split[0]];
+            }
+            for (var i=0; i<split.length;i++){
+              ret = ret[split[i]];
+            }
+
+            return ret
+        },
+        setJson: function(obj, path, value){
+            var aux = obj, 
+                split = path.split(".");
+            
+            if (split.length ===1){
+            	obj[split[0]] = value;
+            }else{
+	            for (var i=0; i<split.length-1;i++){
+	            	aux = aux[split[i]];
+	            }
+	
+	            aux[split[split.length-1]] = value;
+            }
+        },
 		jsontoarray : function (obj) {
 			var arr = [];
 			function parseJSON (obj, path) {// parsea un json a un array

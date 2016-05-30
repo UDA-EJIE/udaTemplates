@@ -37,6 +37,80 @@
 	//Se configura el arranque de UDA para que alberge el nuevo patrón 
 	jQuery.extend(jQuery.rup.iniRup, jQuery.rup.rupSelectorObjectConstructor("rup_table", rup_table));
 	
+	$.fn.fmatter.rup_combo = function (cellval, opts, rwd, act) {
+		
+		var labelProp, label;
+		
+		
+		var formatterData = $(this).data("rup.table.formatter")!== undefined?$(this).data("rup.table.formatter"):{};
+		
+		// Se añade la info del formatter
+		var formatterObj = {};
+		formatterObj["rup_combo"] = {value:cellval};
+		
+//		formatterObj["rup_combo"] = cellval;
+		
+		// Se añade la info de la columna
+		var colFormatter = {}; 
+		colFormatter[opts.colModel.name] = formatterObj;
+		
+		// Se añade el id de la fila
+		var rowObj = {};
+		rowObj[opts.rowId] = colFormatter;
+		
+		
+		
+		if (opts.colModel.formatoptions && opts.colModel.formatoptions.labelName){
+			labelProp = opts.colModel.formatoptions.labelName;
+			label = $.rup_utils.getJson(rwd, labelProp);
+			
+		}else{
+			if (typeof opts.colModel.editoptions.source === "string"){
+				// Combo remoto
+				// Obtener la propiedad que corresponde al texto a visualizar
+				if (opts.colModel.name.indexOf(".")!==-1){
+					labelProp = opts.colModel.name.substring(0,opts.colModel.name.lastIndexOf("."))+"."+opts.colModel.editoptions.sourceParam.label;
+				}else{
+					labelProp = opts.colModel.editoptions.sourceParam.label;
+				}
+				label = $.rup_utils.getJson(rwd, labelProp);
+							
+			}else{
+				// Combo local
+			
+				var labelArr = $.grep(opts.colModel.editoptions.source, function(elem, index){
+					if (elem.value === cellval){
+						return true;
+					}
+				});
+				
+				if (labelArr.length === 1){
+					if(labelArr[0].i18nCaption){
+						label = $.rup.i18nParse($.rup.i18n.app[settings.i18nId], labelArr[0].i18nCaption);
+					}else{
+						label = labelArr[0].label;
+					}
+				}
+				
+			}
+		}
+		formatterObj["rup_combo"]["label"] = label;
+		
+		$.extend(true, formatterData, rowObj);
+		$(this).data("rup.table.formatter", formatterData);
+		
+		return label || ""
+		
+	};
+	
+	$.fn.fmatter.rup_combo.unformat = function (cellvalue, options) {
+//		debugger;
+		var val =  $(this).data("rup.table.formatter")[options.rowId][options.colModel.name]["rup_combo"]["value"];
+		
+		return val || "";
+		
+	};
+	
 	
 	/*
 	 * SOBREESCITURAS

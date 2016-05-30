@@ -374,9 +374,10 @@
 		cleanFilterForm : function () {
 			var $self = this, 
 				settings = $self.data("settings");
-			
+			$self.triggerHandler("rupTable_filter_beforeCleanFilterForm");
 			$self.rup_table("resetForm", settings.filter.$filterContainer);
-			$self.triggerHandler("rupTable_filter_beforeClean");
+			$self.triggerHandler("rupTable_filter_afterCleanFilterForm");
+			
 			return $self;
 		},
 		filter : function(async){
