@@ -152,7 +152,7 @@
 			 * EVENTOS
 			 */
 			$self.on({
-				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow rupTable_toolbarButtonsStateRefresh rupTable_afterDeleteRow.rupTable.toolbar rupTable_coreConfigFinished.toolbar": function(event, id, status, obj){
+				"jqGridSelectRow.rupTable.toolbar jqGridLoadComplete.rupTable.toolbar jqGridInlineEditRow.rupTable.toolbar jqGridInlineAfterRestoreRow.rupTable.toolbar rupTableHighlightRowAsSelected.rupTable.toolbar rupTableSelectedRowNumberUpdated jqGridInlineAfterSaveRow rupTable_toolbarButtonsStateRefresh rupTable_afterDeleteRow.rupTable.toolbar rupTable_coreConfigFinished.toolbar rupTable_deleteAfterComplete.rupTable.toolbar": function(event, id, status, obj){
 					var $self = jQuery(this), settings = $self.data("settings");
 					// Existe elementos seleccionados para ser editados
 							

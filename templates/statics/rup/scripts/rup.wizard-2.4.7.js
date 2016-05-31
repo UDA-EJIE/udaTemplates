@@ -185,20 +185,22 @@
 						$("#steps").append(stepDesc);
 						
 						//Capa
-						$("div[id='step"+(stepNumber-1)+"']").after("<div id='step"+stepNumber+"' style='display: none;'/>");
-						
-						//Añadir botón siguiente anteúltimo paso
-						var nextButton = $("<a>")
-							.attr("id", "step" + (stepNumber-1) + "Next")
-							.html($.rup.i18nParse($.rup.i18n.base,"rup_wizard.next"))
-							.addClass("rup-wizard_next")
-							.unbind('click').click(function(event){ 
-								//Siguiente paso
-								rupWizard._gotoNextStep(rupWizard, settings, event);
-								//Resumen
-								rupWizard._generateSummary(stepNumber, rupWizard, settings);
-							});
-						$("#step" + (stepNumber-1) + "commands").append(nextButton);
+						if (stepNumber > 1){
+							$("div[id='step"+(stepNumber-1)+"']").after("<div id='step"+stepNumber+"' style='display: none;'/>");
+							
+							//Añadir botón siguiente anteúltimo paso
+							var nextButton = $("<a>")
+								.attr("id", "step" + (stepNumber-1) + "Next")
+								.html($.rup.i18nParse($.rup.i18n.base,"rup_wizard.next"))
+								.addClass("rup-wizard_next")
+								.unbind('click').click(function(event){ 
+									//Siguiente paso
+									rupWizard._gotoNextStep(rupWizard, settings, event);
+									//Resumen
+									rupWizard._generateSummary(stepNumber, rupWizard, settings);
+								});
+							$("#step" + (stepNumber-1) + "commands").append(nextButton);
+						}
 						
 					}
 					

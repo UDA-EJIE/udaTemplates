@@ -501,8 +501,15 @@
 			        labelForName = fieldTmp.attr("name");
 			        labelForId = fieldTmp.attr("id");
 			        
-			        if (ruptype!==undefined && ruptype==="combo"){
-			            labelForId = labelForId+"-button";
+			        if (ruptype!==undefined){
+			        	
+			        	if(ruptype==="combo"){
+			        		labelForId = labelForId+"-button";
+			        	}
+			        	
+			        	if(ruptype==="autocomplete"){
+				            labelForId = labelForId+"_label";
+				        }
 			        }
 			        
 			        labelElem = fieldTmp.parent().find("label[for='"+labelForName+"']");
