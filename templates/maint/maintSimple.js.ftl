@@ -72,7 +72,7 @@ jQuery(function($){
         	"feedback"<#if (maint.toolBarButtonsMaint)?string == "true">,
 			"toolbar"</#if><#if (maint.contextMenuMaint)?string == "true">,
         	"contextMenu"</#if><#if (maint.fluidMaint)?string == "true">,
-        	"fluid"</#if><#if (maint.filterMaint)?string == "true">,
+        	"responsive"</#if><#if (maint.filterMaint)?string == "true">,
         	"filter"</#if><#if (maint.searchMaint)?string == "true">,
         	"search"</#if><#if (maint.multiSelectMaint)?string == "true">,
         	"multiselection"</#if><#if (maint.hierarchyMaint)?string == "true">,

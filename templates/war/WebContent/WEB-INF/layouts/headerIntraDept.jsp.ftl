@@ -16,12 +16,14 @@
  
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<div id="cabecera" class="cabecera">
-	<h1>
-		<span id="tituloAplicacion"><a href="<%= request.getContextPath()%>/" >${codapp} - Demo RUP</a></span>
-	
-		<span style="float: right;">
-			<img id="rup_dept_logo" alt="Departamento"/>
-		</span>
-	</h1>
-</div>
+<header>
+  <div id="cabecera" class="cabecera" >
+  	<div style="float: left;" >
+  		<span id="tituloAplicacion"><a href="<%= request.getContextPath()%>/" >${codapp} - Demo RUP</a></span>
+  	</div>
+  	<a href="/${warName}/" style="float: right;">
+  		<img id="rup_dept_logo" alt="Departamento"/>
+  	</a>
+  </div>
+</header>
+

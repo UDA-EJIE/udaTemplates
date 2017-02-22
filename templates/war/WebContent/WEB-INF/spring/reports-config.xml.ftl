@@ -18,7 +18,7 @@
  	xmlns:p="http://www.springframework.org/schema/p"
  	xsi:schemaLocation="
   		http://www.springframework.org/schema/beans
-  		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">	
+  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">	
  
  	<!-- UDA exporters -->
 	<bean id="csvReport" class="com.ejie.x38.reports.CSVReportView" />

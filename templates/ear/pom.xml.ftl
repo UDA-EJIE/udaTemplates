@@ -27,20 +27,13 @@
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
 </#if>		
-		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
-		<org.springframework.security.version>3.1.2.RELEASE</org.springframework.security.version>
-		<org.logback.version>1.0.6</org.logback.version>
-		<org.slf4j.version>1.6.6</org.slf4j.version>
-		<com.ejie.x38.version>2.4.7-RELEASE</com.ejie.x38.version>
+		<org.springframework.version>3.2.17.RELEASE</org.springframework.version>
+		<org.springframework.security.version>3.2.9.RELEASE</org.springframework.security.version>
+		<org.logback.version>1.1.7</org.logback.version>
+		<org.slf4j.version>1.7.21</org.slf4j.version>
+		<com.ejie.x38.version>3.0.0-RELEASE</com.ejie.x38.version>
 	</properties>
-	
-<!-- 	<modules> -->
-<!-- 		<module>reports/ods</module> -->
-<!-- 		<module>reports/pdf</module> -->
-<!-- 		<module>reports/xls</module> -->
-<!-- 		<module>reports/xlsx</module> -->
-<!--   	</modules> -->
-	
+		
 	<dependencies>
 <#if radjpa>
 		<!-- EclipseLink -->
@@ -84,6 +77,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
 		
 		<!-- Spring Security -->
@@ -154,19 +152,24 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
+			<version>4.3.2.Final</version>
 		</dependency>
-		<dependency>
-		   <groupId>javax.validation</groupId>
-		   <artifactId>validation-api</artifactId>
-		   <version>1.0.0.GA</version>
-		</dependency>		
-
+		
 		<!-- Jackson JSON Mapper -->
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.7</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.6.5</version>
 		</dependency>
 
 		<!-- AspectJ -->
@@ -180,6 +183,11 @@
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses-rup</artifactId>
 			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
 		

@@ -21,11 +21,11 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
 		http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.${codapp}.control' -->
 	<context:component-scan base-package="com.ejie.${codapp}.control" />
@@ -115,7 +115,7 @@
 		    </property>
 	       	<property name="messageConverters">
 	            <list>
-	            	<ref bean="udaMappingJacksonHttpMessageConverter"/>
+	            	<ref bean="udaMappingJackson2HttpMessageConverter"/>
 	            </list>
        		</property>
        		<property name="customArgumentResolvers">

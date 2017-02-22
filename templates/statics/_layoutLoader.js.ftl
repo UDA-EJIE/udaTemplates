@@ -39,7 +39,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//idioma
-	$("#${warName}_language").rup_language({languages: $.rup.AVAILABLE_LANGS_ARRAY, modo: "portal"});
+	$("#${warName}_language").rup_language({languages: $.rup.AVAILABLE_LANGS_ARRAY, modo: "default"});
 	
 	//menu
 	$("#${warName}_menu").rup_menu({
@@ -50,6 +50,9 @@ jQuery(document).ready(function(){
 			display: 'vertical'
 		});
 	}
+	
+	//NAVBAR Menu
+	$.fn.rup_navbar();
 	
 	//pie
 	$(".footer [title]").rup_tooltip();
