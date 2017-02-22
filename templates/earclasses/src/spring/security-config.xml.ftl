@@ -19,9 +19,9 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
-            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
 	<security:global-method-security>
 <!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.find*(..))" access="${codroleAux}"/> -->

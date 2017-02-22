@@ -1,97 +1,96 @@
-<#-- 
- -- Copyright 2013 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
-body {
-	margin: 0;
-	padding: 0;
-	background: none repeat scroll 0 0 #EFEFEF;
-	font-family:Arial,Verdana,Helvetica, sans-serif;
-	font-size: 71.5% !important;
-	color: #666666;
+header {
+	background-color: #ffffff;
+	height: 0px;
+	overflow: hidden;
+	position: relative;
+	z-index: 99;
 }
 
-div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {margin:0; padding:0}
-a img,:link img,:visited img,form,fieldset {border:none}
-
-.ui-widget { font-size: 0.96em; }
-
-/* Hx */
-#tituloAplicacion{color: #000000; margin: 0 0 0.5em; padding: 0 0 0.3em 0;}
-
-h1 { font-size:2.0em; color:#000000; display:block; margin:0 0 0.5em; padding:0;}
-h2 { font-size:1.7em; color:#000000; display:block; margin:0 0 0.5em; padding:0; border-bottom: 1px solid #CCCCCC; width: 100%;}
-h3 { font-size:1.4em; color:#000000; display:block; margin:0 0 0.5em 0.5em; padding:0; }
-
-/* Parrafo */
-p { color:#000000; line-height:1.7em; margin:0; }
-
-/* Input deshabilitado */
-input.disabled { background-color: #D3D3D3; }
-
-/* GENERALES */
-.contenedor { 
-	width:90%; 
-	margin:0 auto; 
-	padding: 2em; 
-	background:#FFFFFF;  
+header div.cabecera>a {
+	padding-top: 1.3em;
+	padding-right: 1em;
 }
 
-.cabecera {
-	margin-bottom: 2em;
-	width: 100%;
-}
-.cabecera a {
-	color: #000000;
-	text-decoration:none;
+@media ( min-width : 768px) {
+	header {
+		height: 6em;
+	}
 }
 
-.languageHelpContact {
+footer {
+	clear: both;
+	vertical-align: baseline;
+	background: #69a3d6;
+	color: #ffffff;
+	height: 2em;
+	margin-top: 1em;
+	padding-top: 0.2em;
+}
+
+@media ( max-width : 767px) {
+	footer {
+		padding-left: 0em;
+		padding-right: 0em;
+	}
+}
+
+footer .footer-informacion-legal {
+	float: left;
+}
+
+footer .footer-ejgv {
 	float: right;
-	cursor: pointer;
-}
-.languageHelpContact a {
-    color: #000000;
 }
 
-.menu {
-	margin-top: 1em; 
-	margin-bottom: 1em;
-}
-.footer {
-	border-top:1px solid #DADADA;
-	clear:both;
-	color:#000000;
-	font-size:0.9em;
-	margin:2em 0 0;
-	padding:0.7em;
-	padding-bottom: 0em;
-}
-.footer a {
-	color:#000000;
+footer .footer-row-1 {
+	clear: both;
+	background: #69a3d6;
+	padding: 0rem 2rem;
+	line-height: 3rem;
+	height: 3rem;
 }
 
-
-
-.rup_external_link {
-    float: none;
+footer .footer-row-2 {
+	background: url('../images/web01-2014_oina_logo_atzekoa.gif') no-repeat
+		left bottom #1f1f1f;
+	clear: both;
+	text-align: center;
+	height: 15rem;
+	padding-top: 2rem;
 }
 
-/*Posicionamiento a la derecha de los botones*/
-.right_buttons{ 
-	text-align:right;
-	margin-bottom:5px;
+/*************/
+/* RUP NAVBAR */
+/**************/
+
+/** CONTAINER */
+.content {
+	margin: 1rem;
+	clear: both;
+	background: #ffffff;
+	display: block;
+	padding: 2rem;
+}
+
+@media ( max-width : 767px) {
+	.content {
+		margin: 0em;
+	}
+}
+
+section>h1, section>h2, section>h3, section>h4, section>h5, section>h6 {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+
+#rwdExampleSection {
+	background-color: #eaeaea;
+}
+
+#rwdExample div.row>div>p {
+	background-color: #fff;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	padding: 1em;
 }
 
 /* FORMULARIOS */
