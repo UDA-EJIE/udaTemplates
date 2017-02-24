@@ -15,6 +15,6 @@
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>	
 <div class="container" style="margin-top: 2em;"> 
-	<img alt="El contenido estático no está correctamente desplegado." src="<#noparse>${staticsUrl}</#noparse>/rup/basic-theme/images/uda_logo.png"/><br>
+	<img alt="El contenido estático no está correctamente desplegado." src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/uda_logo.png"/><br>
 	<h2 style="border: none;">¡Hola UDA!</h2>
 </div>

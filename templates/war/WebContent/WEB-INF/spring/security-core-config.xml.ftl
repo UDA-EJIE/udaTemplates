@@ -17,9 +17,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/security/spring-security-3.2.xsd
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 	<bean id="springSecurityFilterChain" 
 	  class="org.springframework.security.web.FilterChainProxy">
@@ -75,7 +75,7 @@
 	
 	<!-- El bean "xlnetAuthenticationProvider" es el "authentication-provider" del sistema de login -->
 	<!-- El "authentication-provider" determina el objeto "UserDetail" encargado de recoger y servir los datos de seguridad -->
-	<bean id="xlnetAuthenticationProvider" class="com.ejie.x38.security.XlnetAuthenticationProvider">
+	<bean id="xlnetAuthenticationProvider" class="com.ejie.x38.security.UdaAuthenticationProvider">
 		<property name="myAuthenticatedUserDetailsService" ref="myAuthenticatedUserDetailsService" />
 	</bean>
 	

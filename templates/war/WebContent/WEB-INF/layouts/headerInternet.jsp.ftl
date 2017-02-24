@@ -16,17 +16,26 @@
  
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<div id="cabecera" class="cabecera">
+<header>
+	  <div id="cabecera" class="cabecera" >
 
 <#if entornoEjie == "true">
-	<span style="font-size: 2em;color: #000000;">CABECERA PORTAL</span>
-	<a href="<%= request.getContextPath()%>/" style="float: right;margin-top:-2em;">
-		<img src="<#noparse>${staticsUrl}</#noparse>/rup/basic-theme/images/euskadi_net.gif" alt="Euskadi Net"/>
-	</a>
+	
+	  	<div style="float: left;" >
+	  		<img src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/ejie.jpg"/>
+	  	</div>
+	  	<a href="/x21aAppWar/" style="float: right;">
+	  		<img src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/euskadieus_logo.gif" alt="Euskadi Eus"/>
+	  	</a>
+	  
 <#else>
-	<span style="font-size: 2em;color: #000000;">CABECERA PORTAL</span>
-	<a href="<%= request.getContextPath()%>/" style="float: right;margin-top:-2em;">
-		<img src="<#noparse>${staticsUrl}</#noparse>/rup/basic-theme/images/uda_logo.png" alt="Uda"/>
-	</a>
+	  	<div style="float: left;" >
+	  		CABECERA PORTAL
+	  	</div>
+	  	<a href="/x21aAppWar/" style="float: right;">
+	  		<img src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/uda_logo.png" alt="Euskadi Eus"/>
+	  	</a>
+
 </#if>
-</div>
+	</div>
+</header>

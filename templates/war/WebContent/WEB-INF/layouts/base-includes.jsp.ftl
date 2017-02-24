@@ -31,7 +31,21 @@
 	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
 	//breadCrumbs
 	LOGGED_USER = '<#noparse>${udaAuthenticationProvider.userCredentials.fullName}</#noparse>',
-	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>';
+	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>',
+	RUP_ADAPTERS = {
+		date_jqueryui: "DateJQueryUIAdapter",
+		date_bootstrap: "DateBootstrapAdapter",
+		time_jqueryui: "TimeJQueryUIAdapter",
+		time_bootstrap: "TimeBootstrapAdapter",
+    	upload: "UploadBootstrapAdapter",
+        button: "ButtonBootstrapAdapter",
+        toolbar_jqueryui: "ToolbarJQueryUIAdapter",
+        toolbar_bootstrap: "ToolbarBootstrapAdapter",
+        table_jqueryui: "TableJQueryUIAdapter",
+        table_bootstrap: "TableBootstrapAdapter",
+        validate_jqueryui: "ValidateJQueryUIAdapter",
+        validate_bootstrap: "ValidateBootstrapAdapter"
+    };
 </script>
 
 <%-- Scripts RUP sin minimizar (DESARROLLO) --%>

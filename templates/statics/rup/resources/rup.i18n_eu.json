@@ -193,7 +193,10 @@
 		"serverError": "Erlaitz deiaren errore bat gertatu da.<br>Itzulitako errorea:"
 	},
 	"rup_utils": {
-		"paramsError": "Aukeratutako parametroren bat 'null' edo 'undefined' da"
+		"paramsError": "Aukeratutako parametroren bat 'null' edo 'undefined' da",
+		"relToAbsUrlParamFormatError": "&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da.",
+		"relToAbsUrlParamError": "<b style='color:red'>&#34",
+		"relToAbsUrlParamErrorEnd": "&#34</b><br/> &#34$.rup_utils.relToAbsUrl&#34; funtzioaren url-a ez da zuzena"
 	},
 	"rup_grid": {
 		"summary": {
@@ -450,7 +453,6 @@
 		"saveAndContinue": "Datuen aldaketak galduko dira, jarraitu nahi duzu?",
 		"checkSelectedElems": "Hautatutako elementuak galduko dira, jarraitu nahi duzu?",
 		"checkAddedSelectedElems": "Erantsitako elementuak galduko dira, jarraitu nahi duzu?",
-		"selectAll": "Erregistro guztiak aukeratu dituzu.",
 		"selected": "hautatuta",
 		"deleteAll": "Hautatutako erregistroak ezabatu nahi al dituzu?",
 		"titleDelAll": "Erregistroak ezabatu",
@@ -784,11 +786,6 @@
 		"deleteUploaded": "Ezabatu",
 		"openUploaded": "Ireki"
 	},
-	"rup_utils": {
-		"relToAbsUrlParamFormatError": "&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da.",
-		"relToAbsUrlParamError": "<b style='color:red'>&#34",
-		"relToAbsUrlParamErrorEnd": "&#34</b><br/> &#34$.rup_utils.relToAbsUrl&#34; funtzioaren url-a ez da zuzena"
-	},
 	"rup_accordion": {
 		"strucPairError": "HTML egituraren errorea.<br/>Accordion-ek goiburu eta eduki objektu pareak behar ditu.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko.",
 		"headFormatError": "HTML egituraren errorea.<br/>Accordion-ek htmlko &#34&#60a&#62&#34 objektu goiburu bakoitzaren barruan behar du.<br/>Berrikusi kodea goiburu eta eduki objektu elkarrekikotasunaren erroreak ala HTMLko egituraren arazo orokorrak bilatzeko."
@@ -854,5 +851,9 @@
 			"paste": "Pegar_eu",
 			"cut": "Cortar_eu"
 		}
+	},
+	"rup_progressbar":{
+			"loading":"Cargando ..._eu",
+			"progress":"${value} de ${max}_eu"
 	}
 }
