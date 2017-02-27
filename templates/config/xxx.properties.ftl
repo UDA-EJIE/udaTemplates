@@ -16,11 +16,12 @@
 <#if entornoEjie != "">
 statics.path = http://desarrollo.jakina.ejiedes.net:7001/${codapp?lower_case}Statics
 xlnets.path = http://xlnets.servicios.jakina.ejiedes.net/n38a/N38LoginInicioServlet
+#TRUE if it is portal embedded
+xlnets.inPortal=FALSE 
 <#else>
 statics.path = /${codapp?lower_case}Statics
 </#if>
-#TRUE if it is portal embedded
-xlnets.inPortal=FALSE 
+
 
 #Loggin parameters
 log.path=c:/datos/${codapp}/log
