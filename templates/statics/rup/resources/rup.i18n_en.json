@@ -193,10 +193,7 @@
 		"serverError" :"Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:"
 	},
 	"rup_utils":{
-		"paramsError" :"en_Alguno de los parámetros especificados es 'null' o 'undefined'",
-		"relToAbsUrlParamFormatError":"Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String._en",
-    	"relToAbsUrlParamError":"La url => <b style='color:red'>&#34",
-    	"relToAbsUrlParamErrorEnd":"&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta._en"
+		"paramsError" :"en_Alguno de los parámetros especificados es 'null' o 'undefined'"
 	},
     "rup_grid":{
     	"summary" :{
@@ -456,6 +453,7 @@
 		"saveAndContinue":"en_Se perderan los cambios en los datos modificados, ¿desea continuar?",
 		"checkSelectedElems":"en_Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
 		"checkAddedSelectedElems":"en_Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
+		"selectAll":"en_Ha seleccionado todos los registros de la página actual.",
 		"selected":"en_seleccionados",
 		"deleteAll":"en_¿Está seguro que desea eliminar todos los registros seleccionados?",
 		"titleDelAll":"en_Eliminar los registros",
@@ -790,6 +788,11 @@
     	"cancelUpload":"Cancelar_en",
     	"deleteUploaded":"Eliminar_en",
     	"openUploaded":"Abrir_en"
+    },
+    "rup_utils":{
+    	"relToAbsUrlParamFormatError":"Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String._en",
+    	"relToAbsUrlParamError":"La url => <b style='color:red'>&#34",
+    	"relToAbsUrlParamErrorEnd":"&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta._en"
     },
     "rup_accordion":{
     	"strucPairError":"Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general._en",
