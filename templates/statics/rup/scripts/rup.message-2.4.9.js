@@ -17,7 +17,7 @@
 /**
  * @fileOverview Implementa el patrón RUP Message.
  * @author EJIE
- * @version 2.4.8
+ * @version 2.4.9
  */
 (function ($) {
 
@@ -164,7 +164,6 @@
             aceptButton = [{
                     text: $.rup.i18nParse($.rup.i18n.base,"rup_message.aceptar"),
                     click: function () {
-											debugger;
                     	settings.OKFunction.call(this, self);
                         self.dialog("close");
                     }

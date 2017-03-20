@@ -17,7 +17,7 @@
  /**
   * @fileOverview Implementa el patrón RUP Table.
   * @author EJIE
-  * @version 2.4.8
+  * @version 2.4.9
   */
 (function ($) {
 
@@ -141,7 +141,6 @@
 	};
 
 	$.fn.fmatter.rup_combo.unformat = function (cellvalue, options) {
-//		debugger;
 		var val =  $(this).data("rup.table.formatter")[options.rowId][options.colModel.name]["rup_combo"]["value"];
 
 		return val || "";
