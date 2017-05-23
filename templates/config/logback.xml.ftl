@@ -130,6 +130,120 @@
 		</rollingPolicy>
   	</appender>
   	
+  	<#if entornoEjie != "">
+  	<!-- MOMO Appenders -->
+  	
+  	<appender name="salidaEstandarMomoAppender" class="com.ejie.x38.log.MomoAppender">
+  	
+  		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.salidaEstandar}</#noparse></doMomo>
+  	
+   		<layout class="com.ejie.x38.log.LogLayout">
+   			<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>	
+   		</layout>
+  	</appender>
+  	
+	<appender name="incidenciasMomoAppender" class="com.ejie.x38.log.MomoAppender">
+	
+		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.incidencias}</#noparse></doMomo>
+	
+    	<filter class="com.ejie.x38.log.UdaLogFilter">
+      		<logIncidences>true</logIncidences>
+    	</filter>
+    	<layout class="com.ejie.x38.log.LogLayout">
+    		<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>	
+    	</layout>
+    	
+  	</appender>
+  	
+ 	<appender name="udaTrazasMomoAppender" class="com.ejie.x38.log.MomoAppender">
+ 	
+ 		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.udaTrazas}</#noparse></doMomo>
+ 	
+		<filter class="com.ejie.x38.log.UdaLogFilter"/>
+		<layout class="com.ejie.x38.log.LogLayout">
+    		<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>	
+    	</layout>
+	</appender>
+	 
+	<appender name="aplicTrazasMomoAppender" class="com.ejie.x38.log.MomoAppender">
+	
+		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.aplicTrazas}</#noparse></doMomo>
+	
+		<filter class="com.ejie.x38.log.UdaLogFilter"/>
+		<layout class="com.ejie.x38.log.LogLayout">
+    		<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>	
+    	</layout>
+	    
+  	</appender>
+  	
+	<appender name="auditoriaBBDDMomoAppender" class="com.ejie.x38.log.MomoAppender">
+	
+		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.auditoriaAccesos}</#noparse></doMomo>
+		
+		<filter class="com.ejie.x38.log.UdaLogFilter"/>
+
+		<layout class="com.ejie.x38.log.LogLayout">
+    		<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>
+    	</layout>
+
+  	</appender>
+  	
+	<appender name="auditoriaAccesosMomoAppender" class="com.ejie.x38.log.MomoAppender">
+	
+		<servicio><#noparse>${momo.servicio}</#noparse></servicio>
+		<app><#noparse>${momo.app}</#noparse></app>
+		<securityTokenId><#noparse>${momo.securityTokenId}</#noparse></securityTokenId>
+		<w43taEndpointUri><#noparse>${momo.w43taEndpointUri}</#noparse></w43taEndpointUri>
+		<w43taEndpointPort><#noparse>${momo.w43taEndpointPort}</#noparse></w43taEndpointPort>
+		<develomentMode><#noparse>${momo.develomentMode}</#noparse></develomentMode>
+		<doMomo><#noparse>${momo.doMomo.auditoriaAccesos}</#noparse></doMomo>
+	
+    	<filter class="com.ejie.x38.log.UdaLogFilter"/>
+    	<layout class="com.ejie.x38.log.LogLayout">
+    		<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+       		<instance><#noparse>${weblogic.Name}</#noparse></instance>
+    	</layout>
+  	</appender>
+  	
+  	<!--  END MOMO Appenders -->
+  	
+  	</#if>
+  	
   	<!-- Root logger -->
 	<root level="<#noparse>${log.level.salidaEstandar}</#noparse>">
 	  <appender-ref ref="salidaEstandarAppender"/>
@@ -139,19 +253,31 @@
 	<!-- Business loggers -->
 	<logger name="com.ejie.x38" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="udaTrazasAppender"/>
+		<#if entornoEjie != "">
+		<appender-ref ref="udaTrazasMomoAppender"/>
+		</#if>
 	</logger>
 	
 	<logger name="com.ejie.<#noparse>${CONTEXT_NAME}</#noparse>" level="<#noparse>${log.level.aplicTrazas}</#noparse>">
 		<appender-ref ref="aplicTrazasAppender"/>
+		<#if entornoEjie != "">
+		<appender-ref ref="aplicTrazasMomoAppender"/>
+		</#if>
 	</logger>
 	
 	<!-- Audit loggers -->
 	<logger name="com.ejie.x38.UdaListener" level="<#noparse>${log.level.auditoriaAccesos}</#noparse>">
 		<appender-ref ref="auditoriaAccesosAppender"/>
+		<#if entornoEjie != "">
+		<appender-ref ref="auditoriaAccesosMomoAppender"/>
+		</#if>
 	</logger>
 	
 	<logger name="com.ejie.x38.security" level="<#noparse>${log.level.auditoriaAccesos}</#noparse>">
 		<appender-ref ref="auditoriaAccesosAppender"/>
+		<#if entornoEjie != "">
+		<appender-ref ref="auditoriaAccesosMomoAppender"/>
+		</#if>
 	</logger>
   
 </configuration>
