@@ -36,7 +36,7 @@
 		List<?> params = (List<?>) mapaWhere.get("params");
 
 		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query);
+			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query, JQGridUsuarioDaoImpl.ORDER_BY_WHITE_LIST);
 		}
 		
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
@@ -65,7 +65,7 @@
 		List<?> params = (List<?>) mapaWhere.get("params");
 
 		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query);
+			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query, JQGridUsuarioDaoImpl.ORDER_BY_WHITE_LIST);
 		}
 		
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
@@ -292,7 +292,7 @@
 
 		//PAGINACION
 		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getPaginationQuery(jqGridRequestDto, query);
+			query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getPaginationQuery(jqGridRequestDto, query, JQGridUsuarioDaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
 		List<?> params = (List<?>) mapaWhere.get("params");
