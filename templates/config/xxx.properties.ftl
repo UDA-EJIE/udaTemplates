@@ -40,7 +40,7 @@ momo.app=xxx
 momo.securityTokenId=xxx
 
 momo.w43taEndpointUri=xxx
-momo.w43taEndpointPort=xx
+momo.w43taEndpointPort=00
 momo.develomentMode=true
  
 momo.doMomo.salidaEstandar=false
