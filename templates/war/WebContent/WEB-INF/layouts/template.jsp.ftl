@@ -33,6 +33,8 @@
 <%-- <%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%> --%>
 	<%-- Estilos RUP sin minimizar (PRODUCCION) --%>
 	<%@include file="/WEB-INF/layouts/includes/rup.styles.min.inc" %>
+	<%-- Estilos RUP para integración en portal --%>
+<%-- 	<%@include file="/WEB-INF/layouts/includes/rup.styles.portal.inc" %> --%>
 	<%-- Estilos Aplicacion --%>
 	<%@include file="/WEB-INF/layouts/includes/${codapp}.styles.inc"%>
 

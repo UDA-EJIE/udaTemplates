@@ -2192,6 +2192,28 @@ tr.ui-search-toolbar select {
 .qtipmodal-ie6fix {
   position: absolute !important; }
 
+.ui-carousel {
+  height: 100px;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
+  position: relative;
+  /*for ie7 to work e.g in html carousels*/
+  width: 300px; }
+
+.ui-carousel > .wrapper {
+  margin: 0;
+  padding: 0;
+  width: 9999px; }
+
+.ui-carousel > .wrapper > * {
+  border: 0;
+  display: block;
+  float: left;
+  height: 100px;
+  overflow: hidden;
+  width: 100px; }
+
 /*!
  * Copyright 2013 E.J.I.E., S.A.
  *
@@ -3011,6 +3033,16 @@ button.ui-button-icon-only.rup-dropdown-button {
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px; }
 
+.rup-button .ui-icon.fa {
+  background-image: none;
+  text-indent: inherit;
+  height: 15px;
+  padding-top: 2px; }
+
+.rup-button:hover .ui-icon.fa {
+  background-image: none;
+  text-indent: inherit; }
+
 /*!
  * Copyright 2015 E.J.I.E., S.A.
  *
@@ -3712,7 +3744,7 @@ ul.ui-selectmenu-menu-popup {
  *
  *      http://ec.europa.eu/idabc/eupl.html
  *
- * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
  * el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
  * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
@@ -3731,7 +3763,7 @@ ul.ui-selectmenu-menu-popup {
 /* Capa de cierre del feedback (enlace+imagen) */
 .rup-feedback_closeLink {
   float: right;
-  background-image: url("images/rup.close.png");
+  background-image: none;
   background-repeat: no-repeat;
   background-position: right;
   padding-right: 1.5em;
@@ -3740,8 +3772,14 @@ ul.ui-selectmenu-menu-popup {
   cursor: pointer; }
 
 .rup-feedback_closeLink:hover {
-  background-image: url("images/rup.close_hover.png");
+  background-image: none;
   text-decoration: none; }
+
+div.rup-feedback_closeLink.rup-jqueryui {
+  background-image: url("images/rup.close.png"); }
+
+div.rup-feedback_closeLink.rup-jqueryui:hover {
+  background-image: url("images/rup.close_hover.png"); }
 
 /* Imagen fondo por defecto (valores generales) */
 .rup-feedback_image {

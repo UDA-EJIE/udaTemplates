@@ -21,6 +21,7 @@
 
 .ui-widget input,
 .ui-widget select,
+.ui-widget .ui-multiselect,
 .ui-widget .ui-selectmenu-dropdown,
 .ui-widget textarea,
 .ui-widget button,
@@ -1136,7 +1137,7 @@ legend {
   border: none;
   padding: 0 0.4rem; }
 
-.form-group-sm .form-control, .form-group-sm select.form-control, .form-group-sm .form-control.ui-selectmenu-dropdown {
+.form-group-sm .form-control, .form-group-sm select.form-control, .form-group-sm .form-control.ui-multiselect, .form-group-sm .form-control.ui-selectmenu-dropdown {
   height: 25px; }
 
 p, ul {
@@ -1183,13 +1184,13 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .form-control-lg {
   font-size: 1.25rem; }
 
-.form-control-sm, select.form-control-sm, .form-control-sm.ui-selectmenu-dropdown {
+.form-control-sm, select.form-control-sm, .form-control-sm.ui-multiselect, .form-control-sm.ui-selectmenu-dropdown {
   font-size: 0.875rem; }
 
 .form-group-sm, .form-group-sm .form-control {
   font-size: 0.875rem; }
 
-select.form-control:not([size]):not([multiple]), .form-control.ui-selectmenu-dropdown:not([size]):not([multiple]) {
+select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:not([size]):not([multiple]), .form-control.ui-selectmenu-dropdown:not([size]):not([multiple]) {
   height: 2rem; }
 
 .card {
@@ -1309,7 +1310,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-selectmenu-dro
       .rup-feedback.rup-feedback_image.rup-feedback_image_error span.rup-feedback-icon {
         color: #8b211e; }
     .rup-feedback.rup-feedback_image div.rup-feedback_closeLink {
-      visibility: hidden;
+      text-decoration: none;
       float: right;
       padding-right: 0.5rem;
       margin: 0;
@@ -1499,7 +1500,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-selectmenu-dro
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
-select, select.form-control, .ui-selectmenu-dropdown, .form-control.ui-selectmenu-dropdown, select.form-control-sm, .form-control-sm.ui-selectmenu-dropdown {
+select, select.form-control, .ui-multiselect, .ui-selectmenu-dropdown, .form-control.ui-multiselect, .form-control.ui-selectmenu-dropdown, select.form-control-sm, .form-control-sm.ui-multiselect, .form-control-sm.ui-selectmenu-dropdown {
   font-size: 1rem;
   height: 2rem;
   padding: 0;
@@ -1510,6 +1511,20 @@ select, select.form-control, .ui-selectmenu-dropdown, .form-control.ui-selectmen
   -moz-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
   -webkit-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
   box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset; }
+
+.ui-multiselect {
+  padding: 3px 4px; }
+  .ui-multiselect.ui-state-active span {
+    color: #333333; }
+    .ui-multiselect.ui-state-active span.ui-icon {
+      background-image: url("images/ui-icons_555555_256x240.png"); }
+  .ui-multiselect span.ui-icon {
+    margin-top: -0.3rem; }
+
+.ui-selectmenu-dropdown.ui-state-active span {
+  color: #333333; }
+  .ui-selectmenu-dropdown.ui-state-active span.ui-icon {
+    background-image: url("images/ui-icons_555555_256x240.png"); }
 
 .ui-selectmenu-dropdown:hover {
   text-decoration: none; }
@@ -2309,6 +2324,8 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   height: 4rem;
   min-height: 4rem;
   margin-bottom: 0; }
+  .rup-navbar .nav {
+    padding-bottom: 0; }
   .rup-navbar .navbar-brand {
     background: #204d71;
     height: 4rem;
@@ -2393,7 +2410,8 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
     background-color: rgba(5, 5, 5, 0.7); }
 
 .navbar-nav.rup-nav-tools {
-  float: right; }
+  float: right;
+  margin-top: 0; }
   .navbar-nav.rup-nav-tools .rup-nav-tool-icon {
     font-size: 2rem; }
     .navbar-nav.rup-nav-tools .rup-nav-tool-icon:after {
