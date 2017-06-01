@@ -44,7 +44,7 @@
 /**                                                                   
  * @fileOverview Implementa el patrón RUP Language.
  * @author EJIE
- * @version 2.4.9                                                                                               
+ * @version 2.4.10                                                                                               
  */
 (function ($) {
     
