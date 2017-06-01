@@ -5,6 +5,6 @@
     <span class="footer-ejgv"><spring:message code="footer.ejgv" /></span>
   </div>
   <div class="footer-row-2">
-    <img class="footer-image" src="${staticsUrl}/rup/basic-theme/images/footer.gif" />
+    <img class="footer-image" src="${staticsUrl}/rup/css/images/web01-2014_claim_pertsona_helburu_es.gif" />
   </div>
 </footer>

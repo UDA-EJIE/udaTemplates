@@ -29,3 +29,22 @@ log.level.salidaEstandar=INFO
 log.level.udaTrazas=TRACE
 log.level.aplicTrazas=INFO
 log.level.auditoriaAccesos=INFO
+
+
+# ========================================================
+# PARAMETROS BIG DATA
+# ========================================================
+
+momo.servicio=xxx
+momo.app=xxx
+momo.securityTokenId=xxx
+
+momo.w43taEndpointUri=xxx
+momo.w43taEndpointPort=00
+momo.develomentMode=true
+ 
+momo.doMomo.salidaEstandar=false
+momo.doMomo.incidencias=false
+momo.doMomo.udaTrazas=false
+momo.doMomo.aplicTrazas=false
+momo.doMomo.auditoriaAccesos=false

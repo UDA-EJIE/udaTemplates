@@ -1,5 +1,5 @@
-<%--  
- -- Copyright 2015 E.J.I.E., S.A.
+﻿<%--  
+ -- Copyright 2012 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -16,4 +16,4 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <script src="${staticsUrl}/rup/js/rup.js" type="text/javascript"></script>
- 
+<script src="${staticsUrl}/rup/js/externals/bt4.min.js" type="text/javascript"></script>

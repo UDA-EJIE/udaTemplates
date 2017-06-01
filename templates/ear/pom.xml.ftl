@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.2.9.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.1.7</org.logback.version>
 		<org.slf4j.version>1.7.21</org.slf4j.version>
-		<com.ejie.x38.version>3.0.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>3.1.0-RELEASE</com.ejie.x38.version>
 	</properties>
 		
 	<dependencies>
@@ -155,22 +155,12 @@
 			<version>4.3.2.Final</version>
 		</dependency>
 		
-		<!-- Jackson JSON Mapper -->
+		<!-- Jackson JSON Mapper -->	
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.6.5</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.6.5</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.6.5</version>
-		</dependency>
+		</dependency>	
 
 		<!-- AspectJ -->
 		<dependency>

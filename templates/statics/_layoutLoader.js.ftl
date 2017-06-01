@@ -30,6 +30,10 @@
  */
 
 jQuery(document).ready(function(){
+
+	// Evitar conflictos entre Bootstrap y jQueryUI
+	$.fn.bootstrapBtn = $.fn.button.noConflict();
+
 	//logo
 	$("#rup_dept_logo").attr("src", $.rup.APP_STATICS + "/images/dept_logo_" + $.rup.lang + ".gif");
 		
