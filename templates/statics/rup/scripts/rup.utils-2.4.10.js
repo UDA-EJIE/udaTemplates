@@ -17,7 +17,7 @@
 /**
  * @fileOverview Clase de utilidades para los patrones RUP.
  * @author EJIE
- * @version: 2.4.9
+ * @version: 2.4.8
  */
 (function ($) {
 
