@@ -16,7 +16,7 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <!-- Aplicacion -->
-<link href="<#noparse>${staticsUrl}</#noparse>/${codapp}/styles/${codapp}.css" rel="stylesheet" type="text/css" />
+<link href="<#noparse>${staticsUrl}</#noparse>/${codapp}/styles/main.css" rel="stylesheet" type="text/css" />
 
 <!-- Icono -->
 <link rel="shortcut icon" href="<#noparse>${staticsUrl}</#noparse>/${codapp}/favicon.ico">

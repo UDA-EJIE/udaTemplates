@@ -56,7 +56,7 @@ jQuery(document).ready(function(){
 	}
 	
 	//NAVBAR Menu
-	$.fn.rup_navbar();
+	$("#navbarResponsive").rup_navbar();
 	
 	//pie
 	$(".footer [title]").rup_tooltip();
