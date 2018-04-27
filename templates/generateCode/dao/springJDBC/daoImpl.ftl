@@ -1,16 +1,16 @@
 <#--
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 package ${pojo.getPackageName()}.dao;
@@ -53,7 +53,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
            ); } } ;
 
 	/**
-     * Rowmapper para Jerarquía
+     * Rowmapper para JerarquÃ­a
      *
      * @param dataSource ${pojo.importType("javax.sql.DataSource")}
      * @return
@@ -166,6 +166,26 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
 		<#assign paramWhereRemove = paramWhere>
 		String query = "DELETE FROM ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} WHERE <#list paramWhereRemove as param>${param}=?<#if param_has_next> AND </#if></#list>";
 		this.jdbcTemplate.update(query, <#list paramPkRemove as param>${param}<#if param_has_next> , </#if></#list>);
+    }
+    
+    /**
+    * Exporta Datos al clipBoard
+    *
+    */
+    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+    	
+    	//Where clause & Params
+    	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter${pojo.getDeclarationName()}, startsWith);
+    	StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+    	where.append(mapaWhere.get("query"));
+    	
+    	@SuppressWarnings("unchecked")
+    	List<Object> params = (List<Object>) mapaWhere.get("params");
+    	<#assign paramWhereRemove = paramWhere>
+    	
+    	StringBuilder sbMultipleSQL = TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, "<#list paramWhereRemove as param>${param}<#if param_has_next> AND </#if></#list>" );
+    	
+    	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
 
     <#include "findAllDinamycImpl.ftl"/>
