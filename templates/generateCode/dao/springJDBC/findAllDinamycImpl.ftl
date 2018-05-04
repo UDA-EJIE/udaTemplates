@@ -1,27 +1,27 @@
 <#--
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
    /**
     * Finds a list of rows in the ${pojo.getDeclarationName()} table.
     *
     * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
-    * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+    * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
     */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
-    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect >
 		<#assign selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
@@ -35,8 +35,8 @@
 
 		List<?> params = (List<?>) mapaWhere.get("params");
 
-		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
+		if (tableRequestDto != null) {
+			query = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getPaginationQuery(tableRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
@@ -46,12 +46,12 @@
 	 * Finds rows in the ${pojo.getDeclarationName()} table using like.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
      * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
      */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
-    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith) {
+    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect > <#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
         query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
@@ -64,8 +64,8 @@
 
 		List<?> params = (List<?>) mapaWhere.get("params");
 
-		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getPaginationQuery(jqGridRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
+		if (tableRequestDto != null) {
+			query = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getPaginationQuery(tableRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
@@ -124,12 +124,12 @@
 	 * Reorder the data list of ${pojo.getDeclarationName()} selected for rup_table
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
      * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
-	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith) {
+	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect >
 		<#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
@@ -144,14 +144,14 @@
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
-		// Parámetros de filtrado
+		// ParÃ¡metros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");
 
-		// SQL para la reordenación
-		StringBuilder sbReorderSelectionSQL =  ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getReorderQuery(query, jqGridRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>" );
+		// SQL para la reordenaciÃ³n
+		StringBuilder sbReorderSelectionSQL =  ${pojo.importType("com.ejie.x38.dto.TableManager")}.getReorderQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>" );
 
-		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, jqGridRequestDto), filterParamList.toArray());
+		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
 
 	/**
@@ -159,12 +159,12 @@
      *
      * @param filterParams ${pojo.getDeclarationName()}
      * @param searchParams ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
      * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
-	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filterParams, ${pojo.getDeclarationName()} searchParams, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith) {
+	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filterParams, ${pojo.getDeclarationName()} searchParams, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign  selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
@@ -195,20 +195,20 @@
 		List<Object> searchParamList = (List<Object>) mapaWhereSearch.get("params");
 
 		// SQL
-		StringBuilder sbReorderSelectionSQL = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getSearchQuery(query, jqGridRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, searchSQL, searchParamList, from_alias, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
+		StringBuilder sbReorderSelectionSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getSearchQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, searchSQL, searchParamList, from_alias, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
 
-		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, jqGridRequestDto), filterParamList.toArray());
+		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
 
 	/**
 	 * Remove multiple method for rup_table
      *
      * @param filter${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
      */
 	@Override
-	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto, Boolean startsWith) {
+	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign  selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
@@ -227,7 +227,7 @@
 		@SuppressWarnings("unchecked")
 		List<Object> params = (List<Object>) mapaWhere.get("params");
 
-		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.JQGridManager")}.getRemoveMultipleQuery(jqGridRequestDto, ${pojo.getDeclarationName()}.class, query, params, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
+		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, query, params, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
 	}
 
@@ -235,11 +235,11 @@
 	 * Filter in the hierarchical ${pojo.getDeclarationName()} table.
      *
      * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @return List<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
-	public List<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> findAllLikeJerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+	public List<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> findAllLikeJerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		// SELECT
@@ -268,7 +268,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -283,16 +283,16 @@
 		//JERARQUIA
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
-		query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getQuery(jqGridRequestDto, query, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", "NOMBRE", from, from_alias);
+		query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQuery(tableRequestDto, query, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", "NOMBRE", from, from_alias);
 
 		/*
 		 * Ejemplo de llamada en caso de indicar joins entre tablas y condiciones de negocio
 		 */
-//		query = JQGridManagerJerarquia.getQuery(jqGridRequestDto, query, mapaWhere, "ID", "ID_PADRE", "NOMBRE", from, from_alias, joins, businessFilters, businessParams);
+//		query = TableManagerJerarquia.getQuery(tableRequestDto, query, mapaWhere, "ID", "ID_PADRE", "NOMBRE", from, from_alias, joins, businessFilters, businessParams);
 
 		//PAGINACION
-		if (jqGridRequestDto != null) {
-			query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getPaginationQuery(jqGridRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
+		if (tableRequestDto != null) {
+			query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getPaginationQuery(tableRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
 		List<?> params = (List<?>) mapaWhere.get("params");
@@ -303,11 +303,11 @@
 	 * Count rows in hierarchy
      *
      * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @return Long
      */
 	@Override
-	public Long findAllLikeCountJerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+	public Long findAllLikeCountJerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		// FROM
@@ -335,7 +335,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -350,12 +350,12 @@
 		//JERARQUIA
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
-		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getQueryCount(jqGridRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
+		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQueryCount(tableRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
 
 		/*
 		 * Ejemplo de llamada en caso de indicar joins entre tablas y condiciones de negocio
 		 */
-//		StringBuilder query = JQGridManagerJerarquia.getQueryCount(jqGridRequestDto, mapaWhere, "ID", "ID_PADRE", from, from_alias, joins, businessFilters, businessParams);
+//		StringBuilder query = TableManagerJerarquia.getQueryCount(tableRequestDto, mapaWhere, "ID", "ID_PADRE", from, from_alias, joins, businessFilters, businessParams);
 
 
 		List<?> params = (List<?>) mapaWhere.get("params");
@@ -366,11 +366,11 @@
 	 * Find dependent hierarchical rows
      *
      * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-     * @param jqGridRequestDto ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
-	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> findAllChild(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, JQGridRequestDto jqGridRequestDto) {
+	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> findAllChild(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
 
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
@@ -399,7 +399,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -414,12 +414,12 @@
 		//MULTISELECCION
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
-		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.JQGridManagerJerarquia")}.getQueryChildren(jqGridRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
+		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQueryChildren(tableRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
 
 		/*
 		 * Ejemplo de llamada en caso de indicar joins entre tablas y condiciones de negocio
 		 */
-//		StringBuilder query = JQGridManagerJerarquia.getQueryChildren(jqGridRequestDto, mapaWhere, "ID", "ID_PADRE", from, from_alias, joins, businessFilters, businessParams);
+//		StringBuilder query = TableManagerJerarquia.getQueryChildren(tableRequestDto, mapaWhere, "ID", "ID_PADRE", from, from_alias, joins, businessFilters, businessParams);
 
 		List<?> params = (List<?>) mapaWhere.get("params");
 
@@ -427,7 +427,7 @@
 	}
 
 	/*
-	 * MÉTODOS PRIVADOS
+	 * MÃ‰TODOS PRIVADOS
 	 */
 
 	/**
@@ -440,7 +440,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
 	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
 
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -461,7 +461,7 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:ON CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
 
 	/**
 	 * Returns a map with the needed value to create the conditions to filter by
@@ -474,7 +474,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
 	private Map<String, Object> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
 
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -507,7 +507,7 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
+	// CHECKSTYLE:ON CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
 
 	/**
 	 * StringBuilder initilization value
