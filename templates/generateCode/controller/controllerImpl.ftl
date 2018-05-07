@@ -1,16 +1,16 @@
 <#-- 
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 package ${pojo.getPackageName()}.control;
@@ -179,19 +179,19 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * 
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 *            Bean que contiene los parametros de filtrado a emplear.
-	 * @param jqGridRequestDto
+	 * @param tableRequestDto
 	 *            Dto que contiene los parametros de configuracion propios del
 	 *            RUP_TABLE a aplicar en el filtrado.
-	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}>
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}>
 	 *            Dto que contiene el resultado del filtrado realizado por el 
 	 *            componente RUP_TABLE.
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/filter", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.getDeclarationName()}> filter(
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}> filter(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - filter] : Obtener ${pojo.getDeclarationName()}s");
-		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.filter(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.filter(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 	}
 	 
 	/**
@@ -201,9 +201,9 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 *            Bean que contiene los parametros de filtrado a emplear.
 	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 *            Bean que contiene los parametros de busqueda a emplear.
-	 * @param jqGridRequestDto
+	 * @param tableRequestDto
 	 *            Dto que contiene los parametros de configuracion propios del
-	 *            RUP_TABLE a aplicar en la búsqueda.
+	 *            RUP_TABLE a aplicar en la bÃºsqueda.
 	 * @return ${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}> 
 	 *            Dto que contiene el resultado de la busqueda realizada por el
 	 *            componente RUP_TABLE. 
@@ -212,9 +212,9 @@ public class ${pojo.getDeclarationName()}Controller  {
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="search") ${pojo.getDeclarationName()} search${pojo.getDeclarationName()},
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - search] : Buscar ${pojo.getDeclarationName()}s");
-		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.search(filter${pojo.getDeclarationName()}, search${pojo.getDeclarationName()}, jqGridRequestDto, false);
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.search(filter${pojo.getDeclarationName()}, search${pojo.getDeclarationName()}, tableRequestDto, false);
 	}
 	
 	/**
@@ -222,7 +222,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * 
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 *            Bean que contiene los parametros de filtrado a emplear.
-	 * @param jqGridRequestDto
+	 * @param tableRequestDto
 	 *            Dto que contiene los parametros de configuracion propios del
 	 *            RUP_TABLE a aplicar en la busqueda.
 	 * @return List<String>
@@ -233,12 +233,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> removeMultiple(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - search] : [POST - removeMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 		${pojo.getDeclarationName()}Controller.logger.info("All entities correctly deleted!");
 		
-		return jqGridRequestDto.getMultiselection().getSelectedIds();
+		return tableRequestDto.getMultiselection().getSelectedIds();
 	}
 	
 	/*
@@ -251,19 +251,19 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * 
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 *            Bean que contiene los parametros de filtrado a emplear.
-	 * @param jqGridRequestDto
+	 * @param tableRequestDto
 	 *            Dto que contiene los parametros de configuracion propios del
 	 *            RUP_TABLE a aplicar en el filtrado.
-	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
 	 *            Dto que contiene el resultado del filtrado realizado por el
 	 *            componente RUP_TABLE. 
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/jerarquia/filter", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")} jqGridRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - jerarquia] : Obtener ${pojo.getDeclarationName()}s jerarquia");
-		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquia(filter${pojo.getDeclarationName()}, jqGridRequestDto, false);
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquia(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 	}
 	
 	/**
@@ -271,19 +271,31 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * 
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 *            Bean que contiene los parametros de filtrado a emplear.
-	 * @param jqGridRequestDto
+	 * @param tableRequestDto
 	 *            Dto que contiene los parametros de configuracion propios del
 	 *            RUP_TABLE a aplicar en el filtrado.
-	 * @return ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
 	 *            Dto que contiene el resultado del filtrado realizado por el
 	 *            componente RUP_TABLE. 
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/jerarquiaChildren", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.JQGridResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.JQGridRequestDto")}  jqGridRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}  tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - jerarquia] : Obtener ${pojo.getDeclarationName()}s jerarquia - Hijos");
-		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquiaChildren(filter${pojo.getDeclarationName()}, jqGridRequestDto);
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.jerarquiaChildren(filter${pojo.getDeclarationName()}, tableRequestDto);
+	}
+	
+	/**
+ 	 * EXPORTERS
+ 	 */
+ 	 
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/clipboardReport", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	protected @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<${pojo.getDeclarationName()}> getClipboardReport(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}  tableRequestDto) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar multiples usuarios");
+		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 	}
 </#if>
 	
