@@ -9,7 +9,7 @@
  --
  -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
  -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- SIN GARANT�?AS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
@@ -31,7 +31,7 @@
 		<org.springframework.security.version>3.1.2.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.0.6</org.logback.version>
 		<org.slf4j.version>1.6.6</org.slf4j.version>
-		<com.ejie.x38.version>2.4.9-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>2.4.10-RELEASE</com.ejie.x38.version>
 	</properties>
 	
 <!-- 	<modules> -->

@@ -1,21 +1,7 @@
-<%--  
- -- Copyright 2015 E.J.I.E., S.A.
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- -- 
- -- http://ec.europa.eu/idabc/eupl.html
- -- 
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia. 
- --%>
  
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <!-- BASE (sub-productos para patrones) -->
 <link href="${staticsUrl}/rup/custom-theme/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.10.css" rel="stylesheet" type="text/css" />
+<link href="${staticsUrl}/rup/basic-theme/rup.min-2.4.12.css" rel="stylesheet" type="text/css" />
 

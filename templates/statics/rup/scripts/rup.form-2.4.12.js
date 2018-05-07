@@ -9,7 +9,7 @@
  *
  * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
  * el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ * SIN GARANT�?AS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  * que establece la Licencia.
  */
@@ -17,14 +17,14 @@
 /**
  * @fileOverview Implementa el patrón RUP Form.
  * @author EJIE
- * @version 2.4.10
+ * @version 2.4.12
  */
 (function ($) {
 
 
 
 	//*********************************************
-	// ESPECIFICACÍON DE LOS TIPOS BASE DEL PATRÓN
+	// ESPECIFICAC�?ON DE LOS TIPOS BASE DEL PATRÓN
 	//*********************************************
 
 	//*****************************************************************************************************************
@@ -358,7 +358,7 @@
 							$self.validate().submited=json.rupErrorFields;
 							$self.validate().showErrors(json.rupErrorFields);
 							if (json.rupFeedback!==undefined && $self.validate().settings.feedback!==undefined){
-								$self.validate().settings.feedback.rup_feedback("set", $.rup_utils.printMsg(json.rupFeedback.message), (json.rupFeedback.imgClass!==undefined?json.rupFeedback.imgClass:null));
+								$self.validate().settings.feedback.rup_feedback("set", $.rup_utils.printMsg(json.rupFeedback.message), (json.rupFeedback.style!==undefined?json.rupFeedback.style:null));
 							}
 						}catch(ex){
 							$self.validate().settings.feedback.rup_feedback("set", a.responseText, "error");
