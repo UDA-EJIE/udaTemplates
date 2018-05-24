@@ -14,7 +14,6 @@
  -- que establece la Licencia.
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>
-<h2>${maint.titleMaint}</h2>
 
 
 <#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
@@ -33,13 +32,13 @@
 					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/>:</label>
 					<#switch columnProperties.editType>
 					<#case "Text">
-					<input type="text" name="${columnProperties.name}" class="formulario_linea_input" id="${columnProperties.name}_detail_table"/>
+					<input type="text" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Textarea">
-					<textarea name="${columnProperties.name}" class="formulario_linea_input" id="${columnProperties.name}_detail_table"></textarea>							
+					<textarea name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_detail_table"></textarea>							
 						<#break>	
 					<#case "Checkbox">
-					<input type="checkbox" name="${columnProperties.name}" class="formulario_linea_input" id="${columnProperties.name}_detail_table"/>							
+					<input type="checkbox" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_detail_table"/>							
 						<#break>	
 					<#case "Select">
 					<select name="${columnProperties.name}" class="combo" id="${columnProperties.name}_detail_table"></select>							
@@ -51,7 +50,7 @@
 					<input type="text" name="${columnProperties.name}" class="datepicker" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#default>
-					<input type="text" name="${columnProperties.name}" class="formulario_linea_input" id="${columnProperties.name}_detail_table"/>
+					<input type="text" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 				  	</#switch>
 				</div>
