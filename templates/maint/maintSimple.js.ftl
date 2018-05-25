@@ -22,9 +22,9 @@ jQuery(function($){
         </#if>
 		loadOnStartUp: ${grid.loadOnStartUp?string},
 		filter:{
-  	  		id:"#${maint.nameMaint}_filter_form",
-  	  		filterToolbar:"#${maint.nameMaint}_filter_toolbar",
-  	  		collapsableLayerId:"#${maint.nameMaint}_filter_fieldset"
+  	  		id:"${maint.nameMaint}_filter_form",
+  	  		filterToolbar:"${maint.nameMaint}_filter_toolbar",
+  	  		collapsableLayerId:"${maint.nameMaint}_filter_fieldset"
      	},
         formEdit:{
         	detailForm: "#${maint.nameMaint}_detail_div"<#if (maint.detailServerMaint)?string == "true">,
