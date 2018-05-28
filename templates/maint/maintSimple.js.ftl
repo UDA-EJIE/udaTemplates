@@ -17,73 +17,15 @@ jQuery(function($){
 
 	$("#${maint.nameMaint}").rup_table({
 		
-		url: "${grid.url}",
-		colNames: [
-			<#list gridColumns as columnPropertiesLabel>
-			"${columnPropertiesLabel.label}"<#if columnPropertiesLabel_has_next>,</#if>
-			</#list>
-		],
-		colModel: [
-			<#list gridColumns as columnProperties>
-			{ 	name: "${columnProperties.name}", 
-			 	label: "${columnProperties.label}",
-				align: "${columnProperties.align}", 
-				width: ${columnProperties.width}, 
-				editable: ${columnProperties.editable?string}, 
-				<#switch columnProperties.editType>
-					<#case "Combo">
-						<#assign rupType = "combo">
-						<#break>	
-					<#case "Autocomplete">
-						<#assign rupType = "autocomplete">
-						<#break>	
-					<#case "Datepicker">
-						<#assign rupType = "datepicker">
-						<#break>	
-					<#default>
-						<#assign rupType = "">
-				</#switch>
-			  	<#if rupType != "">
-				ruptype: "${rupType}", 
-				</#if>
-			  	<#if (columnProperties.firstSortOrder)?has_content>
-				firstsortorder: "${columnProperties.firstSortOrder}",
-				</#if>
-				fixed: ${columnProperties.fixed?string}, 
-				hidden: ${columnProperties.hidden?string}, 
-				resizable: ${columnProperties.resizable?string}, 
-				sortable: ${columnProperties.sortable?string}
-			}<#if columnProperties_has_next>,</#if>
-			</#list>
-        ],
-
-        model:"${maint.modelObject}",
-        usePlugins:[
-			<#if (maint.isMaint)?string == "true">
-			<#switch maint.typeMaint>
-				<#case "INLINE">
-			"inlineEdit",
-					<#break>	
-				<#case "DETAIL">
-			"formEdit",
-					<#break>
-			</#switch>
-        	</#if>
-        	"feedback"<#if (maint.toolBarButtonsMaint)?string == "true">,
-			"toolbar"</#if><#if (maint.contextMenuMaint)?string == "true">,
-        	"contextMenu"</#if><#if (maint.fluidMaint)?string == "true">,
-        	"responsive"</#if><#if (maint.filterMaint)?string == "true">,
-        	"filter"</#if><#if (maint.searchMaint)?string == "true">,
-        	"search"</#if><#if (maint.multiSelectMaint)?string == "true">,
-        	"multiselection"</#if><#if (maint.hierarchyMaint)?string == "true">,
-         	"jerarquia"</#if>
-         	],
         <#if (maint.primaryKey)?has_content>
 		primaryKey: "${maint.primaryKey}",
         </#if>
-		sortname: "${grid.sortName}",
-		sortorder: "${grid.sortOrder}",
 		loadOnStartUp: ${grid.loadOnStartUp?string},
+		filter:{
+  	  		id:"${maint.nameMaint}_filter_form",
+  	  		filterToolbar:"${maint.nameMaint}_filter_toolbar",
+  	  		collapsableLayerId:"${maint.nameMaint}_filter_fieldset"
+     	},
         formEdit:{
         	detailForm: "#${maint.nameMaint}_detail_div"<#if (maint.detailServerMaint)?string == "true">,
 			fillDataMethod: "clientSide"</#if><#if (maint.clientValidationMaint)?string == "true">,
@@ -120,8 +62,27 @@ jQuery(function($){
     					}<#if columnProperties_has_next>,</#if>
     				</#list>
     				}
+    		   }
+    		 ,titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base,'rup_table.edit.editCaption')  
     		}
     		</#if>
-        }
+    		,colReorder: {
+				fixedColumnsLeft: 1
+			}
+    		<#if (maint.multiSelectMaint)?string == "true">
+    		      , multiSelect: {
+           			 style:    'multi'
+       				 }
+    		</#if>
+    		<#if (maint.searchMaint)?string == "true">
+    		,seeker: {
+    			activate:true
+			}
+			</#if>
+			<#if (maint.toolBarButtonsMaint)?string == "true">	
+			,buttons: {
+				activate:true
+			}
+			</#if>	
 	});
 });
