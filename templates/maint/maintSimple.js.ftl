@@ -70,9 +70,9 @@ jQuery(function($){
 				fixedColumnsLeft: 1
 			}
     		<#if (maint.multiSelectMaint)?string == "true">
-    		      , multiSelect: {
-           			 style:    'multi'
-       				 }
+    	    , multiSelect: {
+           		 style:    'multi'
+       		 }
     		</#if>
     		<#if (maint.searchMaint)?string == "true">
     		,seeker: {
