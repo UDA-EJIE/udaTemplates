@@ -48,9 +48,7 @@
     };
 </script>
 
-<%-- Scripts RUP sin minimizar (DESARROLLO) --%>
-<%-- <%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%> --%>
-<%-- Scripts RUP minimizados (PRODUCCION) --%>
-<%@include file="/WEB-INF/layouts/includes/rup.scripts.min.inc"%>
+<%-- Scripts RUP --%>
+<%@include file="/WEB-INF/layouts/includes/rup.scripts.inc"%>
 
 <%@include file="/WEB-INF/layouts/includes/${codapp}.scripts.inc"%>
