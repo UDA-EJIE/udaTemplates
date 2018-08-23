@@ -4881,6 +4881,15 @@ div.right_buttons > button, div.right_buttons > .ui-button.rup-button, .rup-drop
 div.right_buttons .rup-dropdown-btn-group {
   float: right; }
 
+div.right_buttons > button:not(:first-child), div.right_buttons > .ui-button.rup-button:not(:first-child), .rup-dropdown-btn-group div.right_buttons > .rup-dropdown-button:not(:first-child), div.right_buttons > a.rup-toolbar_menuButton.ui-button:not(:first-child), .rup-wizard div.right_buttons > a.rup-wizard_next:not(:first-child), .rup-wizard div.right_buttons > a.rup-wizard_prev:not(:first-child), .rup-wizard div.right_buttons > .rup-wizard_submitButton:not(:first-child) {
+  margin-right: 5px; }
+
+.fix-align > div, .fix-align > span {
+  display: block; }
+
+.fix-align > input[type='checkbox'] {
+  width: auto; }
+
 .rup-table-filter .collapse_icon {
   margin-top: 0; }
 
@@ -5309,6 +5318,15 @@ div.right_buttons > button, div.right_buttons > .ui-button.rup-button, .rup-drop
 
 div.right_buttons .rup-dropdown-btn-group {
   float: right; }
+
+div.right_buttons > button:not(:first-child), div.right_buttons > .ui-button.rup-button:not(:first-child), .rup-dropdown-btn-group div.right_buttons > .rup-dropdown-button:not(:first-child), div.right_buttons > a.rup-toolbar_menuButton.ui-button:not(:first-child), .rup-wizard div.right_buttons > a.rup-wizard_next:not(:first-child), .rup-wizard div.right_buttons > a.rup-wizard_prev:not(:first-child), .rup-wizard div.right_buttons > .rup-wizard_submitButton:not(:first-child) {
+  margin-right: 5px; }
+
+.fix-align > div, .fix-align > span {
+  display: block; }
+
+.fix-align > input[type='checkbox'] {
+  width: auto; }
 
 .rup-table-filter .collapse_icon {
   margin-top: 0; }
@@ -6224,6 +6242,10 @@ div.dt-button-background {
     text-align: center; }
   .align-right {
     float: none !important; } }
+
+@media screen and (max-width: 575px) {
+  div.dt-buttons > button, div.dt-buttons > .ui-button.rup-button, .rup-dropdown-btn-group div.dt-buttons > .rup-dropdown-button, div.dt-buttons > a.rup-toolbar_menuButton.ui-button, .rup-wizard div.dt-buttons > a.rup-wizard_next, .rup-wizard div.dt-buttons > a.rup-wizard_prev, .rup-wizard div.dt-buttons > .rup-wizard_submitButton {
+    margin: 3px; } }
 
 button.dt-button.processing, .dt-button.processing.ui-button.rup-button, .rup-dropdown-btn-group .dt-button.processing.rup-dropdown-button, a.dt-button.processing.rup-toolbar_menuButton.ui-button, .rup-wizard a.dt-button.processing.rup-wizard_next, .rup-wizard a.dt-button.processing.rup-wizard_prev, .rup-wizard .dt-button.processing.rup-wizard_submitButton, div.dt-button.processing, a.dt-button.processing {
   color: rgba(0, 0, 0, 0.2); }
@@ -9994,6 +10016,12 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search 
   background-image: none;
   padding-left: 0.5em;
   width: 23em; }
+
+@media (max-width: 575px) {
+  .rup_tableEdit_buttonsContainerResposive {
+    float: none !important; }
+  .rup_tableEdit_buttonsResposive {
+    width: 100%; } }
 
 /*!
  * Copyright 2013 E.J.I.E., S.A.
