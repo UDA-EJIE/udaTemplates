@@ -4896,6 +4896,23 @@ div.right_buttons > button:not(:last-child), div.right_buttons > .ui-button.rup-
 .rup-table-filter .collapse_icon_right {
   margin-top: 0; }
 
+.rup-filter-dropdown {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+  border-color: #17a2b8 !important;
+  border-radius: 4px !important; }
+
+.rup-filter-dropdown + button, .rup-filter-dropdown + .ui-button.rup-button, .rup-dropdown-btn-group .rup-filter-dropdown + .rup-dropdown-button, .rup-filter-dropdown + a.rup-toolbar_menuButton.ui-button, .rup-wizard .rup-filter-dropdown + a.rup-wizard_next, .rup-wizard .rup-filter-dropdown + a.rup-wizard_prev, .rup-wizard .rup-filter-dropdown + .rup-wizard_submitButton {
+  margin-left: -2px;
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+  border-radius: 0 4px 4px 0; }
+
+.form-radio-custom {
+  width: 100%;
+  padding: 0 .75rem; }
+
 .ui-jqgrid {
   border-radius: 0; }
   .ui-jqgrid .ui-jqgrid-hbox {
@@ -5333,6 +5350,23 @@ div.right_buttons > button:not(:last-child), div.right_buttons > .ui-button.rup-
 
 .rup-table-filter .collapse_icon_right {
   margin-top: 0; }
+
+.rup-filter-dropdown {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+  border-color: #17a2b8 !important;
+  border-radius: 4px !important; }
+
+.rup-filter-dropdown + button, .rup-filter-dropdown + .ui-button.rup-button, .rup-dropdown-btn-group .rup-filter-dropdown + .rup-dropdown-button, .rup-filter-dropdown + a.rup-toolbar_menuButton.ui-button, .rup-wizard .rup-filter-dropdown + a.rup-wizard_next, .rup-wizard .rup-filter-dropdown + a.rup-wizard_prev, .rup-wizard .rup-filter-dropdown + .rup-wizard_submitButton {
+  margin-left: -2px;
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+  border-radius: 0 4px 4px 0; }
+
+.form-radio-custom {
+  width: 100%;
+  padding: 0 .75rem; }
 
 .ui-jqgrid {
   border-radius: 0; }
@@ -10007,7 +10041,7 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search 
   /* 	margin-right:0.3em; */ }
 
 .rup_multifilter_dropdown input[type=checkbox] {
-  margin-right: 0.3em; }
+  width: auto; }
 
 .rup_multifilter_dropdown .rup-feedback {
   padding-left: 2.5em; }
@@ -10017,12 +10051,46 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search 
   padding-left: 0.5em;
   width: 23em; }
 
+.separador {
+  padding-top: .5rem; }
+
 @media (max-width: 575px) {
   .rup_tableEdit_buttonsContainerResposive {
     float: none !important; }
   .rup_tableEdit_buttonsResposive {
     width: 100%; } }
 
+/* BORRARME CUANDO LA TABLA LEGACY SEA ELIMINADA */
+.btn-outline-primary {
+  color: #007bff !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: #007bff !important; }
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+  background-color: #007bff !important;
+  border-color: #007bff !important; }
+
+.btn-outline-primary.focus, .btn-outline-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5) !important; }
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+  color: #007bff !important;
+  background-color: transparent !important; }
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show > .btn-outline-primary.dropdown-toggle {
+  color: #fff !important;
+  background-color: #007bff !important;
+  border-color: #007bff !important; }
+
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-outline-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5) !important; }
+
+.fix-editForm-buttons-align {
+  margin-bottom: 6.6px !important; }
+
+/* BORRARME CUANDO LA TABLA LEGACY SEA ELIMINADA */
 /*!
  * Copyright 2013 E.J.I.E., S.A.
  *
