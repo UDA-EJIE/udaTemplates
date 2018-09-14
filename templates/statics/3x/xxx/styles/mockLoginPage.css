@@ -1,0 +1,146 @@
+/*
+ * Copyright 2012 E.J.I.E., S.A.
+ *
+ * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ * Solo podrá usarse esta obra si se respeta la Licencia.
+ * Puede obtenerse una copia de la Licencia en
+ *
+ *      http://ec.europa.eu/idabc/eupl.html
+ *
+ * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ * el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ * que establece la Licencia.
+ */
+ 
+/* LOGIN */
+.preview{
+	margin-top: 2em;
+	margin-bottom: 5em;
+}
+
+.login-inner {
+	padding-top: 2.5em;
+	padding-right: 0.5em;
+	padding-left: 2em;
+	
+	/*padding-bottom: 230px;*/
+	height: 300px;
+	width: 400px;
+	margin: 0 auto;
+	color: #000000;
+	-moz-border-radius: 35px;
+	-webkit-border-radius: 35px;
+	border-radius: 35px;
+	/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+	-moz-box-shadow: 0px 0px 20px #000000;
+	-webkit-box-shadow: 0px 0px 20px #000000;
+	box-shadow: 0px 0px 20px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+	background-image: -moz-linear-gradient(top, #D9DDF2, #F2FFFA);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#D9DDF2), to(#F2FFFA) );
+	background-image: -o-linear-gradient(top, #D9DDF2, #F2FFFA);
+	filter: "progid:DXImageTransform.Microsoft.gradient ( startColorstr = '#D9DDF2', endColorstr = '#F2FFFA' )";
+	/*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#D9DDF2', endColorstr='#F2FFFA')";
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	background-image: linear-gradient(top, #D9DDF2, #F2FFFA);
+	-moz-background-clip: padding-box;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	margin-top: 3em;
+}
+
+.login-up {
+	width: 100%;
+}
+
+.login-down {
+	width: 100%;
+}
+
+.login-down h2 {
+    float: none;
+    font-size: 1.5em;
+}
+.form-item {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+#mockPageContent .separator {
+	border-bottom-color: black;
+	border-bottom-width: 0.3em;
+	border-bottom-style: solid;
+	margin-right: 1.5em;
+	margin-bottom: 0.6em;
+}
+
+#mockPageContent .login-down .separator {
+	border-bottom: 2px solid black;
+	border-top: none;
+	padding-top: 0.1em;
+	margin-bottom: 1.5em;
+}
+
+div.logFeedback {
+	margin-bottom: 2em;
+	overflow: visible;
+}
+
+form.user-login {
+	width: 100%;
+}
+
+
+h2.userComboTitle {
+	border: none;
+	padding-left: 0.1em;
+	padding-right: 0.5em;
+	padding-bottom: 0em;
+	margin-top: 1.8em;
+	margin-bottom: 0.2em;
+}
+
+div.userCombo {
+	padding-left: 0.2em;
+	margin-bottom: 0.8em;
+	width: 100%;
+}
+
+div.userCombo a#userCombo-button {
+	height: 1.8em;
+	padding-top: 0.1em;
+}
+
+div.userCombo ul#userCombo-menu li{
+	font-size: 1.2em;
+}
+
+div.userCombo span.ui-selectmenu-status{
+	padding-right: 0.1em;
+	font-size: 1.2em;
+}
+
+span.selectedUser {
+	font-size: x-small;
+	font-style: italic;
+	padding-left: 0.8em;
+}
+
+span.selectedUserName {
+	font-size: x-small;
+	padding-left: 0.8em;
+	font-family: "Arial black"
+}
+
+div.loginButton {
+	margin-top: 2em;
+	width: 100%;
+	text-align: center;
+}
+

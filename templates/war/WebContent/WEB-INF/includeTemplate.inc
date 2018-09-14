@@ -3,4 +3,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="/WEB-INF/tld/spring.tld" %>
 <%@page import="com.ejie.x38.util.StaticsContainer"%>
-<c:set var="staticsUrl" value='<%= StaticsContainer.staticsUrl %>'/>
+<c:set var="staticsUrl" value='<%=StaticsContainer.staticsUrl%>' />
+<c:set var="staticsUrl" value='${staticsUrl}/3x' />
