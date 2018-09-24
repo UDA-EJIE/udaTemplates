@@ -23,13 +23,13 @@
 	<div class="ui-dialog-content ui-widget-content" >
 		<form id="${maint.nameMaint}_detail_form">					<!-- Formulario -->
 			<div id ="${maint.nameMaint}_detail_feedback"></div>		<!-- Feedback del formulario de detalle -->
-			<div class="floating_left_pad_right">
+			<div class="form-row">
 			
 				<!-- Campos del formulario de detalle -->
 				<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
-				<div class="floating_left_pad_right one-column">
-					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/>:</label>
+				<div class="form-group col-sm">
+					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/></label>
 					<#switch columnProperties.editType>
 					<#case "Text">
 					<input type="text" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_detail_table"/>
@@ -63,21 +63,21 @@
 	</div>
 	<!-- Botonera del formulario de detalle -->
 	<div class="rup-table-buttonpane ui-widget-content ui-helper-clearfix">
-		<div class="ui-dialog-buttonset">
+		<div class="ui-dialog-buttonset rup_tableEdit_buttonsContainerResposive">
 			<!-- Botón Guardar -->
-			<button id="${maint.nameMaint}_detail_button_save" type="button">
+			<button id="${maint.nameMaint}_detail_button_save" class="btn btn-outline-primary rup_tableEdit_buttonsResposive" type="button">
 				<spring:message code="save" />
 			</button>
 			<#if (maint.detailMaintButtons)?string == "SAVE_REPEAT">
 			<!-- Botón Guardar y continuar -->
-			<button id="${maint.nameMaint}_detail_button_save_repeat" type="button">
+			<button id="${maint.nameMaint}_detail_button_save_repeat" class="btn btn-outline-primary rup_tableEdit_buttonsResposive" type="button">
 				<spring:message code="saveAndContinue" />
 			</button>
 			</#if>
-			<!-- Enlace cancelar -->
-			<a href="javascript:void(0)" id="${maint.nameMaint}_detail_link_cancel"
-				class="rup-enlaceCancelar"><spring:message code="cancel" /></a>
+			<!-- Botón cancelar -->
+			<button id="${maint.nameMaint}_detail_button_cancel"
+				 class="btn btn-outline-primary rup_tableEdit_buttonsResposive" type="button"><spring:message code="cancel" /></a>
 		</div>
-	</div>
+	</div>	
 </div>
 </#if>
