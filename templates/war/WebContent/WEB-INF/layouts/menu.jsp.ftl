@@ -17,7 +17,7 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
  
 <nav class="rup-navbar navbar">
-  <button type="button" class="navbar-toggler hidden-lg-up"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+  <button type="button" class="navbar-toggler d-lg-none"  type="button" data-toggle="rup-collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
   <div id="navbarResponsive" class="collapse navbar-toggleable-md col-md-12 no-gutter">
     <a class="navbar-brand" href="#">
     	<spring:message code="inicio" />
