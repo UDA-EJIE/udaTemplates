@@ -15,7 +15,7 @@
  -->
 <#if entornoEjie != "">
 statics.path = http://desarrollo.jakina.ejiedes.net:7001/${codapp?lower_case}Statics
-xlnets.path = http://xlnets.servicios.jakina.ejiedes.net/n38a/N38LoginInicioServlet
+xlnets.path = https://xlnets.servicios.des.ejgv.euskalsarea.eus/n38a/N38LoginInicioServlet
 #TRUE if it is portal embedded
 xlnets.inPortal=FALSE 
 <#else>
@@ -30,21 +30,22 @@ log.level.udaTrazas=TRACE
 log.level.aplicTrazas=INFO
 log.level.auditoriaAccesos=INFO
 
-
+<#if entornoEjie != "">
 # ========================================================
 # PARAMETROS BIG DATA
 # ========================================================
 
-momo.servicio=xxx
-momo.app=xxx
-momo.securityTokenId=xxx
+momo.servicio=uda
+momo.app=${codapp}
+momo.securityTokenId=PIB-3123456786-0
 
-momo.w43taEndpointUri=xxx
-momo.w43taEndpointPort=00
+momo.w43taEndpointUri=data.intra.integracion.jakina.ejiedes.net
+momo.w43taEndpointPort=80
 momo.develomentMode=true
  
-momo.doMomo.salidaEstandar=false
-momo.doMomo.incidencias=false
-momo.doMomo.udaTrazas=false
-momo.doMomo.aplicTrazas=false
-momo.doMomo.auditoriaAccesos=false
+momo.doMomo.salidaEstandar=true
+momo.doMomo.incidencias=true
+momo.doMomo.udaTrazas=true
+momo.doMomo.aplicTrazas=true
+momo.doMomo.auditoriaAccesos=true
+</#if>

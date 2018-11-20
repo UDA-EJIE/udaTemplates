@@ -1,16 +1,16 @@
 <#--
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
- -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
- -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
- -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
    /**
@@ -144,11 +144,11 @@
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
-		// ParÃ¡metros de filtrado
+		// Parámetros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");
 
-		// SQL para la reordenaciÃ³n
+		// SQL para la reordenación
 		StringBuilder sbReorderSelectionSQL =  ${pojo.importType("com.ejie.x38.dto.TableManager")}.getReorderQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>" );
 
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
@@ -268,7 +268,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquÃ­a
+		 * jerarquía
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -335,7 +335,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquÃ­a
+		 * jerarquía
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -399,7 +399,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquÃ­a
+		 * jerarquía
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -427,7 +427,7 @@
 	}
 
 	/*
-	 * MÃ‰TODOS PRIVADOS
+	 * MÉTODOS PRIVADOS
 	 */
 
 	/**
@@ -440,7 +440,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
 
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -461,7 +461,7 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
+	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
 
 	/**
 	 * Returns a map with the needed value to create the conditions to filter by
@@ -474,7 +474,7 @@
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
 	private Map<String, Object> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
 
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
@@ -507,7 +507,7 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - GeneraciÃ³n de cÃ³digo de UDA
+	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
 
 	/**
 	 * StringBuilder initilization value

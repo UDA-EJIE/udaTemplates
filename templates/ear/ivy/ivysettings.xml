@@ -1,0 +1,17 @@
+<ivysettings>
+	<property name="ejie_appsdesa" value="http://repository.ejiedes.net/content/repositories/ejie_appsdesa" />
+	<property name="ejie_thirdparty" value="http://repository.ejiedes.net/content/repositories/ejie_thirdparty" />
+	<property name="public" value="http://repository.ejiedes.net/content/groups/public" />
+	<property name="ejie_homologadas" value="http://repository.ejiedes.net/content/repositories/ejie_homologadas" />
+	<property name="Maven_Releases" value="http://repository.ejiedes.net/content/repositories/Maven_Releases" />
+	<settings defaultResolver="aplic" />	
+	<resolvers>
+		<chain name="aplic" returnFirst="true">		
+			<ibiblio name="ejie_appsdesa" m2compatible="true" root="${ejie_appsdesa}" />
+			<ibiblio name="ejie_thirdparty" m2compatible="true" root="${ejie_thirdparty}" />
+			<ibiblio name="ejie_homologadas" m2compatible="true" root="${ejie_homologadas}" />
+			<ibiblio name="public" m2compatible="true" root="${public}" />
+			<ibiblio name="Maven_Releases" m2compatible="true" root="${public}" />
+		</chain>
+	</resolvers>
+</ivysettings>

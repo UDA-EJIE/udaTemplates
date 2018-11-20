@@ -26,15 +26,15 @@
 .ui-widget textarea,
 .ui-widget button,
 .ui-widget .ui-button.rup-button,
-.ui-widget .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group
-.ui-widget .rup-dropdown-button,
+.ui-widget .rup-dropdown-btn-group .rup-dropdown-button,
+.rup-dropdown-btn-group .ui-widget .rup-dropdown-button,
 .ui-widget a.rup-toolbar_menuButton.ui-button,
-.ui-widget .rup-wizard a.rup-wizard_next, .rup-wizard
-.ui-widget a.rup-wizard_next,
-.ui-widget .rup-wizard a.rup-wizard_prev, .rup-wizard
-.ui-widget a.rup-wizard_prev,
-.ui-widget .rup-wizard .rup-wizard_submitButton, .rup-wizard
-.ui-widget .rup-wizard_submitButton {
+.ui-widget .rup-wizard a.rup-wizard_next,
+.rup-wizard .ui-widget a.rup-wizard_next,
+.ui-widget .rup-wizard a.rup-wizard_prev,
+.rup-wizard .ui-widget a.rup-wizard_prev,
+.ui-widget .rup-wizard .rup-wizard_submitButton,
+.rup-wizard .ui-widget .rup-wizard_submitButton {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1em; }
 
@@ -1501,7 +1501,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
-select, select.form-control, .ui-multiselect, .ui-selectmenu-dropdown, .form-control.ui-multiselect, .form-control.ui-selectmenu-dropdown, select.form-control-sm, .form-control-sm.ui-multiselect, .form-control-sm.ui-selectmenu-dropdown {
+select, select.form-control, select.form-control-sm {
   font-size: 1rem;
   height: 2rem;
   padding: 0;
@@ -1659,37 +1659,14 @@ select, select.form-control, .ui-multiselect, .ui-selectmenu-dropdown, .form-con
           .ui-dialog .ui-dialog-titlebar.ui-widget-header .ui-dialog-titlebar-close span.ui-icon-closethick {
             font-size: 1.2rem;
             top: 0; }
-  .ui-dialog .ui-dialog-buttonset,
   .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
     display: inline-block; }
-    .ui-dialog .ui-dialog-buttonset button.ui-button, .ui-dialog .ui-dialog-buttonset .ui-button.rup-button, .ui-dialog .rup-dropdown-btn-group .ui-dialog-buttonset .ui-button.rup-dropdown-button, .ui-dialog .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton, .ui-dialog .rup-wizard .ui-dialog-buttonset a.ui-button.rup-wizard_next, .ui-dialog .rup-wizard .ui-dialog-buttonset a.ui-button.rup-wizard_prev, .ui-dialog .rup-wizard .ui-dialog-buttonset .ui-button.rup-wizard_submitButton,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-button,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-button,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-dropdown-btn-group .ui-button.rup-dropdown-button, .rup-dropdown-btn-group
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-dropdown-button,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_next, .rup-wizard
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_next,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_prev, .rup-wizard
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_prev,
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard .ui-button.rup-wizard_submitButton, .rup-wizard
-    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-wizard_submitButton {
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-button, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-button, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-dropdown-btn-group .ui-button.rup-dropdown-button, .rup-dropdown-btn-group .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-dropdown-button, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_next, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_next, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_prev, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_prev, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard .ui-button.rup-wizard_submitButton, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-wizard_submitButton {
       background-image: none;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Open Sans", sans-serif;
       text-shadow: none;
       border-color: #adadad; }
-      .ui-dialog .ui-dialog-buttonset button.ui-button:hover, .ui-dialog .ui-dialog-buttonset .ui-button.rup-button:hover, .ui-dialog .rup-dropdown-btn-group .ui-dialog-buttonset .ui-button.rup-dropdown-button:hover, .ui-dialog .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton:hover, .ui-dialog .rup-wizard .ui-dialog-buttonset a.ui-button.rup-wizard_next:hover, .ui-dialog .rup-wizard .ui-dialog-buttonset a.ui-button.rup-wizard_prev:hover, .ui-dialog .rup-wizard .ui-dialog-buttonset .ui-button.rup-wizard_submitButton:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-button:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-button:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-dropdown-btn-group .ui-button.rup-dropdown-button:hover, .rup-dropdown-btn-group
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-dropdown-button:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_next:hover, .rup-wizard
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_next:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_prev:hover, .rup-wizard
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_prev:hover,
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard .ui-button.rup-wizard_submitButton:hover, .rup-wizard
-      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-wizard_submitButton:hover {
+      .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-button:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-button:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-dropdown-btn-group .ui-button.rup-dropdown-button:hover, .rup-dropdown-btn-group .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-dropdown-button:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-toolbar_menuButton:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_next:hover, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_next:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard a.ui-button.rup-wizard_prev:hover, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset a.ui-button.rup-wizard_prev:hover, .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .rup-wizard .ui-button.rup-wizard_submitButton:hover, .rup-wizard .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button.rup-wizard_submitButton:hover {
         background-color: #e6e6e6;
         border-color: #adadad;
         color: #333333; }
@@ -2559,7 +2536,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
           -moz-border-radius: 0;
           border-radius: 0; }
           .navbar-toggleable-md .navbar-nav .nav-item .dropdown-menu .dropdown-submenu .dropdown-menu {
-            background-color: #e6e6e6; }
+            background-color: #e6e5e5; }
         .navbar-toggleable-md .navbar-nav .nav-item .dropdown-menu::before {
           display: none; }
         .navbar-toggleable-md .navbar-nav .nav-item .dropdown-menu::after {
@@ -2679,11 +2656,37 @@ div.right_buttons > button, div.right_buttons > .ui-button.rup-button, .rup-drop
 div.right_buttons .rup-dropdown-btn-group {
   float: right; }
 
+div.right_buttons > button:not(:last-child), div.right_buttons > .ui-button.rup-button:not(:last-child), .rup-dropdown-btn-group div.right_buttons > .rup-dropdown-button:not(:last-child), div.right_buttons > a.rup-toolbar_menuButton.ui-button:not(:last-child), .rup-wizard div.right_buttons > a.rup-wizard_next:not(:last-child), .rup-wizard div.right_buttons > a.rup-wizard_prev:not(:last-child), .rup-wizard div.right_buttons > .rup-wizard_submitButton:not(:last-child) {
+  margin-left: 5px; }
+
+.fix-align > div, .fix-align > span {
+  display: block; }
+
+.fix-align > input[type='checkbox'] {
+  width: auto; }
+
 .rup-table-filter .collapse_icon {
   margin-top: 0; }
 
 .rup-table-filter .collapse_icon_right {
   margin-top: 0; }
+
+.rup-filter-dropdown {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+  border-color: #17a2b8 !important;
+  border-radius: 4px !important; }
+
+.rup-filter-dropdown + button, .rup-filter-dropdown + .ui-button.rup-button, .rup-dropdown-btn-group .rup-filter-dropdown + .rup-dropdown-button, .rup-filter-dropdown + a.rup-toolbar_menuButton.ui-button, .rup-wizard .rup-filter-dropdown + a.rup-wizard_next, .rup-wizard .rup-filter-dropdown + a.rup-wizard_prev, .rup-wizard .rup-filter-dropdown + .rup-wizard_submitButton {
+  margin-left: -2px;
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+  border-radius: 0 4px 4px 0; }
+
+.form-radio-custom {
+  width: 100%;
+  padding: 0 .75rem; }
 
 .ui-jqgrid {
   border-radius: 0; }
@@ -2734,6 +2737,12 @@ div.right_buttons .rup-dropdown-btn-group {
 .rup-dialog .rup-table-detail-separator {
   border-bottom: 1px solid #D1D1D1;
   clear: both; }
+
+table.ui-jqgrid-htable > thead > tr.search_row {
+  height: 37px; }
+
+table.ui-jqgrid-htable > thead > tr.search_row > th > div {
+  height: initial !important; }
 
 .rup-tabs_container.ui-tabs {
   padding: 0;
@@ -3108,11 +3117,37 @@ div.right_buttons > button, div.right_buttons > .ui-button.rup-button, .rup-drop
 div.right_buttons .rup-dropdown-btn-group {
   float: right; }
 
+div.right_buttons > button:not(:last-child), div.right_buttons > .ui-button.rup-button:not(:last-child), .rup-dropdown-btn-group div.right_buttons > .rup-dropdown-button:not(:last-child), div.right_buttons > a.rup-toolbar_menuButton.ui-button:not(:last-child), .rup-wizard div.right_buttons > a.rup-wizard_next:not(:last-child), .rup-wizard div.right_buttons > a.rup-wizard_prev:not(:last-child), .rup-wizard div.right_buttons > .rup-wizard_submitButton:not(:last-child) {
+  margin-left: 5px; }
+
+.fix-align > div, .fix-align > span {
+  display: block; }
+
+.fix-align > input[type='checkbox'] {
+  width: auto; }
+
 .rup-table-filter .collapse_icon {
   margin-top: 0; }
 
 .rup-table-filter .collapse_icon_right {
   margin-top: 0; }
+
+.rup-filter-dropdown {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+  border-color: #17a2b8 !important;
+  border-radius: 4px !important; }
+
+.rup-filter-dropdown + button, .rup-filter-dropdown + .ui-button.rup-button, .rup-dropdown-btn-group .rup-filter-dropdown + .rup-dropdown-button, .rup-filter-dropdown + a.rup-toolbar_menuButton.ui-button, .rup-wizard .rup-filter-dropdown + a.rup-wizard_next, .rup-wizard .rup-filter-dropdown + a.rup-wizard_prev, .rup-wizard .rup-filter-dropdown + .rup-wizard_submitButton {
+  margin-left: -2px;
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+  border-radius: 0 4px 4px 0; }
+
+.form-radio-custom {
+  width: 100%;
+  padding: 0 .75rem; }
 
 .ui-jqgrid {
   border-radius: 0; }
@@ -3163,6 +3198,12 @@ div.right_buttons .rup-dropdown-btn-group {
 .rup-dialog .rup-table-detail-separator {
   border-bottom: 1px solid #D1D1D1;
   clear: both; }
+
+table.ui-jqgrid-htable > thead > tr.search_row {
+  height: 37px; }
+
+table.ui-jqgrid-htable > thead > tr.search_row > th > div {
+  height: initial !important; }
 
 table.dataTable {
   width: 100%;
@@ -3378,31 +3419,27 @@ table.dataTable, table.dataTable th, table.dataTable td {
   padding-right: 3px;
   margin-top: 5px; }
 
-.dataTables_wrapper .dataTables_length {
-  float: left; }
-
-.dataTables_wrapper .dataTables_filter {
+.dataTables_wrapper .dataTables_wrapper .dataTables_filter {
   float: right;
   text-align: right; }
 
 .dataTables_wrapper .dataTables_filter input {
   margin-left: 0.5em; }
 
-.dataTables_wrapper .dataTables_info {
+.dataTables_wrapper {
   clear: both;
   float: left;
   padding-top: 0.755em; }
 
 .dataTables_wrapper .dataTables_paginate {
   float: right;
-  text-align: right;
-  padding-top: 0.25em; }
+  text-align: right; }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   box-sizing: border-box;
   display: inline-block;
   min-width: 1.5em;
-  padding: 0.5em 1em;
+  padding: 0.5em 0.25em;
   margin-left: 2px;
   text-align: center;
   text-decoration: none !important;
@@ -3495,7 +3532,7 @@ table.dataTable, table.dataTable th, table.dataTable td {
   height: 0; }
 
 @media screen and (max-width: 767px) {
-  .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_paginate {
+  .dataTables_wrapper .dataTables_wrapper .dataTables_paginate {
     float: none;
     text-align: center; }
   .dataTables_wrapper .dataTables_paginate {
@@ -3564,6 +3601,84 @@ table.dataTable tbody > tr:hover {
 
 .hiddenInput {
   visibility: hidden; }
+
+.dtr-data {
+  display: inline-block; }
+
+.recolocatedPagination_container {
+  display: inline-block;
+  width: 65%;
+  float: none !important;
+  padding-top: 0; }
+
+.dataTables_length {
+  float: none; }
+
+.recolocatedPagination_length {
+  display: inline-block;
+  padding: 7px 10px 8px 10px; }
+
+.recolocatedPagination_length label {
+  margin-bottom: 0; }
+
+.recolocatedPagination_rellenoCtr {
+  display: inline-block; }
+
+.dataTables_info {
+  float: right;
+  padding-top: 0; }
+
+.recolocatedPagination_rellenoDrc {
+  display: inline-block;
+  padding-right: 10px;
+  text-align: right;
+  float: right;
+  line-height: 3.5em; }
+
+.tableFit {
+  width: calc(100% - 1px) !important;
+  max-width: calc(100% - 1px);
+  margin-bottom: 0; }
+
+.pagination {
+  margin-bottom: 0; }
+
+.paginationContainer {
+  border: 1px solid #dee2e6;
+  border-top: none; }
+
+@media (max-width: 930px) {
+  .recolocatedPagination_container {
+    width: 60%; } }
+
+@media (max-width: 930px) and (min-width: 851px) {
+  .paginate_button {
+    padding-left: 0 !important;
+    padding-right: 0 !important; } }
+
+@media (min-width: 851px) {
+  .recolocatedPagination_iconButton a {
+    display: initial; }
+  .recolocatedPagination_iconButton i {
+    display: none; } }
+
+@media (max-width: 850px) {
+  .recolocatedPagination_iconButton a {
+    display: none; }
+  .recolocatedPagination_iconButton i {
+    display: block; }
+  .searchPaginator {
+    padding-top: 3px !important; } }
+
+@media (max-width: 850px) and (min-width: 651px) {
+  .recolocatedPagination_container {
+    width: 50%; } }
+
+@media (max-width: 650px) {
+  .recolocatedPagination_container {
+    width: 45%; }
+  .recolocatedPagination_length {
+    padding: 7px 0 8px; } }
 
 table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
   background-color: #B0BED9; }
@@ -3661,10 +3776,6 @@ table.dataTable thead th:hover, table.dataTable tfoot th:hover {
 .disabledDatatable {
   pointer-events: none;
   opacity: 0.6; }
-
-.searchPaginator {
-  float: left;
-  margin-top: 10px; }
 
 .selected-pencil {
   float: right;
@@ -3841,9 +3952,9 @@ div.dt-button-collection {
   position: absolute;
   top: 0;
   left: 0;
-  width: 150px;
+  width: 110px;
   margin-top: 3px;
-  padding: 8px 8px 4px 8px;
+  padding: 8px 8px 8px 8px;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.4);
   background-color: white;
@@ -3857,6 +3968,10 @@ div.dt-button-collection {
   -ms-column-gap: 8px;
   -o-column-gap: 8px;
   column-gap: 8px; }
+
+div.dt-button-collection > button, div.dt-button-collection > .ui-button.rup-button, .rup-dropdown-btn-group div.dt-button-collection > .rup-dropdown-button, div.dt-button-collection > a.rup-toolbar_menuButton.ui-button, .rup-wizard div.dt-button-collection > a.rup-wizard_next, .rup-wizard div.dt-button-collection > a.rup-wizard_prev, .rup-wizard div.dt-button-collection > .rup-wizard_submitButton {
+  display: block;
+  margin: auto; }
 
 div.dt-button-collection button.dt-button, div.dt-button-collection .dt-button.ui-button.rup-button, div.dt-button-collection .rup-dropdown-btn-group .dt-button.rup-dropdown-button, .rup-dropdown-btn-group div.dt-button-collection .dt-button.rup-dropdown-button, div.dt-button-collection a.dt-button.rup-toolbar_menuButton.ui-button, div.dt-button-collection .rup-wizard a.dt-button.rup-wizard_next, .rup-wizard div.dt-button-collection a.dt-button.rup-wizard_next, div.dt-button-collection .rup-wizard a.dt-button.rup-wizard_prev, .rup-wizard div.dt-button-collection a.dt-button.rup-wizard_prev, div.dt-button-collection .rup-wizard .dt-button.rup-wizard_submitButton, .rup-wizard div.dt-button-collection .dt-button.rup-wizard_submitButton, div.dt-button-collection div.dt-button, div.dt-button-collection a.dt-button {
   position: relative;
@@ -3949,6 +4064,10 @@ div.dt-button-background {
   .align-right {
     float: none !important; } }
 
+@media screen and (max-width: 575px) {
+  div.dt-buttons > button, div.dt-buttons > .ui-button.rup-button, .rup-dropdown-btn-group div.dt-buttons > .rup-dropdown-button, div.dt-buttons > a.rup-toolbar_menuButton.ui-button, .rup-wizard div.dt-buttons > a.rup-wizard_next, .rup-wizard div.dt-buttons > a.rup-wizard_prev, .rup-wizard div.dt-buttons > .rup-wizard_submitButton {
+    margin: 3px; } }
+
 button.dt-button.processing, .dt-button.processing.ui-button.rup-button, .rup-dropdown-btn-group .dt-button.processing.rup-dropdown-button, a.dt-button.processing.rup-toolbar_menuButton.ui-button, .rup-wizard a.dt-button.processing.rup-wizard_next, .rup-wizard a.dt-button.processing.rup-wizard_prev, .rup-wizard .dt-button.processing.rup-wizard_submitButton, div.dt-button.processing, a.dt-button.processing {
   color: rgba(0, 0, 0, 0.2); }
 
@@ -3987,6 +4106,11 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .right-separator {
   margin-right: 5px; }
 
+.rup-filtrar, .rup-dropdown-button {
+  color: #fff !important;
+  background-color: #007bff !important;
+  border-color: #007bff !important; }
+
 .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1,
 .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10,
 .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11,
@@ -4007,29 +4131,29 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
     padding-left: 15px; } }
 
 @media (min-width: 768px) {
-  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md,
-  .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1,
-  .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10,
-  .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xs, .col-xs-1, .col-xs-10, .col-xs-11,
-  .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1,
+  .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10,
+  .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11,
+  .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xs, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12,
+  .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
     padding-right: 15px;
     padding-left: 15px; } }
 
 @media (min-width: 992px) {
-  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
-  .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
-  .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
-  .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9,
-  .col-xs, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1,
+  .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10,
+  .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11,
+  .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xs, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12,
+  .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
     padding-right: 15px;
     padding-left: 15px; } }
 
 @media (min-width: 1200px) {
-  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7,
-  .col-lg-8, .col-lg-9, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7,
-  .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7,
-  .col-xl-8, .col-xl-9, .col-xs, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7,
-  .col-xs-8, .col-xs-9 {
+  .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1,
+  .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10,
+  .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11,
+  .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xs, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12,
+  .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
     padding-right: 15px;
     padding-left: 15px; } }
 

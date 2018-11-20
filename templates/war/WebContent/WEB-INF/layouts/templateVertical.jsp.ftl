@@ -30,10 +30,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-	<%-- Estilos RUP sin minimizar (DESARROLLO) --%>
-<%-- <%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%> --%>
-	<%-- Estilos RUP sin minimizar (PRODUCCION) --%>
-	<%@include file="/WEB-INF/layouts/includes/rup.styles.min.inc" %>
+	<%-- Estilos RUP --%>
+	<%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%>
 	<%-- Estilos Aplicacion --%>
 	<%@include file="/WEB-INF/layouts/includes/${codapp}.styles.inc"%>
 

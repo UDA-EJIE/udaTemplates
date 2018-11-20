@@ -70,12 +70,12 @@
 	<!-- El "authenticationManager" es el componente encargado de implementar el proceso de autenticación -->
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider
-			ref="xlnetAuthenticationProvider" />
+			ref="udaAuthenticationProvider" />
 	</security:authentication-manager>
 	
-	<!-- El bean "xlnetAuthenticationProvider" es el "authentication-provider" del sistema de login -->
+	<!-- El bean "udaAuthenticationProvider" es el "authentication-provider" del sistema de login -->
 	<!-- El "authentication-provider" determina el objeto "UserDetail" encargado de recoger y servir los datos de seguridad -->
-	<bean id="xlnetAuthenticationProvider" class="com.ejie.x38.security.UdaAuthenticationProvider">
+	<bean id="udaAuthenticationProvider" class="com.ejie.x38.security.UdaAuthenticationProvider">
 		<property name="myAuthenticatedUserDetailsService" ref="myAuthenticatedUserDetailsService" />
 	</bean>
 	
