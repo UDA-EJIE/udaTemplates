@@ -73,6 +73,10 @@ jQuery(function($){
     	    , multiSelect: {
            		 style:    'multi'
        		 }
+       		 <#else>
+       		 , select: {
+           		 activate:true
+       		 }
     		</#if>
     		<#if (maint.searchMaint)?string == "true">
     		,seeker: {
