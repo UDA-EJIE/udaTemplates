@@ -75,9 +75,8 @@
 			</button>
 			</#if>
 			<!-- Botón cancelar -->
-			<button id="${maint.nameMaint}_detail_button_cancel" class="btn btn-outline-primary rup_tableEdit_buttonsResposive" type="button">
-				<spring:message code="cancel" />
-			</button>
+			<button id="${maint.nameMaint}_detail_button_cancel"
+				 class="btn btn-outline-primary rup_tableEdit_buttonsResposive" type="button"><spring:message code="cancel" /></a>
 		</div>
 	</div>	
 </div>
