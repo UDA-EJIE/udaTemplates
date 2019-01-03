@@ -34,8 +34,6 @@ jQuery(document).ready(function(){
 	// Evitar conflictos entre Bootstrap y jQueryUI
 	$.fn.bootstrapBtn = $.fn.button.noConflict();
 
-	// AÃ±adir Constante para determinar si se hacen o no las trazas:
-	const IS_EJIE = ${isEjie};
 	//logo
 	$("#rup_dept_logo").attr("src", $.rup.APP_STATICS + "/images/dept_logo_" + $.rup.lang + ".gif");
 		
