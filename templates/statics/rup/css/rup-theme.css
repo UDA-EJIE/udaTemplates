@@ -4116,7 +4116,12 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
   background-color: #007bff !important;
   border-color: #007bff !important; }
 
-/*IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS*/
+/* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
+/* VARIABLES */
+/* COLORES */
+/* ESTILOS */
+/* ESTILOS ESPECIFICOS DE LOS BOTONES */
+/* ENFASIS ALTO */
 .btn-material[class*="primary-high-emphasis"] {
   background-color: #1472a4; }
 
@@ -4153,6 +4158,7 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .btn-material[class*="info-high-emphasis"]:hover {
   background-color: #03a9f4; }
 
+/* ENFASIS MEDIO */
 .btn-material[class*="primary-medium-emphasis"] {
   color: #1472a4; }
 
@@ -4186,6 +4192,7 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .btn-material[class*="info-medium-emphasis"]:hover {
   background-color: #e5f6fd; }
 
+/* ENFASIS BAJO */
 .btn-material[class*="primary-low-emphasis"] {
   color: #1472a4; }
 
@@ -4240,6 +4247,8 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .btn-material[class*="info-low-emphasis"]:active {
   background-color: #b3e5fb; }
 
+/* ESTILOS GENERALES DE LOS ENFASIS DE LOS BOTONES */
+/* ENFASIS ALTO */
 .btn-material[class*="high-emphasis"] {
   color: #FFFFFF;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
@@ -4263,6 +4272,7 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .btn-material[class*="dark-high-emphasis"]:active {
   color: #212529; }
 
+/* ENFASIS MEDIO */
 .btn-material[class*="medium-emphasis"] {
   background-color: #FFFFFF;
   border-color: #FFFFFF;
@@ -4280,9 +4290,11 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
 .btn-material[class*="medium-emphasis"]:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12); }
 
+/* ENFASIS BAJO */
 .btn-material[class*="low-emphasis"] {
   border-color: transparent; }
 
+/* ESTILOS GENERICOS */
 .btn-material {
   min-width: 64px;
   height: 36px;
@@ -4296,9 +4308,11 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
   text-transform: uppercase;
   box-sizing: border-box; }
 
+/* ESTILOS PARA EVITAR QUE EL NAVEGADOR PINTE UN BORDE CUANDO EL ELEMENTO TIENE EL FOCO */
 .btn-material:focus {
   outline: none; }
 
+/* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A ENFASIS ALTO Y MEDIO) */
 .btn-material:disabled {
   color: rgba(0, 0, 0, 0.37);
   background-color: rgba(0, 0, 0, 0.12);
@@ -4306,9 +4320,56 @@ button.dt-button.processing:after, .dt-button.processing.ui-button.rup-button:af
   cursor: default;
   pointer-events: none; }
 
+/* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A BAJO) */
 .btn-material[class*="low"]:disabled {
   background-color: transparent; }
 
+/* AJUSTE DE POSICIONAMIENTO DEL ICONO */
 .btn-material > i {
   vertical-align: middle;
   padding-bottom: 2px; }
+
+/* ESTILOS DE LOS CONTENEDORES DE INPUTS */
+.form-groupMaterial {
+  position: relative;
+  margin-bottom: 2rem; }
+
+/* ESTILOS DE LOS INPUTS */
+.form-groupMaterial input {
+  display: block;
+  width: 100%;
+  height: 3rem;
+  font-size: 18px;
+  padding: 7px 7px 6px 18px;
+  border: 1px solid #757575;
+  border-radius: 5px;
+  box-sizing: border-box; }
+
+.form-groupMaterial input:hover {
+  border-color: #212529; }
+
+.form-groupMaterial input:focus {
+  border-color: #1472a4;
+  border-width: 2px; }
+
+/* ESTILOS DE LOS LABELS */
+.form-groupMaterial label {
+  color: #999;
+  font-size: 18px;
+  font-weight: 400;
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 5px;
+  padding-left: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all; }
+
+.form-groupMaterial input:focus ~ label,
+.form-groupMaterial input:valid ~ label {
+  top: -12px;
+  font-size: 14px;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: white; }
