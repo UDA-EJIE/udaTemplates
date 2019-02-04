@@ -28,6 +28,7 @@
             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 			
 	<import resource="jackson-config.xml" />
+	<import resource="audit-config.xml" />
 	<import resource="validation-config.xml"/>
 	<import resource="mvc-config.xml" />
 	<import resource="log-config.xml"/>
