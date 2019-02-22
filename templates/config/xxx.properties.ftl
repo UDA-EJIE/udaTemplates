@@ -36,7 +36,7 @@ log.level.auditoriaAccesos=INFO
 # ========================================================
 
 momo.servicio=uda
-momo.app=${codapp}
+momo.app=${codapp?lower_case}
 momo.securityTokenId=PIB-3123456786-0
 
 momo.w43taEndpointUri=data.intra.integracion.jakina.ejiedes.net

@@ -39,12 +39,12 @@
 				<!-- Botonera del formulario de filtrado -->
 				<div id="${maint.nameMaint}_filter_buttonSet" class="right_buttons">
 					<!-- Botón de limpiar -->
-					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn btn-primary rup-limpiar">
+					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn btn-warning rup-limpiar">
 						<i class="fa fa-eraser"></i>
 						<span><spring:message code="clear" /></span>
 					</button>
 					<!-- Botón de filtrado -->
-					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn rup-filtrar btn-primary" >
+					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn rup-filtrar rup-filter-dropdown" >
 						<i class="fa fa-filter"></i>
 						<span><spring:message code="filter" /></span>
 					</button>

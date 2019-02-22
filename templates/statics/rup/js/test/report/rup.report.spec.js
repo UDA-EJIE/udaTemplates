@@ -1,11 +1,5 @@
 /* jslint multistr: true */
 
-import 'jquery';
-import * as testutils from '../common/specCommonUtils.js';
-import 'jasmine-jquery';
-import 'rup.button';
-import 'rup.toolbar';
-import 'rup.report';
 
 
 describe('Test Report > ', () => {
@@ -21,7 +15,8 @@ describe('Test Report > ', () => {
         };
         let html = '<div id="exampleToolbar"></div>';
         let options = {
-            buttons: [{
+            buttons: [
+                {
                     id: 'searchBtn',
                     css: 'fa fa-search',
                     i18nCaption: 'buscar',
@@ -65,7 +60,10 @@ describe('Test Report > ', () => {
         $report = $('[id="exampleToolbar##exportar"]');
     });
     afterEach(() => {
-        $('#exampleToolbar').rup_toolbar('destroy');
+        if($('[aria-describedby="reportFileWait"]').length > 0) {
+            $('#reportFileWait').rup_dialog('close');
+            $('#reportFileWait').rup_dialog('destroy');
+        }
         $('#content').html('');
         $('#content').nextAll().remove();
     });
@@ -76,15 +74,16 @@ describe('Test Report > ', () => {
     });
     describe('Funcionalidad > ', () => {
         describe('Abre ventana emergente > ', () => {
-            beforeEach((done) => {
-                $report.click(done);
+            beforeEach(() => {
+                $report.click();
             });
             it('Debe abrir una ventana emergente:', () => {
                 expect($('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.rup-dialog')
                     .is(':visible')).toBe(true);
             });
             it('Debe tener un boton para cerrar el dialog:', () => {
-                expect($('button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close').length).toBe(1);
+                expect($('button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close')
+                    .length).toBe(1);
             });
             it('Debe tener un progressbar:', () => {
                 expect($('div.ui-progressbar.ui-progressbar-value.ui-corner-left.ui-corner-right').length).toBe(1);

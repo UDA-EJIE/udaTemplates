@@ -1,10 +1,5 @@
 /* jslint multistr: true */
 
-import 'jquery';
-import * as testutils from '../common/specCommonUtils.js';
-import 'jasmine-jquery';
-import 'blueimp-file-upload';
-import 'rup.upload';
 
 
 describe('Test Upload > ', () => {
@@ -41,23 +36,6 @@ describe('Test Upload > ', () => {
          */
     });
     describe('Métodos públicos > ', () => {
-        describe('Método add > ', () => {
-            beforeEach(() => {
-                $upload.rup_upload('add', () => {
-                    $('#txtVar').addClass('add-worked');
-                });
-                /**
-                 * No se puede añadir programáticamente archivos a un
-                 * input type:"file"
-                 * 
-                 * Así que se hará un trigger
-                 */
-                $('#txtVar').trigger('add');
-            });
-            it('#txtVar debe tener la clase add-worked', () => {
-                expect($('#txtVar').hasClass('add-worked')).toBeTruthy();
-            });
-        });
         describe('Método disable > ', () => {
             beforeEach(() => {
                 $upload.rup_upload('disable');
