@@ -28,13 +28,6 @@
                 </#list>
             </tr>
         </thead>
-        <tfoot>
-          <tr>
-          	 <#list gridColumns as columnProperties>	
-	              <th>${columnProperties.name}</th>
-              </#list>
-          </tr>
-        </tfoot>
 </table>
 
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
