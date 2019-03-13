@@ -4576,7 +4576,7 @@
 .r01gContainer .rup-feedback.rup-feedback_image div.rup-feedback_closeLink {
   text-decoration: none;
   float: right;
-  padding-right: 0.5rem;
+  padding-right: 2rem;
   margin: 0;
   color: #818a91;
 }
@@ -7194,7 +7194,8 @@
 }
 
 .r01gContainer div.error,
-.r01gContainer label.error {
+.r01gContainer label.error,
+.r01gContainer span.error {
   color: #d9534f;
   font-style: italic;
 }
@@ -9150,6 +9151,7 @@
 
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
   border-color: #1472a4;
+  caret-color: #1472a4;
   border-width: 2px;
   box-shadow: none;
 }
@@ -9653,6 +9655,11 @@
   z-index: 1;
 }
 
+.r01gContainer div.rup-feedback.rup-feedback_image {
+  border: 1px solid #c5c5c5;
+  color: #333333;
+}
+
 .r01gContainer div.rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
   content: initial;
 }
@@ -9682,12 +9689,55 @@
   margin-left: 1rem;
 }
 
+/* ESTILOS DE LOS INPUTS CUANDO NO HAN PASADO LAS VALIDACIONES */
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error {
+  border: 1px solid #d9534f;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:enabled ~ label {
+  color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:invalid:enabled ~ label {
+  color: #495057;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:hover:enabled {
+  border-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:focus:enabled {
+  border: 2px solid #d43f3a;
+  caret-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:focus:enabled:invalid ~ label {
+  color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial i.material-icons.error {
+  color: #d9534f;
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.r01gContainer .form-groupMaterial .rup-validate-field-error {
+  position: initial;
+}
+
 /* REDONDEAMOS EL LOS BORDES DE LA TABLA */
 
 .r01gContainer table.table-material {
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   /* QUITAMOS LAS BARRAS VERTICALES */
+  /* HACEMOS MAS VISIBLES LOS ICONOS QUE ESTEN DENTRO DE LA TABLA */
 }
 
 .r01gContainer table.table-material > thead th:hover {
@@ -9717,6 +9767,10 @@
   border-color: #dee2e6;
 }
 
+.r01gContainer table.table-material i.material-icons {
+  font-weight: bold;
+}
+
 .r01gContainer form + div.paginationContainer {
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
@@ -9726,6 +9780,10 @@
 
 .r01gContainer .material-rounded {
   border-radius: 16px;
+}
+
+.r01gContainer .pointer {
+  cursor: pointer;
 }
 
 /*!

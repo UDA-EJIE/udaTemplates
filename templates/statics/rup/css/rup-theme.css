@@ -1314,7 +1314,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
     .rup-feedback.rup-feedback_image div.rup-feedback_closeLink {
       text-decoration: none;
       float: right;
-      padding-right: 0.5rem;
+      padding-right: 2rem;
       margin: 0;
       color: #818a91; }
       .rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
@@ -3056,7 +3056,7 @@ input.error {
     right: 0.8rem;
     line-height: 1.9; }
 
-div.error, label.error {
+div.error, label.error, span.error {
   color: #d9534f;
   font-style: italic; }
 
@@ -4523,6 +4523,7 @@ ul > li > div a i.material-icons {
     border-color: #212529; }
   .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
     border-color: #1472a4;
+    caret-color: #1472a4;
     border-width: 2px;
     box-shadow: none; }
   .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled {
@@ -4832,25 +4833,55 @@ div.rup-date-input-group-material + label {
   position: absolute;
   z-index: 1; }
 
-div.rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
-  content: initial; }
+div.rup-feedback.rup-feedback_image {
+  border: 1px solid #c5c5c5;
+  color: #333333; }
+  div.rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
+    content: initial; }
+  div.rup-feedback.rup-feedback_image > i.material-icons {
+    margin-right: 1rem;
+    font-weight: 700;
+    font-size: 2rem; }
+    div.rup-feedback.rup-feedback_image > i.material-icons + div {
+      display: initial;
+      vertical-align: middle; }
+  div.rup-feedback.rup-feedback_image button.btn-material, div.rup-feedback.rup-feedback_image .btn-material.ui-button.rup-button, div.rup-feedback.rup-feedback_image .rup-dropdown-btn-group .btn-material.rup-dropdown-button, .rup-dropdown-btn-group div.rup-feedback.rup-feedback_image .btn-material.rup-dropdown-button, div.rup-feedback.rup-feedback_image a.btn-material.rup-toolbar_menuButton.ui-button, div.rup-feedback.rup-feedback_image .rup-wizard a.btn-material.rup-wizard_next, .rup-wizard div.rup-feedback.rup-feedback_image a.btn-material.rup-wizard_next, div.rup-feedback.rup-feedback_image .rup-wizard a.btn-material.rup-wizard_prev, .rup-wizard div.rup-feedback.rup-feedback_image a.btn-material.rup-wizard_prev, div.rup-feedback.rup-feedback_image .rup-wizard .btn-material.rup-wizard_submitButton, .rup-wizard div.rup-feedback.rup-feedback_image .btn-material.rup-wizard_submitButton {
+    margin-left: 1rem; }
 
-div.rup-feedback.rup-feedback_image > i.material-icons {
-  margin-right: 1rem;
-  font-weight: 700;
-  font-size: 2rem; }
-  div.rup-feedback.rup-feedback_image > i.material-icons + div {
-    display: initial;
-    vertical-align: middle; }
+/* ESTILOS DE LOS INPUTS CUANDO NO HAN PASADO LAS VALIDACIONES */
+.form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error {
+  border: 1px solid #d9534f;
+  background-image: none; }
+  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:enabled ~ label {
+    color: #d9534f; }
+  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:invalid:enabled ~ label {
+    color: #495057; }
+  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:hover:enabled {
+    border-color: #d43f3a; }
+  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:focus:enabled {
+    border: 2px solid #d43f3a;
+    caret-color: #d43f3a; }
+    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).error:focus:enabled:invalid ~ label {
+      color: #d9534f; }
 
-div.rup-feedback.rup-feedback_image button.btn-material, div.rup-feedback.rup-feedback_image .btn-material.ui-button.rup-button, div.rup-feedback.rup-feedback_image .rup-dropdown-btn-group .btn-material.rup-dropdown-button, .rup-dropdown-btn-group div.rup-feedback.rup-feedback_image .btn-material.rup-dropdown-button, div.rup-feedback.rup-feedback_image a.btn-material.rup-toolbar_menuButton.ui-button, div.rup-feedback.rup-feedback_image .rup-wizard a.btn-material.rup-wizard_next, .rup-wizard div.rup-feedback.rup-feedback_image a.btn-material.rup-wizard_next, div.rup-feedback.rup-feedback_image .rup-wizard a.btn-material.rup-wizard_prev, .rup-wizard div.rup-feedback.rup-feedback_image a.btn-material.rup-wizard_prev, div.rup-feedback.rup-feedback_image .rup-wizard .btn-material.rup-wizard_submitButton, .rup-wizard div.rup-feedback.rup-feedback_image .btn-material.rup-wizard_submitButton {
-  margin-left: 1rem; }
+.form-groupMaterial i.material-icons.error {
+  color: #d9534f;
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 400; }
+
+.form-groupMaterial .rup-validate-field-error {
+  position: initial; }
 
 /* REDONDEAMOS EL LOS BORDES DE LA TABLA */
 table.table-material {
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
-  /* QUITAMOS LAS BARRAS VERTICALES */ }
+  /* QUITAMOS LAS BARRAS VERTICALES */
+  /* HACEMOS MAS VISIBLES LOS ICONOS QUE ESTEN DENTRO DE LA TABLA */ }
   table.table-material > thead th:hover {
     background-color: #b8d4e3; }
   table.table-material > thead > tr > th:first-child {
@@ -4865,6 +4896,8 @@ table.table-material {
     border-width: 1px 0;
     border-style: solid;
     border-color: #dee2e6; }
+  table.table-material i.material-icons {
+    font-weight: bold; }
 
 form + div.paginationContainer {
   border-bottom-left-radius: 7px;
@@ -4873,3 +4906,6 @@ form + div.paginationContainer {
 /* ESTILOS GENERALES */
 .material-rounded {
   border-radius: 16px; }
+
+.pointer {
+  cursor: pointer; }
