@@ -6,17 +6,17 @@
 					<!-- Campos del formulario de filtrado -->
 					<#list gridColumns as columnProperties>
 					<#if (columnProperties.activated)?string == "true">
-					<div class="form-group col-sm">
-						<label for="${columnProperties.name}_filter_table" class="formulario_linea_label"><spring:message code="${columnProperties.label}"/></label>
+					<div class="form-groupMaterial col-sm">
+						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
 						<#switch columnProperties.editType>
 						<#case "Text">
-						<input type="text" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_filter_table"/>
+						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 						<#case "Textarea">
-						<textarea name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_filter_table"></textarea>							
+						<textarea name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></textarea>							
 							<#break>	
 						<#case "Checkbox">
-						<input type="checkbox" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_filter_table"/>							
+						<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
 							<#break>	
 						<#case "Select">
 						<select name="${columnProperties.name}" class="combo" id="${columnProperties.name}_filter_table"></select>							
@@ -28,7 +28,7 @@
 						<input type="text" name="${columnProperties.name}" class="datepicker" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 						<#default>
-						<input type="text" name="${columnProperties.name}" class="formulario_linea_input form-control" id="${columnProperties.name}_filter_table"/>
+						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 					  	</#switch>
 					  </div>
@@ -39,13 +39,13 @@
 				<!-- Botonera del formulario de filtrado -->
 				<div id="${maint.nameMaint}_filter_buttonSet" class="right_buttons">
 					<!-- Botón de limpiar -->
-					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn btn-warning rup-limpiar">
-						<i class="fa fa-eraser"></i>
+					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis">
+						<i class="material-icons">&#xe14c;</i>
 						<span><spring:message code="clear" /></span>
 					</button>
 					<!-- Botón de filtrado -->
-					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn rup-filtrar rup-filter-dropdown" >
-						<i class="fa fa-filter"></i>
+					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn-material btn-material-primary-high-emphasis" >
+						<i class="material-icons">&#xe152;</i>
 						<span><spring:message code="filter" /></span>
 					</button>
 				</div>
