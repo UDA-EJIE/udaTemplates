@@ -39,8 +39,12 @@
 							<textarea name="${columnProperties.name}" id="${columnProperties.name}_detail_table"></textarea>							
 						<#break>	
 					<#case "Checkbox">
-						<div class="form-groupMaterial col-sm checkbox-material">
+						<div class="col-sm checkbox-material">
 							<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>							
+						<#break>	
+					<#case "Radio">
+						<div class="col-sm radio-material">
+							<input type="radio" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>							
 						<#break>	
 					<#case "Select">
 						<div class="form-groupMaterial col-sm">
