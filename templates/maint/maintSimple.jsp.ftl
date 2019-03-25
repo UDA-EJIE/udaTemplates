@@ -20,8 +20,7 @@
 
 <table id="${maint.nameMaint}" class="table table-striped table-bordered" 
 	data-url-base="${grid.url}"
-	data-filter-form="#${maint.nameMaint}_filter_form" 
-	cellspacing="0" width="100%">
+	data-filter-form="#${maint.nameMaint}_filter_form">
         <thead>
             <tr>
             	<#list gridColumns as columnProperties>
@@ -29,13 +28,6 @@
                 </#list>
             </tr>
         </thead>
-        <tfoot>
-          <tr>
-          	 <#list gridColumns as columnProperties>	
-	              <th>${columnProperties.name}</th>
-              </#list>
-          </tr>
-        </tfoot>
 </table>
 
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
