@@ -1,4 +1,20 @@
+<#-- 
+ -- Copyright 2019 E.J.I.E., S.A.
+ --
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ --
+ --      http://ec.europa.eu/idabc/eupl.html
+ --
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia.
+ -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>
+
 <form id="${maint.nameMaint}_filter_form">						<!-- Formulario de filtrado -->
 			<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>	<!-- Barra de herramientas del formulario de filtrado -->
 			<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
@@ -7,7 +23,6 @@
 					<#list gridColumns as columnProperties>
 					<#if (columnProperties.activated)?string == "true">
 					<div class="form-groupMaterial col-sm">
-						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
 						<#switch columnProperties.editType>
 						<#case "Text">
 						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
@@ -19,18 +34,19 @@
 						<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
 							<#break>	
 						<#case "Select">
-						<select name="${columnProperties.name}" class="combo" id="${columnProperties.name}_filter_table"></select>							
+						<select name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></select>							
 							<#break>	
 						<#case "Autocomplete">
-						<input type="text" name="${columnProperties.name}" class="autocomplete" id="${columnProperties.name}_filter_table"/>
+						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 						<#case "Datepicker">
-						<input type="text" name="${columnProperties.name}" class="datepicker" id="${columnProperties.name}_filter_table"/>
+						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 						<#default>
 						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 					  	</#switch>
+						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
 					  </div>
 					</#if>
 					</#list>

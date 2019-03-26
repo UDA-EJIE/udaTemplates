@@ -15,7 +15,6 @@
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-
 <#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
 <!-- Formulario de detalle -->
 <div id="${maint.nameMaint}_detail_div" class="rup-table-formEdit-detail">
@@ -48,15 +47,15 @@
 						<#break>	
 					<#case "Select">
 						<div class="form-groupMaterial col-sm">
-							<select name="${columnProperties.name}" class="combo" id="${columnProperties.name}_detail_table"></select>							
+							<select name="${columnProperties.name}" id="${columnProperties.name}_detail_table"></select>							
 						<#break>	
 					<#case "Autocomplete">
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" class="autocomplete" id="${columnProperties.name}_detail_table"/>
+							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Datepicker">
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" class="datepicker" id="${columnProperties.name}_detail_table"/>
+							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#default>
 						<div class="form-groupMaterial col-sm">
@@ -76,6 +75,10 @@
 	<!-- Botonera del formulario de detalle -->
 	<div class="rup-datatable-buttonpanel-material ui-helper-clearfix">
 		<div class="text-right">
+			<!-- Botón cancelar -->
+			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis rup_tableEdit_buttonsResposive" type="button">
+				<spring:message code="cancel" />
+			</button>
 			<!-- Botón Guardar -->
 			<button id="${maint.nameMaint}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis rup_tableEdit_buttonsResposive" type="button">
 				<spring:message code="save" />
@@ -86,10 +89,6 @@
 				<spring:message code="saveAndContinue" />
 			</button>
 			</#if>
-			<!-- Botón cancelar -->
-			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis rup_tableEdit_buttonsResposive" type="button">
-				<spring:message code="cancel" />
-			</button>
 		</div>
 	</div>	
 </div>
