@@ -21,21 +21,24 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
 		http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.${codapp}.control' -->
 	<context:component-scan base-package="com.ejie.${codapp}.control" />
 
 	<!-- Mapeos directos -->
+	<mvc:view-controller path="/sessionInfo" view-name="serSessionTestServlet" />
 	<mvc:view-controller path="/" view-name="welcome" />
 	<mvc:view-controller path="/error" view-name="error" />
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied" />
 	<mvc:view-controller path="/mockLoginPage" view-name="mockLoginPage" />
 	<mvc:view-controller path="/mockLoginAjaxPage" view-name="mockLoginAjaxPage" />
+	
+	<mvc:view-controller path="/y52bdocumentos" view-name="y52bdocumentos" />
 
 	<!-- Filtro utilizado para emular el comportamiento de los mensajes de error 
 		http en peticiones realizadas desde iframes -->
@@ -44,7 +47,7 @@
  	<!-- Recursos idiomáticos (i18n) -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="parentMessageSource" ref="appMessageSource" />
-		<property name="basename" value="/WEB-INF/resources/${warNameShort}.i18n" />
+		<property name="basename" value="/WEB-INF/resources/${warName}.i18n" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
@@ -58,9 +61,9 @@
     <!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
     <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
 		<!-- <property name="paramName" value="locale" /> -->
-       	<property name="defaultLanguage" value="${defaultlanguage}" />
-       	<property name="defaultLayout" value="${layout}" />
-       	<property name="availableLangs" value="${languageswithoutquotes}" />
+       	<property name="defaultLanguage" value="es" />
+       	<property name="defaultLayout" value="horizontal" />
+       	<property name="availableLangs" value="es,eu,en,fr" />
 		<!-- <property name="portalCookie" value="r01euskadiCookie" /> -->
      </bean>
 
@@ -69,7 +72,7 @@
          <ref bean="mvcInterceptor"/>
     </mvc:interceptors>
 
-    <!-- Configurar Excepciones propagadas en los Controller -->
+     <!-- Configurar Excepciones propagadas en los Controller -->
 	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
 <!-- 		<property name="handlers"> -->
 <!-- 			<list> -->
@@ -94,40 +97,39 @@
 			</list>
 		</property>
 	</bean>
+	
 
 	<!-- Configurar MVC -->
-	    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-	        <property name="order" value="1" />
-	    </bean>
-	    
-		<!-- Permite la subida de ficheros -->	
-		<bean id="multipartResolver" class="com.ejie.x38.util.UdaMultipartResolver" >
-			<property name="maxUploadSize" value="10000" />
-		</bean>
-		
-	    <!-- Bean encargado de las peticiones -->
-	    <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		    <property name="webBindingInitializer">
-		        <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-		            <property name="conversionService" ref="conversionService" />
-		        	<property name="validator" ref="validator" />
-		    	</bean>
-		    </property>
-	       	<property name="messageConverters">
-	            <list>
-	            	<ref bean="udaMappingJackson2HttpMessageConverter"/>
-	            </list>
-       		</property>
-       		<property name="customArgumentResolvers">
-       			<list>
-	            	<bean class="com.ejie.x38.control.method.annotation.RequestJsonBodyMethodArgumentResolver"/>
-	            </list>
-	        </property>
-		</bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="order" value="1" />
+    </bean>
+    
+	<!-- Permite la subida de ficheros -->	
+	<bean id="multipartResolver" class="com.ejie.x38.util.UdaMultipartResolver" />
+
+    <!-- Bean encargado de las peticiones -->
+    <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	    <property name="webBindingInitializer">
+	        <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+	            <property name="conversionService" ref="conversionService" />
+	        	<property name="validator" ref="validator" />
+	    	</bean>
+	    </property>
+       	<property name="messageConverters">
+            <list>
+            	<ref bean="udaMappingJackson2HttpMessageConverter"/>
+            </list>
+      		</property>
+      		<property name="customArgumentResolvers">
+      			<list>
+            	<bean class="com.ejie.x38.control.method.annotation.RequestJsonBodyMethodArgumentResolver"/>
+            </list>
+        </property>
+	</bean>
 	<!-- FIN -->
 		
 	<!-- Gestión de la Vista (View) -->
-    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
             <list>
                 <value>/WEB-INF/views/tiles.xml</value>
@@ -136,7 +138,7 @@
     </bean>
 	<bean id="viewResolver" class="com.ejie.x38.control.view.UdaViewResolver">
         <property name="viewClass" value="com.ejie.x38.control.view.UdaTilesView"/>
-        <property name="exposedContextBeanNames">
+        <property name="exposedContextBeanNames" >
         	<list>
         		<value>localeResolver</value>
         		<value>mvcInterceptor</value>
@@ -145,11 +147,14 @@
         </property>
     </bean> 
 	
+	<!-- Audit  -->
+	<bean id="auditController" class="com.ejie.x38.audit.AuditController" />
+	
 	<!-- Reports -->	
-<!--	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
+<!-- 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
 <!-- 	   <property name="location"> -->
 <!-- 	       <value>/WEB-INF/spring/reports-config.xml</value> -->
 <!-- 	   </property> -->
 <!-- 	   <property name="order" value="0" /> -->
-<!--	</bean> -->
+<!-- 	</bean> -->
 </beans>

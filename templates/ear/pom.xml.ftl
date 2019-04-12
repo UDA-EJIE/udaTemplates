@@ -9,7 +9,7 @@
  --
  -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
  -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANT�?AS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
@@ -27,11 +27,14 @@
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
 </#if>		
-		<org.springframework.version>3.2.17.RELEASE</org.springframework.version>
-		<org.springframework.security.version>3.2.9.RELEASE</org.springframework.security.version>
-		<org.logback.version>1.1.7</org.logback.version>
-		<org.slf4j.version>1.7.21</org.slf4j.version>
-		<com.ejie.x38.version>3.7.0-RELEASE</com.ejie.x38.version>
+		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
+		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
+		<org.logback.version>1.2.3</org.logback.version>
+		<org.slf4j.version>1.7.25</org.slf4j.version>
+		<com.ejie.x38.version>4.0.0-RELEASE</com.ejie.x38.version>
+		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
+		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
+		<org.jackson.version>2.7.9.5</org.jackson.version>
 	</properties>
 		
 	<dependencies>
@@ -185,7 +188,7 @@
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
-			<version>2.2.2</version>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 		
 	

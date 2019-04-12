@@ -150,5 +150,5 @@
 
 		StringBuilder query =  new StringBuilder("SELECT count(1) FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
 		query.append(where);	
-		return this.jdbcTemplate.queryForLong(query.toString(), params.toArray());
+		return this.jdbcTemplate.queryForbject(query.toString(), params.toArray(), Long.class);
     }

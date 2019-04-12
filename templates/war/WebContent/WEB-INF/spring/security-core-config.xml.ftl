@@ -17,9 +17,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/security/spring-security-4.2.xsd
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 	<bean id="springSecurityFilterChain" 
 	  class="org.springframework.security.web.FilterChainProxy">
@@ -45,7 +45,7 @@
 		<constructor-arg value="/" />
 		<constructor-arg>
 			<array>
-				<ref local="myLogoutHandler" />
+				<ref bean="myLogoutHandler" />
 			</array>
 		</constructor-arg>
 		<property name="filterProcessesUrl" value="/logout" />
@@ -87,8 +87,8 @@
 
 	<!-- Este filtro se encarga de recoger y gestionar todas las excepciones producidas durante la gestión de la seguridad -->
 	<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
-	  <property name="authenticationEntryPoint" ref="myAuthenticationEntryPoint"/>
-	  <property name="accessDeniedHandler" ref="myAccessDeniedHandler"/>
+		<constructor-arg ref="myAuthenticationEntryPoint" />
+		<property name="accessDeniedHandler" ref="myAccessDeniedHandler" />
 	</bean>
 	
 	<!-- Se define el "AuthenticationEntryPoint" (encargado de proveer el punto de entrada para la autenticación de los usuarios)  -->
@@ -105,11 +105,11 @@
 	
 	<!-- Conjunto de parametrizaciones para determinar la metódica de decisión a la hora de permitir el acceso al sistema -->
 	<bean id="affirmativeBased" class="org.springframework.security.access.vote.AffirmativeBased">
-		<property name="decisionVoters">
+		<constructor-arg name="decisionVoters">
 			<list>
 				<ref bean="expressionVoter" />
 			</list>
-		</property>
+		</constructor-arg>
 	</bean>
 	
 	<!-- El "expressionVoter" determina el tipo de gestión que se hace para permitir o no el acceso a recursos -->
