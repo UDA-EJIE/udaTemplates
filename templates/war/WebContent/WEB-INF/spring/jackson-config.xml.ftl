@@ -9,7 +9,7 @@
  --
  -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
  -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
@@ -21,16 +21,16 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 
 	<!-- Serializador utilizado por UDA para serializar unicamente las  -->
     <bean id="customSerializer" class="com.ejie.x38.serialization.CustomSerializer" />
     
-    <bean id="jsonViewSupportFactoryBean" class="com.ejie.x38.control.view.JsonViewSupportFactoryBean" />
+<!--     <bean id="jsonViewSupportFactoryBean" class="com.ejie.x38.control.view.JsonViewSupportFactoryBean" /> -->
     
     
     <bean id="udaMappingJackson2HttpMessageConverter" class="com.ejie.x38.serialization.UdaMappingJackson2HttpMessageConverter">
