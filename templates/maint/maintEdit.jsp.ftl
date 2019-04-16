@@ -76,16 +76,16 @@
 	<div class="rup-datatable-buttonpanel-material ui-helper-clearfix">
 		<div class="text-right">
 			<!-- Botón cancelar -->
-			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis rup_tableEdit_buttonsResposive" type="button">
+			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
 				<spring:message code="cancel" />
 			</button>
 			<!-- Botón Guardar -->
-			<button id="${maint.nameMaint}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis rup_tableEdit_buttonsResposive" type="button">
+			<button id="${maint.nameMaint}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="save" />
 			</button>
 			<#if (maint.detailMaintButtons)?string == "SAVE_REPEAT">
 			<!-- Botón Guardar y continuar -->
-			<button id="${maint.nameMaint}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis rup_tableEdit_buttonsResposive" type="button">
+			<button id="${maint.nameMaint}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="saveAndContinue" />
 			</button>
 			</#if>

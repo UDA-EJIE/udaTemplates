@@ -26,8 +26,6 @@
 	<bean id="xlsReport" class="com.ejie.x38.reports.XLSReportView" />
 	<bean id="xlsxReport" class="com.ejie.x38.reports.XLSXReportView" />
 
- 	<!-- PDF (Jasper) 
-  	<bean id="pdfUsuario" p:url="/WEB-INF/resources/reports/usuario.jasper"	
-  			class="com.ejie.x38.reports.PDFReportView" />
-  	-->
+ 	<!-- PDF (Jasper) -->
+  	<bean id="pdfUsuario" p:url="/WEB-INF/resources/reports/usuario.jasper"	class="com.ejie.x38.reports.PDFReportView" />
 </beans>
