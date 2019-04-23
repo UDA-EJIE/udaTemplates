@@ -1,3 +1,18 @@
+<#-- 
+ -- Copyright 2013 E.J.I.E., S.A.
+ --
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ --
+ --      http://ec.europa.eu/idabc/eupl.html
+ --
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia.
+ -->
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -32,7 +47,7 @@
  	<!-- Recursos idiomáticos (i18n) -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="parentMessageSource" ref="appMessageSource" />
-		<property name="basename" value="/WEB-INF/resources/${codapp}App.i18n" />
+		<property name="basename" value="/WEB-INF/resources/${warName}.i18n" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
@@ -136,10 +151,10 @@
 	<bean id="auditController" class="com.ejie.x38.audit.AuditController" />
 	
 	<!-- Reports -->	
-	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
-	   <property name="location">
-	       <value>/WEB-INF/spring/reports-config.xml</value>
-	   </property>
-	   <property name="order" value="0" />
-	</bean>
+<!-- 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
+<!-- 	   <property name="location"> -->
+<!-- 	       <value>/WEB-INF/spring/reports-config.xml</value> -->
+<!-- 	   </property> -->
+<!-- 	   <property name="order" value="0" /> -->
+<!-- 	</bean> -->
 </beans>

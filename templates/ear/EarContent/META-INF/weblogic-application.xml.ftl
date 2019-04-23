@@ -31,7 +31,11 @@
 		<wls:persistent-store-type>replicated_if_clustered</wls:persistent-store-type>
 	</wls:session-descriptor>
     <wls:prefer-application-packages>	
-    	<wls:package-name>javax.persistence.*</wls:package-name>
-		<wls:package-name>org.apache.log4j.*</wls:package-name>
+<#if radjpa>
+		<wls:package-name>org.eclipse.persistence.*</wls:package-name>
+</#if>
+		<wls:package-name>org.apache.xerces.*</wls:package-name>
+		<wls:package-name>org.apache.xerces.jaxp.*</wls:package-name>
+		<wls:package-name>javax.persistence.*</wls:package-name>
 	</wls:prefer-application-packages>
 </wls:weblogic-application>

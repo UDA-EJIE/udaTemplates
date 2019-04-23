@@ -1,5 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<#-- 
+ -- Copyright 2013 E.J.I.E., S.A.
+ --
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ --
+ --      http://ec.europa.eu/idabc/eupl.html
+ --
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ejie.${codapp}</groupId>
@@ -8,8 +22,11 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>${codapp}EAR</name>
 	<url>http://maven.apache.org</url>
-
 	<properties>
+<#if radjpa>	
+		<eclipselink.version>2.3.0</eclipselink.version>
+		<javax.persistence.version>2.0.1</javax.persistence.version>
+</#if>		
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.3</org.logback.version>
@@ -19,13 +36,33 @@
 		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
 	</properties>
-	
+		
 	<dependencies>
-		<!-- Spring -->
+<#if radjpa>
+		<!-- EclipseLink -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version><#noparse>${eclipselink.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version><#noparse>${javax.persistence.version}</#noparse></version>
+		</dependency>
+		<!-- MetaModel Generation -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+			<version><#noparse>${eclipselink.version}</#noparse></version>
+		</dependency>
+</#if>
+		
+		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${org.springframework.version}</version>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
 			<exclusions>
 				<!-- Exclude Commons Logging in favor of logback -->
 				<exclusion>
@@ -37,389 +74,124 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework.version}</version>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${org.springframework.version}</version>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework.version}</version>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
-
+		
 		<!-- Spring Security -->
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${org.springframework.security.version}</version>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${org.springframework.security.version}</version>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-acl</artifactId>
-			<version>${org.springframework.security.version}</version>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-acl</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework.security.version}</version>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version><#noparse>${org.springframework.security.version}</#noparse></version>
 		</dependency>
-		<dependency>
+		<dependency> 
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>${org.springframework.security.version}</version>
+        	<version><#noparse>${org.springframework.security.version}</#noparse></version>
 		</dependency>
-
-		<!-- TILES -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-api</artifactId>
-			<version>${org.apache.tiles.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-core</artifactId>
-			<version>${org.apache.tiles.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version>${org.apache.tiles.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-servlet</artifactId>
-			<version>${org.apache.tiles.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-template</artifactId>
-			<version>${org.apache.tiles.version}</version>
-		</dependency>
-
+		
 		<!-- Logging -->
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-			<version>3.3.0.Final</version>
-		</dependency>
 		<!-- SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j.version}</version>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j.version}</version>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-ext</artifactId>
-			<version>${org.slf4j.version}</version>
+			<version><#noparse>${org.slf4j.version}</#noparse></version>
 			<exclusions>
 				<!-- Exclude Compiler assisted localization library (CAL10N) -->
 				<exclusion>
 					<groupId>ch.qos.cal10n</groupId>
 					<artifactId>cal10n-api</artifactId>
-				</exclusion>
-			</exclusions>
+				</exclusion>				
+			</exclusions>			
 		</dependency>
 		<!-- Logback -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>${org.logback.version}</version>
+			<version><#noparse>${org.logback.version}</#noparse></version>						
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${org.logback.version}</version>
-		</dependency>
-		<!-- Jdbcdslog -->
-		<dependency>
-			<groupId>org</groupId>
-			<artifactId>jdbcdslog</artifactId>
-			<version>1.0.5</version>
+			<version><#noparse>${org.logback.version}</#noparse></version>
 		</dependency>
 
-		<!-- Hibernate Validator -->
-		<!-- Hibernate Validator -->
+		<!-- JSR 303 with Hibernate Validator -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.4.3.Final</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.logging</groupId>
-					<artifactId>jboss-logging</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>4.3.2.Final</version>
 		</dependency>
+		
+		<!-- Jackson JSON Mapper -->	
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.6.5</version>
+		</dependency>	
 
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.13</version>
-		</dependency>
-
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${org.jackson.version}</version>
+			<version>1.6.9</version>
 		</dependency>
 
 		<!-- x38 -->
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
-			<version>${com.ejie.x38.version}</version>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses-dav</artifactId>
-			<version>${com.ejie.x38.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses-pif</artifactId>
-			<version>${com.ejie.x38.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses-rup</artifactId>
-			<version>${com.ejie.x38.version}</version>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
-
+		
+		<!-- Tiles -->
 		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses-cache</artifactId>
-			<version>${com.ejie.x38.version}</version>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
-
-		<!-- CACHE -->
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-			<version>2.6.10</version>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-root</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-jmsreplication</artifactId>
-			<version>0.5</version>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- Reports -->
-
-		<!-- odf -->
-		<dependency>
-			<groupId>org.odftoolkit</groupId>
-			<artifactId>odfdom-java</artifactId>
-			<version>0.8.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-asl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- pdf -->
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>4.7.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcmail-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>bouncycastle</groupId>
-					<artifactId>bcmail-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>bouncycastle</groupId>
-					<artifactId>bcprov-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bctsp-jdk14</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.castor</groupId>
-					<artifactId>castor</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-beanutils</groupId>
-					<artifactId>commons-beanutils</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-collections</groupId>
-					<artifactId>commons-collections</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-digester</groupId>
-					<artifactId>commons-digester</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.geronimo.specs</groupId>
-					<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-lgpl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-lgpl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jfree</groupId>
-					<artifactId>jcommon</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>eclipse</groupId>
-					<artifactId>jdtcore</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jfree</groupId>
-					<artifactId>jfreechart</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>javax.xml.stream</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlbeans</groupId>
-					<artifactId>xmlbeans</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- xls -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.avalon.framework</groupId>
-					<artifactId>avalon-framework-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- xlsx -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.geronimo.specs</groupId>
-					<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.geronimo.specs</groupId>
-					<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>javax.xml.stream</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlbeans</groupId>
-					<artifactId>xmlbeans</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- Reports -->
-
-		<!-- RSS -->
-		<dependency>
-			<groupId>net.java.dev.rome</groupId>
-			<artifactId>rome</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-
+		
+	
 		<!-- INI:PIF 1.4 EN APLICACION UDA -->
 		<dependency>
 			<groupId>com.ejie</groupId>
@@ -484,25 +256,21 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-mapper-asl</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.8.0</version>
-			<exclusions>
+   			<groupId>commons-beanutils</groupId>
+   			<artifactId>commons-beanutils</artifactId>
+   			<version>1.8.0</version>
+   			<exclusions>
 				<!-- Exclude Commons Logging in favor of logback -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
+				 </exclusion>
+				 <exclusion>
 					<groupId>commons-collections</groupId>
 					<artifactId>commons-collections</artifactId>
 				</exclusion>
@@ -581,7 +349,7 @@
 		<dependency>
 			<groupId>com.ejie</groupId>
 			<artifactId>w43ta</artifactId>
-			<version>2.4</version>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.avro</groupId>
@@ -604,14 +372,6 @@
 					<groupId>org.tukaani</groupId>
 					<artifactId>xz</artifactId>
 				</exclusion>
-				<!-- <exclusion> -->
-				<!-- <groupId>org.codehaus.jackson</groupId> -->
-				<!-- <artifactId>jackson-core-asl</artifactId> -->
-				<!-- </exclusion> -->
-				<!-- <exclusion> -->
-				<!-- <groupId>org.codehaus.jackson</groupId> -->
-				<!-- <artifactId>jackson-mapper-asl</artifactId> -->
-				<!-- </exclusion> -->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -656,36 +416,51 @@
 		</dependency>
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 
-		<!-- TESTS -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server-standalone</artifactId>
-			<version>2.41.0</version>
-			<scope>test</scope>
-		</dependency>
+	
+	
+	
+	
+	
+	
 	</dependencies>
-
-
 	<repositories>
+<#if entornoEjie != "">
 		<repository>
 			<id>ejie</id>
 			<name>ejie</name>
-			<url>http://www.otc.ejiedes.net/archiva/repository/repoCACRep</url>
+			<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
 			<snapshots>
 				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+<#else>
+
+	<#if radjpa>	
+		<!-- For EclipseLink -->
+		<repository>
+			<id>EclipseLink Repo</id>
+			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+		</repository>
+	</#if>
+		<!-- For Hibernate Validator -->
+		<repository>
+			<id>org.jboss.repository.release</id>
+			<name>JBoss Maven Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
-			<id>maven</id>
-			<name>maven</name>
-			<url>http://central.maven.org/maven2</url>
+			<id>repo2.maven.org</id>
+			<name>Official Maven Repository</name>
+			<url>http://repo2.maven.org/maven2/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+</#if>		
 	</repositories>
-
-
 	<build>
 		<plugins>
 			<plugin>
@@ -699,7 +474,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${user.dir}/EarContent/APP-INF/lib</outputDirectory>
+							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
 							<excludeTransitive>false</excludeTransitive>
