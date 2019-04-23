@@ -1,10 +1,20 @@
+<%--  
+ -- Copyright 2019 E.J.I.E., S.A.
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Puede obtenerse una copia de la Licencia en
+ -- 
+ -- http://ec.europa.eu/idabc/eupl.html
+ -- 
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- que establece la Licencia. 
+ --%>
  
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
-<link href="${staticsUrl}/rup/portal/externals/bootstrap/bt4.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/portal/font-awesome/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="${staticsUrl}/rup/portal/externals/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="${staticsUrl}/rup/portal/rup-base.css" rel="stylesheet" type="text/css" />
 <link href="${staticsUrl}/rup/portal/rup-theme.css" rel="stylesheet" type="text/css" />
-
-
-
