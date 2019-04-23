@@ -121,7 +121,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
      */
     public ${pojo.getDeclarationName()} update(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
     	<#assign paramSetter =utilidadesDao.getUpdateFields(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
 		String query = "UPDATE ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} SET <#list paramSetter as param>${param}=?<#if param_has_next>, </#if></#list> WHERE <#list paramWhere as param>${param}=?<#if param_has_next> AND </#if></#list>";
 		<#assign paramUpdate = utilidadesDao.camposQueryUpdate(pojo,cfg)>
 		<#assign nulablesFieldsUpdate = paramUpdate>

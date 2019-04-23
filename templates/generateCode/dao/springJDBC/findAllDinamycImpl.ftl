@@ -132,7 +132,7 @@
 	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect >
 		<#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		// SELECT
 		StringBuilder query = new StringBuilder("SELECT <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
 		// FROM
@@ -167,7 +167,7 @@
 	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filterParams, ${pojo.getDeclarationName()} searchParams, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign  selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		// SELECT
 		StringBuilder query = new StringBuilder("SELECT <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
 		// FROM
@@ -211,7 +211,7 @@
 	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign  selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		// SELECT
 		/** TODO: select por clave */
 		StringBuilder query = new StringBuilder("SELECT <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
@@ -282,7 +282,7 @@
 
 		//JERARQUIA
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQuery(tableRequestDto, query, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", "NOMBRE", from, from_alias);
 
 		/*
@@ -349,7 +349,7 @@
 
 		//JERARQUIA
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQueryCount(tableRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
 
 		/*
@@ -413,7 +413,7 @@
 
 		//MULTISELECCION
 		// Especificar la columna padre correspondiente en lugar de la generada por defecto (ID_PADRE)
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg)>
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		StringBuilder query = ${pojo.importType("com.ejie.x38.dto.TableManagerJerarquia")}.getQueryChildren(tableRequestDto, mapaWhere, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>", "ID_PADRE", from, from_alias);
 
 		/*
