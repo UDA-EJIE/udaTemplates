@@ -115,6 +115,11 @@
 		</dependency>
 		
 		<!-- Logging -->
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.3.0.Final</version>
+		</dependency>
 		<!-- SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -155,21 +160,27 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.2.Final</version>
+			<version>5.4.3.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- Jackson JSON Mapper -->	
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.6.5</version>
-		</dependency>	
+			<version>${org.jackson.version}</version>
+		</dependency>
 
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.6.9</version>
+			<version>1.8.13</version>
 		</dependency>
 
 		<!-- x38 -->
@@ -190,7 +201,26 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>${org.apache.tiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${org.apache.tiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-servlet</artifactId>
+			<version>${org.apache.tiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-template</artifactId>
+			<version>${org.apache.tiles.version}</version>
+		</dependency>
 	
 		<!-- INI:PIF 1.4 EN APLICACION UDA -->
 		<dependency>
