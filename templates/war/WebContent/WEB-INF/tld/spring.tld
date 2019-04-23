@@ -210,7 +210,20 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-
+	<tag>
+		<description>Argument tag based on the JSTL fmt:param tag. The purpose is to
+		support arguments inside the spring:message and spring:theme tags.</description>
+		<name>argument</name>
+		<tag-class>org.springframework.web.servlet.tags.ArgumentTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>The value of the argument.</description>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>
+	</tag>
 	<tag>
 		<description>
 			Provides Errors instance in case of bind errors.
@@ -453,5 +466,12 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<function>
+        <description>Helps to prepare a URL to a Spring MVC controller method.</description>
+        <name>mvcUrl</name>
+        <function-class>org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder</function-class>
+        <function-signature>org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.MethodArgumentBuilder fromMappingName(java.lang.String)</function-signature>
+    </function>
 
 </taglib>
