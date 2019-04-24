@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${org.jackson.version}</version>
+			<version><#noparse>${org.jackson.version}</#noparse></version>
 		</dependency>
 
 		<!-- AspectJ -->
@@ -204,22 +204,22 @@
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
-			<version>${org.apache.tiles.version}</version>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
-			<version>${org.apache.tiles.version}</version>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-servlet</artifactId>
-			<version>${org.apache.tiles.version}</version>
+			<version>$<#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-template</artifactId>
-			<version>${org.apache.tiles.version}</version>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 	
 		<!-- INI:PIF 1.4 EN APLICACION UDA -->
