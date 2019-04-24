@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-servlet</artifactId>
-			<version>$<#noparse>${org.apache.tiles.version}</#noparse></version>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
