@@ -13,5 +13,5 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
- 
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <div id="${warName}_migas" class="rup-breadCrumb_root"></div>

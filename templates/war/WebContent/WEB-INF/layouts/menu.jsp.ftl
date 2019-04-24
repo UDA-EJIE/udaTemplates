@@ -17,47 +17,54 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
  
 <nav class="rup-navbar navbar">
-  <button type="button" class="navbar-toggler hidden-lg-up"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
-  <div id="navbarResponsive" class="collapse navbar-toggleable-md">
-    <a class="navbar-brand" href="#">
-    	<spring:message code="inicio" />
-    </a>
-    <ul class="nav navbar-nav">
-      <li class="nav-item dropdown">
-        <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Componentes <span class="caret"></span></a> -->
-        <a class="nav-link dropdown-toggle" href="#" id="responsiveNavbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        	<spring:message code="menu1" />
-        </a>
-        <div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
-            <a class="dropdown-item" href="#">
-            	<spring:message code="submenu11" />
-           	</a>
-            <a class="dropdown-item" href="#">
-            	<spring:message code="submenu12" />
-           	</a>
-           	<a class="dropdown-item" href="#">
-            	<spring:message code="submenu13" />
-           	</a>
-        </div>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav float-md-right rup-nav-tools">
-      <li class="nav-item">
-        <a class="nav-link rup-nav-tool-icon" href="#" id="${warName}_language" data-toggle="dropdown"><i class="fa fa-globe" aria-hidden="true"></i><span data-rup-lang-current=""></span></a>
-			<div class="dropdown-menu" aria-labelledby="${warName}_language">
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link rup-nav-tool-icon" href="#"><i class="fa fa-cog " aria-hidden="true"></i></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link rup-nav-user rup-nav-tool-icon" href="#"><i class="fa fa-user-circle-o " aria-hidden="true"></i></a>
-      </li>
-      <li class="nav-item scrollTop">
-        <a class="nav-link rup-nav-user rup-nav-tool-icon" href="#"><i class="fa fa-arrow-circle-up " aria-hidden="true"></i></a>
-      </li>
-    </ul>
-  </div>
+	<button type="button" class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+	<div id="navbarResponsive" class="collapse navbar-toggleable-md col-md-12 no-gutter">
+    	<a class="navbar-brand" href="#">
+    		<spring:message code="inicio" />
+    	</a>
+    	<ul class="nav navbar-nav">
+      		<li class="nav-item dropdown">
+        		<a class="nav-link dropdown-toggle" href="#" id="responsiveNavbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        			<spring:message code="menu1" />
+        		</a>
+        		<div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
+	            	<a class="dropdown-item" href="#">
+	            		<spring:message code="submenu11" />
+	           		</a>
+		            <a class="dropdown-item" href="#">
+		            	<spring:message code="submenu12" />
+		           	</a>
+		           	<a class="dropdown-item" href="#">
+		            	<spring:message code="submenu13" />
+		           	</a>
+        		</div>
+      		</li>
+    	</ul>
+    	<ul class="nav navbar-nav float-md-right rup-nav-tools">
+      		<li class="nav-item">
+	        	<a class="nav-link rup-nav-tool-icon" href="#" id="${warName}_language" data-toggle="dropdown">
+	        		<i class="material-icons" aria-hidden="true">&#xe894;</i>
+	        		<span data-rup-lang-current=""></span>
+	        	</a>
+				<div class="dropdown-menu" aria-labelledby="${warName}_language"></div>
+      		</li>
+      		<li class="nav-item">
+        		<a class="nav-link rup-nav-tool-icon" href="#">
+        			<i class="material-icons" aria-hidden="true">&#xe8b8;</i>
+        		</a>
+      		</li>
+			<li class="nav-item">
+				<a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
+					<i class="material-icons" aria-hidden="true">&#xe853;</i>
+				</a>
+			</li>
+			<li class="nav-item swingTop">
+				<a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
+					<i class="material-icons" aria-hidden="true">&#xe5d8;</i>
+				</a>
+			</li>
+    	</ul>
+  	</div>
 </nav>
 
 <div id="overlay"></div>

@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2019 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -16,7 +16,7 @@
  <%@include file="/WEB-INF/includeTemplate.inc"%>
 <div id="${warName}_language" class="rup-language_root">
 	<div class="languageHelpContact">
-		<a target="_blank" title='<spring:message code="language.ayuda" />' href="#">
+		<a target="_blank" title='<spring:message code="language.ayuda" />' href="#" id="header_ayuda">
 			<spring:message code="language.ayuda" />
 		</a>
 		<span class="ui-icon ui-icon-extlink rup_external_link">&nbsp;&nbsp;&nbsp;&nbsp;</span>
