@@ -43,24 +43,24 @@
     	<ul class="nav navbar-nav float-md-right rup-nav-tools">
       		<li class="nav-item">
 	        	<a class="nav-link rup-nav-tool-icon" href="#" id="${warName}_language" data-toggle="dropdown">
-	        		<i class="material-icons" aria-hidden="true">&#xe894;</i>
+	        		<i class="mdi mdi-earth" aria-hidden="true"></i>
 	        		<span data-rup-lang-current=""></span>
 	        	</a>
 				<div class="dropdown-menu" aria-labelledby="${warName}_language"></div>
       		</li>
       		<li class="nav-item">
         		<a class="nav-link rup-nav-tool-icon" href="#">
-        			<i class="material-icons" aria-hidden="true">&#xe8b8;</i>
+        			<i class="mdi mdi-settings" aria-hidden="true"></i>
         		</a>
       		</li>
 			<li class="nav-item">
 				<a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
-					<i class="material-icons" aria-hidden="true">&#xe853;</i>
+					<i class="mdi mdi-account-circle" aria-hidden="true"></i>
 				</a>
 			</li>
 			<li class="nav-item swingTop">
 				<a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
-					<i class="material-icons" aria-hidden="true">&#xe5d8;</i>
+					<i class="mdi mdi-arrow-up" aria-hidden="true"></i>
 				</a>
 			</li>
     	</ul>

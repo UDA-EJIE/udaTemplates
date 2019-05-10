@@ -56,12 +56,12 @@
 				<div id="${maint.nameMaint}_filter_buttonSet" class="right_buttons">
 					<!-- Botón de limpiar -->
 					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis">
-						<i class="material-icons">&#xe14c;</i>
+						<i class="mdi mdi-broom"></i>
 						<span><spring:message code="clear" /></span>
 					</button>
 					<!-- Botón de filtrado -->
 					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn-material btn-material-primary-high-emphasis" >
-						<i class="material-icons">&#xe152;</i>
+						<i class="mdi mdi-filter-variant"></i>
 						<span><spring:message code="filter" /></span>
 					</button>
 				</div>
