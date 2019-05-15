@@ -16,7 +16,7 @@
  
 jQuery(function($){
 
-	$("#${maint.nameMaint}").rup_datatable({
+	$("#${maint.nameMaint}").rup_table({
 		
         <#if (maint.primaryKey)?has_content>
 		primaryKey: "${maint.primaryKey}",
