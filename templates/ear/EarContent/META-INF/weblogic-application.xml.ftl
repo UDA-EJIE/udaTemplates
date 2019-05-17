@@ -33,8 +33,6 @@
 <#if radjpa>
 		<wls:package-name>org.eclipse.persistence.*</wls:package-name>
 </#if>
-		<wls:package-name>org.apache.xerces.*</wls:package-name>
-		<wls:package-name>org.apache.xerces.jaxp.*</wls:package-name>
 		<wls:package-name>javax.persistence.*</wls:package-name>
 	</wls:prefer-application-packages>
 </wls:weblogic-application>
