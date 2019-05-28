@@ -18,12 +18,16 @@
 <#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
 <!-- Formulario de detalle -->
 <div id="${maint.nameMaint}_detail_div" class="rup-table-formEdit-detail">
-	<div id ="${maint.nameMaint}_detail_navigation"></div>			<!-- Barra de navegación del detalle -->
-	<div class="dialog-content-material" >
-		<form id="${maint.nameMaint}_detail_form">					<!-- Formulario -->
-			<div id ="${maint.nameMaint}_detail_feedback"></div>		<!-- Feedback del formulario de detalle -->
-			<div class="form-row">
-			
+	<!-- Barra de navegación del detalle -->
+	<div id ="${maint.nameMaint}_detail_navigation" class="row no-gutters"></div>
+	<!-- Separador -->
+	<hr class="m-1">
+	<div class="dialog-content-material">
+		<!-- Formulario -->
+		<form id="${maint.nameMaint}_detail_form">
+			<!-- Feedback del formulario de detalle -->
+			<div id ="${maint.nameMaint}_detail_feedback"></div>
+			<div class="form-row">	
 				<!-- Campos del formulario de detalle -->
 				<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
@@ -68,7 +72,6 @@
 				</#if>
 				</#list>
 				<!-- Fin campos del formulario de detalle -->
-				
 			</div>
 		</form>
 	</div>
