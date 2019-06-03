@@ -76,7 +76,7 @@
 		</form>
 	</div>
 	<!-- Botonera del formulario de detalle -->
-	<div class="rup-datatable-buttonpanel-material ui-helper-clearfix">
+	<div class="rup-table-buttonpanel-material ui-helper-clearfix">
 		<div class="text-right">
 			<!-- Botón cancelar -->
 			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
