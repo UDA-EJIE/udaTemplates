@@ -64,7 +64,7 @@ jQuery(function($){
     				</#list>
 					}
     		   	},
-			   	titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base,'rup_jqtable.edit.editCaption')  
+			   	titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base,'rup_table.edit.editCaption')  
     		}
     		</#if>
     		,colReorder: {

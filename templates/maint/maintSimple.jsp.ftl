@@ -22,18 +22,18 @@
 <table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 
 	data-url-base="${grid.url}"
 	data-filter-form="#${maint.nameMaint}_filter_form">
-        <thead>
-            <tr>
-            	<#list gridColumns as columnProperties>
-	                <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" 
-	                	<#if (columnProperties.editType)?string != "text">
-	                		data-col-type="${columnProperties.editType}"
-	                	</#if>
-	                	${columnProperties.name}
-	                </th>
-                </#list>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+        	<#list gridColumns as columnProperties>
+                <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" 
+                	<#if (columnProperties.editType)?string != "text">
+                		data-col-type="${columnProperties.editType}"
+                	</#if>
+                	${columnProperties.name}
+                </th>
+            </#list>
+        </tr>
+    </thead>
 </table>
 
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>

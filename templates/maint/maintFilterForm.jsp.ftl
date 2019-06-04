@@ -15,55 +15,57 @@
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<form id="${maint.nameMaint}_filter_form">						<!-- Formulario de filtrado -->
-			<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>	<!-- Barra de herramientas del formulario de filtrado -->
-			<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
-				<div class="form-row">
-					<!-- Campos del formulario de filtrado -->
-					<#list gridColumns as columnProperties>
-					<#if (columnProperties.activated)?string == "true">
+<!-- Formulario de filtrado -->
+<form id="${maint.nameMaint}_filter_form">
+	<!-- Barra de herramientas del formulario de filtrado -->
+	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
+	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
+		<div class="form-row">
+			<!-- Campos del formulario de filtrado -->
+			<#list gridColumns as columnProperties>
+				<#if (columnProperties.activated)?string == "true">
 					<div class="form-groupMaterial col-sm">
 						<#switch columnProperties.editType>
-						<#case "Text">
-						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#case "Textarea">
-						<textarea name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></textarea>							
-							<#break>	
-						<#case "Checkbox">
-						<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
-							<#break>	
-						<#case "Select">
-						<select name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></select>							
-							<#break>	
-						<#case "Autocomplete">
-						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#case "Datepicker">
-						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#default>
-						<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
+							<#case "Text">
+								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<#break>	
+							<#case "Textarea">
+								<textarea name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></textarea>							
+								<#break>	
+							<#case "Checkbox">
+								<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
+								<#break>	
+							<#case "Select">
+								<select name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></select>							
+								<#break>	
+							<#case "Autocomplete">
+								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<#break>	
+							<#case "Datepicker">
+								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<#break>	
+							<#default>
+								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<#break>	
 					  	</#switch>
 						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
-					  </div>
-					</#if>
-					</#list>
-					<!-- Fin campos del formulario de filtrado -->
-				</div>
-				<!-- Botonera del formulario de filtrado -->
-				<div id="${maint.nameMaint}_filter_buttonSet" class="right_buttons">
-					<!-- Botón de limpiar -->
-					<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis">
-						<i class="mdi mdi-eraser"></i>
-						<span><spring:message code="clear" /></span>
-					</button>
-					<!-- Botón de filtrado -->
-					<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn-material btn-material-primary-high-emphasis" >
-						<i class="mdi mdi-filter"></i>
-						<span><spring:message code="filter" /></span>
-					</button>
-				</div>
-			</fieldset>
+					</div>
+				</#if>
+			</#list>
+			<!-- Fin campos del formulario de filtrado -->
+		</div>
+		<!-- Botonera del formulario de filtrado -->
+		<div id="${maint.nameMaint}_filter_buttonSet" class="text-right">
+			<!-- Botón de limpiar -->
+			<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis mr-2">
+				<i class="mdi mdi-eraser"></i>
+				<span><spring:message code="clear" /></span>
+			</button>
+			<!-- Botón de filtrado -->
+			<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn-material btn-material-primary-high-emphasis" >
+				<i class="mdi mdi-filter"></i>
+				<span><spring:message code="filter" /></span>
+			</button>
+		</div>
+	</fieldset>
 </form>
