@@ -17,7 +17,7 @@
 
 <#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
 <!-- Formulario de detalle -->
-<div id="${maint.nameMaint}_detail_div" class="rup-table-formEdit-detail">
+<div id="${maint.nameMaint}_detail_div" class="rup-table-formEdit-detail d-none">
 	<!-- Barra de navegación del detalle -->
 	<div id ="${maint.nameMaint}_detail_navigation" class="row no-gutters"></div>
 	<!-- Separador -->
