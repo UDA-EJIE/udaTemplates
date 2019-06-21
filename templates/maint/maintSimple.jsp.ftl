@@ -28,7 +28,7 @@
                 <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" 
                 	<#if (columnProperties.editType)?string != "text">
                 		data-col-type="${columnProperties.editType}"
-                	</#if>
+                	</#if>>
                 	${columnProperties.name}
                 </th>
             </#list>
