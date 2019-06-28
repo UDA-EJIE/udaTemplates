@@ -1134,6 +1134,15 @@ el resto de componentes RUP para estandarizar la asignación del valor al Combo.
 					});
 				}
 			}
+			
+			// Añade clases personalizadas establecidas en los parametros de configuración.
+			if(settings.customClasses) {
+				$.each(settings.customClasses, function(index, value) {
+					$('#' + settings.id + '-button' + ', #' + settings.id + '-menu').addClass(value);
+					$('[for=' + settings.id + ']').addClass(value);
+				});	
+			}
+			
 		},
 		/**
 		 * Procesa el conjunto de registros devueltos por una petición sobre un origen de datos local.
@@ -1875,9 +1884,9 @@ el resto de componentes RUP para estandarizar la asignación del valor al Combo.
 		typeAhead: 1000,
 		legacyWrapMode: false,
 		open: function (event, ui) {
-			var anchoCombo = $("#" + this.id + "-button").width();
-			$("#" + this.id + "-menu").closest('div').attr('id', 'ui-selectmenu-menu').width(anchoCombo);
-			$("#" + this.id + "-menu").width(anchoCombo - 2);
+			var anchoCombo = $("#" + this.id + "-button").outerWidth();
+			$("#" + this.id + "-menu").parent('div').attr('id', 'ui-selectmenu-menu').outerWidth(anchoCombo);
+			$("#" + this.id + "-menu").outerWidth(anchoCombo);
 		}
 	};
 

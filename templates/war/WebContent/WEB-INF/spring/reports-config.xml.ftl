@@ -14,11 +14,11 @@
  -- que establece la Licencia.
  -->
  <beans xmlns="http://www.springframework.org/schema/beans"
- 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- 	xmlns:p="http://www.springframework.org/schema/p"
- 	xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
   		http://www.springframework.org/schema/beans
-  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">	
+  		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">	
  
  	<!-- UDA exporters -->
 	<bean id="csvReport" class="com.ejie.x38.reports.CSVReportView" />
@@ -26,8 +26,6 @@
 	<bean id="xlsReport" class="com.ejie.x38.reports.XLSReportView" />
 	<bean id="xlsxReport" class="com.ejie.x38.reports.XLSXReportView" />
 
- 	<!-- PDF (Jasper) 
-  	<bean id="pdfUsuario" p:url="/WEB-INF/resources/reports/usuario.jasper"	
-  			class="com.ejie.x38.reports.PDFReportView" />
-  	-->
+ 	<!-- PDF (Jasper) -->
+  	<bean id="pdfUsuario" p:url="/WEB-INF/resources/reports/usuario.jasper"	class="com.ejie.x38.reports.PDFReportView" />
 </beans>

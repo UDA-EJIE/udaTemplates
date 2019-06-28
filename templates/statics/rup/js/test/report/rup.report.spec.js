@@ -18,7 +18,7 @@ describe('Test Report > ', () => {
             buttons: [
                 {
                     id: 'searchBtn',
-                    css: 'fa fa-search',
+                    css: 'mdi mdi-magnify',
                     i18nCaption: 'buscar',
                     click: handler
                 },
@@ -80,10 +80,6 @@ describe('Test Report > ', () => {
             it('Debe abrir una ventana emergente:', () => {
                 expect($('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.rup-dialog')
                     .is(':visible')).toBe(true);
-            });
-            it('Debe tener un boton para cerrar el dialog:', () => {
-                expect($('button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close')
-                    .length).toBe(1);
             });
             it('Debe tener un progressbar:', () => {
                 expect($('div.ui-progressbar.ui-progressbar-value.ui-corner-left.ui-corner-right').length).toBe(1);

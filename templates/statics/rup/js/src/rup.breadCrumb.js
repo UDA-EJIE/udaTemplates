@@ -167,11 +167,18 @@
 									});
 								}).mouseover(
 								function () {
-									$(this).find('span').removeClass('rup-breadCrumb_logoutImg').addClass('rup-breadCrumb_logoutImg_active');
+									$(this).find('i.mdi').removeClass('mdi-lock-open').addClass("mdi-lock");
 								}).mouseleave(
 								function () {
-									$(this).find('span').addClass('rup-breadCrumb_logoutImg').removeClass('rup-breadCrumb_logoutImg_active');
-								}).html($.rup.i18nParse($.rup.i18n.base, 'rup_breadCrumb.disconnect')).attr('id', 'logOutLink').append($('<span>').addClass('rup-breadCrumb_logoutImg ui-icon'))));
+									$(this).find('i.mdi').removeClass('mdi-lock').addClass("mdi-lock-open");
+								})
+								.html($.rup.i18nParse($.rup.i18n.base, 'rup_breadCrumb.disconnect'))
+								.attr('id', 'logOutLink')
+								.prepend(
+										$('<i class="mdi mdi-lock-open" aria-hidden="true"></i>')
+								)
+							)
+						);
 					}
 				}
 				//se añade el span con el texto de "xxx esta aqui"

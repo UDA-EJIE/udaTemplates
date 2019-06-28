@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2019 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,20 +14,26 @@
  -- que establece la Licencia.
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>
+
 <h2>${maint.titleMaint}</h2>
 
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
 
-<table id="${maint.nameMaint}" class="table table-striped table-bordered" 
+<table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 
 	data-url-base="${grid.url}"
 	data-filter-form="#${maint.nameMaint}_filter_form">
-        <thead>
-            <tr>
-            	<#list gridColumns as columnProperties>
-	                <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" <#if (columnProperties.editType)?string != "text">data-col-type="${columnProperties.editType}"</#if>>${columnProperties.name}</th>
-                </#list>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+        	<#list gridColumns as columnProperties>
+                <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" 
+                	<#if (columnProperties.editType)?string != "text">
+                		data-col-type="${columnProperties.editType}"
+                	</#if>>
+                	${columnProperties.name}
+                </th>
+            </#list>
+        </tr>
+    </thead>
 </table>
 
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
