@@ -217,6 +217,20 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.7.0</version>
 		</dependency>
+		
+		<!-- Classmate -->
+		<dependency>
+	      	<groupId>com.fasterxml</groupId>
+	      	<artifactId>classmate</artifactId>
+	      	<version>1.3.1</version>
+	    </dependency>
+		
+		<!-- Commons Digester -->
+		<dependency>
+	    	<groupId>commons-digester</groupId>
+	      	<artifactId>commons-digester</artifactId>
+	      	<version>2.0</version>
+	    </dependency>
 
 		<!-- AspectJ -->
 		<dependency>
@@ -241,13 +255,7 @@
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-api</artifactId>
-			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.tiles</groupId>
-					<artifactId>tiles-request-api</artifactId>
-				</exclusion>
-			</exclusions>		
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>	
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -258,35 +266,44 @@
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
 			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.tiles</groupId>
-					<artifactId>tiles-request-jsp</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-servlet</artifactId>
 			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.tiles</groupId>
-					<artifactId>tiles-request-servlet</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-template</artifactId>
 			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.tiles</groupId>
-					<artifactId>tiles-autotag-core-runtime</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+		<dependency>
+	      	<groupId>org.apache.tiles</groupId>
+	      	<artifactId>tiles-autotag-core-runtime</artifactId>
+	      	<version>1.2</version>
+	    </dependency>
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-request-api</artifactId>
+		    <version>1.0.7</version>
+		</dependency>
+		<dependency>
+	      	<groupId>org.apache.tiles</groupId>
+	      	<artifactId>tiles-request-jsp</artifactId>
+	      	<version>1.0.7</version>
+	    </dependency>
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-request-servlet</artifactId>
+		    <version>1.0.7</version>
+		</dependency>
+		
+		<!-- Validation API -->
+		<dependency>
+	    	<groupId>javax.validation</groupId>
+	      	<artifactId>validation-api</artifactId>
+	      	<version>1.1.0.Final</version>
+	    </dependency>
 	
 		<!-- INI:PIF 1.4 EN APLICACION UDA -->
 		<dependency>
