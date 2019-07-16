@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2019 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -23,10 +23,10 @@
 	<name>${codapp}EAR</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-<#if radjpa>	
+	<#if radjpa>	
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
-</#if>		
+	</#if>		
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.3</org.logback.version>
@@ -35,10 +35,9 @@
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
 		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
-	</properties>
-		
+	</properties>		
 	<dependencies>
-<#if radjpa>
+	<#if radjpa>
 		<!-- EclipseLink -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
@@ -56,8 +55,7 @@
 			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
 			<version><#noparse>${eclipselink.version}</#noparse></version>
 		</dependency>
-</#if>
-		
+	</#if>	
 		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -70,6 +68,41 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -125,7 +158,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version><#noparse>${org.slf4j.version}</#noparse></version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -175,6 +207,30 @@
 			<artifactId>jackson-databind</artifactId>
 			<version><#noparse>${org.jackson.version}</#noparse></version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.7.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		
+		<!-- Classmate -->
+		<dependency>
+	      	<groupId>com.fasterxml</groupId>
+	      	<artifactId>classmate</artifactId>
+	      	<version>1.3.1</version>
+	    </dependency>
+		
+		<!-- Commons Digester -->
+		<dependency>
+	    	<groupId>commons-digester</groupId>
+	      	<artifactId>commons-digester</artifactId>
+	      	<version>2.0</version>
+	    </dependency>
 
 		<!-- AspectJ -->
 		<dependency>
@@ -198,8 +254,8 @@
 		<!-- Tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
+			<artifactId>tiles-api</artifactId>
+			<version><#noparse>${org.apache.tiles.version}</#noparse></version>	
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -221,6 +277,33 @@
 			<artifactId>tiles-template</artifactId>
 			<version><#noparse>${org.apache.tiles.version}</#noparse></version>
 		</dependency>
+		<dependency>
+	      	<groupId>org.apache.tiles</groupId>
+	      	<artifactId>tiles-autotag-core-runtime</artifactId>
+	      	<version>1.2</version>
+	    </dependency>
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-request-api</artifactId>
+		    <version>1.0.7</version>
+		</dependency>
+		<dependency>
+	      	<groupId>org.apache.tiles</groupId>
+	      	<artifactId>tiles-request-jsp</artifactId>
+	      	<version>1.0.7</version>
+	    </dependency>
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-request-servlet</artifactId>
+		    <version>1.0.7</version>
+		</dependency>
+		
+		<!-- Validation API -->
+		<dependency>
+	    	<groupId>javax.validation</groupId>
+	      	<artifactId>validation-api</artifactId>
+	      	<version>1.1.0.Final</version>
+	    </dependency>
 	
 		<!-- INI:PIF 1.4 EN APLICACION UDA -->
 		<dependency>
@@ -379,7 +462,7 @@
 		<dependency>
 			<groupId>com.ejie</groupId>
 			<artifactId>w43ta</artifactId>
-			<version>1.1</version>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.avro</groupId>
@@ -445,51 +528,44 @@
 			<version>3.0.1</version>
 		</dependency>
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
-
-	
-	
-	
-	
-	
-	
 	</dependencies>
 	<repositories>
-<#if entornoEjie != "">
-		<repository>
-			<id>ejie</id>
-			<name>ejie</name>
-			<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-<#else>
-
-	<#if radjpa>	
-		<!-- For EclipseLink -->
-		<repository>
-			<id>EclipseLink Repo</id>
-			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
-		</repository>
-	</#if>
-		<!-- For Hibernate Validator -->
-		<repository>
-			<id>org.jboss.repository.release</id>
-			<name>JBoss Maven Release Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>repo2.maven.org</id>
-			<name>Official Maven Repository</name>
-			<url>http://repo2.maven.org/maven2/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-</#if>		
+	<#if entornoEjie != "">
+			<repository>
+				<id>ejie</id>
+				<name>ejie</name>
+				<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</repository>
+	<#else>
+	
+		<#if radjpa>	
+			<!-- For EclipseLink -->
+			<repository>
+				<id>EclipseLink Repo</id>
+				<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+			</repository>
+		</#if>
+			<!-- For Hibernate Validator -->
+			<repository>
+				<id>org.jboss.repository.release</id>
+				<name>JBoss Maven Release Repository</name>
+				<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</repository>
+			<repository>
+				<id>repo2.maven.org</id>
+				<name>Official Maven Repository</name>
+				<url>http://repo2.maven.org/maven2/</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</repository>
+	</#if>		
 	</repositories>
 	<build>
 		<plugins>
@@ -507,7 +583,7 @@
 							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
-							<excludeTransitive>false</excludeTransitive>
+							<excludeTransitive>true</excludeTransitive>
 							<excludeScope>provided</excludeScope>
 						</configuration>
 					</execution>
