@@ -1,4 +1,5 @@
 /* jslint multistr: true */
+/* eslint-env jasmine, jquery */
 
 
 describe('Test ContextMenu > ', () => {
@@ -19,7 +20,7 @@ describe('Test ContextMenu > ', () => {
                         </div>';
         $('#content').append(html);
         var props = {
-            
+            selector: '#exampleContext',
             items: {
                 'edit': {name: 'Clickable', icon: 'edit'},
                 'cut': {name: 'Disabled', icon: 'cut'}
@@ -59,7 +60,7 @@ describe('Test ContextMenu > ', () => {
             beforeEach(() => {
                 $context.rup_contextMenu('show');
                 $context.rup_contextMenu('hide');
-            });sandbox
+            });
             it('No debe mostrarse:', () => {
                 expect($('#exampleContext .context-menu-list').is(':visible')).toBe(false);
             });
