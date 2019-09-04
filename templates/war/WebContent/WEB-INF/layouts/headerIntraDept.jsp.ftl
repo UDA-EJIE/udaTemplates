@@ -22,7 +22,7 @@
   		<span id="tituloAplicacion"><a href="<%= request.getContextPath()%>/" >${codapp} - Demo RUP</a></span>
   	</div>
   	<spring:url value="/" var="urlWar" htmlEscape="true" />
-  	<a href="${urlWar}" style="float: right;">
+  	<a href="<#noparse>${urlWar}</#noparse>" style="float: right;">
   		<img id="rup_dept_logo" alt="Departamento"/>
   	</a>
   </div>

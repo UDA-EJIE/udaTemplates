@@ -17,7 +17,7 @@
 
 <h2 style="float:none;">ERROR</h2> <br>
 <spring:url value="<%= request.getContextPath() %>/" var="urlError" htmlEscape="true"/>
-<a href="${urlError}"><spring:message code="error.volver" /></a>
+<a href="<#noparse>${urlError}</#noparse>"><spring:message code="error.volver" /></a>
 
 <h3>Name: </h3><#noparse>${(empty param)? exception_name : param.exception_name}</#noparse><br>
 <h3>Message: </h3><#noparse>${(empty param)? exception_message : param.exception_message}</#noparse><br>

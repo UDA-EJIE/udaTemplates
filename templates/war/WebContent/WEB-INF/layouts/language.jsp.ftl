@@ -22,7 +22,7 @@
 		<span class="ui-icon ui-icon-extlink rup_external_link">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		&nbsp;&nbsp;&nbsp;
 		<spring:url value="mailto:uda@uda.es" var="urlMail" htmlEscape="true" />
-		<a target="_blank" title='<spring:message code="language.contacto" />' href="${urlMail}">
+		<a target="_blank" title='<spring:message code="language.contacto" />' href="<#noparse>${urlMail}</#noparse>">
 			<spring:message code="language.contacto" />	
 		</a>
 		<span class="ui-icon ui-icon-extlink rup_external_link">&nbsp;&nbsp;&nbsp;&nbsp;</span>
