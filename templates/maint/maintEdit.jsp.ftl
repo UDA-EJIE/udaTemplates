@@ -24,7 +24,7 @@
 	<hr class="m-1">
 	<div class="dialog-content-material">
 		<!-- Formulario -->
-		<form:form modelAttribute="${maint.modelObject}" id="${maint.nameMaint}_detail_form">
+		<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form">
 			<!-- Feedback del formulario de detalle -->
 			<div id ="${maint.nameMaint}_detail_feedback"></div>
 			<div class="form-row">	

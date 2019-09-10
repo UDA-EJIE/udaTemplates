@@ -16,7 +16,7 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <!-- Formulario de filtrado -->
-<form:form modelAttribute="${maint.modelObject}" id="${maint.nameMaint}_filter_form">
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form">
 	<!-- Barra de herramientas del formulario de filtrado -->
 	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
