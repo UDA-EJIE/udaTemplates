@@ -25,7 +25,7 @@
     <thead>
         <tr>
         	<#list gridColumns as columnProperties>
-                <th data-col-prop="${columnProperties.columnName}" data-col-sidx="${columnProperties.columnName}" 
+                <th data-col-prop="${columnProperties.name}" data-col-sidx="${columnProperties.name?replace(".","")?upper_case}" 
                 	<#if (columnProperties.editType)?string != "text">
                 		data-col-type="${columnProperties.editType}"
                 	</#if>>

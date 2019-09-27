@@ -24,7 +24,7 @@
 	<hr class="m-1">
 	<div class="dialog-content-material">
 		<!-- Formulario -->
-		<form id="${maint.nameMaint}_detail_form">
+		<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form">
 			<!-- Feedback del formulario de detalle -->
 			<div id ="${maint.nameMaint}_detail_feedback"></div>
 			<div class="form-row">	
@@ -35,35 +35,35 @@
 					<#switch columnProperties.editType>
 					<#case "Text">
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Textarea">
 						<div class="form-groupMaterial col-sm">
-							<textarea name="${columnProperties.name}" id="${columnProperties.name}_detail_table"></textarea>							
+							<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>					
 						<#break>	
 					<#case "Checkbox">
 						<div class="col-sm checkbox-material">
-							<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>							
+							<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>							
 						<#break>	
 					<#case "Radio">
 						<div class="col-sm radio-material">
-							<input type="radio" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>							
+							<form:radiobutton path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>							
 						<#break>	
 					<#case "Select">
 						<div class="form-groupMaterial col-sm">
-							<select name="${columnProperties.name}" id="${columnProperties.name}_detail_table"></select>							
+							<form:select path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Autocomplete">
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Datepicker">
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#default>
 						<div class="form-groupMaterial col-sm">
-							<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 				  	</#switch>
 					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/></label>
@@ -73,7 +73,7 @@
 				</#list>
 				<!-- Fin campos del formulario de detalle -->
 			</div>
-		</form>
+		</form:form>
 	</div>
 	<!-- Botonera del formulario de detalle -->
 	<div class="rup-table-buttonpanel-material">
