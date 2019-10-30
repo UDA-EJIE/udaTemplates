@@ -14,8 +14,12 @@
  -- que establece la Licencia.
  -->
 <?xml version="1.0" encoding="UTF-8"?>
-<wls:weblogic-web-app xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.2/weblogic-web-app.xsd">
-    <wls:weblogic-version>10.3.6</wls:weblogic-version>
+<wls:weblogic-web-app 
+    xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+        http://xmlns.oracle.com/weblogic/weblogic-web-app 
+        http://xmlns.oracle.com/weblogic/weblogic-web-app/1.3/weblogic-web-app.xsd">
     <wls:context-root>${warName}</wls:context-root>
     <wls:session-descriptor>
         <wls:persistent-store-type>replicated_if_clustered</wls:persistent-store-type>
