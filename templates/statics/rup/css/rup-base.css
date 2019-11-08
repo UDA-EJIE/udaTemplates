@@ -17721,8 +17721,13 @@ ul.dtr-details .dtr-data {
   to {
     opacity: 1; } }
 
-/* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
+/* IMPORTACIÓN DE PALETA DE COLORES */
 /* COLORES */
+/* PALETA DE COLORES */
+.app-primary-color {
+  background-color: #1472a4 !important; }
+
+/* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
 fieldset {
   border-radius: 5px; }
 
@@ -17984,15 +17989,15 @@ fieldset {
     background-image: none; }
   .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):required ~ label:after {
     content: " *"; }
-  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only {
+  .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] {
     background-color: #e9ecef; }
-    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:hover {
+    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:hover, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:hover {
       border-color: #757575; }
-    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus {
+    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus {
       border-color: #757575;
       caret-color: transparent;
       padding-left: 18px; }
-    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus ~ label, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label {
+    .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus ~ label, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus ~ label, .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] ~ label {
       top: -10px;
       font-size: .9rem;
       color: #212529;
@@ -18391,13 +18396,20 @@ div.dialog-content-material {
 div.dialog-content-material + div.rup-table-buttonpanel-material {
   padding: .3em .4em .5em .4em; }
 
-/* ANIMACION */
 div.rup-dialog {
+  /* ANIMACION */
   animation: fadein 1s;
   -webkit-animation: fadein 1s;
   -moz-animation: fadein 1s;
   -ms-animation: fadein 1s;
-  -o-animation: fadein 1s; }
+  -o-animation: fadein 1s;
+  /* QUITAR EL BORDE POR DEFECTO */ }
+  div.rup-dialog.ui-dialog {
+    border: 0px; }
+    div.rup-dialog.ui-dialog .ui-dialog-titlebar {
+      color: #FFFFFF; }
+      div.rup-dialog.ui-dialog .ui-dialog-titlebar span.ui-dialog-title, div.rup-dialog.ui-dialog .ui-dialog-titlebar i {
+        font-size: 1.25rem; }
 
 /* LABEL */
 label.select-material {
@@ -21320,6 +21332,11 @@ td > div.centerOnResponsiveContainer {
 
 .dataTable .sorting_desc .mdi.mdi-arrow-down::before {
   font-weight: 600; }
+
+.custom-select {
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  appearance: menulist; }
 
 /*!
  * Copyright 2013 E.J.I.E., S.A.
