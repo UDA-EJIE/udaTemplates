@@ -16,7 +16,7 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <!-- Formulario de filtrado -->
-<form id="${maint.nameMaint}_filter_form">
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form">
 	<!-- Barra de herramientas del formulario de filtrado -->
 	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
@@ -27,25 +27,25 @@
 					<div class="form-groupMaterial col-sm">
 						<#switch columnProperties.editType>
 							<#case "Text">
-								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 							<#case "Textarea">
-								<textarea name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></textarea>							
+								<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 							<#case "Checkbox">
-								<input type="checkbox" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
+								<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
 								<#break>	
 							<#case "Select">
-								<select name="${columnProperties.name}" id="${columnProperties.name}_filter_table"></select>							
+								<form:select path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 							<#case "Autocomplete">
-								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 							<#case "Datepicker">
-								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 							<#default>
-								<input type="text" name="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
+								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 								<#break>	
 					  	</#switch>
 						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
@@ -68,4 +68,4 @@
 			</button>
 		</div>
 	</fieldset>
-</form>
+</form:form>

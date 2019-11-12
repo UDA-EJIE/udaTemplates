@@ -16,7 +16,8 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <h2 style="float:none;">ERROR</h2> <br>
-<a href="<%= request.getContextPath() %>/"><spring:message code="error.volver" /></a>
+<spring:url value="<%= request.getContextPath() %>/" var="urlError" htmlEscape="true"/>
+<a href="<#noparse>${urlError}</#noparse>"><spring:message code="error.volver" /></a>
 
 <h3>Name: </h3><#noparse>${(empty param)? exception_name : param.exception_name}</#noparse><br>
 <h3>Message: </h3><#noparse>${(empty param)? exception_message : param.exception_message}</#noparse><br>
