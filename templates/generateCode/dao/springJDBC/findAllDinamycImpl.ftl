@@ -203,31 +203,27 @@
 	/**
 	 * Remove multiple method for rup_table
      *
-     * @param filter${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     * @param startsWith Boolean
      */
 	@Override
-	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
-		<#assign paramtabSelectDinamyc = paramTablaSelect>
-		<#assign  selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
-		// SELECT
-		/** TODO: select por clave */
-		StringBuilder query = new StringBuilder("SELECT <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
-		// FROM
-        query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
-
-		// WHERE
-		Map<String, Object> mapaWhere = this.getWhereLikeMap(filter${pojo.getDeclarationName()?lower_case}, startsWith);
-		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
-		where.append(mapaWhere.get("query"));
-		query.append(where);
-
-		@SuppressWarnings("unchecked")
-		List<Object> params = (List<Object>) mapaWhere.get("params");
-
-		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, query, params, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
+	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>	
+		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
+		
+		<#if paramWhere?size gt 1>
+		List<String> selectedIds = tableRequestDto.getMultiselection().getSelectedIds();
+		List<String> params = new ArrayList<String>();
+		
+		for(String row : selectedIds) {
+			String[] parts = row.split(tableRequestDto.getCore().getPkToken());
+			for(String param : parts) {
+				params.add(param);
+			}
+		}
+		<#else>
+		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
+		</#if>
+		
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
 	}
 
