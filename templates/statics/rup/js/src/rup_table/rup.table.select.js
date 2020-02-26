@@ -69,9 +69,10 @@
         var ctx = dt.settings()[0];
         ctx.select = [];
         var rowsBody = $( ctx.nTBody);
-        //Se edita el row/fila.
-        rowsBody.on( 'click.DT','tr[role="row"]',  function (e) {
-            if(!$(e.target).is(':checkbox')){//no hacer nada si el evento es de un checkbox, esta en ediccion
+        // Se selecciona una fila
+        rowsBody.on( 'click.DT keydown','tr[role="row"]',  function (e) {
+        	// Solo selecciona si se pulsa sobre la barra espaciadora o se hace click izquierdo col raton
+            if(e.which == 1 || e.which == 32){
                 if(e.target.className.indexOf("openResponsive") > -1 
 					|| $(this).hasClass('editable')){
                     return false;
@@ -126,19 +127,19 @@
         }
     }
 
-    /**
- * Pinta los elementos selecionables, porque tiene los ids almacenados y mete la clase que se le indica.
- *
- *
- * This will occur _after_ the initial DataTables initialisation, although
- * before Ajax data is rendered
- *
- * @name drawSelectId
- * @function
- * @since UDA 3.4.0 // Table 1.0.0
- *
- * 
- */
+	/**
+	 * Pinta los elementos selecionables, porque tiene los ids almacenados y mete la clase que se le indica.
+	 *
+	 *
+	 * This will occur _after_ the initial DataTables initialisation, although
+	 * before Ajax data is rendered
+	 *
+	 * @name drawSelectId
+	 * @function
+	 * @since UDA 3.4.0 // Table 1.0.0
+	 *
+	 * 
+	 */
     function _selectRowIndex(dt,index,tr){
         var ctx = dt.settings()[0];
         ctx.multiselection.selectedRowsPerPage = [];

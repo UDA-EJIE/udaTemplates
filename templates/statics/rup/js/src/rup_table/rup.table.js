@@ -1,6 +1,3 @@
-import { PassThrough } from "stream";
-
-/* eslint-env es6*/
 /**
   * Genera un table
   *
@@ -23,14 +20,28 @@ import { PassThrough } from "stream";
   *
   */
 
-/*global define */
-/*global jQuery */
+/* eslint-disable no-console */
 
 ( function( factory ) {
     if ( typeof define === 'function' && define.amd ) {
 
         // AMD. Register as an anonymous module.
-        define( ['jquery','./rup.table.request','datatables.net-bs4','./rup.table.responsive','./rup.table.multiSelect','./rup.table.seeker','./rup.table.inlineEdit','./rup.table.editForm','./rup.table.buttons','./rup.table.colReorder','./rup.table.select','./rup.table.rowGroup','./rup.table.masterDetail','./rup.table.multiFilter', '../core/utils/form2object'], factory );
+        define(['jquery',
+            './rup.table.request',
+            'datatables.net-bs4',
+            './rup.table.responsive',
+            './rup.table.multiSelect',
+            './rup.table.seeker',
+            './rup.table.inlineEdit',
+            './rup.table.editForm',
+            './rup.table.buttons',
+            './rup.table.colReorder',
+            './rup.table.select',
+            './rup.table.rowGroup',
+            './rup.table.masterDetail',
+            './rup.table.multiFilter',
+            '../core/utils/form2object'
+        ], factory);
     } else {
 
         // Browser globals
@@ -55,9 +66,7 @@ import { PassThrough } from "stream";
         getRupValue: function() {
             return null;
         },
-        setRupValue: function(value) {
-
-        }
+        setRupValue: function () {}
     });
 
     //*******************************
@@ -67,11 +76,9 @@ import { PassThrough } from "stream";
         foo: function() {
             return this;
         },
-        //$("#idTable").rup_table("createButton",options, posicion);
         createButton: function(props,pos) {
-            var dt = $("#"+this[0].id).DataTable();
+            var dt = $('#' + this[0].id).DataTable();
             var ctx = dt.context[0];
-            var idTable = ctx.sTableId;
             if(pos === undefined){
                 pos = 0;
             }
@@ -81,7 +88,9 @@ import { PassThrough } from "stream";
                 }
                 // Añadimos el boton genérico
                 dt.button().add(pos, {
-                    text: ()=>{return props.text;},
+                    text: () => {
+                        return props.text;
+                    },
                     id: props.id, // Campo obligatorio si se quiere usar desde el contextMenu
                     className: props.className,
                     icon: props.icon,
@@ -91,11 +100,12 @@ import { PassThrough } from "stream";
                     custom:props.custom
                 });
             }else{
-                alert('Está función requiere el plugin de buttons y dos parámetros.');
+            	alert('Esta función requiere el plugin de buttons y 2 parámetros.');
             }
+            
         },
         removeButton: function(selector) {
-            var dt = $("#"+this[0].id).DataTable();
+            var dt = $('#' + this[0].id).DataTable();
             var ctx = dt.context[0];
 
             if(ctx.oInit.buttons !== undefined){
@@ -103,7 +113,7 @@ import { PassThrough } from "stream";
             }
         },
         disableButton: function(selector,contextMenu) {
-            var dt = $("#"+this[0].id).DataTable();
+            var dt = $('#' + this[0].id).DataTable();
             var ctx = dt.context[0];
 
             if(ctx.oInit.buttons !== undefined){
@@ -111,7 +121,7 @@ import { PassThrough } from "stream";
             }
         },
         enableButton: function(selector,flag,contextMenu) {
-            var dt = $("#"+this[0].id).DataTable();
+            var dt = $('#' + this[0].id).DataTable();
             var ctx = dt.context[0];
 
             if(ctx.oInit.buttons !== undefined){
@@ -152,11 +162,16 @@ import { PassThrough } from "stream";
             //filter			
             // options.filterForm = $self.attr('data-filter-form');
             options.$filterForm = $(options.filterForm);
-
-            options.$filterButton = options.$filterForm.find('#' + sTableId + '_filter_filterButton');
-            options.$clearButton = options.$filterForm.find('#' + sTableId + '_filter_cleanButton');
-            options.$filterButton.on('click', function(){ $self._doFilter(options);});
-            options.$clearButton.on('click', function(){$self._clearFilter(options);});
+            if(options.filter !== undefined){
+	            options.$filterButton = options.$filterForm.find('#' + sTableId + '_filter_filterButton');
+	            options.$clearButton = options.$filterForm.find('#' + sTableId + '_filter_cleanButton');
+	            options.$filterButton.on('click', function () {
+	                $self._doFilter(options);
+	            });
+	            options.$clearButton.on('click', function () {
+	                $self._clearFilter(options);
+	            });
+            }
 
             // Urls
             var baseUrl = options.urlBase;
@@ -171,14 +186,6 @@ import { PassThrough } from "stream";
                 'url': $.rup.RUP + '/resources/rup.i18n_' + $.rup.lang + '.json'
             };
 
-            //Extend 
-            /*{targets:   4,data: "download_link",render: function (  ) {
-		         return '<a href="">Download</a>';
-		     }}*/
-            var defes = {};
-            var columnDefs = $.extend({}, options.columnDefs, defes);
-            //options.columnDefs = columnDefs;
-			
             //Se cargan los metodos en la API, Se referencia al Register
             var apiRegister = DataTable.Api.register;
 			
@@ -187,7 +194,7 @@ import { PassThrough } from "stream";
                 $('#'+ctx.sTableId+' tbody tr td.select-checkbox i.selected-pencil').remove();
                 //se añade el span con el lapicero
                 if(idRow >= 0){
-                    var spanPencil = $("<i/>").addClass('mdi mdi-pencil ui-icon-rupInfoCol selected-pencil');
+                    var spanPencil = $('<i/>').addClass('mdi mdi-pencil ui-icon-rupInfoCol selected-pencil');
                     $($('#'+ctx.sTableId+' tbody tr td.select-checkbox')[idRow]).append(spanPencil);
                 }
             } );
@@ -199,7 +206,11 @@ import { PassThrough } from "stream";
 				
                 //Viene del servidor por eso la linea de la pagina es 1 menos.
                 $.each(json.reorderedSelection,function(index,p) {
-                    var arra = {id:DataTable.Api().rupTable.getIdPk(p.pk,ctx.oInit),page:p.page,line:p.pageLine-1};
+                    var arra = {
+                        id: DataTable.Api().rupTable.getIdPk(p.pk, ctx.oInit),
+                        page: p.page,
+                        line: p.pageLine - 1
+                    };
                     ctx.multiselection.selectedIds.splice(index,0,arra.id);
                     ctx.multiselection.selectedRowsPerPage.splice(index,0,arra);
                 });
@@ -265,46 +276,50 @@ import { PassThrough } from "stream";
                 // Comprobamos si el bloqueo de claves primarias esta activo y la tabla tiene alguna columna definida como clave primaria.
                 if(blockPK && primaryKey.length > 0) {
                     // En caso de ser edición bloqueamos la modificación
-                    if(actionType === "PUT") {
+                    if (actionType === 'PUT') {
                         $.each(primaryKey,function(key,id) {
-                            var input = $(idForm[0]).find(":input[name='" + id + "']");
+                            var input = $(idForm[0]).find(':input[name=\'' + id + '\']');
                             if(sufijo !== undefined){
-                                input = $(idForm[0]).find(":input[name='" + id + sufijo + "']");
+                                input = $(idForm[0]).find(':input[name=\'' + id + sufijo + '\']');
                             }
 						
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo disable.
-                            if(input.attr("ruptype") === "date" && !input.rup_date("isDisabled")) {
-                                input.rup_date("disable");
-                            } 
-                            else if(input.attr("ruptype") === "combo" && !input.rup_combo("isDisabled")) {
-                                input.rup_combo("disable");
-                            }
-                            else if(input.attr("ruptype") === "time" && !input.rup_time("isDisabled")) {
-                                input.rup_time("disable");
-                            }
-                            else if(input.attr("type") === "checkbox") {
-                                if(!input.hasClass("checkboxPKBloqueado")) {
-                                    input.addClass("checkboxPKBloqueado");						
+                            if (input.attr('ruptype') === 'date' && !input.rup_date('isDisabled')) {
+                                input.rup_date('disable');
+                            } else if (input.attr('ruptype') === 'combo' && !input.rup_combo('isDisabled')) {
+                                input.rup_combo('disable');
+                            } else if (input.attr('ruptype') === 'time' && !input.rup_time('isDisabled')) {
+                                input.rup_time('disable');
+                            } else if (input.attr('type') === 'checkbox') {
+                                if (!input.hasClass('checkboxPKBloqueado')) {
+                                    input.addClass('checkboxPKBloqueado');
                                 }
 							
-                                var valorCheck = input.is(":checked") ? 1 : 0;
-                                var selectorInputSustituto = $("#" + id + "_bloqueado");
+                                var valorCheck = input.is(':checked') ? 1 : 0;
+                                var selectorInputSustituto = $('#' + id + '_bloqueado');
 							
                                 // Comprobamos si es necesario cambiar el check
-                                if(selectorInputSustituto.attr("valor") !== valorCheck){
-                                    if(selectorInputSustituto.attr("valor") !== undefined){
+                                if (selectorInputSustituto.attr('valor') !== valorCheck) {
+                                    if (selectorInputSustituto.attr('valor') !== undefined) {
                                         selectorInputSustituto.remove();
                                     }
 								
                                     if(valorCheck === 1) {
-                                        input.after("<i id='" + id + "_bloqueado' class='mdi mdi-check sustitutoCheckboxPKBloqueadoGeneral' valor='1' aria-hidden='true'/>");
+                                        input.after(`
+                                            <i id="${id}_bloqueado" 
+                                                class="mdi mdi-check sustitutoCheckboxPKBloqueadoGeneral" 
+                                                valor="1" aria-hidden="true"/>
+                                        `);
                                     } else {
-                                        input.after("<i id='" + id + "_bloqueado' class='mdi mdi-close sustitutoCheckboxPKBloqueadoGeneral sustitutoCheckboxPKBloqueadoCross' valor='0' aria-hidden='true'/>");
+                                        input.after(`
+                                            <i id="${id}_bloqueado" 
+                                                class="mdi mdi-close sustitutoCheckboxPKBloqueadoGeneral sustitutoCheckboxPKBloqueadoCross" 
+                                                valor="0" aria-hidden="true"/>
+                                        `);
                                     }
                                 }
-                            }
-                            else {
-                                input.prop("readOnly", true);
+                            } else {
+                                input.prop('readOnly', true);
                             }
 						
                             // Quitamos el foco del elemento
@@ -314,26 +329,22 @@ import { PassThrough } from "stream";
                         });
                     } 
                     // En caso de ser clonación permitimos la edición
-                    else if(actionType === "POST"){
+                    else if (actionType === 'POST') {
                         $.each(primaryKey,function(key,id) {
-                            var input = $(idForm[0]).find(":input[name='" + id + "']");
+                            var input = $(idForm[0]).find(':input[name=\'' + id + '\']');
 						
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo enable.
-                            if(input.attr("ruptype") === "date" && input.rup_date("isDisabled")) {
-                                input.rup_date("enable");
-                            } 
-                            else if(input.attr("ruptype") === "combo" && input.rup_combo("isDisabled")) {
-                                input.rup_combo("enable");
-                            }
-                            else if(input.attr("ruptype") === "time" && input.rup_time("isDisabled")) {
-                                input.rup_time("enable");
-                            }
-                            else if(input.attr("type") === "checkbox") {
-                                input.removeClass("checkboxPKBloqueado");
-                                $("#" + id + "_bloqueado").remove();
-                            }
-                            else {
-                                input.prop("readOnly", false);
+                            if (input.attr('ruptype') === 'date' && input.rup_date('isDisabled')) {
+                                input.rup_date('enable');
+                            } else if (input.attr('ruptype') === 'combo' && input.rup_combo('isDisabled')) {
+                                input.rup_combo('enable');
+                            } else if (input.attr('ruptype') === 'time' && input.rup_time('isDisabled')) {
+                                input.rup_time('enable');
+                            } else if (input.attr('type') === 'checkbox') {
+                                input.removeClass('checkboxPKBloqueado');
+                                $('#' + id + '_bloqueado').remove();
+                            } else {
+                                input.prop('readOnly', false);
                             }
 						
                             // Devolvemos el foco al elemento
@@ -351,16 +362,12 @@ import { PassThrough } from "stream";
                 //RESPONSIVO CON EDITLINE
 	            var renderer = function ( api, rowIdx, columns ) {
 	    			var data = $.map( columns, function ( col ) {
-	    				var colShow = col.hidden ?
-	    					'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-	    						'<span class="dtr-title">'+
-	    							col.title+
-	    						'</span> '+
-	    						'<span class="dtr-data">'+
-	    							col.data+
-	    						'</span>'+
-	    					'</li>' :
-	    					'';
+                        var colShow = col.hidden ? `
+                            <li data-dtr-index="${col.columnIndex}" data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
+                                <span class="dtr-title">${col.title}</span>
+                                <span class="dtr-data">${col.data}</span>
+                            </li>
+                            ` : '';
 	    				return colShow;
 	    			} ).join('');
 	
@@ -393,22 +400,25 @@ import { PassThrough } from "stream";
 		*
 		*/
         _getDescendantProperty(obj, key) {
-            var indexes = key.split(".");
+            var indexes = key.split('.');
 
             while (indexes.length && obj) {
                 var index = indexes.shift();
-                var match = new RegExp("(.+)\\[([0-9]*)\\]").exec(index);
+                var match = new RegExp('(.+)\\[([0-9]*)\\]').exec(index);
                 
                 // Comprueba si es un array y aplica la logica necesaria para obtener el valor
                 if ((match !== null) && (match.length == 3)) {
-                    var arrayData = { arrayName: match[1], arrayIndex: match[2] };
+                    var arrayData = {
+                        arrayName: match[1],
+                        arrayIndex: match[2]
+                    };
                     if (obj[arrayData.arrayName] != undefined) {
                         obj = obj[arrayData.arrayName][arrayData.arrayIndex];
                     } else {
                         obj = undefined;
                     }
                 } else {
-                    obj = obj[index]
+                    obj = obj[index];
                 }
             }
 
@@ -429,14 +439,14 @@ import { PassThrough } from "stream";
             var $self = this;
             //Se crea la columna del select.
             if(options.columnDefs !== undefined && options.columnDefs.length > 0 &&
-					options.columnDefs[0].className !== undefined && options.columnDefs[0].className === 'select-checkbox' &&
+					options.columnDefs[0].className !== undefined && options.columnDefs[0].className.indexOf('select-checkbox') > -1 &&
 					(options.multiSelect !== undefined)){
                 //Se crea el th thead, se añade la columna.
 				
-                var th = $("<th/>").attr('data-col-prop','');
+                var th = $('<th/>').attr('data-col-prop', '');
 
                 if($self[0].tHead !== null){
-                    $(th).insertBefore($self[0].tHead.rows[0].cells[0])
+                    $(th).insertBefore($self[0].tHead.rows[0].cells[0]);
                 }
 
                 //Se aseguro que no sea orderable
@@ -459,16 +469,25 @@ import { PassThrough } from "stream";
                 $th.text($(e).text());
 				
                 if(e.getAttribute('data-col-type') === 'Checkbox'){
-                    options.columnDefs.push({targets:i,data: "",render: function (data, visibility, object, colRows ) {
+                    options.columnDefs.push({
+                        targets: i,
+                        data: '',
+                        render: function (data) {
                         var iconCheck = 'mdi-close';
                         if(data === '1'){
                             iconCheck = 'mdi-check';
                         }
-				    return '<div class="centerOnResponsiveContainer"><i class="mdi ' + iconCheck + ' mx-auto"></i></div>';
-			    }});
+                            return `
+                                <div class="centerOnResponsiveContainer">
+                                    <i class="mdi ${iconCheck} mx-auto"></i>
+                                </div>`;
+                        }
+                    });
                 }
                 return {
-                    data: e.getAttribute('data-col-prop'),sidx:e.getAttribute('data-col-sidx'),editable:!(e.getAttribute('data-col-edit') === "false") 
+                    data: e.getAttribute('data-col-prop'),
+                    sidx: e.getAttribute('data-col-sidx'),
+                    editable: e.getAttribute('data-col-edit') !== 'false'
                 };
             });
 			
@@ -489,7 +508,9 @@ import { PassThrough } from "stream";
 		  */
         _doFilter(options) {
             var $self = this;
-            $self._showSearchCriteria();
+            if(options.filter !== undefined){
+            	$self._showSearchCriteria();
+            }
             $self.DataTable().ajax.reload(() => {
                 $('#'+options.id).trigger('tableFilterSearch');
             });
@@ -506,15 +527,16 @@ import { PassThrough } from "stream";
 			* @param {object} options Opciones del componente
 			*
 		  */
-        _ajaxOptions(options) {
+        _ajaxOptions(settings) {
 			
-            options.id = this[0].id;
-            $('#'+options.id).triggerHandler('tableFilterInitialize');
-            var ajaxData = {
-                'url': options.urls.filter,
+        	settings.id = this[0].id;
+            $('#'+settings.id).triggerHandler('tableFilterInitialize');
+            
+            let ajaxData = {
+                'url': settings.urls.filter,
                 'dataSrc': function ( json ) {
-                    var ret = {};
-                    $('#'+options.id).triggerHandler('tableFilterBeforeShow');
+                    let ret = {};
+                    $('#'+settings.id).triggerHandler('tableFilterBeforeShow');
                     json.recordsTotal = json.records;
                     json.recordsFiltered = json.records;
 
@@ -522,20 +544,19 @@ import { PassThrough } from "stream";
                     ret.recordsFiltered = json.records;
                     ret.data = json.rows;
 
-                    var table = $('#'+options.id).DataTable();
-                    var ctx = table.context[0];
-
-                    var settings = options;
+                    let table = $('#'+settings.id).DataTable();
+                    let ctx = table.context[0];
+                    
                     if(settings !== undefined && (settings.multiSelect !== undefined || settings.select !== undefined)){
                         DataTable.Api().rupTable.reorderDataFromServer(json,ctx);
                     }
-                    if(ctx.seeker !== undefined && ctx.seeker.search !== undefined 
-							&& json.reorderedSeeker !== undefined){
+                    if (ctx.seeker !== undefined && ctx.seeker.search !== undefined &&
+                        json.reorderedSeeker !== undefined) {
                         ctx.seeker.search.funcionParams = json.reorderedSeeker;
                     }
 					
                     if(ctx.oInit.inlineEdit !== undefined ){
-                        if(ctx.oInit.inlineEdit.alta && !$('#'+ctx.sTableId+' tbody tr:eq(0)').hasClass("new")){
+                        if (ctx.oInit.inlineEdit.alta && !$('#' + ctx.sTableId + ' tbody tr:eq(0)').hasClass('new')) {
                             ret.data = DataTable.Api().inlineEdit.createTr(table,ctx,ret.data);
                         }else{
                             ctx.oInit.inlineEdit.alta = undefined;
@@ -552,7 +573,10 @@ import { PassThrough } from "stream";
                 'contentType': 'application/json',
                 'dataType': 'json'
             };
-
+            
+            if(settings.customError !== undefined) {
+            	ajaxData.error = settings.customError;
+            }
 
             return ajaxData;
         },
@@ -572,15 +596,15 @@ import { PassThrough } from "stream";
             data.columns[data.order[0].column].colSidx = ctx.aoColumns[data.order[0].column].colSidx;
             //El data viene del padre:Jquery.table y como no tiene el prefijo de busqueda se añade.
             if(ctx.oInit.$filterForm[0] !== undefined){
-                data.filter = form2object(ctx.oInit.$filterForm[0]);
+                data.filter = window.form2object(ctx.oInit.$filterForm[0]);
             }
             data.multiselection = undefined;
             if(ctx.multiselection !== undefined && ctx.multiselection.selectedIds.length > 0){
                 data.multiselection = $.rup_utils.deepCopy(ctx.multiselection,4);
                 data.multiselection.internalFeedback[0] = {};
             }
-            if(ctx.seeker !== undefined && ctx.seeker.search !== undefined 
-					&& ctx.seeker.search.funcionParams !== undefined && ctx.seeker.search.funcionParams.length > 0){
+            if (ctx.seeker !== undefined && ctx.seeker.search !== undefined &&
+                ctx.seeker.search.funcionParams !== undefined && ctx.seeker.search.funcionParams.length > 0) {
                 data.seeker = {};
                 data.seeker.selectedIds = [];
                 $.each(ctx.seeker.search.funcionParams,function(index,p) {
@@ -629,7 +653,12 @@ import { PassThrough } from "stream";
                 var liSearch = $('<li/>').addClass('paginate_button page-item pageSearch searchPaginator align-self-center');
                 var textPagina = jQuery.rup.i18nTemplate(settingsT.oLanguage, 'pagina',settingsT.json.total);
                 var toPagina = jQuery.rup.i18nTemplate(settingsT.oLanguage, 'toPagina',settingsT.json.total);
-                var input = $('<input/>').attr({type: "text", size: "3",value:settingsT.json.page,maxlength:"3"}).addClass('ui-pg-input');
+                var input = $('<input/>').attr({
+                    type: 'text',
+                    size: '3',
+                    value: settingsT.json.page,
+                    maxlength: '3'
+                }).addClass('ui-pg-input');
 				
                 liSearch.append(textPagina);
                 liSearch.append(input);
@@ -651,40 +680,40 @@ import { PassThrough } from "stream";
             }
 			
             // Añade iconos para versiones moviles/tablets
-            $("<i class='mdi mdi-page-first d-sm-none'></i>")
+            $('<i class="mdi mdi-page-first d-sm-none"></i>')
                 .insertAfter($('#'+tabla[0].id+'_first')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
                     .wrapInner(function() {
-						  return "<span/>";
+                        return '<span/>';
                     })
                 );
-            $("<i class='mdi mdi-chevron-left d-sm-none'></i>")
+            $('<i class="mdi mdi-chevron-left d-sm-none"></i>')
                 .insertAfter($('#'+tabla[0].id+'_previous')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
                     .wrapInner(function() {
-						  return "<span/>";
+                        return '<span/>';
                     })
                 );
-            $("<i class='mdi mdi-chevron-right d-sm-none'></i>")
+            $('<i class="mdi mdi-chevron-right d-sm-none"></i>')
                 .insertAfter($('#'+tabla[0].id+'_next')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
                     .wrapInner(function() {
-						  return "<span/>";
+                        return '<span/>';
                     })
                 );
-            $("<i class='mdi mdi-page-last d-sm-none'></i>")
+            $('<i class="mdi mdi-page-last d-sm-none"></i>')
                 .insertAfter($('#'+tabla[0].id+'_last')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
                     .wrapInner(function() {
-						  return "<span/>";
+                        return '<span/>';
                     })
                 );
 			
@@ -716,7 +745,7 @@ import { PassThrough } from "stream";
 			
             $('#' + options.id + '_filter_form .ui-selectmenu-status').text('--');
 			
-            $.rup_utils.populateForm([], options.$filterForm)
+            $.rup_utils.populateForm([], options.$filterForm);
 
         },
         /**
@@ -729,7 +758,9 @@ import { PassThrough } from "stream";
 		*
 		*/
         _ConfigureFiltern(settings){
-            var $self = this, tableId = this[0].id, filterSettings = settings.filter,
+            var $self = this,
+                tableId = this[0].id,
+                filterSettings = settings.filter,
                 toggleIcon1Tmpl,toggleLabelTmpl,filterSummaryTmpl,toggleIcon2Tmpl,$toggleIcon1,$toggleLabel,$filterSummary,$toggleIcon2;
 
             /*
@@ -841,25 +872,38 @@ import { PassThrough } from "stream";
 	     *
 	     */
         _showSearchCriteria(){
-            var ctx = this.DataTable().context[0];
-            var $self = this, settings = $('#'+$self[0].id).data('settings'+$self[0].id),
-                searchString = ' ', label, numSelected,
+            var $self = this,
+                settings = $('#' + $self[0].id).data('settings' + $self[0].id),
+                searchString = ' ',
+                label, numSelected,
                 field, fieldId, fieldName, fieldValue,
                 aux = settings.filter.$filterContainer.serializeArray(),
                 searchForm = settings.filter.$filterContainer,
-                filterMulticombo = new Array();
+                filterMulticombo = [];
             var obj;
 
             //añadir arbol
 
             var arboles=	$('.jstree',settings.filter.$filterContainer);
             $.each(arboles,function( index,item ){
-                obj= new Object();
+                obj = {};
                 obj.name=$(item).attr('name');
                 obj.value=$(item).rup_tree('getRupValue').length;
                 obj.type='rup_tree';
                 aux.push(obj);
             });
+
+            let forEachDiv = (index, item) => {
+                if (item.name === field.attr('id')) {
+                    if (item.value != 0) {
+                        fieldValue += ' = ' + item.value;
+                    }
+                } else {
+                    fieldValue = '';
+                }
+
+
+            };
 
             for (var i = 0; i < aux.length; i++) {
                 if (aux[i].value !== ''  && $.inArray(aux[i].name,settings.filter.excludeSummary)!== 0) {
@@ -906,7 +950,8 @@ import { PassThrough } from "stream";
 
                             // Buscamos el label asociado al combo
                             // Primero por id
-                            var $auxField = $('[name=\'' + aux[i].name + '\']',searchForm), $labelField;
+                            var $auxField = $('[name=\'' + aux[i].name + '\']', searchForm),
+                                $labelField;
 
                             $labelField = jQuery('[for=\''+$auxField.attr('id')+'\']');
 
@@ -925,6 +970,7 @@ import { PassThrough } from "stream";
 
                     //VALUE
                     fieldValue = ' = ';
+
                     switch($(field)[0].tagName){
                     case 'INPUT':
                         fieldValue = fieldValue + $(field).val();
@@ -934,17 +980,7 @@ import { PassThrough } from "stream";
                         break;
                         //Rup-tree
                     case 'DIV':
-                        $.each(aux,function( index,item ){
-                            if (item.name===field.attr('id')){
-                                if (item.value!=0){
-                                    fieldValue +=' = '+ item.value;
-                                }
-                            } else {
-                                fieldValue = '';
-                            }
-
-
-                        });
+                        $.each(aux, forEachDiv);
                         if (fieldValue===''){
                             fieldName = '';
                         }
@@ -1036,7 +1072,7 @@ import { PassThrough } from "stream";
                         }
 
                     }
-                    DataTable.editForm.fnOpenSaveDialog(params[0],params[1],params[2]);
+                    DataTable.editForm.fnOpenSaveDialog(params[0],params[1],params[2], null);
                     ctx.oInit.formEdit.$navigationBar.funcionParams = {};
                 }
 
@@ -1070,33 +1106,34 @@ import { PassThrough } from "stream";
             //$self.multiselection.selectedLinesPerPage = [];
             //$self.multiselection.selectedRows = [];
             multi.multiselection.selectedIds = [];
-            multi.multiselection.lastSelectedId = "";
+            multi.multiselection.lastSelectedId = '';
             //$self.multiselection.selectedPages = [];
             // Propiedades de deselección de registros
             multi.multiselection.deselectedRowsPerPage = [];
             //$self.multiselection.deselectedLinesPerPage = [];
             //$self.multiselection.deselectedRows = [];
             multi.multiselection.deselectedIds = [];
-            multi.multiselection.accion = "";//uncheckAll,uncheck
+            multi.multiselection.accion = ''; //uncheckAll,uncheck
             //$self.multiselection.deselectedPages = [];
-            $("#contextMenu1 li.context-menu-icon-uncheck").addClass('disabledButtonsTable');
-            $("#contextMenu1 li.context-menu-icon-uncheck_all").addClass('disabledButtonsTable');
+            $('#contextMenu1 li.context-menu-icon-uncheck').addClass('disabledButtonsTable');
+            $('#contextMenu1 li.context-menu-icon-uncheck_all').addClass('disabledButtonsTable');
             // Desmarcamos el check del tHead
-            $("#inputSelectTableHead" + ctx.sTableId).prop('checked', false);
+            $('#inputSelectTableHead' + ctx.sTableId).prop('checked', false);
 
             DataTable.Api().rupTable.selectPencil(ctx,-1);
             if (ctx.multiselection === undefined) {
                 ctx.multiselection = {};
             }
             ctx.multiselection =  multi.multiselection;
-        }, _createTooltip (id) {
+        },
+        _createTooltip(id) {
             if(id !== undefined && id.text() !== undefined && id.text() !== ''){
                 id.rup_tooltip({
                     content: {
                         text: id.text()
                     },
                     show: {
-                        event: 'hover'
+                        event: 'mouseover'
                     },
                     position: {
                         viewport: $(window),
@@ -1115,32 +1152,40 @@ import { PassThrough } from "stream";
     //*******************************
     $.fn.rup_table('extend', {
         _init : function(args){			
+            global.initRupI18nPromise.then(() => {
             var $self = this;
-            //Se añade filter por defecto
-            $.fn.rup_table.defaults.filter = {
-                id:$self[0].id+"_filter_form",
-                filterToolbar:$self[0].id+"_filter_toolbar",
-                collapsableLayerId:$self[0].id+"_filter_fieldset"
-		       						};
+            if(args[0].filter !== 'noFilter'){
+            	//Se añade filter por defecto
+            	$.fn.rup_table.defaults.filter = {
+                    id: $self[0].id + '_filter_form',
+                    filterToolbar: $self[0].id + '_filter_toolbar',
+                    collapsableLayerId: $self[0].id + '_filter_fieldset'};
+            }else{
+            	args[0].filter = undefined;
+            }
+            
             var	settings = $.extend({}, $.fn.rup_table.defaults, $self[0].dataset, args[0]);
 			
             $self.triggerHandler('tableBeforeInit');
 			
-            var clone = jQuery("#"+$self[0].id).clone(true);	
             // Se identifica el tipo de componente RUP mediante el valor en el atributo ruptype
             $self.attr('ruptype', 'table');
             $self.triggerHandler('tableInit');
             if(args[0].primaryKey !== undefined){
-                settings.primaryKey = args[0].primaryKey.split(";");
+                    settings.primaryKey = args[0].primaryKey.split(';');
             }
 			
             //Comprobar plugin dependientes
             if(settings.multiSelect !== undefined){
+            	let clase = 'select-checkbox';
+            	if(settings.multiSelect.hideMultiselect){
+            		clase = 'select-checkbox never';
+            	}
                 settings.columnDefs.unshift({
 			        orderable: false,
-			        className: 'select-checkbox',
+			        className: clase,
 			        targets: 0,
-			        render: function (data, type, full, meta){
+                        render: function () {
 			        	return '<div class="checkbox-material checkbox-material-inline"><input type="checkbox"><label/></div>';
 			        }
 			    });
@@ -1152,6 +1197,10 @@ import { PassThrough } from "stream";
             if(settings.formEdit !== undefined){
                 settings.inlineEdit = undefined;
             }
+            
+            if(settings.filter === undefined){
+            	settings.multiFilter = undefined;
+             }
 
             // getDefault multifilter
             if (settings.multiFilter !== undefined && settings.multiFilter.getDefault === undefined){
@@ -1159,27 +1208,25 @@ import { PassThrough } from "stream";
                 if (settings.multiFilter.userFilter!=null){
                     usuario=settings.multiFilter.userFilter;
                 }else{
-                    usuario=LOGGED_USER;
+                        usuario = window.LOGGED_USER;
                 }
                 var ctx = {};
                 ctx.oInit = settings;
                 ctx.sTableId = $self[0].id;
                 $.rup_ajax({
-                    url : settings.urlBase
-												+ '/multiFilter/getDefault?filterSelector='
-												+ settings.multiFilter.idFilter + '&user='
-												+ usuario,
+                        url: settings.urlBase +
+                            '/multiFilter/getDefault?filterSelector=' +
+                            settings.multiFilter.idFilter + '&user=' +
+                            usuario,
                     type : 'GET',
                     dataType : 'json',
                     showLoading : false,
                     contentType : 'application/json',
                     //async : false,
-                    complete : function(jqXHR,
-                        textStatus) {
+                        complete: function () {
                         $('#' + ctx.sTableId).triggerHandler('tableMultiFilterCompleteGetDefaultFilter');
                     },
-                    success : function(data, status,
-                        xhr) {
+                        success: function (data) {
                         if (data != null) {
                             var valorFiltro = $
                                 .parseJSON(data.filterValue);
@@ -1193,8 +1240,7 @@ import { PassThrough } from "stream";
                         }
                         $('#' + ctx.sTableId).triggerHandler('tableMultiFilterSuccessGetDefaultFilter');
                     },
-                    error : function(xhr, ajaxOptions,
-                        thrownError) {
+                        error: function () {
                         $('#' + ctx.sTableId).triggerHandler('tableMultiFilterErrorGetDefaultFilter');
                     }
                 });
@@ -1208,19 +1254,20 @@ import { PassThrough } from "stream";
 				    	type: 'column',
 				    	target: 'td span.openResponsive'
                     },
-                    selectorResponsive: 'td span.dtr-data'};		
+                        selectorResponsive: 'td span.dtr-data'
+                    };
 					
-                settings.responsive = responsive;;
+                    settings.responsive = responsive;
             }
-            //se añaden los css para las flechas.
+            // Se añaden los CSS para las flechas.
             $.each($('#'+$self[0].id+' thead th'),function( ){
                 var titulo = $(this).text();
                 $(this).text('');
-                var span1 = $("<span/>").addClass('d-block d-xl-inline').text(titulo);
-                var span2 = $("<span/>").addClass('mdi mdi-arrow-down mr-2 mr-xl-0');
-                var span3 = $("<span/>").addClass('mdi mdi-arrow-up');
-                $(this).append(span1)
-                var div1 = $("<div/>").addClass('d-flex d-xl-inline');
+                    var span1 = $('<span/>').addClass('d-block d-xl-inline').text(titulo);
+                    var span2 = $('<span/>').addClass('mdi mdi-arrow-down mr-2 mr-xl-0');
+                    var span3 = $('<span/>').addClass('mdi mdi-arrow-up');
+                    $(this).append(span1);
+                    var div1 = $('<div/>').addClass('d-flex d-xl-inline');
                 div1.append(span2);
                 div1.append(span3);
                 $(this).append(div1);
@@ -1246,6 +1293,14 @@ import { PassThrough } from "stream";
             tabla.on( 'draw', function (e,settingsTable) {
                 if(settings.searchPaginator){//Mirar el crear paginador
                     $self._createSearchPaginator($(this),settingsTable);
+                    // Deshabilitamos los botones de paginacion si es necesario
+                        $.each($('ul.pagination li.recolocatedPagination_iconButton'), function () {
+                            if ($(this).hasClass('disabled')) {
+                                $('#' + this.id + ' a').prop('tabindex', '-1');
+                		} else {
+                                $('#' + this.id + ' a').prop('tabindex', '0');
+                		}
+                    });
                     //Si el seeker esta vacio ocultarlo
                     if(settingsTable.seeker !== undefined && 
 							settingsTable.seeker.search !== undefined && settingsTable.seeker.search.$searchRow !== undefined){
@@ -1259,7 +1314,7 @@ import { PassThrough } from "stream";
 
                 if(settings.select !== undefined || settings.multiSelect !== undefined){//AL repintar vigilar el select.
                     if(settings.select !== undefined){//AL repintar vigilar el select.
-                        if(settingsTable.select.selectedRowsPerPage !== undefined){
+                        if(settingsTable.select !== undefined && settingsTable.select.selectedRowsPerPage !== undefined){
                             //viene de la navegacion buscar el id.
                             var line = 0;
                             var ctx = tabla.context[0];
@@ -1273,7 +1328,11 @@ import { PassThrough } from "stream";
                             ctx.multiselection.selectedRowsPerPage = [];
                             var rowSelectAux = ctx.json.rows[line];
                             var id = DataTable.Api().rupTable.getIdPk(rowSelectAux,ctx.oInit);
-                            ctx.multiselection.selectedRowsPerPage.push({line:line,page:ctx.select.selectedRowsPerPage.page,id:id});
+                                ctx.multiselection.selectedRowsPerPage.push({
+                                    line: line,
+                                    page: ctx.select.selectedRowsPerPage.page,
+                                    id: id
+                                });
                             settingsTable.select.selectedRowsPerPage = undefined;
                             var numTotal = ctx.json.recordsTotal;
                             var index = (Number(ctx.json.page)-1) * 10;
@@ -1285,9 +1344,9 @@ import { PassThrough } from "stream";
                             DataTable.Api().inlineEdit.addchildIcons(tabla.context[0]);
                         }
                     }
-                    if(settingsTable.seeker !== undefined 
-							&& settingsTable.seeker.search !== undefined){
-                        var ctx = tabla.context[0];
+                        if (settingsTable.seeker !== undefined &&
+                            settingsTable.seeker.search !== undefined) {
+                            let ctx = tabla.context[0];
                         if(settingsTable.seeker.search.funcionParams !== undefined && settingsTable.seeker.search.funcionParams.length > 0 &&//Paginar para el seek y que siempre selecione
 									ctx.json.page !== settingsTable.seeker.search.funcionParams[settingsTable.seeker.search.pos].page && ctx.fnRecordsTotal() > 0){//ver si hay cambio de pagina.
                             DataTable.Api().seeker.selectSearch(tabla,ctx,settingsTable.seeker.search.funcionParams);
@@ -1301,7 +1360,7 @@ import { PassThrough } from "stream";
                 });
 				
                 if(settingsTable.inlineEdit !== undefined ){
-                    var ctx = $("#" + settingsTable.sTableId).rup_table("getContext");
+                        let ctx = $('#' + settingsTable.sTableId).rup_table('getContext');
 					
                     DataTable.Api().inlineEdit.drawInlineEdit(tabla,ctx);
                     if(ctx.oInit.inlineEdit.rowDefault !== undefined){//editando cuando se pagina
@@ -1309,7 +1368,9 @@ import { PassThrough } from "stream";
                             DataTable.Api().inlineEdit.cloneLine(tabla,ctx,ctx.oInit.inlineEdit.rowDefault.line);
                         }//else{
                         DataTable.Api().inlineEdit.editInline(tabla,ctx,ctx.oInit.inlineEdit.rowDefault.line);
-                        var count = tabla.columns().responsiveHidden().reduce( function (a,b) {return b === false ? a+1 : a;}, 0 );
+                            var count = tabla.columns().responsiveHidden().reduce(function (a, b) {
+                                return b === false ? a + 1 : a;
+                            }, 0);
                         if(count > 0){
                             ctx.oInit.inlineEdit.rowDefault = 'cambioEstado';
                         }else{
@@ -1325,8 +1386,8 @@ import { PassThrough } from "stream";
                     }
                 }
 				
-                if(settingsTable.oInit.formEdit !== undefined && settingsTable.oInit.responsive !== undefined
-						&& settingsTable.oInit.responsive.selectorResponsive !== undefined){//si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
+                    if (settingsTable.oInit.formEdit !== undefined && settingsTable.oInit.responsive !== undefined &&
+                        settingsTable.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
                     DataTable.Api().editForm.addchildIcons(settingsTable);
                 }
                 if(settings.inlineEdit === undefined && settings.formEdit === undefined){
@@ -1334,6 +1395,19 @@ import { PassThrough } from "stream";
                 }
 
 			  });
+            
+            tabla.on('responsive-resize.dt', function (event, dt) {
+            	let ctx = dt.context[0];
+            	
+                    if (ctx.oInit.formEdit !== undefined && ctx.oInit.responsive !== undefined &&
+                        ctx.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
+                    DataTable.Api().editForm.addchildIcons(ctx);
+                }
+            	
+                if(settings.inlineEdit === undefined && settings.formEdit === undefined){
+                    DataTable.Api().editForm.addchildIcons(ctx);
+                }
+            });
 			
             tabla.on( 'destroy', function (e,settingsTable) {
 
@@ -1350,7 +1424,9 @@ import { PassThrough } from "stream";
             if(settings.multiSelect !== undefined || settings.select !== undefined){
                 $self._createEventSelect(tabla);				
             }
-            $self._ConfigureFiltern(settings);
+            if(settings.filter !== undefined){
+            	$self._ConfigureFiltern(settings);
+            }
 			
             // Se almacena el objeto settings para facilitar su acceso desde los métodos del componente.
             $self.data('settings'+$self[0].id, settings);
@@ -1367,6 +1443,10 @@ import { PassThrough } from "stream";
 			
 			//Se audita el componente
 			$.rup.auditComponent('rup_table', 'init');
+
+            }).catch((error) => {
+                console.error('Error al inicializar el componente:\n', error);
+            });
         }
     });
 
@@ -1384,14 +1464,14 @@ import { PassThrough } from "stream";
             deselectAll: true,
             items: {}
         },
-		 fixedHeader: {
+		fixedHeader: {
 	        header: false,
 	        footer: true
 	    },
         feedback:{
             okFeedbackConfig:{
                 closeLink: true,
-                delay:2000
+                delay: 2000
             }
         },
         responsive: {           
@@ -1412,13 +1492,22 @@ import { PassThrough } from "stream";
 			'>' +
 			'r',
 	    multiplePkToken: '~',
-	    primaryKey:["id"],
+        primaryKey: ['id'],
 	    blockPKeditForm: true,
-	    searchPaginator:true,
-	    pagingType: "full",
+	    searchPaginator: true,
+        pagingType: 'full',
+        createdRow: function (row) {
+            var ctx = $('#' + this[0].id).rup_table('getContext');
+	        
+	        if(ctx.oInit.select != undefined || (ctx.oInit.multiSelect != undefined && ctx.oInit.multiSelect.hideMultiselect)){
+	        	$(row).attr('tabindex', '0');
+	        }
+	    },
 	    columnDefs: [],
         adapter: 'table_material',
-	    order: [[ 1, 'asc' ]],
+        order: [
+            [1, 'asc']
+        ],
 	    showMultiSelectedZero: true,
 	    filterMessage : true,
 	    noEdit: false

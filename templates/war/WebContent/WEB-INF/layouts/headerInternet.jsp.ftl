@@ -22,7 +22,7 @@
 <#if entornoEjie == "true">
 	
 	  	<div style="float: left;" >
-	  		<img src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/ejie.jpg"/>
+	  		<img src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/dept_logo_<#noparse>${cookie[localeResolver.cookieName].value}</#noparse>.gif"/>
 	  	</div>
 	  	<a href="#" style="float: right;">
 	  		<img src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/euskadieus_logo.gif" alt="Euskadi Eus"/>

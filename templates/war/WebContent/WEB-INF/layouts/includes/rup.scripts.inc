@@ -17,6 +17,3 @@
 
 <%-- DESARROLLO --%>
 <script src="${staticsUrl}/rup/js/rup.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/popper/popper.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/tether/tether.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/bootstrap/bootstrap.bundle.js" type="text/javascript"></script>

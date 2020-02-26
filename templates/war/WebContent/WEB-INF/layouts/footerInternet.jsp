@@ -1,16 +1,3 @@
-<%@ include file="/WEB-INF/includeTemplate.inc" %>
-<footer>
-  <div class="footer-row-1">
-    <span class="footer-informacion-legal">>> <spring:message code="footer.avisoLegal" /></span>
-    <span class="footer-ejgv"><spring:message code="footer.ejgv" /></span>
-  </div>
-  <div class="footer-row-2">
-    <img class="footer-image" src="${staticsUrl}/rup/css/images/web01-2014_claim_pertsona_helburu_es.gif"   />
-  </div>
-</footer>
-
-
-
 <%--  
  -- Copyright 2019 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
@@ -37,6 +24,6 @@
     	</span>
 	</div>
 	<div class="footer-row-2">
-		<img class="footer-image" src="${staticsUrl}/rup/css/images/web01-2014_claim_pertsona_helburu_es.gif" />
+		<img class="footer-image" src="${staticsUrl}/x00x/images/web01-2014_claim_pertsona_helburu_es.gif" />
 	</div>
 </footer>

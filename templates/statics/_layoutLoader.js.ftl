@@ -15,13 +15,6 @@
  */
 
 jQuery(document).ready(function(){
-
-	// Evitar conflictos entre Bootstrap y jQueryUI
-	$.fn.bootstrapBtn = $.fn.button.noConflict();
-	
-	//Habilitamos el envío de trazas a PIB
-	window.IS_EJIE = true;
-
 	//rastro de migas
 	$("#${warName}_migas").rup_breadCrumb({
 		breadCrumb: {}	

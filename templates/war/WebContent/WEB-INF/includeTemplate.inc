@@ -4,9 +4,5 @@
 <%@ taglib prefix="spring" uri="/WEB-INF/tld/spring.tld" %>
 <%@ taglib prefix="form" uri="/WEB-INF/tld/spring-form.tld"%>
 <%@page import="com.ejie.x38.util.StaticsContainer"%>
-<script>
-//Habilitamos el envío de trazas a PIB
-window.IS_EJIE = true;
-</script>
 <c:set var="staticsUrl" value='<%=StaticsContainer.staticsUrl%>' />
 <c:set var="staticsUrl" value='${staticsUrl}' />

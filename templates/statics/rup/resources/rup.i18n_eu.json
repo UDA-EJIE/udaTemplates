@@ -84,6 +84,7 @@
     "metodError": "Metodoan Errorea:",
     "parameterError": "Funtzioaren parametroak zehaztean akats bat gertatu da. Edozein parametro txarto zehaztu da ala derrigorrezkoa izanez gero ez da zehaztu egin.",
     "parametro": "eu_Parametro: ",
+    "charError": "eu_Caracter no aceptable",
     "rupCheckStyleError": "RUP ESTILOEN GIDAKO ARAUAK EZ DIRA BETETZEN. BIGARREN MAILAKO EKINTZA BAT BEHARREZKOA DA.",
     "save": "Gorde",
     "save_repeat": "Gorde eta jarraitu",
@@ -394,8 +395,7 @@
       "Find": "Bilatu",
       "Reset": "Garbitu",
       "caption": "Bilaketa...",
-      "groupOps": [
-        {
+            "groupOps": [{
           "op": "AND",
           "text": "dena"
         },
@@ -671,7 +671,11 @@
       "errorOnGet": "Errorea gertatu da datuak berreskuratzen saiatzean",
       "model": "Izenen eta ereduen zutabeak ezberdinak dira",
       "norecords": "Ez dago daturik prozesatzeko",
-      "nourl": "Ez da URLrik zehaztu"
+            "nourl": "Ez da URLrik zehaztu",
+            "noMasterPKField": {
+                "msg": "Errorea gertatu da xehetasunezko rup_table-a hasieratzerakoan, ezin izan da \"{1}\" aitaren klabearen input-a \"#{0}\" iragazpen-formularioan gehitu.",
+                "title": "Errorea taula hasieratzerakoan"
+            }
     },
     "feedback": {
       "deletedOK": "Elementua zuzen ezabatu da.",
@@ -868,8 +872,7 @@
       "Find": "Bilatu",
       "Reset": "Garbitu",
       "caption": "Bilaketa...",
-      "groupOps": [
-        {
+            "groupOps": [{
           "op": "AND",
           "text": "dena"
         },
@@ -955,7 +958,7 @@
       "caption": "Kontsultatu erregistroa"
     }
   },
-  "sProcessing":     "Prozesatzen...",
+  "sProcessing":     "<span class='sProcessingText'>Prozesatzen...</span>",
   "sLengthMenu":     "_MENU_",
   "sZeroRecords":    "Ez da emaitzarik aurkitu",
   "sEmptyTable":     "Taula hontan ez dago inongo datu erabilgarririk",
@@ -1055,6 +1058,27 @@
       "06-12": "Día de la Constitución",
       "08-12": "Inmaculada Concepción",
       "25-12": "Navidad"
+        }
+    },
+    "rup_list": {
+        "errors": {
+            "validateSkeletonDialog": {
+                "title": "Eskeletoak ez du balio",
+                "msg": "Zerrenda sortzeko HTML eskeletoa ez da zuzena."
+            }
+        },
+        "multiSortDialog": {
+            "title": "Multi-ordenación",
+            "msg1": "Hautatu ordenazio anitzera gehitzeko dauden aukeretako bat:",
+            "msg2": "Bat ere ez bada bistaratzen, beheko zerrendako ordenazioan sartu direlako da.",
+            "msg3": "Dagoeneko ordenazioan gehituta dauden eremuak:",
+            "msg4": "Berrantolatu, ezabatu edota bakoitzaren ordenazio mota alda dezakezu."
+        },
+        "multiselection": {
+            "deselectAll": "Hautaketatik kendu guztiak",
+            "deselectAllPage": "Hautaketatik kendu ikusgaiak",
+            "selectAll": "Hautatu guztiak",
+            "selectAllPage": "Hautatu ikusgaiak"
     }
   }
 }

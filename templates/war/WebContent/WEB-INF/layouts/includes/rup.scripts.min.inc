@@ -17,6 +17,3 @@
 
 <%-- PRODUCCION --%>
 <script src="${staticsUrl}/rup/js/rup.min.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/popper/popper.min.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/tether/tether.min.js" type="text/javascript"></script>
-<script src="${staticsUrl}/rup/js/externals/bootstrap/bootstrap.bundle.min.js" type="text/javascript"></script>

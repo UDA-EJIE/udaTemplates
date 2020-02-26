@@ -4,12 +4,20 @@
 
 describe('Test BreadCrumb >', () => {
     var $breadcrumb;
+    var initLocation;
 
     beforeAll((done) => {
         testutils.loadCss(done);
+        initLocation = window.location.href;
         window.history.pushState({
             urlPath: '/x21aResponsive/patrones/ptrUno'
         }, '', '/x21aResponsive/patrones/ptrUno');
+    });
+    
+    afterAll(() => {
+        window.history.pushState({
+            urlPath: initLocation
+        }, '', initLocation);
     });
 
     beforeEach((done) => {
