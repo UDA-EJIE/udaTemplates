@@ -16,6 +16,20 @@
  
 jQuery(function($){
 
+	<#list gridColumns as columnProperties>
+	<#if (columnProperties.activated)?string == "true">
+		<#switch columnProperties.editType>
+		<#case "Datepicker">
+			$('#${columnProperties.name}_detail_table').rup_date();
+			$('#${columnProperties.name}_filter_table').rup_date();
+			<#break>	
+		<#default>
+			<#break>	
+	  	</#switch>
+	</#if>
+	</#list>
+
+
 	$("#${maint.nameMaint}").rup_table({
 		
         <#if (maint.primaryKey)?has_content>

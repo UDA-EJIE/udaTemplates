@@ -20,35 +20,37 @@
 	<!-- Barra de herramientas del formulario de filtrado -->
 	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
-		<div class="form-row">
+		<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
 			<!-- Campos del formulario de filtrado -->
 			<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
-					<div class="form-groupMaterial col-sm">
-						<#switch columnProperties.editType>
-							<#case "Text">
+					<#switch columnProperties.editType>
+						<#case "Text">
+							<div class="form-groupMaterial col">
 								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-							<#case "Textarea">
+							<#break>	
+						<#case "Textarea">
+							<div class="form-groupMaterial col">
 								<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-							<#case "Checkbox">
+							<#break>	
+						<#case "Checkbox">
+							<div class="checkbox-material col">
 								<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
-								<#break>	
-							<#case "Select">
-								<form:select path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-							<#case "Autocomplete">
+							<#break>
+						<#case "Datepicker">
+							<div class="form-groupMaterial col">
 								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-							<#case "Datepicker">
+							<#break>	
+						<#case "Password">
+							<div class="form-groupMaterial col">
+								<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
+							<#break>
+						<#default>
+							<div class="form-groupMaterial col">
 								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-							<#default>
-								<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-								<#break>	
-					  	</#switch>
-						<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
+							<#break>	
+				  	</#switch>
+					<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
 					</div>
 				</#if>
 			</#list>

@@ -10595,30 +10595,20 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23); }
-  .rup-breadCrumb_root .rup-breadCrumbs_span {
-    padding: 0;
-    margin-right: 1rem; }
-  .rup-breadCrumb_root .rup-breadCrumb_main {
-    display: inline-block;
-    padding: 0 2px 3px;
-    width: auto; }
-    .rup-breadCrumb_root .rup-breadCrumb_main > li {
-      padding: 0; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
-        padding: 0;
-        top: 0.4rem; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li a {
-        padding: 0rem 0rem 1rem 0rem; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li ul {
-        margin-top: 0.3rem;
-        max-height: 25rem;
-        overflow-y: auto; }
+  .rup-breadCrumb_root .rup-breadCrumb_main > li {
+    padding: 0; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
+      padding: 0;
+      top: 0.4rem; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li a {
+      padding: 0rem 0rem 1rem 0rem; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li ul {
+      margin-top: 0.3rem;
+      max-height: 25rem;
+      overflow-y: auto; }
 
-.rup-breadCrumb_logoutDiv {
-  float: right;
-  padding-top: 0; }
-  .rup-breadCrumb_logoutDiv:hover {
-    color: #666666; }
+.rup-breadCrumb_logoutDiv:hover {
+  color: #666666; }
 
 .rup-breadCrumb_logoutDiv .rup-breadCrumb_logoutImg {
   float: left;
@@ -30581,12 +30571,6 @@ input.ui-button {
   margin: 0;
   padding: 0; }
 
-.rup-breadCrumb_main {
-  /*clear: both;*/ }
-
-.rup-breadCrumb_main, .rup-breadCrumb_main LI {
-  float: left; }
-
 .rup-breadCrumb_main UL {
   display: none; }
 
@@ -30594,7 +30578,6 @@ input.ui-button {
 /*  Top Level  */
 .rup-breadCrumb_main {
   background: none;
-  /*width: 90%;*/
   padding-right: 65em;
   position: relative; }
 
@@ -30667,26 +30650,11 @@ input.ui-button {
   padding-bottom: 2.5em;
   clear: both; }
 
-.rup-breadCrumbs_span {
-  float: left;
-  padding-top: 0.5em; }
-
-.rup-breadCrumb_root {
-  width: 100%;
-  float: left;
-  margin-bottom: 0.5em; }
-
 .rup-breadCrumb_main {
-  padding-top: 0.1em;
-  padding-right: 0em; }
-
-.rup-breadCrumb_logoutDiv {
-  float: right;
-  padding-top: 0.5em; }
+  padding-right: 0; }
 
 .rup-breadCrumb_link {
-  cursor: pointer;
-  padding-left: 0.3em; }
+  cursor: pointer; }
 
 .rup-breadCrumb_logoutDiv .rup-breadCrumb_logoutImg {
   display: inline-block;
@@ -36306,30 +36274,20 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23); }
-  .rup-breadCrumb_root .rup-breadCrumbs_span {
-    padding: 0;
-    margin-right: 1rem; }
-  .rup-breadCrumb_root .rup-breadCrumb_main {
-    display: inline-block;
-    padding: 0 2px 3px;
-    width: auto; }
-    .rup-breadCrumb_root .rup-breadCrumb_main > li {
-      padding: 0; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
-        padding: 0;
-        top: 0.4rem; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li a {
-        padding: 0rem 0rem 1rem 0rem; }
-      .rup-breadCrumb_root .rup-breadCrumb_main > li ul {
-        margin-top: 0.3rem;
-        max-height: 25rem;
-        overflow-y: auto; }
+  .rup-breadCrumb_root .rup-breadCrumb_main > li {
+    padding: 0; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
+      padding: 0;
+      top: 0.4rem; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li a {
+      padding: 0rem 0rem 1rem 0rem; }
+    .rup-breadCrumb_root .rup-breadCrumb_main > li ul {
+      margin-top: 0.3rem;
+      max-height: 25rem;
+      overflow-y: auto; }
 
-.rup-breadCrumb_logoutDiv {
-  float: right;
-  padding-top: 0; }
-  .rup-breadCrumb_logoutDiv:hover {
-    color: #666666; }
+.rup-breadCrumb_logoutDiv:hover {
+  color: #666666; }
 
 .rup-breadCrumb_logoutDiv .rup-breadCrumb_logoutImg {
   float: left;
