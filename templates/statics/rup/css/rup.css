@@ -10589,12 +10589,13 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
     border-bottom-left-radius: 0px; }
 
 .rup-breadCrumb_root {
-  background: lightgray;
-  display: inline-block;
-  padding: 0.8rem 2rem;
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23); }
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
+  background: lightgray;
+  display: inline-block;
+  padding: .8rem 2rem;
+  width: 100%; }
   .rup-breadCrumb_root .rup-breadCrumb_main > li {
     padding: 0; }
     .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
@@ -11962,17 +11963,21 @@ nav.rup-navbar a {
   display: block; }
 
 .dropdown-submenu > a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
   border-color: transparent;
+  border-left-color: #ccc;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
+  content: ' ';
+  display: block;
+  float: right;
+  height: 0;
+  margin-right: -10px;
   margin-top: 5px;
-  margin-right: -10px; }
+  position: absolute;
+  right: 1rem;
+  top: .5rem;
+  transform: rotate(270deg);
+  width: 0; }
 
 .dropdown-submenu:hover > a:after {
   border-left-color: #fff; }
@@ -35045,6 +35050,26 @@ a.cal-event-week {
       max-width: 3rem;
       padding: .5rem; }
 
+.asc:before {
+  content: "\F4BC";
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.desc:before {
+  content: "\F4BD";
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
 @charset "UTF-8";
 /*!
  * jQuery UI CSS Framework 1.12.1
@@ -36268,12 +36293,13 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
     border-bottom-left-radius: 0px; }
 
 .rup-breadCrumb_root {
-  background: lightgray;
-  display: inline-block;
-  padding: 0.8rem 2rem;
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23); }
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
+  background: lightgray;
+  display: inline-block;
+  padding: .8rem 2rem;
+  width: 100%; }
   .rup-breadCrumb_root .rup-breadCrumb_main > li {
     padding: 0; }
     .rup-breadCrumb_root .rup-breadCrumb_main > li span.rup-icon {
@@ -37641,17 +37667,21 @@ nav.rup-navbar a {
   display: block; }
 
 .dropdown-submenu > a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
   border-color: transparent;
+  border-left-color: #ccc;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
+  content: ' ';
+  display: block;
+  float: right;
+  height: 0;
+  margin-right: -10px;
   margin-top: 5px;
-  margin-right: -10px; }
+  position: absolute;
+  right: 1rem;
+  top: .5rem;
+  transform: rotate(270deg);
+  width: 0; }
 
 .dropdown-submenu:hover > a:after {
   border-left-color: #fff; }

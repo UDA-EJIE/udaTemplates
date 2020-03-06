@@ -182,6 +182,7 @@ import Printd from 'printd';
          * Método interno para cambiar el valor de algunas opciones
          *
          * @name _changeOption
+         * @private
          * @function
          * @param {String} key
          * @param {*} value
@@ -214,6 +215,7 @@ import Printd from 'printd';
         /**
          * Método interno que valida que el esqueleto html es válido para el componente
          * @name _validateSkeleton
+         * @private
          * @function
          */
         _validateSkeleton: function () {
@@ -241,6 +243,7 @@ import Printd from 'printd';
         /**
          * Método interno que configura el componente
          * @name _create
+         * @private
          * @function
          */
         _create: function () {
@@ -380,199 +383,7 @@ import Printd from 'printd';
                  * SELECT/MULTISELECT
                  */
                 if (opciones.selectable) {
-                    $('#' + self.element[0].id + '-content').find(opciones.selectable.selector).attr('rup-list-selector', 'enabled');
-
-                    opciones.multiselection = {
-                        selectedIds: null,
-                        selectedAll: false,
-                        selectedRowsPerPage: null
-                    };
-                    self._generateSelectablesBtnGroup();
-
-                    var isControl = false,
-                        isShift = false,
-                        modeAll;
-
-                    if (opciones.isSuperSelect) {
-                        $(document).on('keydown', (e) => {
-                            if (e.keyCode == '17') {
-                                isControl = true;
-                            } else if (e.keyCode == '16') {
-                                isShift = true;
-                            }
-                        });
-    
-                        $(document).on('keyup', (e) => {
-                            if (e.keyCode == '17') {
-                                isControl = false;
-                            } else if (e.keyCode == '16') {
-                                isShift = false;
-                            }
-                        });
-                    }
-
-                    $('#' + self.element[0].id + '-content').find('[rup-list-selector="enabled"]').on('click', (e) => {
-                        let clickedElemIdArr = e.currentTarget.id.split('_');
-                        let clickedPK = clickedElemIdArr[clickedElemIdArr.length - 1];
-
-                        if (opciones.multiselection.selectedIds == null) {
-                            opciones.multiselection.selectedIds = [];
-                        }
-
-                        if (opciones.multiselection.selectedRowsPerPage == null) {
-                            opciones.multiselection.selectedRowsPerPage = [];
-                        }
-
-                        if (opciones.multiselection.selectedAll) {
-                            modeAll = true;
-                        } else {
-                            modeAll = false;
-                        }
-
-                        if (opciones.isSuperSelect) {
-                            if (isShift && isControl) {
-                                if (opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1]) {
-                                    let posicionClicked = getPosicion(opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1], clickedPK);
-                                    let newRangeClickedPK = clickedPK;
-                                    let newRangeLastClickedPK = opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1];
-                                    if (posicionClicked[0] > posicionClicked[1]) {
-                                        deselect(newRangeLastClickedPK, modeAll);
-                                        selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
-                                    } else {
-                                        selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
-                                    }
-                                } else {
-                                    select(clickedPK, modeAll);
-                                }
-                            } else if (!isShift && isControl) {
-                                if (opciones.multiselection.selectedIds.includes(clickedPK)) {
-                                    deselect(clickedPK, modeAll);
-                                } else {
-                                    select(clickedPK, modeAll);
-                                }
-                            } else if (isShift && !isControl) {
-                                if (opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1]) {
-                                    let newRangeClickedPK = clickedPK;
-                                    let newRangeLastClickedPK = opciones.multiselection.selectedIds[0];
-                                    deselectRest(modeAll);
-                                    selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
-                                } else {
-                                    select(clickedPK, modeAll);
-                                }
-                            } else if (!isShift && !isControl) {
-                                if (opciones.multiselection.selectedIds.includes(clickedPK)) {
-                                    deselect(clickedPK, modeAll);
-                                } else {
-                                    deselectRest(modeAll);
-                                    select(clickedPK, modeAll);
-                                }
-                            }
-                        } else {
-                            if (opciones.multiselection.selectedIds.includes(clickedPK)) {
-                                deselect(clickedPK, modeAll);
-                            } else {
-                                select(clickedPK, modeAll);
-                            }
-                        }
-                    });
-
-                    let select = (clickedPK, modeAll) => {
-                        if (!opciones.selectable.multi) {
-                            if (!modeAll) {
-                                opciones.multiselection.selectedAll = false;
-                            } else {
-                                opciones.multiselection.selectedAll = true;
-                            }
-                            opciones.multiselection.selectedIds = [];
-                            opciones.multiselection.selectedRowsPerPage = [];
-                        }
-                        opciones.multiselection.selectedRowsPerPage.push({
-                            id: self.element[0].id + '-itemTemplate_' + clickedPK,
-                            line: (function () {
-                                let cont = 0;
-                                let final = 0;
-                                self.element.children().toArray().forEach(element => {
-                                    if (element.id == self.element.id + '-itemTemplate_' + clickedPK) {
-                                        final = cont;
-                                    }
-                                    cont++;
-                                });
-                                return final;
-                            })(),
-                            page: (function () {
-                                if (opciones.isScrollList) {
-                                    return 1;
-                                } else {
-                                    return opciones.page;
-                                }
-                            })()
-                        });
-                        opciones.multiselection.selectedIds.push(clickedPK);
-                        if (!modeAll) {
-                            self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).addClass('list-item-selected');
-                        } else {
-                            self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).removeClass('list-item-selected');
-                        }
-                    };
-
-                    let deselect = (clickedPK, modeAll) => {
-                        let index = opciones.multiselection.selectedIds.indexOf(clickedPK);
-                        opciones.multiselection.selectedIds.splice(index, 1);
-                        opciones.multiselection.selectedRowsPerPage = opciones.multiselection.selectedRowsPerPage.filter(elem =>
-                            elem.id != self.element[0].id + '-itemTemplate_' + clickedPK
-                        );
-                        if (!modeAll) {
-                            self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).removeClass('list-item-selected');
-                        } else {
-                            self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).addClass('list-item-selected');
-                        }
-                    };
-
-                    let deselectRest = (modeAll) => {
-                        if (!modeAll) {
-                            opciones.multiselection.selectedAll = false;
-                        } else {
-                            opciones.multiselection.selectedAll = true;
-                        }
-                        opciones.multiselection.selectedIds = [];
-                        opciones.multiselection.selectedRowsPerPage = [];
-                        for (let i = 0; i < opciones.content.length; i++) {
-                            if (!modeAll) {
-                                self.element.find('#' + self.element[0].id + '-itemTemplate_' + opciones.content[i][opciones.key]).removeClass('list-item-selected');
-                            } else {
-                                self.element.find('#' + self.element[0].id + '-itemTemplate_' + opciones.content[i][opciones.key]).addClass('list-item-selected');
-                            }
-                        }
-                    };
-
-                    let selectRange = (lastClickedPK, clickedPK, modeAll) => {
-                        var posicionClicked = getPosicion(lastClickedPK, clickedPK);
-                        if (posicionClicked[0] > posicionClicked[1]) {
-                            for (let i = posicionClicked[1]; i <= posicionClicked[0]; i++) {
-                                if (!opciones.multiselection.selectedIds.includes(String(opciones.content[i][opciones.key]))) {
-                                    select(String(opciones.content[i][opciones.key]), modeAll);
-                                }
-                            }
-                        } else {
-                            for (let i = posicionClicked[1]; i >= posicionClicked[0]; i--) {
-                                if (!opciones.multiselection.selectedIds.includes(String(opciones.content[i][opciones.key]))) {
-                                    select(String(opciones.content[i][opciones.key]), modeAll);
-                                }
-                            }
-                        }
-                    };
-                    
-                    let getPosicion = (lastClickedPK, clickedPK) => {
-                        var posicionClicked = {};
-                        for (let i = 0; i < opciones.content.length; i++) {
-                            if (opciones.content[i][opciones.key] == clickedPK) {
-                                posicionClicked[0] = i;
-                            } else if (opciones.content[i][opciones.key] == lastClickedPK) {
-                                posicionClicked[1] = i;
-                            }
-                        }
-                        return posicionClicked;
-                    };
+                    self._selectablesInit.apply(self);
                 }
 
                 /**
@@ -613,8 +424,214 @@ import Printd from 'printd';
         },
 
         /**
+         * Método interno que inicializa el listado con seleccionables
+         * @name _selectablesInit
+         * @private
+         * @function
+         */
+        _selectablesInit: function () {
+            var self = this;
+            var opciones = self.options;
+
+            $('#' + self.element[0].id + '-content').find(opciones.selectable.selector).attr('rup-list-selector', 'enabled');
+
+            opciones.multiselection = {
+                selectedIds: null,
+                selectedAll: false,
+                selectedRowsPerPage: null
+            };
+            
+            if (opciones.selectable.multi) {
+                self._generateSelectablesBtnGroup();
+            }
+
+            var isControl = false,
+                isShift = false,
+                modeAll;
+
+            if (opciones.isSuperSelect) {
+                $(document).on('keydown', (e) => {
+                    if (e.keyCode == '17') {
+                        isControl = true;
+                    } else if (e.keyCode == '16') {
+                        isShift = true;
+                    }
+                });
+
+                $(document).on('keyup', (e) => {
+                    if (e.keyCode == '17') {
+                        isControl = false;
+                    } else if (e.keyCode == '16') {
+                        isShift = false;
+                    }
+                });
+            }
+
+            $('#' + self.element[0].id + '-content').find('[rup-list-selector="enabled"]').on('click', (e) => {
+                let clickedElemIdArr = e.currentTarget.id.split('_');
+                let clickedPK = clickedElemIdArr[clickedElemIdArr.length - 1];
+
+                if (opciones.multiselection.selectedIds == null) {
+                    opciones.multiselection.selectedIds = [];
+                }
+
+                if (opciones.multiselection.selectedRowsPerPage == null) {
+                    opciones.multiselection.selectedRowsPerPage = [];
+                }
+
+                if (opciones.multiselection.selectedAll) {
+                    modeAll = true;
+                } else {
+                    modeAll = false;
+                }
+
+                if (opciones.isSuperSelect) {
+                    if (isShift && isControl) {
+                        if (opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1]) {
+                            let posicionClicked = getPosicion(opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1], clickedPK);
+                            let newRangeClickedPK = clickedPK;
+                            let newRangeLastClickedPK = opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1];
+                            if (posicionClicked[0] > posicionClicked[1]) {
+                                deselect(newRangeLastClickedPK, modeAll);
+                                selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
+                            } else {
+                                selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
+                            }
+                        } else {
+                            select(clickedPK, modeAll);
+                        }
+                    } else if (!isShift && isControl) {
+                        if (opciones.multiselection.selectedIds.includes(clickedPK)) {
+                            deselect(clickedPK, modeAll);
+                        } else {
+                            select(clickedPK, modeAll);
+                        }
+                    } else if (isShift && !isControl) {
+                        if (opciones.multiselection.selectedIds[opciones.multiselection.selectedIds.length - 1]) {
+                            let newRangeClickedPK = clickedPK;
+                            let newRangeLastClickedPK = opciones.multiselection.selectedIds[0];
+                            deselectRest(modeAll);
+                            selectRange(newRangeLastClickedPK, newRangeClickedPK, modeAll);
+                        } else {
+                            select(clickedPK, modeAll);
+                        }
+                    } else if (!isShift && !isControl) {
+                        if (opciones.multiselection.selectedIds.includes(clickedPK)) {
+                            deselect(clickedPK, modeAll);
+                        } else {
+                            deselectRest(modeAll);
+                            select(clickedPK, modeAll);
+                        }
+                    }
+                } else {
+                    if (opciones.multiselection.selectedIds.includes(clickedPK)) {
+                        deselect(clickedPK, modeAll);
+                    } else {
+                        select(clickedPK, modeAll);
+                    }
+                }
+            });
+
+            let select = (clickedPK, modeAll) => {
+                if (!opciones.selectable.multi) {
+                    opciones.multiselection.selectedAll = false;
+                    opciones.multiselection.selectedIds = [];
+                    opciones.multiselection.selectedRowsPerPage = [];
+                    self.element.find('.list-item-selected').removeClass('list-item-selected');
+                }
+                opciones.multiselection.selectedRowsPerPage.push({
+                    id: self.element[0].id + '-itemTemplate_' + clickedPK,
+                    line: (function () {
+                        let cont = 0;
+                        let final = 0;
+                        self.element.children().toArray().forEach(element => {
+                            if (element.id == self.element.id + '-itemTemplate_' + clickedPK) {
+                                final = cont;
+                            }
+                            cont++;
+                        });
+                        return final;
+                    })(),
+                    page: (function () {
+                        if (opciones.isScrollList) {
+                            return 1;
+                        } else {
+                            return opciones.page;
+                        }
+                    })()
+                });
+                opciones.multiselection.selectedIds.push(clickedPK);
+                if (!modeAll) {
+                    self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).addClass('list-item-selected');
+                } else {
+                    self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).removeClass('list-item-selected');
+                }
+            };
+
+            let deselect = (clickedPK, modeAll) => {
+                let index = opciones.multiselection.selectedIds.indexOf(clickedPK);
+                opciones.multiselection.selectedIds.splice(index, 1);
+                opciones.multiselection.selectedRowsPerPage = opciones.multiselection.selectedRowsPerPage.filter(elem =>
+                    elem.id != self.element[0].id + '-itemTemplate_' + clickedPK
+                );
+                if (!modeAll) {
+                    self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).removeClass('list-item-selected');
+                } else {
+                    self.element.find('#' + self.element[0].id + '-itemTemplate_' + clickedPK).addClass('list-item-selected');
+                }
+            };
+
+            let deselectRest = (modeAll) => {
+                if (!modeAll) {
+                    opciones.multiselection.selectedAll = false;
+                } else {
+                    opciones.multiselection.selectedAll = true;
+                }
+                opciones.multiselection.selectedIds = [];
+                opciones.multiselection.selectedRowsPerPage = [];
+                for (let i = 0; i < opciones.content.length; i++) {
+                    if (!modeAll) {
+                        self.element.find('#' + self.element[0].id + '-itemTemplate_' + opciones.content[i][opciones.key]).removeClass('list-item-selected');
+                    } else {
+                        self.element.find('#' + self.element[0].id + '-itemTemplate_' + opciones.content[i][opciones.key]).addClass('list-item-selected');
+                    }
+                }
+            };
+
+            let selectRange = (lastClickedPK, clickedPK, modeAll) => {
+                var posicionClicked = getPosicion(lastClickedPK, clickedPK);
+                if (posicionClicked[0] > posicionClicked[1]) {
+                    for (let i = posicionClicked[1]; i <= posicionClicked[0]; i++) {
+                        if (!opciones.multiselection.selectedIds.includes(String(opciones.content[i][opciones.key]))) {
+                            select(String(opciones.content[i][opciones.key]), modeAll);
+                        }
+                    }
+                } else {
+                    for (let i = posicionClicked[1]; i >= posicionClicked[0]; i--) {
+                        if (!opciones.multiselection.selectedIds.includes(String(opciones.content[i][opciones.key]))) {
+                            select(String(opciones.content[i][opciones.key]), modeAll);
+                        }
+                    }
+                }
+            };
+
+            let getPosicion = (lastClickedPK, clickedPK) => {
+                var posicionClicked = {};
+                for (let i = 0; i < opciones.content.length; i++) {
+                    if (opciones.content[i][opciones.key] == clickedPK) {
+                        posicionClicked[0] = i;
+                    } else if (opciones.content[i][opciones.key] == lastClickedPK) {
+                        posicionClicked[1] = i;
+                    }
+                }
+                return posicionClicked;
+            };
+        },
+
+        /**
          * Método interno que crea el scrollList
          * @name _scrollListInit
+         * @private
          * @function
          */
         _scrollListInit: function () {
@@ -663,6 +680,7 @@ import Printd from 'printd';
         /**
          * Método que aplica el modo 'sticky' al header
          * @name _headerSticky
+         * @private
          * @function
          */
         _headerSticky: function () {
@@ -692,13 +710,21 @@ import Printd from 'printd';
 
                 if (targetTopPoint < window.scrollHeight) {
                     opciones._header.obj.addClass('rup_list-sticky');
-                    self.element.css({'padding-top': opciones._header.obj[0].offsetHeight});
-                    opciones._header.obj.css({'top': window.scrollHeight});
+                    self.element.css({
+                        'padding-top': opciones._header.obj[0].offsetHeight
+                    });
+                    opciones._header.obj.css({
+                        'top': window.scrollHeight
+                    });
                 } else if (targetTopPoint >= window.scrollHeight) {
                     if (opciones._header.obj.hasClass('rup_list-sticky')) {
                         opciones._header.obj.removeClass('rup_list-sticky');
-                        self.element.css({'padding-top': 0});
-                        opciones._header.obj.css({'top': 0});
+                        self.element.css({
+                            'padding-top': 0
+                        });
+                        opciones._header.obj.css({
+                            'top': 0
+                        });
                     }
                 }
             });
@@ -707,6 +733,7 @@ import Printd from 'printd';
         /**
          * Método que crea el loader
          * @name _loader
+         * @private
          * @function
          */
         _loader: function () {
@@ -724,8 +751,9 @@ import Printd from 'printd';
         },
 
         /**
-         * Método para iniciar los estilos
+         * Método que lanza la imprisión HTML
          * @name _print
+         * @private
          * @function
          */
         _print: function () {
@@ -739,7 +767,7 @@ import Printd from 'printd';
                 opciones.btnPrint.on('click', btnPrintMain);
             }
 
-            function btnPrintMain (e) {
+            function btnPrintMain(e) {
                 e.preventDefault();
                 var doc = new Printd(),
                     printDoc = $('<div id="print-doc"></div>'),
@@ -803,8 +831,9 @@ import Printd from 'printd';
         },
 
         /**
-         * Método interno que configura el boton de alternar el sord en la ordenación simple
+         * Método interno que configura MultiFilter
          * @name _multiFilter
+         * @private
          * @function
          */
         _multiFilter: function () {
@@ -817,12 +846,12 @@ import Printd from 'printd';
             opciones.multiFilter._dialogId = self.element[0].id + '_dropdownDialog';
 
             opciones.multiFilter.$btn = $('#' + opciones.filterForm).find('button').eq(0);
-            opciones.multiFilter.$dialog = $('<div id="' + opciones.multiFilter._dialogId + '" class="dialog-content-material"><div id="'+ opciones.multiFilter._dialogId + '_feedback" role="alert"></div><form><div class="form-row"><div class="form-groupMaterial col-12"><label for="'+ opciones.multiFilter._dialogId +'_combo">Filtros</label><input id="'+ opciones.multiFilter._dialogId +'_combo" /></div></div><div class="form-row"><div class="checkbox-material col-12"><input type="checkbox" id="' + opciones.multiFilter._dialogId + '-defaultFilter" /><label for="' + opciones.multiFilter._dialogId + '-defaultFilter">Filtro por defecto</label></div></div></form></div>');
-            
+            opciones.multiFilter.$dialog = $('<div id="' + opciones.multiFilter._dialogId + '" class="dialog-content-material"><div id="' + opciones.multiFilter._dialogId + '_feedback" role="alert"></div><form><div class="form-row"><div class="form-groupMaterial col-12"><label for="' + opciones.multiFilter._dialogId + '_combo">Filtros</label><input id="' + opciones.multiFilter._dialogId + '_combo" /></div></div><div class="form-row"><div class="checkbox-material col-12"><input type="checkbox" id="' + opciones.multiFilter._dialogId + '-defaultFilter" /><label for="' + opciones.multiFilter._dialogId + '-defaultFilter">Filtro por defecto</label></div></div></form></div>');
+
             opciones.multiFilter.$btn.after(opciones.multiFilter.$dialog);
 
-            opciones.multiFilter.$combo = $('#'+ opciones.multiFilter._dialogId +'_combo');
-            opciones.multiFilter.$feedback = $('#'+ opciones.multiFilter._dialogId + '_feedback');
+            opciones.multiFilter.$combo = $('#' + opciones.multiFilter._dialogId + '_combo');
+            opciones.multiFilter.$feedback = $('#' + opciones.multiFilter._dialogId + '_feedback');
 
             opciones.multiFilter.$feedback.rup_feedback({
                 block: false,
@@ -831,14 +860,14 @@ import Printd from 'printd';
 
             // Dropdown dialog
             opciones.multiFilter.$btn.rup_button({
-                dropdown:{
+                dropdown: {
                     dropdownDialog: opciones.multiFilter._dialogId,
-                    dropdownDialogConfig:{
+                    dropdownDialogConfig: {
                         autoOpen: false,
                         modal: true,
                         resizable: true,
-                        title:'<i class=\'mdi mdi-filter\' aria-hidden=\'true\'></i>Administración de filtros',
-                        width:'380px',
+                        title: '<i class=\'mdi mdi-filter\' aria-hidden=\'true\'></i>Administración de filtros',
+                        width: '380px',
                         buttons: [{
                             id: opciones.multiFilter._dialogId + '_btn_save',
                             text: 'Guardar',
@@ -850,7 +879,8 @@ import Printd from 'printd';
                                             filterName: opciones.multiFilter.$label.val(),
                                             filterValue: JSON.stringify($('#' + opciones.filterForm).rup_form('formToJson')),
                                             filterDefault: opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked,
-                                            filterUser: opciones.multiFilter._filterUser}
+                                            filterUser: opciones.multiFilter._filterUser
+                                        }
                                     };
                                     $.rup_ajax({
                                         url: opciones.action + '/./multiFilter/add',
@@ -866,7 +896,7 @@ import Printd from 'printd';
                                         }
                                     });
                                 }
-                                
+
                             }
                         },
                         {
@@ -874,7 +904,7 @@ import Printd from 'printd';
                             text: 'Aplicar',
                             click: function () {
                                 if (opciones.multiFilter.selected) {
-                                    opciones.multiFilter.$dialog.dialog('close'); 
+                                    opciones.multiFilter.$dialog.dialog('close');
                                     self.element.rup_list('filter');
                                 }
                             }
@@ -916,21 +946,21 @@ import Printd from 'printd';
                         {
                             id: opciones.multiFilter._dialogId + '_btn_cancel',
                             text: 'Cancelar',
-                            click: function () { 
-                                opciones.multiFilter.$dialog.dialog('close'); 
+                            click: function () {
+                                opciones.multiFilter.$dialog.dialog('close');
                             },
                             btnType: $.rup.dialog.LINK
                         }
-                        ]	
+                        ]
                     }
                 }
             });
 
             opciones.multiFilter.$combo.rup_autocomplete({
-                source : opciones.action +
-                '/./multiFilter/getAll?filterSelector=' +
-                opciones.multiFilter._filterSelector + '&user=' +
-                opciones.multiFilter._filterUser,
+                source: opciones.action +
+                    '/./multiFilter/getAll?filterSelector=' +
+                    opciones.multiFilter._filterSelector + '&user=' +
+                    opciones.multiFilter._filterUser,
                 sourceParam: {
                     label: 'filterName',
                     value: 'filterDefault',
@@ -939,10 +969,10 @@ import Printd from 'printd';
                 },
                 method: 'GET',
                 menuMaxHeight: 325,
-                minLength:3,
+                minLength: 3,
                 combobox: true,
-                contains:true,
-                select:function(){
+                contains: true,
+                select: function () {
                     if (opciones.multiFilter.$combo.rup_autocomplete('getRupValue')) {
                         opciones.multiFilter.selected = {
                             filterSelector: opciones.multiFilter._filterSelector,
@@ -952,9 +982,9 @@ import Printd from 'printd';
                         };
                         $.rup_ajax({
                             url: opciones.action +
-                            '/./multiFilter/getAll?filterSelector=' +
-                            opciones.multiFilter._filterSelector + '&user=' +
-                            opciones.multiFilter._filterUser,
+                                '/./multiFilter/getAll?filterSelector=' +
+                                opciones.multiFilter._filterSelector + '&user=' +
+                                opciones.multiFilter._filterUser,
                             type: 'GET',
                             dataType: 'json',
                             contentType: 'application/json',
@@ -971,7 +1001,7 @@ import Printd from 'printd';
                                     } else {
                                         opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked = false;
                                     }
-                                    
+
                                     $('#' + opciones.filterForm).find('input').val('');
                                     for (let i = 0; i < $('#' + opciones.filterForm).find('input').length; i++) {
                                         if (opciones.multiFilter.selected.filterValue[$('#' + opciones.filterForm).find('input').eq(i).attr('name')] != undefined) {
@@ -988,14 +1018,14 @@ import Printd from 'printd';
                 }
             });
 
-            opciones.multiFilter.$label = $('#'+ opciones.multiFilter._dialogId +'_combo_label');
+            opciones.multiFilter.$label = $('#' + opciones.multiFilter._dialogId + '_combo_label');
 
             //filtro por derecho
             $.rup_ajax({
                 url: opciones.action +
-                '/./multiFilter/getDefault?filterSelector=' +
-                opciones.multiFilter._filterSelector + '&user=' +
-                opciones.multiFilter._filterUser,
+                    '/./multiFilter/getDefault?filterSelector=' +
+                    opciones.multiFilter._filterSelector + '&user=' +
+                    opciones.multiFilter._filterUser,
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -1027,38 +1057,40 @@ import Printd from 'printd';
         /**
          * Método interno que configura el boton de alternar el sord en la ordenación simple
          * @name _sordButtonInit
+         * @private
          * @function
          */
         _sordButtonInit: function () {
             const self = this;
             const opciones = self.options;
 
-            var sordH = opciones._header.sord.find('i');
-            var sordF = opciones._footer.sord.find('i');
+            var sordH = opciones._header.sord;
+            var sordF = opciones._footer.sord;
             if (opciones.sord === 'asc') {
-                sordH.addClass('fa-sort-amount-asc');
-                sordF.addClass('fa-sort-amount-asc');
-                sordH.removeClass('fa-sort-amount-desc');
-                sordF.removeClass('fa-sort-amount-desc');
+                sordH.addClass('asc');
+                sordF.addClass('asc');
+                sordH.removeClass('desc');
+                sordF.removeClass('desc');
             } else {
-                sordH.addClass('fa-sort-amount-desc');
-                sordF.addClass('fa-sort-amount-desc');
-                sordH.removeClass('fa-sort-amount-asc');
-                sordF.removeClass('fa-sort-amount-asc');
+                sordH.addClass('desc');
+                sordF.addClass('desc');
+                sordH.removeClass('asc');
+                sordF.removeClass('asc');
             }
             // Funcionamiento botón sord
             $('#' + opciones._idListHeader.sord + ', #' + opciones._idListFooter.sord).on('click', function () {
-                sordH.toggleClass('fa-sort-amount-asc');
-                sordH.toggleClass('fa-sort-amount-desc');
-                sordF.toggleClass('fa-sort-amount-asc');
-                sordF.toggleClass('fa-sort-amount-desc');
-                self._changeOption('sord', sordH.hasClass('fa-sort-amount-asc') ? 'asc' : 'desc');
+                sordH.toggleClass('asc');
+                sordH.toggleClass('desc');
+                sordF.toggleClass('asc');
+                sordF.toggleClass('desc');
+                self._changeOption('sord', sordH.hasClass('asc') ? 'asc' : 'desc');
             });
         },
 
         /**
          * Método interno que configura el combo de seleccion de sidx en la ordenación simple
          * @name _sidxComboInit
+         * @private
          * @function
          */
         _sidxComboInit: function () {
@@ -1092,6 +1124,7 @@ import Printd from 'printd';
         /**
          * Método interno que configura los elementos de la multiordenación.
          * @name _multisortInit
+         * @private
          * @function
          */
         _multisortInit: function () {
@@ -1152,7 +1185,7 @@ import Printd from 'printd';
                 opciones.multiorder.sidx.split(',').map((e) => {
                     return e.trim();
                 }).forEach((e, i) => {
-                    if(e!==''){
+                    if (e !== '') {
                         let $tmpSum = $('<li class="rup_list-mord-summary-badge badge badge-pill badge-primary rounded-0 mr-1"/>');
                         let geti18n = (val) => {
                             let srcVal = opciones.sidx.source.filter(x => x.value == val);
@@ -1275,6 +1308,7 @@ import Printd from 'printd';
         /**
          * Método interno que configura el combo de elementos de lista por página
          * @name _rownumInit
+         * @private
          * @function
          */
         _rownumInit: function () {
@@ -1312,6 +1346,7 @@ import Printd from 'printd';
         /**
          * Método interno que configura el nav de la paginación
          * @name _pagenavInit
+         * @private
          * @function
          */
         _pagenavInit: function () {
@@ -1374,6 +1409,7 @@ import Printd from 'printd';
          * Método interno que crea la estructura de las líneas en la multiordenación
          *
          * @name _actualizarOrdenMulti
+         * @private
          * @function
          * @param {Event} e
          * @param {JQueryObj} self  Objeto JQuery del botón
@@ -1422,6 +1458,7 @@ import Printd from 'printd';
          * Método interno que da funcionalidad a cada línea en la multiordenación
          *
          * @name _fnOrderOfOrderFields
+         * @private
          * @function
          * @param {JQuery} ctx La instancia de rup_list
          * @param {JQuery} line Objeto JQuery de la línea a la que se va a dar funcionalidad
@@ -1547,6 +1584,7 @@ import Printd from 'printd';
          * Método interno para seleccionar todos los elementos de la lista.
          *
          * @name _selectAll
+         * @private
          * @function
          */
         _selectAll: function () {
@@ -1567,6 +1605,7 @@ import Printd from 'printd';
          * Método interno para deseleccionar todos los elementos de la lista
          *
          * @name _deselectAll
+         * @private
          * @function
          */
         _deselectAll: function () {
@@ -1586,6 +1625,7 @@ import Printd from 'printd';
          * Método interno para seleccionar todos los elementos en la página actual
          *
          * @name _selectPage
+         * @private
          * @function
          */
         _selectPage: function () {
@@ -1646,6 +1686,7 @@ import Printd from 'printd';
          * Método interno para deseleccionar todos los elementos en la página actual
          *
          * @name _deselectPage
+         * @private
          * @function
          */
         _deselectPage: function () {
@@ -1706,6 +1747,7 @@ import Printd from 'printd';
          * Método interno que genera el desplegable de multiseleccion
          *
          * @name _generateSelectablesBtnGroup
+         * @private
          * @function
          */
         _generateSelectablesBtnGroup: function () {
@@ -1764,6 +1806,7 @@ import Printd from 'printd';
          * Método interno para obtener los Ids de la página actual
          *
          * @name _getPageIds
+         * @private
          * @function
          */
         _getPageIds: function () {
@@ -1779,6 +1822,7 @@ import Printd from 'printd';
          * Método interno que otorga funcionalidad a la paginación
          *
          * @name _pagenavManagement
+         * @private
          * @function
          * @param {Number} numPages Número total de páginas
          */
@@ -1887,6 +1931,7 @@ import Printd from 'printd';
          * Método interno que se encarga del bloqueo del componente
          *
          * @name _lock
+         * @private
          * @function
          */
         _lock: function () {
@@ -1918,6 +1963,7 @@ import Printd from 'printd';
          * Método interno que se encarga del desbloqueo del componente
          *
          * @name _unlock
+         * @private
          * @function
          */
         _unlock: function () {
@@ -1934,6 +1980,7 @@ import Printd from 'printd';
          * Método para destruir el componente
          *
          * @name destroy
+         * @public
          * @function
          * @example
          * $('#rup-list').rup_list('destroy');
@@ -1952,6 +1999,7 @@ import Printd from 'printd';
          * Método interno que se encarga de realizar el filtrado y construir la lista desde los datos recibidos
          *
          * @name _doFilter
+         * @private
          * @function
          */
         _doFilter: function () {
@@ -1986,8 +2034,8 @@ import Printd from 'printd';
             };
 
             /**
-            * SHOW, HIDE
-            */
+             * SHOW, HIDE
+             */
             if (opciones.show) {
                 if (opciones.show.constructor == Object) {
                     opciones.show = opciones.show;
@@ -2097,7 +2145,7 @@ import Printd from 'printd';
                                     opciones.content = {};
                                 }
 
-                                if (opciones.content.length == 0 || opciones.content.length == undefined){
+                                if (opciones.content.length == 0 || opciones.content.length == undefined) {
                                     opciones.content = xhr.rows;
                                 } else {
                                     if (!opciones.isScrollList) {
@@ -2188,6 +2236,7 @@ import Printd from 'printd';
          * Método que se encarga de realizar una recarga de la lista
          *
          * @name reload
+         * @public
          * @function
          * @example
          * $('#rup-list').rup_list('reload');
@@ -2223,6 +2272,7 @@ import Printd from 'printd';
          * Método que se encarga de realizar el filtrado de la lista
          *
          * @name filter
+         * @public
          * @function
          * @example
          * $('#rup-list').rup_list('filter');
@@ -2261,6 +2311,7 @@ import Printd from 'printd';
          * Método para cambiar la página actual.
          *
          * @name page
+         * @public
          * @function
          * @param {Number} page La página a la que navegar
          * @example
@@ -2275,6 +2326,7 @@ import Printd from 'printd';
          * Método que obtiene la información de la selección actual
          *
          * @name getSelectedIds
+         * @public
          * @function
          * @example
          * $('#rup-list').rup_list('getSelectedIds');
