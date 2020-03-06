@@ -24,6 +24,6 @@
     	</span>
 	</div>
 	<div class="footer-row-2">
-		<img class="footer-image" src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/web01-2014_claim_pertsona_helburu_es.gif" />
+		<img class="footer-image" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_claim_pertsona_helburu_es.gif" />
 	</div>
 </footer>
