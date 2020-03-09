@@ -16,8 +16,9 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <h2>${maint.titleMaint}</h2>
-
+<#if (maint.filterMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
+</#if>
 
 <table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 
 	data-url-base="${grid.url}"
@@ -35,5 +36,6 @@
         </tr>
     </thead>
 </table>
-
+<#if (maint.isMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
+</#if>
