@@ -81,6 +81,9 @@
             var timeformat, tmpDate, formattedTime;
             timeformat = $(this).data('datepicker').settings.timeFormat;
             tmpDate = $.datepicker.parseTime('hh:mm:ss', param);
+            if(!tmpDate){// se añade la mascara de seg por sino se ha metido.
+            	tmpDate = $.datepicker.parseTime('hh:mm:ss', param+":00");
+            }
             formattedTime = tmpDate ? $.timepicker._formatTime(tmpDate, timeformat) : '';
             $(this).val(formattedTime);
         },
@@ -304,7 +307,7 @@
 
     // DEFINICIÓN DE LA CONFIGURACION POR DEFECTO DEL PATRON
     $.fn.rup_time.defaults = {
-        adapter: 'time_bootstrap',
+        adapter: 'time_material',
         placeholderMask: false,
         stepHour: 1,
         stepMinute: 1,

@@ -1,6 +1,5 @@
 /* eslint-env jquery,jasmine */
 
-
 function clearList(idLista) {
     $('.rup_list-multiorder-dialog').remove();
     $('.ui-dialog').remove();
@@ -309,7 +308,7 @@ describe('Test rup_list', () => {
                     });
                     it('> Los elementos de la pagina se han seleccionado:', () => {
                         $('#rup-list').children().toArray().forEach((elem) => {
-                            expect($(elem).hasClass('list-item-selected')).toBeTruthy();
+                            expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
                         });
                     });
                     describe('> Si vamos a la página siguiente', () => {
@@ -319,7 +318,7 @@ describe('Test rup_list', () => {
                         });
                         it('> Los elementos no están seleccionados', () => {
                             $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('list-item-selected')).toBeFalsy();
+                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
                             });
                         });
                         describe('> Si volvemos a la pagina anterior', () => {
@@ -329,7 +328,7 @@ describe('Test rup_list', () => {
                             });
                             it('> Los elementos de la pagina siguen estando seleccionados', () => {
                                 $('#rup-list').children().toArray().forEach((elem) => {
-                                    expect($(elem).hasClass('list-item-selected')).toBeTruthy();
+                                    expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
                                 });
                             });
                         });
@@ -346,7 +345,7 @@ describe('Test rup_list', () => {
                     });
                     it('> Los elementos no están seleccionados', () => {
                         $('#rup-list').children().toArray().forEach((elem) => {
-                            expect($(elem).hasClass('list-item-selected')).toBeFalsy();
+                            expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
                         });
                     });
                 });
@@ -357,7 +356,7 @@ describe('Test rup_list', () => {
                     });
                     it('> Los elementos de la pagina se han seleccionado:', () => {
                         $('#rup-list').children().toArray().forEach((elem) => {
-                            expect($(elem).hasClass('list-item-selected')).toBeTruthy();
+                            expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
                         });
                     });
                     describe('> Si deseleccionamos la página', () => {
@@ -367,7 +366,7 @@ describe('Test rup_list', () => {
                         });
                         it('> Los elementos estan deseleccionados', () => {
                             $('#rup-list').children().toArray().forEach((e) => {
-                                expect($(e).hasClass('list-item-selected')).toBeFalsy();
+                                expect($(e).hasClass('rup_list-item-selected')).toBeFalsy();
                             });
                         });
                         describe('> Y filtramos', () => {
@@ -377,7 +376,7 @@ describe('Test rup_list', () => {
                             });
                             it('> Los elementos deben estar deseleccionados:', () => {
                                 $('#rup-list').children().toArray().forEach((e) => {
-                                    expect($(e).hasClass('list-item-selected')).toBeFalsy();
+                                    expect($(e).hasClass('rup_list-item-selected')).toBeFalsy();
                                 });
                             });
                         });
@@ -389,7 +388,7 @@ describe('Test rup_list', () => {
                         });
                         it('> Los elementos no están seleccionados', () => {
                             $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('list-item-selected')).toBeTruthy();
+                                expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
                             });
                         });
                     });
@@ -405,7 +404,7 @@ describe('Test rup_list', () => {
                     });
                     it('> Los elementos de la pagina se han seleccionado:', () => {
                         $('#rup-list').children().toArray().forEach((elem) => {
-                            expect($(elem).hasClass('list-item-selected')).toBeFalsy();
+                            expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
                         });
                     });
                     describe('> Si vamos a la página siguiente', () => {
@@ -415,7 +414,7 @@ describe('Test rup_list', () => {
                         });
                         it('> Los elementos no están seleccionados', () => {
                             $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('list-item-selected')).toBeFalsy();
+                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
                             });
                         });
                     });
@@ -473,7 +472,9 @@ describe('Test rup_list', () => {
                 });
 
                 describe('> Los botones se convierten en líneas', () => {
-                    beforeEach(() => {
+                    beforeEach((done) => {
+                        $('#rup-list').off('load');
+                        $('#rup-list').on('load', done);
                         $('button[data-ordvalue="CODCLIENTE"]').click();
                     });
                     it('> Desaparece el botón:', () => {
@@ -490,7 +491,9 @@ describe('Test rup_list', () => {
                     });
                 });
                 describe('> Las lineas se convierten en botones', () => {
-                    beforeEach(() => {
+                    beforeEach((done) => {
+                        $('#rup-list').off('load');
+                        $('#rup-list').on('load', done);
                         $('.rup_list-mord-remove', $('[data-ordValue="USUARIO"]')).click();
                     });
                     it('> Desaparece la línea: ', () => {
@@ -579,24 +582,25 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createListScrollx5('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
                     $('#rup-list').rup_list('filter');
+                    $('#rup-list').on('load', () => {
+                        $('#rup-list').off('load');
+                        $('#rup-list').on('load', done);
+                        $('html, body').animate({
+                            scrollTop: 500
+                        }, 500);
+                    });
                 });
-                $('window, body').css({'height': '2000px'});
-                $('html, body').animate({scrollTop: 500}, 500);
+                $('window, body').css({
+                    'height': '2000px'
+                });
             });
-            afterAll(() => {
+            afterEach(() => {
                 window.scrollTo(0, 0);
+                clearList('rup-list');
             });
             it('> La Funcionalidad de carga:', () => {
-                jasmine.clock().install();
-                setTimeout(() => {
-                    window.scrollTo(0, 500);
-                    expect(window.pageYOffset).toEqual(500);
-                }, 51 + ($('#rup-list').children().length * 50));
-                jasmine.clock().tick(51 + ($('#rup-list').children().length * 50));
-                jasmine.clock().uninstall();
-                expect($('#rup-list').children().length).toEqual(10 + $('#rup-list').find('.ui-effects-placeholder').length);
+                expect($('#rup-list').children().length).toEqual(10);
             });
             it('> El bloque de paginación debe desaparecer:', () => {
                 expect($('#rup-list-header-nav').is(':visible')).toBe(false);
@@ -610,31 +614,32 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createListScrollx10('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
                     $('#rup-list').rup_list('filter');
+                    $('#rup-list').on('load', () => {
+                        $('#rup-list').off('load');
+                        $('#rup-list').on('load', done);
+                        $('html, body').animate({
+                            scrollTop: 1000
+                        }, 500);
+                    });
                 });
-                $('window, body').css({'height': '2000px'});
-                $('html, body').animate({scrollTop: 100}, 300);
+                $('window, body').css({
+                    'height': '5000px'
+                });
             });
-            afterAll(() => {
+            afterEach(() => {
                 window.scrollTo(0, 0);
+                clearList('rup-list');
             });
             it('> La Funcionalidad de carga:', () => {
-                jasmine.clock().install();
-                setTimeout(() => {
-                    window.scrollTo(0, 500);
-                    expect(window.pageYOffset).toEqual(500);
-                }, 51 + ($('#rup-list').children().length * 50));
-                jasmine.clock().tick(51 + ($('#rup-list').children().length * 50));
-                jasmine.clock().uninstall();
-                expect($('#rup-list').children().length).toEqual(20 + $('#rup-list').find('.ui-effects-placeholder').length);
+                expect($('#rup-list').children().length).toEqual(20);
             });
             it('> El bloque de paginación debe desaparecer:', () => {
                 expect($('#rup-list-header-nav').is(':visible')).toBe(false);
                 expect($('#rup-list-footer-nav').is(':visible')).toBe(false);
             });
         });
-        
+
         describe('> Header Sticky', () => {
             beforeAll((done) => {
                 testutils.loadCss(done);
@@ -644,8 +649,12 @@ describe('Test rup_list', () => {
                     $('#rup-list').on('load', done);
                     $('#rup-list').rup_list('filter');
                 });
-                $('window, body').css({'height': '2000px'});
-                $('html, body').animate({scrollTop: 500}, 500);
+                $('window, body').css({
+                    'height': '2000px'
+                });
+                $('html, body').animate({
+                    scrollTop: 500
+                }, 500);
             });
             afterAll(() => {
                 window.scrollTo(0, 0);
@@ -705,7 +714,7 @@ describe('Test rup_list', () => {
                     spyHide = spyOn($.fn, 'hide').and.callThrough();
                     $('#listFilterForm').find('#listFilterAceptar').click();
                 });
-                it ('> Tiene que haber sido llamado HIDE con los argumentos:', () => {
+                it('> Tiene que haber sido llamado HIDE con los argumentos:', () => {
                     for (let i = 0; i < spyHide.calls.count(); i++) {
                         if (spyHide.calls.argsFor(i).length != 0) {
                             if (spyHide.calls.argsFor(i)[0] == opcionesHide.animation) {
@@ -780,55 +789,42 @@ describe('Test rup_list', () => {
                 expect($('#rup-list').children().attr('rup-list-selector')).toEqual('enabled');
             });
             describe('> Al hacer click tiene que seleccionar solo un elemento en la misma pagina', () => {
-                beforeEach((done) => {
-                    $('#rup-list').on('load', done);
-                    $('#rup-list').rup_list('filter');
-                });
                 it('> Puede estar solo un elemento elegido:', () => {
                     for (let i = 0; i < $('.list-item').length; i++) {
                         $('.list-item').eq(i).click();
-                        if ($('.list-item').eq(i).hasClass('list-item-selected')) {
+                        if ($('.list-item').eq(i).hasClass('rup_list-item-selected')) {
                             for (let x = 0; x < $('.list-item').length; x++) {
                                 if ($('.list-item').eq(x).attr('id') != $('.list-item').eq(i).attr('id')) {
-                                    expect($('.list-item').eq(x).hasClass('list-item-selected')).toBeFalse();
+                                    expect($('.list-item').eq(x).hasClass('rup_list-item-selected')).toBeFalse();
                                 }
                             }
                         }
                     }
                 });
             });
-            describe('> Al hacer click tiene que seleccionar solo un elemento en las paginas diferentes', () => {
+            describe('> Mantener lo seleccionado manualmente entre páginas', () => {
                 beforeEach((done) => {
+                    $('#rup-list').off('load');
                     $('#rup-list').on('load', done);
-                    $('#rup-list').rup_list('filter');
                     $('.list-item').eq(0).click();
                     $('#rup-list-header-page-next').click();
                 });
-                it('> Puede estar solo un elemento elegido:', () => {
-                    for (let i = 0; i < $('.list-item').length; i++) {
-                        expect($('.list-item').hasClass('list-item-selected')).toBeFalse();
-                    }
+                it('> En la página siguiente no debe haber seleccionados:', () => {
+                    expect($('.rup_list-item-selected').length).toBe(0);
                 });
-                describe('> Al volver a la pagina anterior, habiamos elegido un elemento', () => {
+                describe('> Volver a la página anterior', () => {
                     beforeEach((done) => {
+                        $('#rup-list').off('load');
                         $('#rup-list').on('load', done);
-                        $('#rup-list').rup_list('filter');
-                        $('.list-item').eq(0).click();
                         $('#rup-list-header-page-prev').click();
                     });
-                    it('> La pagina anterior no debe tener elementos selectados:', () => {
-                        for (let i = 0; i < $('.list-item').length; i++) {
-                            expect($('.list-item').hasClass('list-item-selected')).toBeFalse();
-                        }
+                    it('> Debe haber un elemento seleccionado:', () => {
+                        expect($('.rup_list-item-selected').length).toBe(1);
                     });
                 });
             });
 
             describe('> Seleccionar con Control', () => {
-                beforeEach((done) => {
-                    $('#rup-list').on('load', done);
-                    $('#rup-list').rup_list('filter');
-                });
                 describe('> Seleccionar dos elementos', () => {
                     beforeEach(() => {
                         keyPress(17, () => {
@@ -836,66 +832,67 @@ describe('Test rup_list', () => {
                             $('.list-item').eq(2).click();
                         });
                     });
-                    it ('> Los elementos seleccionados deben tener un class .list-item-selected:', () => {
-                        expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                    it('> Los elementos seleccionados deben tener un class .rup_list-item-selected:', () => {
+                        expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                     });
                 });
                 describe('> Seleccionar dos elementos en dos paginas', () => {
                     beforeEach((done) => {
+                        $('#rup-list').off('load');
                         $('#rup-list').on('load', done);
-                        $('#rup-list').rup_list('filter');
                         keyPress(17, () => {
                             $('.list-item').eq(0).click();
                             $('.list-item').eq(2).click();
                         });
                         $('#rup-list-header-page-next').click();
-                        
+
                     });
-                    describe('> Seleccionar en la segunda pagina', () =>{
-                        beforeEach(() => {
+                    describe('> Seleccionar en la segunda pagina', () => {
+                        beforeEach((done) => {
                             keyPress(17, () => {
                                 $('.list-item').eq(1).click();
                                 $('.list-item').eq(3).click();
                             });
+                            setTimeout(done, 200);
                         });
-                        it('> En la segunda pagina los elementos seleccionados deben tener el class .list-item-selected:', () => {
-                            expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeFalse();
-                            expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                            expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                        it('> En la segunda pagina los elementos seleccionados deben tener el class .rup_list-item-selected:', () => {
+                            expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeFalse();
+                            expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                            expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                         });
                         describe('> Al volver a la primera deben mantenerse en el estado selectable', () => {
                             beforeEach((done) => {
+                                $('#rup-list').off('load');
                                 $('#rup-list').on('load', done);
-                                $('#rup-list').rup_list('filter');
+                                $('#rup-list-header-page-prev').click();
                             });
-                            it ('> Los elementos seleccionados deben tener un class .list-item-selected:', () => {
-                                expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                                expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeFalse();
-                                expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeTruthy();
-                                expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                                expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                            it('> Los elementos seleccionados deben tener un class .rup_list-item-selected:', () => {
+                                expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                                expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeFalse();
+                                expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeTruthy();
+                                expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                                expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                             });
                         });
                         describe('> Click sin Control', () => {
                             beforeEach((done) => {
-                                $('#rup-list').on('load', done);
-                                $('#rup-list').rup_list('filter');
-                            });
-                            it('> Ahora solo un elemento debe estar seectado:', () => {
                                 keyUp(17, () => {
-                                    $('.list-item').eq(1).click();
+                                    $('.list-item').eq(0).click();
                                 });
-                                expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeFalse();
-                                expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                                expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                                expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                                expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                                done();
+                            });
+                            it('> Ahora solo un elemento debe estar seleccionado:', () => {
+                                expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                                expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeFalse();
+                                expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                                expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                                expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                             });
                         });
                     });
@@ -913,12 +910,12 @@ describe('Test rup_list', () => {
                             $('.list-item').eq(2).click();
                         });
                     });
-                    it ('> Los elementos seleccionados deben tener un class .list-item-selected:', () => {
-                        expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                    it('> Los elementos seleccionados deben tener un class .rup_list-item-selected:', () => {
+                        expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                     });
                 });
                 describe('> Click sin Shift', () => {
@@ -926,15 +923,15 @@ describe('Test rup_list', () => {
                         $('#rup-list').on('load', done);
                         $('#rup-list').rup_list('filter');
                     });
-                    it('> Ahora solo un elemento debe estar selectado:', () => {
+                    it('> Ahora solo un elemento debe estar seleccionado:', () => {
                         keyUp(16, () => {
                             $('.list-item').eq(1).click();
                         });
-                        expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                     });
                 });
             });
@@ -955,11 +952,11 @@ describe('Test rup_list', () => {
                         });
                     });
                     it('> Deben tener el class:', () => {
-                        expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                     });
                     describe('> Seleccionar el segundo rango', () => {
                         beforeEach(() => {
@@ -973,11 +970,11 @@ describe('Test rup_list', () => {
                             });
                         });
                         it('> Deben tener el class:', () => {
-                            expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                            expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                            expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeTruthy();
                         });
                     });
                 });
@@ -989,12 +986,12 @@ describe('Test rup_list', () => {
                             keyUp();
                         });
                     });
-                    it ('> Los elementos seleccionados deben tener el clase:', () => {
-                        expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                        expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeFalse();
-                        expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeFalse();
+                    it('> Los elementos seleccionados deben tener el clase:', () => {
+                        expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                        expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeFalse();
+                        expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeFalse();
                     });
                     describe('> Seleccionar todo el rango', () => {
                         beforeEach(() => {
@@ -1006,17 +1003,17 @@ describe('Test rup_list', () => {
                             });
                         });
                         it('> Los elementos (todos) seleccionados deben tener el clase:', () => {
-                            expect($('.list-item').eq(0).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(1).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(2).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(3).hasClass('list-item-selected')).toBeTruthy();
-                            expect($('.list-item').eq(4).hasClass('list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(0).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(1).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(2).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(3).hasClass('rup_list-item-selected')).toBeTruthy();
+                            expect($('.list-item').eq(4).hasClass('rup_list-item-selected')).toBeTruthy();
                         });
                     });
                 });
             });
         });
-        
+
         describe('> MultiFilter', () => {
             beforeAll((done) => {
                 testutils.loadCss(done);
@@ -1037,7 +1034,7 @@ describe('Test rup_list', () => {
                     $('#rup-list').rup_list('filter');
                     $('#listFilterForm').find('#listFilterAceptar_dropdown').click();
                 });
-                it ('Tiene que aparecer el dialog', () => {
+                it('Tiene que aparecer el dialog', () => {
                     expect($('#rup-list_dropdownDialog').is(':visible')).toBeTruthy();
                 });
                 describe('> Cancelar', () => {
@@ -1064,7 +1061,7 @@ describe('Test rup_list', () => {
                             }
                         }
                     });
-                    it ('Filter por dereco', () => {
+                    it('Filter por dereco', () => {
                         expect($('#listFilterForm').find('input').eq(2).val()).toEqual('20');
                     });
                     describe('Eligir un filtro', () => {
@@ -1076,7 +1073,7 @@ describe('Test rup_list', () => {
                         });
                         it('El filtro elegido tiene que aparecer en autocomlete', () => {
                             expect($('#rup-list_dropdownDialog_combo_label').val()).toEqual('Filter 1');
-                        });      
+                        });
                     });
                 });
                 describe('> Guardar', () => {
@@ -1095,7 +1092,7 @@ describe('Test rup_list', () => {
             });
         });
 
-        describe ('> Loader configurable', () => {
+        describe('> Loader configurable', () => {
             var spyLoader;
             beforeAll((done) => {
                 testutils.loadCss(done);
@@ -1113,7 +1110,7 @@ describe('Test rup_list', () => {
                     spyLoader = spyOn($.fn, 'prepend').and.callThrough();
                     $('#rup-list-header-page-next').click();
                 });
-                it ('Loader debe tener el contenido diferente', () => {
+                it('Loader debe tener el contenido diferente', () => {
                     for (let i = 0; i < spyLoader.calls.count(); i++) {
                         if ($(spyLoader.calls.argsFor(i)[0]).hasClass('rup_list-overlay')) {
                             expect($(spyLoader.calls.argsFor(i)[0])[0].innerText).toEqual('loading...');
@@ -1123,4 +1120,6 @@ describe('Test rup_list', () => {
             });
         });
     });
+    
+    a11y.describes();
 });

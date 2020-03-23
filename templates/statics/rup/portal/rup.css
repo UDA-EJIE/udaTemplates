@@ -48217,12 +48217,12 @@
   cursor: pointer;
 }
 
-.r01gContainer .rup_list .list-item-selected {
+.r01gContainer .rup_list .rup_list-item-selected {
   background-color: #1472a4;
   color: #ffffff;
 }
 
-.r01gContainer .rup_list .list-item-selected:hover {
+.r01gContainer .rup_list .rup_list-item-selected:hover {
   background-color: #1472a4;
 }
 
@@ -48286,8 +48286,9 @@
   float: right;
 }
 
-.r01gContainer .rup_list-header nav a,
-.r01gContainer .rup_list-footer nav a {
+.r01gContainer .rup_list-header nav .page-link,
+.r01gContainer .rup_list-footer nav .page-link {
+  cursor: pointer;
   line-height: 3.5rem;
 }
 
@@ -48396,7 +48397,7 @@
   border-radius: 0 4px 4px 0;
   color: #ffffff;
   font-size: 14px;
-  margin: 0 0 0 5px;
+  margin: 0 -2px 0 5px;
   padding: 5px 1px;
 }
 

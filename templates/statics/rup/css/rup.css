@@ -34911,10 +34911,10 @@ a.cal-event-week {
     background-color: #a6acb1;
     cursor: pointer; }
 
-.rup_list .list-item-selected {
+.rup_list .rup_list-item-selected {
   background-color: #1472a4;
   color: #ffffff; }
-  .rup_list .list-item-selected:hover {
+  .rup_list .rup_list-item-selected:hover {
     background-color: #1472a4; }
 
 .rup_list-sticky {
@@ -34955,8 +34955,9 @@ a.cal-event-week {
   .rup_list-header nav,
   .rup_list-footer nav {
     float: right; }
-    .rup_list-header nav a,
-    .rup_list-footer nav a {
+    .rup_list-header nav .page-link,
+    .rup_list-footer nav .page-link {
+      cursor: pointer;
       line-height: 3.5rem; }
   .rup_list-header .rup_list-header-rowNum + span a,
   .rup_list-header .rup_list-footer-rowNum + span a,
@@ -35039,7 +35040,7 @@ a.cal-event-week {
         border-radius: 0 4px 4px 0;
         color: #ffffff;
         font-size: 14px;
-        margin: 0 0 0 5px;
+        margin: 0 -2px 0 5px;
         padding: 5px 1px; }
   .rup_list-mord-dialog .rup_list-mord-ordersort {
     display: flex;

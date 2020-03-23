@@ -125,6 +125,31 @@
                     }
                 });
             }
+            //Opcion de usar el colModel
+            if(ctx.oInit.colModel !== undefined){
+            	$.each(ctx.oInit.colModel, function () {
+            		 var cellColModel = this;
+            	        if (cellColModel.editable === true) {
+            	            var searchRupType = cellColModel.searchoptions !== undefined && cellColModel.searchoptions.rupType !== undefined ? cellColModel.searchoptions.rupType : cellColModel.rupType;
+            	            var colModelName = cellColModel.name;
+            	            var $elem = ctx.oInit.formEdit.detailForm.find(`[name="${colModelName}"]`); // Se añade el title de los elementos de acuerdo al colname
+            	            // Si ya existe el div necesario para dar los estilos material al input, evitamos duplicarlo.
+
+            	            $elem.attr({'title': colModelName}).removeAttr('readOnly'); // En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
+
+            	            if (searchRupType !== undefined) {
+            	              var searchEditOptions = cellColModel.searchoptions || cellColModel.editoptions; // Invocación al componente RUP
+
+            	              $elem['rup_' + searchRupType](searchEditOptions);
+
+            	              if (searchRupType === 'combo') {
+            	                //asignar el valor
+            	              //  $('#' + $elem.attr('id')).rup_combo('setRupValue', ctx.inlineEdit.lastRow.cellValues[cont]);
+            	              }
+            	            } 
+            	          }
+            	 });
+            }
         }
 
         //Se captura evento de cierre
@@ -374,6 +399,7 @@
                         var divErrorFeedback = feed; //idTableDetail.find('#'+feed[0].id + '_ok');
                         if (divErrorFeedback.length === 0) {
                             divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                            divErrorFeedback.rup_feedback(ctx.oInit.feedback);
                         }
                         _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
                         $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax');
@@ -451,6 +477,19 @@
 
         button.unbind('click');
         button.bind('click', function () {
+        	//Funcion de validacion
+        	if (actionType === 'PUT') {
+	        	let customModificar = ctx.oInit.validarModificar;
+	        	if($.isFunction(customModificar) && customModificar(ctx)){
+	        		return false;
+	        	}
+        	}else if (actionType === 'POST') {
+        	
+	        	let customAlta = ctx.oInit.validarAlta;
+	        	if($.isFunction(customAlta) && customAlta(ctx)){
+	        		return false;
+	        	}
+        	}
             // Comprobar si row ha sido modificada
             // Se serializa el formulario con los cambios
             row = _editFormSerialize(idForm);
@@ -470,6 +509,7 @@
             	let divErrorFeedback = feed;
                 if (divErrorFeedback.length === 0) {
                     divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                    divErrorFeedback.rup_feedback(ctx.oInit.feedback);
                 }
                 _callFeedbackOk(ctx, divErrorFeedback, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
                 $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax');
@@ -484,6 +524,20 @@
         ctx.oInit.formEdit.detailForm.buttonSaveContinue.actionType = actionType;
         buttonContinue.unbind('click');
         buttonContinue.bind('click', function () {
+        	//Funcion de validacion
+        	if (actionType === 'PUT') {
+	        	let customModificar = ctx.oInit.validarModificarContinuar;
+	        	if($.isFunction(customModificar) && customModificar(ctx)){
+	        		return false;
+	        	}
+        	}else if (actionType === 'POST') {
+        	
+	        	let customAlta = ctx.oInit.validarAltaContinuar;
+	        	if($.isFunction(customAlta) && customAlta(ctx)){
+	        		return false;
+	        	}
+        	}
+        	
             var actionSaveContinue = ctx.oInit.formEdit.detailForm.buttonSaveContinue.actionType;
             // Comprobar si row ha sido modificada
             // Se serializa el formulario con los cambios
@@ -504,6 +558,7 @@
             	let divErrorFeedback = feed;
                 if (divErrorFeedback.length === 0) {
                     divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                    divErrorFeedback.rup_feedback(ctx.oInit.feedback);
                 }
                 _callFeedbackOk(ctx, divErrorFeedback, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
                 $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax');
@@ -580,11 +635,12 @@
                         var divOkFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
                         if (divOkFeedback.length === 0) {
                             divOkFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                            divOkFeedback.rup_feedback(ctx.oInit.feedback);
                         }
                         _callFeedbackOk(ctx, divOkFeedback, msgFeedBack, 'ok'); //Se informa, feedback del formulario
                     } else {
                         ctx.oInit.formEdit.detailForm.rup_dialog('close');
-                        _callFeedbackOk(ctx, ctx.multiselection.internalFeedback, msgFeedBack, 'ok'); //Se informa feedback de la tabla
+                        _callFeedbackOk(ctx, ctx.oInit.feedback.$feedbackContainer, msgFeedBack, 'ok'); //Se informa feedback de la tabla
                     }
 
                     if (actionType === 'PUT') { //Modificar
@@ -604,7 +660,7 @@
                         }
                         ctx.multiselection.lastSelectedId = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
                         ctx.multiselection.selectedRowsPerPage[posicion].id = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
-                        ctx.multiselection.internalFeedback.type = undefined; //se recarga el type no esta definido.
+                        ctx.oInit.feedback.type = undefined; //se recarga el type no esta definido.
                     } else {
                         // Se actualiza la tabla temporalmente. y deja de ser post para pasar a put(edicion)
                         if (ctx.oInit.select !== undefined) {
@@ -632,26 +688,26 @@
 
                         ctx.oInit.formEdit.dataOrigin = _editFormSerialize(ctx.oInit.formEdit.idForm);
                         if (ctx.oInit.multiSelect !== undefined) {
-                            ctx.multiselection.internalFeedback.type = 'noBorrar';
+                            ctx.oInit.feedback.type = 'noBorrar';
                             dt.row().multiSelect();
                         }
                         // Se actualiza la linea
                         if (ctx.json.reorderedSelection !== null && ctx.json.reorderedSelection !== undefined) {
                             ctx.multiselection.selectedRowsPerPage[0].line = ctx.json.reorderedSelection[0].pageLine;
                         }
-                        $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow');
+                        $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow',actionType);
                     }
 
                     dt.ajax.reload(function () {
-                        $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax');
+                        $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType);
                     }, false);
 
                 } else { // Eliminar
-                    ctx.multiselection.internalFeedback.type = 'eliminar';
-                    ctx.multiselection.internalFeedback.msgFeedBack = msgFeedBack;
+                    ctx.oInit.feedback.type = 'eliminar';
+                    ctx.oInit.feedback.msgFeedBack = msgFeedBack;
                     var reloadDt = function () {
                         dt.ajax.reload(function () {
-                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax');
+                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType);
                         }, false);
                     };
                     if (ctx.oInit.multiSelect !== undefined) {
@@ -664,21 +720,25 @@
                             reloadDt();
                         });
                         DataTable.Api().select.deselect(ctx);
-                        _callFeedbackOk(ctx, ctx.multiselection.internalFeedback, msgFeedBack, 'ok'); //Se informa feedback de la tabla
                     }
+                    _callFeedbackOk(ctx, ctx.oInit.feedback.$feedbackContainer, msgFeedBack, 'ok'); //Se informa feedback de la tabla
                 }
             },
             complete: function () {
-                $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax');
+                $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax',actionType);
             },
             error: function (xhr) {
-                var divErrorFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
-                if (divErrorFeedback.length === 0) {
-                    divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                if(continuar){
+                    var divErrorFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
+                    if (divErrorFeedback.length === 0) {
+                        divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+                        divErrorFeedback.rup_feedback(ctx.oInit.feedback);
+                    }
+                    _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
+                } else {
+                    _callFeedbackOk(ctx, ctx.oInit.feedback.$feedbackContainer, xhr.responseText, 'error');
                 }
-                _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
-                // debugger;
-                $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax');
+                $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax',actionType);
             },
             validate: validaciones,
             feedback: feed.rup_feedback({
@@ -716,21 +776,8 @@
      */
     function _callFeedbackOk(ctx, feedback, msgFeedBack, type) {
         $('#' + ctx.sTableId).triggerHandler('tableEditFormFeedbackShow');
-        var confDelay = ctx.oInit.feedback.okFeedbackConfig.delay;
-
-        try {
-            feedback.rup_feedback('destroy');
-        } catch (ex) {
-         
-        }
-
-        feedback.rup_feedback({
-            message: msgFeedBack,
-            type: type,
-            block: false,
-            gotoTop: false,
-            delay: confDelay
-        });
+        feedback.rup_feedback('set', msgFeedBack, type);
+        feedback.rup_feedback('show');
     }
 
 
