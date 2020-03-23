@@ -1,5 +1,5 @@
 <%--  
- -- Copyright 2019 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -12,6 +12,7 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia. 
  --%>
+ 
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/includeTemplate.inc" %>
 <footer>
