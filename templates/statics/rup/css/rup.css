@@ -14025,9 +14025,10 @@ fieldset {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.6); } }
 
 .radio-material {
-  margin: .5em 0; }
+  margin: 0.5em 0; }
   .radio-material.radio-material-inline {
-    display: inline-block; }
+    display: inline-block;
+    margin-right: 1rem; }
   .radio-material input[type='radio'] {
     position: absolute;
     z-index: -1;
@@ -14108,6 +14109,9 @@ fieldset {
   position: relative;
   margin: 0.5em 0;
   text-align: left; }
+  .checkbox-material.checkbox-material-inline {
+    display: inline-block;
+    margin-right: 1rem; }
   .checkbox-material label {
     cursor: pointer;
     display: inline;
@@ -14167,10 +14171,6 @@ fieldset {
       pointer-events: none; }
     .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
       background: rgba(0, 0, 0, 0.26); }
-
-.checkbox-material-inline {
-  display: inline-block;
-  margin: initial; }
 
 table div.checkbox-material-inline label::before, table div.checkbox-material-inline label::after {
   top: 3px; }
@@ -39730,9 +39730,10 @@ fieldset {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.6); } }
 
 .radio-material {
-  margin: .5em 0; }
+  margin: 0.5em 0; }
   .radio-material.radio-material-inline {
-    display: inline-block; }
+    display: inline-block;
+    margin-right: 1rem; }
   .radio-material input[type='radio'] {
     position: absolute;
     z-index: -1;
@@ -39813,6 +39814,9 @@ fieldset {
   position: relative;
   margin: 0.5em 0;
   text-align: left; }
+  .checkbox-material.checkbox-material-inline {
+    display: inline-block;
+    margin-right: 1rem; }
   .checkbox-material label {
     cursor: pointer;
     display: inline;
@@ -39872,10 +39876,6 @@ fieldset {
       pointer-events: none; }
     .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
       background: rgba(0, 0, 0, 0.26); }
-
-.checkbox-material-inline {
-  display: inline-block;
-  margin: initial; }
 
 table div.checkbox-material-inline label::before, table div.checkbox-material-inline label::after {
   top: 3px; }

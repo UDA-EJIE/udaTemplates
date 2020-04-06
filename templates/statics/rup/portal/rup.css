@@ -20191,11 +20191,12 @@
 }
 
 .r01gContainer .radio-material {
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .r01gContainer .radio-material.radio-material-inline {
   display: inline-block;
+  margin-right: 1rem;
 }
 
 .r01gContainer .radio-material input[type='radio'] {
@@ -20321,6 +20322,11 @@
   text-align: left;
 }
 
+.r01gContainer .checkbox-material.checkbox-material-inline {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 .r01gContainer .checkbox-material label {
   cursor: pointer;
   display: inline;
@@ -20408,11 +20414,6 @@
 
 .r01gContainer .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
   background: rgba(0, 0, 0, 0.26);
-}
-
-.r01gContainer .checkbox-material-inline {
-  display: inline-block;
-  margin: initial;
 }
 
 .r01gContainer table div.checkbox-material-inline label::before,
@@ -55076,11 +55077,12 @@
 }
 
 .r01gContainer .radio-material {
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .r01gContainer .radio-material.radio-material-inline {
   display: inline-block;
+  margin-right: 1rem;
 }
 
 .r01gContainer .radio-material input[type='radio'] {
@@ -55206,6 +55208,11 @@
   text-align: left;
 }
 
+.r01gContainer .checkbox-material.checkbox-material-inline {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 .r01gContainer .checkbox-material label {
   cursor: pointer;
   display: inline;
@@ -55293,11 +55300,6 @@
 
 .r01gContainer .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
   background: rgba(0, 0, 0, 0.26);
-}
-
-.r01gContainer .checkbox-material-inline {
-  display: inline-block;
-  margin: initial;
 }
 
 .r01gContainer table div.checkbox-material-inline label::before,

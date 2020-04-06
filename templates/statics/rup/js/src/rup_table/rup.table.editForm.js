@@ -76,7 +76,7 @@
         //DetailForm se convierte en function
         //Se inicializan los botones
         ctx.oInit.formEdit.detailForm = $(ctx.oInit.formEdit.detailForm);
-        ctx.oInit.formEdit.idForm = ctx.oInit.formEdit.detailForm.find('form');
+        ctx.oInit.formEdit.idForm = ctx.oInit.formEdit.detailForm.find('form').first();//se aseguro un solo formulario.
         ctx.oInit.formEdit.id = ctx.oInit.formEdit.detailForm[0].id.replace('_detail_div', '');
         if (ctx.oInit.formEdit.detailForm !== undefined &&
             $('body').find('[aria-describedby=\'' + ctx.oInit.formEdit.detailForm[0].id + '\']').length > 0) {
@@ -337,7 +337,7 @@
         var loadPromise = $.Deferred();
         var ctx = dt.settings()[0];
         var idForm = ctx.oInit.formEdit.idForm;
-
+        ctx.oInit.formEdit.actionType = actionType;
         //Se limpia los errores. Si hubiese
         var feed = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_feedback');
         var divErrorFeedback = ctx.oInit.formEdit.detailForm.find('#' + feed[0].id + '_ok');
@@ -735,16 +735,14 @@
                 $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax',actionType);
             },
             error: function (xhr) {
-                if(continuar){
+
                     var divErrorFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
                     if (divErrorFeedback.length === 0) {
                         divErrorFeedback = $('<div/>').attr('id', feed[0].id + '_ok').insertBefore(feed);
                         divErrorFeedback.rup_feedback(ctx.oInit.feedback);
                     }
                     _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
-                } else {
-                    _callFeedbackOk(ctx, ctx.oInit.feedback.$feedbackContainer, xhr.responseText, 'error');
-                }
+
                 $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax',actionType);
             },
             validate: validaciones,
@@ -800,7 +798,8 @@
      *
      */
     function _addListType(idForm,row) {
-    	$.each(idForm.find('[data-lista]'), function (index) {
+    	//Listas de checkbox
+    	$.each(idForm.find('[data-lista]'), function () {
     		let name = this.dataset.lista;
     		let prop = '';
     		let propSplit = this.name.split(".");
@@ -823,6 +822,15 @@
 	    			array = $(this).is(':checked');
 	    		}
 	    		row[name].push(array);
+    		}
+    	});
+    	
+    	//Se buscan los array para que sean listas.combos con multiselect
+    	$.each(row, function (name) {
+    		if(this !== undefined && this.toString() === '[object Object]'){
+    			if($.isNumeric( Object.keys(this)[0] )){//se asegura, que no es una lista de objetos.
+    				row[name] = Object.values(this);
+    			}
     		}
     	});
     	return row;
@@ -1416,12 +1424,18 @@
         let idFormArray = idForm.formToArray();
         let length = idFormArray.length;
         let ultimo = '';
+        let count = 1;
 
         $.each(idFormArray, function (key, obj) {
         	if(obj.type !== 'hidden'){
         		let valor = '';
         		if(ultimo === obj.name){//Se mete como lista
-        			valor = '%5B0%5D';
+        			//se hace replace del primer valor
+        			serializedForm = serializedForm.replace(ultimo+'=',ultimo+'[0]=');
+        			valor = '['+count+']'; //y se mete el array
+        			count++;
+        		}else{
+        			count = 1;
         		}
 	            serializedForm += (obj.name + valor+'=' + obj.value);
                 serializedForm += '&';

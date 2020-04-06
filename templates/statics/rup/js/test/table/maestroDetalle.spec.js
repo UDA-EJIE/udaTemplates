@@ -600,10 +600,10 @@ function testForm2Form(defer) {
                             $('#example1_detail_button_save').click();
                         });
                         it('El feedback debe mostrarse:', () => {
-                            expect($('#rup_feedback_example1').is(':visible')).toBeTruthy();
+                            expect($('#example1_detail_feedback_ok').is(':visible')).toBeTruthy();
                         });
                         it('Debe contener el mensaje esperado:', () => {
-                            expect($('#rup_feedback_example1').text()).toBe('KABOOM!');
+                            expect($('#example1_detail_feedback_ok').text()).toBe('KABOOM!');
                         });
                     });
                     describe('Errores en búsqueda > ', () => {
@@ -643,10 +643,10 @@ function testForm2Form(defer) {
                             $('#example2_detail_button_save').click();
                         });
                         it('El feedback debe mostrarse:', () => {
-                            expect($('#rup_feedback_example2').is(':visible')).toBeTruthy();
+                            expect($('#example2_detail_feedback_ok').is(':visible')).toBeTruthy();
                         });
                         it('Debe contener el mensaje esperado:', () => {
-                            expect($('#rup_feedback_example2').text()).toBe('KABOOM!');
+                            expect($('#example2_detail_feedback_ok').text()).toBe('KABOOM!');
                         });
                     });
                     describe('Errores en búsqueda > ', () => {
@@ -1173,10 +1173,10 @@ function testForm2Inline(defer) {
                             $('#example1_detail_button_save').click();
                         });
                         it('El feedback debe mostrarse:', () => {
-                            expect($('#rup_feedback_example1').is(':visible')).toBeTruthy();
+                            expect($('#example1_detail_feedback_ok').is(':visible')).toBeTruthy();
                         });
                         it('Debe contener el mensaje esperado:', () => {
-                            expect($('#rup_feedback_example1').text()).toBe('KABOOM!');
+                            expect($('#example1_detail_feedback_ok').text()).toBe('KABOOM!');
                         });
                     });
                     describe('Errores en búsqueda > ', () => {
@@ -1800,10 +1800,10 @@ function testInline2Form(defer) {
                             $('#example2_detail_button_save').click();
                         });
                         it('El feedback debe mostrarse:', () => {
-                            expect($('#rup_feedback_example2').is(':visible')).toBeTruthy();
+                            expect($('#example2_detail_feedback_ok').is(':visible')).toBeTruthy();
                         });
                         it('Debe contener el mensaje esperado:', () => {
-                            expect($('#rup_feedback_example2').text()).toBe('KABOOM!');
+                            expect($('#example2_detail_feedback_ok').text()).toBe('KABOOM!');
                         });
                     });
                     describe('Errores en búsqueda > ', () => {
