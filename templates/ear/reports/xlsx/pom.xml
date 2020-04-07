@@ -11,7 +11,7 @@
   		<dependency>
 	   		<groupId>org.apache.poi</groupId>
 	   		<artifactId>poi-ooxml</artifactId>
-	   		<version>3.7</version>
+	   		<version>3.17</version>
 	   		<exclusions>
 				<exclusion>
 					<groupId>org.apache.geronimo.specs</groupId>
@@ -34,6 +34,11 @@
 	    			<artifactId>xmlbeans</artifactId>
 	    		</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>4.1</version>
 		</dependency>
 	</dependencies>
 	<build>
