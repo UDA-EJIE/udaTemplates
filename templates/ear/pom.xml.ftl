@@ -565,23 +565,22 @@
 					<enabled>true</enabled>
 				</snapshots>
 			</repository>
-	</#if>
-	
-		<pluginRepositories>
-	        <pluginRepository>
-	            <id>central</id>
-	            <name>Central Repository</name>
-	            <url>https://repo.maven.apache.org/maven2</url>
-	            <layout>default</layout>
-	            <snapshots>
-	                <enabled>false</enabled>
-	            </snapshots>
-	            <releases>
-	                <updatePolicy>never</updatePolicy>
-	            </releases>
-	        </pluginRepository>
-	    </pluginRepositories>			
+	</#if>	
 	</repositories>
+	<pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 	<build>
 		<plugins>
 			<plugin>
