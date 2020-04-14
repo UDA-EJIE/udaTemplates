@@ -19,7 +19,7 @@
 <%@ include file="/WEB-INF/includeTemplate.inc" %>
 <%@ taglib prefix="tiles" uri="/WEB-INF/tld/tiles-jsp.tld" %>
 
-<html class="no-js" lang="">
+<html class="no-js" lang="es">
 
 <!-- Borrar para desarrollo -->
 <head>
