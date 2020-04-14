@@ -19446,6 +19446,14 @@
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
 
+.r01gContainer footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F;
+  padding: 2.5rem;
+}
+
 .r01gContainer fieldset {
   border-radius: 5px;
 }
@@ -54331,6 +54339,14 @@
 }
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
+
+.r01gContainer footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F;
+  padding: 2.5rem;
+}
 
 .r01gContainer fieldset {
   border-radius: 5px;
