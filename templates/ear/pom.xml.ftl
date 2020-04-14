@@ -581,15 +581,15 @@
 					<enabled>false</enabled>
 				</snapshots>
 			</repository>
-			<repository>
-				<id>repo2.maven.org</id>
-				<name>Official Maven Repository</name>
-				<url>http://repo2.maven.org/maven2/</url>
-				<snapshots>
-					<enabled>true</enabled>
-				</snapshots>
-			</repository>
 	</#if>	
+		<repository>
+			<id>maven</id>
+			<name>Official Maven Repository</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 	<pluginRepositories>
         <pluginRepository>
