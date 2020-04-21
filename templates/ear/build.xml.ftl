@@ -15,7 +15,7 @@
  -->
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project name="${codapp}EAR" default="mavenRunDependencies" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="${codapp}EAR" default="mavenRunDependencies" xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:ivy="antlib:org.apache.ivy.ant">>
 	
 	<!-- Permite el uso de variables de entorno -->
 	<property environment="env" />
@@ -29,5 +29,14 @@
 			<arg value="package"/>
 		</artifact:mvn>		
 	</target>
+	
+	<target name="obtenerLibreriasLocal" description="Para actualizar librerias en local">                   
+		<path id="ivy-ant-tasks.classpath" path="<#noparse>${ant.home}</#noparse>/lib/ivy-2.3.0.jar" />
+		<typedef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy-ant-tasks.classpath" />    
+		<ivy:configure file="../<#noparse>${codapp}EAR</#noparse>/ivy/ivysettings.xml"/>
+		<ivy:resolve file="ivy.xml" conf="${ivy.configurations}" />
+		<ivy:retrieve pattern="../<#noparse>${codapp}EAR</#noparse>/EarContent/APP-INF/lib/[artifact]-[revision](-[classifier]).[ext]" conf="${ivy.configurations}" overwriteMode="always" />     
+    </target>	
+
 	
 </project>
