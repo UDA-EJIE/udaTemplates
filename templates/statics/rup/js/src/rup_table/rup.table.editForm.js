@@ -753,7 +753,6 @@
         };
 
         if (url !== '/deleteAll' && actionType !== 'DELETE') {
-            ctx.oInit.formEdit.idForm.rup_form();
             ctx.oInit.formEdit.idForm.rup_form('ajaxSubmit', ajaxOptions);
         } else {
             //Se cambia el data
@@ -1427,7 +1426,10 @@
         let count = 1;
 
         $.each(idFormArray, function (key, obj) {
-        	let ruptype = $("[name='"+obj.name+"']").attr('ruptype');
+        	let ruptype = idForm.find('[name='+obj.name+']').attr('ruptype');
+        	if(ruptype === undefined){
+        		ruptype = idForm.find('[name='+obj.name+']').data('ruptype');
+        	}
         	if(obj.type !== 'hidden' || ruptype === 'autocomplete' || ruptype === 'custom'){
         		let valor = '';
         		if(ultimo === obj.name){//Se mete como lista

@@ -1316,7 +1316,6 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 	}
 	
 	if(url !== '/deleteAll' && actionType !== 'DELETE'){
-		idForm.rup_form();
 		idForm.rup_form('ajaxSubmit', ajaxOptions);
 	}else{
 		//Se cambia el data
