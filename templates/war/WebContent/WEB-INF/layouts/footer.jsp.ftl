@@ -16,19 +16,21 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/includeTemplate.inc" %>
 <footer>
-	<div class="row footer-row-base">
+	<div class="footer-row-base">
 		<div class="col-12">
 			<img class="img-fluid mx-auto d-block" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_claim_pertsona_helburu_es.gif" />
 		</div>
-		<div class="col-sm-6 text-center">
-			<p class="text-white">
-				<spring:message code="footer.avisoLegal"/>
-			</p>
-		</div>
-		<div class="col-sm-6 text-center">
-			<p class="text-white">
-				<spring:message code="footer.ejgv"/>
-			</p>
+		<div class="row">
+			<div class="col-sm-6 text-center">
+				<p class="text-white">
+					<spring:message code="footer.avisoLegal"/>
+				</p>
+			</div>
+			<div class="col-sm-6 text-center">
+				<p class="text-white">
+					<spring:message code="footer.ejgv"/>
+				</p>
+			</div>
 		</div>
 	</div>
 </footer>
