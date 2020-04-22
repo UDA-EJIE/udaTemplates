@@ -19446,6 +19446,10 @@
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
 
+.r01gContainer footer {
+  border-top: 2px solid #1472a4;
+}
+
 .r01gContainer footer .footer-row-base {
   background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
   background-repeat: no-repeat;
@@ -54339,6 +54343,10 @@
 }
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
+
+.r01gContainer footer {
+  border-top: 2px solid #1472a4;
+}
 
 .r01gContainer footer .footer-row-base {
   background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
