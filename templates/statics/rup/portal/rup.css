@@ -15260,7 +15260,6 @@
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   background: lightgray;
-  display: inline-block;
   padding: .8rem 2rem;
   width: 100%;
 }
@@ -21688,6 +21687,10 @@
 
 .r01gContainer .pointer {
   cursor: pointer;
+}
+
+.r01gContainer .clear {
+  clear: both;
 }
 
 /* MaterialDesignIcons.com */
@@ -50157,7 +50160,6 @@
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   background: lightgray;
-  display: inline-block;
   padding: .8rem 2rem;
   width: 100%;
 }
@@ -56585,6 +56587,10 @@
 
 .r01gContainer .pointer {
   cursor: pointer;
+}
+
+.r01gContainer .clear {
+  clear: both;
 }
 
 /* MaterialDesignIcons.com */

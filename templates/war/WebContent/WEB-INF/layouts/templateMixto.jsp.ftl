@@ -52,7 +52,7 @@
 				<tiles:insertAttribute name="breadCrumb" />
 
 				<!-- Contenidos -->
-				<div class="m-0 m-md-3 p-4" >
+				<div class="m-0 m-md-3 p-4 clear" >
 					<tiles:insertAttribute name="content"/>
 				</div>
 			</div>
