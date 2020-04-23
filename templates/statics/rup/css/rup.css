@@ -13538,14 +13538,14 @@ ul.dtr-details .dtr-data {
   background-color: #1472a4 !important; }
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
-footer {
-  border-top: 2px solid #1472a4; }
-  footer .footer-row-base {
-    background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-color: #1F1F1F;
-    padding: 2.5rem; }
+footer .footer-row-content {
+  background-color: #1472a4; }
+
+footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F; }
 
 fieldset {
   border-radius: 5px; }
@@ -39252,14 +39252,14 @@ ul.dtr-details .dtr-data {
   background-color: #1472a4 !important; }
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
-footer {
-  border-top: 2px solid #1472a4; }
-  footer .footer-row-base {
-    background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-color: #1F1F1F;
-    padding: 2.5rem; }
+footer .footer-row-content {
+  background-color: #1472a4; }
+
+footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F; }
 
 fieldset {
   border-radius: 5px; }
