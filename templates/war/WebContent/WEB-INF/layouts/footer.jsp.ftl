@@ -1,5 +1,5 @@
 <%--  
- -- Copyright 2019 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -12,18 +12,23 @@
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia. 
  --%>
+ 
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/includeTemplate.inc" %>
 <footer>
-	<div class="footer-row-1">
-    	<span class="footer-informacion-legal">
-    		<spring:message code="footer.avisoLegal"/>
-    	</span>
-    	<span class="footer-ejgv">
-    		<spring:message code="footer.ejgv"/>
-    	</span>
+	<div class="footer-row-content d-flex p-2">
+		<div class="col-sm-6 text-left">
+			<span class="text-white">
+				<spring:message code="footer.avisoLegal"/>
+			</span>
+		</div>
+		<div class="col-sm-6 text-right">
+			<span class="text-white">
+				<spring:message code="footer.ejgv"/>
+			</span>
+		</div>
 	</div>
-	<div class="footer-row-2">
-		<img class="footer-image" src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/web01-2014_claim_pertsona_helburu_es.gif" />
+	<div class="footer-row-base p-5">
+		<img class="img-fluid mx-auto d-block" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_claim_pertsona_helburu_es.gif" />
 	</div>
 </footer>

@@ -1,5 +1,5 @@
-<#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+<%-- 
+ -- Copyright 2020 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -12,7 +12,7 @@
  -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
- -->
+ --%>
  
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 

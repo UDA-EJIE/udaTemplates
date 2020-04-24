@@ -85,11 +85,9 @@ public interface ${pojo.getDeclarationName()}Dao {
 	/**
 	 * Filter in the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
 	 */	
-	 void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto, Boolean startsWith);
+	 void removeMultiple(TableRequestDto tableRequestDto);
 	
 	
     /**

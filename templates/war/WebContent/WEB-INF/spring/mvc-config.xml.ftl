@@ -37,8 +37,6 @@
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied" />
 	<mvc:view-controller path="/mockLoginPage" view-name="mockLoginPage" />
 	<mvc:view-controller path="/mockLoginAjaxPage" view-name="mockLoginAjaxPage" />
-	
-	<mvc:view-controller path="/y52bdocumentos" view-name="y52bdocumentos" />
 
 	<!-- Filtro utilizado para emular el comportamiento de los mensajes de error 
 		http en peticiones realizadas desde iframes -->
@@ -47,7 +45,7 @@
  	<!-- Recursos idiomáticos (i18n) -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="parentMessageSource" ref="appMessageSource" />
-		<property name="basename" value="/WEB-INF/resources/${warName}.i18n" />
+		<property name="basename" value="/WEB-INF/resources/${warNameShort}.i18n" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
@@ -61,9 +59,9 @@
     <!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
     <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
 		<!-- <property name="paramName" value="locale" /> -->
-       	<property name="defaultLanguage" value="es" />
+       	<property name="defaultLanguage" value="${defaultlanguage}" />
        	<property name="defaultLayout" value="horizontal" />
-       	<property name="availableLangs" value="es,eu,en,fr" />
+       	<property name="availableLangs" value="${languageswithoutquotes}" />
 		<!-- <property name="portalCookie" value="r01euskadiCookie" /> -->
      </bean>
 

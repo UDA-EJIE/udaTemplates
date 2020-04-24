@@ -16,6 +16,4 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 
 <%-- DESARROLLO --%>
-<link href="${staticsUrl}/rup/css/externals/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/css/rup-base.css" rel="stylesheet" type="text/css" />
-<link href="${staticsUrl}/rup/css/rup-theme.css" rel="stylesheet" type="text/css" />
+<link href="${staticsUrl}/rup/css/rup.css" rel="stylesheet" type="text/css" />

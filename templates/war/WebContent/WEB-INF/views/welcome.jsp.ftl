@@ -1,5 +1,5 @@
 <#--  
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -14,7 +14,7 @@
  -- que establece la Licencia.
  -->
 <%@include file="/WEB-INF/includeTemplate.inc"%>	
-<div class="container" style="margin-top: 2em;"> 
-	<img alt="El contenido estático no está correctamente desplegado." src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/uda_logo.png"/><br>
+<div class="container-fluid"> 
+	<img alt="El contenido estático no está correctamente desplegado." src="<#noparse>${staticsUrl}</#noparse>/rup/css/images/uda_logo.png"/>
 	<h2 style="border: none;">¡Hola UDA!</h2>
 </div>

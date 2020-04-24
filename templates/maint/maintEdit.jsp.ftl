@@ -27,48 +27,38 @@
 		<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form">
 			<!-- Feedback del formulario de detalle -->
 			<div id ="${maint.nameMaint}_detail_feedback"></div>
-			<div class="form-row">	
+			<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">	
 				<!-- Campos del formulario de detalle -->
 				<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
-				<div class="form-row">
 					<#switch columnProperties.editType>
 					<#case "Text">
-						<div class="form-groupMaterial col-sm">
+						<div class="form-groupMaterial col">
 							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 					<#case "Textarea">
-						<div class="form-groupMaterial col-sm">
+						<div class="form-groupMaterial col">
 							<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>					
 						<#break>	
 					<#case "Checkbox">
-						<div class="col-sm checkbox-material">
+						<div class="checkbox-material col">
 							<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>							
-						<#break>	
-					<#case "Radio">
-						<div class="col-sm radio-material">
-							<form:radiobutton path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>							
-						<#break>	
-					<#case "Select">
-						<div class="form-groupMaterial col-sm">
-							<form:select path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
-					<#case "Autocomplete">
-						<div class="form-groupMaterial col-sm">
-							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
+						<#break>
 					<#case "Datepicker">
-						<div class="form-groupMaterial col-sm">
+						<div class="form-groupMaterial col">
 							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
+					<#case "Password">
+						<div class="form-groupMaterial col">
+							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
+						<#break>		
 					<#default>
-						<div class="form-groupMaterial col-sm">
+						<div class="form-groupMaterial col">
 							<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 				  	</#switch>
 					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/></label>
 					</div>
-				</div>
 				</#if>
 				</#list>
 				<!-- Fin campos del formulario de detalle -->
