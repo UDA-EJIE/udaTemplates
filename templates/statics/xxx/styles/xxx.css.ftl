@@ -1,6 +1,5 @@
 header {
 	background-color: #ffffff;
-	height: 0px;
 	overflow: hidden;
 	position: relative;
 	z-index: 99;
@@ -9,12 +8,6 @@ header {
 header div.cabecera>a {
 	padding-top: 1.3em;
 	padding-right: 1em;
-}
-
-@media ( min-width : 768px) {
-	header {
-		height: 6em;
-	}
 }
 
 /*************/
