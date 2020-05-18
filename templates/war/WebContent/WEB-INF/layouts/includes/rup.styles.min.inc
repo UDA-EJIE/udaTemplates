@@ -1,5 +1,5 @@
  ﻿<%--  
- -- Copyright 2019 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
@@ -17,3 +17,6 @@
 
 <%-- PRODUCCION --%>
 <link href="${staticsUrl}/rup/css/rup.min.css" rel="stylesheet" type="text/css" />
+
+<%-- PORTAL --%>
+<%-- <link href="${staticsUrl}/rup/portal/rup.min.css" rel="stylesheet" type="text/css" /> --%>
