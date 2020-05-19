@@ -79,8 +79,8 @@
 		<dependency org="commons-lang" 					name="commons-lang" 			rev="2.6" 			conf="default" transitive="false"/>
 
 		<!-- UDA -->
-		<dependency org="com.ejie.x38" 					name="x38ShLibClasses" 			rev="4.0.0-RELEASE"  conf="default" transitive="false"/>
-        <dependency org="com.ejie.x38" 					name="x38ShLibClasses-rup"		rev="4.0.0-RELEASE"  conf="default" transitive="false"/>
+		<dependency org="com.ejie.x38" 					name="x38ShLibClasses" 			rev="4.2.0-RELEASE"  conf="default" transitive="false"/>
+        <dependency org="com.ejie.x38" 					name="x38ShLibClasses-rup"		rev="4.2.0-RELEASE"  conf="default" transitive="false"/>
 		
 <#if entornoEjie != "">
 

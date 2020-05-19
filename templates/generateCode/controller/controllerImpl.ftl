@@ -37,6 +37,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 	<#if annot!=0>@${pojo.importType("org.springframework.beans.factory.annotation.Autowired")}</#if>
 	private ${pojo.importType(pojo.getPackageName()+'.service.'+pojo.getDeclarationName()+'Service')} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service;
 	
+	@${pojo.importType("org.springframework.web.bind.annotation.InitBinder")}
+	protected void initBinder(${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("org.springframework.web.bind.ServletRequestDataBinder")} binder) throws ${pojo.importType("javax.servlet.ServletException")} {
+		binder.registerCustomEditor(byte[].class,new ${pojo.importType("org.springframework.web.multipart.support.ByteArrayMultipartFileEditor")}());
+		binder.registerCustomEditor(${pojo.importType("java.util.Date")}.class, new ${pojo.importType("org.springframework.beans.propertyeditors.CustomDateEditor")}(${pojo.importType("com.ejie.x38.util.DateTimeManager")}.getDateTimeFormat(${pojo.importType("org.springframework.context.i18n.LocaleContextHolder")}.getLocale()), true));
+	}
+	
 	/*
 	 * OPERACIONES CRUD (Create, Read, Update, Delete)
 	 * 

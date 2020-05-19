@@ -190,6 +190,6 @@ jQuery(function($){
 				</#if>
 			}
 			</#if>	
-			,"order": [[ ${grid.sortPosition}, "${grid.sortOrder}" ]]
+			,order: [[ ${grid.sortPosition}, "${grid.sortOrder}" ]]
 	});
 });
