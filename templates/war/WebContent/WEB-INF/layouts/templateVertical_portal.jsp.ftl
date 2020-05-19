@@ -19,7 +19,7 @@
 <%@ include file="/WEB-INF/includeTemplate.inc" %>
 <%@ taglib prefix="tiles" uri="/WEB-INF/tld/tiles-jsp.tld" %>
 
-<html class="no-js" lang="">
+<html class="no-js" lang="es">
 
 <head>
 	<!-- Modulo asociado a la cabecera de portal -->
@@ -59,7 +59,7 @@
 					<tiles:insertAttribute name="breadCrumb" />
 
 					<!-- Contenidos -->
-					<div class="content" >
+					<div class="m-0 m-md-3 p-4 clear" >
 						<tiles:insertAttribute name="content"/>
 					</div>
 				</div>

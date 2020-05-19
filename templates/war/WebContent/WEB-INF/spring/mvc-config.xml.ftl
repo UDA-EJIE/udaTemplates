@@ -37,8 +37,6 @@
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied" />
 	<mvc:view-controller path="/mockLoginPage" view-name="mockLoginPage" />
 	<mvc:view-controller path="/mockLoginAjaxPage" view-name="mockLoginAjaxPage" />
-	
-	<mvc:view-controller path="/y52bdocumentos" view-name="y52bdocumentos" />
 
 	<!-- Filtro utilizado para emular el comportamiento de los mensajes de error 
 		http en peticiones realizadas desde iframes -->

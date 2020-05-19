@@ -17,67 +17,11 @@ header div.cabecera>a {
 	}
 }
 
-footer {
-	clear: both;
-	vertical-align: baseline;
-	background: #69a3d6;
-	color: #ffffff;
-	height: 2em;
-	margin-top: 1em;
-	padding-top: 0.2em;
-}
-
-@media ( max-width : 767px) {
-	footer {
-		padding-left: 0em;
-		padding-right: 0em;
-	}
-}
-
-footer .footer-informacion-legal {
-	float: left;
-}
-
-footer .footer-ejgv {
-	float: right;
-}
-
-footer .footer-row-1 {
-	clear: both;
-	background: #69a3d6;
-	padding: 0rem 2rem;
-	line-height: 3rem;
-	height: 3rem;
-}
-
-footer .footer-row-2 {
-	background: url('../images/web01-2014_oina_logo_atzekoa.gif') no-repeat
-		left bottom #1f1f1f;
-	clear: both;
-	text-align: center;
-	height: 15rem;
-	padding-top: 2rem;
-}
-
 /*************/
 /* RUP NAVBAR */
 /**************/
 
 /** CONTAINER */
-.content {
-	margin: 1rem;
-	clear: both;
-	background: #ffffff;
-	display: block;
-	padding: 2rem;
-}
-
-@media ( max-width : 767px) {
-	.content {
-		margin: 0em;
-	}
-}
-
 section>h1, section>h2, section>h3, section>h4, section>h5, section>h6 {
 	margin-top: 2rem;
 	margin-bottom: 1rem;

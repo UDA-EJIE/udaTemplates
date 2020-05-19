@@ -14,11 +14,7 @@
  -- que establece la Licencia.
  -->
 <?xml version="1.0" encoding="UTF-8"?>
-<ivy-module version="2.0" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xmlns:maven="http://ant.apache.org/ivy/maven"
-            xsi:noNamespaceSchemaLocation=
-                   "http://ant.apache.org/ivy/schemas/ivy.xsd">
+<ivy-module version="1.0" xmlns:maven="http://ant.apache.org/ivy/maven">
     <info status="integration" revision="0.1" organisation="com.ejie" module="${codapp}"/>
     <dependencies>
 
@@ -60,9 +56,10 @@
 		<!-- Logging -->
 		<dependency org="ch.qos.logback" 				name="logback-core" 			rev="1.2.3" 		 conf="default" transitive="false"/> 
 		<dependency org="ch.qos.logback" 				name="logback-classic" 			rev="1.2.3" 		 conf="default" transitive="false"/>
-		<dependency org="org.slf4j" 					name="slf4j-api" 				rev="1.7.25" 		 conf="default" transitive="false"/>
-        <dependency org="org.slf4j" 					name="slf4j-ext" 				rev="1.7.25" 		 conf="default" transitive="false"/>
-		<dependency org="org.slf4j" 					name="jcl-over-slf4j" 			rev="1.7.25" 		 conf="default" transitive="false"/>		
+		<dependency org="org.slf4j" 					name="slf4j-api" 				rev="1.7.30" 		 conf="default" transitive="false"/>
+        <dependency org="org.slf4j" 					name="slf4j-ext" 				rev="1.7.30" 		 conf="default" transitive="false"/>
+		<dependency org="org.slf4j" 					name="jcl-over-slf4j" 			rev="1.7.30" 		 conf="default" transitive="false"/>		
+		<dependency org="org.jboss.logging"				name="jboss-logging" 			rev="3.3.0.Final"	conf="default" transitive="false" />
 		
 		<!-- Tiles Pages -->
 		<dependency org="org.apache.tiles" 				name="tiles-api" 				rev="3.0.8" 		 conf="default" transitive="false"/>
@@ -70,6 +67,10 @@
         <dependency org="org.apache.tiles" 				name="tiles-jsp" 				rev="3.0.8" 		 conf="default" transitive="false"/>
 		<dependency org="org.apache.tiles" 				name="tiles-servlet" 			rev="3.0.8" 		 conf="default" transitive="false"/>
 		<dependency org="org.apache.tiles" 				name="tiles-template" 			rev="3.0.8" 		 conf="default" transitive="false"/>
+		<dependency org="org.apache.tiles" 				name="tiles-request-api" 		rev="1.0.7" 		conf="default" transitive="false" />
+        <dependency org="org.apache.tiles" 				name="tiles-request-jsp" 		rev="1.0.7" 		conf="default" transitive="false" />
+        <dependency org="org.apache.tiles" 				name="tiles-request-servlet" 	rev="1.0.7" 		conf="default" transitive="false" />
+        <dependency org="org.apache.tiles"				name="tiles-autotag-core-runtime" rev="1.2"			conf="default" transitive="false" />
 
 		<!-- Others -->
         <dependency org="aopalliance" 					name="aopalliance" 				rev="1.0" 			conf="default" transitive="false"/>
