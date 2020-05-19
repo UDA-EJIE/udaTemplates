@@ -280,32 +280,43 @@
         setOption: function (opt, value) { //Establece la propiedad que recibe como parametro.
             if (opt === 'buttons') { //si establecemos los botones tenemos que tener encuenta lo de los links
                 var btnsLength = value.length,
-                    i, j, linkButtons = [],
-                    linkButtonsLength; //tamaño incial de los botones se o no enlaces
+                    linkButtons = [],
+                    linkButtonsLength; //tamaño inicial de los botones sean o no enlaces
+                
                 if (btnsLength > 1) { //si tenemos mas de un boton buscamos cual es el link
-                    for (i = 0; i < value.length; i++) { //se usa el length y no una variable porque se eliminan botones y el tamaño varia
+                    for (let i = 0; i < value.length; i++) { //se usa el length y no una variable porque se eliminan botones y el tamaño varia
                         if (value[i].btnType === $.rup.dialog.LINK) {
                             linkButtons.push(value.splice(i, 1));
-                            i--;
                         }
                     }
-                    i = null;
                 }
+                
                 linkButtonsLength = linkButtons.length;
-                //Si tiene mas de dos botones y ninguno de ellos es de tipo link, entonces le mostrar una alerta diciendo que no cumple arista.
+                
+                // Si tiene mas de dos botones y ninguno de ellos es de tipo link, entonces se mostrara una alerta diciendo que no cumple la arista.
                 if (btnsLength > 1 && linkButtonsLength === 0 /*&& settings.rupCheckStyle*/ ) {
                     $.rup_messages('msgAlert', {
                         message: $.rup.i18nParse($.rup.i18n, 'base.rup_global.rupCheckStyleError')
                     });
                     return false;
                 }
+
                 $(this).dialog('option', opt, value);
+                
                 if (linkButtonsLength > 0) { //si tenemos enlaces los añadimos
-                    for (j = 0; j < linkButtonsLength; j++) {
-                        this.createBtnLinks(linkButtons[j][0], this[0].id);
+                    for (let i = 0; i < linkButtonsLength; i++) {
+                        this.createBtnLinks(linkButtons[i][0], this[0].id);
                     }
-                    j = null;
                 }
+                
+                /* Se aplican las clases definidas en el adapter excepto a los botones definidos como enlaces 
+                (la excepcion solo es valida para los enlaces si no usan las clases 'ui-button ui-corner-all ui-widget') */
+                if (btnsLength > 0) {
+                    $('#' + this[0].id).closest('div.rup-dialog').find('button.ui-button.ui-corner-all.ui-widget:not(.ui-datepicker-trigger)').
+                        addClass($.rup.adapter[$.fn.rup_dialog.defaults.adapter].classComponent())
+                        .removeClass('ui-button ui-corner-all ui-widget');
+                }
+
                 return;
             } else {
                 if (value !== undefined) {
@@ -389,7 +400,7 @@
                             settings.id = $self.attr('id');
                         } else {
                             settings.id = 'rup_' + settings.type + 'DIV';
-                            msgDiv = $('<div/>').attr('id', settings.id);
+                            msgDiv = $('<div></div>').attr('id', settings.id);
                             msgDiv.appendTo('body');
                         }
 
@@ -489,13 +500,15 @@
                             if ($.fn.rup_dialog.defaults.adapter === 'dialog_material') {
                                 $self.data('uiDialog').uiDialogTitlebar.addClass($.rup.adapter[$.fn.rup_dialog.defaults.adapter].titlebarColor());
                             }
-
-                            $self.prev('div')
-                                .append('<i id="' + settings.id + '_close" class="mdi mdi-close float-right pointer" aria-hidden="true"></i>')
-                                .on('click', 'i.mdi', function () {
-                                    $self.dialog('close');
-                                    return false;
-                                });
+                            //Se comprueba que no existe el aspa.
+                            if($('#'+settings.id + '_close').length === 0){
+	                            $self.prev('div')
+	                                .append('<i id="' + settings.id + '_close" class="mdi mdi-close float-right pointer" aria-hidden="true"></i>')
+	                                .on('click', 'i.mdi', function () {
+	                                    $self.dialog('close');
+	                                    return false;
+	                                });
+                            }
 
                             if (linkButtonsLength > 0) { //si tenemos enlaces los añadimos
                                 for (j = 0; j < linkButtonsLength; j++) {

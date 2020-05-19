@@ -77,7 +77,7 @@ DataTable.inlineEdit.init = function ( dt ) {
 			}
 			idRow = this._DT_RowIndex;
 			_editInline(dt,ctx,idRow);
-			$('#'+ctx.sTableId).triggerHandler('tableEditInlineClickRow');
+			$('#'+ctx.sTableId).triggerHandler('tableEditInlineClickRow',ctx);
 		}
 	} );
 	
@@ -107,10 +107,6 @@ DataTable.inlineEdit.init = function ( dt ) {
 		dt.responsive.recalc();
 	} ) );
 	
-	//Crear feedback;
-	ctx.inlineEdit.nameFeedback = ctx.sTableId+'_inlineEditFeedback';
-	$('#'+ctx.sTableId+'_containerToolbar').before($('<div />').attr('id',ctx.inlineEdit.nameFeedback));
-	
 	//se cambia el nombre de los validadores.
 	if(ctx.oInit.inlineEdit.validate !== undefined && ctx.oInit.inlineEdit.validate.rules !== undefined){
 		var rulesAux = ctx.oInit.inlineEdit.validate.rules;
@@ -128,6 +124,25 @@ DataTable.inlineEdit.init = function ( dt ) {
 		var $searchForm = jQuery('<form>').attr('id',ctx.sTableId+'_search_searchForm');
         $('#'+ctx.sTableId).wrapAll($searchForm);
 	}
+	
+    //Se añaden las validaciones
+
+    let feed = ctx.oInit.feedback.$feedbackContainer;
+    let validaciones;
+    if(ctx.oInit.formEdit.validate !== undefined){
+    	validaciones = ctx.oInit.inlineEdit.validate.rules;
+    }
+    $('#' + ctx.sTableId + '_search_searchForm').rup_validate({
+        feedback: feed,
+        liveCheckingErrors: false,
+        showFieldErrorAsDefault: true,
+        showErrorsInFeedback: true,
+        showFieldErrorsInFeedback:true,
+        rules:validaciones,
+        submitHandler: function(form) {
+            return false;  // block the default submit action
+        }
+    });
 	
     // Crear botones Guardar y Cancelar
 	ctx.oInit.inlineEdit.myButtons = {};
@@ -346,7 +361,7 @@ function _add(dt,ctx){
 		} );
 
 	}
-	$('#'+ctx.sTableId).triggerHandler('tableEditInlineAddRow');
+	$('#'+ctx.sTableId).triggerHandler('tableEditInlineAddRow',ctx);
 }
 
 /**
@@ -374,7 +389,7 @@ function _addChildIcons(ctx){
             $('#' + ctx.sTableId).find('tbody td:first-child span.openResponsive').remove();
             if (hasHidden) { //añadir span ala primera fila
                 $.each($('#' + ctx.sTableId).find('tbody td:first-child:not(.child):not(.dataTables_empty)'), function () {
-				var $span = $('<span/>');
+				var $span = $('<span></span>');
 				if($(this).find('span.openResponsive').length === 0){
 					$(this).prepend($span.addClass('openResponsive'));
 				}else{//si ya existe se asigna el valor.
@@ -413,7 +428,7 @@ function _addChildIcons(ctx){
 			_asignarInputsValues(ctx,$row);
 		}
 	}
-	$('#'+ctx.sTableId).triggerHandler('tableEditLineAddChildIcons');
+	$('#'+ctx.sTableId).triggerHandler('tableEditLineAddChildIcons',ctx);
 }
 
 /**
@@ -452,7 +467,7 @@ function _editInline ( dt,ctx, idRow ){
 
 	DataTable.Api().seeker.enabledButtons(ctx);
 	
-	$('#'+ctx.sTableId).triggerHandler('tableInlineEdit');
+	$('#'+ctx.sTableId).triggerHandler('tableInlineEdit',ctx);
 	var selectores = {};
 	var $selectorTr = $('#'+ctx.sTableId+' > tbody > tr:not(".child"):eq('+idRow+')'); 
 	selectores[0] = $selectorTr;
@@ -585,7 +600,7 @@ function _getRowSelected(dt,actionType){
 *
 */
 function _cloneLine(dt,ctx,line){
-	$('#'+ctx.sTableId).triggerHandler('tableEditInlineClone');
+	$('#'+ctx.sTableId).triggerHandler('tableEditInlineClone',ctx);
 	dt.row(0).data(dt.row(line+1).data());
 	if(ctx.oInit.inlineEdit.rowDefault !== undefined){
 		ctx.oInit.inlineEdit.rowDefault.line = 0;
@@ -701,7 +716,7 @@ function _getLineByPageSelected(ctx,lineInit){
 *
 */
 function _restaurarFila(ctx,limpiar){
-	$('#'+ctx.sTableId).triggerHandler('tableEditInlineRestaurarFilaInit');
+	$('#'+ctx.sTableId).triggerHandler('tableEditInlineRestaurarFilaInit',ctx);
 	if(ctx.inlineEdit !== undefined && ctx.inlineEdit.lastRow !== undefined){
 		var positionLastRow = ctx.inlineEdit.lastRow.idx;
 
@@ -725,9 +740,8 @@ function _restaurarFila(ctx,limpiar){
 		
 		DataTable.Api().seeker.disabledButtons(ctx);
 		
-		if($('#'+ctx.inlineEdit.nameFeedback).find('#'+ctx.inlineEdit.nameFeedback+'_content').length){
-			$('#'+ctx.inlineEdit.nameFeedback).rup_feedback('close');
-		}
+		ctx.oInit.feedback.$feedbackContainer.rup_feedback('hide');
+		
             if ($fila !== undefined && $fila.hasClass('new')) { // se elimna el tr, porque no se guardo
 			$fila.next('.child').remove();
 			$fila.remove();
@@ -740,7 +754,7 @@ function _restaurarFila(ctx,limpiar){
 		ctx._buttons[0].inst.s.disableAllButttons = undefined;
 		DataTable.Api().buttons.displayRegex(ctx);
 	}
-	$('#'+ctx.sTableId).triggerHandler('tableEditLineRestaurarFilaEnd');
+	$('#'+ctx.sTableId).triggerHandler('tableEditLineRestaurarFilaEnd',ctx);
 }
 
 /**
@@ -864,7 +878,9 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 				// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
 				if(searchRupType!==undefined) {
 					var searchEditOptions = cellColModel.searchoptions || cellColModel.editoptions;
-	
+					if(searchRupType === 'combo'){//se marca el selected
+						searchEditOptions.selected = ctx.inlineEdit.lastRow.cellValues[cont]
+					}
 					// Invocación al componente RUP
 					$elem['rup_'+searchRupType](searchEditOptions);
 					if(searchRupType === 'combo'){//asignar el valor
@@ -1043,7 +1059,7 @@ function _crearEventos(ctx,$selector){
 		    }
 		});
 	}
-	$('#'+ctx.sTableId).triggerHandler('tableEditLineCrearEventos');
+	$('#'+ctx.sTableId).triggerHandler('tableEditLineCrearEventos',ctx);
 }
 
 /**
@@ -1169,19 +1185,29 @@ function _guardar(ctx,$fila,child){
 	var row = _inlineEditFormSerialize($fila,ctx,child);
 	
 	if(!row) {
-    	let divErrorFeedback = $('#' + ctx.sTableId + 'feedback_error');
-		if(divErrorFeedback.length === 0){
-			divErrorFeedback = $('<div/>').attr('id', ctx.sTableId+'feedback_error').insertBefore('#'+ctx.sTableId);
-		}
-    	_callFeedbackOk(ctx, divErrorFeedback, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
-		$('#' + ctx.sTableId).triggerHandler('tableEditInLineErrorCallSaveAjax');
+    	_callFeedbackOk(ctx, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
+		$('#' + ctx.sTableId).triggerHandler('tableEditInLineErrorCallSaveAjax',ctx);
     } else {
         var actionType = 'PUT';
 	if($fila.hasClass('new') || (child && $fila.prev().hasClass('new'))){//si ejecurar el child, hay que buscar el padre para saver si es nuevo.
             actionType = 'POST';
 	}
+	
+	if (actionType === 'PUT') {
+    	let customModificar = ctx.oInit.validarModificar;
+    	if($.isFunction(customModificar) && customModificar(ctx)){
+    		return false;
+    	}
+	}else if (actionType === 'POST') {
+	
+    	let customAlta = ctx.oInit.validarAlta;
+    	if($.isFunction(customAlta) && customAlta(ctx)){
+    		return false;
+    	}
+	}
+	
 	_callSaveAjax(actionType,ctx,$fila,row,'');
-	$('#'+ctx.sTableId).triggerHandler('tableEditlineGuardar');
+	$('#'+ctx.sTableId).triggerHandler('tableEditlineGuardar',ctx);
     }
 }
 
@@ -1201,9 +1227,9 @@ function _guardar(ctx,$fila,child){
 */
 function _callSaveAjax(actionType,ctx,$fila,row,url){
 	
-	$('#'+ctx.sTableId).triggerHandler('tableEditInLineBeforeCallAjax');
+	$('#'+ctx.sTableId).triggerHandler('tableEditInLineBeforeCallAjax',ctx);
 	// add Filter
-	var feed = $('#'+ctx.inlineEdit.nameFeedback);
+	var feed = ctx.oInit.feedback.$feedbackContainer;
 	var msgFeedBack = $.rup.i18nParse($.rup.i18n.base, 'rup_table.modifyOK');
 	if(url === '/deleteAll' || actionType === 'DELETE'){
 		msgFeedBack = $.rup.i18nParse($.rup.i18n.base, 'rup_table.deletedOK');
@@ -1240,7 +1266,7 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 			var dt = $('#'+ctx.sTableId).DataTable();
 			if(url !== '/deleteAll' && actionType !== 'DELETE'){
 
-				_callFeedbackOk(ctx,ctx.multiselection.internalFeedback,msgFeedBack,'ok');//Se informa feedback de la tabla
+				_callFeedbackOk(ctx, msgFeedBack, 'ok');//Se informa feedback de la tabla
 				
 				if(actionType === 'PUT'){//Modificar
 					dt.row($fila.index()).data(row);// se actualiza al editar
@@ -1266,17 +1292,17 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 					ctx.multiselection.numSelected = 1;
 				}
 				ctx.inlineEdit.row = row;
-			}else{// Eliminar
-				ctx.multiselection.internalFeedback.type = 'eliminar';
-				ctx.multiselection.internalFeedback.msgFeedBack = msgFeedBack;
-				if(ctx.oInit.multiSelect !== undefined){
-					DataTable.Api().multiSelect.deselectAll(dt);
-				}else if(ctx.oInit.select !== undefined){
-					DataTable.Api().select.deselect(ctx);
-					_callFeedbackOk(ctx,ctx.multiselection.internalFeedback,msgFeedBack,'ok');//Se informa feedback de la tabla
-				}
-				$('#' + ctx.sTableId).triggerHandler('tableEditInLineAfterDelete');
-		
+			} else { // Eliminar
+			    ctx.oInit.feedback.type = 'eliminar';
+			    ctx.oInit.feedback.msgFeedBack = msgFeedBack;
+			    if (ctx.oInit.multiSelect !== undefined) {
+			        DataTable.Api().multiSelect.deselectAll(dt);
+			    } else if (ctx.oInit.select !== undefined) {
+			        DataTable.Api().select.deselect(ctx);
+			        _callFeedbackOk(ctx, msgFeedBack, 'ok'); //Se informa feedback de la tabla
+			    }
+			    $('#' + ctx.sTableId).triggerHandler('tableEditInLineAfterDelete',ctx);
+
 			}
 			ctx.inlineEdit.lastRow = undefined;
 			ctx._buttons[0].inst.s.disableAllButttons = undefined;
@@ -1290,24 +1316,51 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 				},false );
 		
 			
-			$('#' + ctx.sTableId).triggerHandler('tableEditInLineSuccessCallSaveAjax');
+			$('#' + ctx.sTableId).triggerHandler('tableEditInLineSuccessCallSaveAjax',ctx);
 		},
 		complete : function() {
-			$('#' + ctx.sTableId).triggerHandler('tableEditInLineCompleteCallSaveAjax');
+			$('#' + ctx.sTableId).triggerHandler('tableEditInLineCompleteCallSaveAjax',ctx);
 		},
-		error : function(xhr, ajaxOptions,thrownError) {
-			var divErrorFeedback = $('#'+ctx.inlineEdit.nameFeedback);
-			if(divErrorFeedback.length === 0){
-				divErrorFeedback = $('<div/>').attr('id', ctx.sTableId+'feedback_ok').insertBefore('#'+ctx.sTableId);
+		error: function (xhr) {
+			if (xhr.status === 406 && xhr.responseText !== '') {
+				try {
+					let responseJSON = jQuery.parseJSON(xhr.responseText);
+					if (responseJSON.rupErrorFields) {
+						if (responseJSON.rupErrorFields !== undefined || responseJSON.rupFeedback !== undefined) {
+							//se transforma a inline
+							var rulesAux = responseJSON.rupErrorFields;
+						     $.each(rulesAux, function (name, rule) {
+						    	 if($('#'+name+'_inline').length === 1){
+						    		 responseJSON.rupErrorFields[name + '_inline'] = rule;
+						    	 }
+						    	 if($('#'+name+'_inline_child').length === 1){
+						    		 responseJSON.rupErrorFields[name + '_inline_child'] = rule;
+						    	 }
+						    	 delete responseJSON.rupErrorFields[name];
+						     });
+							let $form = $('#' + ctx.sTableId + '_search_searchForm');
+							$form.validate().submitted = $.extend(true, $form.validate().submitted, responseJSON.rupErrorFields);
+							$form.validate().invalid = responseJSON.rupErrorFields;
+							$form.validate().showErrors(responseJSON.rupErrorFields);
+						} else if (errors.rupFeedback !== undefined) {
+							let mensajeJSON = $.rup_utils.printMsg(responseJSON.rupFeedback.message);
+							_callFeedbackOk(ctx, mensajeJSON, 'error');
+						}
+
+					}
+				} catch (e) {
+					// El mensaje NO es JSON
+					_callFeedbackOk(ctx, xhr.responseText, 'error');
+				}
+
+			}else{//cualquier error se devuelve el texto
+                _callFeedbackOk(ctx, xhr.responseText, 'error');
 			}
-			_callFeedbackOk(ctx,divErrorFeedback,xhr.responseText,'error');
-			$('#' + ctx.sTableId).triggerHandler('tableEditInLineErrorCallSaveAjax');
+
+		    $('#' + ctx.sTableId).triggerHandler('tableEditInLineErrorCallSaveAjax',ctx);
 		},
 		validate:ctx.oInit.inlineEdit.validate,
-            feedback: feed.rup_feedback({
-                type: 'ok',
-                block: false
-            })
+        feedback: feed
 	};
 	
 	var idForm = $('#'+ctx.sTableId+'_search_searchForm');
@@ -1316,8 +1369,7 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 	}
 	
 	if(url !== '/deleteAll' && actionType !== 'DELETE'){
-		idForm.rup_form();
-		idForm.rup_form('ajaxSubmit', ajaxOptions);
+		idForm.rup_form('ajaxNotSubmit', ajaxOptions);
 	}else{
 		//Se cambia el data
 		ajaxOptions.data = JSON.stringify(ajaxOptions.data);
@@ -1327,38 +1379,22 @@ function _callSaveAjax(actionType,ctx,$fila,row,url){
 
 
 /**
-* Llamada para crear el feedback dentro del dialog.
-*
-* @name callFeedbackOk
-* @function
-* @since UDA 3.7.0 // Table 1.0.0
-*
-* @param {object} ctx - Settings object to operate on.
-* @param {object} feedback - Div donde se va ejecutar el feedback.
-* @param {string} msgFeedBack - Mensaje para el feedback.
-* @param {string} type - Tipos del feedback, mirar en el rup.feedback..
-*
-*/
-function _callFeedbackOk(ctx,feedback,msgFeedBack,type){
-	$('#' + ctx.sTableId).triggerHandler('tableEditInLineFeedbackShow');
-	var confDelay = ctx.oInit.feedback.okFeedbackConfig.delay;
-        feedback.rup_feedback({
-            message: msgFeedBack,
-            type: type,
-            block: false,
-            gotoTop: false
-        });
-	feedback.rup_feedback('set',msgFeedBack);
-	//Aseguramos que el estilo es correcto.
-	if(type === 'ok'){
-		setTimeout(function(){
-            if(feedback.find('div').length > 0){//asegurar que esta inicializado
-                feedback.rup_feedback('destroy');
-                feedback.css('width','100%');
-                $('#' + ctx.sTableId).triggerHandler('tableEditFormInternalFeedbackClose');
-            }
-        }, confDelay);
-	}
+ * Llamada para crear el feedback dentro del dialog.
+ *
+ * @name callFeedbackOk
+ * @function
+ * @since UDA 3.7.0 // Table 1.0.0
+ *
+ * @param {object} ctx - Settings object to operate on.
+ * @param {object} feedback - Div donde se va ejecutar el feedback.
+ * @param {string} msgFeedBack - Mensaje para el feedback.
+ * @param {string} type - Tipos del feedback, mirar en el rup.feedback..
+ *
+ */
+function _callFeedbackOk(ctx, msgFeedBack, type) {
+    $('#' + ctx.sTableId).triggerHandler('tableEditInLineFeedbackShow',ctx);
+    ctx.oInit.feedback.$feedbackContainer.rup_feedback('set', msgFeedBack, type);
+    ctx.oInit.feedback.$feedbackContainer.rup_feedback('show');
 }
 
 /**

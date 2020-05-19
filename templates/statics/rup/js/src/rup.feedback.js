@@ -57,7 +57,7 @@
          * @property {Number}  [delay=null] - Espera (ms) que va a aplicarse antes de ocultar el feedback.
          * @property {Number}  [fadeSpeed=null] - Tiempo (ms) que va a durar la animación de ocultación del feedback.
          * @property {boolean} [gotoTop=true] - Drmina si cuando se muestre el feedback se debe desplazar la
-página hasta la parte superior de la misma.
+         * @property {boolean} [customGoTo=null] - Drmina si cuando se muestre el feedback donde se debe desplazar la página.
          * @property {boolean}  [block=true] - Indica si la capa que contendrá el mensaje de feedback debe tener o
 no un espacio fijo en la pantalla.
          * @property {closeLink}  [closeLink=true] - Indica si la capa de feedback tendrá un enlace para que el usuario
@@ -74,6 +74,7 @@ de la aplicación pueda cerrar la capa manualmente.
             //uso privado
             _idFeedback: null,
             _divClose: null,
+            customGoTo: null
         },
         /**
      * @function	_setOption
@@ -133,7 +134,7 @@ de la aplicación pueda cerrar la capa manualmente.
                     .attr('id');
 
             //Crear capa cierre
-            opciones._divClose = $('<div />')
+            opciones._divClose = $('<div></div>')
                 .html($.rup.adapter[$.fn.rup_feedback.defaults.adapter].closeIcon())
                 .attr('id', opciones._idFeedback + '_closeDiv')
                 .attr('title', $.rup.i18nParse($.rup.i18n.base, 'rup_feedback.closingLiteral'))
@@ -235,17 +236,25 @@ de la aplicación pueda cerrar la capa manualmente.
 
             //Sacar mensaje
             $('#' + opciones._idFeedback + '_content').remove();
-            element.append($('<div/>').attr('id', opciones._idFeedback + '_content').html(message));
+            element.append($('<div></div>').attr('id', opciones._idFeedback + '_content').html(message));
             //Añadir cierre (evento y capa)
             if (opciones.closeLink) {
                 this._addCloseLink();
             }
             this.show();
+            let scrollTop = '0px';
+            if(opciones.customGoTo !== null && opciones.customGoTo !== undefined){
+            	if(typeof opciones.customGoTo === "function") {
+            		scrollTop = opciones.customGoTo();
+            	}else{
+            		scrollTop = opciones.customGoTo;
+            	}
+            }
 
             //Ir al inicio
             if (opciones.gotoTop) {
                 $('html, body').animate({
-                    scrollTop: '0px'
+                    scrollTop: scrollTop
                 }, 0);
             }
             //Ocultacion mensaje

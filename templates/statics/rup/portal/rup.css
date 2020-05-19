@@ -15256,12 +15256,12 @@
 }
 
 .r01gContainer .rup-breadCrumb_root {
-  background: lightgray;
-  display: inline-block;
-  padding: 0.8rem 2rem;
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
+  background: lightgray;
+  padding: .8rem 2rem;
+  width: 100%;
 }
 
 .r01gContainer .rup-breadCrumb_root .rup-breadCrumb_main > li {
@@ -17340,17 +17340,21 @@
 }
 
 .r01gContainer .dropdown-submenu > a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
   border-color: transparent;
+  border-left-color: #ccc;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
-  margin-top: 5px;
+  content: ' ';
+  display: block;
+  float: right;
+  height: 0;
   margin-right: -10px;
+  margin-top: 5px;
+  position: absolute;
+  right: 1rem;
+  top: .5rem;
+  transform: rotate(270deg);
+  width: 0;
 }
 
 .r01gContainer .dropdown-submenu:hover > a:after {
@@ -19441,6 +19445,17 @@
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
 
+.r01gContainer footer .footer-row-content {
+  background-color: #1472a4;
+}
+
+.r01gContainer footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F;
+}
+
 .r01gContainer fieldset {
   border-radius: 5px;
 }
@@ -19995,59 +20010,40 @@
   background-image: none;
 }
 
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):required ~ label:after {
   content: " *";
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:hover,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] ~ label {
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus ~ label,
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
@@ -20083,6 +20079,7 @@
 }
 
 .r01gContainer .form-groupMaterial textarea:focus:enabled {
+  outline: none;
   border-color: #1472a4;
   caret-color: #1472a4;
   border-width: 2px;
@@ -20105,50 +20102,22 @@
   background-image: none;
 }
 
-.r01gContainer .form-groupMaterial textarea:read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:focus ~ label,
 .r01gContainer .form-groupMaterial textarea:read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
-.r01gContainer .form-groupMaterial textarea:-moz-read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:focus ~ label,
 .r01gContainer .form-groupMaterial textarea:-moz-read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
@@ -20186,11 +20155,12 @@
 }
 
 .r01gContainer .radio-material {
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .r01gContainer .radio-material.radio-material-inline {
   display: inline-block;
+  margin-right: 1rem;
 }
 
 .r01gContainer .radio-material input[type='radio'] {
@@ -20316,6 +20286,11 @@
   text-align: left;
 }
 
+.r01gContainer .checkbox-material.checkbox-material-inline {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 .r01gContainer .checkbox-material label {
   cursor: pointer;
   display: inline;
@@ -20403,11 +20378,6 @@
 
 .r01gContainer .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
   background: rgba(0, 0, 0, 0.26);
-}
-
-.r01gContainer .checkbox-material-inline {
-  display: inline-block;
-  margin: initial;
 }
 
 .r01gContainer table div.checkbox-material-inline label::before,
@@ -20997,10 +20967,6 @@
   color: #FFFFFF;
 }
 
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled {
-  background-color: #e9ecef;
-}
-
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button,
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button,
 .r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
@@ -21014,6 +20980,20 @@
 .r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
   background-color: #e9ecef;
   border-color: #757575;
+}
+
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover,
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover,
+.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
+  cursor: initial;
 }
 
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus,
@@ -21042,151 +21022,6 @@
 .r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
 .r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
   color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton {
-  background-color: #e9ecef;
-  border-color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton:focus {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton i.mdi {
-  color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton {
-  background-color: #e9ecef;
-  border-color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton:focus {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton i.mdi {
-  color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-wizard_submitButton {
-  border-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-wizard_submitButton {
-  border-color: #757575;
-  border-width: 2px;
 }
 
 .r01gContainer div.rup-date-input-group-material button,
@@ -21489,22 +21324,6 @@
   outline: none;
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:read-only {
-  caret-color: transparent;
-}
-
-.r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:-moz-read-only {
-  caret-color: transparent;
-}
-
 .r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label,
 .r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label,
 .r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label,
@@ -21642,14 +21461,6 @@
   border-left-style: hidden;
 }
 
-.r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:read-only {
-  caret-color: transparent;
-}
-
-.r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:-moz-read-only {
-  caret-color: transparent;
-}
-
 .r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]) i.mdi.error {
   position: absolute;
   top: 1px;
@@ -21671,6 +21482,10 @@
 
 .r01gContainer .pointer {
   cursor: pointer;
+}
+
+.r01gContainer .clear {
+  clear: both;
 }
 
 /* MaterialDesignIcons.com */
@@ -48212,12 +48027,12 @@
   cursor: pointer;
 }
 
-.r01gContainer .rup_list .list-item-selected {
+.r01gContainer .rup_list .rup_list-item-selected {
   background-color: #1472a4;
   color: #ffffff;
 }
 
-.r01gContainer .rup_list .list-item-selected:hover {
+.r01gContainer .rup_list .rup_list-item-selected:hover {
   background-color: #1472a4;
 }
 
@@ -48281,8 +48096,9 @@
   float: right;
 }
 
-.r01gContainer .rup_list-header nav a,
-.r01gContainer .rup_list-footer nav a {
+.r01gContainer .rup_list-header nav .page-link,
+.r01gContainer .rup_list-footer nav .page-link {
+  cursor: pointer;
   line-height: 3.5rem;
 }
 
@@ -48391,7 +48207,7 @@
   border-radius: 0 4px 4px 0;
   color: #ffffff;
   font-size: 14px;
-  margin: 0 0 0 5px;
+  margin: 0 -2px 0 5px;
   padding: 5px 1px;
 }
 
@@ -48417,6 +48233,28 @@
 .r01gContainer .rup-wizard .rup_list-mord-dialog .rup_list-ord-line .rup-wizard_submitButton {
   max-width: 3rem;
   padding: .5rem;
+}
+
+.r01gContainer .asc:before {
+  content: "\F4BC";
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.r01gContainer .desc:before {
+  content: "\F4BD";
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @charset "UTF-8";
@@ -50113,12 +49951,12 @@
 }
 
 .r01gContainer .rup-breadCrumb_root {
-  background: lightgray;
-  display: inline-block;
-  padding: 0.8rem 2rem;
   -moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16), 0 -3px 6px rgba(0, 0, 0, 0.23);
+  background: lightgray;
+  padding: .8rem 2rem;
+  width: 100%;
 }
 
 .r01gContainer .rup-breadCrumb_root .rup-breadCrumb_main > li {
@@ -52197,17 +52035,21 @@
 }
 
 .r01gContainer .dropdown-submenu > a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
   border-color: transparent;
+  border-left-color: #ccc;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
-  margin-top: 5px;
+  content: ' ';
+  display: block;
+  float: right;
+  height: 0;
   margin-right: -10px;
+  margin-top: 5px;
+  position: absolute;
+  right: 1rem;
+  top: .5rem;
+  transform: rotate(270deg);
+  width: 0;
 }
 
 .r01gContainer .dropdown-submenu:hover > a:after {
@@ -54298,6 +54140,17 @@
 
 /* IMPORTACIÓN DE LOS DIFERENTES COMPONENTES MATERIALIZADOS */
 
+.r01gContainer footer .footer-row-content {
+  background-color: #1472a4;
+}
+
+.r01gContainer footer .footer-row-base {
+  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-color: #1F1F1F;
+}
+
 .r01gContainer fieldset {
   border-radius: 5px;
 }
@@ -54852,59 +54705,40 @@
   background-image: none;
 }
 
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):required ~ label:after {
   content: " *";
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:hover,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only:focus ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"]:focus ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] ~ label {
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus ~ label,
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-moz-read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
@@ -54940,6 +54774,7 @@
 }
 
 .r01gContainer .form-groupMaterial textarea:focus:enabled {
+  outline: none;
   border-color: #1472a4;
   caret-color: #1472a4;
   border-width: 2px;
@@ -54962,50 +54797,22 @@
   background-image: none;
 }
 
-.r01gContainer .form-groupMaterial textarea:read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial textarea:read-only:focus ~ label,
 .r01gContainer .form-groupMaterial textarea:read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
-.r01gContainer .form-groupMaterial textarea:-moz-read-only {
-  background-color: #e9ecef;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:hover {
-  border-color: #757575;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:focus {
-  border-color: #757575;
-  caret-color: transparent;
-  padding-left: 18px;
-}
-
-.r01gContainer .form-groupMaterial textarea:-moz-read-only:focus ~ label,
 .r01gContainer .form-groupMaterial textarea:-moz-read-only ~ label {
   top: -10px;
   font-size: .9rem;
-  color: #212529;
+  color: #1472a4;
   padding: 0 5px;
-  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+  background-color: #FFFFFF;
+  background-image: none;
 }
 
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
@@ -55043,11 +54850,12 @@
 }
 
 .r01gContainer .radio-material {
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .r01gContainer .radio-material.radio-material-inline {
   display: inline-block;
+  margin-right: 1rem;
 }
 
 .r01gContainer .radio-material input[type='radio'] {
@@ -55173,6 +54981,11 @@
   text-align: left;
 }
 
+.r01gContainer .checkbox-material.checkbox-material-inline {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 .r01gContainer .checkbox-material label {
   cursor: pointer;
   display: inline;
@@ -55260,11 +55073,6 @@
 
 .r01gContainer .checkbox-material input[type="checkbox"]:disabled:checked ~ label:before {
   background: rgba(0, 0, 0, 0.26);
-}
-
-.r01gContainer .checkbox-material-inline {
-  display: inline-block;
-  margin: initial;
 }
 
 .r01gContainer table div.checkbox-material-inline label::before,
@@ -55854,10 +55662,6 @@
   color: #FFFFFF;
 }
 
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled {
-  background-color: #e9ecef;
-}
-
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button,
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button,
 .r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
@@ -55871,6 +55675,20 @@
 .r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
   background-color: #e9ecef;
   border-color: #757575;
+}
+
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover,
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover,
+.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
+  cursor: initial;
 }
 
 .r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus,
@@ -55899,151 +55717,6 @@
 .r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
 .r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
   color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton {
-  background-color: #e9ecef;
-  border-color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton:focus {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .ui-button.rup-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:enabled ~ .rup-wizard_submitButton i.mdi {
-  color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton {
-  background-color: #e9ecef;
-  border-color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button:focus,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev:focus,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton:focus,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton:focus {
-  background-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .ui-button.rup-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-dropdown-button i.mdi,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_next i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ a.rup-wizard_prev i.mdi,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton i.mdi,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:enabled ~ .rup-wizard_submitButton i.mdi {
-  color: #757575;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:hover:enabled ~ .rup-wizard_submitButton {
-  border-color: #e9ecef;
-}
-
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .ui-button.rup-button,
-.r01gContainer div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-dropdown-button,
-.r01gContainer div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_next,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ a.rup-wizard_prev,
-.r01gContainer div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-wizard_submitButton,
-.r01gContainer .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):-moz-read-only:focus:enabled ~ .rup-wizard_submitButton {
-  border-color: #757575;
-  border-width: 2px;
 }
 
 .r01gContainer div.rup-date-input-group-material button,
@@ -56346,22 +56019,6 @@
   outline: none;
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:read-only {
-  caret-color: transparent;
-}
-
-.r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:-moz-read-only,
-.r01gContainer .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:-moz-read-only {
-  caret-color: transparent;
-}
-
 .r01gContainer .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label,
 .r01gContainer .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label,
 .r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label,
@@ -56499,14 +56156,6 @@
   border-left-style: hidden;
 }
 
-.r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:read-only {
-  caret-color: transparent;
-}
-
-.r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:-moz-read-only {
-  caret-color: transparent;
-}
-
 .r01gContainer .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]) i.mdi.error {
   position: absolute;
   top: 1px;
@@ -56528,6 +56177,10 @@
 
 .r01gContainer .pointer {
   cursor: pointer;
+}
+
+.r01gContainer .clear {
+  clear: both;
 }
 
 /* MaterialDesignIcons.com */

@@ -82,7 +82,7 @@ function testDatatable() {
                     expect($('#contextMenu2').is(':visible')).toBeTruthy();
                 });
 
-                it('Debe tener los items esperados y solo el add debe estar habilitado:', () => {
+                it('Debe tener los items esperados y solamente add e informes deben de estar habilitados:', () => {
                     expect($('#contextMenu2 > #exampleaddButton_1_contextMenuToolbar').length)
                         .toBe(1);
                     expect($('#contextMenu2 > #exampleeditButton_1_contextMenuToolbar.disabledButtonsTable').length)
@@ -91,7 +91,7 @@ function testDatatable() {
                         .toBe(1);
                     expect($('#contextMenu2 > #exampledeleteButton_1_contextMenuToolbar.disabledButtonsTable').length)
                         .toBe(1);
-                    expect($('#contextMenu2 > #examplecopyButton_1_contextMenuToolbar.disabledButtonsTable').length)
+                    expect($('#contextMenu2 > #examplecopyButton_1_contextMenuToolbar').length)
                         .toBe(1);
                 });
 
@@ -194,7 +194,7 @@ function testDatatable() {
                             document.execCommand = document.exC;
                         });
                         it('Debe haber el contenido de la primera fila contenido la zona de copiado', () => {
-                            expect(document.copied).toBe('id;nombre;apellidos;edad\n1;Ana;García Vázquez;7\n');
+                            expect(document.copied).toBe('"id";"nombre";"apellidos";"edad"\n"1";"Ana";"García Vázquez";"7"\n');
                         });
                     });
                 });
@@ -532,7 +532,7 @@ function testDatatable() {
                         expect($('.table_toolbar_btnEdit').is(':disabled')).toBeTruthy();
                         expect($('.table_toolbar_btnClone').is(':disabled')).toBeTruthy();
                         expect($('.table_toolbar_btnDelete').is(':disabled')).toBeTruthy();
-                        expect($('.buttons-collection').is(':disabled')).toBeTruthy();
+                        expect($('.buttons-collection').is(':disabled')).toBeFalsy();
                     });
                 });
                 describe('Añadido de nuevo botón > ', () => {
@@ -738,7 +738,7 @@ function testDatatable() {
                     });
 
                     it('El feedback debe mostrarse:', () => {
-                        expect($('#example_detail_feedback_ok').height()).toBeGreaterThan(0);
+                        expect($('#example_detail_feedback_ok').is(':visible')).toBeTruthy();
                     });
                     it('Debe contener el mensaje esperado:', () => {
                         expect($('#example_detail_feedback_ok').text()).toBe('KABOOM!');
@@ -764,8 +764,8 @@ function testDatatable() {
             describe('Ordenación > ', () => {
                 describe('Ordenación por nombre ascendente > ', () => {
                     beforeEach((done) => {
-                        $('#example').on('draw.dt', done);
-                        $('th.sorting[data-col-prop="nombre"]').click();
+                        $('#example').on('draw.dt', ()=> {setTimeout(done, 300);});
+                        $('th[data-col-prop="nombre"]').click();
                     });
 
                     afterEach((done) => {
@@ -788,8 +788,12 @@ function testDatatable() {
 
                 describe('Ordenación por nombre descendente:', () => {
                     beforeEach((done) => {
-                        $('#example').on('draw.dt', done);
-                        $('th.sorting_asc[data-col-prop="nombre"]').click();
+                        $('#example').on('draw.dt', ()=> {
+                            $('#example').off('draw.dt');
+                            $('#example').on('draw.dt', ()=> {setTimeout(done, 300);});
+                            $('th[data-col-prop="nombre"]').click();
+                        });
+                        $('th[data-col-prop="nombre"]').click();
                     });
 
                     afterEach((done) => {

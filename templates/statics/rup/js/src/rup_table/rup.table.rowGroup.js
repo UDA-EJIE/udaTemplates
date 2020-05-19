@@ -217,7 +217,7 @@ $.extend( RowGroup.prototype, {
 			var group = groupedRows[i];
 			var firstRow = dt.row(group[0]);
 			var groupName = this.s.dataFn( firstRow.data() );
-			var span = $('<span/>').addClass('cursor_pointer ui-icon tree-wrap-ltr ui-icon-circlesmall-minus');
+			var span = $('<span></span>').addClass('ui-icon tree-wrap-ltr ui-icon-circlesmall-minus');
 			span.attr('identificador',i);
 			
 			if ( this.c.startRender ) {
@@ -284,9 +284,9 @@ $.extend( RowGroup.prototype, {
 			row = display;
 		}
 		else {
-			row = $('<tr/>')
+			row = $('<tr></tr>')
 				.append(
-					$('<td/>')
+					$('<td></td>')
 						.attr( 'colspan', this._colspan() )
 						.append( display  )
 				);
@@ -342,7 +342,7 @@ RowGroup.defaults = {
 	 * end grouping rows.
 	 * @type string
 	 */
-	className: 'group',
+	className: 'cursor_pointer group',
 
 	/**
 	 * Data property from which to read the grouping information
@@ -444,7 +444,7 @@ DataTable.Api.register( 'rowGroup().expand()', function (ctx, position, span, di
 		
 		$(span).addClass('ui-icon-circlesmall-minus');
 		$(span).removeClass('ui-icon-circlesmall-plus');
-		$(span).triggerHandler('tablaGroupingClickGroup');
+		$(span).triggerHandler('tablaGroupingClickGroupExpand',ctx);
 	}
 } );
 
@@ -469,7 +469,7 @@ DataTable.Api.register( 'rowGroup().collapse()', function (ctx, position, span, 
 		
 		$(span).addClass('ui-icon-circlesmall-plus');
 		$(span).removeClass('ui-icon-circlesmall-minus');
-		$(span).triggerHandler('tablaGroupingClickGroup');
+		$(span).triggerHandler('tablaGroupingClickGroup',ctx);
 	}
 } );
 

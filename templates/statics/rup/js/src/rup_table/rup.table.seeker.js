@@ -88,24 +88,19 @@
             contentType: 'application/json',
             async: true,
             success: function (data, status, xhr) {
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchSucess');
+                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchSuccess',ctx);
                 ctx.seeker.search.funcionParams = data;
                 ctx.seeker.search.pos = 0; // se inicializa por cada busqueda.
                 _processData(dt, ctx, data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                if($('#rup_feedback_'+ctx.sTableId).children().length > 1){
-                    $('#rup_feedback_'+ctx.sTableId).rup_feedback('destroy');
-                }
-                $('#rup_feedback_'+ctx.sTableId).rup_feedback({
-                    message: thrownError + ': ' + xhr.responseText
-                    , type : 'error'
-                });
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchError');
+                ctx.oInit.feedback.$feedbackContainer.rup_feedback('set', thrownError + ': ' + xhr.responseText, 'error');
+                ctx.oInit.feedback.$feedbackContainer.rup_feedback('show');
+                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchError',ctx);
 
             },
             complete: function (xhr, status) {
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchComplete');
+                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchComplete',ctx);
             }
         };
 
@@ -118,7 +113,7 @@
             ctx.seeker.search.$searchRow.show();
         }
 
-        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterCreateToolbar');
+        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterCreateToolbar',ctx);
     };
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -182,18 +177,18 @@
                 $('input', $('#' + idTabla + ' tfoot')[0].rows[0].cells[colIdx]).on('keypress', function (ev) {
                     this.focus();
                     if (ev.keyCode === 13 && this.value !== '') { //Se hace la llamada de busqueda.
+                    	let customBuscar = ctx.oInit.validarBuscar;
+                    	if($.isFunction(customBuscar) && customBuscar(ctx)){
+                    		return false;
+                    	}
                         ctx.seeker.ajaxOption.data = _getDatos(ctx);
                         var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
-                        //Se pasa sin el internalFeedback ya que no es necesario.
-                        if (ajaxOptions.data.multiselection !== undefined && ajaxOptions.data.multiselection.internalFeedback !== undefined) {
-                            ajaxOptions.data.multiselection.internalFeedback = [];
-                        }
-                        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch');
+                        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
                         if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
                             $('#' + idTabla + '_search_searchForm').rup_form();
                             $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
                         }
-                        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch');
+                        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
 
                     }
                 });
@@ -296,25 +291,24 @@
 
         // Evento de búsqueda asociado al botón
         $navSearchButton.on('click', function () {
-            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch');
+            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
+        	let customBuscar = ctx.oInit.validarBuscar;
+        	if($.isFunction(customBuscar) && customBuscar(ctx)){
+        		return false;
+        	}
             ctx.seeker.ajaxOption.data = _getDatos(ctx);
             var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
-            //Se pasa sin el internalFeedback ya que no es necesario.
-            if (ajaxOptions.data.multiselection !== undefined && ajaxOptions.data.multiselection.internalFeedback !== undefined) {
-                ajaxOptions.data.multiselection.internalFeedback = [];
-            }
-            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch');
+            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
             if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
                 $('#' + idTabla + '_search_searchForm').rup_form();
                 var tmp = ajaxOptions.success;
                 ajaxOptions.success = function () {
                     tmp(arguments[0], arguments[1], arguments[2]);
                     ajaxOptions.success = tmp;
-                    $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch');
+                    $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
                 };
                 $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
             }
-            // $('#'+ctx.sTableId).triggerHandler('tableSeekerAfterSearch');
         });
 
         // Evento asociado a limpiar el fomulario de búsqueda
@@ -396,7 +390,7 @@
                     return DataTable.Api().rupTable.getIdPk(v.pk) === DataTable.Api().rupTable.getIdPk(value);
                 });
                 if (result.length === 1) {
-                    var searchIcon = $('<i/>').addClass('mdi mdi-magnify ui-icon-rupInfoCol filtered-row');
+                    var searchIcon = $('<i></i>').addClass('mdi mdi-magnify ui-icon-rupInfoCol filtered-row');
 
                     $($('#' + ctx.sTableId + ' tbody tr td:nth-child(1)')[idx]).append(searchIcon);
 
@@ -415,7 +409,7 @@
             }
             ctx.seeker.search.accion = '';
         }
-        $('#' + ctx.sTableId).trigger('selected.rup.dt');
+        $('#' + ctx.sTableId).trigger('selected.rup.dt',ctx);
     }
 
     /**
@@ -543,38 +537,42 @@
                 $(this).addClass('form-groupMaterial');
 
                 var cellColModel = colModel[i];
-                var searchRupType = (cellColModel.searchoptions !== undefined && cellColModel.searchoptions.rupType !== undefined) ? cellColModel.searchoptions.rupType : cellColModel.rupType;
-
-                var colModelName = cellColModel.name;
-                var $elem = $('[name=\'' + colModelName + '\']', ctx.seeker.searchForm);
-                // Se añade el title de los elementos de acuerdo al colname
-                $elem.attr({
-                    'title': $('#' + cellColModel.name + '_seeker').attr('placeholder'),
-                    'class': 'editable customelement form-control-customer'
-                }).removeAttr('readOnly');
-
-                // En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
-                if (searchRupType !== undefined) {
-                    searchEditOptions = cellColModel.searchoptions || cellColModel.editoptions;
-
-                    // Invocación al componente RUP
-                    $elem['rup_' + searchRupType](searchEditOptions);
-                }
-
+                if(cellColModel !== undefined){
+	                var searchRupType = (cellColModel.searchoptions !== undefined && cellColModel.searchoptions.rupType !== undefined) ? cellColModel.searchoptions.rupType : cellColModel.rupType;
+	
+	                var colModelName = cellColModel.name;
+	                var $elem = $('[name=\'' + colModelName + '\']', ctx.seeker.searchForm);
+	                // Se añade el title de los elementos de acuerdo al colname
+	                $elem.attr({
+	                    'title': $('#' + cellColModel.name + '_seeker').attr('placeholder'),
+	                    'class': 'editable customelement form-control-customer'
+	                }).removeAttr('readOnly');
+	
+	                // En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
+	                if (searchRupType !== undefined) {
+	                    searchEditOptions = cellColModel.searchoptions || cellColModel.editoptions;
+	
+	                    // Invocación al componente RUP
+	                    $elem['rup_' + searchRupType](searchEditOptions);
+	                }
+            	}
             });
         }
 
     }
 
     function _limpiarSeeker(dt, ctx) {
-        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeClear');
+        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeClear',ctx);
         jQuery('input,textarea', '#' + ctx.sTableId + ' tfoot').val('');
-        jQuery('tfoot [ruptype=\'combo\']', 'table tfoot').rup_combo('clear');
-        jQuery('.ui-selectmenu-status', 'table tfoot').text('--');
+        let $form = $('#' + ctx.sTableId + '_search_searchForm');
+        $form.resetForm()
+        jQuery.each($('select.rup_combo',$form), function (index, elem) {
+			jQuery(elem).rup_combo('refresh');
+        });
         ctx.seeker.search.funcionParams = {};
         ctx.seeker.search.pos = 0;
         _processData(dt, ctx, []);
-        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterClear');
+        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterClear',ctx);
     }
 
     function _enabledButtons(ctx) {
