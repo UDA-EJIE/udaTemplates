@@ -294,13 +294,111 @@ public class ${pojo.getDeclarationName()}Controller  {
 	/**
  	 * EXPORTERS
  	 */
- 	 
+ 		/**
+	 * Devuelve los datos exportados de la tabla y los copia al Portapapeles.
+	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param tableRequestDto TableRequestDto
+	 */	 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/clipboardReport", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	protected @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<${pojo.getDeclarationName()}> getClipboardReport(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}  tableRequestDto) {
-		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar multiples usuarios");
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar en Portapapeles");
 		return this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false);
+	}
+	
+	/**
+	 * Devuelve un fichero excel que contiene los datos exportados de la tabla.
+	 *
+	 * @param filter          ${pojo.getDeclarationName()}
+	 * @param columns         String[]
+	 * @param fileName        String
+	 * @param sheetTitle      String
+	 * @param tableRequestDto TableRequestDto
+	 * @param request         HttpServletRequest
+	 * @param response        HttpServletResponse
+	 */
+	@RequestMapping(value = { "/xlsReport",
+			"/xlsxReport" }, method = RequestMethod.POST, produces = ${pojo.importType("org.springframework.http.MediaType")}.APPLICATION_OCTET_STREAM_VALUE)
+	protected @ResponseBody void generateExcelReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+			@RequestJsonBody(param = "columns", required = false) String[] columns,
+			@RequestJsonBody(param = "fileName", required = false) String fileName,
+			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response)
+			throws ServletException {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateExcelReport] : Devuelve un fichero excel");
+
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, fileName, sheetTitle, tableRequestDto, request, response);
+	}
+	
+		/**
+	 * Devuelve un fichero pdf que contiene los datos exportados de la tabla.
+	 *
+	 * @param filter          ${pojo.getDeclarationName()}
+	 * @param columns         String[]
+	 * @param fileName        String
+	 * @param sheetTitle      String
+	 * @param tableRequestDto TableRequestDto
+	 * @param request         HttpServletRequest
+	 * @param response        HttpServletResponse
+	 */
+	@RequestMapping(value = "pdfReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	protected @ResponseBody void generatePDFReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+			@RequestJsonBody(param = "columns", required = false) String[] columns,
+			@RequestJsonBody(param = "fileName", required = false) String fileName,
+			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
+			HttpServletResponse response) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - generatePDFReport] : Devuelve un fichero pdf");
+
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, fileName, sheetTitle, tableRequestDto, request, response);
+	}
+	
+		/**
+	 * Devuelve un fichero ods que contiene los datos exportados de la tabla.
+	 *
+	 * @param filter          ${pojo.getDeclarationName()}
+	 * @param columns         String[]
+	 * @param fileName        String
+	 * @param sheetTitle      String
+	 * @param tableRequestDto TableRequestDto
+	 * @param request         HttpServletRequest
+	 * @param response        HttpServletResponse
+	 */
+	@RequestMapping(value = "odsReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	protected @ResponseBody void generateODSReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+			@RequestJsonBody(param = "columns", required = false) String[] columns,
+			@RequestJsonBody(param = "fileName", required = false) String fileName,
+			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
+			HttpServletResponse response) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateODSReport] : Devuelve un fichero ods");
+
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, fileName, sheetTitle, tableRequestDto, request, response);
+	}
+
+	/**
+	 * Devuelve un fichero csv que contiene los datos exportados de la tabla.
+	 *
+	 * @param filter          ${pojo.getDeclarationName()}
+	 * @param columns         String[]
+	 * @param fileName        String
+	 * @param sheetTitle      String
+	 * @param tableRequestDto TableRequestDto
+	 * @param request         HttpServletRequest
+	 * @param response        HttpServletResponse
+	 */
+	@RequestMapping(value = "csvReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	protected @ResponseBody void generateCSVReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+			@RequestJsonBody(param = "columns", required = false) String[] columns,
+			@RequestJsonBody(param = "fileName", required = false) String fileName,
+			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
+			HttpServletResponse response) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateCSVReport] : Devuelve un fichero csv");
+
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, fileName, sheetTitle, tableRequestDto, request, response);
 	}
 </#if>
 	
