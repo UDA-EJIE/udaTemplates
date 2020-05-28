@@ -5,7 +5,10 @@
 var $time;
 
 function createTime() {
-    var html = '<input id="exampleTime"></input>';
+    var html = '<div class="form-groupMaterial col-sm">\
+    	        	<input id="exampleTime"></input>\
+    				<label for="exampleTime">Hora</label>\
+    			</div>';
     $('#content').append(html);
     var props = {
         placeholderMask: true,

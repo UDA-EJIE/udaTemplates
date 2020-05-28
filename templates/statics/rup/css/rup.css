@@ -11001,8 +11001,7 @@ select, select.form-control, select.form-control-sm {
 .ui-dialog {
   padding: 0;
   color: #333333;
-  border-radius: 0;
-  max-width: 800px; }
+  border-radius: 0; }
   .ui-dialog .ui-dialog-titlebar {
     border: none;
     border-radius: 0;
@@ -13532,6 +13531,7 @@ ul.dtr-details .dtr-data {
 
 /* IMPORTACIÓN DE PALETA DE COLORES */
 /* COLORES */
+/* Ripples */
 /* PALETA DE COLORES */
 .app-primary-color {
   background-color: #1472a4 !important; }
@@ -13814,8 +13814,8 @@ fieldset {
   text-transform: uppercase;
   box-sizing: border-box;
   /* ESTILOS PARA EVITAR QUE EL NAVEGADOR PINTE UN BORDE CUANDO EL ELEMENTO TIENE EL FOCO */
-  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A ENFASIS ALTO Y MEDIO) */
-  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A BAJO) */
+  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS */
+  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SOLO SE APLICA A ENFASIS BAJO) */
   /* AJUSTE DE POSICIONAMIENTO VERTICAL DEL ICONO Y TEXTO DEL BOTON */
   /* AJUSTE DE TAMAÑO Y MARGEN DEL ICONO */ }
   .btn-material:focus {
@@ -13999,7 +13999,7 @@ fieldset {
 .form-groupMaterial[class*="col-"] textarea ~ label {
   left: 19px; }
 
-@keyframes ripple-hover {
+@keyframes ripple-radio-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
   50% {
@@ -14007,7 +14007,7 @@ fieldset {
   100% {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.1); } }
 
-@keyframes ripple-active {
+@keyframes ripple-radio-active {
   0% {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.1); }
   50% {
@@ -14030,15 +14030,15 @@ fieldset {
     /* CUANDO ESTA DISABLED */ }
     .radio-material input[type='radio']:hover:enabled ~ label::before,
     .radio-material input[type='radio']:checked:hover:enabled ~ label::before {
-      animation: ripple-hover .2s linear forwards; }
+      animation: ripple-radio-hover .2s linear forwards; }
     .radio-material input[type='radio']:focus ~ label::before {
-      animation: ripple-active .2s linear forwards; }
+      animation: ripple-radio-active .2s linear forwards; }
     .radio-material input[type='radio']:checked ~ label::before {
       border-color: #1472a4; }
     .radio-material input[type='radio']:checked ~ label::after {
       transform: scale(1); }
     .radio-material input[type='radio']:active:enabled ~ label::before {
-      animation: ripple-active .2s linear forwards; }
+      animation: ripple-radio-active .2s linear forwards; }
     .radio-material input[type='radio']:disabled ~ label::before {
       border-color: rgba(0, 0, 0, 0.26); }
     .radio-material input[type='radio']:disabled ~ label::after {
@@ -14080,7 +14080,7 @@ fieldset {
     font-size: .9rem;
     color: #1472a4; }
 
-@keyframes ripple-hover {
+@keyframes ripple-checkbox-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
   50% {
@@ -14088,7 +14088,7 @@ fieldset {
   100% {
     box-shadow: 0 0 0 6.5px rgba(20, 114, 164, 0.1); } }
 
-@keyframes ripple-active {
+@keyframes ripple-checkbox-active {
   0% {
     box-shadow: 0 0 0 6.5px rgba(20, 114, 164, 0.1); }
   50% {
@@ -14141,9 +14141,9 @@ fieldset {
     /* CUANDO TIENE EL FOCO */
     /* CUANDO ESTA DISABLED */ }
     .checkbox-material input[type="checkbox"]:hover:enabled ~ label:before, .checkbox-material input[type="checkbox"]:checked:hover:enabled ~ label:before {
-      animation: ripple-hover 0.2s linear forwards; }
+      animation: ripple-checkbox-hover 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:focus ~ label:before {
-      animation: ripple-active 0.2s linear forwards; }
+      animation: ripple-checkbox-active 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:checked ~ label:before {
       background: #1472a4;
       border: none; }
@@ -14155,7 +14155,7 @@ fieldset {
       border-top-style: none;
       border-right-style: none; }
     .checkbox-material input[type="checkbox"]:active:enabled ~ label:before {
-      animation: ripple-active 0.2s linear forwards; }
+      animation: ripple-checkbox-active 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:disabled ~ label:before {
       border-color: rgba(0, 0, 0, 0.26); }
     .checkbox-material input[type="checkbox"]:disabled ~ label {
@@ -14443,36 +14443,145 @@ select.rup_combo ~ button.select-material, .rup_combo.ui-multiselect ~ button.se
     outline: none;
     padding-left: 17px; }
 
+@keyframes ripple-slider {
+  0% {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
+  50% {
+    box-shadow: 0 0 0 5px rgba(20, 114, 164, 0.05); }
+  100% {
+    box-shadow: 0 0 0 5px rgba(20, 114, 164, 0.1); } }
+
 /* CORRIGE EL ALINEAMIENTO DEL BOTON RESPECTO AL INPUT */
-div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]) {
+div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]),
+div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]) {
   display: inline-block;
   width: calc(100% - 26px);
   padding-left: 13px;
   border-right-style: hidden;
   color: #495057; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
     border-color: #212529; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
     padding-left: 13px; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
       border-color: #1472a4;
       border-width: 2px;
       outline: none; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
     background-color: #1472a4; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi {
       color: #FFFFFF; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
     background-color: #e9ecef;
     border-color: #757575; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
       cursor: initial; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus {
       background-color: #e9ecef; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
       color: #757575; }
 
-div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton {
+div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton,
+div.rup-time-input-group-material button,
+div.rup-time-input-group-material .ui-button.rup-button,
+div.rup-time-input-group-material .rup-dropdown-btn-group .rup-dropdown-button,
+.rup-dropdown-btn-group div.rup-time-input-group-material .rup-dropdown-button,
+div.rup-time-input-group-material a.rup-toolbar_menuButton.ui-button,
+div.rup-time-input-group-material .rup-wizard a.rup-wizard_next,
+.rup-wizard div.rup-time-input-group-material a.rup-wizard_next,
+div.rup-time-input-group-material .rup-wizard a.rup-wizard_prev,
+.rup-wizard div.rup-time-input-group-material a.rup-wizard_prev,
+div.rup-time-input-group-material .rup-wizard .rup-wizard_submitButton,
+.rup-wizard div.rup-time-input-group-material .rup-wizard_submitButton {
   width: 30px;
   height: 2rem;
   margin-left: -4px;
@@ -14485,11 +14594,23 @@ div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-
   box-sizing: border-box;
   outline: none;
   position: absolute; }
-  div.rup-date-input-group-material button i.mdi, div.rup-date-input-group-material .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button i.mdi, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton i.mdi {
+  div.rup-date-input-group-material button i.mdi, div.rup-date-input-group-material .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button i.mdi, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton i.mdi,
+  div.rup-time-input-group-material button i.mdi,
+  div.rup-time-input-group-material .ui-button.rup-button i.mdi,
+  div.rup-time-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi,
+  .rup-dropdown-btn-group div.rup-time-input-group-material .rup-dropdown-button i.mdi,
+  div.rup-time-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi,
+  div.rup-time-input-group-material .rup-wizard a.rup-wizard_next i.mdi,
+  .rup-wizard div.rup-time-input-group-material a.rup-wizard_next i.mdi,
+  div.rup-time-input-group-material .rup-wizard a.rup-wizard_prev i.mdi,
+  .rup-wizard div.rup-time-input-group-material a.rup-wizard_prev i.mdi,
+  div.rup-time-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi,
+  .rup-wizard div.rup-time-input-group-material .rup-wizard_submitButton i.mdi {
     vertical-align: initial;
     line-height: 1; }
 
-div.rup-date-input-group-material + label {
+div.rup-date-input-group-material + label,
+div.rup-time-input-group-material + label {
   top: -10px;
   left: 15px;
   margin: 0;
@@ -14499,6 +14620,152 @@ div.rup-date-input-group-material + label {
   background-color: #FFFFFF;
   position: absolute;
   z-index: 1; }
+
+div.material-datepicker.ui-datepicker {
+  padding: initial;
+  border-radius: 3px; }
+  div.material-datepicker.ui-datepicker div.ui-datepicker-header {
+    padding: initial; }
+  div.material-datepicker.ui-datepicker div.ui-datepicker-row-break ~ div.ui-datepicker-group > div.ui-datepicker-header {
+    border-top-left-radius: initial;
+    border-top-right-radius: initial; }
+  div.material-datepicker.ui-datepicker div.ui-widget-header {
+    height: 25px;
+    border: initial;
+    border-bottom-left-radius: initial;
+    border-bottom-right-radius: initial;
+    background-color: #1472a4;
+    color: #FFFFFF; }
+    div.material-datepicker.ui-datepicker div.ui-widget-header a {
+      top: 1px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover {
+        left: 2px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover {
+        right: 2px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover, div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover {
+        background: initial;
+        border: initial; }
+        div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover > span.ui-icon, div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover > span.ui-icon {
+          transform: scale(1.1); }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a > span.ui-icon {
+        background-image: url(images/ui-icons_ffffff_256x240.png); }
+    div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown {
+      height: 23px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      color: #FFFFFF;
+      padding: 0 0 0 18px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+      /* Icono dropdown */
+      background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
+      background-repeat: no-repeat;
+      background-position: calc(100% - 13px) calc(0.75em), calc(100% - 8px) calc(0.75em);
+      background-size: 5px 4px, 5px 4px;
+      /* For IE <= 11 */ }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:focus, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:focus, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:focus {
+        color: #1472a4;
+        background-color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:-ms-expand, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:-ms-expand, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:-ms-expand {
+        display: none; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:first-child, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:first-child, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:first-child {
+        margin-right: 5%; }
+  div.material-datepicker.ui-datepicker dl {
+    margin: 0.5em; }
+    div.material-datepicker.ui-datepicker dl dd {
+      margin-bottom: 1.35em; }
+      div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal {
+        height: 0;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        border: 1px solid #1472a4; }
+        div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span {
+          top: -.5em;
+          width: 1em;
+          height: 1em;
+          cursor: e-resize;
+          border: 2.5px solid #1472a4;
+          background: #FFFFFF;
+          color: #1472a4;
+          border-radius: 100%; }
+          div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span:hover {
+            transform: scale(1.25); }
+          div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span:focus {
+            outline: none;
+            transform: scale(1.25);
+            animation: ripple-slider .2s linear forwards; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-today > a {
+    background-color: #1472a4;
+    border: 0.1em solid #1472a4;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
+    background-color: #4caf50;
+    border: 0.1em solid #4caf50;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td > a:hover {
+    background-color: #72aac8;
+    border: 0.1em solid #72aac8;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton {
+    min-width: 64px;
+    height: 26px;
+    padding: 6px 8px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    font-size: .85rem;
+    font-weight: 400;
+    letter-spacing: initial;
+    line-height: .7;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-sizing: border-box; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton:focus {
+      outline: none; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button:disabled, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton:disabled {
+      color: rgba(0, 0, 0, 0.37);
+      background-color: rgba(0, 0, 0, 0.12);
+      border-color: transparent;
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton {
+      color: #FFFFFF;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      background-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:hover, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:hover {
+        color: #FFFFFF;
+        opacity: 0.9;
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        background-color: #1472a4;
+        border-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:active, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:active {
+        color: #FFFFFF;
+        opacity: 0.5;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+        border-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:focus {
+        background-color: #1472a4;
+        background-color: #0c4462; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton {
+      color: #1472a4;
+      background-color: initial;
+      border-color: transparent; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:hover, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:hover {
+        background-color: #72aac8;
+        border-color: #72aac8;
+        color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:active, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:active {
+        background-color: #428eb6; }
+        div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:active:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:active:focus {
+          color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:focus {
+        border: 2px solid #428eb6; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:disabled, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:disabled {
+        background-color: transparent; }
 
 div.rup-feedback.rup-feedback_image {
   border: 1px solid #c5c5c5;
@@ -14527,6 +14794,50 @@ div.rup-message {
 .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).rup_multifilter_selector {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0; }
+
+div.rup-slider-material.ui-slider-horizontal {
+  height: 0;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+  border: 1px solid #1472a4; }
+  div.rup-slider-material.ui-slider-horizontal span {
+    top: -.5em;
+    width: 1em;
+    height: 1em;
+    cursor: e-resize;
+    border: 2.5px solid #1472a4;
+    background: #FFFFFF;
+    color: #1472a4;
+    border-radius: 100%; }
+    div.rup-slider-material.ui-slider-horizontal span:hover {
+      transform: scale(1.25); }
+    div.rup-slider-material.ui-slider-horizontal span:focus {
+      outline: none;
+      transform: scale(1.25);
+      animation: ripple-slider .2s linear forwards; }
+
+div.rup-slider-range-material.ui-slider-horizontal {
+  height: 0;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em; }
+  div.rup-slider-range-material.ui-slider-horizontal div.ui-slider-range {
+    top: -1px;
+    border: 1px solid #1472a4; }
+  div.rup-slider-range-material.ui-slider-horizontal span {
+    top: -.5em;
+    width: 1em;
+    height: 1em;
+    cursor: e-resize;
+    border: 2.5px solid #1472a4;
+    background: #FFFFFF;
+    color: #1472a4;
+    border-radius: 100%; }
+    div.rup-slider-range-material.ui-slider-horizontal span:hover {
+      transform: scale(1.25); }
+    div.rup-slider-range-material.ui-slider-horizontal span:focus {
+      outline: none;
+      transform: scale(1.25);
+      animation: ripple-slider .2s linear forwards; }
 
 /* AJUSTE DE MARGENES EN LA BOTONERA */
 div.dt-buttons .btn-material {
@@ -36669,8 +36980,7 @@ select, select.form-control, select.form-control-sm {
 .ui-dialog {
   padding: 0;
   color: #333333;
-  border-radius: 0;
-  max-width: 800px; }
+  border-radius: 0; }
   .ui-dialog .ui-dialog-titlebar {
     border: none;
     border-radius: 0;
@@ -39200,6 +39510,7 @@ ul.dtr-details .dtr-data {
 
 /* IMPORTACIÓN DE PALETA DE COLORES */
 /* COLORES */
+/* Ripples */
 /* PALETA DE COLORES */
 .app-primary-color {
   background-color: #1472a4 !important; }
@@ -39482,8 +39793,8 @@ fieldset {
   text-transform: uppercase;
   box-sizing: border-box;
   /* ESTILOS PARA EVITAR QUE EL NAVEGADOR PINTE UN BORDE CUANDO EL ELEMENTO TIENE EL FOCO */
-  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A ENFASIS ALTO Y MEDIO) */
-  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SE APLICA A BAJO) */
+  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS */
+  /* ESTILOS PARA CUANDO LOS BOTONES SON DESACTIVADOS (SOLO SE APLICA A ENFASIS BAJO) */
   /* AJUSTE DE POSICIONAMIENTO VERTICAL DEL ICONO Y TEXTO DEL BOTON */
   /* AJUSTE DE TAMAÑO Y MARGEN DEL ICONO */ }
   .btn-material:focus {
@@ -39667,7 +39978,7 @@ fieldset {
 .form-groupMaterial[class*="col-"] textarea ~ label {
   left: 19px; }
 
-@keyframes ripple-hover {
+@keyframes ripple-radio-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
   50% {
@@ -39675,7 +39986,7 @@ fieldset {
   100% {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.1); } }
 
-@keyframes ripple-active {
+@keyframes ripple-radio-active {
   0% {
     box-shadow: 0 0 0 6px rgba(20, 114, 164, 0.1); }
   50% {
@@ -39698,15 +40009,15 @@ fieldset {
     /* CUANDO ESTA DISABLED */ }
     .radio-material input[type='radio']:hover:enabled ~ label::before,
     .radio-material input[type='radio']:checked:hover:enabled ~ label::before {
-      animation: ripple-hover .2s linear forwards; }
+      animation: ripple-radio-hover .2s linear forwards; }
     .radio-material input[type='radio']:focus ~ label::before {
-      animation: ripple-active .2s linear forwards; }
+      animation: ripple-radio-active .2s linear forwards; }
     .radio-material input[type='radio']:checked ~ label::before {
       border-color: #1472a4; }
     .radio-material input[type='radio']:checked ~ label::after {
       transform: scale(1); }
     .radio-material input[type='radio']:active:enabled ~ label::before {
-      animation: ripple-active .2s linear forwards; }
+      animation: ripple-radio-active .2s linear forwards; }
     .radio-material input[type='radio']:disabled ~ label::before {
       border-color: rgba(0, 0, 0, 0.26); }
     .radio-material input[type='radio']:disabled ~ label::after {
@@ -39748,7 +40059,7 @@ fieldset {
     font-size: .9rem;
     color: #1472a4; }
 
-@keyframes ripple-hover {
+@keyframes ripple-checkbox-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
   50% {
@@ -39756,7 +40067,7 @@ fieldset {
   100% {
     box-shadow: 0 0 0 6.5px rgba(20, 114, 164, 0.1); } }
 
-@keyframes ripple-active {
+@keyframes ripple-checkbox-active {
   0% {
     box-shadow: 0 0 0 6.5px rgba(20, 114, 164, 0.1); }
   50% {
@@ -39809,9 +40120,9 @@ fieldset {
     /* CUANDO TIENE EL FOCO */
     /* CUANDO ESTA DISABLED */ }
     .checkbox-material input[type="checkbox"]:hover:enabled ~ label:before, .checkbox-material input[type="checkbox"]:checked:hover:enabled ~ label:before {
-      animation: ripple-hover 0.2s linear forwards; }
+      animation: ripple-checkbox-hover 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:focus ~ label:before {
-      animation: ripple-active 0.2s linear forwards; }
+      animation: ripple-checkbox-active 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:checked ~ label:before {
       background: #1472a4;
       border: none; }
@@ -39823,7 +40134,7 @@ fieldset {
       border-top-style: none;
       border-right-style: none; }
     .checkbox-material input[type="checkbox"]:active:enabled ~ label:before {
-      animation: ripple-active 0.2s linear forwards; }
+      animation: ripple-checkbox-active 0.2s linear forwards; }
     .checkbox-material input[type="checkbox"]:disabled ~ label:before {
       border-color: rgba(0, 0, 0, 0.26); }
     .checkbox-material input[type="checkbox"]:disabled ~ label {
@@ -40111,36 +40422,145 @@ select.rup_combo ~ button.select-material, .rup_combo.ui-multiselect ~ button.se
     outline: none;
     padding-left: 17px; }
 
+@keyframes ripple-slider {
+  0% {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0); }
+  50% {
+    box-shadow: 0 0 0 5px rgba(20, 114, 164, 0.05); }
+  100% {
+    box-shadow: 0 0 0 5px rgba(20, 114, 164, 0.1); } }
+
 /* CORRIGE EL ALINEAMIENTO DEL BOTON RESPECTO AL INPUT */
-div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]) {
+div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]),
+div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]) {
   display: inline-block;
   width: calc(100% - 26px);
   padding-left: 13px;
   border-right-style: hidden;
   color: #495057; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
     border-color: #212529; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
     padding-left: 13px; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
       border-color: #1472a4;
       border-width: 2px;
       outline: none; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
     background-color: #1472a4; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus i.mdi,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus i.mdi {
       color: #FFFFFF; }
-  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
+  div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button,
+  div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
+  .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button,
+  div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev,
+  div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton,
+  .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton {
     background-color: #e9ecef;
     border-color: #757575; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:hover,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:hover,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:hover,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:hover {
       cursor: initial; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button:focus,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button:focus,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev:focus,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton:focus {
       background-color: #e9ecef; }
-    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
+    div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi, div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ button i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .ui-button.rup-button i.mdi,
+    div.rup-time-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi,
+    .rup-dropdown-btn-group div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-dropdown-button i.mdi,
+    div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-toolbar_menuButton.ui-button i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_next i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ a.rup-wizard_prev i.mdi,
+    div.rup-time-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi,
+    .rup-wizard div.rup-time-input-group-material input:not([type="checkbox"]):not([type="radio"]):disabled ~ .rup-wizard_submitButton i.mdi {
       color: #757575; }
 
-div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton {
+div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-button.rup-button, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton,
+div.rup-time-input-group-material button,
+div.rup-time-input-group-material .ui-button.rup-button,
+div.rup-time-input-group-material .rup-dropdown-btn-group .rup-dropdown-button,
+.rup-dropdown-btn-group div.rup-time-input-group-material .rup-dropdown-button,
+div.rup-time-input-group-material a.rup-toolbar_menuButton.ui-button,
+div.rup-time-input-group-material .rup-wizard a.rup-wizard_next,
+.rup-wizard div.rup-time-input-group-material a.rup-wizard_next,
+div.rup-time-input-group-material .rup-wizard a.rup-wizard_prev,
+.rup-wizard div.rup-time-input-group-material a.rup-wizard_prev,
+div.rup-time-input-group-material .rup-wizard .rup-wizard_submitButton,
+.rup-wizard div.rup-time-input-group-material .rup-wizard_submitButton {
   width: 30px;
   height: 2rem;
   margin-left: -4px;
@@ -40153,11 +40573,23 @@ div.rup-date-input-group-material button, div.rup-date-input-group-material .ui-
   box-sizing: border-box;
   outline: none;
   position: absolute; }
-  div.rup-date-input-group-material button i.mdi, div.rup-date-input-group-material .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button i.mdi, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton i.mdi {
+  div.rup-date-input-group-material button i.mdi, div.rup-date-input-group-material .ui-button.rup-button i.mdi, div.rup-date-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi, .rup-dropdown-btn-group div.rup-date-input-group-material .rup-dropdown-button i.mdi, div.rup-date-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_next i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_next i.mdi, div.rup-date-input-group-material .rup-wizard a.rup-wizard_prev i.mdi, .rup-wizard div.rup-date-input-group-material a.rup-wizard_prev i.mdi, div.rup-date-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi, .rup-wizard div.rup-date-input-group-material .rup-wizard_submitButton i.mdi,
+  div.rup-time-input-group-material button i.mdi,
+  div.rup-time-input-group-material .ui-button.rup-button i.mdi,
+  div.rup-time-input-group-material .rup-dropdown-btn-group .rup-dropdown-button i.mdi,
+  .rup-dropdown-btn-group div.rup-time-input-group-material .rup-dropdown-button i.mdi,
+  div.rup-time-input-group-material a.rup-toolbar_menuButton.ui-button i.mdi,
+  div.rup-time-input-group-material .rup-wizard a.rup-wizard_next i.mdi,
+  .rup-wizard div.rup-time-input-group-material a.rup-wizard_next i.mdi,
+  div.rup-time-input-group-material .rup-wizard a.rup-wizard_prev i.mdi,
+  .rup-wizard div.rup-time-input-group-material a.rup-wizard_prev i.mdi,
+  div.rup-time-input-group-material .rup-wizard .rup-wizard_submitButton i.mdi,
+  .rup-wizard div.rup-time-input-group-material .rup-wizard_submitButton i.mdi {
     vertical-align: initial;
     line-height: 1; }
 
-div.rup-date-input-group-material + label {
+div.rup-date-input-group-material + label,
+div.rup-time-input-group-material + label {
   top: -10px;
   left: 15px;
   margin: 0;
@@ -40167,6 +40599,152 @@ div.rup-date-input-group-material + label {
   background-color: #FFFFFF;
   position: absolute;
   z-index: 1; }
+
+div.material-datepicker.ui-datepicker {
+  padding: initial;
+  border-radius: 3px; }
+  div.material-datepicker.ui-datepicker div.ui-datepicker-header {
+    padding: initial; }
+  div.material-datepicker.ui-datepicker div.ui-datepicker-row-break ~ div.ui-datepicker-group > div.ui-datepicker-header {
+    border-top-left-radius: initial;
+    border-top-right-radius: initial; }
+  div.material-datepicker.ui-datepicker div.ui-widget-header {
+    height: 25px;
+    border: initial;
+    border-bottom-left-radius: initial;
+    border-bottom-right-radius: initial;
+    background-color: #1472a4;
+    color: #FFFFFF; }
+    div.material-datepicker.ui-datepicker div.ui-widget-header a {
+      top: 1px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover {
+        left: 2px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover {
+        right: 2px; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover, div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover {
+        background: initial;
+        border: initial; }
+        div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-prev-hover.ui-state-hover > span.ui-icon, div.material-datepicker.ui-datepicker div.ui-widget-header a.ui-datepicker-next-hover.ui-state-hover > span.ui-icon {
+          transform: scale(1.1); }
+      div.material-datepicker.ui-datepicker div.ui-widget-header a > span.ui-icon {
+        background-image: url(images/ui-icons_ffffff_256x240.png); }
+    div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown {
+      height: 23px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      color: #FFFFFF;
+      padding: 0 0 0 18px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+      /* Icono dropdown */
+      background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
+      background-repeat: no-repeat;
+      background-position: calc(100% - 13px) calc(0.75em), calc(100% - 8px) calc(0.75em);
+      background-size: 5px 4px, 5px 4px;
+      /* For IE <= 11 */ }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:hover, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:focus, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:focus, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:focus {
+        color: #1472a4;
+        background-color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:-ms-expand, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:-ms-expand, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:-ms-expand {
+        display: none; }
+      div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > select:first-child, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-multiselect:first-child, div.material-datepicker.ui-datepicker div.ui-widget-header div.ui-datepicker-title > .ui-selectmenu-dropdown:first-child {
+        margin-right: 5%; }
+  div.material-datepicker.ui-datepicker dl {
+    margin: 0.5em; }
+    div.material-datepicker.ui-datepicker dl dd {
+      margin-bottom: 1.35em; }
+      div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal {
+        height: 0;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        border: 1px solid #1472a4; }
+        div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span {
+          top: -.5em;
+          width: 1em;
+          height: 1em;
+          cursor: e-resize;
+          border: 2.5px solid #1472a4;
+          background: #FFFFFF;
+          color: #1472a4;
+          border-radius: 100%; }
+          div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span:hover {
+            transform: scale(1.25); }
+          div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal span:focus {
+            outline: none;
+            transform: scale(1.25);
+            animation: ripple-slider .2s linear forwards; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-today > a {
+    background-color: #1472a4;
+    border: 0.1em solid #1472a4;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
+    background-color: #4caf50;
+    border: 0.1em solid #4caf50;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td > a:hover {
+    background-color: #72aac8;
+    border: 0.1em solid #72aac8;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton {
+    min-width: 64px;
+    height: 26px;
+    padding: 6px 8px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    font-size: .85rem;
+    font-weight: 400;
+    letter-spacing: initial;
+    line-height: .7;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-sizing: border-box; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton:focus {
+      outline: none; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-button.rup-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .rup-dropdown-button:disabled, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-toolbar_menuButton.ui-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_next:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_next:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.rup-wizard_prev:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.rup-wizard_prev:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .rup-wizard_submitButton:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard_submitButton:disabled {
+      color: rgba(0, 0, 0, 0.37);
+      background-color: rgba(0, 0, 0, 0.12);
+      border-color: transparent;
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton {
+      color: #FFFFFF;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      background-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:hover, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:hover {
+        color: #FFFFFF;
+        opacity: 0.9;
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        background-color: #1472a4;
+        border-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:active, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:active {
+        color: #FFFFFF;
+        opacity: 0.5;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+        border-color: #1472a4; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-primary:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-primary.rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-primary.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-primary.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-primary.rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-primary.rup-wizard_submitButton:focus {
+        background-color: #1472a4;
+        background-color: #0c4462; }
+    div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton {
+      color: #1472a4;
+      background-color: initial;
+      border-color: transparent; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:hover, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:hover, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:hover, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:hover {
+        background-color: #72aac8;
+        border-color: #72aac8;
+        color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:active, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:active, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:active, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:active {
+        background-color: #428eb6; }
+        div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:active:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:active:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:active:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:active:focus {
+          color: #FFFFFF; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:focus, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:focus, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:focus, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:focus {
+        border: 2px solid #428eb6; }
+      div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane button.ui-priority-secondary:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.ui-button.rup-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-dropdown-btn-group .ui-priority-secondary.rup-dropdown-button:disabled, .rup-dropdown-btn-group div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-dropdown-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-toolbar_menuButton.ui-button:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_next:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_next:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard a.ui-priority-secondary.rup-wizard_prev:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane a.ui-priority-secondary.rup-wizard_prev:disabled, div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .rup-wizard .ui-priority-secondary.rup-wizard_submitButton:disabled, .rup-wizard div.material-datepicker.ui-datepicker .ui-datepicker-buttonpane .ui-priority-secondary.rup-wizard_submitButton:disabled {
+        background-color: transparent; }
 
 div.rup-feedback.rup-feedback_image {
   border: 1px solid #c5c5c5;
@@ -40195,6 +40773,50 @@ div.rup-message {
 .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]).rup_multifilter_selector {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0; }
+
+div.rup-slider-material.ui-slider-horizontal {
+  height: 0;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+  border: 1px solid #1472a4; }
+  div.rup-slider-material.ui-slider-horizontal span {
+    top: -.5em;
+    width: 1em;
+    height: 1em;
+    cursor: e-resize;
+    border: 2.5px solid #1472a4;
+    background: #FFFFFF;
+    color: #1472a4;
+    border-radius: 100%; }
+    div.rup-slider-material.ui-slider-horizontal span:hover {
+      transform: scale(1.25); }
+    div.rup-slider-material.ui-slider-horizontal span:focus {
+      outline: none;
+      transform: scale(1.25);
+      animation: ripple-slider .2s linear forwards; }
+
+div.rup-slider-range-material.ui-slider-horizontal {
+  height: 0;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em; }
+  div.rup-slider-range-material.ui-slider-horizontal div.ui-slider-range {
+    top: -1px;
+    border: 1px solid #1472a4; }
+  div.rup-slider-range-material.ui-slider-horizontal span {
+    top: -.5em;
+    width: 1em;
+    height: 1em;
+    cursor: e-resize;
+    border: 2.5px solid #1472a4;
+    background: #FFFFFF;
+    color: #1472a4;
+    border-radius: 100%; }
+    div.rup-slider-range-material.ui-slider-horizontal span:hover {
+      transform: scale(1.25); }
+    div.rup-slider-range-material.ui-slider-horizontal span:focus {
+      outline: none;
+      transform: scale(1.25);
+      animation: ripple-slider .2s linear forwards; }
 
 /* AJUSTE DE MARGENES EN LA BOTONERA */
 div.dt-buttons .btn-material {
