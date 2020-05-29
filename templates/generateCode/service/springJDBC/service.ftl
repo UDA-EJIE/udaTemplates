@@ -149,6 +149,13 @@ public interface ${pojo.getDeclarationName()}Service {
     */
     ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
     
+    /**
+	 * Exporta Datos en su formato
+	 *
+	 */
+	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String fileName, String sheetTitle,
+			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
+    
       <#foreach property in pojo.getAllPropertiesIterator()>
         <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
            <#if c2h.isManyToMany(property)>

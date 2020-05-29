@@ -28,10 +28,7 @@
 
 
 	<!-- Serializador utilizado por UDA para serializar unicamente las  -->
-    <bean id="customSerializer" class="com.ejie.x38.serialization.CustomSerializer" />
-    
-<!--     <bean id="jsonViewSupportFactoryBean" class="com.ejie.x38.control.view.JsonViewSupportFactoryBean" /> -->
-    
+    <bean id="customSerializer" class="com.ejie.x38.serialization.CustomSerializer" />    
     
     <bean id="udaMappingJackson2HttpMessageConverter" class="com.ejie.x38.serialization.UdaMappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes" ref="jacksonSupportedMediaTypes" />

@@ -124,21 +124,21 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 		Long recordNum =  this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()}: new ${pojo.getDeclarationName()} (),false);
 		
-		TableResponseDto<${pojo.getDeclarationName()}> usuarioDto = new TableResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
+		TableResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
 		
 		if (tableRequestDto.getMultiselection().getSelectedIds()!=null){
 			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
-			usuarioDto.setReorderedSelection(reorderSelection);
-			usuarioDto.addAdditionalParam("reorderedSelection", reorderSelection);
-			usuarioDto.addAdditionalParam("selectedAll", tableRequestDto.getMultiselection().getSelectedAll());
+			tableResponseDto.setReorderedSelection(reorderSelection);
+			tableResponseDto.addAdditionalParam("reorderedSelection", reorderSelection);
+			tableResponseDto.addAdditionalParam("selectedAll", tableRequestDto.getMultiselection().getSelectedAll());
 		}
 		if (tableRequestDto.getSeeker().getSelectedIds()!=null){
 			tableRequestDto.setMultiselection(tableRequestDto.getSeeker());
 			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSeeker = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
-			usuarioDto.setReorderedSeeker(reorderSeeker);
-			usuarioDto.addAdditionalParam("reorderedSeeker", reorderSeeker);
+			tableResponseDto.setReorderedSeeker(reorderSeeker);
+			tableResponseDto.addAdditionalParam("reorderedSeeker", reorderSeeker);
 		}
-		return usuarioDto;   
+		return tableResponseDto;   
 	}
     /**
 	 * Searches rows in the ${pojo.getDeclarationName()} table.
@@ -202,6 +202,385 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
     */
     public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
 		return this.${nombreDao}.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+	}
+	
+	/**
+	 * Devuelve un fichero en el formato deseado que contiene los datos exportados
+	 * de la tabla.
+	 *
+	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
+	 * @param columns         String[]
+	 * @param fileName        String
+	 * @param sheetTitle      String
+	 * @param reportsParams   ArrayList<?>
+	 * @param tableRequestDto TableRequestDto
+	 * @param request         HttpServletRequest
+	 * @param response        HttpServletResponse
+	 */
+	@Override
+	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String fileName, String sheetTitle,
+			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response) {
+		// Accede a la DB para recuperar datos
+		List<${pojo.getDeclarationName()}> filteredData = getDataForReports(filter${pojo.getDeclarationName()}, tableRequestDto);
+		String extension = null;
+
+		// Comprobar si las siguientes variables estan vacias, en caso de estarlo se las
+		// asigna un valor generico
+		fileName = (fileName != null && !fileName.isEmpty()) ? fileName : "report";
+		sheetTitle = (sheetTitle != null && !sheetTitle.isEmpty()) ? sheetTitle : ${pojo.getDeclarationName()}.class.getSimpleName();
+
+		// Obtener el formato de fecha especifico del locale
+		${pojo.importType("java.text.SimpleDateFormat")} formatter = ${pojo.importType("com.ejie.x38.util.DateTimeManager")}.getDateTimeFormat(request.getLocale());
+
+		// Cuando no se definen columnas porque se quieren obtener todas
+		if (columns == null) {
+			${pojo.importType("java.lang.reflect.Field")}[] fields = ${pojo.getDeclarationName()}.class.getDeclaredFields();
+			${pojo.importType("java.util.ArrayList")}<String> tempColumns = new ArrayList<String>();
+
+			for (int i = 0; i < fields.length; i++) {
+				try {
+					String methodName = fields[i].getName();
+					methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+					${pojo.getDeclarationName()}.class.getMethod("get" + methodName);
+					tempColumns.add(fields[i].getName());
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				}
+
+			}
+			columns = tempColumns.toArray(new String[0]);
+		}
+
+		String servletPath = request.getServletPath();
+		String reportType = null;
+		if (servletPath.contains("/") && (servletPath.lastIndexOf("/") + 1 != servletPath.length())) {
+			reportType = servletPath.substring(servletPath.lastIndexOf("/") + 1, servletPath.length());
+		} else {
+			reportType = servletPath.substring(0, servletPath.length());
+		}
+
+		if (reportType.equals("xlsReport")) {
+			extension = ".xls";
+			generateExcelReport(filteredData, columns, fileName, sheetTitle, extension, formatter, response);
+		} else if (reportType.equals("xlsxReport")) {
+			extension = ".xlsx";
+			generateExcelReport(filteredData, columns, fileName, sheetTitle, extension, formatter, response);
+		} else if (reportType.equals("pdfReport")) {
+			extension = ".pdf";
+			generatePDFReport(filteredData, columns, fileName, response);
+		} else if (reportType.equals("odsReport")) {
+			extension = ".ods";
+			generateODSReport(filteredData, columns, fileName, sheetTitle, response);
+		} else if (reportType.equals("csvReport")) {
+			extension = ".csv";
+			// Obtener idioma
+			String language = request.getLocale().getLanguage();
+			generateCSVReport(filteredData, columns, fileName, sheetTitle, language, response);
+		}
+
+	}
+	
+	/**
+	 * Devuelve un fichero excel que contiene los datos exportados de la tabla.
+	 *
+	 * @param filteredData List<${pojo.getDeclarationName()}>
+	 * @param columns      String[]
+	 * @param fileName     String
+	 * @param sheetTitle   String
+	 * @param extension    String
+	 * @param formatter    SimpleDateFormat
+	 * @param response     HttpServletResponse
+	 */
+	private void generateExcelReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+			String extension, SimpleDateFormat formatter, HttpServletResponse response) {
+		try {
+			// Creacion del Excel
+			${pojo.importType("org.apache.poi.ss.usermodel.Workbook")} workbook = null;
+			if (extension == ".xlsx") {
+				workbook = new ${pojo.importType("org.apache.poi.xssf.usermodel.XSSFWorkbook")}();
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			} else {
+				workbook = new ${pojo.importType("org.apache.poi.hssf.usermodel.HSSFWorkbook")}();
+				response.setContentType("application/vnd.ms-excel");
+			}
+
+			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + extension + "");
+
+			// Creacion de una hoja y asignacion de su nombre
+			${pojo.importType("org.apache.poi.ss.usermodel.Sheet")} sheet = workbook.createSheet(sheetTitle);
+
+			// Se crea una fuente para estilizar las cabeceras
+			${pojo.importType("org.apache.poi.ss.usermodel.Font")} headerFont = workbook.createFont();
+			headerFont.setBold(true);
+			headerFont.setFontHeightInPoints((short) 12);
+
+			// Se crea un CellStyle con la fuente
+			${pojo.importType("org.apache.poi.ss.usermodel.CellStyle")} headerCellStyle = workbook.createCellStyle();
+			headerCellStyle.setAlignment(${pojo.importType("org.apache.poi.ss.usermodel.HorizontalAlignment")}.CENTER);
+			headerCellStyle.setFont(headerFont);
+
+			// Inicializar contador de filas
+			int rowNumber = 0;
+
+			// Se crea la fila para insertar los titulos de las columnas
+			${pojo.importType("org.apache.poi.ss.usermodel.Row")} row = sheet.createRow(rowNumber++);
+
+			// Añadir titulos
+			for (int i = 0; i < columns.length; i++) {
+				${pojo.importType("org.apache.poi.ss.usermodel.Cell")} cell = row.createCell(i);
+				cell.setCellValue(columns[i]);
+				cell.setCellStyle(headerCellStyle);
+			}
+
+			// CreationHelper ayudara a mantener la compatibilidad del DataFormat tanto si
+			// se crea un .xls como un .xlsx
+			${pojo.importType("org.apache.poi.ss.usermodel.CreationHelper")} createHelper = workbook.getCreationHelper();
+
+			// Se crea un CellStyle para añadir el formateador de fechas
+			CellStyle dateCellStyle = workbook.createCellStyle();
+			dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(formatter.toPattern()));
+
+			// Añadir datos
+			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
+				int cellNumber = 0;
+				row = sheet.createRow(rowNumber++);
+
+				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
+				// las columnas en la tabla
+				for (String column : columns) {
+					Cell cell${pojo.getDeclarationName()} = row.createCell(cellNumber++);
+					cell${pojo.getDeclarationName()}.setCellValue(getCellValue(column, row${pojo.getDeclarationName()}));
+				}
+			}
+
+			// Se adapta el ancho de las columnas al contenido
+			for (int i = 0; i < columns.length; i++) {
+				sheet.autoSizeColumn(i);
+			}
+
+			// Se añade el fichero excel al response
+			workbook.write(response.getOutputStream());
+			workbook.close();
+		} catch (${pojo.importType("java.io.IOException")} e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Devuelve un fichero pdf que contiene los datos exportados de la tabla.
+	 *
+	 * @param filteredData List<${pojo.getDeclarationName()}>
+	 * @param columns      String[]
+	 * @param fileName     String
+	 * @param response     HttpServletResponse
+	 */
+	private void generatePDFReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName,
+			HttpServletResponse response) {
+		try {
+			// Se añade el fichero excel al response y se añade el contenido
+			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".pdf");
+			response.setContentType("application/pdf");
+
+			${pojo.importType("com.lowagie.text.Document")} document = new Document();
+			// Se añade el fichero pdf al response
+			${pojo.importType("com.lowagie.text.pdf.PdfWriter")}.getInstance(document, response.getOutputStream());
+
+			document.open();
+
+			${pojo.importType("com.lowagie.text.pdf.PdfPTable")} table = new PdfPTable(columns.length);
+
+			for (String column : columns) {
+				${pojo.importType("com.lowagie.text.pdf.PdfPCell")} header = new PdfPCell();
+				header.setBorderWidth(2);
+				header.setPhrase(new ${pojo.importType("com.lowagie.text.Phrase")}(column));
+				table.addCell(header);
+			}
+
+			// Añadir datos
+			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
+				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
+				// las columnas en la tabla
+				for (String column : columns) {
+					table.addCell(getCellValue(column, row${pojo.getDeclarationName()}));
+				}
+			}
+
+			document.add(table);
+			document.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Devuelve un fichero ods que contiene los datos exportados de la tabla.
+	 *
+	 * @param filteredData List<${pojo.getDeclarationName()}>
+	 * @param columns      String[]
+	 * @param fileName     String
+	 * @param sheetTitle   String
+	 * @param response     HttpServletResponse
+	 */
+	private void generateODSReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+			HttpServletResponse response) {
+		try {
+			// Se añade el fichero ods al response y se añade el contenido
+			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".ods");
+			response.setContentType("application/vnd.oasis.opendocument.spreadsheet");
+
+			${pojo.importType("org.odftoolkit.odfdom.doc.OdfSpreadsheetDocument")} ods = OdfSpreadsheetDocument.newSpreadsheetDocument();
+			ods.getOrCreateDocumentStyles();
+
+			// Hay que eliminar la hoja que se genera por defecto
+			ods.getTableByName("Sheet1").remove();
+
+			// Hoja nueva
+			${pojo.importType("org.odftoolkit.odfdom.doc.table.OdfTable")} table = OdfTable.newTable(ods, filteredData.size() + 1, columns.length);
+			table.setTableName(sheetTitle);
+
+			// Inicializar contador de filas
+			int rowNumber = 0;
+
+			// Cabeceras
+			${pojo.importType("org.odftoolkit.odfdom.doc.table.OdfTableRow")} row = table.getRowByIndex(rowNumber++);
+			for (int i = 0; i < columns.length; i++) {
+				row.getCellByIndex(i).setStringValue(columns[i]);
+			}
+
+			// Añadir datos
+			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
+				row = table.getRowByIndex(rowNumber++);
+				int cellNumber = 0;
+
+				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
+				// las columnas en la tabla
+				for (String column : columns) {
+					row.getCellByIndex(cellNumber++).setStringValue(getCellValue(column, row${pojo.getDeclarationName()}));
+				}
+			}
+
+			// Se añade el fichero ods al response
+			ods.save(response.getOutputStream());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Devuelve un fichero csv que contiene los datos exportados de la tabla.
+	 *
+	 * @param filteredData List<${pojo.getDeclarationName()}>
+	 * @param columns      String[]
+	 * @param fileName     String
+	 * @param sheetTitle   String
+	 * @param language     String
+	 * @param response     HttpServletResponse
+	 */
+	private void generateCSVReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+			String language, HttpServletResponse response) {
+		try {
+			// Se añade el fichero excel al response y se añade el contenido
+			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".csv");
+			response.setContentType("text/csv");
+
+			// Separador de campos dependiendo del idioma
+			String separator = ";";
+			if (language.equals("en")) {
+				separator = ",";
+			}
+
+			// Se añade el fichero csv al response
+			${pojo.importType("java.io.OutputStream")} out = response.getOutputStream();
+			// Añadir titulos
+			boolean addTitles = true;
+
+			// Añadir datos
+			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
+				int cellNumber = 1;
+				StringBuilder columnsTitles = new StringBuilder();
+				StringBuilder row = new StringBuilder();
+
+				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
+				// las columnas en la tabla
+				for (String column : columns) {
+					String cellValue = getCellValue(column, row${pojo.getDeclarationName()});
+
+					if (cellNumber < columns.length) {
+						if (addTitles) {
+							columnsTitles.append("\"");
+							columnsTitles.append(column);
+							columnsTitles.append("\"");
+							columnsTitles.append(separator);
+						}
+						row.append("\"");
+						row.append(cellValue);
+						row.append("\"");
+						row.append(separator);
+						cellNumber++;
+					} else {
+						if (addTitles) {
+							columnsTitles.append("\"");
+							columnsTitles.append(column);
+							columnsTitles.append("\"\n");
+						}
+						row.append("\"");
+						row.append(cellValue);
+						row.append("\"\n");
+					}
+				}
+
+				if (addTitles) {
+					out.write(columnsTitles.toString().getBytes());
+					addTitles = false;
+				}
+				out.write(row.toString().getBytes());
+			}
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Devuelve los datos recuperados de la DB.
+	 *
+	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
+	 * @param tableRequestDto TableRequestDto
+	 */
+	private List<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
+		if (tableRequestDto.getMultiselection().getSelectedAll()
+				&& tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
+			if (filter${pojo.getDeclarationName()} != null) {
+				return this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
+			} else {
+				return this.${nombreDao}.findAll(new ${pojo.getDeclarationName()}(), null);
+			}
+		} else {
+			return this.${nombreDao}.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false);
+		}
+	}
+
+	/**
+	 * Obtiene los valores de las celdas.
+	 *
+	 * @param column     String
+	 * @param row${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 */
+	private String getCellValue(String column, ${pojo.getDeclarationName()} row${pojo.getDeclarationName()}) {
+		String cellValue = "";
+		try {
+			cellValue = ${pojo.importType("org.apache.commons.beanutils.BeanUtils")}.getProperty(row${pojo.getDeclarationName()}, column) != null ? BeanUtils.getProperty(row${pojo.getDeclarationName()}, column)
+					: "";
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (${pojo.importType("java.lang.reflect.InvocationTargetException")} e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+
+		return cellValue;
 	}
       
 	
