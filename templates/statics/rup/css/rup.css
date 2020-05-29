@@ -12815,16 +12815,6 @@ table.dataTable td {
   background: transparent;
   box-shadow: none; }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  color: #333 !important;
-  border: none;
-  background: none; }
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  outline: none;
-  background: none;
-  border: none; }
-
 .dataTables_wrapper .dataTables_paginate .ellipsis {
   padding: 0 1em; }
 
@@ -14705,6 +14695,11 @@ div.material-datepicker.ui-datepicker {
   div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
     background-color: #4caf50;
     border: 0.1em solid #4caf50;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight,
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight > a {
+    background-color: #4caf50;
+    border: 0;
     color: #FFFFFF; }
   div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td > a:hover {
     background-color: #72aac8;
@@ -38794,16 +38789,6 @@ table.dataTable td {
   background: transparent;
   box-shadow: none; }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  color: #333 !important;
-  border: none;
-  background: none; }
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  outline: none;
-  background: none;
-  border: none; }
-
 .dataTables_wrapper .dataTables_paginate .ellipsis {
   padding: 0 1em; }
 
@@ -40684,6 +40669,11 @@ div.material-datepicker.ui-datepicker {
   div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
     background-color: #4caf50;
     border: 0.1em solid #4caf50;
+    color: #FFFFFF; }
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight,
+  div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight > a {
+    background-color: #4caf50;
+    border: 0;
     color: #FFFFFF; }
   div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td > a:hover {
     background-color: #72aac8;

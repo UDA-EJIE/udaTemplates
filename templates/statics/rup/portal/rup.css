@@ -18480,18 +18480,6 @@
   box-shadow: none;
 }
 
-.r01gContainer .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  color: #333 !important;
-  border: none;
-  background: none;
-}
-
-.r01gContainer .dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  outline: none;
-  background: none;
-  border: none;
-}
-
 .r01gContainer .dataTables_wrapper .dataTables_paginate .ellipsis {
   padding: 0 1em;
 }
@@ -21343,6 +21331,13 @@
 .r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
   background-color: #4caf50;
   border: 0.1em solid #4caf50;
+  color: #FFFFFF;
+}
+
+.r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight,
+.r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight > a {
+  background-color: #4caf50;
+  border: 0;
   color: #FFFFFF;
 }
 
@@ -53723,18 +53718,6 @@
   box-shadow: none;
 }
 
-.r01gContainer .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  color: #333 !important;
-  border: none;
-  background: none;
-}
-
-.r01gContainer .dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  outline: none;
-  background: none;
-  border: none;
-}
-
 .r01gContainer .dataTables_wrapper .dataTables_paginate .ellipsis {
   padding: 0 1em;
 }
@@ -56586,6 +56569,13 @@
 .r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-datepicker-current-day > a {
   background-color: #4caf50;
   border: 0.1em solid #4caf50;
+  color: #FFFFFF;
+}
+
+.r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight,
+.r01gContainer div.material-datepicker.ui-datepicker table.ui-datepicker-calendar td.ui-state-highlight > a {
+  background-color: #4caf50;
+  border: 0;
   color: #FFFFFF;
 }
 
