@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2011 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -45,6 +45,21 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+	<#if entornoEjie != "">
+	<!-- HDIV Init Listener -->
+	<listener>
+		<listener-class>org.hdiv.listener.InitListener</listener-class>
+	</listener>
+	<!-- HDIV Validator Filter -->
+	<filter>
+		<filter-name>ValidatorFilter</filter-name>
+		<filter-class>org.hdiv.filter.ValidatorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ValidatorFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	</#if>
 	<!-- Here's were some of the fundamental AOP Aspects are applied -->
 	<filter>
 		<filter-name>udaFilter</filter-name>

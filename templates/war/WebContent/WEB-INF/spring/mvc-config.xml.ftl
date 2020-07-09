@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2020 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -27,8 +27,8 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.${codapp}.control' -->
-	<context:component-scan base-package="com.ejie.${codapp}.control" />
+	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.${codapp}' -->
+	<context:component-scan base-package="com.ejie.${codapp}" />
 
 	<!-- Mapeos directos -->
 	<mvc:view-controller path="/sessionInfo" view-name="serSessionTestServlet" />
