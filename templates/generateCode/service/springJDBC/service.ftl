@@ -153,7 +153,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * Exporta Datos en su formato
 	 *
 	 */
-	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String fileName, String sheetTitle,
+	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
 			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
     
       <#foreach property in pojo.getAllPropertiesIterator()>
