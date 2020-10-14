@@ -28,7 +28,8 @@
 			</span>
 		</div>
 	</div>
-	<div class="footer-row-base p-5">
-		<img class="img-fluid mx-auto d-block" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_claim_pertsona_helburu_es.gif" />
+	<div class="d-flex justify-content-center align-items-center">
+		<img class="img-fluid position-absolute" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_claim_pertsona_helburu_es.gif" />
+		<img class="img-fluid w-100" src="<#noparse>${staticsUrl}</#noparse>/${codapp}/images/web01-2014_oina_logo_atzekoa.gif" />
 	</div>
 </footer>
