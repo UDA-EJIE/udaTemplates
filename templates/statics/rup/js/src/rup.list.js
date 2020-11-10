@@ -812,7 +812,7 @@ import Printd from 'printd';
         },
 
         /**
-         * Método que lanza la imprisión HTML
+         * Método que lanza la impresión HTML
          * @name _print
          * @private
          * @function
@@ -2475,6 +2475,8 @@ import Printd from 'printd';
                                 opciones.feedback.rup_feedback('set', $.rup.i18n.base.rup_table.defaults.emptyrecords, 'alert');
                                 opciones._content.slideDown();
                                 self.element.trigger('load');
+                                self.isFiltering.resolve();
+                                self._unlock();
                             }
                         }
 
