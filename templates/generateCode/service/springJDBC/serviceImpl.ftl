@@ -218,7 +218,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param response        HttpServletResponse
 	 */
 	@Override
-	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String fileName, String sheetTitle,
+	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
 			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response) {
 		// Accede a la DB para recuperar datos
 		List<${pojo.getDeclarationName()}> filteredData = getDataForReports(filter${pojo.getDeclarationName()}, tableRequestDto);
@@ -250,6 +250,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			}
 			columns = tempColumns.toArray(new String[0]);
 		}
+		
+		//si no se definen el nombre de las columnas , se dejan las de por defecto.
+        if(columnsName == null){
+        	columnsName = columns;
+        }
 
 		String servletPath = request.getServletPath();
 		String reportType = null;
@@ -261,21 +266,21 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 
 		if (reportType.equals("xlsReport")) {
 			extension = ".xls";
-			generateExcelReport(filteredData, columns, fileName, sheetTitle, extension, formatter, response);
+			generateExcelReport(filteredData, columns,columnsName, fileName, sheetTitle, extension, formatter, response);
 		} else if (reportType.equals("xlsxReport")) {
 			extension = ".xlsx";
-			generateExcelReport(filteredData, columns, fileName, sheetTitle, extension, formatter, response);
+			generateExcelReport(filteredData, columns,columnsName, fileName, sheetTitle, extension, formatter, response);
 		} else if (reportType.equals("pdfReport")) {
 			extension = ".pdf";
-			generatePDFReport(filteredData, columns, fileName, response);
+			generatePDFReport(filteredData, columns,columnsName, fileName, response);
 		} else if (reportType.equals("odsReport")) {
 			extension = ".ods";
-			generateODSReport(filteredData, columns, fileName, sheetTitle, response);
+			generateODSReport(filteredData, columns,columnsName, fileName, sheetTitle, response);
 		} else if (reportType.equals("csvReport")) {
 			extension = ".csv";
 			// Obtener idioma
 			String language = request.getLocale().getLanguage();
-			generateCSVReport(filteredData, columns, fileName, sheetTitle, language, response);
+			generateCSVReport(filteredData, columns,columnsName, fileName, sheetTitle, language, response);
 		}
 
 	}
@@ -291,7 +296,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param formatter    SimpleDateFormat
 	 * @param response     HttpServletResponse
 	 */
-	private void generateExcelReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+	private void generateExcelReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns,String[] columnsName, String fileName, String sheetTitle,
 			String extension, SimpleDateFormat formatter, HttpServletResponse response) {
 		try {
 			// Creacion del Excel
@@ -326,9 +331,9 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			${pojo.importType("org.apache.poi.ss.usermodel.Row")} row = sheet.createRow(rowNumber++);
 
 			// Añadir titulos
-			for (int i = 0; i < columns.length; i++) {
+			for (int i = 0; i < columnsName.length; i++) {
 				${pojo.importType("org.apache.poi.ss.usermodel.Cell")} cell = row.createCell(i);
-				cell.setCellValue(columns[i]);
+				cell.setCellValue(columnsName[i]);
 				cell.setCellStyle(headerCellStyle);
 			}
 
@@ -374,7 +379,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param fileName     String
 	 * @param response     HttpServletResponse
 	 */
-	private void generatePDFReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName,
+	private void generatePDFReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName,
 			HttpServletResponse response) {
 		try {
 			// Se añade el fichero excel al response y se añade el contenido
@@ -389,7 +394,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 
 			${pojo.importType("com.lowagie.text.pdf.PdfPTable")} table = new PdfPTable(columns.length);
 
-			for (String column : columns) {
+			for (String column : columnsName) {
 				${pojo.importType("com.lowagie.text.pdf.PdfPCell")} header = new PdfPCell();
 				header.setBorderWidth(2);
 				header.setPhrase(new ${pojo.importType("com.lowagie.text.Phrase")}(column));
@@ -422,7 +427,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param sheetTitle   String
 	 * @param response     HttpServletResponse
 	 */
-	private void generateODSReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+	private void generateODSReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			HttpServletResponse response) {
 		try {
 			// Se añade el fichero ods al response y se añade el contenido
@@ -444,8 +449,8 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 
 			// Cabeceras
 			${pojo.importType("org.odftoolkit.odfdom.doc.table.OdfTableRow")} row = table.getRowByIndex(rowNumber++);
-			for (int i = 0; i < columns.length; i++) {
-				row.getCellByIndex(i).setStringValue(columns[i]);
+			for (int i = 0; i < columnsName.length; i++) {
+				row.getCellByIndex(i).setStringValue(columnsName[i]);
 			}
 
 			// Añadir datos
@@ -477,7 +482,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param language     String
 	 * @param response     HttpServletResponse
 	 */
-	private void generateCSVReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String fileName, String sheetTitle,
+	private void generateCSVReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			String language, HttpServletResponse response) {
 		try {
 			// Se añade el fichero excel al response y se añade el contenido

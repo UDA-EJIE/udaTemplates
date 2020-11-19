@@ -200,7 +200,7 @@ describe('Test Form', () => {
         testutils.loadCss(done);
     });
 
-    beforeEach(() => {
+    beforeEach((done) => {
         var html = formHtml;
         $('#content').append(html);
         configurar();
@@ -225,6 +225,10 @@ describe('Test Form', () => {
         $form = $('#exampleForm');
         $formAlt = $('#formHttpSubmit');
         //console.info($('body').html());
+        
+        setTimeout(() => {
+            done();
+        }, 100);
     });
     afterEach(() => {
         $('#content').html('');
