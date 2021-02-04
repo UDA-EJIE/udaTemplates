@@ -15785,7 +15785,12 @@
 }
 
 .r01gContainer .ui-selectmenu-dropdown.ui-selectmenu-hasIcon span.ui-selectmenu-status .ui-icon {
-  margin-top: -0.8rem;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: .43rem;
+  background-size: contain;
 }
 
 .r01gContainer .ui-selectmenu-dropdown span.ui-selectmenu-status {
@@ -18082,7 +18087,7 @@
 
 .r01gContainer table.dataTable thead th,
 .r01gContainer table.dataTable thead td {
-  padding: 10px 18px;
+  padding: 10px 6px;
   border-bottom: 1px solid #111;
 }
 
@@ -18812,9 +18817,9 @@
 
 .r01gContainer .rup-table_checkmenu_arrow {
   position: absolute;
-  margin-top: 4px;
+  margin-top: 10px;
   cursor: pointer;
-  background-position: -64px -16px;
+  background-position: -68px -16px;
 }
 
 .r01gContainer table.dataTable thead th:hover,
@@ -19438,13 +19443,6 @@
   background-color: #1472a4;
 }
 
-.r01gContainer footer .footer-row-base {
-  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-color: #1F1F1F;
-}
-
 .r01gContainer fieldset {
   border-radius: 5px;
 }
@@ -19926,6 +19924,109 @@
   font-size: 1.6rem;
 }
 
+/* ESTILOS PARA UN GRUPO DE BOTONES */
+
+.r01gContainer .btn-group .btn-material {
+  line-height: 1.5;
+  margin: 0 -2px;
+  text-align: center;
+  border-radius: initial;
+  /* COLORES POR DEFECTO (SECONDARY) */
+  background-color: #c4c7cb;
+  /* COLORES DEFINIDOS SEGUN LA CLASE */
+}
+
+.r01gContainer .btn-group .btn-material:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.r01gContainer .btn-group .btn-material:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.r01gContainer .btn-group .btn-material:not(.active) {
+  cursor: pointer;
+}
+
+.r01gContainer .btn-group .btn-material > i.mdi {
+  line-height: 0.9;
+}
+
+.r01gContainer .btn-group .btn-material:hover:not(.active) {
+  background-color: #a6acb1;
+  color: #FFFFFF;
+}
+
+.r01gContainer .btn-group .btn-material.active {
+  background-color: #899097;
+  color: #FFFFFF;
+  cursor: default;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary {
+  background-color: #a1c6da;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary:hover:not(.active) {
+  background-color: #72aac8;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary.active {
+  background-color: #428eb6;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success {
+  background-color: #b7dfb9;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success:hover:not(.active) {
+  background-color: #93cf96;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success.active {
+  background-color: #6fbf72;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger {
+  background-color: #f1aeb4;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger:hover:not(.active) {
+  background-color: #ea858f;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger.active {
+  background-color: #e35d6a;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning {
+  background-color: #ffe69b;
+  color: #212529;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning:hover:not(.active) {
+  background-color: #ffd96a;
+  color: #212529;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning.active {
+  background-color: #ffcd38;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info {
+  background-color: #a0cdd5;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info:hover:not(.active) {
+  background-color: #71b5c0;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info.active {
+  background-color: #429cab;
+}
+
 .r01gContainer .form-groupMaterial {
   /* ESTILOS DE LOS CONTENEDORES DE INPUTS */
   position: relative;
@@ -19966,6 +20067,10 @@
   color: transparent;
 }
 
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
 .r01gContainer .form-groupMaterial input[type="file"] {
   /* TODO: SON ESTILOS TEMPORALES PARA LOS INPUTS DE TIPO FILE */
 }
@@ -19988,8 +20093,24 @@
   -webkit-transition: 0.2s ease all;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):valid:enabled ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:required ~ label {
   top: -10px;
   font-size: .9rem;
@@ -19999,13 +20120,44 @@
   background-image: none;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled {
   background-color: #e9ecef;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label,
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled ~ label {
   top: -10px;
   font-size: .9rem;
   color: #999;
@@ -20017,7 +20169,8 @@
   content: " *";
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label {
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] ~ label {
   top: -10px;
   font-size: .9rem;
   color: #1472a4;
@@ -20080,9 +20233,38 @@
   color: transparent;
 }
 
-.r01gContainer .form-groupMaterial textarea:focus:enabled ~ label,
-.r01gContainer .form-groupMaterial textarea:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial textarea:-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial textarea:focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial textarea:valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
 .r01gContainer .form-groupMaterial textarea:placeholder-shown:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial textarea:-ms-input-placeholder:required ~ label {
   top: -10px;
   font-size: .9rem;
   color: #1472a4;
@@ -20112,6 +20294,244 @@
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
 
 .r01gContainer .form-groupMaterial[class*="col-"] textarea ~ label {
+  left: 19px;
+}
+
+.r01gContainer .form-groupMaterial {
+  /* ESTILOS DE LOS CONTENEDORES DE INPUTS */
+  position: relative;
+  margin: 1rem 0;
+  /* ESTILOS DE LOS INPUTS */
+  /* ESTABLECE LOS ESTILOS ESPECIFICOS DE LAS VALIDACIONES CON ERROR */
+  /* ESTILOS DE LOS LABELS */
+}
+
+.r01gContainer .form-groupMaterial select,
+.r01gContainer .form-groupMaterial .ui-multiselect,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown {
+  display: block;
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 0 20px 0 13px;
+  border: 1px solid #757575;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #495057;
+  background-image: none;
+  background-color: #FFFFFF;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 14.5px) calc(0.8em), calc(100% - 9.5px) calc(0.8em);
+  background-size: 5px 5px, 5px 5px;
+  /* ELIMINA EL ICONO DE DROPDOWN NATIVO EN IE 10/11 */
+  /* Añade un asterisco al label de los campos obligatorios */
+  /* ELIMINA UN OUTLINE INTERNO ESPECIFICO DE FIREFOX */
+}
+
+.r01gContainer .form-groupMaterial select::-ms-expand,
+.r01gContainer .form-groupMaterial .ui-multiselect::-ms-expand,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown::-ms-expand {
+  display: none;
+}
+
+.r01gContainer .form-groupMaterial select:hover:enabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:hover:enabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:hover:enabled {
+  border-color: #212529;
+}
+
+.r01gContainer .form-groupMaterial select:focus:enabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:focus:enabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:focus:enabled {
+  outline: none;
+  border-color: #1472a4;
+  caret-color: #1472a4;
+  border-width: 2px;
+  box-shadow: none;
+  padding-left: 17px;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial select:focus:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:focus:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:required ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:required ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:required ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:required ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:required ~ label:after,
+.r01gContainer .form-groupMaterial .ui-multiselect:required ~ label:after,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:required ~ label:after {
+  content: " *";
+}
+
+.r01gContainer .form-groupMaterial select:read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:read-only ~ label,
+.r01gContainer .form-groupMaterial select[type="hidden"] ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect[type="hidden"] ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown[type="hidden"] ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-moz-read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-moz-read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-moz-read-only ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-moz-focusring,
+.r01gContainer .form-groupMaterial .ui-multiselect:-moz-focusring,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error {
+  /* ESTE CASO ES PARA CUANDO SE USAN A LA VEZ LAS CLASES DE GRID DE BOOTSTRAP */
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] {
+  /* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR */
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 25px;
+}
+
+.r01gContainer .form-groupMaterial label {
+  color: #999;
+  font-size: 1rem;
+  font-weight: 400;
+  position: absolute;
+  pointer-events: none;
+  left: 14px;
+  top: 4px;
+  padding-left: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+/* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
+
+.r01gContainer .form-groupMaterial[class*="col-"] select ~ label,
+.r01gContainer .form-groupMaterial[class*="col-"] .ui-multiselect ~ label,
+.r01gContainer .form-groupMaterial[class*="col-"] .ui-selectmenu-dropdown ~ label {
   left: 19px;
 }
 
@@ -20241,6 +20661,24 @@
   color: #1472a4;
 }
 
+.r01gContainer .form-radioGroupMaterial > label {
+  position: absolute;
+  top: 2px;
+  left: 19px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+}
+
+.r01gContainer .form-radioGroupMaterial .radio-material {
+  padding: .5rem 5rem;
+  margin: .8rem 0;
+}
+
+.r01gContainer .form-radioGroupMaterial .radio-material > span:not(:last-child) {
+  margin-right: 2rem;
+}
+
 @keyframes ripple-checkbox-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
@@ -20271,7 +20709,7 @@
 
 .r01gContainer .checkbox-material {
   position: relative;
-  margin: 0.5em 0;
+  margin: 1.2em 0;
   text-align: left;
 }
 
@@ -20390,6 +20828,32 @@
   left: 6px;
 }
 
+.r01gContainer .form-checkboxGroupMaterial > label {
+  position: absolute;
+  top: 2px;
+  left: 19px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material {
+  padding: .5rem 1rem;
+  margin: .8rem 0;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span {
+  position: relative;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span label:not(:empty) {
+  padding-left: 2em;
+}
+
 /* REDONDEAMOS LOS BORDES DE LA TABLA */
 
 .r01gContainer table.table-material {
@@ -20441,6 +20905,10 @@
   font-weight: bold;
   vertical-align: middle;
   font-size: 1.35rem;
+}
+
+.r01gContainer table.table-material .checkbox-material {
+  margin: .5em 0;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL AUTOCOMPLETE SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -20524,13 +20992,26 @@
 				}*/
 }
 
+.r01gContainer .form-groupMaterial .rup-combobox a:focus span {
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
+}
+
+.r01gContainer .form-groupMaterial .rup-combobox a span {
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
+  background-size: 5px 5px, 5px 5px;
+}
+
 .r01gContainer .form-groupMaterial .rup-combobox ~ input[ruptype="autocomplete"][type="hidden"] ~ label {
   color: #1472a4;
   background: #FFFFFF;
 }
 
 .r01gContainer .form-groupMaterial .rup-combobox ~ i.mdi.error {
-  right: 32px;
+  right: 30px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
@@ -20674,6 +21155,7 @@
   font-size: 1rem;
   overflow: visible;
   background-color: #FFFFFF;
+  /* OCULTA EL ICONO DEL DROPDOWN EN FAVOR DEL GENERADO VIA CSS */
   /* SE ENCARGA DE SOLAPAR LOS ESTILOS DE UNA DE LAS CLASES DE JQUERYUI */
 }
 
@@ -20694,7 +21176,7 @@
   left: 11px;
 }
 
-.r01gContainer a.select-material span:first-child {
+.r01gContainer a.select-material > span:first-child {
   color: #495057;
   font-size: 1rem;
   font-weight: 400;
@@ -20703,6 +21185,17 @@
   left: 12px;
   top: 1px;
   padding-left: 5px;
+  width: calc(100% - 60px);
+  height: 22.8px;
+  overflow: hidden;
+}
+
+.r01gContainer a.select-material > span:not(.ui-selectmenu-status):not(.rup-combo_loading):last-child {
+  display: none;
+}
+
+.r01gContainer a.select-material > span.rup-combo_loading {
+  right: 2.5rem;
 }
 
 .r01gContainer a.select-material.ui-selectmenu {
@@ -20722,10 +21215,13 @@
   box-shadow: none;
   outline: none;
   padding-left: 17px;
+  /* EVITA QUE EL ICONO DE DROPDOWN SE DESPLACE */
+  background-position: calc(100% - 13.5px) calc(0.71em), calc(100% - 8.5px) calc(0.71em);
+  /* EVITA QUE EL TEXTO SE DESPLACE */
 }
 
-.r01gContainer a.select-material.ui-selectmenu:focus span:first-child {
-  left: 11px;
+.r01gContainer a.select-material.ui-selectmenu:focus span:not(.ui-icon):first-child {
+  top: -1px;
 }
 
 .r01gContainer .form-groupMaterial {
@@ -20745,18 +21241,14 @@
   /* ESTE CASO ES PARA CUANDO SE USAN A LA VEZ LAS CLASES DE GRID DE BOOTSTRAP */
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error a.select-material span:last-child {
-  right: 30px;
-}
-
 .r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] {
   /* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR */
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error select ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error .ui-multiselect ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-  right: 15px;
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 30px;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL COMBO NO SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -20782,7 +21274,7 @@
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error select ~ i.mdi.error,
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error .ui-multiselect ~ i.mdi.error,
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-  right: 25px;
+  right: 40px;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL COMBO SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -20882,6 +21374,82 @@
   box-shadow: none;
   outline: none;
   padding-left: 17px;
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span {
+  /* OCULTA EL ICONO DEL DROPDOWN EN FAVOR DEL GENERADO VIA CSS */
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span.rup-combo_loading,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span.rup-combo_loading {
+  float: right;
+  margin-top: 0;
+  margin-right: 2.5rem;
+  width: 16px;
+  height: 16px;
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span.ui-icon,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span.ui-icon {
+  display: none;
 }
 
 @keyframes ripple-slider {
@@ -21256,11 +21824,11 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-  /* Icono dropdown */
+  /* ICONO DROPDOWN */
   background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
   background-repeat: no-repeat;
   background-position: calc(100% - 13px) calc(0.75em), calc(100% - 8px) calc(0.75em);
-  background-size: 5px 4px, 5px 4px;
+  background-size: 5px 5px, 5px 5px;
   /* For IE <= 11 */
 }
 
@@ -21780,6 +22348,7 @@
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error {
+  /* SELECT */
   /* TEXTAREA */
   /* AUTOCOMPLETE COMBOBOX */
 }
@@ -21892,6 +22461,18 @@
   display: block;
   padding-top: 2px;
   padding-left: 19px;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
+  padding-right: 45px;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 25px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error textarea {
@@ -43299,10 +43880,13 @@
  * que establece la Licencia.
  */
 
+/*.rup-combo {}*/
+
 .r01gContainer .rup-combo_loading {
   background-image: url(images/rup.ajaxLoader.gif) !important;
   color: black;
   font-weight: bold;
+  background-repeat: no-repeat;
 }
 
 .r01gContainer .rup-combo_loadingText {
@@ -43320,6 +43904,8 @@
   text-decoration: none;
   overflow: hidden;
 }
+
+/*.ui-selectmenu-focus { }*/
 
 .r01gContainer .ui-selectmenu-icon {
   position: absolute;
@@ -43345,6 +43931,8 @@
 .r01gContainer .ui-selectmenu-menu-popup {
   margin-top: -1px;
 }
+
+/*.ui-selectmenu-menu-dropdown {}*/
 
 .r01gContainer .ui-selectmenu-menu li {
   padding: 0;
@@ -43378,14 +43966,19 @@
 .r01gContainer .ui-selectmenu-menu li .ui-icon,
 .r01gContainer .ui-selectmenu-status .ui-icon {
   position: absolute;
-  top: 1em;
-  margin-top: -12px;
+  top: 1.2em;
   left: 0;
+  width: 12px;
+  height: 12px;
+  background-size: contain;
 }
 
 .r01gContainer .ui-selectmenu-status {
   line-height: 1.4em;
 }
+
+/*.ui-selectmenu-open li.ui-selectmenu-item-focus a {  }
+.ui-selectmenu-open li.ui-selectmenu-item-selected { }*/
 
 .r01gContainer .ui-selectmenu-menu li span,
 .r01gContainer .ui-selectmenu-status span {
@@ -43396,6 +43989,8 @@
 .r01gContainer .ui-selectmenu-menu li .ui-selectmenu-item-header {
   font-weight: bold;
 }
+
+/*.ui-selectmenu-menu li .ui-selectmenu-item-content {  }*/
 
 /*.ui-selectmenu-menu li .ui-selectmenu-item-footer { opacity: .8; }*/
 
@@ -43482,14 +44077,6 @@
   padding-left: 20px;
   position: relative;
   margin-left: 5px;
-}
-
-.r01gContainer .ui-selectmenu-menu li .ui-icon,
-.r01gContainer .ui-selectmenu-status .ui-icon {
-  position: absolute;
-  top: 1em;
-  margin-top: -12px;
-  left: 0;
 }
 
 .r01gContainer .ui-selectmenu-status {
@@ -43667,19 +44254,19 @@
 
 /*** ESTILOS PROPIOS ***/
 
-.r01gContainer .ui-selectmenu,
-.r01gContainer .ui-selectmenu-status {
-  /* 	background: #d5d5d2 50% 50%; */
-}
+/*.ui-selectmenu,
+.ui-selectmenu-status {
+	background: #d5d5d2 50% 50%;
+}*/
 
 .r01gContainer .ui-selectmenu-menu li.ui-selectmenu-group ul {
   overflow-y: hidden;
 }
 
-.r01gContainer .ui-selectmenu-menu-dropdown,
-.r01gContainer .ui-selectmenu-menu-popup {
-  /* 	background: #eaeaea 50% 50%; */
-}
+/*.ui-selectmenu-menu-dropdown,
+.ui-selectmenu-menu-popup { 
+	background: #eaeaea 50% 50%;
+}*/
 
 /*select with custom icons*/
 
@@ -43689,15 +44276,24 @@
   background-repeat: no-repeat;
 }
 
-.r01gContainer .delete .ui-selectmenu-item-icon {
+.r01gContainer a.delete span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer a.delete .ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .delete span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .delete .ui-selectmenu-item-icon.ui-icon {
   background-image: url(images/borrar.png);
 }
 
-.r01gContainer .filter .ui-selectmenu-item-icon {
+.r01gContainer a.filter span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer a.filter .ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .filter span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .filter .ui-selectmenu-item-icon.ui-icon {
   background-image: url(images/filtrar.png);
 }
 
-.r01gContainer .print .ui-selectmenu-item-icon {
+.r01gContainer a.print span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer a.print .ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .print span.ui-selectmenu-item-icon.ui-icon,
+.r01gContainer .print .ui-selectmenu-item-icon.ui-icon {
   background-image: url(images/imprimir.png);
 }
 
@@ -51023,7 +51619,12 @@
 }
 
 .r01gContainer .ui-selectmenu-dropdown.ui-selectmenu-hasIcon span.ui-selectmenu-status .ui-icon {
-  margin-top: -0.8rem;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: .43rem;
+  background-size: contain;
 }
 
 .r01gContainer .ui-selectmenu-dropdown span.ui-selectmenu-status {
@@ -53320,7 +53921,7 @@
 
 .r01gContainer table.dataTable thead th,
 .r01gContainer table.dataTable thead td {
-  padding: 10px 18px;
+  padding: 10px 6px;
   border-bottom: 1px solid #111;
 }
 
@@ -54050,9 +54651,9 @@
 
 .r01gContainer .rup-table_checkmenu_arrow {
   position: absolute;
-  margin-top: 4px;
+  margin-top: 10px;
   cursor: pointer;
-  background-position: -64px -16px;
+  background-position: -68px -16px;
 }
 
 .r01gContainer table.dataTable thead th:hover,
@@ -54676,13 +55277,6 @@
   background-color: #1472a4;
 }
 
-.r01gContainer footer .footer-row-base {
-  background-image: url(images/web01-2014_oina_logo_atzekoa.gif);
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-color: #1F1F1F;
-}
-
 .r01gContainer fieldset {
   border-radius: 5px;
 }
@@ -55164,6 +55758,109 @@
   font-size: 1.6rem;
 }
 
+/* ESTILOS PARA UN GRUPO DE BOTONES */
+
+.r01gContainer .btn-group .btn-material {
+  line-height: 1.5;
+  margin: 0 -2px;
+  text-align: center;
+  border-radius: initial;
+  /* COLORES POR DEFECTO (SECONDARY) */
+  background-color: #c4c7cb;
+  /* COLORES DEFINIDOS SEGUN LA CLASE */
+}
+
+.r01gContainer .btn-group .btn-material:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.r01gContainer .btn-group .btn-material:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.r01gContainer .btn-group .btn-material:not(.active) {
+  cursor: pointer;
+}
+
+.r01gContainer .btn-group .btn-material > i.mdi {
+  line-height: 0.9;
+}
+
+.r01gContainer .btn-group .btn-material:hover:not(.active) {
+  background-color: #a6acb1;
+  color: #FFFFFF;
+}
+
+.r01gContainer .btn-group .btn-material.active {
+  background-color: #899097;
+  color: #FFFFFF;
+  cursor: default;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary {
+  background-color: #a1c6da;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary:hover:not(.active) {
+  background-color: #72aac8;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-primary.active {
+  background-color: #428eb6;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success {
+  background-color: #b7dfb9;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success:hover:not(.active) {
+  background-color: #93cf96;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-success.active {
+  background-color: #6fbf72;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger {
+  background-color: #f1aeb4;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger:hover:not(.active) {
+  background-color: #ea858f;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-danger.active {
+  background-color: #e35d6a;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning {
+  background-color: #ffe69b;
+  color: #212529;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning:hover:not(.active) {
+  background-color: #ffd96a;
+  color: #212529;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-warning.active {
+  background-color: #ffcd38;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info {
+  background-color: #a0cdd5;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info:hover:not(.active) {
+  background-color: #71b5c0;
+}
+
+.r01gContainer .btn-group .btn-material.btn-material-info.active {
+  background-color: #429cab;
+}
+
 .r01gContainer .form-groupMaterial {
   /* ESTILOS DE LOS CONTENEDORES DE INPUTS */
   position: relative;
@@ -55204,6 +55901,10 @@
   color: transparent;
 }
 
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
 .r01gContainer .form-groupMaterial input[type="file"] {
   /* TODO: SON ESTILOS TEMPORALES PARA LOS INPUTS DE TIPO FILE */
 }
@@ -55226,8 +55927,24 @@
   -webkit-transition: 0.2s ease all;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ label,
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):valid:enabled ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:required ~ label {
   top: -10px;
   font-size: .9rem;
@@ -55237,13 +55954,44 @@
   background-image: none;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled {
   background-color: #e9ecef;
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):disabled ~ label,
 .r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):-ms-input-placeholder:disabled ~ label {
   top: -10px;
   font-size: .9rem;
   color: #999;
@@ -55255,7 +56003,8 @@
   content: " *";
 }
 
-.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label {
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"]):read-only ~ label,
+.r01gContainer .form-groupMaterial input:not([type="checkbox"]):not([type="radio"])[type="hidden"] ~ label {
   top: -10px;
   font-size: .9rem;
   color: #1472a4;
@@ -55318,9 +56067,38 @@
   color: transparent;
 }
 
-.r01gContainer .form-groupMaterial textarea:focus:enabled ~ label,
-.r01gContainer .form-groupMaterial textarea:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial textarea:-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial textarea:focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial textarea:valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
 .r01gContainer .form-groupMaterial textarea:placeholder-shown:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial textarea:-ms-input-placeholder:required ~ label {
   top: -10px;
   font-size: .9rem;
   color: #1472a4;
@@ -55350,6 +56128,244 @@
 /* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
 
 .r01gContainer .form-groupMaterial[class*="col-"] textarea ~ label {
+  left: 19px;
+}
+
+.r01gContainer .form-groupMaterial {
+  /* ESTILOS DE LOS CONTENEDORES DE INPUTS */
+  position: relative;
+  margin: 1rem 0;
+  /* ESTILOS DE LOS INPUTS */
+  /* ESTABLECE LOS ESTILOS ESPECIFICOS DE LAS VALIDACIONES CON ERROR */
+  /* ESTILOS DE LOS LABELS */
+}
+
+.r01gContainer .form-groupMaterial select,
+.r01gContainer .form-groupMaterial .ui-multiselect,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown {
+  display: block;
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 0 20px 0 13px;
+  border: 1px solid #757575;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #495057;
+  background-image: none;
+  background-color: #FFFFFF;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 14.5px) calc(0.8em), calc(100% - 9.5px) calc(0.8em);
+  background-size: 5px 5px, 5px 5px;
+  /* ELIMINA EL ICONO DE DROPDOWN NATIVO EN IE 10/11 */
+  /* Añade un asterisco al label de los campos obligatorios */
+  /* ELIMINA UN OUTLINE INTERNO ESPECIFICO DE FIREFOX */
+}
+
+.r01gContainer .form-groupMaterial select::-ms-expand,
+.r01gContainer .form-groupMaterial .ui-multiselect::-ms-expand,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown::-ms-expand {
+  display: none;
+}
+
+.r01gContainer .form-groupMaterial select:hover:enabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:hover:enabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:hover:enabled {
+  border-color: #212529;
+}
+
+.r01gContainer .form-groupMaterial select:focus:enabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:focus:enabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:focus:enabled {
+  outline: none;
+  border-color: #1472a4;
+  caret-color: #1472a4;
+  border-width: 2px;
+  box-shadow: none;
+  padding-left: 17px;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled {
+  color: transparent;
+}
+
+.r01gContainer .form-groupMaterial select:focus:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:focus:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:focus:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:valid:enabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:valid:enabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:required ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:required ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:required ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:required ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:required ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:placeholder-shown:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:placeholder-shown:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:placeholder-shown:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled {
+  background-color: #e9ecef;
+}
+
+.r01gContainer .form-groupMaterial select:-ms-input-placeholder:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-ms-input-placeholder:disabled ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-ms-input-placeholder:disabled ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #999;
+  padding: 0 5px;
+  background: linear-gradient(to top, #e9ecef 0%, #e9ecef 40%, transparent 40%, transparent 100%);
+}
+
+.r01gContainer .form-groupMaterial select:required ~ label:after,
+.r01gContainer .form-groupMaterial .ui-multiselect:required ~ label:after,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:required ~ label:after {
+  content: " *";
+}
+
+.r01gContainer .form-groupMaterial select:read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:read-only ~ label,
+.r01gContainer .form-groupMaterial select[type="hidden"] ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect[type="hidden"] ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown[type="hidden"] ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-moz-read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-multiselect:-moz-read-only ~ label,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-moz-read-only ~ label {
+  top: -10px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+  background-color: #FFFFFF;
+  background-image: none;
+}
+
+.r01gContainer .form-groupMaterial select:-moz-focusring,
+.r01gContainer .form-groupMaterial .ui-multiselect:-moz-focusring,
+.r01gContainer .form-groupMaterial .ui-selectmenu-dropdown:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error {
+  /* ESTE CASO ES PARA CUANDO SE USAN A LA VEZ LAS CLASES DE GRID DE BOOTSTRAP */
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] {
+  /* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR */
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 25px;
+}
+
+.r01gContainer .form-groupMaterial label {
+  color: #999;
+  font-size: 1rem;
+  font-weight: 400;
+  position: absolute;
+  pointer-events: none;
+  left: 14px;
+  top: 4px;
+  padding-left: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+/* ESTE CASO ES PARA CUANDO SE USAN LOS ESTILOS EN CONJUNTO CON LAS CLASES DE GRID DE BOOTSTRAP */
+
+.r01gContainer .form-groupMaterial[class*="col-"] select ~ label,
+.r01gContainer .form-groupMaterial[class*="col-"] .ui-multiselect ~ label,
+.r01gContainer .form-groupMaterial[class*="col-"] .ui-selectmenu-dropdown ~ label {
   left: 19px;
 }
 
@@ -55479,6 +56495,24 @@
   color: #1472a4;
 }
 
+.r01gContainer .form-radioGroupMaterial > label {
+  position: absolute;
+  top: 2px;
+  left: 19px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+}
+
+.r01gContainer .form-radioGroupMaterial .radio-material {
+  padding: .5rem 5rem;
+  margin: .8rem 0;
+}
+
+.r01gContainer .form-radioGroupMaterial .radio-material > span:not(:last-child) {
+  margin-right: 2rem;
+}
+
 @keyframes ripple-checkbox-hover {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
@@ -55509,7 +56543,7 @@
 
 .r01gContainer .checkbox-material {
   position: relative;
-  margin: 0.5em 0;
+  margin: 1.2em 0;
   text-align: left;
 }
 
@@ -55628,6 +56662,32 @@
   left: 6px;
 }
 
+.r01gContainer .form-checkboxGroupMaterial > label {
+  position: absolute;
+  top: 2px;
+  left: 19px;
+  font-size: .9rem;
+  color: #1472a4;
+  padding: 0 5px;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material {
+  padding: .5rem 1rem;
+  margin: .8rem 0;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span {
+  position: relative;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.r01gContainer .form-checkboxGroupMaterial .checkbox-material > span label:not(:empty) {
+  padding-left: 2em;
+}
+
 /* REDONDEAMOS LOS BORDES DE LA TABLA */
 
 .r01gContainer table.table-material {
@@ -55679,6 +56739,10 @@
   font-weight: bold;
   vertical-align: middle;
   font-size: 1.35rem;
+}
+
+.r01gContainer table.table-material .checkbox-material {
+  margin: .5em 0;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL AUTOCOMPLETE SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -55762,13 +56826,26 @@
 				}*/
 }
 
+.r01gContainer .form-groupMaterial .rup-combobox a:focus span {
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
+}
+
+.r01gContainer .form-groupMaterial .rup-combobox a span {
+  /* ICONO DROPDOWN */
+  background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
+  background-size: 5px 5px, 5px 5px;
+}
+
 .r01gContainer .form-groupMaterial .rup-combobox ~ input[ruptype="autocomplete"][type="hidden"] ~ label {
   color: #1472a4;
   background: #FFFFFF;
 }
 
 .r01gContainer .form-groupMaterial .rup-combobox ~ i.mdi.error {
-  right: 32px;
+  right: 30px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
@@ -55912,6 +56989,7 @@
   font-size: 1rem;
   overflow: visible;
   background-color: #FFFFFF;
+  /* OCULTA EL ICONO DEL DROPDOWN EN FAVOR DEL GENERADO VIA CSS */
   /* SE ENCARGA DE SOLAPAR LOS ESTILOS DE UNA DE LAS CLASES DE JQUERYUI */
 }
 
@@ -55932,7 +57010,7 @@
   left: 11px;
 }
 
-.r01gContainer a.select-material span:first-child {
+.r01gContainer a.select-material > span:first-child {
   color: #495057;
   font-size: 1rem;
   font-weight: 400;
@@ -55941,6 +57019,17 @@
   left: 12px;
   top: 1px;
   padding-left: 5px;
+  width: calc(100% - 60px);
+  height: 22.8px;
+  overflow: hidden;
+}
+
+.r01gContainer a.select-material > span:not(.ui-selectmenu-status):not(.rup-combo_loading):last-child {
+  display: none;
+}
+
+.r01gContainer a.select-material > span.rup-combo_loading {
+  right: 2.5rem;
 }
 
 .r01gContainer a.select-material.ui-selectmenu {
@@ -55960,10 +57049,13 @@
   box-shadow: none;
   outline: none;
   padding-left: 17px;
+  /* EVITA QUE EL ICONO DE DROPDOWN SE DESPLACE */
+  background-position: calc(100% - 13.5px) calc(0.71em), calc(100% - 8.5px) calc(0.71em);
+  /* EVITA QUE EL TEXTO SE DESPLACE */
 }
 
-.r01gContainer a.select-material.ui-selectmenu:focus span:first-child {
-  left: 11px;
+.r01gContainer a.select-material.ui-selectmenu:focus span:not(.ui-icon):first-child {
+  top: -1px;
 }
 
 .r01gContainer .form-groupMaterial {
@@ -55983,18 +57075,14 @@
   /* ESTE CASO ES PARA CUANDO SE USAN A LA VEZ LAS CLASES DE GRID DE BOOTSTRAP */
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error a.select-material span:last-child {
-  right: 30px;
-}
-
 .r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] {
   /* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR */
 }
 
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error select ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error .ui-multiselect ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"].rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-  right: 15px;
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 30px;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL COMBO NO SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -56020,7 +57108,7 @@
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error select ~ i.mdi.error,
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error .ui-multiselect ~ i.mdi.error,
 .r01gContainer :not(.form-row) > .form-groupMaterial[class*="col-"].rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-  right: 25px;
+  right: 40px;
 }
 
 /* ESTILOS ESPECIFICOS PARA CUANDO EL COMBO SE ENCUENTRA DENTRO DE UN FORM-ROW */
@@ -56120,6 +57208,82 @@
   box-shadow: none;
   outline: none;
   padding-left: 17px;
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span {
+  /* OCULTA EL ICONO DEL DROPDOWN EN FAVOR DEL GENERADO VIA CSS */
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span.rup-combo_loading,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span.rup-combo_loading,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span.rup-combo_loading,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span.rup-combo_loading,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span.rup-combo_loading {
+  float: right;
+  margin-top: 0;
+  margin-right: 2.5rem;
+  width: 16px;
+  height: 16px;
+}
+
+.r01gContainer select.rup_combo ~ button.select-material span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material span.ui-icon,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button span.ui-icon,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev span.ui-icon,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton span.ui-icon,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton span.ui-icon {
+  display: none;
 }
 
 @keyframes ripple-slider {
@@ -56494,11 +57658,11 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-  /* Icono dropdown */
+  /* ICONO DROPDOWN */
   background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%);
   background-repeat: no-repeat;
   background-position: calc(100% - 13px) calc(0.75em), calc(100% - 8px) calc(0.75em);
-  background-size: 5px 4px, 5px 4px;
+  background-size: 5px 5px, 5px 5px;
   /* For IE <= 11 */
 }
 
@@ -57018,6 +58182,7 @@
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error {
+  /* SELECT */
   /* TEXTAREA */
   /* AUTOCOMPLETE COMBOBOX */
 }
@@ -57130,6 +58295,18 @@
   display: block;
   padding-top: 2px;
   padding-left: 19px;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
+  padding-right: 45px;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
+  right: 25px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error textarea {
