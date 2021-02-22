@@ -26,6 +26,7 @@
 		<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />	
 		<artifact:dependencies settingsFile="<#noparse>${env.M2_HOME}</#noparse>/conf/settings.xml"/>
 		<artifact:mvn pom="pom.xml" mavenHome="<#noparse>${env.M2_HOME}</#noparse>" fork="true">
+			<jvmarg value="-Dmaven.multiModuleProjectDirectory=<#noparse>${env.M2_HOME}</#noparse>" />
 			<arg value="package"/>
 		</artifact:mvn>		
 	</target>
