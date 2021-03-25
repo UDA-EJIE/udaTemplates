@@ -201,18 +201,25 @@
 	}
 
 	/**
-	 * Remove multiple method for rup_table
-     *
-     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     */
+	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
+	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 * @param startsWith Boolean
+	 */	
 	@Override
-	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>	
-		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
+	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
+		// Like clause and params
+		Map<String, Object> mapWhereLike = this.getWhereLikeMap(filter${pojo.getDeclarationName()}, startsWith);
 		
+		// Delete query
+		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>	
+		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(mapWhereLike, tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", "t1", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
+		
+		// Params list. Includes needed params for like and IN/NOT IN clauses
+		List<Object> params = (List<Object>) mapWhereLike.get("params");
 		<#if paramWhere?size gt 1>
 		List<String> selectedIds = tableRequestDto.getMultiselection().getSelectedIds();
-		List<String> params = new ArrayList<String>();
 		
 		for(String row : selectedIds) {
 			String[] parts = row.split(tableRequestDto.getCore().getPkToken());
@@ -221,7 +228,7 @@
 			}
 		}
 		<#else>
-		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
+		params.addAll(tableRequestDto.getMultiselection().getSelectedIds());
 		</#if>
 		
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
