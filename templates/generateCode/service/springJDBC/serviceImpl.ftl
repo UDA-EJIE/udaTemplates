@@ -104,12 +104,15 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 */
 	 
 	/**
-	 * Removes rows from the ${pojo.getDeclarationName()} table.
+	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
 	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 */	
-	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
-		this.${nombreDao}.removeMultiple(tableRequestDto);
+	 * @param startsWith Boolean
+	 */		
+	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
+	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+		this.${nombreDao}.removeMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
         
 	/**

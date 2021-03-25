@@ -238,9 +238,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/deleteAll", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> removeMultiple(@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> removeMultiple(
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - removeMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(tableRequestDto);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 		${pojo.getDeclarationName()}Controller.logger.info("All entities correctly deleted!");
 		
 		return tableRequestDto.getMultiselection().getSelectedIds();

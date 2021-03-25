@@ -82,12 +82,13 @@ public interface ${pojo.getDeclarationName()}Service {
 	 */
 
 	/**
-	 * Removes rows from the ${pojo.getDeclarationName()} table.
+	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
 	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 * @param startsWith Boolean
 	 */	
-	void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
-   
+	void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);   
     
 	/**
 	 * Filter method in the ${pojo.getDeclarationName()} table.
