@@ -222,7 +222,7 @@
 		List<String> selectedIds = tableRequestDto.getMultiselection().getSelectedIds();
 		
 		for(String row : selectedIds) {
-			String[] parts = row.split(tableRequestDto.getCore().getPkToken());
+			String[] parts = row.split(Constants.PK_TOKEN);
 			for(String param : parts) {
 				params.add(param);
 			}
