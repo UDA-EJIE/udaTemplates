@@ -1,18 +1,18 @@
-<#-- 
- -- Copyright 2020 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
+/*
+* Copyright 2021 E.J.I.E., S.A.
+*
+* Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+* Solo podrá usarse esta obra si se respeta la Licencia.
+* Puede obtenerse una copia de la Licencia en
+*
+* http://ec.europa.eu/idabc/eupl.html
+*
+* Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+* el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+* SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+* que establece la Licencia.
+*/
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app 
 	xmlns="http://java.sun.com/xml/ns/javaee" 
@@ -36,20 +36,12 @@
 	<listener>
 		<listener-class>com.ejie.x38.UdaListener</listener-class>
 	</listener>
-	<!-- Core Spring Listener -->	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<!--Support the scoping of beans at the request, session, and global session 
-		levels (web-scoped beans) -->
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
-	<#if entornoEjie != "">
+	
 	<!-- HDIV Init Listener -->
 	<listener>
 		<listener-class>org.hdiv.listener.InitListener</listener-class>
 	</listener>
+
 	<!-- HDIV Validator Filter -->
 	<filter>
 		<filter-name>ValidatorFilter</filter-name>
@@ -59,7 +51,16 @@
 		<filter-name>ValidatorFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	</#if>
+	
+	<!-- Core Spring Listener -->	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!--Support the scoping of beans at the request, session, and global session 
+		levels (web-scoped beans) -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
 	<!-- Here's were some of the fundamental AOP Aspects are applied -->
 	<filter>
 		<filter-name>udaFilter</filter-name>

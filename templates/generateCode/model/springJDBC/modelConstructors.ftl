@@ -1,18 +1,4 @@
-<#-- 
- -- Copyright 2013 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
+
 <#--  /** default constructor */ -->
 	/** 
 	 * Method '${pojo.getDeclarationName()}'.
@@ -60,7 +46,7 @@
 		</#if>
 	</#foreach>
 	<#assign javadocFieldsPks = utilidades.getListFromCommaSeparatedString(primKeys)>
-    <#-- PK´s constructor  -->    
+    <#-- PKÂ´s constructor  -->    
     
     /** 
      * Method '${pojo.getDeclarationName()}'.
@@ -157,13 +143,15 @@
 		<#assign propertiesFull = propertiesKeys>
       </#if>	
       <#assign javadocFields= utilidades.getListFromCommaSeparatedString(propertiesFull + propertiesFullColecMany + propertiesFullColecManyMany)>
-   /** 
+  <#if javadocFields.size() != javadocFieldsPks.size()>
+   /**  
     * Method '${pojo.getDeclarationName()}'.
 	  <#foreach field in javadocFields>
    * @param ${field[1]} ${field[0]}
 	  </#foreach>
    */
    public ${pojo.getDeclarationName()}(${propertiesFull} ${propertiesFullColecMany} ${propertiesFullColecManyMany}) {
+   </#if>
 	<#else>
       <#assign propertiesFull=''>
       <#assign propertiesFullColecMany='' >
@@ -213,6 +201,7 @@
 	  </#if>
 	  <#assign parametros=parametros+propertiesFullManytoMany>
 	  <#assign javadocFields= utilidades.getListFromCommaSeparatedString(parametros)>
+<#if javadocFields.size() != javadocFieldsPks.size()>	  
     /** 
      * Method '${pojo.getDeclarationName()}'.
 	  <#foreach field in javadocFields>
@@ -224,7 +213,8 @@
 	<#if pojo.isSubclass() && !pojo.getPropertyClosureForSuperclassFullConstructor().isEmpty()>
      super(${c2j.asArgumentList(pojo.getPropertyClosureForSuperclassFullConstructor())});        
 	</#if>
-
+</#if>	
+<#if javadocFields.size() != javadocFieldsPks.size()>
 	<#foreach field in pojo.getAllPropertiesIterator()> 
 		<#if clazz.identifierProperty.composite && field.equals(clazz.identifierProperty)>
 			<#assign primaryKeys = clazz.identifierProperty.value.getPropertyIterator()>
@@ -235,5 +225,7 @@
            this.${field.name} = ${field.name};
 		</#if>
 	</#foreach>
+		
     }
+</#if>    
 </#if>

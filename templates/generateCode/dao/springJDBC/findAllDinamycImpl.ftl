@@ -1,16 +1,16 @@
 <#--
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la Â«LicenciaÂ»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
  -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
    /**
@@ -149,7 +149,7 @@
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");
 
 		// SQL para la reordenación
-		StringBuilder sbReorderSelectionSQL =  ${pojo.importType("com.ejie.x38.dto.TableManager")}.getReorderQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>" );
+		StringBuilder sbReorderSelectionSQL =  ${pojo.importType("com.ejie.x38.dto.TableManager")}.getReorderQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list> );
 
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
@@ -201,34 +201,27 @@
 	}
 
 	/**
-	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 */	
+	 * Remove multiple method for rup_table
+     *
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+     */
 	@Override
-	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
-		// Like clause and params
-		Map<String, Object> mapWhereLike = this.getWhereLikeMap(filter${pojo.getDeclarationName()}, startsWith);
-		
-		// Delete query
+	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>	
-		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(mapWhereLike, tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", "t1", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
+		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
 		
-		// Params list. Includes needed params for like and IN/NOT IN clauses
-		List<Object> params = (List<Object>) mapWhereLike.get("params");
 		<#if paramWhere?size gt 1>
 		List<String> selectedIds = tableRequestDto.getMultiselection().getSelectedIds();
+		List<String> params = new ArrayList<String>();
 		
 		for(String row : selectedIds) {
-			String[] parts = row.split(Constants.PK_TOKEN);
+			String[] parts = row.split(tableRequestDto.getCore().getPkToken());
 			for(String param : parts) {
 				params.add(param);
 			}
 		}
 		<#else>
-		params.addAll(tableRequestDto.getMultiselection().getSelectedIds());
+		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
 		</#if>
 		
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
@@ -271,7 +264,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -338,7 +331,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -402,7 +395,7 @@
 		// CONDICIONES (negocio)
 		/*
 		 * Ejemplo de como incluir condiciones de negocio en la consulta de la
-		 * jerarquía
+		 * jerarquÃ­a
 		 */
 		/*
 		 * StringBuilder businessFilters = new StringBuilder(); List<Object>
@@ -430,7 +423,7 @@
 	}
 
 	/*
-	 * MÉTODOS PRIVADOS
+	 * MÃ‰TODOS PRIVADOS
 	 */
 
 	/**

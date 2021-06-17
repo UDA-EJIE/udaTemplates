@@ -83,13 +83,12 @@ public interface ${pojo.getDeclarationName()}Dao {
 	 */
 	 
 	/**
-	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
+	 * Filter in the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
 	 */	
-	void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
+	 void removeMultiple(TableRequestDto tableRequestDto);
+	
 	
     /**
      * Counts rows in the ${pojo.getDeclarationName()} table using like.

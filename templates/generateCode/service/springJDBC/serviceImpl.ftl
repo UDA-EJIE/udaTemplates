@@ -1,16 +1,16 @@
 <#-- 
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 package ${pojo.getPackageName()}.service;
@@ -104,15 +104,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 */
 	 
 	/**
-	 * Removes multiple rows from the ${pojo.getDeclarationName()} table.
+	 * Removes rows from the ${pojo.getDeclarationName()} table.
 	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 */		
-	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public void removeMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
-		this.${nombreDao}.removeMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+	 */	
+	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
+		this.${nombreDao}.removeMultiple(tableRequestDto);
 	}
         
 	/**
@@ -121,15 +118,15 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}>
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}>
 	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}< ${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+	public ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}< ${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
 		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
 		Long recordNum =  this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()}: new ${pojo.getDeclarationName()} (),false);
 		
-		TableResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
+		TableResourceResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResourceResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
 		
-		if (tableRequestDto.getMultiselection().getSelectedIds()!=null){
+		if (tableRequestDto.getMultiselection().getSelectedIds()!=null && !tableRequestDto.getMultiselection().getSelectedIds().isEmpty()){
 			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 			tableResponseDto.setReorderedSelection(reorderSelection);
 			tableResponseDto.addAdditionalParam("reorderedSelection", reorderSelection);
@@ -333,7 +330,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			// Se crea la fila para insertar los titulos de las columnas
 			${pojo.importType("org.apache.poi.ss.usermodel.Row")} row = sheet.createRow(rowNumber++);
 
-			// Añadir titulos
+			// AÃ±adir titulos
 			for (int i = 0; i < columnsName.length; i++) {
 				${pojo.importType("org.apache.poi.ss.usermodel.Cell")} cell = row.createCell(i);
 				cell.setCellValue(columnsName[i]);
@@ -344,11 +341,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			// se crea un .xls como un .xlsx
 			${pojo.importType("org.apache.poi.ss.usermodel.CreationHelper")} createHelper = workbook.getCreationHelper();
 
-			// Se crea un CellStyle para añadir el formateador de fechas
+			// Se crea un CellStyle para aÃ±adir el formateador de fechas
 			CellStyle dateCellStyle = workbook.createCellStyle();
 			dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(formatter.toPattern()));
 
-			// Añadir datos
+			// AÃ±adir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				int cellNumber = 0;
 				row = sheet.createRow(rowNumber++);
@@ -366,7 +363,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				sheet.autoSizeColumn(i);
 			}
 
-			// Se añade el fichero excel al response
+			// Se aÃ±ade el fichero excel al response
 			workbook.write(response.getOutputStream());
 			workbook.close();
 		} catch (${pojo.importType("java.io.IOException")} e) {
@@ -385,12 +382,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generatePDFReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName,
 			HttpServletResponse response) {
 		try {
-			// Se añade el fichero excel al response y se añade el contenido
+			// Se aÃ±ade el fichero excel al response y se aÃ±ade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".pdf");
 			response.setContentType("application/pdf");
 
 			${pojo.importType("com.lowagie.text.Document")} document = new Document();
-			// Se añade el fichero pdf al response
+			// Se aÃ±ade el fichero pdf al response
 			${pojo.importType("com.lowagie.text.pdf.PdfWriter")}.getInstance(document, response.getOutputStream());
 
 			document.open();
@@ -404,7 +401,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				table.addCell(header);
 			}
 
-			// Añadir datos
+			// AÃ±adir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
 				// las columnas en la tabla
@@ -433,7 +430,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generateODSReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			HttpServletResponse response) {
 		try {
-			// Se añade el fichero ods al response y se añade el contenido
+			// Se aÃ±ade el fichero ods al response y se aÃ±ade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".ods");
 			response.setContentType("application/vnd.oasis.opendocument.spreadsheet");
 
@@ -456,7 +453,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				row.getCellByIndex(i).setStringValue(columnsName[i]);
 			}
 
-			// Añadir datos
+			// AÃ±adir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				row = table.getRowByIndex(rowNumber++);
 				int cellNumber = 0;
@@ -468,7 +465,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				}
 			}
 
-			// Se añade el fichero ods al response
+			// Se aÃ±ade el fichero ods al response
 			ods.save(response.getOutputStream());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -488,7 +485,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generateCSVReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			String language, HttpServletResponse response) {
 		try {
-			// Se añade el fichero excel al response y se añade el contenido
+			// Se aÃ±ade el fichero excel al response y se aÃ±ade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".csv");
 			response.setContentType("text/csv");
 
@@ -498,12 +495,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				separator = ",";
 			}
 
-			// Se añade el fichero csv al response
+			// Se aÃ±ade el fichero csv al response
 			${pojo.importType("java.io.OutputStream")} out = response.getOutputStream();
-			// Añadir titulos
+			// AÃ±adir titulos
 			boolean addTitles = true;
 
-			// Añadir datos
+			// AÃ±adir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				int cellNumber = 1;
 				StringBuilder columnsTitles = new StringBuilder();
