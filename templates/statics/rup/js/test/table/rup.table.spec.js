@@ -23,6 +23,13 @@ function clearDatatable(done) {
     $('.dataTable').DataTable().destroy();
 }
 
+function buscarAceptar(){
+	var boton = $('.ui-dialog-buttonset button').filter(function() {
+		  return $(this).text().trim() === 'Aceptar';
+		});
+	return boton[0];
+}
+
 function testDatatable() {
     describe('Test Datatable > ', () => {
         beforeAll((done) => {
@@ -57,6 +64,7 @@ function testDatatable() {
                         $('#exampleInline > tbody > tr:eq(0)').trigger(ev);
                     });
                     $('#exampleInline > tbody > tr:eq(0) > td:eq(0)').dblclick();
+                    buscarAceptar().click();
                 });
                 afterEach((done) => {
                     $.get('/demo/table/reset', done);
@@ -105,7 +113,10 @@ function testDatatable() {
 
                 describe('Funcionalidades de los items de contextMenu > ', () => {
                     describe('Item añadir > ', () => {
-                        beforeEach(() => {
+                        beforeEach((done) => {
+                        	$('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                                done();
+                            });
                             $('#contextMenu2 > #exampleaddButton_1_contextMenuToolbar').mouseup();
                         });
 
@@ -133,9 +144,12 @@ function testDatatable() {
                     });
 
                     describe('Item clone > ', () => {
-                        beforeEach(() => {
+                        beforeEach((done) => {
                             $('#example > tbody > tr:eq(0) > td:eq(0)').click();
                             $('#contextMenu2 > #examplecloneButton_1_contextMenuToolbar').mouseup();
+                        	$('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                                done();
+                            });
                         });
 
                         it('Debe aparecer el formulario:', () => {
@@ -203,7 +217,7 @@ function testDatatable() {
                 describe('Edición de elementos existentes > ', () => {
                     beforeEach((done) => {
                         $('#example').on('tableEditFormClickRow', done);
-                        $('tbody > tr:eq(0) > td:eq(1)').dblclick();
+                        $('tbody > tr:eq(0) > td:eq(1)').dblclick();                       
                     });
 
                     it('El formulario debe mostrarse:', () => {
@@ -217,6 +231,7 @@ function testDatatable() {
                                 done();
                             });
                             $('#example_detail_button_save_repeat').click();
+                            buscarAceptar().click();
                         });
 
                         afterEach((done) => {
@@ -238,6 +253,7 @@ function testDatatable() {
                             $('#edad_detail_table').val(11);
                             $('#example').on('tableEditFormSuccessCallSaveAjax', done);
                             $('#example_detail_button_save').click();
+                            buscarAceptar().click();
                         });
 
                         afterEach((done) => {
@@ -256,8 +272,11 @@ function testDatatable() {
                 });
 
                 describe('Añadido de nuevos elementos > ', () => {
-                    beforeEach(() => {
+                    beforeEach((done) => {
                         $('.table_toolbar_btnAdd').click();
+                    	$('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                            done();
+                        });
                     });
 
                     it('El formulario debe mostrarse:', () => {
@@ -270,10 +289,12 @@ function testDatatable() {
                             $('#nombre_detail_table').val('Adriana');
                             $('#apellidos_detail_table').val('Moreno');
                             $('#edad_detail_table').val(11);
-                            $('#example').on('tableEditFormCompleteCallSaveAjax', () => {
+                            $('#example').on('tableEditFormAfterInsertRow', () => {
                                 setTimeout(done, 600);
                             });
                             $('#example_detail_button_save_repeat').click();
+                            $(buscarAceptar()).click();
+                            
                         });
 
                         afterEach((done) => {
@@ -302,6 +323,7 @@ function testDatatable() {
                                 setTimeout(done, 600);
                             });
                             $('#example_detail_button_save').click();
+                            buscarAceptar().click();
                         });
 
                         afterEach((done) => {
@@ -342,17 +364,17 @@ function testDatatable() {
 
                 describe('Aparición del seeker > ', () => {
                     it('Se muestra el formulario de búsqueda:', () => {
-                        expect($('#id_seeker').is(':visible')).toBeTruthy();
-                        expect($('#nombre_seeker').is(':visible')).toBeTruthy();
-                        expect($('#apellidos_seeker').is(':visible')).toBeTruthy();
-                        expect($('#edad_seeker').is(':visible')).toBeTruthy();
+                        expect($('#id_example_seeker').is(':visible')).toBeTruthy();
+                        expect($('#nombre_example_seeker').is(':visible')).toBeTruthy();
+                        expect($('#apellidos_example_seeker').is(':visible')).toBeTruthy();
+                        expect($('#edad_example_seeker').is(':visible')).toBeTruthy();
                     });
                 });
 
                 describe('Funcionalidad del seeker > ', () => {
                     beforeEach((done) => {
                         $('#example').on('tableSeekerAfterSearch', done);
-                        $('#nombre_seeker').val('E');
+                        $('#nombre_example_seeker').val('E');
                         $('#search_nav_button_example').click();
                     });
 
@@ -692,9 +714,13 @@ function testDatatable() {
                     $('#example_detail_feedback').on('rupFeedback_show', done);
                     $('#example > tbody > tr:contains(Irene) > td:eq(0)').click();
                     $('#exampleeditButton_1').click();
-                    $('div[aria-describedby="example_detail_div"]')
+                    
+                    $('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                    	$('div[aria-describedby="example_detail_div"]')
                         .find('#nombre_detail_table').val('');
-                    $('#example_detail_button_save').click();
+                    	$('#example_detail_button_save').click();
+                    	$(buscarAceptar()).click();//boton confirmar cambios
+                    });
                 });
 
                 afterEach((done) => {
@@ -729,8 +755,12 @@ function testDatatable() {
                             done();
                         });
                         $('#example > tbody > tr:contains(Ana) > td:eq(1)').dblclick();
-                        $('#edad_detail_table').val('asd');
-                        $('#example_detail_button_save').click();
+
+                        $('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                            $('#edad_detail_table').val('asd');
+                            $('#example_detail_button_save').click();
+                        	$(buscarAceptar()).click();//boton confirmar cambios
+                        });
                     });
 
                     afterEach((done) => {
@@ -748,7 +778,7 @@ function testDatatable() {
                 describe('Errores al buscar > ', () => {
                     beforeEach((done) => {
                         $('#searchCollapsLabel_example').click();
-                        $('#edad_seeker').val('asd');
+                        $('#edad_example_seeker').val('asd');
                         $('#search_nav_button_example').click();
                         $('#example').on('tableSeekerSearchError', done);
                     });
