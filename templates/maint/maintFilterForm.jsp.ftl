@@ -51,7 +51,9 @@
 				<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
 							<#break>	
 				  	</#switch>
-				<label for="${columnProperties.name}_filter_table"><spring:message code="${columnProperties.label}"/></label>
+				<label for="${columnProperties.name}_filter_table">
+					<spring:message code="${columnProperties.label}"/>
+				</label>
 			</div>
 				</#if>
 			</#list>
@@ -62,12 +64,16 @@
 			<!-- Botón de limpiar -->
 			<button id="${maint.nameMaint}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis mr-2">
 				<i class="mdi mdi-eraser"></i>
-				<span><spring:message code="clear" /></span>
+				<span>
+					<spring:message code="clear"/>
+				</span>
 			</button>
 			<!-- Botón de filtrado -->
 			<button id="${maint.nameMaint}_filter_filterButton" type="button" class="btn-material btn-material-primary-low-emphasis" >
 				<i class="mdi mdi-filter"></i>
-				<span><spring:message code="filter" /></span>
+				<span>
+					<spring:message code="filter"/>
+				</span>
 			</button>
 		</div>
 	</fieldset>

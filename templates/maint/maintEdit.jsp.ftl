@@ -58,7 +58,9 @@
 					<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
 						<#break>	
 				  	</#switch>
-					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/></label>
+					<label for="${columnProperties.name}_detail_table">
+						<spring:message code="${columnProperties.label}"/>
+					</label>
 				</div>
 				</#if>
 				</#list>
@@ -71,16 +73,16 @@
 		<div class="text-right">
 			<!-- Botón cancelar -->
 			<button id="${maint.nameMaint}_detail_button_cancel" type="button">
-				<spring:message code="cancel" />
+				<spring:message code="cancel"/>
 			</button>
 			<!-- Botón guardar -->
 			<button id="${maint.nameMaint}_detail_button_save" type="button">
-				<spring:message code="save" />
+				<spring:message code="save"/>
 			</button>
 			<#if (maint.detailMaintButtons)?string == "SAVE_REPEAT">
 			<!-- Botón guardar y continuar -->
 			<button id="${maint.nameMaint}_detail_button_save_repeat" type="button">
-				<spring:message code="saveAndContinue" />
+				<spring:message code="saveAndContinue"/>
 			</button>
 			</#if>
 		</div>
