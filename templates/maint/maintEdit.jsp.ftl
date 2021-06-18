@@ -70,16 +70,16 @@
 	<div class="rup-table-buttonpanel-material">
 		<div class="text-right">
 			<!-- Botón cancelar -->
-			<button id="${maint.nameMaint}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
+			<button id="${maint.nameMaint}_detail_button_cancel" type="button">
 				<spring:message code="cancel" />
 			</button>
 			<!-- Botón guardar -->
-			<button id="${maint.nameMaint}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
+			<button id="${maint.nameMaint}_detail_button_save" type="button">
 				<spring:message code="save" />
 			</button>
 			<#if (maint.detailMaintButtons)?string == "SAVE_REPEAT">
 			<!-- Botón guardar y continuar -->
-			<button id="${maint.nameMaint}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
+			<button id="${maint.nameMaint}_detail_button_save_repeat" type="button">
 				<spring:message code="saveAndContinue" />
 			</button>
 			</#if>
