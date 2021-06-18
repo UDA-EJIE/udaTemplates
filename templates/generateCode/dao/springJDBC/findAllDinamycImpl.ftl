@@ -208,14 +208,14 @@
 	@Override
 	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>	
-		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
+		StringBuilder sbRemoveMultipleSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getRemoveMultipleQuery(null,tableRequestDto, ${pojo.getDeclarationName()}.class, "${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case}","t1", new String[]{<#list paramWhere as param>"${param}"<#if param_has_next>,</#if></#list>});
 		
 		<#if paramWhere?size gt 1>
 		List<String> selectedIds = tableRequestDto.getMultiselection().getSelectedIds();
 		List<String> params = new ArrayList<String>();
 		
 		for(String row : selectedIds) {
-			String[] parts = row.split(tableRequestDto.getCore().getPkToken());
+			String[] parts = row.split(${pojo.importType("com.ejie.x38.util.Constants")}.PK_TOKEN);
 			for(String param : parts) {
 				params.add(param);
 			}

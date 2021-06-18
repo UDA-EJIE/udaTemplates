@@ -216,6 +216,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 @UDALink(name = "filter", linkTo = { 
 		@UDALinkAllower(name = "edit"), 
 		@UDALinkAllower(name = "get"),
+		@UDALinkAllower(name = "add"),
 		@UDALinkAllower(name = "filter"),
 		@UDALinkAllower(name = "delete"), 
 		@UDALinkAllower(name = "deleteAll"),
