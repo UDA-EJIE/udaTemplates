@@ -298,7 +298,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		@UDALinkAllower(name = "odsReport"),
 		@UDALinkAllower(name = "csvReport") })	 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/clipboardReport", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
-	protected @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}  tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar en Portapapeles");
@@ -324,7 +324,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		@UDALinkAllower(name = "csvReport") })
 	@RequestMapping(value = { "/xlsReport",
 			"/xlsxReport" }, method = RequestMethod.POST, produces = ${pojo.importType("org.springframework.http.MediaType")}.APPLICATION_OCTET_STREAM_VALUE)
-	protected @ResponseBody void generateExcelReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+	public @ResponseBody void generateExcelReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@RequestJsonBody(param = "columns", required = false) String[] columns,
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
@@ -354,7 +354,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		@UDALinkAllower(name = "odsReport"),
 		@UDALinkAllower(name = "csvReport") }) 
 	@RequestMapping(value = "pdfReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	protected @ResponseBody void generatePDFReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+	public @ResponseBody void generatePDFReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@RequestJsonBody(param = "columns", required = false) String[] columns,
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
@@ -384,7 +384,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		@UDALinkAllower(name = "clipboardReport"),
 		@UDALinkAllower(name = "csvReport") }) 
 	@RequestMapping(value = "odsReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	protected @ResponseBody void generateODSReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+	public @ResponseBody void generateODSReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@RequestJsonBody(param = "columns", required = false) String[] columns,
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
@@ -414,7 +414,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		@UDALinkAllower(name = "odsReport"),
 		@UDALinkAllower(name = "clipboardReport") }) 
 	@RequestMapping(value = "csvReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	protected @ResponseBody void generateCSVReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
+	public @ResponseBody void generateCSVReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@RequestJsonBody(param = "columns", required = false) String[] columns,
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,

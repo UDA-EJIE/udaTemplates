@@ -1,16 +1,16 @@
 <#--
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 package ${pojo.getPackageName()}.dao;
@@ -53,7 +53,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
            ); } } ;
 
 	/**
-     * Rowmapper para Jerarquía
+     * Rowmapper para JerarquÃ­a
      *
      * @param dataSource ${pojo.importType("javax.sql.DataSource")}
      * @return
@@ -123,17 +123,17 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
     	<#assign paramSetter =utilidadesDao.getUpdateFields(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
 		String query = "UPDATE ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} SET <#list paramSetter as param>${param}=?<#if param_has_next>, </#if></#list> WHERE <#list paramWhere as param>${param}=?<#if param_has_next> AND </#if></#list>";
-		<#assign paramUpdate = utilidadesDao.camposQueryUpdate(pojo,cfg)>
-		<#assign nulablesFieldsUpdate = paramUpdate>
-		<#list nulablesFieldsUpdate as ifsValoRes>
+		<#assign paramUpdate = utilidadesDao.getInsertValues(pojo,cfg)>
+		<#assign nulablesFields = paramUpdate>
+		<#list nulablesFields as ifsValoRes>
 			<#if ifsValoRes[1]!= '0'>
-				Object ${ifsValoRes[4]}Aux=null;
-				if (${ifsValoRes[2]}!= null <#if ifsValoRes[3]!=''> && ${ifsValoRes[3]}</#if>  && ${ifsValoRes[0]}!=null ){
-					${ifsValoRes[4]}Aux=${ifsValoRes[0]};
-				}
-			</#if>
+				   Object ${ifsValoRes[4]}Aux=null;
+		     if (${ifsValoRes[2]}!= null <#if ifsValoRes[3]!=''> && ${ifsValoRes[3]}</#if> && ${ifsValoRes[0]}!=null ){
+			     ${ifsValoRes[4]}Aux=${ifsValoRes[0]};
+		   	  }
+		   </#if>
 		</#list>
-		this.jdbcTemplate.update(query, <#list paramUpdate as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
+		this.jdbcTemplate.update(query, <#list valoresInsert as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
 		return ${pojo.getDeclarationName()?lower_case};
 	}
 
@@ -159,11 +159,11 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
      * Removes a single row in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
-     * @return
+     * @return 
      */
     public void remove(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
-		<#assign paramPkRemove = paramPk>
-		<#assign paramWhereRemove = paramWhere>
+		<#assign paramPkRemove = utilidadesDao.commaPrimary(pojo,cfg)>
+		<#assign paramWhereRemove = utilidadesDao.getWherePk(pojo,cfg,false)>
 		String query = "DELETE FROM ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} WHERE <#list paramWhereRemove as param>${param}=?<#if param_has_next> AND </#if></#list>";
 		this.jdbcTemplate.update(query, <#list paramPkRemove as param>${param}<#if param_has_next> , </#if></#list>);
     }
