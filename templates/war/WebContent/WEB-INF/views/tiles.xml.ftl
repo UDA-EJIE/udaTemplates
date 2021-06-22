@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2013 E.J.I.E., S.A.
+ -- Copyright 2021 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -17,7 +17,7 @@
 
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_01.dtd">
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
        	
 <tiles-definitions>
 
