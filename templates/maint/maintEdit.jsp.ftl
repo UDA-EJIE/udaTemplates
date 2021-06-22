@@ -20,53 +20,11 @@
 <!-- Formulario de detalle -->
 <div id="${maint.nameMaint}_detail_div" class="rup-table-formEdit-detail d-none">
 	<!-- Barra de navegación del detalle -->
-	<div id ="${maint.nameMaint}_detail_navigation" class="row no-gutters"></div>
+	<div id="${maint.nameMaint}_detail_navigation" class="row no-gutters"></div>
 	<!-- Separador -->
 	<hr class="m-1">
-	<div class="dialog-content-material">
-		<!-- Formulario -->
-		<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form">
-			<!-- Feedback del formulario de detalle -->
-			<div id ="${maint.nameMaint}_detail_feedback"></div>
-			<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">	
-				<!-- Campos del formulario de detalle -->
-				<#list gridColumns as columnProperties>
-				<#if (columnProperties.activated)?string == "true">
-					<#switch columnProperties.editType>
-					<#case "Text">
-				<div class="form-groupMaterial col">
-					<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
-					<#case "Textarea">
-				<div class="form-groupMaterial col">
-					<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
-					<#case "Checkbox">
-				<div class="checkbox-material col">
-					<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>
-						<#break>
-					<#case "Datepicker">
-				<div class="form-groupMaterial col">
-					<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
-					<#case "Password">
-				<div class="form-groupMaterial col">
-					<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
-						<#break>		
-					<#default>
-				<div class="form-groupMaterial col">
-					<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-						<#break>	
-				  	</#switch>
-					<label for="${columnProperties.name}_detail_table">
-						<spring:message code="${columnProperties.label}"/>
-					</label>
-				</div>
-				</#if>
-				</#list>
-				<!-- Fin campos del formulario de detalle -->
-			</div>
-		</form:form>
+	<div id="${maint.nameMaint}_detail_form_container" class="dialog-content-material">
+		<!-- El formulario será insertado mediante una llamada Ajax -->
 	</div>
 	<!-- Botonera del formulario de detalle -->
 	<div class="rup-table-buttonpanel-material">
