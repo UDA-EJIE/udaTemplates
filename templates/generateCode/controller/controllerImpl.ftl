@@ -187,18 +187,90 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * 
 	 */
 
-	 /**
-	 * Metodo de presentacion del RUP_TABLE.
+	/**
+	 * Método de presentación del RUP_TABLE.
 	 * 
 	 * @param model ${pojo.importType("org.springframework.ui.Model")}
 	 * @return String
 	 */
-	@UDALink(name = "maint", linkTo = { @UDALinkAllower(name = "filter") }) 
+	@UDALink(name = "maint", linkTo = { 
+			@UDALinkAllower(name = "editForm"),
+			@UDALinkAllower(name = "inlineEdit"),
+			@UDALinkAllower(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/maint", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
-	public String getFormEdit(${pojo.importType("org.springframework.ui.Model")} model) {
+	public String getMaint(${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[GET - View] : ${pojo.getDeclarationName()?lower_case}");
 		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
 		return "${pojo.getDeclarationName()?lower_case}";
+	}
+
+	/**
+	 * Obtener el formulario de edición.
+	 * 
+	 * @param actionType String
+	 * @param fixedMessage String
+	 * @param model ${pojo.importType("org.springframework.ui.Model")}
+	 *
+	 * @return String
+	 */
+	@UDALink(name = "editForm", linkTo = { 
+			@UDALinkAllower(name = "get"), 
+			@UDALinkAllower(name = "add"),
+			@UDALinkAllower(name = "edit"),
+			@UDALinkAllower(name = "filter") }) 
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/editForm", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public String getEditForm(
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String fixedMessage,
+			${pojo.importType("org.springframework.ui.Model")} model) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - editForm] : ${pojo.getDeclarationName()?lower_case}");
+		
+		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
+		model.addAttribute("actionType", actionType);
+		
+		if (fixedMessage != null) {
+			model.addAttribute("fixedMessage", fixedMessage);
+		}
+		
+		return "${pojo.getDeclarationName()?lower_case}EditForm";
+	}
+
+	/**
+	 * Obtener el formulario necesario para permitir el uso de la edición en línea.
+	 * 
+	 * @param actionType String
+	 * @param tableID String
+	 * @param mapping String
+	 * @param model ${pojo.importType("org.springframework.ui.Model")}
+	 *
+	 * @return String
+	 */
+	@UDALink(name = "inlineEditForm", linkTo = { 
+			@UDALinkAllower(name = "get"), 
+			@UDALinkAllower(name = "add"),
+			@UDALinkAllower(name = "edit"),
+			@UDALinkAllower(name = "filter") }) 
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/inlineEdit", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	public String getInlineEditForm(
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String tableID,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String mapping,
+			${pojo.importType("org.springframework.ui.Model")} model) {
+		${pojo.getDeclarationName()}Controller.logger.info("[POST - inlineEditForm] : ${pojo.getDeclarationName()?lower_case}");
+		
+		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
+		model.addAttribute("actionType", actionType);
+		model.addAttribute("tableID", tableID);
+		
+		// Controlar que el mapping siempre se añada al modelo de la manera esperada
+		if (mapping == null || mapping.isEmpty()) {
+			mapping = "/${pojo.getDeclarationName()?lower_case}";
+		} else if (mapping.endsWith("/")) {
+			mapping = mapping.substring(0, mapping.length() - 1);
+		}
+		model.addAttribute("mapping", mapping);
+		
+		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
 	}
 	 
 	 /**
