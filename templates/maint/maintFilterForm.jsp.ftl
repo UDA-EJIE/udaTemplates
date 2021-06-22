@@ -17,7 +17,8 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <!-- Formulario de filtrado -->
-<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form">
+<spring:url value="${grid.url}/filter" var="url"/>
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form" action="<#noparse>${url}</#noparse>" method="POST">
 	<!-- Barra de herramientas del formulario de filtrado -->
 	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
