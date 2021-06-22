@@ -19,6 +19,10 @@
 <h2>${maint.titleMaint}</h2>
 <#if (maint.filterMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
+<#else>
+<!-- Formulario necesario para garantizar el correcto funcionamiento con Hdiv cuando filter = 'noFilter' -->
+<spring:url value="${grid.url}/filter" var="url"/>
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form" class="d-none" action="<#noparse>${url}</#noparse>"/>
 </#if>
 
 <table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 
