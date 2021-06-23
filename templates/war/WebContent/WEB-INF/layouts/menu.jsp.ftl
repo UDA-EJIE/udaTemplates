@@ -43,11 +43,6 @@
         			<spring:message code="mantenimientos" />
         		</a>
         		<jsp:include page="menuMantenimientos.jsp" />
-        		<div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
-	            	<a class="dropdown-item" href="#">
-	            		<spring:message code="submenu11" />
-	           		</a>
-        		</div>
       		</li>
     	</ul>
     	<ul class="nav navbar-nav float-md-right rup-nav-tools">
