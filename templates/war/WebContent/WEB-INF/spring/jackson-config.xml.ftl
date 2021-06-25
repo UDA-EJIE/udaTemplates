@@ -46,8 +46,7 @@
 				<#foreach reg in listaClases>
 					<entry key="<#noparse>#{T</#noparse>(com.ejie.${codapp}.model.${ctrUtils.stringCapitalize(reg)})<#noparse>}</#noparse>" value-ref="customSerializer" />
 				</#foreach>
-				<entry key="<#noparse>#{T</#noparse>(com.ejie.x38.dto.JerarquiaDto)<#noparse>}</#noparse>" value-ref="customSerializer" />
-	        </util:map>
+			</util:map>
       	</property>
 		</#if>      	
       	<property name="serializationInclusions" ref="serializationInclusions" />

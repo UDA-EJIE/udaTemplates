@@ -120,29 +120,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 */	
     ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
     
-    /*
-	 * OPERACIONES RUP_TABLE JERARQUIA
-	 */
-	 
-	/**
-	 * Finder method in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
-	
-	/**
-	 * Finder method for siblings rows in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
-    
+     
     /**
     * Exporta Datos al clipBoard
     *

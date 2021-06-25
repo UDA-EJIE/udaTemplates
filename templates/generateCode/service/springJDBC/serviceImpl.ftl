@@ -165,37 +165,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 		return this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
-    /*
-	 * OPERACIONES RUP_TABLE JERARQUIA
-	 */
-	 
-	/**
-	 * Finder method in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
-		List<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLikeJerarquia(filter${pojo.getDeclarationName()}, tableRequestDto);
-		Long recordNum = this.${nombreDao}.findAllLikeCountJerarquia(filter${pojo.getDeclarationName()}, tableRequestDto);
-		return new TableResponseDto<JerarquiaDto<${pojo.getDeclarationName()}>>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
-	}
-	
-	/**
-	 * Finder method for siblings rows in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
-		${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> tableResponseDto = new ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>();
-		tableResponseDto.addAdditionalParam(TableResponseDto.CHILDREN, this.${nombreDao}.findAllChild(filter${pojo.getDeclarationName()}, tableRequestDto));
-		return tableResponseDto;
-	}
-	
+  	
 	/**
     * Exporta Datos al clipBoard
     *

@@ -53,28 +53,6 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
            ); } } ;
 
 	/**
-     * Rowmapper para JerarquÃ­a
-     *
-     * @param dataSource ${pojo.importType("javax.sql.DataSource")}
-     * @return
-     */
-	private ${pojo.importType("org.springframework.jdbc.core.RowMapper")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}< ${pojo.getDeclarationName()}>> rwMapJerarquia = new ${pojo.importType("org.springframework.jdbc.core.RowMapper")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>() {
-		public ${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}> mapRow(${pojo.importType("java.sql.ResultSet")} resultSet, int rowNum) throws ${pojo.importType("java.sql.SQLException")} {
-
-			${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case} = new ${pojo.getDeclarationName()}(${utilidadesDao.rowmapperUpdate(pojo,cfg)});
-
-			${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}> jerarquia = new ${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>();
-			jerarquia.setModel(${pojo.getDeclarationName()?lower_case});
-			jerarquia.setLevel(resultSet.getBigDecimal("LEVEL").intValue());
-			jerarquia.setParentNodes(resultSet.getString("PARENTNODES"));
-			jerarquia.setIsLeaf(Boolean.parseBoolean(resultSet.getString("ISLEAF")));
-			jerarquia.setFilter(Boolean.parseBoolean(resultSet.getString("FILTER")));
-			return jerarquia;
-		}
-	};
-
-
-	/**
      * Method use to set the datasource.
      *
      * @param dataSource ${pojo.importType("javax.sql.DataSource")}
@@ -123,17 +101,23 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
     	<#assign paramSetter =utilidadesDao.getUpdateFields(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
 		String query = "UPDATE ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} SET <#list paramSetter as param>${param}=?<#if param_has_next>, </#if></#list> WHERE <#list paramWhere as param>${param}=?<#if param_has_next> AND </#if></#list>";
-		<#assign paramUpdate = utilidadesDao.getInsertValues(pojo,cfg)>
-		<#assign nulablesFields = paramUpdate>
+		<#assign paramUpdate = utilidadesDao.camposQueryUpdate(pojo,cfg)>
+		<#assign nulablesFields = utilidadesDao.getInsertValues(pojo,cfg)>
+		<#assign compuesto = 0>
 		<#list nulablesFields as ifsValoRes>
 			<#if ifsValoRes[1]!= '0'>
 				   Object ${ifsValoRes[4]}Aux=null;
 		     if (${ifsValoRes[2]}!= null <#if ifsValoRes[3]!=''> && ${ifsValoRes[3]}</#if> && ${ifsValoRes[0]}!=null ){
 			     ${ifsValoRes[4]}Aux=${ifsValoRes[0]};
 		   	  }
+		   	  <#assign compuesto = 1>
 		   </#if>
 		</#list>
-		this.jdbcTemplate.update(query, <#list valoresInsert as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
+		<#if compuesto == 1>
+		this.jdbcTemplate.update(query, <#list nulablesFields as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
+		<#else>
+		this.jdbcTemplate.update(query, <#list paramUpdate as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
+		</#if>
 		return ${pojo.getDeclarationName()?lower_case};
 	}
 
