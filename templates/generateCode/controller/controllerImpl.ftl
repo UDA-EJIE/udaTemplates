@@ -232,7 +232,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 *
 	 * @return String
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "inlineEditForm", linkTo = { 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "inlineEdit", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "get"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "add"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
@@ -245,7 +245,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - inlineEditForm] : ${pojo.getDeclarationName()?lower_case}");
 		
-		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
+		model.addAttribute("entity", new ${pojo.getDeclarationName()}());
 		model.addAttribute("actionType", actionType);
 		model.addAttribute("tableID", tableID);
 		
