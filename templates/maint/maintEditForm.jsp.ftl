@@ -29,41 +29,61 @@
 		<p><#noparse>${fixedMessage}</#noparse></p>
 	</c:if>
 	<!-- Campos del formulario de detalle -->
+	<#assign count = 0>
+	<#assign closeTagInserted = false>
 	<#list gridColumns as columnProperties>
-	<#if (columnProperties.primaryKey)?string == "false">
-	<#if (columnProperties.activated)?string == "true">
-		<#switch columnProperties.editType>
-		<#case "Text">
-	<div class="form-groupMaterial col">
-		<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-			<#break>	
-		<#case "Textarea">
-	<div class="form-groupMaterial col">
-		<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-			<#break>	
-		<#case "Checkbox">
-	<div class="checkbox-material col">
-		<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>
-			<#break>
-		<#case "Datepicker">
-	<div class="form-groupMaterial col">
-		<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-			<#break>	
-		<#case "Password">
-	<div class="form-groupMaterial col">
-		<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
-			<#break>		
-		<#default>
-	<div class="form-groupMaterial col">
-		<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
-			<#break>	
-	  	</#switch>
-		<label for="${columnProperties.name}_detail_table">
-			<spring:message code="${columnProperties.label}"/>
-		</label>
+		<#if (columnProperties.primaryKey)?string == "false">
+			<#if count % 2 == 0 && closeTagInserted>
+	<div class="form-row">
+				<#assign closeTagInserted = false>
+			</#if>
+			<#if (columnProperties.activated)?string == "true">
+				<#switch columnProperties.editType>
+					<#case "Text">
+		<div class="form-groupMaterial col-sm">
+			<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+						<#break>	
+					<#case "Textarea">
+		<div class="form-groupMaterial col-sm">
+			<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+					<#break>	
+					<#case "Checkbox">
+		<div class="checkbox-material col-sm">
+			<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>
+					<#break>
+					<#case "Datepicker">
+		<div class="form-groupMaterial col-sm">
+			<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+					<#break>	
+					<#case "Password">
+		<div class="form-groupMaterial col-sm">
+			<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
+					<#break>		
+					<#default>
+		<div class="form-groupMaterial col-sm">
+			<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+						<#break>	
+	  			</#switch>
+			<label for="${columnProperties.name}_detail_table">
+				<spring:message code="${columnProperties.label}"/>
+			</label>
+		</div>
+			</#if>
+			<#if (count + 1) == gridColumns?size>
 	</div>
-	</#if>
-	</#if>
+				<#assign closeTagInserted = true>
+			<#elseif count % 2 == 0>
+	</div>
+	<div class="form-row">
+				<#assign closeTagInserted = false>
+			</#if>
+			<#assign count = count + 1>
+		<#else>
+			<#if count % 2 == 0>
+				<div class="form-row">
+			</#if>
+			<#assign count = count + 1>
+		</#if>
 	</#list>
 	<!-- Fin campos del formulario de detalle -->
 </form:form>

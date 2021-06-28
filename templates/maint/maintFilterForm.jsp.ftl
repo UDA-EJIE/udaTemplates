@@ -22,7 +22,7 @@
 	<!-- Barra de herramientas del formulario de filtrado -->
 	<div id="${maint.nameMaint}_filter_toolbar" class="formulario_legend"></div>
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
-		<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
+		<div class="form-row">
 			<!-- Campos del formulario de filtrado -->
 			<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
