@@ -336,6 +336,9 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * Devuelve los datos exportados de la tabla y los copia al portapapeles.
 	 *
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param columns String[]
+	 * @param columnsName String[]
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "clipboardReport", linkTo = { 
@@ -346,8 +349,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })	 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/clipboardReport", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()}  filter${pojo.getDeclarationName()} ,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}  tableRequestDto) {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String[] columns, 
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String[] columnsName,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar en Portapapeles");
 		return ResourceUtils.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false));
 	}
