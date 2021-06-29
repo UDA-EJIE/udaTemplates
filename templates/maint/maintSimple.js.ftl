@@ -62,9 +62,6 @@ let tableColModels = [
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
-        <#if (maint.primaryKey)?has_content>
-		primaryKey: "${maint.primaryKey}",
-        </#if>
         <#if (maint.filterMaint)?string == "true">
 		filter: {
   	  		id: "${maint.nameMaint}_filter_form",
