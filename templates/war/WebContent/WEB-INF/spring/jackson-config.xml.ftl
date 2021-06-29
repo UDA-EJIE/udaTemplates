@@ -40,16 +40,7 @@
     
     <!-- Modulo de UDA para Jackson -->
     <bean id="udaModule" class="com.ejie.x38.serialization.UdaModule" >
-    	<#if listaClases!=''>
-    	<property name="serializers">
-			<util:map>
-				<#foreach reg in listaClases>
-					<entry key="<#noparse>#{T</#noparse>(com.ejie.${codapp}.model.${ctrUtils.stringCapitalize(reg)})<#noparse>}</#noparse>" value-ref="customSerializer" />
-				</#foreach>
-			</util:map>
-      	</property>
-		</#if>      	
-      	<property name="serializationInclusions" ref="serializationInclusions" />
+    	<property name="serializationInclusions" ref="serializationInclusions" />
       	<property name="serializationFeature" ref="serializationFeature" />
       	<property name="deserializationFeature" ref="deserializationFeature" />
 	</bean>
