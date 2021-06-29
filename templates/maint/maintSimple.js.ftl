@@ -30,6 +30,7 @@ jQuery(function($) {
 	</#list>
 let tableColModels = [
 		<#list gridColumns as columnProperties>
+		<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
 		{
 			name: "${columnProperties.name}",
 			index: "${columnProperties.name}",
@@ -52,6 +53,7 @@ let tableColModels = [
 			</#if>
 			hidden: ${columnProperties.hidden?string}
 		}<#if columnProperties_has_next>,</#if>
+		</#if>
 		</#list>
 	];
 
@@ -84,7 +86,7 @@ let tableColModels = [
 		   	direct: true,
 		   	</#if>
         	<#if (maint.clientValidationMaint)?string == "true">
-			<#-- Reglas de validaciÃ³n -->
+			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {
 				<#list gridColumns as columnProperties>
@@ -124,7 +126,7 @@ let tableColModels = [
     		<#if (maint.typeMaint)?string == "INLINE">		
     	inlineEdit: {
     			<#if (maint.clientValidationMaint)?string == "true">
-			<#-- Reglas de validaciÃ³n -->
+			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {
 					<#list gridColumns as columnProperties>

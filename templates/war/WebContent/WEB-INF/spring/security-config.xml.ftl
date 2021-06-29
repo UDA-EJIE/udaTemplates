@@ -23,12 +23,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 		
-<#if idSecurity != "">
-	<!-- Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
+<!-- EJEMPLO xlnet
+	 <<<Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos >>>
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperN38Impl">		
 		<property name="xlnetCachingPeriod" value="120" />
 	</bean>
-<#else>
+-->
+<!-- EJEMPLO SIN xlnet
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperMockImpl">
 		<property name="principal">
 			<list>
@@ -51,7 +52,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 			</list>
 		</property>
 	</bean>
-</#if>
+-->
 
 	<bean id="filterSecurityInterceptor"
 	        class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
@@ -61,12 +62,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 		<security:filter-security-metadata-source use-expressions="true" request-matcher="regex">
 			<security:intercept-url pattern="/**" access=""/>
 			<security:intercept-url pattern="/logout" access="isAuthenticated()" />
-			<#if listaClases!=''>
-				<#assign listClas = listaClases>
-					<#foreach reg in listClas>
-<!--				<security:intercept-url pattern="/${reg?lower_case}/*" access="${codroleAux}"/> -->
-					</#foreach>
-			</#if>
+			<!-- <security:intercept-url pattern="/ejemplo/*" access="hasRole('ROLE_UDA')"/> -->
 		 </security:filter-security-metadata-source>
 	  </property>
 	</bean>
