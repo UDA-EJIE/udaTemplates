@@ -50,19 +50,18 @@
      * @param ${field[1]} ${field[0]}
     </#foreach>
      */    
-     public ${pojo.getDeclarationName()}(${primKeys}) {
+    public ${pojo.getDeclarationName()}(${primKeys}) {
     <#foreach attrib in pojo.getAllPropertiesIterator()> 
 		<#if clazz.identifierProperty.composite && attrib.equals(clazz.identifierProperty)>
 			<#assign listPrimKeysComposite = clazz.identifierProperty.value.getPropertyIterator()>
 			<#list listPrimKeysComposite as pkComp>
-          this.${pkComp.name} = ${pkComp.name};
+		this.${pkComp.name} = ${pkComp.name};
 			</#list>
 		<#elseif !clazz.identifierProperty.composite && attrib.equals(clazz.identifierProperty)>
-          this.${attrib.name} = ${attrib.name};
+		this.${attrib.name} = ${attrib.name};
 		</#if>
 	</#foreach>
 	}
-
 <#if hasCollection='true'>
     <#--  /** Tratamiento para el constructor sin Collections */ -->
 	<#assign propertiesFullColec=''>
@@ -110,7 +109,7 @@
     </#foreach>
 	}
 </#if>
-    
+
 <#if pojo.needsFullConstructor()>
 	<#--  /** Tratamiento para el constructor completo */ -->
 	<#assign propertiesFull=''>
