@@ -31,6 +31,7 @@ public interface ${pojo.getDeclarationName()}Dao {
      * Inserts a single row in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     *
      * @return ${pojo.getDeclarationName()}
      */
     ${pojo.getDeclarationName()} add(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
@@ -39,6 +40,7 @@ public interface ${pojo.getDeclarationName()}Dao {
      * Updates a single row in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     *
      * @return ${pojo.getDeclarationName()}
      */
     ${pojo.getDeclarationName()} update(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
@@ -47,6 +49,7 @@ public interface ${pojo.getDeclarationName()}Dao {
      * Finds a single row in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     *
      * @return ${pojo.getDeclarationName()}
      */
     ${pojo.getDeclarationName()} find(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
@@ -63,7 +66,8 @@ public interface ${pojo.getDeclarationName()}Dao {
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     * @return ${pojo.importType("java.util.List")}
+     *
+     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
      */
     ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
 
@@ -73,7 +77,8 @@ public interface ${pojo.getDeclarationName()}Dao {
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
-     * @return ${pojo.importType("java.util.List")}
+     *
+     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
      */
 	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
 	
@@ -89,12 +94,12 @@ public interface ${pojo.getDeclarationName()}Dao {
 	 */	
 	 void removeMultiple(TableRequestDto tableRequestDto);
 	
-	
     /**
      * Counts rows in the ${pojo.getDeclarationName()} table using like.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param startsWith Boolean
+     *
      * @return Long
      */
     Long findAllLikeCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith);
@@ -103,6 +108,7 @@ public interface ${pojo.getDeclarationName()}Dao {
      * Counts rows in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     *
      * @return Long
      */
     Long findAllCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
@@ -113,27 +119,24 @@ public interface ${pojo.getDeclarationName()}Dao {
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
 	 */	
     List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
     
-     /**
+    /**
 	 * Searches in the Usuario table.
 	 *
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>	 
 	 */	
     List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
   
-  	/**
-    * Exporta Datos al clipBoard
-    *
-    */
-    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
-	
+  	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
      <#foreach property in pojo.getAllPropertiesIterator()>
        <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
          <#if c2h.isManyToMany(property)>

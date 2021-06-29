@@ -36,6 +36,5 @@ package ${pojo.getPackageName()}.model;
 <#include "../modelExtraClassCode.ftl"/>
 }
 </#assign>
-
 ${pojo.generateImports()}
 ${classbody}

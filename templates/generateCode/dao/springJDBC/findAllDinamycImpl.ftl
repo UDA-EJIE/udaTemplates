@@ -18,16 +18,20 @@
     *
     * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+    *
     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
     */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
-		<#assign paramtabSelectDinamyc = paramTablaSelect >
+		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign selectFieldsDinamyc = utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
+		// SELECT
 		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
+		
+		// FROM
 		query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
 
-		//Where clause & Params
+		// WHERE clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap(${pojo.getDeclarationName()?lower_case}); <#assign  wheretablaJoin =utilidadesDao.whereDynamicSelect(pojo,cfg)>
 		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
 		where.append(mapaWhere.get("query"));
@@ -39,7 +43,7 @@
 			query = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getPaginationQuery(tableRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
-		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
+		return this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
 
 	/**
@@ -48,15 +52,19 @@
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
+     *
      * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
      */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		<#assign paramtabSelectDinamyc = paramTablaSelect > <#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
+		// SELECT
 		StringBuilder query = new StringBuilder("SELECT  <#list selectFieldsDinamyc as param>${param}<#if param_has_next>,</#if></#list> ");
+		
+		// FROM
         query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
 
-		//Where clause & Params
+		// WHERE clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case},startsWith); <#assign wheretablaJoin = utilidadesDao.whereDynamicSelect(pojo,cfg)>
 		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
 		where.append(mapaWhere.get("query"));
@@ -68,7 +76,7 @@
 			query = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getPaginationQuery(tableRequestDto, query, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST);
 		}
 
-		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
+		return this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
 
 	/*
@@ -79,14 +87,16 @@
      * Counts rows in the ${pojo.getDeclarationName()} table.
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
+     *
      * @return Long
      */
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public Long findAllCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
-		<#assign paramtabSelectDinamycCont = paramTablaSelect >
+		<#assign paramtabSelectDinamycCont = paramTablaSelect>
+		// SELECT
 		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM <#list paramtabSelectDinamycCont as param>${param}<#if param_has_next>, </#if></#list>");
 
-		//Where clause & Params
+		// WHERE clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap(${pojo.getDeclarationName()?lower_case}); <#assign wheretablaJoinCont= wheretablaJoin >
 		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoinCont as param>AND ${param} </#list>");
 		where.append(mapaWhere.get("query"));
@@ -102,14 +112,16 @@
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param startsWith Boolean
+     *
      * @return Long
      */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
     public Long findAllLikeCount(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith) {
-		<#assign paramtabSelectDinamycCont = paramTablaSelect >
+		<#assign paramtabSelectDinamycCont = paramTablaSelect>
+		// SELECT
 		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM <#list paramtabSelectDinamycCont as param>${param}<#if param_has_next>,</#if></#list>");
 
-		//Where clause & Params
+		// WHERE clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case},startsWith); <#assign wheretablaJoinCont= wheretablaJoin >
 		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
 		where.append(mapaWhere.get("query"));
@@ -126,11 +138,12 @@
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
+     *
      * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
 	public List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
-		<#assign paramtabSelectDinamyc = paramTablaSelect >
+		<#assign paramtabSelectDinamyc = paramTablaSelect>
 		<#assign  selectFieldsDinamyc =utilidadesDao.camposSelectFindDinamyc(pojo,cfg)>
 		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,true)>
 		// SELECT
@@ -138,7 +151,7 @@
 		// FROM
         query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
 		// FILTRADO
-		//Where clause & Params
+		// WHERE clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case},startsWith); <#assign wheretablaJoin = utilidadesDao.whereDynamicSelect(pojo,cfg)>
 		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
 		where.append(mapaWhere.get("query"));
@@ -161,6 +174,7 @@
      * @param searchParams ${pojo.getDeclarationName()}
      * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @param startsWith Boolean
+     *
      * @return List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
      */
 	@Override
@@ -237,20 +251,19 @@
 	 *
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 *            Bean with the criteria values to filter by.
+	 *
 	 * @return Map created with two keys
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
-	private Map<String, ?> getWhereMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}){
-
+	private Map<String, ?> getWhereMap(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 
 		<#-- sentencias para crear las querys dinamicas -->
 		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
-		<#list listaPropiedades as propiedades >
-		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
+		<#list listaPropiedades as propiedades>
+		if (<#if propiedades[3]!=' '>${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null) {
 			where.append(" AND ${propiedades[2]} = ?");
 			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
 		}
@@ -262,7 +275,6 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
 
 	/**
 	 * Returns a map with the needed value to create the conditions to filter by
@@ -271,35 +283,34 @@
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 *            Bean with the criteria values to filter by.
      * @param startsWith Boolean
+     *
 	 * @return Map created with two keys
 	 *         key query stores the sql query syntax
 	 *         key params stores the parameter values to be used in the condition sentence.
 	 */
-	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
-	private Map<String, Object> getWhereLikeMap (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith){
-
+	private Map<String, Object> getWhereLikeMap(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, Boolean startsWith) {
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
 
 		<#-- sentencias para crear las querys dinamicas -->
 		<#assign listaPropiedades = daoUtilities.getDesglosePropiedadesSpringJdbc(pojo,cfg)>
-		<#list listaPropiedades as propiedades >
+		<#list listaPropiedades as propiedades>
 		<#assign strings=propiedades[4]>
 		<#-- si es una fecha entonces comparar con igual sino utilizar like -->
 		if (<#if propiedades[3]!=' ' >${pojo.getDeclarationName()?lower_case}!=null && </#if>${pojo.getDeclarationName()?lower_case}${propiedades[3]} != null <#if propiedades[5]!=''>&& ${pojo.getDeclarationName()?lower_case}.${propiedades[5]} != null</#if> && ${pojo.getDeclarationName()?lower_case}.${propiedades[0]} != null ) {
 		<#if strings!='0'>
 			where.append(" AND UPPER(${propiedades[2]}) like ? ESCAPE  '\\'");
-			if (startsWith){
-				params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() +"%");
-			}else{
-				params.add("%"+${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() +"%");
+			if (startsWith) {
+				params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() + "%");
+			} else {
+				params.add("%"+${pojo.getDeclarationName()?lower_case}.${propiedades[0]}.toUpperCase() + "%");
 			}
 			where.append(" AND ${propiedades[2]} IS NOT NULL");
 		<#else>
 			where.append(" AND ${propiedades[2]} = ?");
 			params.add(${pojo.getDeclarationName()?lower_case}.${propiedades[0]});
 		</#if>
-	     }
+	    }
 		</#list>
 
 		${pojo.importType("java.util.Map")}<String,Object> mapWhere = new ${pojo.importType("java.util.HashMap")}<String, Object>();
@@ -308,9 +319,3 @@
 
 		return mapWhere;
 	}
-	// CHECKSTYLE:ON CyclomaticComplexity - Generación de código de UDA
-
-	/**
-	 * StringBuilder initilization value
-	 */
-	 public static final int STRING_BUILDER_INIT = 4096;

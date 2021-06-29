@@ -38,6 +38,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Inserts a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
@@ -49,6 +50,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Updates a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
@@ -60,6 +62,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Finds a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	public ${pojo.getDeclarationName()} find(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
@@ -81,9 +84,10 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.${nombreDao}.findAll(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, tableRequestDto);
 	}
     
@@ -92,10 +96,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     * @param startsWith Boolean	 
+     * @param startsWith Boolean
+     *	 
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.${nombreDao}.findAllLike(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, tableRequestDto, startsWith);
 	}
 
@@ -109,7 +114,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
+	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		this.${nombreDao}.removeMultiple(tableRequestDto);
 	}
         
@@ -119,23 +124,23 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}>
 	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}< ${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
-		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
-		Long recordNum =  this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()}: new ${pojo.getDeclarationName()} (),false);
-		
+	public ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
+		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} = this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
+		Long recordNum = this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()} : new ${pojo.getDeclarationName()}(), false);
 		TableResourceResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResourceResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
 		
-		if (tableRequestDto.getMultiselection().getSelectedIds()!=null && !tableRequestDto.getMultiselection().getSelectedIds().isEmpty()){
-			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+		if (tableRequestDto.getMultiselection().getSelectedIds() != null && !tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
+			${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 			tableResponseDto.setReorderedSelection(reorderSelection);
 			tableResponseDto.addAdditionalParam("reorderedSelection", reorderSelection);
 			tableResponseDto.addAdditionalParam("selectedAll", tableRequestDto.getMultiselection().getSelectedAll());
 		}
-		if (tableRequestDto.getSeeker().getSelectedIds()!=null){
+		if (tableRequestDto.getSeeker().getSelectedIds() != null) {
 			tableRequestDto.setMultiselection(tableRequestDto.getSeeker());
-			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSeeker = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+			${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSeeker = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 			tableResponseDto.setReorderedSeeker(reorderSeeker);
 			tableResponseDto.addAdditionalParam("reorderedSeeker", reorderSeeker);
 		}
@@ -148,9 +153,10 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
 	 */	
-    public ${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+    public ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return this.${nombreDao}.search(filter${pojo.getDeclarationName()}, search${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
@@ -160,14 +166,15 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.lang.Object")}
 	 */	
-    public ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+    public ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
   	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith) {
 		return this.${nombreDao}.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
 	
@@ -218,8 +225,8 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			columns = tempColumns.toArray(new String[0]);
 		}
 		
-		//si no se definen el nombre de las columnas , se dejan las de por defecto.
-        if(columnsName == null){
+		// Si no se definen los nombres de las columnas se dejan las definidas por defecto
+        if (columnsName == null) {
         	columnsName = columns;
         }
 
@@ -297,7 +304,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			// Se crea la fila para insertar los titulos de las columnas
 			${pojo.importType("org.apache.poi.ss.usermodel.Row")} row = sheet.createRow(rowNumber++);
 
-			// AÃ±adir titulos
+			// Añadir titulos
 			for (int i = 0; i < columnsName.length; i++) {
 				${pojo.importType("org.apache.poi.ss.usermodel.Cell")} cell = row.createCell(i);
 				cell.setCellValue(columnsName[i]);
@@ -308,11 +315,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			// se crea un .xls como un .xlsx
 			${pojo.importType("org.apache.poi.ss.usermodel.CreationHelper")} createHelper = workbook.getCreationHelper();
 
-			// Se crea un CellStyle para aÃ±adir el formateador de fechas
+			// Se crea un CellStyle para añadir el formateador de fechas
 			CellStyle dateCellStyle = workbook.createCellStyle();
 			dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(formatter.toPattern()));
 
-			// AÃ±adir datos
+			// Añadir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				int cellNumber = 0;
 				row = sheet.createRow(rowNumber++);
@@ -330,7 +337,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				sheet.autoSizeColumn(i);
 			}
 
-			// Se aÃ±ade el fichero excel al response
+			// Se añade el fichero excel al response
 			workbook.write(response.getOutputStream());
 			workbook.close();
 		} catch (${pojo.importType("java.io.IOException")} e) {
@@ -349,12 +356,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generatePDFReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName,
 			HttpServletResponse response) {
 		try {
-			// Se aÃ±ade el fichero excel al response y se aÃ±ade el contenido
+			// Se añade el fichero excel al response y se añade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".pdf");
 			response.setContentType("application/pdf");
 
 			${pojo.importType("com.lowagie.text.Document")} document = new Document();
-			// Se aÃ±ade el fichero pdf al response
+			// Se añade el fichero pdf al response
 			${pojo.importType("com.lowagie.text.pdf.PdfWriter")}.getInstance(document, response.getOutputStream());
 
 			document.open();
@@ -368,7 +375,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				table.addCell(header);
 			}
 
-			// AÃ±adir datos
+			// Añadir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				// Se iteran las columnas y se insertan los datos respetando el orden que tenian
 				// las columnas en la tabla
@@ -397,7 +404,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generateODSReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			HttpServletResponse response) {
 		try {
-			// Se aÃ±ade el fichero ods al response y se aÃ±ade el contenido
+			// Se añade el fichero ods al response y se añade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".ods");
 			response.setContentType("application/vnd.oasis.opendocument.spreadsheet");
 
@@ -420,7 +427,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				row.getCellByIndex(i).setStringValue(columnsName[i]);
 			}
 
-			// AÃ±adir datos
+			// Añadir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				row = table.getRowByIndex(rowNumber++);
 				int cellNumber = 0;
@@ -432,7 +439,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				}
 			}
 
-			// Se aÃ±ade el fichero ods al response
+			// Se añade el fichero ods al response
 			ods.save(response.getOutputStream());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -452,7 +459,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	private void generateCSVReport(List<${pojo.getDeclarationName()}> filteredData, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			String language, HttpServletResponse response) {
 		try {
-			// Se aÃ±ade el fichero excel al response y se aÃ±ade el contenido
+			// Se añade el fichero excel al response y se añade el contenido
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".csv");
 			response.setContentType("text/csv");
 
@@ -462,12 +469,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 				separator = ",";
 			}
 
-			// Se aÃ±ade el fichero csv al response
+			// Se añade el fichero csv al response
 			${pojo.importType("java.io.OutputStream")} out = response.getOutputStream();
-			// AÃ±adir titulos
+			// Añadir titulos
 			boolean addTitles = true;
 
-			// AÃ±adir datos
+			// Añadir datos
 			for (${pojo.getDeclarationName()} row${pojo.getDeclarationName()} : filteredData) {
 				int cellNumber = 1;
 				StringBuilder columnsTitles = new StringBuilder();
@@ -538,14 +545,15 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	/**
 	 * Obtiene los valores de las celdas.
 	 *
-	 * @param column     String
+	 * @param column String
 	 * @param row${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *
+	 * @return String
 	 */
 	private String getCellValue(String column, ${pojo.getDeclarationName()} row${pojo.getDeclarationName()}) {
 		String cellValue = "";
 		try {
-			cellValue = ${pojo.importType("org.apache.commons.beanutils.BeanUtils")}.getProperty(row${pojo.getDeclarationName()}, column) != null ? BeanUtils.getProperty(row${pojo.getDeclarationName()}, column)
-					: "";
+			cellValue = ${pojo.importType("org.apache.commons.beanutils.BeanUtils")}.getProperty(row${pojo.getDeclarationName()}, column) != null ? BeanUtils.getProperty(row${pojo.getDeclarationName()}, column) : "";
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (${pojo.importType("java.lang.reflect.InvocationTargetException")} e) {
@@ -556,8 +564,6 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 
 		return cellValue;
 	}
-      
-	
 	<#foreach property in pojo.getAllPropertiesIterator()>
 		<#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
 			<#if c2h.isManyToMany(property)>
@@ -567,7 +573,6 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			</#if>
 		</#if>
 	</#foreach>
-	
 <#if annot==0>   
 	/**
 	 * Setter method for ${pojo.beanCapitalize(nombreDao)}.

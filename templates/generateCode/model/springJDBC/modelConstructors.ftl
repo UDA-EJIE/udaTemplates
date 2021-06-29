@@ -3,9 +3,8 @@
 	/** 
 	 * Method '${pojo.getDeclarationName()}'.
 	 */
-    public ${pojo.getDeclarationName()}() {
-    }
-
+    public ${pojo.getDeclarationName()}() {}
+    
 <#--  /** Recoge las propiedades y la clave compuesta desglosada */ -->
 <#assign propertiesKeys=''>
 <#assign pksKeys=''>
@@ -29,8 +28,6 @@
       </#if>
     </#if>
 </#foreach>
-
-	
 	<#assign primKeys = ''>
     <#foreach attrib in pojo.getAllPropertiesIterator()> 
 		<#if clazz.identifierProperty.composite && attrib.equals(clazz.identifierProperty)>
@@ -47,7 +44,6 @@
 	</#foreach>
 	<#assign javadocFieldsPks = utilidades.getListFromCommaSeparatedString(primKeys)>
     <#-- PKÂ´s constructor  -->    
-    
     /** 
      * Method '${pojo.getDeclarationName()}'.
     <#foreach field in javadocFieldsPks>
@@ -147,9 +143,9 @@
    /**  
     * Method '${pojo.getDeclarationName()}'.
 	  <#foreach field in javadocFields>
-   * @param ${field[1]} ${field[0]}
+   	* @param ${field[1]} ${field[0]}
 	  </#foreach>
-   */
+   	*/
    public ${pojo.getDeclarationName()}(${propertiesFull} ${propertiesFullColecMany} ${propertiesFullColecManyMany}) {
    </#if>
 	<#else>
@@ -208,7 +204,7 @@
      * @param ${field[1]} ${field[0]}
 	  </#foreach>
      */
-   public ${pojo.getDeclarationName()}(${parametros}) {	
+   	public ${pojo.getDeclarationName()}(${parametros}) {	
 	</#if>
 	<#if pojo.isSubclass() && !pojo.getPropertyClosureForSuperclassFullConstructor().isEmpty()>
      super(${c2j.asArgumentList(pojo.getPropertyClosureForSuperclassFullConstructor())});        
