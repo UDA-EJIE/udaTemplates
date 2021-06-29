@@ -152,31 +152,28 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
 		this.jdbcTemplate.update(query, <#list paramPkRemove as param>${param}<#if param_has_next> , </#if></#list>);
     }
     
-    /**
-    * Exporta Datos al clipBoard
-    *
-    */
-    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+   	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
     	<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
     	<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
-    	
-    	StringBuilder query = new StringBuilder("SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list>"); 
-    	query.append(" FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list> ");
-    	//Where clause & Params
+    	// SELECT
+    	StringBuilder query = new StringBuilder("SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list>");
+    	// FROM
+    	query.append("FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list>");
+    	// WHERE clause & Params
     	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter${pojo.getDeclarationName()}, startsWith);
     	StringBuilder where = new StringBuilder(query + " WHERE 1=1 ");
     	where.append(mapaWhere.get("query"));
+    	query.append(where);
     	
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	<#assign paramWhereRemove = paramWhere>
     	
-    	StringBuilder sbMultipleSQL = TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, "<#list paramWhereRemove as param>${param}<#if param_has_next> AND </#if></#list>" );
-    	where.append(sbMultipleSQL);
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, "<#list paramWhereRemove as param>${param}<#if param_has_next> AND </#if></#list>"));
     	
-    	return this.jdbcTemplate.query(where.toString(), this.rwMap, params.toArray());
+    	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
-
+    
     <#include "findAllDinamycImpl.ftl"/>
     <#foreach property in pojo.getAllPropertiesIterator()>
       <#if c2h.isManyToMany(property)>

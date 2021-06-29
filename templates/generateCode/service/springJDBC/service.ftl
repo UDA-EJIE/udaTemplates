@@ -124,15 +124,27 @@ public interface ${pojo.getDeclarationName()}Service {
     /**
     * Exporta Datos al clipBoard
     *
+    * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	* @param tableRequestDto TableRequestDto
     */
-    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
+    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
     
     /**
 	 * Exporta Datos en su formato
 	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param columns String[]
+	 * @param columnsName String[]
+	 * @param fileName String
+	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
+	 * @param tableRequestDto TableRequestDto
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 */
-	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
-			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
+	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String[] columnsName, String fileName, String sheetTitle,
+			${pojo.importType("java.util.ArrayList")}<?> reportsParams, TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, 
+			${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
     
       <#foreach property in pojo.getAllPropertiesIterator()>
         <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>

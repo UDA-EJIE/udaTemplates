@@ -355,7 +355,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - clipboardReport] : : Copiar en Portapapeles");
-		return ResourceUtils.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, false));
+		return ResourceUtils.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.getDataForReports(filter${pojo.getDeclarationName()}, tableRequestDto));
 	}
 	
 	/**
@@ -365,6 +365,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param columns String[]
 	 * @param fileName String
 	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
@@ -381,11 +382,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "fileName", required = false) String fileName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "sheetTitle", required = false) String sheetTitle,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, HttpServletRequest request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response)
-			throws ServletException {
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "reportsParams", required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, 
+			HttpServletRequest request, 
+			${pojo.importType("javax.servlet.http.HttpServletResponse")} response) throws ServletException {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateExcelReport] : Devuelve un fichero excel");
-
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, request, response);
 	}
 	
 	/**
@@ -395,6 +397,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param columns String[]
 	 * @param fileName String
 	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
@@ -411,11 +414,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "fileName", required = false) String fileName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "sheetTitle", required = false) String sheetTitle,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, HttpServletRequest request,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "reportsParams", required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, 
+			HttpServletRequest request,
 			HttpServletResponse response) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - generatePDFReport] : Devuelve un fichero pdf");
-
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, request, response);
 	}
 	
 	/**
@@ -425,6 +429,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param columns String[]
 	 * @param fileName String
 	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
@@ -441,11 +446,12 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "fileName", required = false) String fileName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "sheetTitle", required = false) String sheetTitle,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, HttpServletRequest request,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "reportsParams", required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, 
+			HttpServletRequest request,
 			HttpServletResponse response) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateODSReport] : Devuelve un fichero ods");
-
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, request, response);
 	}
 
 	/**
@@ -455,6 +461,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param columns String[]
 	 * @param fileName String
 	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
@@ -471,14 +478,14 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "fileName", required = false) String fileName,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "sheetTitle", required = false) String sheetTitle,
-			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, HttpServletRequest request,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "reportsParams", required = false) ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
+			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} TableRequestDto tableRequestDto, 
+			HttpServletRequest request,
 			HttpServletResponse response) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - generateCSVReport] : Devuelve un fichero csv");
-
-		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.generateReport(filter, columns, columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, request, response);
 	}
 </#if>
-	
 <#if annot==0>
 	/**
 	 * Method 'set${pojo.getDeclarationName()}Service'.

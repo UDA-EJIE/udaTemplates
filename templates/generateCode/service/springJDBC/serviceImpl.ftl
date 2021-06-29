@@ -107,7 +107,8 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Removes rows from the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 */	
+	 */
+	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
 	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
 		this.${nombreDao}.removeMultiple(tableRequestDto);
 	}
@@ -165,30 +166,26 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 		return this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
-  	
-	/**
-    * Exporta Datos al clipBoard
-    *
-    */
-    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+  	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
 		return this.${nombreDao}.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
 	
 	/**
-	 * Devuelve un fichero en el formato deseado que contiene los datos exportados
-	 * de la tabla.
+	 * Devuelve un fichero en el formato deseado que contiene los datos exportados de la tabla.
 	 *
-	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
-	 * @param columns         String[]
-	 * @param fileName        String
-	 * @param sheetTitle      String
-	 * @param reportsParams   ArrayList<?>
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param columns String[]
+	 * @param columnsName String[]
+	 * @param fileName String
+	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
-	 * @param request         HttpServletRequest
-	 * @param response        HttpServletResponse
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 */
 	@Override
-	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
+	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String[] columnsName, String fileName, String sheetTitle, ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
 			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response) {
 		// Accede a la DB para recuperar datos
 		List<${pojo.getDeclarationName()}> filteredData = getDataForReports(filter${pojo.getDeclarationName()}, tableRequestDto);
@@ -520,10 +517,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	/**
 	 * Devuelve los datos recuperados de la DB.
 	 *
-	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto TableRequestDto
+	 *
+	 * @return List<${pojo.getDeclarationName()}>
 	 */
-	private List<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
+	public List<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
 		if (tableRequestDto.getMultiselection().getSelectedAll()
 				&& tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
 			if (filter${pojo.getDeclarationName()} != null) {
