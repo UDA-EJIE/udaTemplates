@@ -167,6 +167,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
    	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
     	<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
     	<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
+    	<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
     	// SELECT
     	StringBuilder query = new StringBuilder("SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list> ");
     	// FROM
@@ -181,7 +182,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	<#assign paramWhereRemove = paramWhere>
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, "<#list paramWhereRemove as param>${param}<#if param_has_next> AND </#if></#list>"));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
