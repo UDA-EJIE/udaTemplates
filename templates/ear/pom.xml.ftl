@@ -1,18 +1,18 @@
-<#-- 
- -- Copyright 2019 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
+/*
+* Copyright 2021 E.J.I.E., S.A.
+*
+* Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+* Solo podrá usarse esta obra si se respeta la Licencia.
+* Puede obtenerse una copia de la Licencia en
+*
+* http://ec.europa.eu/idabc/eupl.html
+*
+* Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+* el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+* SIN GARANT�?AS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+* que establece la Licencia.
+*/
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -31,7 +31,7 @@
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.3</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
-		<com.ejie.x38.version>4.2.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>5.0.0-RELEASE</com.ejie.x38.version>
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
 		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
@@ -256,6 +256,13 @@
 			<artifactId>x38ShLibClasses-rup</artifactId>
 			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
+		<#if entornoEjie != "">
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses-hdiv</artifactId>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
+		</dependency>
+		</#if>
 		
 		<!-- Tiles -->
 		<dependency>
@@ -425,7 +432,7 @@
 		<dependency>
 			<groupId>com.ejie</groupId>
 			<artifactId>y31c</artifactId>
-			<version>1.4</version>
+			<version>1.5</version>
 			<classifier>impl</classifier>
 		</dependency>
 		<dependency>
@@ -486,7 +493,7 @@
 		<dependency>
    			<groupId>commons-beanutils</groupId>
    			<artifactId>commons-beanutils</artifactId>
-   			<version>1.8.0</version>
+   			<version>1.9.4</version>
    			<exclusions>
 				<!-- Exclude Commons Logging in favor of logback -->
 				<exclusion>
@@ -649,6 +656,18 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.hateoas</groupId>
+		    <artifactId>spring-hateoas</artifactId>
+		    <version>0.23.0.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.plugin</groupId>
+		    <artifactId>spring-plugin-core</artifactId>
+		    <version>1.2.0.RELEASE</version>
+		</dependency>
+
+		
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 	</dependencies>
 	<repositories>
@@ -659,6 +678,7 @@
 				<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
 				<snapshots>
 					<enabled>true</enabled>
+					<updatePolicy>always</updatePolicy>
 				</snapshots>
 			</repository>
 	<#else>

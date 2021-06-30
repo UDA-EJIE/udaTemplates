@@ -1,23 +1,28 @@
-<#-- 
- -- Copyright 2019 E.J.I.E., S.A.
+<%--
+ -- Copyright 2021 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la "Licencia");
  -- Solo podrá usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+ -- el programa distribuido con arreglo a la Licencia se distribuye "TAL CUAL",
  -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
- -->
+ --%>
+
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <h2>${maint.titleMaint}</h2>
 <#if (maint.filterMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
+<#else>
+<!-- Formulario necesario para garantizar el correcto funcionamiento con Hdiv cuando filter = 'noFilter' -->
+<spring:url value="${grid.url}/filter" var="url"/>
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form" class="d-none" action="<#noparse>${url}</#noparse>"/>
 </#if>
 
 <table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 
@@ -26,12 +31,11 @@
     <thead>
         <tr>
         	<#list gridColumns as columnProperties>
-                <th data-col-prop="${columnProperties.name}" data-col-sidx="${columnProperties.name?replace(".","")?upper_case}" 
-                	<#if (columnProperties.editType)?string != "text">
-                		data-col-type="${columnProperties.editType}"
-                	</#if>>
-                	${columnProperties.name}
-                </th>
+        	<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+			<th data-col-prop="${columnProperties.name}" data-col-sidx="${columnProperties.name?replace(".","")?upper_case}"<#if (columnProperties.editType)?string != "text"> data-col-type="${columnProperties.editType}"</#if>>
+				<spring:message code="${columnProperties.name}"/>
+			</th>
+			</#if>
             </#list>
         </tr>
     </thead>

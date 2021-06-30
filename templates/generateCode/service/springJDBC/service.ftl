@@ -1,18 +1,18 @@
-<#-- 
- -- Copyright 2013 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
+/*
+* Copyright 2021 E.J.I.E., S.A.
+*
+* Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+* Solo podrá usarse esta obra si se respeta la Licencia.
+* Puede obtenerse una copia de la Licencia en
+*
+* http://ec.europa.eu/idabc/eupl.html
+*
+* Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+* el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+* SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+* que establece la Licencia.
+*/
 package ${pojo.getPackageName()}.service;
 
 <#assign classbody>
@@ -31,6 +31,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * Inserts a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
     ${pojo.getDeclarationName()} add(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
@@ -39,6 +40,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * Updates a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	${pojo.getDeclarationName()} update(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
@@ -47,6 +49,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * Finds a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	${pojo.getDeclarationName()} find(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
@@ -63,6 +66,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
 	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
@@ -72,7 +76,8 @@ public interface ${pojo.getDeclarationName()}Service {
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     * @param startsWith Boolean	 
+     * @param startsWith Boolean
+     * 
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
 	${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
@@ -95,9 +100,10 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}>
+	 *
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}>
 	 */	
-	${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith);
+	${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith);
     
     /**
 	 * Searches rows in the ${pojo.getDeclarationName()} table.
@@ -106,6 +112,7 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
 	 */	
     ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
@@ -116,46 +123,36 @@ public interface ${pojo.getDeclarationName()}Service {
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.lang.Object")}
 	 */	
     ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
     
-    /*
-	 * OPERACIONES RUP_TABLE JERARQUIA
-	 */
-	 
-	/**
-	 * Finder method in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
-	
-	/**
-	 * Finder method for siblings rows in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
-    
+     
     /**
     * Exporta Datos al clipBoard
     *
+    * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	* @param tableRequestDto TableRequestDto
     */
-    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith);
+    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
     
     /**
 	 * Exporta Datos en su formato
 	 *
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param columns String[]
+	 * @param columnsName String[]
+	 * @param fileName String
+	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
+	 * @param tableRequestDto TableRequestDto
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 */
-	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
-			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
-    
+	void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String[] columnsName, String fileName, String sheetTitle,
+			${pojo.importType("java.util.ArrayList")}<?> reportsParams, TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, 
+			${pojo.importType("javax.servlet.http.HttpServletResponse")} response);
       <#foreach property in pojo.getAllPropertiesIterator()>
         <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
            <#if c2h.isManyToMany(property)>
@@ -166,8 +163,6 @@ public interface ${pojo.getDeclarationName()}Service {
         </#if>
      </#foreach>	
 }
-
 </#assign>
-
 ${pojo.generateImports()}
 ${classbody}

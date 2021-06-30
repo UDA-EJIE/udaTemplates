@@ -1,19 +1,20 @@
-<#-- 
- -- Copyright 2013 E.J.I.E., S.A.
- --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
- -- Puede obtenerse una copia de la Licencia en
- --
- --      http://ec.europa.eu/idabc/eupl.html
- --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
- -- que establece la Licencia.
- -->
+/*
+* Copyright 2021 E.J.I.E., S.A.
+*
+* Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+* Solo podrá usarse esta obra si se respeta la Licencia.
+* Puede obtenerse una copia de la Licencia en
+*
+* http://ec.europa.eu/idabc/eupl.html
+*
+* Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+* el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+* SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+* que establece la Licencia.
+*/
 package ${pojo.getPackageName()}.service;
+
 <#assign classbody><#assign declarationName = pojo.importType(pojo.getDeclarationName()) >
 import ${pojo.importType(pojo.getPackageName()+'.model.'+pojo.getDeclarationName())};
 <#-- calculamos los campos para luego no tener que estar recorrer el array -->
@@ -38,6 +39,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Inserts a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
@@ -49,6 +51,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Updates a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
@@ -60,6 +63,7 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Finds a single row in the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 *
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	public ${pojo.getDeclarationName()} find(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
@@ -81,9 +85,10 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.${nombreDao}.findAll(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, tableRequestDto);
 	}
     
@@ -92,10 +97,11 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-     * @param startsWith Boolean	 
+     * @param startsWith Boolean
+     *	 
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
 	 */
-	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllLike(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.${nombreDao}.findAllLike(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, tableRequestDto, startsWith);
 	}
 
@@ -107,8 +113,9 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * Removes rows from the ${pojo.getDeclarationName()} table.
 	 *
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 */	
-	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
+	 */
+	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
+	public void removeMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		this.${nombreDao}.removeMultiple(tableRequestDto);
 	}
         
@@ -118,23 +125,23 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.getDeclarationName()}>
+	 *
+	 * @return ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}>
 	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}< ${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
-		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
-		Long recordNum =  this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()}: new ${pojo.getDeclarationName()} (),false);
+	public ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}> filter(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
+		${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> lista${pojo.getDeclarationName()} = this.${nombreDao}.findAllLike(filter${pojo.getDeclarationName()}, tableRequestDto, false);
+		Long recordNum = this.${nombreDao}.findAllLikeCount(filter${pojo.getDeclarationName()} != null ? filter${pojo.getDeclarationName()} : new ${pojo.getDeclarationName()}(), false);
+		TableResourceResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResourceResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
 		
-		TableResponseDto<${pojo.getDeclarationName()}> tableResponseDto = new TableResponseDto<${pojo.getDeclarationName()}>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
-		
-		if (tableRequestDto.getMultiselection().getSelectedIds()!=null){
-			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+		if (tableRequestDto.getMultiselection().getSelectedIds() != null && !tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
+			${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSelection = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 			tableResponseDto.setReorderedSelection(reorderSelection);
 			tableResponseDto.addAdditionalParam("reorderedSelection", reorderSelection);
 			tableResponseDto.addAdditionalParam("selectedAll", tableRequestDto.getMultiselection().getSelectedAll());
 		}
-		if (tableRequestDto.getSeeker().getSelectedIds()!=null){
+		if (tableRequestDto.getSeeker().getSelectedIds() != null) {
 			tableRequestDto.setMultiselection(tableRequestDto.getSeeker());
-			${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> reorderSeeker = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
+			${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> reorderSeeker = this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 			tableResponseDto.setReorderedSeeker(reorderSeeker);
 			tableResponseDto.addAdditionalParam("reorderedSeeker", reorderSeeker);
 		}
@@ -147,9 +154,10 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param search${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>>
 	 */	
-    public ${pojo.importType("java.util.List")}< ${pojo.importType("com.ejie.x38.dto.TableRowDto")}< ${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+    public ${pojo.importType("java.util.List")}<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.getDeclarationName()} search${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return this.${nombreDao}.search(filter${pojo.getDeclarationName()}, search${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
@@ -159,66 +167,33 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
 	 * @param startsWith Boolean
+	 *
 	 * @return ${pojo.importType("java.lang.Object")}
 	 */	
-    public ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
+    public ${pojo.importType("java.lang.Object")} reorderSelection(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith) {
 		return this.${nombreDao}.reorderSelection(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
     
-    /*
-	 * OPERACIONES RUP_TABLE JERARQUIA
-	 */
-	 
-	/**
-	 * Finder method in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @param startsWith Boolean
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquia(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto, Boolean startsWith){
-		List<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> lista${pojo.getDeclarationName()} =  this.${nombreDao}.findAllLikeJerarquia(filter${pojo.getDeclarationName()}, tableRequestDto);
-		Long recordNum = this.${nombreDao}.findAllLikeCountJerarquia(filter${pojo.getDeclarationName()}, tableRequestDto);
-		return new TableResponseDto<JerarquiaDto<${pojo.getDeclarationName()}>>(tableRequestDto, recordNum, lista${pojo.getDeclarationName()});
-	}
-	
-	/**
-	 * Finder method for siblings rows in the hierarchical the ${pojo.getDeclarationName()} table.
-	 *
-	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
-	 * @return ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>
-	 */	
-	public ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> jerarquiaChildren(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto){
-		${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>> tableResponseDto = new ${pojo.importType("com.ejie.x38.dto.TableResponseDto")}<${pojo.importType("com.ejie.x38.dto.JerarquiaDto")}<${pojo.getDeclarationName()}>>();
-		tableResponseDto.addAdditionalParam(TableResponseDto.CHILDREN, this.${nombreDao}.findAllChild(filter${pojo.getDeclarationName()}, tableRequestDto));
-		return tableResponseDto;
-	}
-	
-	/**
-    * Exporta Datos al clipBoard
-    *
-    */
-    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith){
+  	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> getMultiple(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto,  Boolean startsWith) {
 		return this.${nombreDao}.getMultiple(filter${pojo.getDeclarationName()}, tableRequestDto, startsWith);
 	}
 	
 	/**
-	 * Devuelve un fichero en el formato deseado que contiene los datos exportados
-	 * de la tabla.
+	 * Devuelve un fichero en el formato deseado que contiene los datos exportados de la tabla.
 	 *
-	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
-	 * @param columns         String[]
-	 * @param fileName        String
-	 * @param sheetTitle      String
-	 * @param reportsParams   ArrayList<?>
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 * @param columns String[]
+	 * @param columnsName String[]
+	 * @param fileName String
+	 * @param sheetTitle String
+	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
-	 * @param request         HttpServletRequest
-	 * @param response        HttpServletResponse
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 */
 	@Override
-	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns,String[] columnsName, String fileName, String sheetTitle,
+	public void generateReport(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, String[] columns, String[] columnsName, String fileName, String sheetTitle, ${pojo.importType("java.util.ArrayList")}<?> reportsParams,
 			TableRequestDto tableRequestDto, ${pojo.importType("javax.servlet.http.HttpServletRequest")} request, ${pojo.importType("javax.servlet.http.HttpServletResponse")} response) {
 		// Accede a la DB para recuperar datos
 		List<${pojo.getDeclarationName()}> filteredData = getDataForReports(filter${pojo.getDeclarationName()}, tableRequestDto);
@@ -251,8 +226,8 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			columns = tempColumns.toArray(new String[0]);
 		}
 		
-		//si no se definen el nombre de las columnas , se dejan las de por defecto.
-        if(columnsName == null){
+		// Si no se definen los nombres de las columnas se dejan las definidas por defecto
+        if (columnsName == null) {
         	columnsName = columns;
         }
 
@@ -550,10 +525,12 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	/**
 	 * Devuelve los datos recuperados de la DB.
 	 *
-	 * @param filter${pojo.getDeclarationName()}   ${pojo.getDeclarationName()}
+	 * @param filter${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
 	 * @param tableRequestDto TableRequestDto
+	 *
+	 * @return List<${pojo.getDeclarationName()}>
 	 */
-	private List<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
+	public List<${pojo.getDeclarationName()}> getDataForReports(${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}, TableRequestDto tableRequestDto) {
 		if (tableRequestDto.getMultiselection().getSelectedAll()
 				&& tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
 			if (filter${pojo.getDeclarationName()} != null) {
@@ -569,14 +546,15 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	/**
 	 * Obtiene los valores de las celdas.
 	 *
-	 * @param column     String
+	 * @param column String
 	 * @param row${pojo.getDeclarationName()} ${pojo.getDeclarationName()}
+	 *
+	 * @return String
 	 */
 	private String getCellValue(String column, ${pojo.getDeclarationName()} row${pojo.getDeclarationName()}) {
 		String cellValue = "";
 		try {
-			cellValue = ${pojo.importType("org.apache.commons.beanutils.BeanUtils")}.getProperty(row${pojo.getDeclarationName()}, column) != null ? BeanUtils.getProperty(row${pojo.getDeclarationName()}, column)
-					: "";
+			cellValue = ${pojo.importType("org.apache.commons.beanutils.BeanUtils")}.getProperty(row${pojo.getDeclarationName()}, column) != null ? BeanUtils.getProperty(row${pojo.getDeclarationName()}, column) : "";
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (${pojo.importType("java.lang.reflect.InvocationTargetException")} e) {
@@ -587,8 +565,6 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 
 		return cellValue;
 	}
-      
-	
 	<#foreach property in pojo.getAllPropertiesIterator()>
 		<#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
 			<#if c2h.isManyToMany(property)>
@@ -598,7 +574,6 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 			</#if>
 		</#if>
 	</#foreach>
-	
 <#if annot==0>   
 	/**
 	 * Setter method for ${pojo.beanCapitalize(nombreDao)}.
