@@ -62,8 +62,11 @@ let tableColModels = [
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
-        <#if (maint.primaryKey)?has_content>
+		<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
+        <#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
 		primaryKey: "${maint.primaryKey}",
+		<#else>
+		primaryKey: "id",
         </#if>
         <#if (maint.filterMaint)?string == "true">
 		filter: {
