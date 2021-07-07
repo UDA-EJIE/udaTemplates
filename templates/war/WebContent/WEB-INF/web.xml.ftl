@@ -32,6 +32,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/app-config.xml</param-value>
 	</context-param>
+	
 	<!-- UDA initialization Listener -->
 	<listener>
 		<listener-class>com.ejie.x38.UdaListener</listener-class>
@@ -56,11 +57,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	<!--Support the scoping of beans at the request, session, and global session 
-		levels (web-scoped beans) -->
+	
+	<!--Support the scoping of beans at the request, session, and global session levels (web-scoped beans) -->
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+	
 	<!-- Here's were some of the fundamental AOP Aspects are applied -->
 	<filter>
 		<filter-name>udaFilter</filter-name>
@@ -69,7 +71,8 @@
 	<filter-mapping>
 		<filter-name>udaFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>	
+	</filter-mapping>
+	
 	<!-- Handles Security -->
 	<filter>
 		<display-name>springSecurityFilterChain</display-name>
@@ -80,6 +83,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 	<!-- Reads request input using UTF-8 encoding -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
@@ -97,6 +101,7 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 	<!-- Multipart -->
 	<filter>
 		<filter-name>httpMethodFilter</filter-name>
@@ -106,6 +111,7 @@
 		<filter-name>httpMethodFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 	<!-- Handles all requests into the application -->
 	<servlet>
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
@@ -120,6 +126,7 @@
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
 	<!-- JSP encoding  -->
 	<jsp-config>
 		<jsp-property-group>
