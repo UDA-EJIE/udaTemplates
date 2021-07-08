@@ -22,14 +22,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
-		
-<!-- EJEMPLO xlnet
-	 <<<Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos >>>
+	
+	<#if xlnets>
+	<!-- EJEMPLO CON XLNets: Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperN38Impl">		
 		<property name="xlnetCachingPeriod" value="120" />
 	</bean>
--->
-<!-- EJEMPLO SIN xlnet
+	<#else>
+	<!-- EJEMPLO SIN XLNets -->
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperMockImpl">
 		<property name="principal">
 			<list>
@@ -52,8 +52,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 			</list>
 		</property>
 	</bean>
--->
-
+	</#if>
+	
 	<bean id="filterSecurityInterceptor"
 	        class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
 	  <property name="authenticationManager" ref="authenticationManager"/>
