@@ -35,7 +35,6 @@
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
 		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
-		<hdiv.version>3.5.0.RC3</hdiv.version>
 		<hdivsecurity.version>2.4.1</hdivsecurity.version>
 	</properties>		
 	<dependencies>
@@ -59,11 +58,6 @@
 		</dependency>
 	</#if>	
 		<!-- Hdiv -->
-		<dependency>
-			<groupId>org.hdiv</groupId>
-			<artifactId>hdiv-services</artifactId>
-			<version><#noparse>${hdiv.version}</#noparse></version>
-		</dependency>
 		<dependency>
 		    <groupId>com.hdivsecurity</groupId>
 		    <artifactId>hdiv-for-services</artifactId>
