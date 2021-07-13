@@ -747,7 +747,7 @@
 							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
-							<excludeTransitive>true</excludeTransitive>
+							<excludeTransitive>false</excludeTransitive>
 							<excludeScope>provided</excludeScope>
 						</configuration>
 					</execution>
