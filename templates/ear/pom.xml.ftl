@@ -62,6 +62,56 @@
 		    <groupId>com.hdivsecurity</groupId>
 		    <artifactId>hdiv-for-services</artifactId>
 		    <version><#noparse>${hdivsecurity.version}</#noparse></version>
+		      <exclusions>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>btf</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>jackson-coreutils</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.datatype</groupId>
+					<artifactId>jackson-datatype-hibernate4</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.module</groupId>
+					<artifactId>jackson-module-jsonSchema</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.jcip</groupId>
+					<artifactId>jcip-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.edropple.jregex</groupId>
+					<artifactId>jregex</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>json-patch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.jsqlparser</groupId>
+					<artifactId>jsqlparser</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>jsr250-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sourceforge.streamsupport</groupId>
+					<artifactId>streamsupport</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>stax</groupId>
+					<artifactId>stax-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- Spring Framework -->
@@ -126,6 +176,12 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
 		    <version><#noparse>${org.springframework.version}</#noparse></version>
+		      <exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+			  </exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- Spring Security -->
@@ -355,12 +411,46 @@
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-mapper-asl</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.castor</groupId>
+					<artifactId>castor</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jcommon</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>eclipse</groupId>
+					<artifactId>jdtcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jfreechart</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>com.lowagie</groupId>
 		    <artifactId>itext</artifactId>
 		    <version>2.1.7</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcprov-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bctsp-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- xls -->
@@ -392,6 +482,16 @@
  		 <groupId>org.apache.poi</groupId>
   		 <artifactId>poi-ooxml-schemas</artifactId>
    		 <version>3.17</version>
+   		    <exclusions>
+				<exclusion>
+					<groupId>com.github.virtuald</groupId>
+					<artifactId>curvesapi</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlbeans</groupId>
+					<artifactId>xmlbeans</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- xlsx -->
