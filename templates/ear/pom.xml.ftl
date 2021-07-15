@@ -111,6 +111,10 @@
 					<groupId>javax.activation</groupId>
 					<artifactId>activation</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.freemarker</groupId>
+					<artifactId>freemarker</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		
@@ -364,6 +368,12 @@
 	      	<groupId>org.apache.tiles</groupId>
 	      	<artifactId>tiles-autotag-core-runtime</artifactId>
 	      	<version>1.2</version>
+	        <exclusions>
+	    		<exclusion>
+					<groupId>org.freemarker</groupId>
+					<artifactId>freemarker</artifactId>
+				</exclusion>
+			</exclusions>
 	    </dependency>
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
