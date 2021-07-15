@@ -394,7 +394,7 @@
     "templates": {
       "detailForm": {
         "body": "<div id='{0}' style='padding-top:0.6em;'></div>",
-        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_jqtable_selectedElements_{0}'></div></div>",
+        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_table_selectedElements_{0}'></div></div>",
         "errorFeedback": "<div id='{0}' style='display:none'><span></span></div>",
         "form": "<form name='FormPost' id='{0}' class='FormGrid' onSubmit='return false;' style='width:100%;overflow:auto;position:relative;height:{1};'></form>",
         "paginationBar": "<div style='float:right' id='pag_{0}'></div>",
@@ -448,7 +448,9 @@
     "minuteText": "Minuto",
     "secondText": "Segundo",
     "timeOnlyTitle": "Seleccione tiempo",
-    "timeText": "Tiempo"
+    "timeText": "Tiempo",
+    "millisecText": "MiliSegundo",
+    "microsecText": "MicroSegundo"
   },
   "rup_tree": {
     "ccp": {
@@ -540,6 +542,9 @@
         "odsButton": "Ods",
         "pdfButton": "Pdf",
         "csvButton": "Csv"
+      },
+      "feedback": {
+      	"keyNameError": "Inconsistencia entre las primaryKey del cliente y el servidor. Por favor, revise la definición de rup_table."
       }
     },
     "copyButton": {
@@ -593,6 +598,10 @@
     "deselectMsg": "Se han deseleccionado los {0} elementos de la página {1}.",
     "deselectRestMsg": "Deseleccionar los {0} restantes",
     "detailTitle": "Detalle de registro",
+    "add": {
+    	"save": "Añadir",
+    	"saveData": "¿Está seguro que desea crear el siguiente registro?"
+    },
     "edit": {
       "addCaption": "Agregar registro",
       "bCancel": "Cancelar",
@@ -616,6 +625,7 @@
         "required": "Campo obligatorio",
         "url": "No es una URL válida. Prefijo requerido ('http://' or 'https://')"
       },
+      "save": "Guardar",
       "saveData": "Se han modificado los datos, ¿guardar cambios?"
     },
     "element(s)": "Elemento(s)",
@@ -826,7 +836,7 @@
     "templates": {
       "detailForm": {
         "body": "<div id='{0}' style='padding-top:0.6em;'></div>",
-        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_jqtable_selectedElements_{0}'></div></div>",
+        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_table_selectedElements_{0}'></div></div>",
         "errorFeedback": "<div id='{0}' style='display:none'><span></span></div>",
         "form": "<form name='FormPost' id='{0}' class='FormGrid' onSubmit='return false;' style='width:100%;overflow:auto;position:relative;height:{1};'></form>",
         "paginationBar": "<div style='float:right' id='pag_{0}'></div>",

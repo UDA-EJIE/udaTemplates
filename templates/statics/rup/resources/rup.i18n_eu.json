@@ -439,7 +439,7 @@
     "templates": {
       "detailForm": {
         "body": "<div id='{0}' style='padding-top:0.6em;'></div>",
-        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_jqtable_selectedElements_{0}'></div></div>",
+        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_table_selectedElements_{0}'></div></div>",
         "errorFeedback": "<div id='{0}' style='display:none'><span></span></div>",
         "form": "<form name='FormPost' id='{0}' class='FormGrid' onSubmit='return false;' style='width:100%;overflow:auto;position:relative;height:{1};'></form>",
         "paginationBar": "<div style='float:right' id='pag_{0}'></div>",
@@ -493,7 +493,9 @@
     "minuteText": "Minutu",
     "secondText": "Segundu",
     "timeOnlyTitle": "Aukeratu denbora",
-    "timeText": "Denbora"
+    "timeText": "Denbora",
+    "millisecText": "MiliSegundu",
+    "microsecText": "MicroSegundu"
   },
   "rup_tree": {
     "ccp": {
@@ -570,9 +572,9 @@
     "new": "Nuevo_eu"
   },
   "rup_table": {
-    "seleccionada": "[EU]seleccionada",
-    "seleccionadas": "[EU]seleccionadas",
-    "fila": "[EU]fila",
+    "seleccionada": "aukeratutako",
+    "seleccionadas": "aukeratutako",
+    "fila": "ilara",
     "toolbar": {
       "add": "Gehitu",
       "edit": "Editatu",
@@ -585,6 +587,9 @@
         "odsButton": "Ods",
         "pdfButton": "Pdf",
         "csvButton": "Csv"
+      },
+      "feedback": {
+      	"keyNameError": "Bezeroaren primaryKey-en arteko inkontsistentzia eta zerbitzaria. Mesedez, ikuska ezazu rup_table-definizioa."
       }
     },
     "copyButton": {
@@ -638,6 +643,10 @@
     "deselectMsg": "{1}. orrialdeko {0} elementuak hautaketik kenduko dira.",
     "deselectRestMsg": "Gainerako {0}ak hautaketatik kendu.",
     "detailTitle": "Detalle de registro",
+    "add": {
+    	"save": "Gehitu",
+    	"saveData": "Ziur zaude erregistro hau sortu nahi duzula?"
+    },
     "edit": {
       "addCaption": "Gehitu erregistroa",
       "bCancel": "Ezeztatu",
@@ -661,6 +670,7 @@
         "required": "Derrigorrezko eremua",
         "url": "URL-a ez da zuzena. Aurrizki hau izan behar du ('http://' or 'https://')"
       },
+      "save": "Gorde",
       "saveData": "Datuak aldatu dira. Aldaketak gorde nahi al dituzu?"
     },
     "element(s)": "Elementua(k)",
@@ -916,7 +926,7 @@
     "templates": {
       "detailForm": {
         "body": "<div id='{0}' style='padding-top:0.6em;'></div>",
-        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_jqtable_selectedElements_{0}'></div></div>",
+        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_table_selectedElements_{0}'></div></div>",
         "errorFeedback": "<div id='{0}' style='display:none'><span></span></div>",
         "form": "<form name='FormPost' id='{0}' class='FormGrid' onSubmit='return false;' style='width:100%;overflow:auto;position:relative;height:{1};'></form>",
         "paginationBar": "<div style='float:right' id='pag_{0}'></div>",

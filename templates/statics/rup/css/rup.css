@@ -1,8 +1,8 @@
 /*!
- * Bootstrap v4.4.1 (https://getbootstrap.com/)
- * Copyright 2011-2019 The Bootstrap Authors
- * Copyright 2011-2019 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * Bootstrap v4.5.1 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
   --blue: #007bff;
@@ -137,10 +137,10 @@ a {
     color: #0056b3;
     text-decoration: underline; }
 
-a:not([href]) {
+a:not([href]):not([class]) {
   color: inherit;
   text-decoration: none; }
-  a:not([href]):hover {
+  a:not([href]):not([class]):hover {
     color: inherit;
     text-decoration: none; }
 
@@ -154,7 +154,8 @@ samp {
 pre {
   margin-top: 0;
   margin-bottom: 1rem;
-  overflow: auto; }
+  overflow: auto;
+  -ms-overflow-style: scrollbar; }
 
 figure {
   margin: 0 0 1rem; }
@@ -209,6 +210,9 @@ button,
 select {
   text-transform: none; }
 
+[role="button"] {
+  cursor: pointer; }
+
 select {
   word-wrap: normal; }
 
@@ -235,12 +239,6 @@ input[type="radio"],
 input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0; }
-
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"],
-input[type="month"] {
-  -webkit-appearance: listbox; }
 
 textarea {
   overflow: auto;
@@ -440,26 +438,12 @@ pre {
   max-height: 340px;
   overflow-y: scroll; }
 
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto; }
-  @media (min-width: 576px) {
-    .container {
-      max-width: 540px; } }
-  @media (min-width: 768px) {
-    .container {
-      max-width: 720px; } }
-  @media (min-width: 992px) {
-    .container {
-      max-width: 960px; } }
-  @media (min-width: 1200px) {
-    .container {
-      max-width: 1140px; } }
-
-.container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
@@ -484,6 +468,7 @@ pre {
 
 .row {
   display: flex;
+  flex: 1 0 100%;
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px; }
@@ -1432,6 +1417,12 @@ pre {
     background-color: #e9ecef;
     opacity: 1; }
 
+input[type="date"].form-control,
+input[type="time"].form-control,
+input[type="datetime-local"].form-control,
+input[type="month"].form-control {
+  appearance: none; }
+
 select.form-control:focus::-ms-value {
   color: #495057;
   background-color: #fff; }
@@ -1549,6 +1540,7 @@ textarea.form-control {
 .valid-tooltip {
   position: absolute;
   top: 100%;
+  left: 0;
   z-index: 5;
   display: none;
   max-width: 100%;
@@ -1629,6 +1621,7 @@ textarea.form-control {
 .invalid-tooltip {
   position: absolute;
   top: 100%;
+  left: 0;
   z-index: 5;
   display: none;
   max-width: 100%;
@@ -1750,7 +1743,6 @@ textarea.form-control {
   color: #212529;
   text-align: center;
   vertical-align: middle;
-  cursor: pointer;
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
@@ -1770,6 +1762,8 @@ textarea.form-control {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
   .btn.disabled, .btn:disabled {
     opacity: 0.65; }
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer; }
 
 a.btn.disabled,
 fieldset:disabled a.btn {
@@ -2159,8 +2153,7 @@ fieldset:disabled a.btn {
     color: #0056b3;
     text-decoration: underline; }
   .btn-link:focus, .btn-link.focus {
-    text-decoration: underline;
-    box-shadow: none; }
+    text-decoration: underline; }
   .btn-link:disabled, .btn-link.disabled {
     color: #6c757d;
     pointer-events: none; }
@@ -2508,7 +2501,8 @@ input[type="button"].btn-block {
   .input-group > .custom-select,
   .input-group > .custom-file {
     position: relative;
-    flex: 1 1 0%;
+    flex: 1 1 auto;
+    width: 1%;
     min-width: 0;
     margin-bottom: 0; }
     .input-group > .form-control + .form-control,
@@ -2647,6 +2641,7 @@ input[type="button"].btn-block {
 
 .custom-control {
   position: relative;
+  z-index: 1;
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5rem; }
@@ -3019,10 +3014,12 @@ input[type="button"].btn-block {
   color: #fff;
   background-color: #007bff; }
 
+.nav-fill > .nav-link,
 .nav-fill .nav-item {
   flex: 1 1 auto;
   text-align: center; }
 
+.nav-justified > .nav-link,
 .nav-justified .nav-item {
   flex-basis: 0;
   flex-grow: 1;
@@ -3251,7 +3248,7 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1); }
 
 .navbar-light .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
 
 .navbar-light .navbar-text {
   color: rgba(0, 0, 0, 0.5); }
@@ -3283,7 +3280,7 @@ input[type="button"].btn-block {
   border-color: rgba(255, 255, 255, 0.1); }
 
 .navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
 
 .navbar-dark .navbar-text {
   color: rgba(255, 255, 255, 0.5); }
@@ -3305,12 +3302,20 @@ input[type="button"].btn-block {
   .card > hr {
     margin-right: 0;
     margin-left: 0; }
-  .card > .list-group:first-child .list-group-item:first-child {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem; }
-  .card > .list-group:last-child .list-group-item:last-child {
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem; }
+  .card > .list-group {
+    border-top: inherit;
+    border-bottom: inherit; }
+    .card > .list-group:first-child {
+      border-top-width: 0;
+      border-top-left-radius: calc(0.25rem - 1px);
+      border-top-right-radius: calc(0.25rem - 1px); }
+    .card > .list-group:last-child {
+      border-bottom-width: 0;
+      border-bottom-right-radius: calc(0.25rem - 1px);
+      border-bottom-left-radius: calc(0.25rem - 1px); }
+  .card > .card-header + .list-group,
+  .card > .list-group + .card-footer {
+    border-top: 0; }
 
 .card-body {
   flex: 1 1 auto;
@@ -3340,8 +3345,6 @@ input[type="button"].btn-block {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
   .card-header:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; }
-  .card-header + .list-group .list-group-item:first-child {
-    border-top: 0; }
 
 .card-footer {
   padding: 0.75rem 1.25rem;
@@ -3366,7 +3369,8 @@ input[type="button"].btn-block {
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 1.25rem; }
+  padding: 1.25rem;
+  border-radius: calc(0.25rem - 1px); }
 
 .card-img,
 .card-img-top,
@@ -3444,18 +3448,20 @@ input[type="button"].btn-block {
       display: inline-block;
       width: 100%; } }
 
-.accordion > .card {
-  overflow: hidden; }
-  .accordion > .card:not(:last-of-type) {
-    border-bottom: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0; }
-  .accordion > .card:not(:first-of-type) {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0; }
-  .accordion > .card > .card-header {
-    border-radius: 0;
-    margin-bottom: -1px; }
+.accordion {
+  overflow-anchor: none; }
+  .accordion > .card {
+    overflow: hidden; }
+    .accordion > .card:not(:last-of-type) {
+      border-bottom: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0; }
+    .accordion > .card:not(:first-of-type) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0; }
+    .accordion > .card > .card-header {
+      border-radius: 0;
+      margin-bottom: -1px; }
 
 .breadcrumb {
   display: flex;
@@ -3466,22 +3472,21 @@ input[type="button"].btn-block {
   background-color: #e9ecef;
   border-radius: 0.25rem; }
 
-.breadcrumb-item + .breadcrumb-item {
-  padding-left: 0.5rem; }
-  .breadcrumb-item + .breadcrumb-item::before {
-    display: inline-block;
-    padding-right: 0.5rem;
-    color: #6c757d;
-    content: "/"; }
-
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: underline; }
-
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: none; }
-
-.breadcrumb-item.active {
-  color: #6c757d; }
+.breadcrumb-item {
+  display: flex; }
+  .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0.5rem; }
+    .breadcrumb-item + .breadcrumb-item::before {
+      display: inline-block;
+      padding-right: 0.5rem;
+      color: #6c757d;
+      content: "/"; }
+  .breadcrumb-item + .breadcrumb-item:hover::before {
+    text-decoration: underline; }
+  .breadcrumb-item + .breadcrumb-item:hover::before {
+    text-decoration: none; }
+  .breadcrumb-item.active {
+    color: #6c757d; }
 
 .pagination {
   display: flex;
@@ -3783,6 +3788,7 @@ input[type="button"].btn-block {
   display: flex;
   height: 1rem;
   overflow: hidden;
+  line-height: 0;
   font-size: 0.75rem;
   background-color: #e9ecef;
   border-radius: 0.25rem; }
@@ -3822,7 +3828,8 @@ input[type="button"].btn-block {
   display: flex;
   flex-direction: column;
   padding-left: 0;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  border-radius: 0.25rem; }
 
 .list-group-item-action {
   width: 100%;
@@ -3844,11 +3851,11 @@ input[type="button"].btn-block {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125); }
   .list-group-item:first-child {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem; }
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit; }
   .list-group-item:last-child {
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem; }
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit; }
   .list-group-item.disabled, .list-group-item:disabled {
     color: #6c757d;
     pointer-events: none;
@@ -3866,102 +3873,99 @@ input[type="button"].btn-block {
 
 .list-group-horizontal {
   flex-direction: row; }
-  .list-group-horizontal .list-group-item:first-child {
+  .list-group-horizontal > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0; }
-  .list-group-horizontal .list-group-item:last-child {
+  .list-group-horizontal > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0; }
-  .list-group-horizontal .list-group-item.active {
+  .list-group-horizontal > .list-group-item.active {
     margin-top: 0; }
-  .list-group-horizontal .list-group-item + .list-group-item {
+  .list-group-horizontal > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0; }
-    .list-group-horizontal .list-group-item + .list-group-item.active {
+    .list-group-horizontal > .list-group-item + .list-group-item.active {
       margin-left: -1px;
       border-left-width: 1px; }
 
 @media (min-width: 576px) {
   .list-group-horizontal-sm {
     flex-direction: row; }
-    .list-group-horizontal-sm .list-group-item:first-child {
+    .list-group-horizontal-sm > .list-group-item:first-child {
       border-bottom-left-radius: 0.25rem;
       border-top-right-radius: 0; }
-    .list-group-horizontal-sm .list-group-item:last-child {
+    .list-group-horizontal-sm > .list-group-item:last-child {
       border-top-right-radius: 0.25rem;
       border-bottom-left-radius: 0; }
-    .list-group-horizontal-sm .list-group-item.active {
+    .list-group-horizontal-sm > .list-group-item.active {
       margin-top: 0; }
-    .list-group-horizontal-sm .list-group-item + .list-group-item {
+    .list-group-horizontal-sm > .list-group-item + .list-group-item {
       border-top-width: 1px;
       border-left-width: 0; }
-      .list-group-horizontal-sm .list-group-item + .list-group-item.active {
+      .list-group-horizontal-sm > .list-group-item + .list-group-item.active {
         margin-left: -1px;
         border-left-width: 1px; } }
 
 @media (min-width: 768px) {
   .list-group-horizontal-md {
     flex-direction: row; }
-    .list-group-horizontal-md .list-group-item:first-child {
+    .list-group-horizontal-md > .list-group-item:first-child {
       border-bottom-left-radius: 0.25rem;
       border-top-right-radius: 0; }
-    .list-group-horizontal-md .list-group-item:last-child {
+    .list-group-horizontal-md > .list-group-item:last-child {
       border-top-right-radius: 0.25rem;
       border-bottom-left-radius: 0; }
-    .list-group-horizontal-md .list-group-item.active {
+    .list-group-horizontal-md > .list-group-item.active {
       margin-top: 0; }
-    .list-group-horizontal-md .list-group-item + .list-group-item {
+    .list-group-horizontal-md > .list-group-item + .list-group-item {
       border-top-width: 1px;
       border-left-width: 0; }
-      .list-group-horizontal-md .list-group-item + .list-group-item.active {
+      .list-group-horizontal-md > .list-group-item + .list-group-item.active {
         margin-left: -1px;
         border-left-width: 1px; } }
 
 @media (min-width: 992px) {
   .list-group-horizontal-lg {
     flex-direction: row; }
-    .list-group-horizontal-lg .list-group-item:first-child {
+    .list-group-horizontal-lg > .list-group-item:first-child {
       border-bottom-left-radius: 0.25rem;
       border-top-right-radius: 0; }
-    .list-group-horizontal-lg .list-group-item:last-child {
+    .list-group-horizontal-lg > .list-group-item:last-child {
       border-top-right-radius: 0.25rem;
       border-bottom-left-radius: 0; }
-    .list-group-horizontal-lg .list-group-item.active {
+    .list-group-horizontal-lg > .list-group-item.active {
       margin-top: 0; }
-    .list-group-horizontal-lg .list-group-item + .list-group-item {
+    .list-group-horizontal-lg > .list-group-item + .list-group-item {
       border-top-width: 1px;
       border-left-width: 0; }
-      .list-group-horizontal-lg .list-group-item + .list-group-item.active {
+      .list-group-horizontal-lg > .list-group-item + .list-group-item.active {
         margin-left: -1px;
         border-left-width: 1px; } }
 
 @media (min-width: 1200px) {
   .list-group-horizontal-xl {
     flex-direction: row; }
-    .list-group-horizontal-xl .list-group-item:first-child {
+    .list-group-horizontal-xl > .list-group-item:first-child {
       border-bottom-left-radius: 0.25rem;
       border-top-right-radius: 0; }
-    .list-group-horizontal-xl .list-group-item:last-child {
+    .list-group-horizontal-xl > .list-group-item:last-child {
       border-top-right-radius: 0.25rem;
       border-bottom-left-radius: 0; }
-    .list-group-horizontal-xl .list-group-item.active {
+    .list-group-horizontal-xl > .list-group-item.active {
       margin-top: 0; }
-    .list-group-horizontal-xl .list-group-item + .list-group-item {
+    .list-group-horizontal-xl > .list-group-item + .list-group-item {
       border-top-width: 1px;
       border-left-width: 0; }
-      .list-group-horizontal-xl .list-group-item + .list-group-item.active {
+      .list-group-horizontal-xl > .list-group-item + .list-group-item.active {
         margin-left: -1px;
         border-left-width: 1px; } }
 
-.list-group-flush .list-group-item {
-  border-right-width: 0;
-  border-left-width: 0;
+.list-group-flush {
   border-radius: 0; }
-  .list-group-flush .list-group-item:first-child {
-    border-top-width: 0; }
-
-.list-group-flush:last-child .list-group-item:last-child {
-  border-bottom-width: 0; }
+  .list-group-flush > .list-group-item {
+    border-width: 0 0 1px; }
+    .list-group-flush > .list-group-item:last-child {
+      border-bottom-width: 0; }
 
 .list-group-item-primary {
   color: #004085;
@@ -4068,21 +4072,19 @@ input[type="button"].btn-block {
 button.close {
   padding: 0;
   background-color: transparent;
-  border: 0;
-  appearance: none; }
+  border: 0; }
 
 a.close.disabled {
   pointer-events: none; }
 
 .toast {
+  flex-basis: 350px;
   max-width: 350px;
-  overflow: hidden;
   font-size: 0.875rem;
   background-color: rgba(255, 255, 255, 0.85);
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
   opacity: 0;
   border-radius: 0.25rem; }
   .toast:not(:last-child) {
@@ -4102,7 +4104,9 @@ a.close.disabled {
   color: #6c757d;
   background-color: rgba(255, 255, 255, 0.85);
   background-clip: padding-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-top-left-radius: calc(0.25rem - 1px);
+  border-top-right-radius: calc(0.25rem - 1px); }
 
 .toast-body {
   padding: 0.75rem; }
@@ -4159,6 +4163,7 @@ a.close.disabled {
   .modal-dialog-centered::before {
     display: block;
     height: calc(100vh - 1rem);
+    height: min-content;
     content: ""; }
   .modal-dialog-centered.modal-dialog-scrollable {
     flex-direction: column;
@@ -4245,7 +4250,8 @@ a.close.disabled {
   .modal-dialog-centered {
     min-height: calc(100% - 3.5rem); }
     .modal-dialog-centered::before {
-      height: calc(100vh - 3.5rem); }
+      height: calc(100vh - 3.5rem);
+      height: min-content; }
   .modal-sm {
     max-width: 300px; } }
 
@@ -4636,7 +4642,8 @@ a.close.disabled {
   0% {
     transform: scale(0); }
   50% {
-    opacity: 1; } }
+    opacity: 1;
+    transform: none; } }
 
 .spinner-grow {
   display: inline-block;
@@ -5420,6 +5427,15 @@ button.bg-dark:focus {
   .float-xl-none {
     float: none !important; } }
 
+.user-select-all {
+  user-select: all !important; }
+
+.user-select-auto {
+  user-select: auto !important; }
+
+.user-select-none {
+  user-select: none !important; }
+
 .overflow-auto {
   overflow: auto !important; }
 
@@ -5539,17 +5555,6 @@ button.bg-dark:focus {
 
 .vh-100 {
   height: 100vh !important; }
-
-.stretched-link::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  pointer-events: auto;
-  content: "";
-  background-color: rgba(0, 0, 0, 0); }
 
 .m-0 {
   margin: 0 !important; }
@@ -6909,6 +6914,17 @@ button.bg-dark:focus {
   .mx-xl-auto {
     margin-left: auto !important; } }
 
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: "";
+  background-color: rgba(0, 0, 0, 0); }
+
 .text-monospace {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
 
@@ -7138,6 +7154,36 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 40%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+.ui-timepicker-div .ui_tpicker_unit_hide{ display: none; }
+
+.ui-timepicker-div .ui_tpicker_time .ui_tpicker_time_input { background: none; color: inherit; border: none; outline: none; border-bottom: solid 1px #555; width: 95%; }
+.ui-timepicker-div .ui_tpicker_time .ui_tpicker_time_input:focus { border-bottom-color: #aaa; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+
+/* Shortened version style */
+.ui-timepicker-div.ui-timepicker-oneLine { padding-right: 2px; }
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time, 
+.ui-timepicker-div.ui-timepicker-oneLine dt { display: none; }
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time_label { display: block; padding-top: 2px; }
+.ui-timepicker-div.ui-timepicker-oneLine dl { text-align: right; }
+.ui-timepicker-div.ui-timepicker-oneLine dl dd, 
+.ui-timepicker-div.ui-timepicker-oneLine dl dd > div { display:inline-block; margin:0; }
+.ui-timepicker-div.ui-timepicker-oneLine dl dd.ui_tpicker_minute:before,
+.ui-timepicker-div.ui-timepicker-oneLine dl dd.ui_tpicker_second:before { content:':'; display:inline-block; }
+.ui-timepicker-div.ui-timepicker-oneLine dl dd.ui_tpicker_millisec:before,
+.ui-timepicker-div.ui-timepicker-oneLine dl dd.ui_tpicker_microsec:before { content:'.'; display:inline-block; }
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_unit_hide,
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_unit_hide:before{ display: none; }
 @charset "UTF-8";
 /* roboto-regular - latin */
 @font-face {
@@ -10486,11 +10532,9 @@ input, textarea {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #555;
   font-size: 1rem;
   line-height: 1.42857;
-  padding: 2px 12px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; }
 
 fieldset {
@@ -10504,9 +10548,6 @@ legend {
   margin-bottom: 0;
   border: none;
   padding: 0 0.4rem; }
-
-.form-group-sm .form-control, .form-group-sm select.form-control, .form-group-sm .form-control.ui-multiselect, .form-group-sm .form-control.ui-selectmenu-dropdown {
-  height: 25px; }
 
 p, ul {
   margin-bottom: 1rem; }
@@ -10532,34 +10573,12 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   white-space: nowrap;
   text-shadow: none; }
 
-.form-control {
-  height: 2rem;
-  font-size: 1rem; }
-
 .input-lg {
   font-size: 1.25rem;
   height: 2.5rem; }
 
 .dropdown-menu {
   font-size: 1rem; }
-
-.form-control {
-  font-size: 1rem; }
-
-.form-group-sm, .form-group-sm .form-control {
-  font-size: 0.875rem; }
-
-.form-control-lg {
-  font-size: 1.25rem; }
-
-.form-control-sm, select.form-control-sm, .form-control-sm.ui-multiselect, .form-control-sm.ui-selectmenu-dropdown {
-  font-size: 0.875rem; }
-
-.form-group-sm, .form-group-sm .form-control {
-  font-size: 0.875rem; }
-
-select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:not([size]):not([multiple]), .form-control.ui-selectmenu-dropdown:not([size]):not([multiple]) {
-  height: 2rem; }
 
 .card {
   background: #fff;
@@ -10864,7 +10883,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
-select, select.form-control, select.form-control-sm {
+select {
   font-size: 1rem;
   height: 2rem;
   padding: 0;
@@ -10933,6 +10952,38 @@ select, select.form-control, select.form-control-sm {
     color: #818a91; }
     .context-menu-item.context-menu-disabled * {
       color: #818a91; }
+
+div.formEdit_dialog_loading_container div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  animation: fadeIn-overlay 0.75s ease-out forwards; }
+
+div.formEdit_dialog_loading_container span {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10rem;
+  z-index: 101;
+  animation: fadeIn-spinner 1.25s ease-out forwards; }
+
+@keyframes fadeIn-overlay {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 0.3;
+    background-color: #050505; } }
+
+@keyframes fadeIn-spinner {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1;
+    color: #333333; } }
 
 .rup-date-input-group {
   display: inline-table;
@@ -12982,8 +13033,9 @@ table.dataTable tbody > tr:hover {
 
 /* SE USA EL ':not(.DTCR_clonedTable)' PARA EVITAR QUE ESTOS ESTILOS SE APLIQUEN TAMBIEN AL COLREORDER */
 table.tableFit:not(.DTCR_clonedTable) {
-  width: calc(100% - 1px) !important;
-  max-width: calc(100% - 1px);
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box;
   margin-bottom: 0; }
 
 table.tableFit.DTCR_clonedTable {
@@ -14519,31 +14571,34 @@ table.table-material {
       border-right-style: hidden;
       border-top-right-radius: unset;
       border-bottom-right-radius: unset; }
-      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a {
+        width: 26.4px;
+        margin-left: -4px;
+        border: 1px solid #757575;
+        border-left-style: hidden; }
+        .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a:focus {
+          background-color: #1472a4;
+          /* USAR CON ICONOS MATERIAL
+					i {
+						color: $white-color;
+					}*/ }
+          .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a:focus span {
+            /* ICONO DROPDOWN */
+            background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%); }
+        .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a span {
+          /* ICONO DROPDOWN */
+          background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+          background-repeat: no-repeat;
+          background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
+          background-size: 5px 5px, 5px 5px; }
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):disabled + a {
+        background-color: #e9ecef;
+        opacity: 1; }
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled + a {
         border-color: #212529; }
-      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled + a {
         border-color: #1472a4;
         border-width: 2px; }
-    .form-groupMaterial .rup-combobox a {
-      width: 26.4px;
-      margin-left: -4px;
-      border: 1px solid #757575;
-      border-left-style: hidden; }
-      .form-groupMaterial .rup-combobox a:focus {
-        background-color: #1472a4;
-        /* USAR CON ICONOS MATERIAL
-				i {
-					color: $white-color;
-				}*/ }
-        .form-groupMaterial .rup-combobox a:focus span {
-          /* ICONO DROPDOWN */
-          background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%); }
-      .form-groupMaterial .rup-combobox a span {
-        /* ICONO DROPDOWN */
-        background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
-        background-repeat: no-repeat;
-        background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
-        background-size: 5px 5px, 5px 5px; }
     .form-groupMaterial .rup-combobox ~ input[ruptype="autocomplete"][type="hidden"] ~ label {
       color: #1472a4;
       background: #FFFFFF; }
@@ -14985,6 +15040,10 @@ div.material-datepicker.ui-datepicker {
     margin: 0.5em; }
     div.material-datepicker.ui-datepicker dl dd {
       margin-bottom: 1.35em; }
+      div.material-datepicker.ui-datepicker dl dd .ui_tpicker_time_input {
+        border: none;
+        box-shadow: none;
+        padding: 0; }
       div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal {
         height: 0;
         margin-top: 0.8em;
@@ -15216,6 +15275,63 @@ table.dataTable tbody td::-moz-selection {
 table.dataTable tbody td::selection {
   background-color: transparent; }
 
+/* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
+.paginationContainer .searchPaginator input {
+  padding: 1px;
+  border: 1px solid #757575;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #495057;
+  background-image: none;
+  background-color: #FFFFFF; }
+  .paginationContainer .searchPaginator input:hover {
+    border-color: #212529; }
+  .paginationContainer .searchPaginator input:focus {
+    outline: none;
+    border-color: #1472a4;
+    caret-color: #1472a4;
+    border-width: 2px;
+    box-shadow: none;
+    padding: initial; }
+
+.paginationContainer .dataTables_length label {
+  margin: initial; }
+  .paginationContainer .dataTables_length label select, .paginationContainer .dataTables_length label .ui-multiselect, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown {
+    padding: 0 15px 0 5px;
+    border: 1px solid #757575;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #495057;
+    background-image: none;
+    background-color: #FFFFFF;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+    /* ICONO DROPDOWN */
+    background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 9.5px) calc(0.8em), calc(100% - 4.5px) calc(0.8em);
+    background-size: 5px 5px, 5px 5px;
+    /* ELIMINA EL ICONO DE DROPDOWN NATIVO EN IE 10/11 */ }
+    .paginationContainer .dataTables_length label select::-ms-expand, .paginationContainer .dataTables_length label .ui-multiselect::-ms-expand, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown::-ms-expand {
+      display: none; }
+    .paginationContainer .dataTables_length label select:hover, .paginationContainer .dataTables_length label .ui-multiselect:hover, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown:hover {
+      border-color: #212529; }
+    .paginationContainer .dataTables_length label select:focus, .paginationContainer .dataTables_length label .ui-multiselect:focus, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown:focus {
+      outline: none;
+      border-color: #1472a4;
+      caret-color: #1472a4;
+      border-width: 2px;
+      box-shadow: none; }
+
+/* PARA TABLAS DOBLES */
+@media (min-width: 1200px) {
+  .col-xl-6 .paginationContainer .dataTables_length label select, .col-xl-6 .paginationContainer .dataTables_length label .ui-multiselect, .col-xl-6 .paginationContainer .dataTables_length label .ui-selectmenu-dropdown {
+    padding: 0 10px 0 0;
+    /* ICONO DROPDOWN */
+    background-position: calc(100% - 7.5px) calc(0.8em), calc(100% - 2.5px) calc(0.8em); } }
+
 form + div.paginationContainer {
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px; }
@@ -15224,95 +15340,94 @@ form + div.paginationContainer {
 i.mdi.error {
   color: #d9534f; }
 
-.form-groupMaterial {
+.form-groupMaterial.rup-validate-field-error {
+  /* SELECT */
+  /* TEXTAREA */
+  /* AUTOCOMPLETE COMBOBOX */
   /* RUP.DATE */ }
-  .form-groupMaterial.rup-validate-field-error {
-    /* SELECT */
-    /* TEXTAREA */
-    /* AUTOCOMPLETE COMBOBOX */ }
-    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]), .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown, .form-groupMaterial.rup-validate-field-error textarea {
-      padding-right: 30px; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ label, .form-groupMaterial.rup-validate-field-error select:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ label {
-        color: #d9534f; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span, .form-groupMaterial.rup-validate-field-error select:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span {
-        color: #d9534f;
-        /* PARA LOS COMBOS */ }
-        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material {
-          border-color: #d9534f; }
-          .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:hover {
-            border-color: #d43f3a; }
-          .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:focus {
-            border: 2px solid #d43f3a; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error select:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:invalid:enabled ~ label {
-        color: #495057; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled, .form-groupMaterial.rup-validate-field-error select:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled, .form-groupMaterial.rup-validate-field-error textarea:enabled {
-        border-color: #d9534f; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled, .form-groupMaterial.rup-validate-field-error select:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:hover:enabled, .form-groupMaterial.rup-validate-field-error textarea:hover:enabled {
-        border-color: #d43f3a; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled, .form-groupMaterial.rup-validate-field-error select:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled {
-        border: 2px solid #d43f3a;
-        caret-color: #d43f3a;
-        outline: none; }
-        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:invalid ~ label {
-          color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error span {
+  .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]), .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown, .form-groupMaterial.rup-validate-field-error textarea {
+    padding-right: 30px; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ label, .form-groupMaterial.rup-validate-field-error select:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ label {
       color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error i.mdi.error {
-      position: absolute;
-      top: 1px;
-      right: 10px;
-      font-size: 1.3rem;
-      font-style: normal;
-      font-weight: 400; }
-    .form-groupMaterial.rup-validate-field-error .error:last-child {
-      display: block;
-      padding-top: 2px;
-      padding-left: 19px; }
-    .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
-      padding-right: 45px; }
-      .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-        right: 25px; }
-    .form-groupMaterial.rup-validate-field-error textarea {
-      padding-right: 35px; }
-      .form-groupMaterial.rup-validate-field-error textarea ~ i.mdi.error {
-        top: 7px;
-        right: 25px; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span, .form-groupMaterial.rup-validate-field-error select:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span {
+      color: #d9534f;
+      /* PARA LOS COMBOS */ }
+      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material {
+        border-color: #d9534f; }
+        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:hover {
+          border-color: #d43f3a; }
+        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:focus {
+          border: 2px solid #d43f3a; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error select:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:invalid:enabled ~ label {
+      color: #495057; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled, .form-groupMaterial.rup-validate-field-error select:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled, .form-groupMaterial.rup-validate-field-error textarea:enabled {
       border-color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled, .form-groupMaterial.rup-validate-field-error select:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:hover:enabled, .form-groupMaterial.rup-validate-field-error textarea:hover:enabled {
       border-color: #d43f3a; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled, .form-groupMaterial.rup-validate-field-error select:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled {
       border: 2px solid #d43f3a;
-      border-left-style: hidden; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
-      background-color: #d9534f; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled {
+      caret-color: #d43f3a;
+      outline: none; }
+      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:invalid ~ label {
+        color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error span {
+    color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error i.mdi.error {
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 400; }
+  .form-groupMaterial.rup-validate-field-error .error:last-child {
+    display: block;
+    padding-top: 2px;
+    padding-left: 19px; }
+  .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
+    padding-right: 45px; }
+    .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
+      right: 25px; }
+  .form-groupMaterial.rup-validate-field-error textarea {
+    padding-right: 35px; }
+    .form-groupMaterial.rup-validate-field-error textarea ~ i.mdi.error {
+      top: 7px;
+      right: 25px; }
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):enabled ~ a {
     border-color: #d9534f; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton {
-      border-color: #d9534f; }
-      .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
-        background-color: #d43f3a; }
-        .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi {
-          color: #FFFFFF; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled {
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
     border-color: #d43f3a; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+    border: 2px solid #d43f3a;
+    border-left-style: hidden; }
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
+    background-color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled {
+    border-color: #d9534f; }
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton {
+      border-color: #d9534f; }
+      .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
+        background-color: #d43f3a; }
+        .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi {
+          color: #FFFFFF; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled {
+    border-color: #d43f3a; }
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
       border-color: #d43f3a; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
     border: 2px solid #d43f3a;
     caret-color: #d43f3a; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
       border: 2px solid #d43f3a;
       border-left-style: hidden; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]) i.mdi.error {
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material + label {
+    color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material + i.mdi.error {
     position: absolute;
     top: 1px;
     right: 30px;
     font-size: 1.3rem;
     font-style: normal;
     font-weight: 400; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error + label {
-    color: #d9534f; }
 
 /* ESTILOS GENERALES */
 .material-rounded {
@@ -15323,6 +15438,9 @@ i.mdi.error {
 
 .clear {
   clear: both; }
+
+.font-size-5rem {
+  font-size: 5rem; }
 
 /* MaterialDesignIcons.com */
 @font-face {
@@ -33591,7 +33709,9 @@ tr.ui-state-highlight .ui-icon.ui-icon-rupInfoCol.ui-icon-pencil.ui-icon-search 
 
 .ui-timepicker-div dl dt {
   height: 25px;
-  margin-bottom: -25px; }
+  margin-bottom: -25px;
+  float: none;
+  clear: none; }
 
 .ui-timepicker-div dl dd {
   margin: 0 10px 10px 65px; }
@@ -36785,11 +36905,9 @@ input, textarea {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   color: #555;
   font-size: 1rem;
   line-height: 1.42857;
-  padding: 2px 12px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; }
 
 fieldset {
@@ -36803,9 +36921,6 @@ legend {
   margin-bottom: 0;
   border: none;
   padding: 0 0.4rem; }
-
-.form-group-sm .form-control, .form-group-sm select.form-control, .form-group-sm .form-control.ui-multiselect, .form-group-sm .form-control.ui-selectmenu-dropdown {
-  height: 25px; }
 
 p, ul {
   margin-bottom: 1rem; }
@@ -36831,34 +36946,12 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   white-space: nowrap;
   text-shadow: none; }
 
-.form-control {
-  height: 2rem;
-  font-size: 1rem; }
-
 .input-lg {
   font-size: 1.25rem;
   height: 2.5rem; }
 
 .dropdown-menu {
   font-size: 1rem; }
-
-.form-control {
-  font-size: 1rem; }
-
-.form-group-sm, .form-group-sm .form-control {
-  font-size: 0.875rem; }
-
-.form-control-lg {
-  font-size: 1.25rem; }
-
-.form-control-sm, select.form-control-sm, .form-control-sm.ui-multiselect, .form-control-sm.ui-selectmenu-dropdown {
-  font-size: 0.875rem; }
-
-.form-group-sm, .form-group-sm .form-control {
-  font-size: 0.875rem; }
-
-select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:not([size]):not([multiple]), .form-control.ui-selectmenu-dropdown:not([size]):not([multiple]) {
-  height: 2rem; }
 
 .card {
   background: #fff;
@@ -37163,7 +37256,7 @@ select.form-control:not([size]):not([multiple]), .form-control.ui-multiselect:no
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
-select, select.form-control, select.form-control-sm {
+select {
   font-size: 1rem;
   height: 2rem;
   padding: 0;
@@ -37232,6 +37325,38 @@ select, select.form-control, select.form-control-sm {
     color: #818a91; }
     .context-menu-item.context-menu-disabled * {
       color: #818a91; }
+
+div.formEdit_dialog_loading_container div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  animation: fadeIn-overlay 0.75s ease-out forwards; }
+
+div.formEdit_dialog_loading_container span {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10rem;
+  z-index: 101;
+  animation: fadeIn-spinner 1.25s ease-out forwards; }
+
+@keyframes fadeIn-overlay {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 0.3;
+    background-color: #050505; } }
+
+@keyframes fadeIn-spinner {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1;
+    color: #333333; } }
 
 .rup-date-input-group {
   display: inline-table;
@@ -39281,8 +39406,9 @@ table.dataTable tbody > tr:hover {
 
 /* SE USA EL ':not(.DTCR_clonedTable)' PARA EVITAR QUE ESTOS ESTILOS SE APLIQUEN TAMBIEN AL COLREORDER */
 table.tableFit:not(.DTCR_clonedTable) {
-  width: calc(100% - 1px) !important;
-  max-width: calc(100% - 1px);
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box;
   margin-bottom: 0; }
 
 table.tableFit.DTCR_clonedTable {
@@ -40818,31 +40944,34 @@ table.table-material {
       border-right-style: hidden;
       border-top-right-radius: unset;
       border-bottom-right-radius: unset; }
-      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a {
+        width: 26.4px;
+        margin-left: -4px;
+        border: 1px solid #757575;
+        border-left-style: hidden; }
+        .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a:focus {
+          background-color: #1472a4;
+          /* USAR CON ICONOS MATERIAL
+					i {
+						color: $white-color;
+					}*/ }
+          .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a:focus span {
+            /* ICONO DROPDOWN */
+            background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%); }
+        .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]) + a span {
+          /* ICONO DROPDOWN */
+          background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+          background-repeat: no-repeat;
+          background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
+          background-size: 5px 5px, 5px 5px; }
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):disabled + a {
+        background-color: #e9ecef;
+        opacity: 1; }
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled + a {
         border-color: #212529; }
-      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+      .form-groupMaterial .rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled + a {
         border-color: #1472a4;
         border-width: 2px; }
-    .form-groupMaterial .rup-combobox a {
-      width: 26.4px;
-      margin-left: -4px;
-      border: 1px solid #757575;
-      border-left-style: hidden; }
-      .form-groupMaterial .rup-combobox a:focus {
-        background-color: #1472a4;
-        /* USAR CON ICONOS MATERIAL
-				i {
-					color: $white-color;
-				}*/ }
-        .form-groupMaterial .rup-combobox a:focus span {
-          /* ICONO DROPDOWN */
-          background-image: linear-gradient(45deg, transparent 50%, #FFFFFF 50%), linear-gradient(135deg, #FFFFFF 50%, transparent 50%); }
-      .form-groupMaterial .rup-combobox a span {
-        /* ICONO DROPDOWN */
-        background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
-        background-repeat: no-repeat;
-        background-position: calc(100% - 8px) calc(0.5em), calc(100% - 3px) calc(0.5em);
-        background-size: 5px 5px, 5px 5px; }
     .form-groupMaterial .rup-combobox ~ input[ruptype="autocomplete"][type="hidden"] ~ label {
       color: #1472a4;
       background: #FFFFFF; }
@@ -41284,6 +41413,10 @@ div.material-datepicker.ui-datepicker {
     margin: 0.5em; }
     div.material-datepicker.ui-datepicker dl dd {
       margin-bottom: 1.35em; }
+      div.material-datepicker.ui-datepicker dl dd .ui_tpicker_time_input {
+        border: none;
+        box-shadow: none;
+        padding: 0; }
       div.material-datepicker.ui-datepicker dl dd .ui-slider-horizontal {
         height: 0;
         margin-top: 0.8em;
@@ -41515,6 +41648,63 @@ table.dataTable tbody td::-moz-selection {
 table.dataTable tbody td::selection {
   background-color: transparent; }
 
+/* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
+.paginationContainer .searchPaginator input {
+  padding: 1px;
+  border: 1px solid #757575;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #495057;
+  background-image: none;
+  background-color: #FFFFFF; }
+  .paginationContainer .searchPaginator input:hover {
+    border-color: #212529; }
+  .paginationContainer .searchPaginator input:focus {
+    outline: none;
+    border-color: #1472a4;
+    caret-color: #1472a4;
+    border-width: 2px;
+    box-shadow: none;
+    padding: initial; }
+
+.paginationContainer .dataTables_length label {
+  margin: initial; }
+  .paginationContainer .dataTables_length label select, .paginationContainer .dataTables_length label .ui-multiselect, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown {
+    padding: 0 15px 0 5px;
+    border: 1px solid #757575;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #495057;
+    background-image: none;
+    background-color: #FFFFFF;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+    /* ICONO DROPDOWN */
+    background-image: linear-gradient(45deg, transparent 50%, #555555 50%), linear-gradient(135deg, #555555 50%, transparent 50%);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 9.5px) calc(0.8em), calc(100% - 4.5px) calc(0.8em);
+    background-size: 5px 5px, 5px 5px;
+    /* ELIMINA EL ICONO DE DROPDOWN NATIVO EN IE 10/11 */ }
+    .paginationContainer .dataTables_length label select::-ms-expand, .paginationContainer .dataTables_length label .ui-multiselect::-ms-expand, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown::-ms-expand {
+      display: none; }
+    .paginationContainer .dataTables_length label select:hover, .paginationContainer .dataTables_length label .ui-multiselect:hover, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown:hover {
+      border-color: #212529; }
+    .paginationContainer .dataTables_length label select:focus, .paginationContainer .dataTables_length label .ui-multiselect:focus, .paginationContainer .dataTables_length label .ui-selectmenu-dropdown:focus {
+      outline: none;
+      border-color: #1472a4;
+      caret-color: #1472a4;
+      border-width: 2px;
+      box-shadow: none; }
+
+/* PARA TABLAS DOBLES */
+@media (min-width: 1200px) {
+  .col-xl-6 .paginationContainer .dataTables_length label select, .col-xl-6 .paginationContainer .dataTables_length label .ui-multiselect, .col-xl-6 .paginationContainer .dataTables_length label .ui-selectmenu-dropdown {
+    padding: 0 10px 0 0;
+    /* ICONO DROPDOWN */
+    background-position: calc(100% - 7.5px) calc(0.8em), calc(100% - 2.5px) calc(0.8em); } }
+
 form + div.paginationContainer {
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px; }
@@ -41523,95 +41713,94 @@ form + div.paginationContainer {
 i.mdi.error {
   color: #d9534f; }
 
-.form-groupMaterial {
+.form-groupMaterial.rup-validate-field-error {
+  /* SELECT */
+  /* TEXTAREA */
+  /* AUTOCOMPLETE COMBOBOX */
   /* RUP.DATE */ }
-  .form-groupMaterial.rup-validate-field-error {
-    /* SELECT */
-    /* TEXTAREA */
-    /* AUTOCOMPLETE COMBOBOX */ }
-    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]), .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown, .form-groupMaterial.rup-validate-field-error textarea {
-      padding-right: 30px; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ label, .form-groupMaterial.rup-validate-field-error select:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ label {
-        color: #d9534f; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span, .form-groupMaterial.rup-validate-field-error select:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span {
-        color: #d9534f;
-        /* PARA LOS COMBOS */ }
-        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material {
-          border-color: #d9534f; }
-          .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:hover {
-            border-color: #d43f3a; }
-          .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:focus {
-            border: 2px solid #d43f3a; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error select:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:invalid:enabled ~ label {
-        color: #495057; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled, .form-groupMaterial.rup-validate-field-error select:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled, .form-groupMaterial.rup-validate-field-error textarea:enabled {
-        border-color: #d9534f; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled, .form-groupMaterial.rup-validate-field-error select:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:hover:enabled, .form-groupMaterial.rup-validate-field-error textarea:hover:enabled {
-        border-color: #d43f3a; }
-      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled, .form-groupMaterial.rup-validate-field-error select:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled {
-        border: 2px solid #d43f3a;
-        caret-color: #d43f3a;
-        outline: none; }
-        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:invalid ~ label {
-          color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error span {
+  .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]), .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown, .form-groupMaterial.rup-validate-field-error textarea {
+    padding-right: 30px; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ label, .form-groupMaterial.rup-validate-field-error select:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ label {
       color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error i.mdi.error {
-      position: absolute;
-      top: 1px;
-      right: 10px;
-      font-size: 1.3rem;
-      font-style: normal;
-      font-weight: 400; }
-    .form-groupMaterial.rup-validate-field-error .error:last-child {
-      display: block;
-      padding-top: 2px;
-      padding-left: 19px; }
-    .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
-      padding-right: 45px; }
-      .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
-        right: 25px; }
-    .form-groupMaterial.rup-validate-field-error textarea {
-      padding-right: 35px; }
-      .form-groupMaterial.rup-validate-field-error textarea ~ i.mdi.error {
-        top: 7px;
-        right: 25px; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span, .form-groupMaterial.rup-validate-field-error select:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span {
+      color: #d9534f;
+      /* PARA LOS COMBOS */ }
+      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material {
+        border-color: #d9534f; }
+        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:hover, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:hover {
+          border-color: #d43f3a; }
+        .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error select:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled ~ span a.select-material:focus, .form-groupMaterial.rup-validate-field-error textarea:enabled ~ span a.select-material:focus {
+          border: 2px solid #d43f3a; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error select:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:invalid:enabled ~ label, .form-groupMaterial.rup-validate-field-error textarea:invalid:enabled ~ label {
+      color: #495057; }
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled, .form-groupMaterial.rup-validate-field-error select:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:enabled, .form-groupMaterial.rup-validate-field-error textarea:enabled {
       border-color: #d9534f; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled, .form-groupMaterial.rup-validate-field-error select:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:hover:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:hover:enabled, .form-groupMaterial.rup-validate-field-error textarea:hover:enabled {
       border-color: #d43f3a; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+    .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled, .form-groupMaterial.rup-validate-field-error select:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled {
       border: 2px solid #d43f3a;
-      border-left-style: hidden; }
-    .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
-      background-color: #d9534f; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled {
+      caret-color: #d43f3a;
+      outline: none; }
+      .form-groupMaterial.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error select:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-multiselect:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown:focus:enabled:invalid ~ label, .form-groupMaterial.rup-validate-field-error textarea:focus:enabled:invalid ~ label {
+        color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error span {
+    color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error i.mdi.error {
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 400; }
+  .form-groupMaterial.rup-validate-field-error .error:last-child {
+    display: block;
+    padding-top: 2px;
+    padding-left: 19px; }
+  .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
+    padding-right: 45px; }
+    .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
+      right: 25px; }
+  .form-groupMaterial.rup-validate-field-error textarea {
+    padding-right: 35px; }
+    .form-groupMaterial.rup-validate-field-error textarea ~ i.mdi.error {
+      top: 7px;
+      right: 25px; }
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):enabled ~ a {
     border-color: #d9534f; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton {
-      border-color: #d9534f; }
-      .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
-        background-color: #d43f3a; }
-        .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi {
-          color: #FFFFFF; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled {
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a {
     border-color: #d43f3a; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a {
+    border: 2px solid #d43f3a;
+    border-left-style: hidden; }
+  .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
+    background-color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled {
+    border-color: #d9534f; }
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton {
+      border-color: #d9534f; }
+      .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus {
+        background-color: #d43f3a; }
+        .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .ui-button.rup-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-dropdown-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-toolbar_menuButton.ui-button:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_next:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ a.rup-wizard_prev:focus > i.mdi, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled ~ .rup-wizard_submitButton:focus > i.mdi {
+          color: #FFFFFF; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled {
+    border-color: #d43f3a; }
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):hover:enabled ~ .rup-wizard_submitButton {
       border-color: #d43f3a; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled {
     border: 2px solid #d43f3a;
     caret-color: #d43f3a; }
-    .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
+    .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .ui-button.rup-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-dropdown-btn-group input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .rup-dropdown-btn-group .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-dropdown-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-toolbar_menuButton.ui-button, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_next, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ a.rup-wizard_prev, .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material .rup-wizard input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton, .rup-wizard .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):focus:enabled ~ .rup-wizard_submitButton {
       border: 2px solid #d43f3a;
       border-left-style: hidden; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error input:not([type="checkbox"]):not([type="radio"]) i.mdi.error {
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material + label {
+    color: #d9534f; }
+  .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material + i.mdi.error {
     position: absolute;
     top: 1px;
     right: 30px;
     font-size: 1.3rem;
     font-style: normal;
     font-weight: 400; }
-  .form-groupMaterial div.rup-date-input-group-material.rup-validate-field-error + label {
-    color: #d9534f; }
 
 /* ESTILOS GENERALES */
 .material-rounded {
@@ -41622,6 +41811,9 @@ i.mdi.error {
 
 .clear {
   clear: both; }
+
+.font-size-5rem {
+  font-size: 5rem; }
 
 /* MaterialDesignIcons.com */
 @font-face {
