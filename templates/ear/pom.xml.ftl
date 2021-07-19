@@ -62,7 +62,7 @@
 		    <groupId>com.hdivsecurity</groupId>
 		    <artifactId>hdiv-for-services</artifactId>
 		    <version><#noparse>${hdivsecurity.version}</#noparse></version>
-		      <exclusions>
+			<exclusions>
 				<exclusion>
 					<groupId>com.github.fge</groupId>
 					<artifactId>btf</artifactId>
