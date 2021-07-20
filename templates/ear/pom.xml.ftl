@@ -129,41 +129,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
@@ -769,16 +734,6 @@
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.hateoas</groupId>
-		    <artifactId>spring-hateoas</artifactId>
-		    <version>0.23.0.RELEASE</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.plugin</groupId>
-		    <artifactId>spring-plugin-core</artifactId>
-		    <version>1.2.0.RELEASE</version>
 		</dependency>
 
 		
