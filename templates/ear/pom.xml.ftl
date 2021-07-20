@@ -1,4 +1,4 @@
-/*
+<!--
 * Copyright 2021 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
@@ -9,10 +9,10 @@
 *
 * Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
 * el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
-* SIN GARANT�?AS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
 * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
 * que establece la Licencia.
-*/
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -31,10 +31,11 @@
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.3</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
-		<com.ejie.x38.version>5.0.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>5.0.1-RELEASE</com.ejie.x38.version>
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
 		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
+		<hdivsecurity.version>2.4.1</hdivsecurity.version>
 	</properties>		
 	<dependencies>
 	<#if radjpa>
@@ -56,6 +57,63 @@
 			<version><#noparse>${eclipselink.version}</#noparse></version>
 		</dependency>
 	</#if>	
+		<!-- Hdiv -->
+		<dependency>
+		    <groupId>com.hdivsecurity</groupId>
+		    <artifactId>hdiv-for-services</artifactId>
+		    <version><#noparse>${hdivsecurity.version}</#noparse></version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>btf</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>jackson-coreutils</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.module</groupId>
+					<artifactId>jackson-module-jsonSchema</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.jcip</groupId>
+					<artifactId>jcip-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.edropple.jregex</groupId>
+					<artifactId>jregex</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.fge</groupId>
+					<artifactId>json-patch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.jsqlparser</groupId>
+					<artifactId>jsqlparser</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>jsr250-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sourceforge.streamsupport</groupId>
+					<artifactId>streamsupport</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>stax</groupId>
+					<artifactId>stax-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.freemarker</groupId>
+					<artifactId>freemarker</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -71,41 +129,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version><#noparse>${org.springframework.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version><#noparse>${org.springframework.version}</#noparse></version>
 		</dependency>
@@ -118,6 +141,12 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
 		    <version><#noparse>${org.springframework.version}</#noparse></version>
+		    <exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+			  	</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- Spring Security -->
@@ -235,7 +264,7 @@
 		<dependency>
 	    	<groupId>commons-digester</groupId>
 	      	<artifactId>commons-digester</artifactId>
-	      	<version>2.0</version>
+	      	<version>2.1</version>
 	    </dependency>
 
 		<!-- AspectJ -->
@@ -300,6 +329,12 @@
 	      	<groupId>org.apache.tiles</groupId>
 	      	<artifactId>tiles-autotag-core-runtime</artifactId>
 	      	<version>1.2</version>
+	        <exclusions>
+	    		<exclusion>
+					<groupId>org.freemarker</groupId>
+					<artifactId>freemarker</artifactId>
+				</exclusion>
+			</exclusions>
 	    </dependency>
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
@@ -347,12 +382,46 @@
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-mapper-asl</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.castor</groupId>
+					<artifactId>castor</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jcommon</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>eclipse</groupId>
+					<artifactId>jdtcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jfree</groupId>
+					<artifactId>jfreechart</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>com.lowagie</groupId>
 		    <artifactId>itext</artifactId>
 		    <version>2.1.7</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcprov-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bctsp-jdk14</artifactId>
+				</exclusion>
+								<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bcmail-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- xls -->
@@ -384,6 +453,16 @@
  		 <groupId>org.apache.poi</groupId>
   		 <artifactId>poi-ooxml-schemas</artifactId>
    		 <version>3.17</version>
+   		    <exclusions>
+				<exclusion>
+					<groupId>com.github.virtuald</groupId>
+					<artifactId>curvesapi</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlbeans</groupId>
+					<artifactId>xmlbeans</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- xlsx -->
@@ -656,16 +735,6 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.springframework.hateoas</groupId>
-		    <artifactId>spring-hateoas</artifactId>
-		    <version>0.23.0.RELEASE</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.plugin</groupId>
-		    <artifactId>spring-plugin-core</artifactId>
-		    <version>1.2.0.RELEASE</version>
-		</dependency>
 
 		
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
@@ -739,7 +808,7 @@
 							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
-							<excludeTransitive>true</excludeTransitive>
+							<excludeTransitive>false</excludeTransitive>
 							<excludeScope>provided</excludeScope>
 						</configuration>
 					</execution>

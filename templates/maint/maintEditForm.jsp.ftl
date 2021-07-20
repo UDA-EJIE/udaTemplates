@@ -26,7 +26,7 @@
 	<!-- Feedback del formulario de detalle -->
 	<div id="${maint.nameMaint}_detail_feedback"></div>
 	<c:if test="<#noparse>${not empty fixedMessage}</#noparse>">
-		<p><#noparse>${fixedMessage}</#noparse></p>
+		<p><c:out value="<#noparse>${fixedMessage}</#noparse>"/></p>
 	</c:if>
 	<!-- Campos del formulario de detalle -->
 	<#assign count = 0>
