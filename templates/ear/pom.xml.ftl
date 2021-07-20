@@ -72,10 +72,6 @@
 					<artifactId>jackson-coreutils</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.fasterxml.jackson.datatype</groupId>
-					<artifactId>jackson-datatype-hibernate4</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>com.fasterxml.jackson.module</groupId>
 					<artifactId>jackson-module-jsonSchema</artifactId>
 				</exclusion>
