@@ -104,7 +104,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @return ${pojo.getDeclarationName()} 
 	 *            Bean resultante de la modificacion.
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.PUT)
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/edit", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.PUT)
     public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} edit(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.update(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
 		${pojo.getDeclarationName()}Controller.logger.info("[PUT] : ${pojo.getDeclarationName()} actualizado correctamente");
@@ -121,7 +121,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @return ${pojo.getDeclarationName()}
 	 *            Bean resultante del proceso de creacion.
 	 */
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/add", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.getDeclarationName()} add(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.add(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
         ${pojo.getDeclarationName()}Controller.logger.info("[POST] : ${pojo.getDeclarationName()} insertado correctamente");
