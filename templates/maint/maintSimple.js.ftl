@@ -31,7 +31,8 @@ jQuery(function($){
 	
 	let tableColModels = [			
 			<#list gridColumns as columnProperties>
-			{ 	name: "${columnProperties.name}", 
+			{ 	name: "${columnProperties.name}",
+				index: "${columnProperties.name}",
 				editable: ${columnProperties.editable?string}, 
 				<#switch columnProperties.editType>
 					<#case "Combo">
