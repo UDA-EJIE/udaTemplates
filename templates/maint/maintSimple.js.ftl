@@ -191,7 +191,7 @@ let tableColModels = [
 			,contextMenu: false
 			</#if>
 		},
-		</#if>	
-		order: [[${grid.sortPosition}, "${grid.sortOrder}"]]
+		</#if>
+		order: [[${grid.sortPosition + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
 	});
 });
