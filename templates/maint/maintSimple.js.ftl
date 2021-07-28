@@ -191,6 +191,6 @@ jQuery(function($){
 				</#if>
 			}
 			</#if>	
-			,order: [[ ${grid.sortPosition}, "${grid.sortOrder}" ]]
+			,order: [[${grid.sortPosition + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
 	});
 });
