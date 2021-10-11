@@ -320,7 +320,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/deleteAll", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - deleteMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
 		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(tableRequestDto);
 		${pojo.getDeclarationName()}Controller.logger.info("All entities correctly deleted!");
