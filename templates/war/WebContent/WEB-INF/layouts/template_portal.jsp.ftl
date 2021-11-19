@@ -38,6 +38,13 @@
 	<%@include file="/WEB-INF/layouts/includes/rup.styles.inc"%>
 	<%-- Estilos Aplicacion --%>
 	<%@include file="/WEB-INF/layouts/includes/${codapp}.styles.inc"%>
+	
+	<#if entornoEjie != "">
+	<script>
+		// Habilitar el envío de trazas a PIB.
+		window.IS_EJIE = true;
+	</script>
+	</#if>
 	<!-- FIN Modulo asociado a la cabecera de portal -->
 
 <!-- Borrar para desarrollo -->
