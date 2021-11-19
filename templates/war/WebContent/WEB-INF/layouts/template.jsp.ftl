@@ -34,7 +34,13 @@
 <%-- 	<%@include file="/WEB-INF/layouts/includes/rup.styles.portal.inc" %> --%>
 	<%-- Estilos Aplicacion --%>
 	<%@include file="/WEB-INF/layouts/includes/${codapp}.styles.inc"%>
-
+	
+	<#if entornoEjie != "">
+	<script>
+		// Habilitar el envío de trazas a PIB.
+		window.IS_EJIE = true;
+	</script>
+	</#if>
 </head>
 <body>
 	<div class="contenedor">
