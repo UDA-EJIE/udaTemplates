@@ -16,7 +16,7 @@
 
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<h2>${maint.titleMaint}</h2>
+<h2 class="title">${maint.titleMaint}</h2>
 <#if (maint.filterMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
 <#else>
