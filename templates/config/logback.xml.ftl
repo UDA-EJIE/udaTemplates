@@ -132,7 +132,7 @@
   	
   	<#if entornoEjie != "">
 	<appender name="salidaHdivAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${log.path}/salidaHdiv_${CONTEXT_NAME}_${weblogic.Name}.log</File>
+		<File><#noparse>${log.path}</#noparse>/salidaHdiv_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.log</File>
 		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 			<layout class="com.ejie.x38.log.LogLayout">
 				<appCode>${CONTEXT_NAME}</appCode>
@@ -141,7 +141,7 @@
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>${log.path}/salidaHdiv_${CONTEXT_NAME}_${weblogic.Name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<fileNamePattern><#noparse>${log.path}</#noparse>/salidaHdiv_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
