@@ -301,15 +301,15 @@
 	
 	<#if entornoEjie != "">
 	<!-- Appender para las trazas de Hdiv -->
-	<logger name="com.ejie.x38.hdiv" level="${log.level.udaTrazas}">
+	<logger name="com.ejie.x38.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	
-	<logger name="com.hdivsecurity" level="${log.level.udaTrazas}">
+	<logger name="com.hdivsecurity" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	
-	<logger name="org.hdiv" level="${log.level.udaTrazas}">
+	<logger name="org.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	</#if>
