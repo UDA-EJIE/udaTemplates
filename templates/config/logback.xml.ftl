@@ -135,8 +135,8 @@
 		<File><#noparse>${log.path}</#noparse>/salidaHdiv_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.log</File>
 		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 			<layout class="com.ejie.x38.log.LogLayout">
-				<appCode>${CONTEXT_NAME}</appCode>
-				<instance>${weblogic.Name}</instance>	
+				<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+				<instance><#noparse>${weblogic.Name}</#noparse></instance>	
 			</layout>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
