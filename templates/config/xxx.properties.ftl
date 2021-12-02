@@ -14,7 +14,7 @@
  -- que establece la Licencia.
  -->
 <#if entornoEjie != "">
-statics.path = http://desarrollo.jakina.ejiedes.net:7001/${codapp?lower_case}Statics
+statics.path = /${codapp?lower_case}Statics
 xlnets.path = https://xlnets.servicios.des.ejgv.euskalsarea.eus/n38a/N38LoginInicioServlet
 #TRUE if it is portal embedded
 xlnets.inPortal=FALSE 
