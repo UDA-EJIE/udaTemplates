@@ -131,6 +131,25 @@
   	</appender>
   	
   	<#if entornoEjie != "">
+	<appender name="salidaHdivAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.path}/salidaHdiv_${CONTEXT_NAME}_${weblogic.Name}.log</File>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="com.ejie.x38.log.LogLayout">
+				<appCode>${CONTEXT_NAME}</appCode>
+				<instance>${weblogic.Name}</instance>	
+			</layout>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log.path}/salidaHdiv_${CONTEXT_NAME}_${weblogic.Name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 7-day history -->
+			<maxHistory>6</maxHistory>
+		</rollingPolicy>
+	</appender>
+	
   	<!-- MOMO Appenders -->
   	
   	<appender name="salidaEstandarMomoAppender" class="com.ejie.x38.log.MomoAppender">
@@ -279,5 +298,20 @@
 		<appender-ref ref="auditoriaAccesosMomoAppender"/>
 		</#if>
 	</logger>
+	
+	<#if entornoEjie != "">
+	<!-- Appender para las trazas de Hdiv -->
+	<logger name="com.ejie.x38.hdiv" level="${log.level.udaTrazas}">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	
+	<logger name="com.hdivsecurity" level="${log.level.udaTrazas}">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	
+	<logger name="org.hdiv" level="${log.level.udaTrazas}">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	</#if>
   
 </configuration>
