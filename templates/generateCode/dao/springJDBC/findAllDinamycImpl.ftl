@@ -45,6 +45,35 @@
 
 		return this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
 	}
+	
+	/**
+     * Finds a List of rows containing the CP field in the ${pojo.getDeclarationName()} table.
+     *
+     * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 * @param startsWith boolean
+     *
+     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
+     */
+	@${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)
+    public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllIds(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, boolean startsWith) {
+		<#assign paramtabSelectDinamyc = paramTablaSelect>
+		<#assign pkSelect = utilidadesDao.pkSelectFind(pojo,cfg)>
+		// SELECT
+		StringBuilder query = new StringBuilder("SELECT <#list pkSelect as param>${param}<#if param_has_next>,</#if></#list> ");
+		
+		// FROM
+		query.append("FROM <#list paramtabSelectDinamyc as param>${param}<#if param_has_next>,</#if></#list>");
+
+		// WHERE clause & Params
+		Map<String, ?> mapaWhere = this.getWhereLikeMap(${pojo.getDeclarationName()?lower_case}, startsWith); <#assign wheretablaJoin = utilidadesDao.whereDynamicSelect(pojo,cfg)>
+		StringBuilder where = new StringBuilder(" WHERE 1=1 <#list wheretablaJoin as param>AND ${param} </#list>");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		return this.jdbcTemplate.query(query.toString(), this.rwMapPK, params.toArray());
+	}
 
 	/**
 	 * Finds rows in the ${pojo.getDeclarationName()} table using like.

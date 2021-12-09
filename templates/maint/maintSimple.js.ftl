@@ -56,6 +56,16 @@ let tableColModels = [
 		</#if>
 		</#list>
 	];
+	
+	// Formulario de filtrado.
+	$('#id_filter_table').rup_autocomplete({
+		source : './allIds',
+		sourceParam : {label: 'nid', value: 'id'},
+		menuMaxHeight: 175,
+		combobox: true,
+		contains: true,
+		showDefault: true
+	});
 
 	$("#${maint.nameMaint}").rup_table({
 		colReorder: {
