@@ -110,13 +110,19 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
 	 */
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds")
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/allIds", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAllIds(
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) String param,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) <#list primariaParam as camposPrim> ${camposPrim[1]}<#if camposPrim_has_next>, </#if></#list> param,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "c", required = true) boolean startsWith) {
 		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL_ID] : Obtener CPs de ${pojo.getDeclarationName()}");
-		${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}(param);
+		${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
+			
+		<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
+		${field[2]}.set${pojo.beanCapitalize(field[3])}(param);
+		</#foreach>
+		
 	    return ${pojo.importType("com.ejie.x38.util.ResourceUtils")}.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAllIds(${ctrl.stringDecapitalize(pojo.getDeclarationName())}, startsWith));
 	}
 
