@@ -56,11 +56,17 @@ let tableColModels = [
 		</#if>
 		</#list>
 	];
+	<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
+	<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
+		<#assign primaryKey = maint.primaryKey>
+	<#else>
+		<#assign primaryKey = "id">
+    </#if>
 	
 	// Formulario de filtrado.
-	$('#id_filter_table').rup_autocomplete({
+	$('#${primaryKey}_filter_table').rup_autocomplete({
 		source : './allIds',
-		sourceParam : {label: 'nid', value: 'id'},
+		sourceParam : {label: 'nid', value: '${primaryKey}'},
 		menuMaxHeight: 175,
 		combobox: true,
 		contains: true,
@@ -72,12 +78,7 @@ let tableColModels = [
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
-		<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
-        <#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
-		primaryKey: "${maint.primaryKey}",
-		<#else>
-		primaryKey: "id",
-        </#if>
+		primaryKey: "${primaryKey}",
         <#if (maint.filterMaint)?string == "true">
 		filter: {
   	  		id: "${maint.nameMaint}_filter_form",
