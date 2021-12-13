@@ -31,7 +31,7 @@
     <thead>
         <tr>
         	<#list gridColumns as columnProperties>
-        	<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+        	<#if ((maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)) && ((columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE")>
 			<th data-col-prop="${columnProperties.name}" data-col-sidx="${columnProperties.name?replace(".","")?upper_case}"<#if (columnProperties.editType)?string != "text"> data-col-type="${columnProperties.editType}"</#if>>
 				<spring:message code="${columnProperties.name}"/>
 			</th>
