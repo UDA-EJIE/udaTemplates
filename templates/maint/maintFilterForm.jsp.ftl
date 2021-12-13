@@ -24,38 +24,56 @@
 	<fieldset id="${maint.nameMaint}_filter_fieldset" class="rup-table-filter-fieldset">
 		<div class="form-row">
 			<!-- Campos del formulario de filtrado -->
+			<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
+			<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
+			<div class="form-groupMaterial col">
+				<form:input path="${maint.primaryKey}" id="${maint.primaryKey}_filter_table"/>
+				<label for="${maint.primaryKey}_filter_table">
+					<spring:message code="${maint.primaryKey}"/>
+				</label>
+			</div>
+			<#else>
+			<div class="form-groupMaterial col">
+				<form:input path="id" id="id_filter_table"/>
+				<label for="id_filter_table">
+					<spring:message code="id"/>
+				</label>
+			</div>
+			</#if>
 			<#list gridColumns as columnProperties>
 				<#if (columnProperties.activated)?string == "true">
-					<#switch columnProperties.editType>
-						<#case "Text">
+					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
+						<#switch columnProperties.editType>
+							<#case "Text">
 			<div class="form-groupMaterial col">
 				<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#case "Textarea">
+								<#break>	
+							<#case "Textarea">
 			<div class="form-groupMaterial col">
 				<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#case "Checkbox">
+								<#break>	
+							<#case "Checkbox">
 			<div class="checkbox-material col">
 				<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>							
-							<#break>
-						<#case "Datepicker">
+								<#break>
+							<#case "Datepicker">
 			<div class="form-groupMaterial col">
 				<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-						<#case "Password">
+								<#break>	
+							<#case "Password">
 			<div class="form-groupMaterial col">
 				<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
-							<#break>
-						<#default>
+								<#break>
+							<#default>
 			<div class="form-groupMaterial col">
 				<form:input path="${columnProperties.name}" id="${columnProperties.name}_filter_table"/>
-							<#break>	
-				  	</#switch>
+								<#break>	
+						</#switch>
 				<label for="${columnProperties.name}_filter_table">
 					<spring:message code="${columnProperties.label}"/>
 				</label>
 			</div>
+					</#if>
 				</#if>
 			</#list>
 			<!-- Fin campos del formulario de filtrado -->
