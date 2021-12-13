@@ -104,6 +104,7 @@ let tableColModels = [
          	validate: { 
     			rules: {
 				<#list gridColumns as columnProperties>
+					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
     				"${columnProperties.name}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
@@ -130,7 +131,8 @@ let tableColModels = [
 							<#default>
 								<#break>
 						</#switch>	
-					}<#if columnProperties_has_next>,</#if>					
+					}<#if columnProperties_has_next>,</#if>
+					</#if>
 				</#list>
 				}
 		   	}
@@ -144,6 +146,7 @@ let tableColModels = [
          	validate: { 
     			rules: {
 					<#list gridColumns as columnProperties>
+					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
     				"${columnProperties.name}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
@@ -171,6 +174,7 @@ let tableColModels = [
 								<#break>
 						</#switch>	
 					}<#if columnProperties_has_next>,</#if>
+					</#if>
     				</#list>
 				}
     		}
