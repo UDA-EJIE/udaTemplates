@@ -30,7 +30,7 @@ jQuery(function($) {
 	</#list>
 let tableColModels = [
 		<#list gridColumns as columnProperties>
-		<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+		<#if ((maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)) && ((columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE")>
 		{
 			name: "${columnProperties.name}",
 			index: "${columnProperties.name}",
