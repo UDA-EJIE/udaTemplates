@@ -29,8 +29,11 @@ jQuery(function($) {
 	</#if>
 	</#list>
 let tableColModels = [
+		<#assign pkCont = 0>
 		<#list gridColumns as columnProperties>
-		<#if ((maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)) && ((columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE")>
+		<#if (maint.primaryKey)?has_content && (maint.primaryKey)?contains(columnProperties.name)>
+			<#assign pkCont = pkCont + 1>
+		<#elseif (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
 		{
 			name: "${columnProperties.name}",
 			index: "${columnProperties.name}",
@@ -53,6 +56,7 @@ let tableColModels = [
 			</#if>
 			hidden: ${columnProperties.hidden?string}
 		}<#if columnProperties_has_next>,</#if>
+		<#else>
 		</#if>
 		</#list>
 	];
@@ -207,6 +211,6 @@ let tableColModels = [
 			</#if>
 		},
 		</#if>
-		order: [[${grid.sortPosition + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
+		order: [[${grid.sortPosition - pkCont + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
 	});
 });
