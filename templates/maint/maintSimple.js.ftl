@@ -28,7 +28,7 @@ jQuery(function($) {
 	  	</#switch>
 	</#if>
 	</#list>
-let tableColModels = [
+const tableColModels = [
 		<#assign pkCont = 0>
 		<#list gridColumns as columnProperties>
 		<#if (maint.primaryKey)?has_content && (maint.primaryKey)?contains(columnProperties.name)>
