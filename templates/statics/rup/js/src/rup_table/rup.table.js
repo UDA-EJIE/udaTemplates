@@ -1277,7 +1277,25 @@
                     }
                       
                     $.when(DataTable.editForm.fnOpenSaveDialog(params[0], params[1], params[2], ctx.oInit.formEdit.customTitle)).then(function () {
+                    	var row = ctx.json.rows[params[2]];
                     	ctx.oInit.formEdit.$navigationBar.funcionParams = {};
+        	            var multiselection = ctx.multiselection;
+        	            var indexInArray = jQuery.inArray(DataTable.Api().rupTable.getIdPk(row, ctx.oInit), multiselection.selectedIds);
+        	            if (ctx.multiselection.selectedAll) { //Si es selecAll recalcular el numero de los selects. Solo la primera vez es necesario.
+        	                indexInArray = ctx.oInit.formEdit.$navigationBar.numPosition;
+        	            }
+        	            if (indexInArray === undefined) {
+        	                indexInArray = 0;
+        	                ctx.oInit.formEdit.$navigationBar.numPosition = 0;
+        	            }
+                        var numTotal = multiselection.numSelected;
+        	            if (ctx.oInit.multiSelect === undefined) {
+        	                numTotal = ctx.json.recordsTotal;
+        	                indexInArray = (Number(ctx.json.page) - 1) * ctx.aBaseJson.length;
+        	                indexInArray = indexInArray + params[2];
+        	            }
+        	            
+        	            DataTable.Api().editForm.updateDetailPagination(ctx, indexInArray + 1, numTotal);
                     });
                 }
             });
@@ -1588,7 +1606,7 @@
                                 });
                                 settingsTable.select.selectedRowsPerPage = undefined;
                                 var numTotal = ctx.json.recordsTotal;
-                                var index = (Number(ctx.json.page) - 1) * 10;
+                                var index = (Number(ctx.json.page) - 1) * ctx.aBaseJson.length;
                                 index = index + line + 1;
                                 DataTable.Api().editForm.updateDetailPagination(ctx, index, numTotal);
                             }
