@@ -40,6 +40,6 @@
         </tr>
     </thead>
 </table>
-<#if (maint.isMaint)?string == "true">
+<#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
 </#if>
