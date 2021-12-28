@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 
 /*!
- * Copyright 2021 E.J.I.E., S.A.
+ * Copyright 2022 E.J.I.E., S.A.
  *
  * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  * Solo podrá usarse esta obra si se respeta la Licencia.
