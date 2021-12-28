@@ -67,6 +67,7 @@ const tableColModels = [
 		<#assign primaryKey = "id">
     </#if>
 	
+	<#if (maint.filterMaint)?string == "true">
 	// Formulario de filtrado.
 	$('#${primaryKey}_filter_table').rup_autocomplete({
 		source : './allIds',
@@ -76,6 +77,7 @@ const tableColModels = [
 		contains: true,
 		showDefault: true
 	});
+	</#if>
 
 	$("#${maint.nameMaint}").rup_table({
 		colReorder: {
