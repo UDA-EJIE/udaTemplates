@@ -1,5 +1,5 @@
 /*
-* Copyright 2021 E.J.I.E., S.A.
+* Copyright 2022 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -70,6 +70,16 @@ public interface ${pojo.getDeclarationName()}Dao {
      * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
      */
     ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
+
+    /**
+     * Finds a List of rows containing the CP field in the ${pojo.getDeclarationName()} table.
+     *
+     * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 * @param startsWith boolean
+     *
+     * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
+     */
+    ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllIds(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, boolean startsWith);
 
 	/**
      * Finds rows in the ${pojo.getDeclarationName()} table using like.

@@ -1,5 +1,5 @@
 /*
-* Copyright 2021 E.J.I.E., S.A.
+* Copyright 2022 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -103,6 +103,30 @@ public class ${pojo.getDeclarationName()}Controller  {
 	}
 
 	/**
+	 * Devuelve una lista de identificadores.
+	 *
+	 * @param param String Contiene el valor del campo a buscar.
+	 * @param startsWith boolean Define si se usará un comodín al inicio.
+	 *
+	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
+	 */
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds")
+	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/allIds", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAllIds(
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) <#list primariaParam as camposPrim> ${camposPrim[1]}<#if camposPrim_has_next>, </#if></#list> param,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "c", required = true) boolean startsWith) {
+		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL_ID] : Obtener CPs de ${pojo.getDeclarationName()}");
+		${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
+			
+		<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
+		${field[2]}.set${pojo.beanCapitalize(field[3])}(param);
+		</#foreach>
+		
+	    return ${pojo.importType("com.ejie.x38.util.ResourceUtils")}.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAllIds(${ctrl.stringDecapitalize(pojo.getDeclarationName())}, startsWith));
+	}
+
+	/**
 	 * Operación CRUD Edit. Modificacion del bean indicado.
 	 *
 	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())} Bean ${pojo.getDeclarationName()} que contiene la informacion a modificar.
@@ -183,6 +207,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "maint", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "editForm"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "inlineEdit"),
+			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "getAllIds"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/maint", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
 	public String getMaint(${pojo.importType("org.springframework.ui.Model")} model) {
@@ -320,7 +345,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/deleteAll", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - deleteMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
 		this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeMultiple(tableRequestDto);
 		${pojo.getDeclarationName()}Controller.logger.info("All entities correctly deleted!");

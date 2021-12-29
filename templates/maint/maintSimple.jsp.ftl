@@ -1,5 +1,5 @@
 <%--
- -- Copyright 2021 E.J.I.E., S.A.
+ -- Copyright 2022 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la "Licencia");
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -16,7 +16,7 @@
 
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<h2>${maint.titleMaint}</h2>
+<h2 class="title">${maint.titleMaint}</h2>
 <#if (maint.filterMaint)?string == "true">
 <jsp:include page="includes/${maint.nameMaint}FilterForm.jsp"></jsp:include>
 <#else>
@@ -31,7 +31,7 @@
     <thead>
         <tr>
         	<#list gridColumns as columnProperties>
-        	<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+        	<#if ((maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)) && ((columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE")>
 			<th data-col-prop="${columnProperties.name}" data-col-sidx="${columnProperties.name?replace(".","")?upper_case}"<#if (columnProperties.editType)?string != "text"> data-col-type="${columnProperties.editType}"</#if>>
 				<spring:message code="${columnProperties.name}"/>
 			</th>
@@ -40,6 +40,6 @@
         </tr>
     </thead>
 </table>
-<#if (maint.isMaint)?string == "true">
+<#if (maint.isMaint)?string == "true" && (maint.typeMaint)?string == "DETAIL">
 <jsp:include page="includes/${maint.nameMaint}Edit.jsp"></jsp:include>
 </#if>

@@ -3,7 +3,7 @@
 
 
 describe('Test Combo > ', () => {
-    var $combo, $comboPadre, $comboHijo, $comboMulti, $comboGroup;
+    var $combo, $comboPadre, $comboHijo, $comboMulti, $comboGroup, $comboGroupVacio;
     var selectedLiteral;
 
     beforeAll((done) => {
@@ -17,6 +17,7 @@ describe('Test Combo > ', () => {
             $comboPadre = $('#comboPadre');
             $comboHijo = $('#comboHijo');
             $comboGroup = $('#comboGroup');
+            $comboGroupVacio = $('#comboGroupVacio');
             selectedLiteral = $.rup.i18n.base.rup_combo.multiselect.selectedText;
             selectedLiteral = selectedLiteral.split('#')[1].trim();
 
@@ -191,13 +192,26 @@ describe('Test Combo > ', () => {
                     expect($comboMulti.rup_combo('getRupValue')).toEqual([]);
                 });
             });
-            describe('Combo optGroup > ', () => {
+            describe('Combo optGroup vacío > ', () => {
+                beforeEach(() => {
+                    $comboGroupVacio.rup_combo('clear');
+                });
+                it('Debe actualizar la ui:', () => {
+                    expect($('#comboGroupVacio-button > span.ui-selectmenu-status').text().trim())
+                        .toBe('');
+                });
+                it('El método getRupValue debe devolver vacio', () => {
+                    expect($comboGroupVacio.rup_combo('getRupValue')).toBe('');
+                });
+            });
+            
+            describe('Combo optGroup 0 > ', () => {
                 beforeEach(() => {
                     $comboGroup.rup_combo('clear');
                 });
                 it('Debe actualizar la ui:', () => {
                     expect($('#comboGroup-button > span.ui-selectmenu-status').text())
-                        .toBe($.rup.i18n.base.rup_combo.blankNotDefined);
+                        .toBe('0');
                 });
                 it('El método getRupValue debe devolver 0', () => {
                     expect($comboGroup.rup_combo('getRupValue')).toBe('0');
@@ -376,7 +390,7 @@ describe('Test Combo > ', () => {
                 });
                 describe('Selección por índice > ', () => {
                     beforeEach(() => {
-                        $comboGroup.rup_combo('select', 2);
+                        $comboGroup.rup_combo('select', 1);
                     });
                     it('Debe cambiar la ui:', () => {
                         expect($('#comboGroup-button > span.ui-selectmenu-status').text()).toBe('Opt11');
@@ -525,7 +539,7 @@ describe('Test Combo > ', () => {
             });
             describe('Combo optGroup > ', () => {
                 it('Debe devolver la label de la seleccion', () => {
-                    expect($comboGroup.rup_combo('index')).toBe(4);
+                    expect($comboGroup.rup_combo('index')).toBe(3);
                 });
             });
         });
@@ -848,6 +862,7 @@ function setupCombos(done) {
 		<select id="comboMulti"></select>\
 		<select id="comboPadre"></select>\
 		<select id="comboHijo"></select>\
+    	<select id="comboGroupVacio"></select>\
 		<select id="comboGroup"></select>';
 
     $('#content').append(html);
@@ -965,11 +980,21 @@ function setupCombos(done) {
         selected: '2.1'
     };
     
+    let optionsGroupVacio = {
+            change: () => {
+                $('#comboGroupVacio').addClass('randomClass');
+            },
+            sourceGroup: sourceGroup,
+            blank: '',
+            selected: '2.1'
+        };
+    
     $('#comboSimple').rup_combo(optionsSimple);
     $('#comboMulti').rup_combo(optionsMulti);
     $('#comboPadre').rup_combo(optionsPadre);
     $('#comboHijo').rup_combo(optionsHijo);
     $('#comboGroup').rup_combo(optionsGroup);
+    $('#comboGroupVacio').rup_combo(optionsGroupVacio);
 
     //Mete automaticamente randomClass asi que lo quitamos
     $('#comboSimple').removeClass('randomClass');
@@ -977,6 +1002,7 @@ function setupCombos(done) {
     $('#comboPadre').removeClass('randomClass');
     $('#comboHijo').removeClass('randomClass');
     $('#comboGroup').removeClass('randomClass');
+    $('#comboGroupVacio').removeClass('randomClass');
     
     setTimeout(done, 100);
 }

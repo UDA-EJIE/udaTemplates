@@ -20595,6 +20595,53 @@
   display: none;
 }
 
+.r01gContainer select.rup_combo ~ button.select-material + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material + div label,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer select.rup_combo ~ button.select-material + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material + label + div label,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton + label + div label {
+  position: initial;
+  pointer-events: initial;
+  color: initial;
+}
+
 @keyframes ripple-slider {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
@@ -21396,11 +21443,13 @@
 
 .r01gContainer div.formulario_legend {
   border-radius: 5px;
+  background-color: #e9e9e9;
 }
 
 .r01gContainer div.formulario_legend.formulario_opened {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .r01gContainer div.formulario_legend.formulario_opened + fieldset.rup-table-filter-fieldset {
@@ -21845,6 +21894,17 @@
 
 .r01gContainer .font-size-5rem {
   font-size: 5rem;
+}
+
+.r01gContainer .title {
+  color: rgba(16, 91, 131, 0.8);
+  border-bottom: 2px solid rgba(87, 126, 154, 0.5);
+}
+
+/* NOTA: ELIMINAR CUANDO SE ACTUALICE BOOTSTRAP A LA VERSIÓN 5.0 O SUPERIOR */
+
+.r01gContainer .text-decoration-underline {
+  text-decoration: underline !important;
 }
 
 /* MaterialDesignIcons.com */
@@ -55440,6 +55500,53 @@
   display: none;
 }
 
+.r01gContainer select.rup_combo ~ button.select-material + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material + div label,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button + div label,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button + div label,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton + div label,
+.r01gContainer select.rup_combo ~ button.select-material + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ button.select-material + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ button.select-material + label + div label,
+.r01gContainer select.rup_combo ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ .select-material.ui-button.rup-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group select.rup_combo ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-multiselect ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer .rup-dropdown-btn-group .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-dropdown-button + label + div label,
+.r01gContainer select.rup_combo ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup_combo.ui-multiselect ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-toolbar_menuButton.ui-button + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_next + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ a.select-material.rup-wizard_prev + label + div label,
+.r01gContainer .rup-wizard select.rup_combo ~ .select-material.rup-wizard_submitButton + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-multiselect ~ .select-material.rup-wizard_submitButton + label + div label,
+.r01gContainer .rup-wizard .rup_combo.ui-selectmenu-dropdown ~ .select-material.rup-wizard_submitButton + label + div label {
+  position: initial;
+  pointer-events: initial;
+  color: initial;
+}
+
 @keyframes ripple-slider {
   0% {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
@@ -56241,11 +56348,13 @@
 
 .r01gContainer div.formulario_legend {
   border-radius: 5px;
+  background-color: #e9e9e9;
 }
 
 .r01gContainer div.formulario_legend.formulario_opened {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .r01gContainer div.formulario_legend.formulario_opened + fieldset.rup-table-filter-fieldset {
@@ -56690,6 +56799,17 @@
 
 .r01gContainer .font-size-5rem {
   font-size: 5rem;
+}
+
+.r01gContainer .title {
+  color: rgba(16, 91, 131, 0.8);
+  border-bottom: 2px solid rgba(87, 126, 154, 0.5);
+}
+
+/* NOTA: ELIMINAR CUANDO SE ACTUALICE BOOTSTRAP A LA VERSIÓN 5.0 O SUPERIOR */
+
+.r01gContainer .text-decoration-underline {
+  text-decoration: underline !important;
 }
 
 /* MaterialDesignIcons.com */

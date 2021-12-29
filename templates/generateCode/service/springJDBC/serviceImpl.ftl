@@ -1,5 +1,5 @@
 /*
-* Copyright 2021 E.J.I.E., S.A.
+* Copyright 2022 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -90,6 +90,18 @@ public class ${pojo.getDeclarationName()}ServiceImpl implements ${pojo.getDeclar
 	 */
 	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAll(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		return (${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>) this.${nombreDao}.findAll(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, tableRequestDto);
+	}
+	
+	/**
+	 * Finds a List of rows containing the CP field in the ${pojo.getDeclarationName()} table.
+	 *
+	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
+	 * @param startsWith boolean
+	 *
+	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}>
+	 */
+	public ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> findAllIds(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, boolean startsWith) {
+		return this.${nombreDao}.findAllIds(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, startsWith);
 	}
     
 	/**

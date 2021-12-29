@@ -1,5 +1,5 @@
 /*!
- * Copyright 2021 E.J.I.E., S.A.
+ * Copyright 2022 E.J.I.E., S.A.
  *
  * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la "Licencia");
  * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -28,9 +28,12 @@ jQuery(function($) {
 	  	</#switch>
 	</#if>
 	</#list>
-let tableColModels = [
+const tableColModels = [
+		<#assign pkCont = 0>
 		<#list gridColumns as columnProperties>
-		<#if (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+		<#if (maint.primaryKey)?has_content && (maint.primaryKey)?contains(columnProperties.name)>
+			<#assign pkCont = pkCont + 1>
+		<#elseif (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
 		{
 			name: "${columnProperties.name}",
 			index: "${columnProperties.name}",
@@ -53,21 +56,35 @@ let tableColModels = [
 			</#if>
 			hidden: ${columnProperties.hidden?string}
 		}<#if columnProperties_has_next>,</#if>
+		<#else>
 		</#if>
 		</#list>
 	];
+	<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
+	<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
+		<#assign primaryKey = maint.primaryKey>
+	<#else>
+		<#assign primaryKey = "id">
+    </#if>
+	
+	<#if (maint.filterMaint)?string == "true">
+	// Formulario de filtrado.
+	$('#${primaryKey}_filter_table').rup_autocomplete({
+		source : './allIds',
+		sourceParam : {label: 'nid', value: '${primaryKey}'},
+		menuMaxHeight: 175,
+		combobox: true,
+		contains: true,
+		showDefault: true
+	});
+	</#if>
 
 	$("#${maint.nameMaint}").rup_table({
 		colReorder: {
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
-		<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
-        <#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
-		primaryKey: "${maint.primaryKey}",
-		<#else>
-		primaryKey: "id",
-        </#if>
+		primaryKey: "${primaryKey}",
         <#if (maint.filterMaint)?string == "true">
 		filter: {
   	  		id: "${maint.nameMaint}_filter_form",
@@ -89,10 +106,12 @@ let tableColModels = [
 		   	direct: true,
 		   	</#if>
         	<#if (maint.clientValidationMaint)?string == "true">
+			loadSpinner: true,
 			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {
 				<#list gridColumns as columnProperties>
+					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
     				"${columnProperties.name}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
@@ -119,7 +138,8 @@ let tableColModels = [
 							<#default>
 								<#break>
 						</#switch>	
-					}<#if columnProperties_has_next>,</#if>					
+					}<#if columnProperties_has_next>,</#if>
+					</#if>
 				</#list>
 				}
 		   	}
@@ -133,6 +153,7 @@ let tableColModels = [
          	validate: { 
     			rules: {
 					<#list gridColumns as columnProperties>
+					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
     				"${columnProperties.name}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
@@ -160,6 +181,7 @@ let tableColModels = [
 								<#break>
 						</#switch>	
 					}<#if columnProperties_has_next>,</#if>
+					</#if>
     				</#list>
 				}
     		}
@@ -191,7 +213,7 @@ let tableColModels = [
 			,contextMenu: false
 			</#if>
 		},
-		</#if>	
-		order: [[${grid.sortPosition}, "${grid.sortOrder}"]]
+		</#if>
+		order: [[${grid.sortPosition - pkCont + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
 	});
 });

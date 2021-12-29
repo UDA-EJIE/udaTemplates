@@ -1,5 +1,5 @@
 <#--
- -- Copyright 2021 E.J.I.E., S.A.
+ -- Copyright 2022 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -131,6 +131,25 @@
   	</appender>
   	
   	<#if entornoEjie != "">
+	<appender name="salidaHdivAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File><#noparse>${log.path}</#noparse>/salidaHdiv_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.log</File>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="com.ejie.x38.log.LogLayout">
+				<appCode><#noparse>${CONTEXT_NAME}</#noparse></appCode>
+				<instance><#noparse>${weblogic.Name}</#noparse></instance>	
+			</layout>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern><#noparse>${log.path}</#noparse>/salidaHdiv_<#noparse>${CONTEXT_NAME}</#noparse>_<#noparse>${weblogic.Name}</#noparse>.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 7-day history -->
+			<maxHistory>6</maxHistory>
+		</rollingPolicy>
+	</appender>
+	
   	<!-- MOMO Appenders -->
   	
   	<appender name="salidaEstandarMomoAppender" class="com.ejie.x38.log.MomoAppender">
@@ -279,5 +298,20 @@
 		<appender-ref ref="auditoriaAccesosMomoAppender"/>
 		</#if>
 	</logger>
+	
+	<#if entornoEjie != "">
+	<!-- Appender para las trazas de Hdiv -->
+	<logger name="com.ejie.x38.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	
+	<logger name="com.hdivsecurity" level="<#noparse>${log.level.udaTrazas}</#noparse>">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	
+	<logger name="org.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
+		<appender-ref ref="salidaHdivAppender"/>
+	</logger>
+	</#if>
   
 </configuration>

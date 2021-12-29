@@ -1,5 +1,5 @@
 <#--
- -- Copyright 2021 E.J.I.E., S.A.
+ -- Copyright 2022 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -38,6 +38,16 @@
 		<listener-class>com.ejie.x38.UdaListener</listener-class>
 	</listener>
 	
+	<!-- Core Spring Listener -->	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!--Support the scoping of beans at the request, session, and global session levels (web-scoped beans) -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	
 	<!-- HDIV Init Listener -->
 	<listener>
 		<listener-class>org.hdiv.listener.InitListener</listener-class>
@@ -52,16 +62,6 @@
 		<filter-name>ValidatorFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- Core Spring Listener -->	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
-	<!--Support the scoping of beans at the request, session, and global session levels (web-scoped beans) -->
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
 	
 	<!-- Here's were some of the fundamental AOP Aspects are applied -->
 	<filter>
