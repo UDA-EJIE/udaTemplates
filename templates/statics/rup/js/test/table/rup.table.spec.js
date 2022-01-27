@@ -136,7 +136,6 @@ function testDatatable() {
 
                         it('Debe aparecer el formulario:', () => {
                             expect($('#example_detail_div').is(':visible')).toBeTruthy();
-                            expect($('#id_detailForm_table').val()).toBe('1');
                             expect($('#nombre_detail_table').val()).toBe('Ana');
                             expect($('#apellidos_detail_table').val()).toBe('García Vázquez');
                             expect($('#edad_detail_table').val()).toBe('7');
@@ -154,7 +153,6 @@ function testDatatable() {
 
                         it('Debe aparecer el formulario:', () => {
                             expect($('#example_detail_div').is(':visible')).toBeTruthy();
-                            expect($('#id_detailForm_table').val()).toBe('1');
                             expect($('#nombre_detail_table').val()).toBe('Ana');
                             expect($('#apellidos_detail_table').val()).toBe('García Vázquez');
                             expect($('#edad_detail_table').val()).toBe('7');
@@ -216,8 +214,12 @@ function testDatatable() {
             describe('Edición con formulario > ', () => {
                 describe('Edición de elementos existentes > ', () => {
                     beforeEach((done) => {
-                        $('#example').on('tableEditFormClickRow', done);
-                        $('tbody > tr:eq(0) > td:eq(1)').dblclick();                       
+                        
+                         
+                        $('#example').on('tableEditFormAddEditAfterShowForm', () => {
+                            setTimeout(done, 100);
+                        });
+                        $('tbody > tr:eq(0) > td:eq(1)').dblclick(); 
                     });
 
                     it('El formulario debe mostrarse:', () => {
@@ -285,7 +287,7 @@ function testDatatable() {
 
                     describe('Funcionalidad del boton "guardar y continuar" > ', () => {
                         beforeEach((done) => {
-                            $('#id_detailForm_table').val(345);
+                            $('#id_detail_table').val(345);
                             $('#nombre_detail_table').val('Adriana');
                             $('#apellidos_detail_table').val('Moreno');
                             $('#edad_detail_table').val(11);
@@ -315,7 +317,7 @@ function testDatatable() {
 
                     describe('Funcionalidad del botón "guardar" > ', () => {
                         beforeEach((done) => {
-                            $('#id_detailForm_table').val(345);
+                            $('#id_detail_table').val(345);
                             $('#nombre_detail_table').val('Adriana');
                             $('#apellidos_detail_table').val('Moreno');
                             $('#edad_detail_table').val(11);
@@ -711,7 +713,7 @@ function testDatatable() {
 
             describe('Validación de formulario > ', () => {
                 beforeEach((done) => {
-                    $('#example_detail_feedback').on('rupFeedback_show', done);
+                    
                     $('#example > tbody > tr:contains(Irene) > td:eq(0)').click();
                     $('#exampleeditButton_1').click();
                     
@@ -720,6 +722,7 @@ function testDatatable() {
                         .find('#nombre_detail_table').val('');
                     	$('#example_detail_button_save').click();
                     	$(buscarAceptar()).click();//boton confirmar cambios
+                    	setTimeout(done, 350);
                     });
                 });
 

@@ -26,6 +26,7 @@ function messageTester(msgType) {
                 $.rup_messages('msgOK', {
                     title: 'Correcto',
                     message: 'Todo ha ido Ok',
+                    buttonText: 'Prueba OK',
                     beforeClose: clsCallback,
                     open: done
                 });
@@ -34,6 +35,7 @@ function messageTester(msgType) {
                 $.rup_messages('msgAlert', {
                     title: 'Aviso',
                     message: 'Advertencia',
+                    buttonText: 'Prueba alert',
                     beforeClose: clsCallback,
                     open: done
                 });
@@ -42,6 +44,7 @@ function messageTester(msgType) {
                 $.rup_messages('msgError', {
                     title: 'Error',
                     message: 'Fallo',
+                    buttonText: 'Prueba error',
                     beforeClose: clsCallback,
                     open: done
                 });
@@ -49,7 +52,9 @@ function messageTester(msgType) {
             case 'Confirm':
                 $.rup_messages('msgConfirm', {
                     title: 'Confirmacion',
-                    message: 'Confirma?',
+                    message: '¿Confirma?',
+                    OKText: 'Sí',
+                    CANCELText: 'No',
                     beforeClose: clsCallback,
                     open: done
                 });
@@ -109,7 +114,7 @@ function messageTester(msgType) {
                     expect($('.ui-dialog-content [id$="_msg"]').text()).toBe('Fallo');
                     break;
                 case 'Confirm':
-                    expect($('.ui-dialog-content [id$="_msg"]').text()).toBe('Confirma?');
+                    expect($('.ui-dialog-content [id$="_msg"]').text()).toBe('¿Confirma?');
                     break;
                 }
                 done();
@@ -117,18 +122,18 @@ function messageTester(msgType) {
             it('Posee los botones apropiados:', (done) => {
                 switch (msgType) {
                 case 'Ok':
-                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Aceptar');
+                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Prueba OK');
                     break;
                 case 'Alert':
-                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Aceptar');
+                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Prueba alert');
                     break;
                 case 'Error':
-                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Aceptar');
+                    expect($('button', $('.ui-dialog-buttonset')).text()).toBe('Prueba error');
                     break;
                 case 'Confirm':
                     expect($('button', $('.ui-dialog-buttonset')).length).toBe(2);
-                    expect($('button:first', $('.ui-dialog-buttonset')).text()).toBe('Cancelar');
-                    expect($('button:last', $('.ui-dialog-buttonset')).text()).toBe('Aceptar');
+                    expect($('button:first', $('.ui-dialog-buttonset')).text()).toBe('No');
+                    expect($('button:last', $('.ui-dialog-buttonset')).text()).toBe('Sí');
                     break;
                 }
                 done();

@@ -208,8 +208,24 @@
          * $("#idCombo").rup_combo("select", [0,2]);
          */
         select: function (param) {
+        	let data = $(this).data();
+        	
+        	// Cuando el identificador está cifrado por Hdiv, hay que asegurarse de tener siempre el valor obtenido a partir de la fuente definida en la inicialización del componente
+        	if (data.values != undefined && $.fn.isHdiv(param) && (data.selectedValueKey == undefined || param != data.values[data.selectedValueKey].value)) {
+        		$.each(data.values, function (key, obj) {
+        			if ($.fn.getStaticHdivID(obj.value) === $.fn.getStaticHdivID(param)) {
+        				data.setRupValue = obj.value;
+        				data.settings.selected = obj.value;
+        				param = obj.value;
+        				
+        				// Para evitar iteraciones innecesarias en el futuro, se guarda la posición del valor en el array para facilitar su comprobación
+        				data.selectedValueKey = key;
+            		}
+        		});
+        	}
+        	
             //Tipo de combo
-            if (this.length === 0 || !$(this).data('settings').multiselect) {
+            if (this.length === 0 || !data.settings.multiselect) {
                 //Simple > selectmenu
                 this._setElement($(this), param); //Cargar elemento
             } else {
@@ -1043,7 +1059,7 @@
         _makeCombo: function (settings) {
 
             //Opción vacía
-            if (settings.blank != null) {
+            if (settings.blank != null && $('#' + settings.id +' option[value="'+settings.blank+'"]').length == 0) {
                 $('#' + settings.id).prepend($('<option>').attr('value', settings.blank).text(this._getBlankLabel(settings.id)));
             }
 
@@ -1373,7 +1389,13 @@
 
             //Cargar combo (si se reciben datos)
             if (data.length > 0) {
+            	// Se guardan los datos para poder obtener siempre el elemento original cifrado por Hdiv
+            	$('#' + settings.id).data('values', data);
+            	
                 if (settings.source) {
+                    if (settings.blank != null && $('#' + settings.id +' option[value="'+settings.blank+'"]').length == 0) {
+                        $('#' + settings.id).prepend($('<option>').attr('value', settings.blank).text(this._getBlankLabel(settings.id)));
+                    }
                     this._parseREMOTE(data, settings, html);
                 } else {
                     settings.ordered = false;
@@ -1627,6 +1649,16 @@
 	                //Se carga el identificador del padre del patron
 	                settings.id = $.rup_utils.escapeId($(this).attr('id'));
 	                settings.name = $(this).attr('name');
+	                
+	                // Definir el elemento del DOM sobre el que se añadirá el componente siempre y cuando no se haya definido ya en los parámetros de inicialización
+	                if (settings.appendTo != undefined) {
+	                	if (settings.appendTo.length == 0 || settings.appendTo.length == undefined) {
+	                		console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_combo.appendToError'), settings.id));
+	                		settings.appendTo = $('#' + settings.id).parent();
+	                	}
+	                } else {
+	                	settings.appendTo = $('#' + settings.id).parent();
+	                }
 	
 	                //Si no se recibe identificador para el acceso a literales se usa el ID del objeto
 	                if (!settings.i18nId) {
@@ -1923,6 +1955,8 @@
      * @property {boolean} [loadFromSelect=false] - Determina si se debe de utilizar los elementos option del elemento html sobre el que se inicializa el componente para inicializar los datos del elemento.
      * @property {boolean} [multiselect=false] - Indica si el combo permite la selección múltiple.
      * @property {boolean} [multiOptgroupIconText=false] - Indica si se desea que en la selección múltiple con grupos, el nombre del grupo tenga descripción en los iconos para seleccionar/deseleccionar los elementos del grupo.
+     * @property {object} [position={my: 'left top', at: 'left bottom', of: $("#comboMulti")}] - Define la posición del menú. La tercera opción hace referencia al elemento sobre el que se posicionará el menú y su uso es opcional (se usará el botón del combo por defecto si no se define). Más información en https://github.com/ehynds/jquery-ui-multiselect-widget/wiki/Options#available-options.
+     * @property {boolean} [positionMenuByOffset=false] - Ofrece la posibilidad de posicionar el menú del combo con multiselección a partir del método .offset() en caso de ser 'true' o por el método .position() en caso de ser 'false'. Esta propiedad sólo será usada si la propiedad 'position' es definida con un valor vacío.
      * @property {boolean} [submitAsString=false] - Indica si el envío de los elementos seleccionados en la selección múltiple se realiza como un literal separados por coma.
      * @property {boolean} [submitAsJSON=false] - Indica si el envío de los elementos seleccionados en la selección múltiple se realiza como un array JSON donde el nombre del mapa será el nombre del combo. En el caso de que el nombre contenga notación dot se tomará el último literal. Ej: [{id:1}, {id:2}, …].
      * @property {boolean} [readAsString=false] - Determina si la asignación de un valor inicial se va a realizar a partir de un string con los ids de los elementos separados por comas en vez de un array de json.
@@ -1946,6 +1980,8 @@
         loadFromSelect: false,
         multiselect: false,
         multiOptgroupIconText: true,
+        position: {my: 'left top', at: 'left bottom'},
+        positionMenuByOffset: false,
         submitAsString: false,
         submitAsJSON: false,
         readAsString: false,
@@ -1961,7 +1997,7 @@
             }
             // Si es un combo normal
             else {
-                $('#' + this.id + '-menu').parent('div').attr('id', 'ui-selectmenu-menu').outerWidth(anchoCombo);
+                $('#' + this.id + '-menu').parent('div').outerWidth(anchoCombo);
                 $('#' + this.id + '-menu').outerWidth(anchoCombo);
             }
         }
