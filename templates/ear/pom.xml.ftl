@@ -1,5 +1,5 @@
 <#-- 
- -- Copyright 2019 E.J.I.E., S.A.
+ -- Copyright 2022 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -21,7 +21,7 @@
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>${codapp}EAR</name>
-	<url>http://maven.apache.org</url>
+	<url>http://www.ejie.eus</url>
 	<properties>
 	<#if radjpa>	
 		<eclipselink.version>2.3.0</eclipselink.version>
@@ -651,59 +651,8 @@
 		</dependency>
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 	</dependencies>
-	<repositories>
-	<#if entornoEjie != "">
-			<repository>
-				<id>ejie</id>
-				<name>ejie</name>
-				<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
-				<snapshots>
-					<enabled>true</enabled>
-				</snapshots>
-			</repository>
-	<#else>
-	
-		<#if radjpa>	
-			<!-- For EclipseLink -->
-			<repository>
-				<id>EclipseLink Repo</id>
-				<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
-			</repository>
-		</#if>
-			<!-- For Hibernate Validator -->
-			<repository>
-				<id>org.jboss.repository.release</id>
-				<name>JBoss Maven Release Repository</name>
-				<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-				<snapshots>
-					<enabled>false</enabled>
-				</snapshots>
-			</repository>
-	</#if>	
-		<repository>
-			<id>maven</id>
-			<name>Official Maven Repository</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-	<build>
+	<repositories></repositories>
+    <build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -719,7 +668,7 @@
 							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
-							<excludeTransitive>true</excludeTransitive>
+							<excludeTransitive>false</excludeTransitive>
 							<excludeScope>provided</excludeScope>
 						</configuration>
 					</execution>
