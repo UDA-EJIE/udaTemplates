@@ -87,7 +87,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getall", linkTo = { 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAll", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "delete"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "deleteAll"),
