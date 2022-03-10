@@ -23,20 +23,21 @@
 	<name>${codapp}EAR</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-	<#if radjpa>	
-		<eclipselink.version>2.3.0</eclipselink.version>
-		<javax.persistence.version>2.0.1</javax.persistence.version>
-	</#if>		
+		<com.ejie.x38.version>5.0.3-RELEASE</com.ejie.x38.version>
+		<hdivsecurity.version>2.6.6</hdivsecurity.version>
+		<org.hdiv.version>2.8.27</org.hdiv.version>
+		<org.hdiv.ee.version>3.5.2</org.hdiv.ee.version>
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
-		<com.ejie.x38.version>5.0.2-RELEASE</com.ejie.x38.version>
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
-		<!-- <org.jackson.version>2.8.11.3</org.jackson.version> -->
 		<org.jackson.version>2.7.9.5</org.jackson.version>
-		<hdivsecurity.version>2.4.1</hdivsecurity.version>
-	</properties>		
+	<#if radjpa>
+		<eclipselink.version>2.3.0</eclipselink.version>
+		<javax.persistence.version>2.0.1</javax.persistence.version>
+	</#if>
+	</properties>
 	<dependencies>
 	<#if radjpa>
 		<!-- EclipseLink -->
@@ -59,60 +60,170 @@
 	</#if>	
 		<!-- Hdiv -->
 		<dependency>
-		    <groupId>com.hdivsecurity</groupId>
-		    <artifactId>hdiv-for-services</artifactId>
-		    <version><#noparse>${hdivsecurity.version}</#noparse></version>
+			<groupId>com.hdivsecurity</groupId>
+			<artifactId>hdiv-for-services-hateoas0</artifactId>
+			<version><#noparse>${hdivsecurity.version}</#noparse></version>
 			<exclusions>
 				<exclusion>
-					<groupId>com.github.fge</groupId>
-					<artifactId>btf</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-webmvc</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.github.fge</groupId>
-					<artifactId>jackson-coreutils</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.fasterxml.jackson.module</groupId>
-					<artifactId>jackson-module-jsonSchema</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>net.jcip</groupId>
-					<artifactId>jcip-annotations</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.edropple.jregex</groupId>
 					<artifactId>jregex</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.github.fge</groupId>
-					<artifactId>json-patch</artifactId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jdbc</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.github.jsqlparser</groupId>
-					<artifactId>jsqlparser</artifactId>
+					<groupId>com.fasterxml.jackson.module</groupId>
+					<artifactId>jackson-module-jsonSchema</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.annotation</groupId>
 					<artifactId>jsr250-api</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>net.sourceforge.streamsupport</groupId>
-					<artifactId>streamsupport</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.activation</groupId>
 					<artifactId>activation</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.freemarker</groupId>
-					<artifactId>freemarker</artifactId>
+					<groupId>net.jcip</groupId>
+					<artifactId>jcip-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.validation</groupId>
+					<artifactId>validation-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.code.findbugs</groupId>
+					<artifactId>jsr305</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sourceforge.streamsupport</groupId>
+					<artifactId>streamsupport</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.hdiv</groupId>
+			<artifactId>hdiv-config</artifactId>
+			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv</groupId>
+			<artifactId>hdiv-core</artifactId>
+			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv</groupId>
+			<artifactId>hdiv-services</artifactId>
+			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv.ee</groupId>
+			<artifactId>hdiv-ee-discovery-core</artifactId>
+			<version><#noparse>${org.hdiv.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv.ee</groupId>
+			<artifactId>hdiv-ee-commons</artifactId>
+			<version><#noparse>${org.hdiv.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv.ee</groupId>
+			<artifactId>hdiv-ee-config</artifactId>
+			<version><#noparse>${org.hdiv.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>org.hdiv.ee</groupId>
+			<artifactId>hdiv-ee-spring-mvc</artifactId>
+			<version><#noparse>${org.hdiv.version}</#noparse></version>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.6.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!-- x38 -->
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses</artifactId>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>eclipselink</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses-rup</artifactId>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
+		</dependency>
+		<#if entornoEjie != "">
+		<dependency>
+			<groupId>com.ejie.x38</groupId>
+			<artifactId>x38ShLibClasses-hdiv</artifactId>
+			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
+		</dependency>
+		</#if>
 		
 		<!-- Spring Framework -->
 		<dependency>
@@ -273,25 +384,6 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.8.13</version>
 		</dependency>
-
-		<!-- x38 -->
-		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses</artifactId>
-			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses-rup</artifactId>
-			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
-		</dependency>
-		<#if entornoEjie != "">
-		<dependency>
-			<groupId>com.ejie.x38</groupId>
-			<artifactId>x38ShLibClasses-hdiv</artifactId>
-			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
-		</dependency>
-		</#if>
 		
 		<!-- Tiles -->
 		<dependency>
@@ -735,63 +827,8 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-
-		
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 	</dependencies>
-	<repositories>
-	<#if entornoEjie != "">
-			<repository>
-				<id>ejie</id>
-				<name>ejie</name>
-				<url>http://www.otc.ejiedes.net/archiva/repository/repoEJIE</url>
-				<snapshots>
-					<enabled>true</enabled>
-					<updatePolicy>always</updatePolicy>
-				</snapshots>
-			</repository>
-	<#else>
-	
-		<#if radjpa>	
-			<!-- For EclipseLink -->
-			<repository>
-				<id>EclipseLink Repo</id>
-				<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
-			</repository>
-		</#if>
-			<!-- For Hibernate Validator -->
-			<repository>
-				<id>org.jboss.repository.release</id>
-				<name>JBoss Maven Release Repository</name>
-				<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-				<snapshots>
-					<enabled>false</enabled>
-				</snapshots>
-			</repository>
-	</#if>	
-		<repository>
-			<id>maven</id>
-			<name>Official Maven Repository</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -805,7 +842,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>./EarContent/APP-INF/lib</outputDirectory>
+							<outputDirectory><#noparse>${user.dir}</#noparse>/EarContent/APP-INF/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
 							<excludeTransitive>false</excludeTransitive>
