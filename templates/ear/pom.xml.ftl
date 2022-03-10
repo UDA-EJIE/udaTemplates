@@ -29,7 +29,7 @@
 	</#if>		
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
-		<org.logback.version>1.2.3</org.logback.version>
+		<org.logback.version>1.2.11</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
 		<com.ejie.x38.version>4.3.1-RELEASE</com.ejie.x38.version>
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
