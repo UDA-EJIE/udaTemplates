@@ -23,6 +23,7 @@
 	<name>${codapp}EAR</name>
 	<url>http://www.ejie.eus</url>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<#if radjpa>	
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
