@@ -21,7 +21,7 @@
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>${codapp}EAR</name>
-	<url>http://maven.apache.org</url>
+	<url>http://www.ejie.eus</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<com.ejie.x38.version>5.0.3-RELEASE</com.ejie.x38.version>
