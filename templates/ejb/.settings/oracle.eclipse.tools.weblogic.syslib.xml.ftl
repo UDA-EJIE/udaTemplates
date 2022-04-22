@@ -15,11 +15,9 @@
 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <system-libraries>
-    <module id="javax.ejb"/>
-    <module id="javax.interceptor"/>
-	<module id="javax.persistence"/>
-<#if entornoEjie != "">
-    <library path="%MODULES_DIR%/features/weblogic.server.modules_10.3.6.0.jar"/>
-    <library path="%MODULES_DIR%/features/weblogic.server.modules.extra_10.3.6.0.jar"/>
-</#if>	
+    <library path="%ORACLE_COMMON_MODULES_DIR%/javax.ejb.javax.ejb-api.jar"/>
+    <library path="modules/javax.interceptor.javax.interceptor-api.jar"/>
+    <library path="%ORACLE_COMMON_MODULES_DIR%/javax.persistence.jar"/>
+	<library javadoc="http://docs.oracle.com/javaee/6/api/" path="server/lib/weblogic.jar"/>
+	<library path="server/lib/wls-api.jar"/>
 </system-libraries>

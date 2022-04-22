@@ -14,12 +14,16 @@
  -- que establece la Licencia.
 -->
 <?xml version="1.0" encoding="UTF-8"?>
-<wls:weblogic-application
-	xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-application"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<wls:weblogic-application 
+	xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-application" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="
+		http://xmlns.jcp.org/xml/ns/javaee
+		http://xmlns.jcp.org/xml/ns/javaee/javaee_6.xsd
+		http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd
 		http://xmlns.oracle.com/weblogic/weblogic-application
-		http://xmlns.oracle.com/weblogic/weblogic-application/1.3/weblogic-application.xsd">
+		http://xmlns.oracle.com/weblogic/weblogic-application/1.8/weblogic-application.xsd">
+	<!--weblogic-version:12.2.1.4-->
 	<wls:application-param>
 		<wls:param-name>webapp.encoding.default</wls:param-name>
 		<wls:param-value>UTF-8</wls:param-value>
@@ -33,4 +37,8 @@
 </#if>
 		<wls:package-name>javax.persistence.*</wls:package-name>
 	</wls:prefer-application-packages>
+	<wls:cdi-descriptor>
+		<wls:implicit-bean-discovery-enabled>false</wls:implicit-bean-discovery-enabled>
+		<wls:policy>Disabled</wls:policy>
+	</wls:cdi-descriptor>
 </wls:weblogic-application>

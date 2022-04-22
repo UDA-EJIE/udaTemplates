@@ -14,16 +14,12 @@
  -- que establece la Licencia.
 -->
 <?xml version="1.0" encoding="UTF-8"?>
-<application 
-	xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
-    version="5">
-  <display-name>${codapp}EAR</display-name>
-  <module>
-    <web>
-      <web-uri>${warName}.war</web-uri>
-      <context-root>${warName}</context-root>
-    </web>
-  </module>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" version="7">
+	<display-name>${codapp}EAR</display-name>
+	<module>
+		<web>
+			<web-uri>${warName}.war</web-uri>
+			<context-root>${warName}</context-root>
+		</web>
+	</module>
 </application>

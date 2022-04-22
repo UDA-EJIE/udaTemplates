@@ -15,9 +15,7 @@
 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <system-libraries>
-    <library javadoc="http://java.sun.com/j2ee/1.4/docs/api" path="server/lib/api.jar"/>
-<#if entornoEjie != "">
-    <library path="%MODULES_DIR%/features/weblogic.server.modules_10.3.6.0.jar"/>
-    <library path="%MODULES_DIR%/features/weblogic.server.modules.extra_10.3.6.0.jar"/>
-</#if>
+    <library javadoc="http://docs.oracle.com/javaee/1.4/api" path="server/lib/api.jar"/>
+	<library javadoc="http://docs.oracle.com/javaee/6/api/" path="server/lib/weblogic.jar"/>
+	<library path="server/lib/wls-api.jar"/>
 </system-libraries>
