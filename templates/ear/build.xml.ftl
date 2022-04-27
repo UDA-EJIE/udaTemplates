@@ -21,7 +21,11 @@
 	<property environment="env" />
 	<property name="outputDirectory" value="EarContent/APP-INF/lib/" />
 	<property name="mavenCommand" value="<#noparse>${env.M2_HOME}</#noparse>/bin/mvn.bat" />
+	<#if entornoEjie != "">
 	<property name="mavenSettings" value="<#noparse>${env.M2_HOME}</#noparse>/conf/settings-nexus3.xml" />
+	<#else>
+	<property name="mavenSettings" value="<#noparse>${env.M2_HOME}</#noparse>/conf/settings.xml" />
+	</#if>
 		
 	<!-- Obtener dependencias -->
 	<target name="mavenRunDependencies" description="Resuelve las dependencias del proyecto desde Maven">
