@@ -218,13 +218,11 @@
 			<artifactId>x38ShLibClasses-rup</artifactId>
 			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
-		<#if entornoEjie != "">
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses-hdiv</artifactId>
 			<version><#noparse>${com.ejie.x38.version}</#noparse></version>
 		</dependency>
-		</#if>
 		
 		<!-- Spring Framework -->
 		<dependency>
