@@ -20,7 +20,6 @@
 	xsi:schemaLocation="
 		http://xmlns.jcp.org/xml/ns/javaee
 		http://xmlns.jcp.org/xml/ns/javaee/javaee_6.xsd
-		http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd
 		http://xmlns.oracle.com/weblogic/weblogic-application
 		http://xmlns.oracle.com/weblogic/weblogic-application/1.8/weblogic-application.xsd">
 	<!--weblogic-version:12.2.1.4-->

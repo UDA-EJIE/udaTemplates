@@ -16,8 +16,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ejb-jar 
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd" 
-	version="3.2">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ejb="http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_0.xsd"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_0.xsd" 
+	version="3.0">
 	<display-name>${ejbName}</display-name>
 </ejb-jar>	
