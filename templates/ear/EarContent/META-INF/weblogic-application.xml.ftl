@@ -18,8 +18,8 @@
 	xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-application" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="
-		http://xmlns.jcp.org/xml/ns/javaee
-		http://xmlns.jcp.org/xml/ns/javaee/javaee_6.xsd
+		http://java.sun.com/xml/ns/javaee
+		http://java.sun.com/xml/ns/javaee/javaee_6.xsd
 		http://xmlns.oracle.com/weblogic/weblogic-application
 		http://xmlns.oracle.com/weblogic/weblogic-application/1.8/weblogic-application.xsd">
 	<!--weblogic-version:12.2.1.4-->
