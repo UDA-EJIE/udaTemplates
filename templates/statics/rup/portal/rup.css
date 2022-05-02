@@ -14148,8 +14148,6 @@
   color: #FFA400;
 }
 
-.r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before,
-.r01gContainer .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before,
 .r01gContainer .rup-message .rup-message_icon-ok,
 .r01gContainer .rup-message .rup-message_icon-alert,
 .r01gContainer .rup-message .rup-message_icon-error,
@@ -14199,8 +14197,7 @@
   content: "\f059";
 }
 
-.r01gContainer .rup-fa-caret-down:before,
-.r01gContainer .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before {
+.r01gContainer .rup-fa-caret-down:before {
   content: "\f0d7";
 }
 
@@ -14212,8 +14209,7 @@
   content: "\f0d9";
 }
 
-.r01gContainer .rup-fa-caret-right:before,
-.r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before {
+.r01gContainer .rup-fa-caret-right:before {
   content: "\f0da";
 }
 
@@ -14488,9 +14484,12 @@
   position: relative;
 }
 
+.r01gContainer .ui-accordion .ui-accordion-header .ui-icon {
+  background-image: none;
+}
+
 .r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
   display: inline-block;
-  background-image: none;
   overflow: visible;
   text-indent: 0;
   padding-right: 0.5rem;
@@ -44835,12 +44834,25 @@
   display: flex;
 }
 
+.r01gContainer .dataTable .sorting_asc.sorting_active_only .mdi.mdi-arrow-down {
+  display: none;
+}
+
 .r01gContainer .dataTable .sorting_asc .mdi.mdi-arrow-up::before {
   font-weight: 600;
 }
 
+.r01gContainer .dataTable .sorting_desc.sorting_active_only .mdi.mdi-arrow-up {
+  display: none;
+}
+
 .r01gContainer .dataTable .sorting_desc .mdi.mdi-arrow-down::before {
   font-weight: 600;
+}
+
+.r01gContainer .dataTable .sorting.sorting_active_only .mdi.mdi-arrow-up,
+.r01gContainer .dataTable .sorting.sorting_active_only .mdi.mdi-arrow-down {
+  display: none;
 }
 
 .r01gContainer .custom-select {
@@ -49053,8 +49065,6 @@
   color: #FFA400;
 }
 
-.r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before,
-.r01gContainer .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before,
 .r01gContainer .rup-message .rup-message_icon-ok,
 .r01gContainer .rup-message .rup-message_icon-alert,
 .r01gContainer .rup-message .rup-message_icon-error,
@@ -49104,8 +49114,7 @@
   content: "\f059";
 }
 
-.r01gContainer .rup-fa-caret-down:before,
-.r01gContainer .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before {
+.r01gContainer .rup-fa-caret-down:before {
   content: "\f0d7";
 }
 
@@ -49117,8 +49126,7 @@
   content: "\f0d9";
 }
 
-.r01gContainer .rup-fa-caret-right:before,
-.r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before {
+.r01gContainer .rup-fa-caret-right:before {
   content: "\f0da";
 }
 
@@ -49393,9 +49401,12 @@
   position: relative;
 }
 
+.r01gContainer .ui-accordion .ui-accordion-header .ui-icon {
+  background-image: none;
+}
+
 .r01gContainer .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
   display: inline-block;
-  background-image: none;
   overflow: visible;
   text-indent: 0;
   padding-right: 0.5rem;

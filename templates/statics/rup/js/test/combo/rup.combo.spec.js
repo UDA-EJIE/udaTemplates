@@ -342,7 +342,7 @@ describe('Test Combo > ', () => {
                 });
                 describe('Selección por índice > ', () => {
                     beforeEach(() => {
-                        $comboHijo.rup_combo('select', 3);
+                        $comboHijo.rup_combo('select', 2);
                     });
                     it('Debe modificar la ui ', () => {
                         expect($('#comboHijo-button > span.ui-selectmenu-status').text()).toBe('Subopt12');
@@ -529,7 +529,7 @@ describe('Test Combo > ', () => {
             });
             describe('Combo hijo > ', () => {
                 it('Debe devolver el indice de la seleccion', () => {
-                    expect($comboHijo.rup_combo('index')).toBe(2);
+                    expect($comboHijo.rup_combo('index')).toBe(1);
                 });
             });
             describe('Combo multiple > ', () => {
@@ -828,7 +828,7 @@ describe('Test Combo > ', () => {
                     $comboHijo.rup_combo('order');
                 });
                 it('Intruso debe ser la primera opcion', () => {
-                    expect($('#comboHijo-menu > li').eq(2).text()).toBe('Intruso');
+                    expect($('#comboHijo-menu > li').eq(1).text()).toBe('Intruso');
                 });
             });
             describe('Combo multiple > ', () => {
