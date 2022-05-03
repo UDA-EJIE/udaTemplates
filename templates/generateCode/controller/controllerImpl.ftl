@@ -59,7 +59,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "delete"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
 	<#assign primaria = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "<#list primaria as camposPrim>/{${camposPrim[0]}}</#list>", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "<#list primaria as camposPrim>/{${camposPrim[0]}}</#list>")
 	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("org.springframework.hateoas.Resource")}<${pojo.getDeclarationName()}> get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
@@ -87,7 +87,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 *
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getall", linkTo = { 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAll", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "delete"), 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "deleteAll"),
@@ -96,7 +96,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}()
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAll(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}) {
 		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL] : Obtener ${pojo.getDeclarationName()} por filtro");
 	    return ${pojo.importType("com.ejie.x38.util.ResourceUtils")}.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAll(filter${pojo.getDeclarationName()}, null));
@@ -112,7 +112,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds")
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/allIds", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "/allIds")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAllIds(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) <#list primariaParam as camposPrim> ${camposPrim[1]}<#if camposPrim_has_next>, </#if></#list> param,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "c", required = true) boolean startsWith) {
@@ -135,7 +135,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "edit", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/edit", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.PUT)
+	@${pojo.importType("org.springframework.web.bind.annotation.PutMapping")}(value = "/edit")
     public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> edit(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.update(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
 		${pojo.getDeclarationName()}Controller.logger.info("[PUT] : ${pojo.getDeclarationName()} actualizado correctamente");
@@ -151,7 +151,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "add", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/add", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/add")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> add(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.add(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
         ${pojo.getDeclarationName()}Controller.logger.info("[POST] : ${pojo.getDeclarationName()} insertado correctamente");
@@ -170,7 +170,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "delete", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
     <#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>/{${field[0]}}</#foreach>", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.DELETE)
+	@${pojo.importType("org.springframework.web.bind.annotation.DeleteMapping")}(value = "<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>/{${field[0]}}</#foreach>")
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
     public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> delete(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
@@ -209,7 +209,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "inlineEdit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "getAllIds"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/maint", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.GET)
+	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "/maint")
 	public String getMaint(${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[GET - View] : ${pojo.getDeclarationName()?lower_case}");
 		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
@@ -230,7 +230,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "add"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/editForm", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/editForm")
 	public String getEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String fixedMessage,
@@ -262,7 +262,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "add"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/inlineEdit", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/inlineEdit")
 	public String getInlineEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String tableID,
@@ -305,7 +305,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/filter", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/filter")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("com.ejie.x38.dto.TableResourceResponseDto")}<${pojo.getDeclarationName()}> filter(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
@@ -324,7 +324,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "search", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/search", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/search")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<${pojo.importType("com.ejie.x38.dto.TableRowDto")}<${pojo.getDeclarationName()}>> search(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="search") ${pojo.getDeclarationName()} search${pojo.getDeclarationName()},
@@ -343,7 +343,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "deleteAll", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/deleteAll", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/deleteAll")
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - deleteMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");
@@ -372,7 +372,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })	 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "/clipboardReport", method = ${pojo.importType("org.springframework.web.bind.annotation.RequestMethod")}.POST)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/clipboardReport")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String[] columns, 
@@ -401,7 +401,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = { "/xlsReport", "/xlsxReport" }, method = RequestMethod.POST, produces = ${pojo.importType("org.springframework.http.MediaType")}.APPLICATION_OCTET_STREAM_VALUE)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = { "/xlsReport", "/xlsxReport" }, produces = ${pojo.importType("org.springframework.http.MediaType")}.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateExcelReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
@@ -433,7 +433,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "pdfReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "pdfReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generatePDFReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
@@ -465,7 +465,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "odsReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "odsReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateODSReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,
@@ -497,7 +497,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.RequestMapping")}(value = "csvReport", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "csvReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateCSVReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columnsName", required = false) String[] columnsName,

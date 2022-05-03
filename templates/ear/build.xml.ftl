@@ -15,36 +15,28 @@
 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project name="${codapp}EAR" default="mavenRunDependencies" xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="${codapp}EAR" default="mavenRunDependencies">
 	
 	<!-- Permite el uso de variables de entorno -->
 	<property environment="env" />
+	<property name="outputDirectory" value="EarContent/APP-INF/lib/" />
+	<property name="mavenCommand" value="<#noparse>${env.M2_HOME}</#noparse>/bin/mvn.bat" />
+	<#if entornoEjie != "">
+	<property name="mavenSettings" value="<#noparse>${env.M2_HOME}</#noparse>/conf/settings-nexus3.xml" />
+	<#else>
+	<property name="mavenSettings" value="<#noparse>${env.M2_HOME}</#noparse>/conf/settings.xml" />
+	</#if>
 		
-	<!-- Obtener dependencias -->	
+	<!-- Obtener dependencias -->
 	<target name="mavenRunDependencies" description="Resuelve las dependencias del proyecto desde Maven">
-		<path id="maven-ant-tasks.classpath" path="<#noparse>${ant.home}</#noparse>/lib/maven-ant-tasks-2.1.1.jar" />
-		<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />	
-		<artifact:dependencies settingsFile="<#noparse>${env.M2_HOME}</#noparse>/conf/settings.xml"/>
-		<artifact:mvn pom="pom.xml" mavenHome="<#noparse>${env.M2_HOME}</#noparse>" fork="true">
-			<arg value="package"/>
-		</artifact:mvn>		
+		<exec executable="<#noparse>${mavenCommand}</#noparse>">
+			<arg value="-s"/>
+			<arg value="<#noparse>${mavenSettings}</#noparse>"/>
+			<arg value="-f"/>
+			<arg value="pom.xml"/>
+			<arg value="dependency:copy-dependencies"/>
+			<arg value="-DoutputDirectory=<#noparse>${outputDirectory}</#noparse>"/>
+		</exec>
 	</target>
-	
-	<target name="obtenerLibreriasLocal" description="Para actualizar librerias en local">
-		<condition property="notivyjar.exists">
-			<available property="ivyjar.exists" file="<#noparse>${ant.home}</#noparse>/lib/ivy-2.3.0.jar" type="file"/>                 
-        </condition>
-		<antcall target="descargarIvyJar"/>
-		
-		<path id="ivy-ant-tasks.classpath" path="<#noparse>${ant.home}</#noparse>/lib/ivy-2.3.0.jar" />
-		<typedef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy-ant-tasks.classpath" />    
-		<ivy:configure file="../${codapp}EAR/ivy/ivysettings.xml"/>
-		<ivy:resolve file="ivy.xml" conf="<#noparse>${ivy.configurations}</#noparse>" />
-		<ivy:retrieve pattern="../${codapp}EAR/EarContent/APP-INF/lib/[artifact]-[revision](-[classifier]).[ext]" conf="<#noparse>${ivy.configurations}</#noparse>" overwriteMode="always" />
-    </target>	
-
-    <target name="descargarIvyJar" unless="notivyjar.exists">
-    	<get dest="<#noparse>${ant.home}</#noparse>/lib/ivy-2.3.0.jar" src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
-    </target>
 	
 </project>

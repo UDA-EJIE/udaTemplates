@@ -106,7 +106,6 @@ const tableColModels = [
 		   	direct: true,
 		   	</#if>
         	<#if (maint.clientValidationMaint)?string == "true">
-			loadSpinner: true,
 			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {

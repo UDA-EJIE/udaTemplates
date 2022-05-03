@@ -36,16 +36,6 @@ THIRD PARTY COMPONENTS
 			Copyright © 2008, 2011, Oracle and/or its affiliates. All rights reserved.
 			License: ORACLE ENTERPRISE PACK FOR ECLIPSE LICENSE AGREEMENT
 						
-		* PMD (http://pmd.sourceforge.net)
-			PMD plugin For Eclipse
-			Copyright (c) 1997-2009, PMD for Eclipse Development Team
-			License: "BSD-style" license (http://pmd.sourceforge.net/license.html)									
-
-		* Eclipse Checkstyle Plugin (http://eclipse-cs.sf.net/)
-			Checkstyle integration plugin for Eclipse
-			(c) Copyright David Schneider, Lars Koedderitzsch and others, 2002-2010
-			License: GNU Lesser General Public License Version 2.1 
-						
 		* FindBugs (http://findbugs.sourceforge.net)
 			FindBugs plugin for Eclipse
 			(c) Trademark and Copyright 2003-2008 by the University of Maryland.
