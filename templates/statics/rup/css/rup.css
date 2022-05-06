@@ -10371,7 +10371,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .color-complement-4 {
   color: #FFA400; }
 
-.ui-accordion .ui-accordion-header .ui-accordion-header-icon:before, .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before, .rup-message .rup-message_icon-ok, .rup-message .rup-message_icon-alert, .rup-message .rup-message_icon-error, .rup-message .rup-message_icon-confirm {
+.rup-message .rup-message_icon-ok, .rup-message .rup-message_icon-alert, .rup-message .rup-message_icon-error, .rup-message .rup-message_icon-confirm {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -10400,7 +10400,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-question-circle:before {
   content: "\f059"; }
 
-.rup-fa-caret-down:before, .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before {
+.rup-fa-caret-down:before {
   content: "\f0d7"; }
 
 .rup-fa-caret-up:before {
@@ -10409,7 +10409,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-caret-left:before {
   content: "\f0d9"; }
 
-.rup-fa-caret-right:before, .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before {
+.rup-fa-caret-right:before {
   content: "\f0da"; }
 
 .rup-fa-close:before, .rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before, .ui-dialog .ui-dialog-titlebar.ui-widget-header .ui-dialog-titlebar-close span.ui-icon-closethick:before {
@@ -10586,9 +10586,11 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   margin: 1rem;
   position: relative; }
 
+.ui-accordion .ui-accordion-header .ui-icon {
+  background-image: none; }
+
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
   display: inline-block;
-  background-image: none;
   overflow: visible;
   text-indent: 0;
   padding-right: 0.5rem; }
@@ -33114,11 +33116,20 @@ ul.rup_menu_horizontal.ui-widget.ui-widget-content {
 td > div.centerOnResponsiveContainer {
   display: flex; }
 
+.dataTable .sorting_asc.sorting_active_only .mdi.mdi-arrow-down {
+  display: none; }
+
 .dataTable .sorting_asc .mdi.mdi-arrow-up::before {
   font-weight: 600; }
 
+.dataTable .sorting_desc.sorting_active_only .mdi.mdi-arrow-up {
+  display: none; }
+
 .dataTable .sorting_desc .mdi.mdi-arrow-down::before {
   font-weight: 600; }
+
+.dataTable .sorting.sorting_active_only .mdi.mdi-arrow-up, .dataTable .sorting.sorting_active_only .mdi.mdi-arrow-down {
+  display: none; }
 
 .custom-select {
   -webkit-appearance: menulist;
@@ -36758,7 +36769,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .color-complement-4 {
   color: #FFA400; }
 
-.ui-accordion .ui-accordion-header .ui-accordion-header-icon:before, .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before, .rup-message .rup-message_icon-ok, .rup-message .rup-message_icon-alert, .rup-message .rup-message_icon-error, .rup-message .rup-message_icon-confirm {
+.rup-message .rup-message_icon-ok, .rup-message .rup-message_icon-alert, .rup-message .rup-message_icon-error, .rup-message .rup-message_icon-confirm {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -36787,7 +36798,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-question-circle:before {
   content: "\f059"; }
 
-.rup-fa-caret-down:before, .ui-accordion .ui-accordion-header.ui-accordion-header-active .ui-accordion-header-icon:before {
+.rup-fa-caret-down:before {
   content: "\f0d7"; }
 
 .rup-fa-caret-up:before {
@@ -36796,7 +36807,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-caret-left:before {
   content: "\f0d9"; }
 
-.rup-fa-caret-right:before, .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before {
+.rup-fa-caret-right:before {
   content: "\f0da"; }
 
 .rup-fa-close:before, .rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before, .ui-dialog .ui-dialog-titlebar.ui-widget-header .ui-dialog-titlebar-close span.ui-icon-closethick:before {
@@ -36973,9 +36984,11 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   margin: 1rem;
   position: relative; }
 
+.ui-accordion .ui-accordion-header .ui-icon {
+  background-image: none; }
+
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
   display: inline-block;
-  background-image: none;
   overflow: visible;
   text-indent: 0;
   padding-right: 0.5rem; }
