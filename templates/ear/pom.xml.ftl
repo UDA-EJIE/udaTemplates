@@ -28,12 +28,12 @@
 		<hdivsecurity.version>2.6.6</hdivsecurity.version>
 		<org.hdiv.version>2.8.27</org.hdiv.version>
 		<org.hdiv.ee.version>3.5.2</org.hdiv.ee.version>
-		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
-		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
+		<org.springframework.version>5.0.20.RELEASE</org.springframework.version>
+		<org.springframework.security.version>5.0.19.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
-		<org.jackson.version>2.7.9.5</org.jackson.version>
+		<org.jackson.version>2.9.10.8</org.jackson.version>
 	<#if radjpa>
 		<eclipselink.version>2.3.0</eclipselink.version>
 		<javax.persistence.version>2.0.1</javax.persistence.version>
