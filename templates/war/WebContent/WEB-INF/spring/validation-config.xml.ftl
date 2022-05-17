@@ -18,7 +18,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">	
+		http://www.springframework.org/schema/beans/spring-beans.xsd">	
 				
 	<!-- Proporciona la API de validaciones de UDA -->
 	<bean id="validationManager" class="com.ejie.x38.validation.ValidationManager" />

@@ -20,10 +20,10 @@
     xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="
-            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">    
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">    
    
 	<context:load-time-weaver/>
 	<bean id="transactionManager" class="org.springframework.transaction.jta.WebLogicJtaTransactionManager">
