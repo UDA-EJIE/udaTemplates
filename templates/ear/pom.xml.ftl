@@ -251,12 +251,6 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
 		    <version><#noparse>${org.springframework.version}</#noparse></version>
-		    <exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-			  	</exclusion>
-			</exclusions>
 		</dependency>
 		
 		<!-- Spring Security -->
