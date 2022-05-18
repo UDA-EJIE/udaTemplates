@@ -66,6 +66,10 @@
 			<version><#noparse>${hdivsecurity.version}</#noparse></version>
 			<exclusions>
 				<exclusion>
+					<groupId>org.hdiv.ee</groupId>
+					<artifactId>hdiv-ee-ssl-jdk6</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-webmvc</artifactId>
 				</exclusion>
