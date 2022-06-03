@@ -71,7 +71,7 @@
     </mvc:interceptors>
 
      <!-- Configurar Excepciones propagadas en los Controller -->
-	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
+	<bean class="com.ejie.x38.hdiv.config.WebConfig">
 <!-- 		<property name="handlers"> -->
 <!-- 			<list> -->
 <!-- 				<bean class="MyExceptionHandler" /> -->
