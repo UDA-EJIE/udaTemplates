@@ -21,6 +21,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<context-param>
+		<param-name>defaultHtmlEscape</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>parentContextKey</param-name>
 		<param-value>ear.context</param-value>
 	</context-param>
