@@ -17,7 +17,8 @@
 statics.path = /${codapp?lower_case}Statics
 xlnets.path = https://xlnets.servicios.des.ejgv.euskalsarea.eus/n38a/N38LoginInicioServlet
 #TRUE if it is portal embedded
-xlnets.inPortal=FALSE 
+xlnets.inPortal=FALSE
+isEjie=true
 <#else>
 statics.path = /${codapp?lower_case}Statics
 </#if>
