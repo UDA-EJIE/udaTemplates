@@ -19,7 +19,7 @@
 <!-- Include de los elementos comunes -->
 <script type="text/javascript">
 	// Añadir una variable para determinar si se hacen o no las trazas
-	IS_EJIE = ${isEjie},
+	IS_EJIE = '<#noparse>${isEjie}</#noparse>',
 	APP_RESOURCES = '${codapp}',
 	CTX_PATH = '<%= request.getContextPath()%>/',
 	STATICS = '<#noparse>${staticsUrl}</#noparse>',
