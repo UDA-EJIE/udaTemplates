@@ -21,6 +21,7 @@ xlnets.inPortal=FALSE
 isEjie=true
 <#else>
 statics.path = /${codapp?lower_case}Statics
+isEjie=false
 </#if>
 
 
