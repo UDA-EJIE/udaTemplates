@@ -24,6 +24,10 @@ statics.path = /${codapp?lower_case}Statics
 isEjie=false
 </#if>
 
+#Cookie
+cookie.rootPath=true
+cookie.secure=false
+
 
 #Loggin parameters
 log.path=c:/datos/${codapp}/log
