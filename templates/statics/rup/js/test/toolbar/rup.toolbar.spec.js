@@ -12,7 +12,7 @@ describe('Test Toolbar > ', () => {
 
     beforeEach((done) => {
         var handler = () => {
-            alert('XXX');
+        	window.alert('XXX');
         };
         let html = '<div id="exampleToolbar"></div>';
         let options = {
@@ -66,7 +66,7 @@ describe('Test Toolbar > ', () => {
             beforeEach(() => {
                 buttonObj = {
                     click: () => {
-                        alert('ASD');
+                    	window.alert('ASD');
                     },
                     id: 'addedButton',
                     text: 'Added Button'
