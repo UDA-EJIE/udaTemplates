@@ -50,11 +50,6 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
 	</bean>
-
-	<!-- Gestiona la locale (idioma) mediante cookie  -->
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="cookieName" value="language" />
-    </bean>
     
     <!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
     <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
@@ -71,7 +66,7 @@
     </mvc:interceptors>
 
      <!-- Configurar Excepciones propagadas en los Controller -->
-	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
+	<bean class="com.ejie.x38.hdiv.config.WebConfig">
 <!-- 		<property name="handlers"> -->
 <!-- 			<list> -->
 <!-- 				<bean class="MyExceptionHandler" /> -->
@@ -102,8 +97,8 @@
         <property name="order" value="1" />
     </bean>
     
-	<!-- Permite la subida de ficheros -->	
-	<bean id="multipartResolver" class="com.ejie.x38.util.UdaMultipartResolver" />
+    <!-- Permite la subida de ficheros -->	
+    <bean id="multipartResolver" class="org.hdiv.web.multipart.HdivCommonsMultipartResolver" />
 
     <!-- Bean encargado de las peticiones -->
     <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
