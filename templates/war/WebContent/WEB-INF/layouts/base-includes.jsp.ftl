@@ -31,6 +31,7 @@
 	LOCALE_COOKIE_NAME = '<#noparse>${localeResolver.cookieName}</#noparse>',
 	LOCALE_PARAM_NAME = '<#noparse>${mvcInterceptor.paramName}</#noparse>',
 	AVAILABLE_LANGS = '<#noparse>${mvcInterceptor.availableLangs}</#noparse>',
+	DEFAULT_LANG = '<#noparse>${mvcInterceptor.defaultLanguage}</#noparse>',
 	//breadCrumbs
 	LOGGED_USER = '<#noparse>${udaAuthenticationProvider.userCredentials.fullName}</#noparse>',
 	DESTROY_XLNETS_SESSION = '<#noparse>${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}</#noparse>';
