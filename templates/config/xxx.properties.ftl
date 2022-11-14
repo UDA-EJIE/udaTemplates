@@ -28,6 +28,8 @@ isEjie=false
 cookie.rootPath=true
 cookie.secure=false
 
+#Locale
+locale.allowInheritance=false
 
 #Loggin parameters
 log.path=c:/datos/${codapp}/log

@@ -17,6 +17,7 @@
 /**
  * Permite al usuario recuperar un elemento de una gran lista de elementos o de varias listas dependientes de forma sencilla y ocupando poco espacio en la interfaz.
  *
+ * @deprecated since version 5.1.0
  * @summary Componente RUP Autocomplete.
  * @module rup_autocomplete
  * @see El componente está basado en el plugin {@link https://jqueryui.com/autocomplete/|jQuery UI Autocomplete}. Para mas información acerca de las funcionalidades y opciones de configuración pinche {@link http://api.jqueryui.com/autocomplete/|aquí}.
@@ -686,7 +687,7 @@ input.
 				bckData = settings.data;
 
 				settings.data = $stock.data('tmp.data');
-				jQuery.proxy(settings.$self._sourceLOCAL, this, request, response)();
+				settings.$self._sourceLOCAL.bind(this, request, response)();
 				settings.data = bckData;
 
 			} else {
@@ -1094,13 +1095,13 @@ input.
 
 				});
 
-				$('#' + settings.id + '_label').bind('keydown', function () {
+				$('#' + settings.id + '_label').on('keydown', function () {
 					$('#' + settings.id).data('ieIssueScrollVisible', false);
 				});
 
 
 
-				$('#' + settings.id + '_label').bind('blur', function (event) {
+				$('#' + settings.id + '_label').on('blur', function (event) {
 					//Obtener datos de si viene de seleccionar elemento o si el menú de selección está desplegado
 					var selected = $('#' + settings.id).data('selected'),
 						isShowingMenu = $('.ui-autocomplete:visible').length > 0 ? true : false;

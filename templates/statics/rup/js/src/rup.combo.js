@@ -30,6 +30,7 @@
 /**
  * Permite al usuario recuperar un elemento de una gran lista de elementos o de varias listas dependientes de forma sencilla y ocupando poco espacio en la interfaz.
  *
+ * @deprecated since version 5.1.0
  * @summary Componente RUP Combo.
  * @module rup_combo
  * @see El componente está basado en el plugin {@link http://jqueryui.com/selectmenu/|jQuery UI Selectmenu}. Para mas información acerca de las funcionalidades y opciones de configuración pinche {@link http://api.jqueryui.com/selectmenu/|aquí}.
@@ -931,7 +932,7 @@
                 } else if (typeof param === 'number') {
                     if ($('option', selector).length >= param) { //Controlamos que se intenten seleccionar una posición existente
                         if (markOptSelected === true) {
-                            $('option:eq(' + param + ')', selector).attr('selected', 'selected');
+                            $(selector).find('option').eq(param).attr('selected', 'selected');
                         }
                         $(selector).selectmenu('index', param);
                         $(selector).trigger('_setElement');
@@ -973,8 +974,8 @@
         _selectLabel: function (selector, param) {
             var $option;
             for (let i = 0; i < $('option', selector).length; i = i + 1) {
-                $option = jQuery('option:eq(' + i + ')', selector);
-                if (jQuery('option:eq(' + i + ')', selector).text() === param) {
+                $option = jQuery(selector).find('option').eq(i);
+                if (jQuery(selector).find('option').eq(i).text() === param) {
                     $(selector).selectmenu('index', $option.prop('index'));
                     return true;
                 }
@@ -1164,7 +1165,7 @@
                     return true;
                 });
                 //						$("#rup-multiCombo_remoteGroup_comboHijo").on('keypress', function(event) {
-                $('#' + settings.id).data('echMultiselect').menu.delegate('label', 'keydown.multiselect', function (event) {
+                $('#' + settings.id).data('echMultiselect').menu.on('label', 'keydown.multiselect', function (event) {
                     if (event.which > 0) {
                         self._typeAheadMultiselect(event.which, 'focus', settings);
                     }
@@ -1926,7 +1927,7 @@
 	                }
 	
 	                //Asociar evento CHANGE para propagar cambios a los hijos
-	                $('#' + settings.id).bind('change', function () {
+	                $('#' + settings.id).on('change', function () {
 	                    // En caso de modificarse el valor del select, se actualiza el valor del rup.combo (con esta accion se recargan tambien los hijos)
 	                    if (!settings.multiselect) {
 	                        $('#' + settings.id).rup_combo('select', $('#' + settings.id).val());
@@ -2063,13 +2064,15 @@
             // Si es un combo multiselect
             if (this.multiple) {
                 $('#rup-multiCombo_' + comboId).outerWidth(anchoCombo);
+                event.stopPropagation();
             }
             // Si es un combo normal
             else {
                 $('#' + comboId + '-menu').parent('div').outerWidth(anchoCombo);
                 $('#' + comboId + '-menu').outerWidth(anchoCombo);
+                event.stopPropagation();
+                $(document).trigger('mousedown.multiselect');
             }
-            event.stopPropagation();
         }
     };
 

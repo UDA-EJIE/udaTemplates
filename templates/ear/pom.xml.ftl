@@ -24,7 +24,7 @@
 	<url>http://www.ejie.eus</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.ejie.x38.version>5.0.4-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>5.1.0-RELEASE</com.ejie.x38.version>
 		<hdivsecurity.version>2.6.6</hdivsecurity.version>
 		<org.hdiv.version>2.8.27</org.hdiv.version>
 		<org.hdiv.ee.version>3.5.2</org.hdiv.ee.version>

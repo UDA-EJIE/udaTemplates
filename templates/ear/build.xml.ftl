@@ -20,7 +20,7 @@
 	<!-- Permite el uso de variables de entorno -->
 	<property environment="env" />
 	<property name="outputDirectory" value="EarContent/APP-INF/lib/" />
-	<property name="mavenCommand" value="<#noparse>${env.M2_HOME}</#noparse>/bin/mvn.bat" />
+	<property name="mavenCommand" value="<#noparse>${env.M2_HOME}</#noparse>/bin/${mavenFileType}" />
 	<#if entornoEjie != "">
 	<property name="mavenSettings" value="<#noparse>${env.M2_HOME}</#noparse>/conf/settings-nexus3.xml" />
 	<#else>
