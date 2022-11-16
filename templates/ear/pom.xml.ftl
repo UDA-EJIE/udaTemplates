@@ -25,9 +25,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<com.ejie.x38.version>5.1.0-RELEASE</com.ejie.x38.version>
-		<hdivsecurity.version>2.6.6</hdivsecurity.version>
-		<org.hdiv.version>2.8.27</org.hdiv.version>
-		<org.hdiv.ee.version>3.5.2</org.hdiv.ee.version>
+		<org.hdiv.ce.version>3.5.2</org.hdiv.ce.version>
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
@@ -58,137 +56,27 @@
 			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
 			<version><#noparse>${eclipselink.version}</#noparse></version>
 		</dependency>
-	</#if>	
+	</#if>
 		<!-- Hdiv -->
-		<dependency>
-			<groupId>com.hdivsecurity</groupId>
-			<artifactId>hdiv-for-services-hateoas0</artifactId>
-			<version><#noparse>${hdivsecurity.version}</#noparse></version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-webmvc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-aop</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-expression</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-web</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.edropple.jregex</groupId>
-					<artifactId>jregex</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jdbc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.module</groupId>
-					<artifactId>jackson-module-jsonSchema</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.annotation</groupId>
-					<artifactId>jsr250-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>activation</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>net.jcip</groupId>
-					<artifactId>jcip-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-io</groupId>
-					<artifactId>commons-io</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-tx</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.code.findbugs</groupId>
-					<artifactId>jsr305</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>net.sourceforge.streamsupport</groupId>
-					<artifactId>streamsupport</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-config</artifactId>
-			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+			<version><#noparse>${org.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-core</artifactId>
-			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+			<version><#noparse>${org.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>org.hdiv</groupId>
 			<artifactId>hdiv-services</artifactId>
-			<version><#noparse>${org.hdiv.ee.version}</#noparse></version>
+			<version><#noparse>${org.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
-			<groupId>org.hdiv.ee</groupId>
-			<artifactId>hdiv-ee-discovery-core</artifactId>
-			<version><#noparse>${org.hdiv.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.hdiv.ee</groupId>
-			<artifactId>hdiv-ee-commons</artifactId>
-			<version><#noparse>${org.hdiv.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.hdiv.ee</groupId>
-			<artifactId>hdiv-ee-config</artifactId>
-			<version><#noparse>${org.hdiv.version}</#noparse></version>
-		</dependency>
-		<dependency>
-			<groupId>org.hdiv.ee</groupId>
-			<artifactId>hdiv-ee-spring-mvc</artifactId>
-			<version><#noparse>${org.hdiv.version}</#noparse></version>
+			<groupId>org.hdiv</groupId>
+			<artifactId>hdiv-spring-mvc</artifactId>
+			<version><#noparse>${org.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>javassist</groupId>
@@ -257,6 +145,11 @@
 					<artifactId>guava</artifactId>
 			  	</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+			<version>0.23.0.RELEASE</version>
 		</dependency>
 		
 		<!-- Spring Security -->

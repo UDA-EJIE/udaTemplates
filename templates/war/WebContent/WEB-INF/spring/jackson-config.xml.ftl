@@ -31,7 +31,7 @@
     <bean id="customSerializer" class="com.ejie.x38.serialization.CustomSerializer" />  
     
     <!-- Serializador utilizado por Hdiv  -->
-    <bean id="secureSerializerModule" class="com.ejie.x38.serialization.HdivSecureModule" />  
+    <bean id="secureSerializerModule" class="com.ejie.x38.serialization.EjieSecureModule" />  
     
     <bean id="udaMappingJackson2HttpMessageConverter" class="com.ejie.x38.serialization.UdaMappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes" ref="jacksonSupportedMediaTypes" />

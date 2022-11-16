@@ -60,7 +60,7 @@
 	<!-- HDIV Validator Filter -->
 	<filter>
 		<filter-name>ValidatorFilter</filter-name>
-		<filter-class>org.hdiv.filter.ValidatorFilter</filter-class>
+		<filter-class>com.ejie.x38.hdiv.filter.EjieValidatorFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>ValidatorFilter</filter-name>
