@@ -27,7 +27,7 @@
 	 * @param ${pojo.getDeclarationName()?lower_case}  ${pojo.getDeclarationName()}
 	 * @return ${pojo.getDeclarationName()} 
 	 */
-	${pojo.getDeclarationName()} add${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});   
+	${pojo.getDeclarationName()} addRelations${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});   
 
     /**
      * Deletes a single row in the ${tablaMN} table.
@@ -35,7 +35,7 @@
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @return 
      */
-	void remove${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
+	void removeRelations${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case});
 
     /**
      * Find a single row in the find${tablaMN} Many To Many relationship.

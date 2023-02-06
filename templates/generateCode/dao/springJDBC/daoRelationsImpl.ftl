@@ -1,16 +1,16 @@
 <#-- 
  -- Copyright 2013 E.J.I.E., S.A.
  --
- -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
- -- Solo podrá usarse esta obra si se respeta la Licencia.
+ -- Licencia con arreglo a la EUPL, VersiÃ³n 1.1 exclusivamente (la Â«LicenciaÂ»);
+ -- Solo podrÃ¡ usarse esta obra si se respeta la Licencia.
  -- Puede obtenerse una copia de la Licencia en
  --
  --      http://ec.europa.eu/idabc/eupl.html
  --
- -- Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
- -- el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
- -- SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- -- Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ -- Salvo cuando lo exija la legislaciÃ³n aplicable o se acuerde por escrito, 
+ -- el programa distribuido con arreglo a la Licencia se distribuye Â«TAL CUALÂ»,
+ -- SIN GARANTÃ�AS NI CONDICIONES DE NINGÃšN TIPO, ni expresas ni implÃ­citas.
+ -- VÃ©ase la Licencia en el idioma concreto que rige los permisos y limitaciones
  -- que establece la Licencia.
  -->
 <#-- Obtenemos el nombre de la tabla M:N -->
@@ -32,7 +32,7 @@
      * @param ${pojo.getDeclarationName()?lower_case}  ${pojo.getDeclarationName()}
      * @return ${pojo.getDeclarationName()} 
      */
- 	public ${pojo.getDeclarationName()} add${tablaMNName} (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
+ 	public ${pojo.getDeclarationName()} addRelations${tablaMNName} (${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
     	<#assign inserMNFields = utilidadesDao.insertMNFields(pojo,cfg,property)>
      	String query = "INSERT INTO ${tablaMN} " 
      		+ "( <#list inserMNFields as prim>${prim}<#if prim_has_next>,</#if></#list>) " 
@@ -54,7 +54,7 @@
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @return
      */
-    public  void remove${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
+    public  void removeRelations${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}) {
 		<#assign deleteMNFields = utilidadesDao.deleteMNWhere(pojo,cfg,property)>
 		String query = "DELETE  FROM ${tablaMN} "
 			+ " WHERE <#list deleteMNFields as param>${param}=?<#if param_has_next> AND </#if></#list>" ;
@@ -102,8 +102,8 @@
 
 		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		if (pagination != null) {
-			if (pagination.getSort() != null) {
-				order.append(" order by " + pagination.getSort() + " " + pagination.getAscDsc());
+			if (pagination.getSord() != null) {
+				order.append(" order by " + pagination.getSord() + " " + pagination.getSidx());
 				query.append(order);
 			}
 			query = new StringBuilder(${pojo.importType("com.ejie.x38.dto.PaginationManager")}.getPaginationQuery(pagination, query));

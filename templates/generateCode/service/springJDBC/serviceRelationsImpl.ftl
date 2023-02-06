@@ -28,8 +28,8 @@
 	 * @return ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public ${pojo.getDeclarationName()} add${tablaMN} (${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
-		return this.${nombreDao}.add${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
+	public ${pojo.getDeclarationName()} addRelations${tablaMN} (${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
+		return this.${nombreDao}.addRelations${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 	}
     
 	/**
@@ -38,8 +38,8 @@
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 */
 	@${pojo.importType("org.springframework.transaction.annotation.Transactional")}(rollbackFor = Throwable.class)
-	public void remove${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
-		this.${nombreDao}.remove${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
+	public void removeRelations${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}) {
+		this.${nombreDao}.removeRelations${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 	}
     
 	/**

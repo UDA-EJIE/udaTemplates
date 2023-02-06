@@ -27,14 +27,14 @@
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}  ${pojo.getDeclarationName()}
 	 * @return ${pojo.getDeclarationName()} 
 	 */
-	${pojo.getDeclarationName()} add${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
+	${pojo.getDeclarationName()} addRelations${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 
 	/**
 	 * Deletes a single row in the ${tablaMN} table.
 	 *
 	 * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} ${pojo.getDeclarationName()}
 	 */
-	void remove${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
+	void removeRelations${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())});
 
 	/**
 	 * Find a single row in the find${tablaMN} Many To Many relationship.
