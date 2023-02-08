@@ -54,7 +54,7 @@
 		    <#list listaMNPkSetter as auxList>${ctrl.stringDecapitalize(nombreSubclass)}.set${pojo.beanCapitalize(auxList[2])}(${auxList[0]});</#list>
 		}
 		${ctrl.stringDecapitalize(pojo.getDeclarationName())}.get${pojo.beanCapitalize(tablaHija)}().add(${ctrl.stringDecapitalize(nombreSubclass)});
-	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.remove${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
+	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.removeRelations${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
 	}
 	
 	/**
@@ -84,5 +84,5 @@
 		    <#list listaMNPkSetter as auxList>${ctrl.stringDecapitalize(nombreSubclass)}.set${pojo.beanCapitalize(auxList[2])}(${auxList[0]});</#list>
 		}
 		${ctrl.stringDecapitalize(pojo.getDeclarationName())}.get${pojo.beanCapitalize(tablaHija)}().add(${ctrl.stringDecapitalize(nombreSubclass)});
-	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.add${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
+	    this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.addRelations${tablaMN}(${ctrl.stringDecapitalize(pojo.getDeclarationName())});    
 	}
