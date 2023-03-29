@@ -17,17 +17,13 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="/WEB-INF/tld/spring.tld"%>
-<%@taglib prefix="form" uri="/WEB-INF/tld/spring-form.tld"%>
+<%@taglib prefix="form" uri="/WEB-INF/tld/x38-form.tld"%>
 
 <!-- Formulario -->
-<c:set value="<#noparse>${actionType == 'POST' ? 'add': 'edit'}</#noparse>" var="endpoint" />
 <spring:url value="${grid.url}/<#noparse>${endpoint}</#noparse>" var="url"/>
-<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form" action="<#noparse>${url}</#noparse>" method="<#noparse>${actionType}</#noparse>">
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_detail_form" action="<#noparse>${url}</#noparse>" method="<#noparse>${actionType}</#noparse>" enctype="<#noparse>${enctype}</#noparse>">
 	<!-- Feedback del formulario de detalle -->
 	<div id="${maint.nameMaint}_detail_feedback"></div>
-	<c:if test="<#noparse>${not empty fixedMessage}</#noparse>">
-		<p><c:out value="<#noparse>${fixedMessage}</#noparse>"/></p>
-	</c:if>
 	<!-- Campos del formulario de detalle -->
 	<#assign count = 0>
 	<#assign closeTagInserted = false>
@@ -82,6 +78,9 @@
 			<#if count % 2 == 0>
 				<div class="form-row">
 			</#if>
+			<c:if test="<#noparse>${not empty pkValue}</#noparse>">
+				<form:hidden path="id" value="<#noparse>${pkValue.id}</#noparse>" id="${columnProperties.name}_detail_table" />
+			</c:if>
 			<#assign count = count + 1>
 		</#if>
 	</#list>
