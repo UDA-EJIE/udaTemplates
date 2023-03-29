@@ -55,6 +55,23 @@ public class UDA4HdivConfig extends UDA4HdivConfigurerAdapter {
 
 	@Override
 	public void customConfigureEditableValidation(final ValidationConfigurer validationConfigurer) {
-		((EjieEditableValidationConfigurer) validationConfigurer.addValidation(".*/multiFilter/getDefault").forParameters("user").rules("text")).setAsClientParameter(true);
+		// Multifiltro
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter")
+				.forParameters("mapping", "tableID", "containerClass", "labelClass", "defaultContainerClass", "defaultCheckboxClass")
+				.rules("text"))
+				.setAsClientParameter(true);
+		
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter/getDefault")
+				.forParameters("filterSelector", "user")
+				.rules("text"))
+				.setAsClientParameter(true);
+		
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter/getAll")
+				.forParameters("filterSelector", "user")
+				.rules("text"))
+				.setAsClientParameter(true);
 	}
 }
