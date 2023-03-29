@@ -141,12 +141,4 @@
 	
 	<!-- Audit  -->
 	<bean id="auditController" class="com.ejie.x38.audit.AuditController" />
-	
-	<!-- Reports -->	
-<!-- 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
-<!-- 	   <property name="location"> -->
-<!-- 	       <value>/WEB-INF/spring/reports-config.xml</value> -->
-<!-- 	   </property> -->
-<!-- 	   <property name="order" value="0" /> -->
-<!-- 	</bean> -->
 </beans>
