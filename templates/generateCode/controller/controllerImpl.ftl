@@ -111,7 +111,8 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
 	 */
 	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds")
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds", linkTo = {
+			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
 	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "/allIds")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAllIds(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) <#list primariaParam as camposPrim> ${camposPrim[1]}<#if camposPrim_has_next>, </#if></#list> param,
