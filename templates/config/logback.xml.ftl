@@ -305,10 +305,6 @@
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	
-	<logger name="com.hdivsecurity" level="<#noparse>${log.level.udaTrazas}</#noparse>">
-		<appender-ref ref="salidaHdivAppender"/>
-	</logger>
-	
 	<logger name="org.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
