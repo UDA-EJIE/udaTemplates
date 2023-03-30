@@ -373,7 +373,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })	 
-	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/clipboardReport")
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/filter", params = "clipboardReport")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String[] columns, 
