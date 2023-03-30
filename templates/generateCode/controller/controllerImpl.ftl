@@ -367,12 +367,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "clipboardReport", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "excelReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })	 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "clipboardReport")	 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/filter", params = "clipboardReport")
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<Resource<${pojo.getDeclarationName()}>> getClipboardReport(
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param="filter") ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()},
@@ -396,12 +391,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "excelReport", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "excelReport")
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = { "/xlsReport", "/xlsxReport" }, produces = ${pojo.importType("org.springframework.http.MediaType")}.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateExcelReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
@@ -428,12 +418,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "pdfReport", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "excelReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "pdfReport")
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "pdfReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generatePDFReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
@@ -460,12 +445,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "odsReport", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "excelReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") }) 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "odsReport") 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "odsReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateODSReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
@@ -492,12 +472,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "csvReport", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "excelReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport") }) 
+	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "csvReport") 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "csvReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} void generateCSVReport(@RequestJsonBody(param = "filter", required = false) ${pojo.getDeclarationName()} filter,
 			@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")}(param = "columns", required = false) String[] columns,
