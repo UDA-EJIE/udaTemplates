@@ -75,12 +75,12 @@
 			</#if>
 			<#assign count = count + 1>
 		<#else>
+		<c:if test="<#noparse>${not empty pkValue}</#noparse>">
+			<form:hidden path="id" value="<#noparse>${pkValue.id}</#noparse>" id="${columnProperties.name}_detail_table" />
+		</c:if>
 			<#if count % 2 == 0>
 				<div class="form-row">
 			</#if>
-			<c:if test="<#noparse>${not empty pkValue}</#noparse>">
-				<form:hidden path="id" value="<#noparse>${pkValue.id}</#noparse>" id="${columnProperties.name}_detail_table" />
-			</c:if>
 			<#assign count = count + 1>
 		</#if>
 	</#list>
