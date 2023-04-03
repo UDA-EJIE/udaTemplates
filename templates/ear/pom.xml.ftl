@@ -714,6 +714,11 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 	</dependencies>
 	<build>
