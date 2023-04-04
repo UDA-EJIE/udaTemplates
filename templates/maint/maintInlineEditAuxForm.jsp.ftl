@@ -1,5 +1,5 @@
 <%--
- -- Copyright 2022 E.J.I.E., S.A.
+ -- Copyright 2023 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la "Licencia");
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -23,6 +23,7 @@
 <spring:url value="<#noparse>${endpoint}</#noparse>" var="url"/>
 <form:form modelAttribute="<#noparse>${entity}</#noparse>" id="<#noparse>${tableID}</#noparse>_detail_inlineEdit_aux_form" class="d-none" action="<#noparse>${url}</#noparse>" method="<#noparse>${actionType}</#noparse>" enctype="<#noparse>${enctype}</#noparse>">
 	<!-- Campos del formulario de detalle -->
+	<#assign multipkInserted = false>
 	<#assign count = 0>
 	<#assign closeTagInserted = false>
 	<#list gridColumns as columnProperties>
@@ -50,9 +51,25 @@
 	  			</#switch>
 			</#if>
 		<#else>
+			<#if (multipk)?string == "false">
 	<c:if test="<#noparse>${not empty pkValue}</#noparse>">
-		<form:hidden path="id" value="<#noparse>${pkValue.id}</#noparse>" id="${columnProperties.name}_detail_table" />
+		<form:hidden path="${columnProperties.name}" value="<#noparse>${pkValue.id}</#noparse>" id="${columnProperties.name}_inlineEdit_aux_form" />
 	</c:if>
+			</#if>
+			<#if (multipk)?string == "true" && (multipkInserted)?string == "false">
+	<c:choose>
+		<c:when test="<#noparse>${actionType.equals('POST')}</#noparse>">
+				<#assign primaryKeys = primaryKey?split(";")>
+				<#list primaryKeys as key>
+			<form:input path="${key}" id="${key}_multipk_inlineEdit_aux_form"/>
+				</#list>
+		</c:when>
+		<c:when test="<#noparse>${not empty pkValue}</#noparse>">
+			<form:hidden path="id" value="<#noparse>${pkValue.id}</#noparse>" id="id_multipk_inlineEdit_aux_form" />
+		</c:when>
+	</c:choose>
+				<#assign multipkInserted = true>
+			</#if>
 			<#assign count = count + 1>
 		</#if>
 	</#list>
