@@ -234,15 +234,18 @@ public class ${pojo.getDeclarationName()}Controller  {
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/editForm")
 	public String getEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String fixedMessage,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - editForm] : ${pojo.getDeclarationName()?lower_case}");
 		
 		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
-		model.addAttribute("actionType", actionType);
+		model.addAttribute("actionType", isMultipart ? "POST" : actionType);
+		model.addAttribute("isMultipart", isMultipart);
+		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
-		if (fixedMessage != null) {
-			model.addAttribute("fixedMessage", fixedMessage);
+		if (pkValue != null) {
+			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}EditForm";
@@ -266,22 +269,19 @@ public class ${pojo.getDeclarationName()}Controller  {
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/inlineEdit")
 	public String getInlineEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String tableID,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String mapping,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - inlineEditForm] : ${pojo.getDeclarationName()?lower_case}");
 		
-		model.addAttribute("entity", new ${pojo.getDeclarationName()}());
-		model.addAttribute("actionType", actionType);
-		model.addAttribute("tableID", tableID);
+		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
+		model.addAttribute("actionType", isMultipart ? "POST" : actionType);
+		model.addAttribute("isMultipart", isMultipart);
+		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
-		// Controlar que el mapping siempre se añada al modelo de la manera esperada
-		if (mapping == null || mapping.isEmpty()) {
-			mapping = "/${pojo.getDeclarationName()?lower_case}";
-		} else if (mapping.endsWith("/")) {
-			mapping = mapping.substring(0, mapping.length() - 1);
+		if (pkValue != null) {
+			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
 		}
-		model.addAttribute("mapping", mapping);
 		
 		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
 	}
