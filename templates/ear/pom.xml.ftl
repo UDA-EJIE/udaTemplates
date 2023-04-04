@@ -718,7 +718,7 @@
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
-		</dependency
+		</dependency>
 		<!-- FIN:PIF 1.4 EN APLICACION UDA -->
 	</dependencies>
 	<build>
