@@ -25,7 +25,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<com.ejie.x38.version>5.2.0-RELEASE</com.ejie.x38.version>
-		<com.ejie.hdiv.version>4.0.0</com.ejie.hdiv.version>
+		<com.ejie.hdiv.ce.version>4.0.0</com.ejie.hdiv.ce.version>
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
@@ -61,22 +61,22 @@
 		<dependency>
 			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-config</artifactId>
-			<version><#noparse>${com.ejie.hdiv.version}</#noparse></version>
+			<version><#noparse>${com.ejie.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-core</artifactId>
-			<version><#noparse>${com.ejie.hdiv.version}</#noparse></version>
+			<version><#noparse>${com.ejie.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-services</artifactId>
-			<version><#noparse>${com.ejie.hdiv.version}</#noparse></version>
+			<version><#noparse>${com.ejie.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>com.ejie.hdiv</groupId>
 			<artifactId>hdiv-spring-mvc</artifactId>
-			<version><#noparse>${com.ejie.hdiv.version}</#noparse></version>
+			<version><#noparse>${com.ejie.hdiv.ce.version}</#noparse></version>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
