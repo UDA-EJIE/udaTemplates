@@ -22,7 +22,7 @@
 <#else>
 <!-- Formulario necesario para garantizar el correcto funcionamiento con Hdiv cuando filter = 'noFilter' -->
 <spring:url value="${grid.url}/filter" var="url"/>
-<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form" class="d-none" action="<#noparse>${url}</#noparse>"/>
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_filter_form" class="d-none" action="<#noparse>${url}</#noparse>" method="POST"/>
 </#if>
 
 <table id="${maint.nameMaint}" class="tableFit table-striped table-bordered table-material" 

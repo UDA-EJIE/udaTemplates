@@ -15,24 +15,18 @@
  -->
 package ${PACKAGE_NAME};
 
-import java.util.List;
-
 import org.hdiv.config.annotation.ExclusionRegistry;
 import org.hdiv.config.annotation.RuleRegistry;
-import org.hdiv.config.annotation.builders.SecurityConfigBuilder;
-import org.hdiv.ee.config.annotation.ValidationConfigurer;
-import org.hdiv.ee.validator.ValidationTargetType;
+import org.hdiv.config.annotation.ValidationConfigurer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.hateoas.Link;
 
+import com.ejie.x38.hdiv.config.EjieValidationConfigurer.EjieValidationConfig.EjieEditableValidationConfigurer;
 import com.ejie.x38.hdiv.config.UDA4HdivConfigurerAdapter;
-import com.hdivsecurity.services.config.EnableHdiv4ServicesSecurityConfiguration;
 
 @Configuration
 @EnableAspectJAutoProxy
-@EnableHdiv4ServicesSecurityConfiguration
 @ComponentScan("com.ejie.x38.hdiv.aspect")
 public class UDA4HdivConfig extends UDA4HdivConfigurerAdapter {
 
@@ -46,12 +40,9 @@ public class UDA4HdivConfig extends UDA4HdivConfigurerAdapter {
 		return "/mockLoginPage";
 	}
 	
-	protected String getDashboardUser() {
-		return "dashboard-admin";
-	}
-
-	protected String getDashboardPass() {
-		return "password";
+	@Override
+	protected String getErrorPage() {
+		return "/error";
 	}
 
 	@Override
@@ -64,16 +55,23 @@ public class UDA4HdivConfig extends UDA4HdivConfigurerAdapter {
 
 	@Override
 	public void customConfigureEditableValidation(final ValidationConfigurer validationConfigurer) {
-		validationConfigurer.addValidation(".*/multiFilter/getDefault").forParameters("user").rules("text").target(ValidationTargetType.CLIENT_PARAMETERS);
+		// Multifiltro
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter")
+				.forParameters("mapping", "tableID", "containerClass", "labelClass", "defaultContainerClass", "defaultCheckboxClass")
+				.rules("text"))
+				.setAsClientParameter(true);
+		
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter/getDefault")
+				.forParameters("filterSelector", "user")
+				.rules("text"))
+				.setAsClientParameter(true);
+		
+		((EjieEditableValidationConfigurer) validationConfigurer
+				.addValidation(".*/multiFilter/getAll")
+				.forParameters("filterSelector", "user")
+				.rules("text"))
+				.setAsClientParameter(true);
 	}
-
-	@Override
-	protected List<Link> getStaticLinks() {
-		return null;
-	}
-	
-	@Override
-    public void configure(SecurityConfigBuilder builder) {
-        builder.errorPage("/error.jsp");
-    }
 }

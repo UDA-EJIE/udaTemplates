@@ -367,8 +367,13 @@
                 	let idEntity = DataTable.Api().rupTable.getIdPk(p.pk, ctx.oInit);
                 	if(ctx.oInit.formEdit !== undefined){                	
 	                	var hdivStateParamValue = $.fn.getHDIV_STATE(undefined, ctx.oInit.formEdit.idForm);
-	                    if (hdivStateParamValue !== '' && index == 0) {
-	                    	ctx.multiselection.lastSelectedId = idEntity;
+	                	if(ctx.multiselection.lastSelectedId != '' && idEntity != ''){
+	                		//Se actualiza el last, con el id de hdiv cifrado.
+	                		ctx.multiselection.lastSelectedId = idEntity;
+	                	}
+	                	//Se marcaría el primero, en caso de no encontrar.
+	                	if (hdivStateParamValue !== '' && index == 0) {
+	                		posibleLastselection = idEntity;
 	                    }
                 	}
                     var arra = {
@@ -379,6 +384,10 @@
                     ctx.multiselection.selectedIds.splice(index, 0, arra.id);
                     ctx.multiselection.selectedRowsPerPage.splice(index, 0, arra);
                 });
+                //Si viene reordenación, debe de tener un último seleccionado.                
+                if(json.reorderedSelection != null && json.reorderedSelection.length > 0 && ctx.multiselection.lastSelectedId == ''){
+                	ctx.multiselection.lastSelectedId = posibleLastselection;
+                }
                 if (ctx.multiselection !== undefined && !ctx.multiselection.selectedAll) {
                     ctx.multiselection.numSelected = ctx.multiselection.selectedIds.length;
                 }
@@ -391,7 +400,7 @@
                 $('#' + ctx.sTableId).triggerHandler('tableAfterReorderData',ctx);
             });
 
-            apiRegister('rupTable.getIdPk()', function (json, optionsParam) {
+            apiRegister('rupTable.getIdPk()', function (json = {}, optionsParam) {
                 var opts = options;
                 if (optionsParam !== undefined) {
                     opts = optionsParam;
@@ -821,10 +830,16 @@
          *
          */
         _ajaxRequestData(data, ctx) {
-            //Para añadir un id de busqueda distinto al value, como por ejemplo la fecha.
-        	if (ctx.oInit.ordering && data.order[0] != undefined && data.order[0].column != undefined) {
-        		data.columns[data.order[0].column].colSidx = ctx.aoColumns[data.order[0].column].colSidx;
-        	}
+
+			//Guardar los valores de sidx
+        	if (ctx.oInit.ordering) {
+	        	for (var i = 0; i < data.order.length; i++) {
+	        		if(data.order[i] != undefined && data.order[i].column != undefined){
+						data.columns[data.order[i].column].colSidx = ctx.aoColumns[data.order[i].column].colSidx;
+					}
+				}
+        	}    	
+        	
             //El data viene del padre:Jquery.table y como no tiene el prefijo de busqueda se añade.
             if (ctx.oInit.filter.$filterContainer) {
                 data.filter = window.form2object(ctx.oInit.filter.$filterContainer[0]);
@@ -1415,7 +1430,6 @@
                       
                     $.when(DataTable.editForm.fnOpenSaveDialog(params[0], params[1], params[2], ctx.oInit.formEdit.customTitle)).then(function () {
                     	var row = ctx.json.rows[params[2]];
-                    	ctx.oInit.formEdit.$navigationBar.funcionParams = {};
         	            var multiselection = ctx.multiselection;
         	            var indexInArray = jQuery.inArray(DataTable.Api().rupTable.getIdPk(row, ctx.oInit), multiselection.selectedIds);
         	            if (ctx.multiselection.selectedAll) { //Si es selecAll recalcular el numero de los selects. Solo la primera vez es necesario.
@@ -1793,7 +1807,7 @@
                             if (ctx.oInit.inlineEdit.rowDefault.actionType === 'CLONE') {
                                 DataTable.Api().inlineEdit.cloneLine(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line);
                             } //else{
-                            DataTable.Api().inlineEdit.editInline(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line);
+                            DataTable.Api().inlineEdit.editInline(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line, ctx.oInit.inlineEdit.rowDefault.actionType === 'CLONE' ? 'POST' : ctx.oInit.inlineEdit.rowDefault.actionType);
                             var count = tabla.columns().responsiveHidden().reduce(function (a, b) {
                                 return b === false ? a + 1 : a;
                             }, 0);
@@ -1812,9 +1826,14 @@
                         }
                     }
 
-                    if (settingsTable.oInit.formEdit !== undefined && settingsTable.oInit.responsive !== undefined &&
-                        settingsTable.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
-                        DataTable.Api().editForm.addchildIcons(settingsTable);
+                    if (settingsTable.oInit.formEdit !== undefined){
+                    	if(	settingsTable.oInit.responsive !== undefined && settingsTable.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
+                    		DataTable.Api().editForm.addchildIcons(settingsTable);
+                    	}
+                    	if(typeof settingsTable.oInit.formEdit.detailForm === 'object' && ctx.oInit.formEdit.detailForm.isOpen !== undefined && ctx.oInit.formEdit.detailForm.isOpen() ){//si dialog esta abierto
+                    		// Ejecutar fixComboAutocompleteOnEditForm como callback para garantizar la actualización de las filas.
+                    		DataTable.Api().editForm.fixComboAutocompleteOnEditForm(ctx);
+                    	}
                     }
                     if (options.inlineEdit === undefined && options.formEdit === undefined) {
                         DataTable.Api().editForm.addchildIcons(settingsTable);
