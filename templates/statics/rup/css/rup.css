@@ -8798,13 +8798,6 @@ body .ui-tooltip {
   direction: ltr;
   cursor: pointer; }
 
-/* Fixes for IE < 8 */
-@media screen\9 {
-  .fileinput-button input {
-    filter: alpha(opacity=0);
-    font-size: 100%;
-    height: 100%; } }
-
 /*
  * jQuery File Upload UI Plugin CSS
  * https://github.com/blueimp/jQuery-File-Upload
@@ -9256,7 +9249,6 @@ body .ui-tooltip {
   left: 0; }
 
 .qtip .qtip-tip .qtip-vml {
-  behavior: url(#default#VML);
   display: inline-block;
   visibility: visible; }
 
@@ -12471,9 +12463,6 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-caret-right:before {
   content: "\f0da"; }
 
-.rup-fa-close:before, .rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before, .ui-dialog .ui-dialog-titlebar.ui-widget-header .ui-dialog-titlebar-close span.ui-icon-closethick:before {
-  content: "\f00d"; }
-
 .shadow-1, .card.card-1 {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -12952,9 +12941,9 @@ select {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
-  -moz-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
-  -webkit-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
-  box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset; }
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset; }
 
 .ui-multiselect {
   padding: 3px 4px; }
@@ -13461,8 +13450,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
     text-decoration: none;
     cursor: not-allowed;
     background-color: transparent;
-    background-image: none;
-    filter: "progid:DXImageTransform.Microsoft.gradient(enabled = false)"; }
+    background-image: none; }
 
 .rup-navbar .open > .dropdown-menu {
   display: block; }
@@ -14248,7 +14236,7 @@ input.rup_spinner {
         color: #204d71;
         border-top-right-radius: 4px;
         border-top-left-radius: 4px;
-        border-bottom-width: 1; }
+        border-bottom-width: 1px; }
 
 .rup-time-input-group {
   display: inline-table;
@@ -14401,8 +14389,7 @@ a.rup-toolbar_menuButton.ui-button span {
 
 .loading-modal > div, .config-required-modal > div {
   height: inherit;
-  width: inherit;
-  display: 100%; }
+  width: inherit; }
 
 .loading-modal > div > div, .config-required-modal > div > div {
   /*display:table-cell;*/
@@ -17183,8 +17170,6 @@ div.material-datepicker.ui-datepicker {
 div.rup-feedback.rup-feedback_image {
   border: 1px solid #c5c5c5;
   color: #495057; }
-  div.rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
-    content: initial; }
   div.rup-feedback.rup-feedback_image > i.mdi {
     margin-right: 1rem;
     font-weight: 700;
@@ -33815,19 +33800,6 @@ ul.ui-selectmenu-menu-popup {
   margin: 0;
   padding: 0; }
 
-/* IE6 workaround (dotted transparent borders) */
-* html .ui-selectmenu-menu li {
-  border-color: pink;
-  filter: chroma(color=pink);
-  width: 100%; }
-
-* html .ui-selectmenu-menu li a {
-  position: relative; }
-
-/* IE7 workaround (opacity disabled) */
-* + html .ui-state-disabled, * + html .ui-state-disabled a {
-  color: silver; }
-
 /* Multiselect
 ----------------------------------*/
 .ui-multiselect {
@@ -34231,8 +34203,7 @@ li[id$='_contextMenuToolbar'] {
 
 .loading-modal > div, .config-required-modal > div {
   height: inherit;
-  width: inherit;
-  display: 100%; }
+  width: inherit; }
 
 .loading-modal > div > div, .config-required-modal > div > div {
   /*display:table-cell;*/
@@ -35271,12 +35242,6 @@ td > div.centerOnResponsiveContainer {
   width: 18px;
   height: 18px; }
 
-@media \0screen {
-  .ui-state-disabled,
-  .ui-widget-content .ui-state-disabled,
-  .ui-widget-header .ui-state-disabled {
-    z-index: 0; } }
-
 /*Posicionamiento derecho de botones en la botonera*/
 .right_button {
   float: right; }
@@ -35612,7 +35577,6 @@ td > div.centerOnResponsiveContainer {
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15); }
 
 .ui-tooltip-shadow .ui-tooltip-titlebar, .ui-tooltip-shadow .ui-tooltip-content {
-  filter: "progid : DXImageTransform.Microsoft.Shadow ( Color = 'gray', Direction = 135, Strength = 3 )";
   -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Color='gray', Direction=135, Strength=3)"; }
 
 /*! Add rounded corners to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
@@ -35640,7 +35604,6 @@ td > div.centerOnResponsiveContainer {
 .ui-tooltip-youtube .ui-tooltip-titlebar, .ui-tooltip-youtube .ui-tooltip-content {
   background: transparent;
   background: rgba(0, 0, 0, 0.85);
-  filter: "progid : DXImageTransform.Microsoft.gradient ( startColorstr = #D9000000, endColorstr = #D9000000 )";
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000)";
   color: white;
   border-color: #CCCCCC; }
@@ -35710,7 +35673,6 @@ td > div.centerOnResponsiveContainer {
 .ui-tooltip-tipsy .ui-tooltip-titlebar, .ui-tooltip-tipsy .ui-tooltip-content {
   background: transparent;
   background: rgba(0, 0, 0, 0.87);
-  filter: "progid : DXImageTransform.Microsoft.gradient ( startColorstr = #D9000000, endColorstr = #D9000000 )";
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000)";
   color: white;
   border: 0px transparent;
@@ -35720,10 +35682,10 @@ td > div.centerOnResponsiveContainer {
   text-shadow: 0 1px black; }
 
 .ui-tooltip-tipsy .ui-tooltip-titlebar {
-  padding: 6px 35px 0 10; }
+  padding: 6px 35px 0px 10px; }
 
 .ui-tooltip-tipsy .ui-tooltip-content {
-  padding: 6px 10; }
+  padding: 6px 10px; }
 
 .ui-tooltip-tipsy .ui-tooltip-icon {
   border-color: #222;
@@ -35959,7 +35921,7 @@ form.rup_validate label.error {
 
 /* Paso */
 .rup-wizard_stepDesc a {
-  font: arial,helvetica,clean,sans-serif !important;
+  font-family: Arial,Helvetica,clean,sans-serif !important;
   cursor: pointer;
   color: #0052C7;
   float: left;
@@ -36146,7 +36108,6 @@ form.rup_validate label.error {
   background-position: -54px 0; }
 
 .jstree-rup-default .jstree-leaf > ins {
-  background-position: -36px 0\9;
   background-position: -37px 0; }
 
 .jstree-rup-default .jstree-hovered {
@@ -36564,9 +36525,6 @@ form.rup_validate label.error {
   border-top: 15px solid transparent;
   border-left: 8px solid #FFFFFF;
   border-bottom: 15px solid transparent; }
-
-#cal-day-box {
-  text-wrap: none; }
 
 #cal-day-box .cal-day-hour-part {
   height: 30px;
@@ -38265,9 +38223,6 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 .rup-fa-caret-right:before {
   content: "\f0da"; }
 
-.rup-fa-close:before, .rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before, .ui-dialog .ui-dialog-titlebar.ui-widget-header .ui-dialog-titlebar-close span.ui-icon-closethick:before {
-  content: "\f00d"; }
-
 .shadow-1, .card.card-1 {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -38746,9 +38701,9 @@ select {
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
-  -moz-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
-  -webkit-box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset;
-  box-shadow: 0, 1px, 1px, rgba(0, 0, 0, 0.075), inset; }
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset; }
 
 .ui-multiselect {
   padding: 3px 4px; }
@@ -39255,8 +39210,7 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
     text-decoration: none;
     cursor: not-allowed;
     background-color: transparent;
-    background-image: none;
-    filter: "progid:DXImageTransform.Microsoft.gradient(enabled = false)"; }
+    background-image: none; }
 
 .rup-navbar .open > .dropdown-menu {
   display: block; }
@@ -40042,7 +39996,7 @@ input.rup_spinner {
         color: #204d71;
         border-top-right-radius: 4px;
         border-top-left-radius: 4px;
-        border-bottom-width: 1; }
+        border-bottom-width: 1px; }
 
 .rup-time-input-group {
   display: inline-table;
@@ -40195,8 +40149,7 @@ a.rup-toolbar_menuButton.ui-button span {
 
 .loading-modal > div, .config-required-modal > div {
   height: inherit;
-  width: inherit;
-  display: 100%; }
+  width: inherit; }
 
 .loading-modal > div > div, .config-required-modal > div > div {
   /*display:table-cell;*/
@@ -42977,8 +42930,6 @@ div.material-datepicker.ui-datepicker {
 div.rup-feedback.rup-feedback_image {
   border: 1px solid #c5c5c5;
   color: #495057; }
-  div.rup-feedback.rup-feedback_image div.rup-feedback_closeLink:before {
-    content: initial; }
   div.rup-feedback.rup-feedback_image > i.mdi {
     margin-right: 1rem;
     font-weight: 700;
