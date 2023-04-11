@@ -16,7 +16,7 @@
  * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
  * Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
  * que establece la Licencia.
- * @copyright   Copyright 2022 E.J.I.E., S.A.
+ * @copyright   Copyright 2023 E.J.I.E., S.A.
  */
 (function( factory ){
     if ( typeof define === 'function' && define.amd ) {
