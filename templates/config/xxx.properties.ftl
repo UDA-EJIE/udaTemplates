@@ -32,7 +32,7 @@ cookie.secure=false
 locale.allowInheritance=false
 
 #Loggin parameters
-log.path=c:/datos/${codapp}/log
+log.path=${logPath}
 log.level.salidaEstandar=INFO
 log.level.udaTrazas=TRACE
 log.level.aplicTrazas=INFO
