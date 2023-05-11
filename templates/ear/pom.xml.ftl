@@ -24,7 +24,7 @@
 	<url>http://www.ejie.eus</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.ejie.x38.version>5.2.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.x38.version>5.3.0-RELEASE</com.ejie.x38.version>
 		<com.ejie.hdiv.ce.version>4.0.0</com.ejie.hdiv.ce.version>
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
