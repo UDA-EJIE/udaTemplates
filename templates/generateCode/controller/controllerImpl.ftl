@@ -245,7 +245,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}EditForm";
@@ -280,7 +280,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
