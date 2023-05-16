@@ -97,7 +97,7 @@
     </bean>
     
     <!-- Permite la subida de ficheros -->	
-    <bean id="multipartResolver" class="org.hdiv.web.multipart.HdivCommonsMultipartResolver" />
+    <bean id="multipartResolver" class="com.ejie.hdiv.web.multipart.HdivCommonsMultipartResolver" />
 
     <!-- Bean encargado de las peticiones -->
     <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

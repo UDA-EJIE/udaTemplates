@@ -54,7 +54,7 @@
 	
 	<!-- HDIV Init Listener -->
 	<listener>
-		<listener-class>org.hdiv.listener.InitListener</listener-class>
+		<listener-class>com.ejie.hdiv.listener.InitListener</listener-class>
 	</listener>
 
 	<!-- HDIV Validator Filter -->

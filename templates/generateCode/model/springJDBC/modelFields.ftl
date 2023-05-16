@@ -38,7 +38,7 @@
             <#if primariaSizes == 1 && !field.name.equals('id') >
             	 <#list camposDoc as camposPrim>
             <#if camposPrim[0].equals(field.name) >	 
-	@${pojo.importType("org.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class)
+	@${pojo.importType("com.ejie.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class)
 			</#if>	
 				 </#list>   
           	</#if> 

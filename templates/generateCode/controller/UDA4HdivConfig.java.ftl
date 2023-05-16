@@ -15,9 +15,9 @@
  -->
 package ${PACKAGE_NAME};
 
-import org.hdiv.config.annotation.ExclusionRegistry;
-import org.hdiv.config.annotation.RuleRegistry;
-import org.hdiv.config.annotation.ValidationConfigurer;
+import com.ejie.hdiv.config.annotation.ExclusionRegistry;
+import com.ejie.hdiv.config.annotation.RuleRegistry;
+import com.ejie.hdiv.config.annotation.ValidationConfigurer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
