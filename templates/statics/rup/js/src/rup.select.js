@@ -48,7 +48,7 @@
 }(function ($) {
 
     // ****************************************************************************************************************
-    // DEFINICIÓN BASE DEL PATRÁN (definición de la variable privada que
+    // DEFINICIÓN BASE DEL PATRÓN (definición de la variable privada que
 	// contendrá los métodos y la función de jQuery)
     // ****************************************************************************************************************
 
@@ -82,7 +82,7 @@
             
             if (values == undefined || values.length == 0) {
             	value = '';
-            }else if (values.length == 1) {
+            }else if (values.length == 1 && !settings.multiple){
                 value = values[0].id;
             }else{
             	value = [];
@@ -500,6 +500,8 @@
                 	}
 
             	}
+            	
+            	$self.rup_select('reload');
  
         	}
     	},
@@ -1451,7 +1453,7 @@
 			const name = settings.inlineEdit?.auxSiblingFieldName ? settings.inlineEdit?.auxSiblingFieldName : settings.name;
 			
 			if ($form.length === 1) {
-				let url = settings.url + '?_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
+				let url = settings.url + (settings.url.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
 
 				if (data) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.

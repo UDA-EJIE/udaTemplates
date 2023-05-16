@@ -178,7 +178,7 @@ el resto de componentes RUP para estandarizar la asignación del valor al Autoco
 						let settings = data.$labelField.data('settings');
 						if(labelFound !== ''){
 							$('#' + id + '_label').val(labelFound);
-						}else if(settings.showDefault){
+						}else if(settings?.showDefault){
 							$('#' + id + '_label').val(value);
 						}
 					}
@@ -270,7 +270,7 @@ el resto de componentes RUP para estandarizar la asignación del valor al Autoco
 
 			settings = self.data('settings');
 
-			if (settings.combobox) {
+			if (settings?.combobox) {
 				settings.$comboboxToogle.button('disable');
 			}
 
@@ -671,7 +671,7 @@ input.
 				});
 			}
 
-			term = request.term.replace(/%/g, '\\%').replace(/_/g, '\\_');
+			term = String(request.term).replace(/%/g, '\\%').replace(/_/g, '\\_');
 			data = $.extend({
 				q: term,
 				c: settings.contains
@@ -744,7 +744,7 @@ input.
 							}
 							
 							// Limpiar tildes
-							if (settings.accentFolding && labelLimpio !== item.label) {
+							if (settings.accentFolding && labelLimpio !== item.label && (labelLimpio.includes(termLimpio) || item.label.includes(termLimpio))) {
 								// Parte delantera
 								let regex = new RegExp(termLimpio, 'i');
 								var literal = returnValue.label;
@@ -910,7 +910,7 @@ input.
 			const name = settings.inlineEdit?.auxSiblingFieldName ? settings.inlineEdit?.auxSiblingFieldName : settings.name;
 			
 			if ($form.length === 1) {
-				let url = settings.data + '?_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
+				let url = settings.data + (settings.data.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
 
 				// Concatena los datos a enviar.
 				url += "&" + data;
