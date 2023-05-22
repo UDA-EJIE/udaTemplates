@@ -80,7 +80,7 @@
 
             let values = $self.select2('data')
             
-            if (values == undefined || values.length == 0) {
+            if ((values == undefined || values.length == 0) && !settings.multiple) {
             	value = '';
             }else if (values.length == 1 && !settings.multiple){
                 value = values[0].id;
@@ -501,7 +501,9 @@
 
             	}
             	
-            	$self.rup_select('reload');
+            	 if (settings.multiple == true) {
+          $self.rup_select('reload');
+        }
  
         	}
     	},
