@@ -248,6 +248,20 @@ public class ${pojo.getDeclarationName()}Controller  {
 			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
 		}
 		
+		if (actionType.equals("POST")) {
+			if (isMultipart) {
+				model.addAttribute("endpoint", "addMultipart");
+			} else {
+				model.addAttribute("endpoint", "add");
+			}
+		} else {
+			if (isMultipart) {
+				model.addAttribute("endpoint", "editMultipart");
+			} else {
+				model.addAttribute("endpoint", "edit");
+			}
+		}
+		
 		return "${pojo.getDeclarationName()?lower_case}EditForm";
 	}
 
