@@ -250,7 +250,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
 		}
 		
 		if (actionType.equals("POST")) {
@@ -303,7 +303,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
