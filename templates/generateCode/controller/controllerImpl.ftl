@@ -216,12 +216,16 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
 		return "${pojo.getDeclarationName()?lower_case}";
 	}
-
+	
+	<#assign camposDoc = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	/**
 	 * Obtener el formulario de edición.
 	 * 
 	 * @param actionType String
-	 * @param fixedMessage String
+	 * @param isMultipart boolean
+	 <#list camposDoc as camposPrim>
+	 * @param pkValue ${pojo.importType(camposPrim[1])}
+	 </#list>
 	 * @param model ${pojo.importType("org.springframework.ui.Model")}
 	 *
 	 * @return String
@@ -232,10 +236,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/editForm")
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	public String getEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) <#list primariaParam as camposPrim>${pojo.importType(camposPrim[1])}</#list> pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - editForm] : ${pojo.getDeclarationName()?lower_case}");
 		
@@ -264,13 +269,16 @@ public class ${pojo.getDeclarationName()}Controller  {
 		
 		return "${pojo.getDeclarationName()?lower_case}EditForm";
 	}
-
+	
+	<#assign camposDoc = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	/**
 	 * Obtener el formulario necesario para permitir el uso de la edición en línea.
 	 * 
 	 * @param actionType String
-	 * @param tableID String
-	 * @param mapping String
+	 * @param isMultipart boolean
+	 <#list camposDoc as camposPrim>
+	 * @param pkValue ${pojo.importType(camposPrim[1])}
+	 </#list>
 	 * @param model ${pojo.importType("org.springframework.ui.Model")}
 	 *
 	 * @return String
@@ -281,10 +289,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/inlineEdit")
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	public String getInlineEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) <#list primariaParam as camposPrim>${pojo.importType(camposPrim[1])}</#list> pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - inlineEditForm] : ${pojo.getDeclarationName()?lower_case}");
 		
