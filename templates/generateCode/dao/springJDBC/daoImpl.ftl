@@ -1,5 +1,5 @@
 /*
-* Copyright 2022 E.J.I.E., S.A.
+* Copyright 2023 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -182,7 +182,7 @@ public class ${pojo.getDeclarationName()}DaoImpl implements ${pojo.getDeclaratio
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	<#assign paramWhereRemove = paramWhere>
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, ${pojo.getDeclarationName()}.class, params, ${pojo.getDeclarationName()}DaoImpl.ORDER_BY_WHITE_LIST, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }

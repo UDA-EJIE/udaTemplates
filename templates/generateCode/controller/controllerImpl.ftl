@@ -1,5 +1,5 @@
 /*
-* Copyright 2022 E.J.I.E., S.A.
+* Copyright 2023 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -61,7 +61,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	<#assign primaria = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "<#list primaria as camposPrim>/{${camposPrim[0]}}</#list>")
 	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("org.springframework.hateoas.Resource")}<${pojo.getDeclarationName()}> get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("org.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
+	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("org.springframework.hateoas.Resource")}<${pojo.getDeclarationName()}> get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("com.ejie.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
 	<#if !isJpa>	
 		<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
@@ -173,7 +173,7 @@ public class ${pojo.getDeclarationName()}Controller  {
     <#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	@${pojo.importType("org.springframework.web.bind.annotation.DeleteMapping")}(value = "<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>/{${field[0]}}</#foreach>")
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
-    public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> delete(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("org.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
+    public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> delete(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("com.ejie.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
 		<#if !isJpa>	
 			<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
@@ -216,12 +216,16 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("${pojo.getDeclarationName()?lower_case}", new ${pojo.getDeclarationName()}());
 		return "${pojo.getDeclarationName()?lower_case}";
 	}
-
+	
+	<#assign camposDoc = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	/**
 	 * Obtener el formulario de edición.
 	 * 
 	 * @param actionType String
-	 * @param fixedMessage String
+	 * @param isMultipart boolean
+	 <#list camposDoc as camposPrim>
+	 * @param pkValue ${pojo.importType(camposPrim[1])}
+	 </#list>
 	 * @param model ${pojo.importType("org.springframework.ui.Model")}
 	 *
 	 * @return String
@@ -232,10 +236,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/editForm")
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	public String getEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) <#list primariaParam as camposPrim>${pojo.importType(camposPrim[1])}</#list> pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - editForm] : ${pojo.getDeclarationName()?lower_case}");
 		
@@ -245,18 +250,35 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
+		}
+		
+		if (actionType.equals("POST")) {
+			if (isMultipart) {
+				model.addAttribute("endpoint", "addMultipart");
+			} else {
+				model.addAttribute("endpoint", "add");
+			}
+		} else {
+			if (isMultipart) {
+				model.addAttribute("endpoint", "editMultipart");
+			} else {
+				model.addAttribute("endpoint", "edit");
+			}
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}EditForm";
 	}
-
+	
+	<#assign camposDoc = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	/**
 	 * Obtener el formulario necesario para permitir el uso de la edición en línea.
 	 * 
 	 * @param actionType String
-	 * @param tableID String
-	 * @param mapping String
+	 * @param isMultipart boolean
+	 <#list camposDoc as camposPrim>
+	 * @param pkValue ${pojo.importType(camposPrim[1])}
+	 </#list>
 	 * @param model ${pojo.importType("org.springframework.ui.Model")}
 	 *
 	 * @return String
@@ -267,10 +289,11 @@ public class ${pojo.getDeclarationName()}Controller  {
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"),
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
 	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/inlineEdit")
+	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
 	public String getInlineEditForm(
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) String actionType,
 			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = true) boolean isMultipart,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) String pkValue,
+			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(required = false) <#list primariaParam as camposPrim>${pojo.importType(camposPrim[1])}</#list> pkValue,
 			${pojo.importType("org.springframework.ui.Model")} model) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - inlineEditForm] : ${pojo.getDeclarationName()?lower_case}");
 		
@@ -280,7 +303,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
-			model.addAttribute("pkValue", IdentifiableModelWrapperFactory.getInstance(new ${pojo.getDeclarationName()}(pkValue)));
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
@@ -344,7 +367,7 @@ public class ${pojo.getDeclarationName()}Controller  {
 	 */
 	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "deleteAll", linkTo = { 
 			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") }) 
-	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/deleteAll")
+	@${pojo.importType("org.springframework.web.bind.annotation.PostMapping")}(value = "/filter", params = "deleteAll")
 	@${pojo.importType("org.springframework.web.bind.annotation.ResponseStatus")}(value = ${pojo.importType("org.springframework.http.HttpStatus")}.OK)
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} List<String> deleteMultiple(@${pojo.importType("com.ejie.x38.control.bind.annotation.RequestJsonBody")} ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 		${pojo.getDeclarationName()}Controller.logger.info("[POST - deleteMultiple] : Eliminar multiples ${pojo.getDeclarationName()}s");

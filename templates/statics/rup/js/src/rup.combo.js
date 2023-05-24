@@ -57,7 +57,7 @@
 }(function ($) {
 
     //****************************************************************************************************************
-    // DEFINICIÓN BASE DEL PATRÁN (definición de la variable privada que contendrá los métodos y la función de jQuery)
+    // DEFINICIÓN BASE DEL PATRÓN (definición de la variable privada que contendrá los métodos y la función de jQuery)
     //****************************************************************************************************************
 
 
@@ -1163,7 +1163,7 @@
                     return true;
                 });
                 //						$("#rup-multiCombo_remoteGroup_comboHijo").on('keypress', function(event) {
-                $('#' + settings.id).data('echMultiselect').menu.on('label', 'keydown.multiselect', function (event) {
+                $('#' + settings.id).data('echMultiselect').menu.on('keydown.multiselect', 'label', function (event) {
                     if (event.which > 0) {
                         self._typeAheadMultiselect(event.which, 'focus', settings);
                     }
@@ -1198,7 +1198,7 @@
                 if (settings.multiselect) {
                     //Convertir inputValue en array
                     if (Array.isArray(settings.inputValue) === false) {
-                        settings.inputValue = settings.inputValue.split('##');
+                        settings.inputValue = settings.inputValue?.split('##');
                     }
 
                 }
@@ -1655,7 +1655,7 @@
 			const source = settings.source ? settings.source : settings.sourceGroup;
 			
 			if ($form.length === 1) {
-				let url = source + '?_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
+				let url = source + (source.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
 
 				if (data) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.
@@ -1876,7 +1876,7 @@
 	                    $('#' + settings.id).data('settings', settings);
 	
 	                    //Comprobar si los padres ya tienen datos seleccionados (si son LOCALES puede suceder)
-	                    if (this._getParentsValues(settings.parent) !== null && (settings.firstLoad === null && settings.loadFromSelect === false)) {
+	                    if (this._getParentsValues(settings.parent) !== null && settings.firstLoad === null) {
 	                        $('#' + settings.id).rup_combo('reload');
 	                    }
 	                    multiChange(settings);

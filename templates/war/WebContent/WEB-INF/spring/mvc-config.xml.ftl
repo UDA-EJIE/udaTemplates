@@ -1,5 +1,5 @@
 <#--
- -- Copyright 2022 E.J.I.E., S.A.
+ -- Copyright 2023 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -97,7 +97,7 @@
     </bean>
     
     <!-- Permite la subida de ficheros -->	
-    <bean id="multipartResolver" class="org.hdiv.web.multipart.HdivCommonsMultipartResolver" />
+    <bean id="multipartResolver" class="com.ejie.hdiv.web.multipart.HdivCommonsMultipartResolver" />
 
     <!-- Bean encargado de las peticiones -->
     <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

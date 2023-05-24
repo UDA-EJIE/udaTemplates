@@ -1,5 +1,5 @@
 <#-- 
-* Copyright 2022 E.J.I.E., S.A.
+* Copyright 2023 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -15,9 +15,9 @@
  -->
 package ${PACKAGE_NAME};
 
-import org.hdiv.config.annotation.ExclusionRegistry;
-import org.hdiv.config.annotation.RuleRegistry;
-import org.hdiv.config.annotation.ValidationConfigurer;
+import com.ejie.hdiv.config.annotation.ExclusionRegistry;
+import com.ejie.hdiv.config.annotation.RuleRegistry;
+import com.ejie.hdiv.config.annotation.ValidationConfigurer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

@@ -1,5 +1,5 @@
 <#--
- -- Copyright 2022 E.J.I.E., S.A.
+ -- Copyright 2023 E.J.I.E., S.A.
  --
  -- Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
  -- Solo podrá usarse esta obra si se respeta la Licencia.
@@ -305,7 +305,7 @@
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	
-	<logger name="org.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
+	<logger name="com.ejie.hdiv" level="<#noparse>${log.level.udaTrazas}</#noparse>">
 		<appender-ref ref="salidaHdivAppender"/>
 	</logger>
 	</#if>

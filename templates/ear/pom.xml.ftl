@@ -1,5 +1,5 @@
 <!--
-* Copyright 2022 E.J.I.E., S.A.
+* Copyright 2023 E.J.I.E., S.A.
 *
 * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
 * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -24,8 +24,8 @@
 	<url>http://www.ejie.eus</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.ejie.x38.version>5.2.0-RELEASE</com.ejie.x38.version>
-		<com.ejie.hdiv.ce.version>4.0.0</com.ejie.hdiv.ce.version>
+		<com.ejie.x38.version>5.3.0-RELEASE</com.ejie.x38.version>
+		<com.ejie.hdiv.ce.version>5.0.0-RELEASE</com.ejie.hdiv.ce.version>
 		<org.springframework.version>4.3.22.RELEASE</org.springframework.version>
 		<org.springframework.security.version>4.2.11.RELEASE</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
