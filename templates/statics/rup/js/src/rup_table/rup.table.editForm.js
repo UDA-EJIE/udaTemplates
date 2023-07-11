@@ -378,12 +378,16 @@
     	
     	// Servirá para saber si la última llamada a editForm fue para añadir, editar o si aún no ha sido inicializado
     	let lastAction = ctx.oInit.formEdit.actionType;
+    	
+		// Se usará para diferenciar una petición de clonado del resto de peticiones.
+		let isClone = false;
 		
 		// Botón de guardar y continuar
         let buttonContinue = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_save_repeat');
         
         // En caso de ser clonado el method ha de ser POST
         if (actionType === 'CLONE') {
+			isClone = true;
             actionType = 'POST';
             buttonContinue.hide();
         } else {
@@ -396,9 +400,9 @@
 			// Preparar la información a enviar al servidor. Como mínimo se enviará el actionType, un booleano que indique si el formulario es multipart y 
 			// el valor de la clave primaria siempre y cuando no contenga un string vacío.
 			const defaultData = {
-				'actionType': actionType,
+				'actionType': actionType == 'PUT' && ctx.oInit.formEdit.usePostAsEditActionType ? 'POST' : actionType,
 				'isMultipart': ctx.oInit.formEdit.multipart === true ? true : false,
-				...(DataTable.Api().rupTable.getIdPk(row, ctx.oInit) != "" && { 'pkValue': DataTable.Api().rupTable.getIdPk(row, ctx.oInit) })
+				...(!isClone && DataTable.Api().rupTable.getIdPk(row, ctx.oInit) != "" && { 'pkValue': DataTable.Api().rupTable.getIdPk(row, ctx.oInit) })
 			};
 			$('#' + ctx.sTableId).triggerHandler('tableEditFormAfterData', ctx);
 			
@@ -668,7 +672,11 @@
 	                        ctx.oInit.formEdit.$navigationBar.funcionParams = {};
 	                    }
 	                };
-	                loadPromise = $.rup_ajax(ajaxOptions);
+	                
+					// Estando loadFromModel a true no se lanza la petición de carga de datos (se depende de lo cargado a través del modelo).
+					if(!ctx.oInit.formEdit.loadFromModel) {
+						loadPromise = $.rup_ajax(ajaxOptions);
+	                }
 	                //Se carga desde bbdd y se actualiza la fila
 	                dt.row(idRow).data(row);
 	                ctx.json.rows[idRow] = row;
@@ -678,7 +686,12 @@
 	                $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(idRow).find('td.select-checkbox input[type="checkbox"]').prop('checked', true);
 	                rowArray = $.rup_utils.jsontoarray(row);
 	            }
-	            $.rup_utils.populateForm(rowArray, idForm);
+	           
+				// Estando loadFromModel a true no se cargan los datos de la fila obtenida a partir de la tabla (se depende de lo cargado a través del modelo).
+				if(!ctx.oInit.formEdit.loadFromModel) {
+					$.rup_utils.populateForm(rowArray, idForm);
+				}
+	            
 	            var multiselection = ctx.multiselection;
 	            var indexInArray = jQuery.inArray(DataTable.Api().rupTable.getIdPk(row, ctx.oInit), multiselection.selectedIds);
 	            if (ctx.multiselection.selectedAll) { //Si es selecAll recalcular el numero de los selects. Solo la primera vez es necesario.
@@ -923,7 +936,7 @@
                     'text': 'text/plain',
                     'xml': 'application/xml, text/xml'
                 },
-                type: actionType,
+                type: ctx.oInit.formEdit.multipart || (actionType == 'PUT' && ctx.oInit.formEdit.usePostAsEditActionType) ? 'POST' : actionType,
                 data: row,
                 dataType: 'json',
                 showLoading: false,

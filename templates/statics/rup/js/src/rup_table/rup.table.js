@@ -868,7 +868,16 @@
             
             // Elimina del filtro los campos autogenerados por los multicombos que no forman parte de la entidad
             $.fn.deleteMulticomboLabelFromObject(data.filter, ctx.oInit.filter.$filterContainer);
-
+			
+			// Fuerza el mostrado de la primera página cuando se pagina y los criterios de filtrado han cambiado.
+			const newCriteria = ctx.oInit.filter.$filterContainer.serializeArray();
+						
+			if (!_.isEqual(ctx.oInit.filter.oldCriteria, newCriteria)) {
+				ctx.oInit.filter.oldCriteria = newCriteria;
+				ctx._iDisplayStart = 0;
+				data.start = 0;
+			}
+			
             let tableRequest = new TableRequest(data);
             let json = $.extend({}, data, tableRequest.getData());//Mantenemos todos los valores, por si se quieren usar.
 
@@ -1386,6 +1395,11 @@
                     if (fieldName === '' && fieldValue.trim() === '') {
                         continue;
                     }
+                    //Miramos si el elemento es es un checkbox o un radio, en caso de serlo revisamos fieldName para quitar los inputs
+		            if($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio'){
+						let fValue=fieldValue.split('<span>')[1];
+						fieldValue='<span> '+fValue;
+	          		} 
                     searchString = searchString + fieldName + fieldValue + '; ';
                 }
             }

@@ -792,6 +792,11 @@ input.
 				});
 
 			}
+			
+			// Actualiza los autocomplete enlazados con herencias.
+			if ($self.attr('ruptype') === 'autocomplete' && $('#' + settings.id + '_label').length > 0) {
+				document.getElementById(settings.id + '_label').focus();
+			}
 		},
 		/**
          * Función encargada de crear el control encargado de mostrar todos los resultados cuando el componente tiene activado el modo de funcionamiento combobox.
