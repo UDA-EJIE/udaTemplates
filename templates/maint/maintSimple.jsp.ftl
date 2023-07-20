@@ -28,7 +28,7 @@
 <#if (maint.searchMaint)?string == "true">
 <!-- Formulario necesario para garantizar el correcto funcionamiento del seeker con Hdiv -->
 <spring:url value="${grid.url}/search" var="seekerURL"/>
-<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_seeker_form" class="d-none" action="<#noparse>${seekerURL}</#noparse>" method="POST"/>
+<form:form modelAttribute="${maint.modelObject?lower_case}" id="${maint.nameMaint}_seeker_form" class="d-none" action="<#noparse>${seekerURL}</#noparse>" method="POST">
 	<#list gridColumns as columnProperties>
 	<#if ((maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)) && ((columnProperties.primaryKey)?string == "false")>
 	<form:input path="${columnProperties.name}" id="${columnProperties.name}_${maint.nameMaint}_seeker_form" />
