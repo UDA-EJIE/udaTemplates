@@ -38,7 +38,7 @@
 	<definition name="templateLogin" template="/WEB-INF/layouts/templateLogin.jsp">	
 		<put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/>
 		<put-attribute name="language" value="/WEB-INF/layouts/language.jsp"/>
-		<put-attribute name="breadCrumb" value="/WEB-INF/layouts/breadCrumb.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/>
 		<put-attribute name="base-includes" value="/WEB-INF/layouts/base-includes.jsp"/>
 		<put-attribute name="includes" value=""/>				

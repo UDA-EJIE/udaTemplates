@@ -23,7 +23,7 @@
 .login-inner {
 	padding-top: 2.5em;
 	padding-right: 0.5em;
-	padding-left: 2em;
+	padding-left: 0.5em;
 	
 	/*padding-bottom: 230px;*/
 	height: 300px;
@@ -76,7 +76,6 @@
 	border-bottom-color: black;
 	border-bottom-width: 0.3em;
 	border-bottom-style: solid;
-	margin-right: 1.5em;
 	margin-bottom: 0.6em;
 }
 
