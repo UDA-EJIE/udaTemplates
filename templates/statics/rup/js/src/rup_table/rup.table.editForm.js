@@ -469,15 +469,16 @@
     /**
      * Valida los formularios para no, buscarlos.
      *
-     * @name formInitializeRUP
+     * @name validarFormulario
      * @function
      * @since UDA 5.0.2 // Table 1.0.0
      *
      * @param {object} ctx - Contexto de la tabla.
-      * @param {object} lastAction - última accion realizado.
+     * @param {object} lastAction - última accion realizado.
      * @param {object} actionType - Tipo de acción.
+     * @param {object} row - Datos de la fila que se cargan.
      */
-    function _validarFormulario(ctx,lastAction, actionType, row){    	
+    function _validarFormulario(ctx, lastAction, actionType, row){    	
     	if(ctx.oInit.enableDynamicForms){ 
     		let lastSelectedIdUsed = ctx.oInit.formEdit.lastSelectedIdUsed;
     		let lastSelected = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
@@ -507,7 +508,9 @@
     			// Comprobar que es un componente RUP y editable. En caso de no ser editable, se añade la propiedad readonly.
     			if (column.rupType && column.editable) {
     				if (column.editoptions !== undefined) {
-    					if (column.rupType === 'combo') {
+						// Definir el tipo de componente RUP a inicializar.
+						const rupType = column.editoptions.rupType !== undefined ? column.editoptions.rupType : column.rupType;
+    					if (rupType === 'combo') {
     						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el combo.
     						if (row !== undefined) {
     							column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
@@ -516,7 +519,7 @@
     						if (column.editoptions.appendTo === undefined) {
     							column.editoptions.appendTo = 'body';
     						}
-    					} else if (column.rupType == 'autocomplete') {
+    					} else if (rupType === 'autocomplete') {
     						// Establece el valor por defecto.
     						if (row !== undefined) {
     							column.editoptions.defaultValue = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
@@ -526,14 +529,14 @@
     							// Cuando no se haya definido un elemento al que hacer el append del menú del autocomplete, se hace al "body" para evitar problemas de CSS.
     							column.editoptions.menuAppendTo = 'body';
     						}
-    					} else if (column.rupType === 'select') {
+    					} else if (rupType === 'select') {
     						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
     						if (row !== undefined) {
     							column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
     						}
     					}
     					// Inicializar componente.
-    					element['rup_' + column.rupType](column.editoptions);
+    					element['rup_' + rupType](column.editoptions);
     				} else if (column.searchoptions === undefined) {
     					console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), column.name));
     				}

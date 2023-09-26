@@ -911,6 +911,31 @@
             if (multicombo !== true) {
                 //Simple > selectmenu
                 if (typeof param === 'string') {
+                	if($('option[value=\'' + param + '\']', selector).length == 0 && $(selector).data('values') != undefined && $(selector).data('values').length > 0){
+	                	let values = $(selector).data('values');
+                		if($(selector).data().settings.sourceGroup != undefined){//si son grupos
+                			let data = $(selector).data('values');
+                			values = [];
+	                		for (i = 0; i < data.length; i = i + 1) {
+	                            if (typeof (data[i]) === 'object') {
+	                              $.each(data[i], function (key, value) {
+	                                if (typeof (value) === 'object') {
+	                                  $.each(value, function () {
+	                                	  values.push(this);
+	                                  });
+	                                }
+	                              });
+	                            }
+	                          }
+	                	}
+                		
+                		let option = $.grep(values, function (v) {// busca id ofuscado
+	                        return v.nid === param || v.id == param;
+	                      });
+	                	if(option.length == 1){
+	                		param = option[0].value;
+	                	}
+                	}
                     if ($('option[value=\'' + param + '\']', selector).length > 0) { //Controlamos que se intenten seleccionar un valor existente
                         if (markOptSelected === true) {
                             $('option[value=\'' + param + '\']', selector).attr('selected', 'selected');
@@ -944,6 +969,31 @@
                             $($('input[name=\'multiselect_' + $(this).attr('id') + '\']')[param[i]]).attr('checked', true);
                         } else if (typeof param[i] === 'string') { //Acceso por valor
                             $('input[name=\'multiselect_' + $(this).attr('id') + '\'][value=\'' + param[i] + '\']').attr('checked', true);
+                            //busqueda ids Ofuscados
+                        	if($(selector).data('values') != undefined && $(selector).data('values').length > 0){
+        	                	let values = $(selector).data('values');
+                        		if($(selector).data().settings.sourceGroup != undefined){//si son grupos
+                        			let data = $(selector).data('values');
+                        			values = [];
+        	                		for (i = 0; i < data.length; i = i + 1) {
+        	                            if (typeof (data[i]) === 'object') {
+        	                              $.each(data[i], function (key, value) {
+        	                                if (typeof (value) === 'object') {
+        	                                  $.each(value, function () {
+        	                                	  values.push(this);
+        	                                  });
+        	                                }
+        	                              });
+        	                            }
+        	                          }
+        	                	}
+        	                	let option = $.grep(values, function (v) {
+        	                        return v.nid === param || v.id == param;
+        	                      });
+        	                	if(option.length == 1){
+        	                		$('input[name=\'multiselect_' + $(this).attr('id') + '\'][value=\'' + option[0].value+ '\']').attr('checked', true);
+        	                	}
+                        	}
                         }
                     }
                     // Se altualiza el valor almacenado en el objeto HTML select.
@@ -1330,8 +1380,13 @@
         _parseREMOTE: function (array, settings, html, optGroupKey) {
             var remoteImgs = settings.imgs ? settings.imgs : [],
                 item;
+          
             for (let i = 0; i < array.length; i = i + 1) {
                 item = array[i];
+				if (array[i].label == undefined || array[i].label == null) {
+					item.label = item[settings.sourceParam.label];
+				}
+				
                 if (item.style) {
                     remoteImgs[remoteImgs.length] = {};
                     if (optGroupKey == null) {
@@ -1650,7 +1705,14 @@
          * @param {string} [data] - Valores de los identificadores de los padres en caso de ser enlazados.
          */
 		_generateUrl: function(settings, data) {
-			const $form = settings.inlineEdit?.$auxForm ? settings.inlineEdit?.$auxForm : $('#' + settings.id).closest('form');
+			let $form;
+			
+			if (settings.$forceForm) {
+				$form = settings.$forceForm;
+			} else {
+				$form = settings.inlineEdit?.$auxForm ? settings.inlineEdit?.$auxForm : $('#' + settings.id).closest('form');
+			}
+			
 			const name = settings.inlineEdit?.auxSiblingFieldName ? settings.inlineEdit?.auxSiblingFieldName : settings.name;
 			const source = settings.source ? settings.source : settings.sourceGroup;
 			
