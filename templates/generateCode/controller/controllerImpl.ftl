@@ -250,7 +250,13 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
+			<#if ctrlUtils.isMultipk(pojo,cfg)>
+			${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case} = new ${pojo.getDeclarationName()}();
+			${pojo.getDeclarationName()?lower_case}.setId(pkValue);
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(${pojo.getDeclarationName()?lower_case}));
+			<#else>
 			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
+			</#if>
 		}
 		
 		if (actionType.equals("POST")) {
@@ -303,7 +309,13 @@ public class ${pojo.getDeclarationName()}Controller  {
 		model.addAttribute("enctype", isMultipart ? "multipart/form-data" : "application/x-www-form-urlencoded");
 		
 		if (pkValue != null) {
+			<#if ctrlUtils.isMultipk(pojo,cfg)>
+			${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case} = new ${pojo.getDeclarationName()}();
+			${pojo.getDeclarationName()?lower_case}.setId(pkValue);
+			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(${pojo.getDeclarationName()?lower_case}));
+			<#else>
 			model.addAttribute("pkValue", ${pojo.importType("com.ejie.x38.hdiv.util.IdentifiableModelWrapperFactory")}.getInstance(new ${pojo.getDeclarationName()}(pkValue), <#list primariaParam as camposPrim>"${camposPrim[0]}"</#list>));
+			</#if>
 		}
 		
 		return "${pojo.getDeclarationName()?lower_case}InlineEditAuxForm";
