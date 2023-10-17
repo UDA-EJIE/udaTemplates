@@ -29,6 +29,24 @@
     "userAre": " está en:",
     "youAre": "Usted está en:"
   },
+    "rup_select": {
+    "ajaxError": "Se ha producido un error al recuperar los datos del servidor",
+    "blankNotDefined": "[Falta literal]",
+    "loadingText": "Cargando...",
+	"appendToError": "En el combo con identificador {0}, es necesario especificar un selector v�lido para la propiedad appendTo.",
+    "multiselect": {
+      "checkAllText": "Seleccionar todo",
+      "checkAllTitle": "Seleccionar todos los elementos",
+      "noneSelectedText": "Seleccione las opciones",
+      "optGroupDeselect": "Deseleccionar grupo",
+      "optGroupDeselectTitle": "Deseleccionar todos los elementos de este grupo",
+      "optGroupSelect": "Seleccionar grupo",
+      "optGroupSelectTitle": "Seleccionar todos los elementos de este grupo",
+      "selectedText": "Seleccionado(s) {0} de {1}",
+      "uncheckAllText": "Deseleccionar todo",
+      "uncheckAllTitle": "Deseleccionar todos los elementos"
+    }
+  },
   "rup_combo": {
     "ajaxError": "Se ha producido un error al recuperar los datos del servidor",
     "blankNotDefined": "[Falta literal]",
@@ -483,6 +501,7 @@
   },
   "rup_utils": {
     "paramsError": "Alguno de los parámetros especificados es 'null' o 'undefined'",
+    "illegalChar": "Alguno de los caracteres no está permitido.",
     "relToAbsUrlParamError": "La url => <b style='color:red'>&#34",
     "relToAbsUrlParamErrorEnd": "&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta.",
     "relToAbsUrlParamFormatError": "Parametro del método &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String."

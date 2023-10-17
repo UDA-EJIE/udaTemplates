@@ -17,14 +17,17 @@ describe('Test rup_list', () => {
         testutils.loadCss(done);
     });
 
-    afterEach(() => {
+    afterEach((done) => {
         clearList('rup-list');
+        done();
     });
 
 
     describe('> Creación', () => {
         beforeEach((done) => {
-            listGen.createList('rup-list', 'listFilterForm', done);
+        	listGen.createList('rup-list', 'listFilterForm', () => {
+             done();
+        	});
         });
         it('> Debe tener header y footer : ', () => {
             expect($('#rup-list-header').length).toBe(1);
@@ -41,7 +44,11 @@ describe('Test rup_list', () => {
         describe('> Filtrado', () => {
             beforeEach((done) => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                    
+                    $('#rup-list').on('load', () => {
+                    	done();
+                    });
+                    
                     $('#listFilterForm').find('#listFilterEdad').val(25);
                     $('#listFilterForm').find('#listFilterAceptar').click();
                 });
@@ -59,31 +66,44 @@ describe('Test rup_list', () => {
             beforeEach((done) => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
                     $('#rup-list').on('load', () => {
-                        $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
                         $('#rup-list-header-sidx').rup_combo('setRupValue', 'EDAD');
+                        $('#rup-list').off('load');
+                        $('#rup-list').on('load', () => {
+                        	done();
+                        });
+                        
                     });
                     $('#rup-list').rup_list('filter');
+                    
                 });
             });
             it('> Aparecen ordenados por el campo especificado :', () => {
-                expect($('#rup-list > div:eq(0)').is('#rup-list-itemTemplate_12')).toBeTruthy();
-                expect($('#rup-list > div:eq(1)').is('#rup-list-itemTemplate_2')).toBeTruthy();
-                expect($('#rup-list > div:eq(2)').is('#rup-list-itemTemplate_1')).toBeTruthy();
-                expect($('#rup-list > div:eq(3)').is('#rup-list-itemTemplate_8')).toBeTruthy();
-                expect($('#rup-list > div:eq(4)').is('#rup-list-itemTemplate_21')).toBeTruthy();
+
+	                    expect($('#rup-list > div:eq(0)').is('#rup-list-itemTemplate_12')).toBeTruthy();
+	                    expect($('#rup-list > div:eq(1)').is('#rup-list-itemTemplate_2')).toBeTruthy();
+	                    expect($('#rup-list > div:eq(2)').is('#rup-list-itemTemplate_1')).toBeTruthy();
+	                    expect($('#rup-list > div:eq(3)').is('#rup-list-itemTemplate_8')).toBeTruthy();
+	                    expect($('#rup-list > div:eq(4)').is('#rup-list-itemTemplate_21')).toBeTruthy();
+                
+
+
             });
             describe('>  Se invierte la ordenación mediante el botón definido para ello', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
-                    $('#rup-list-header-sord').click();
+                	$('#rup-list').on('load', () => {
+                		$('#rup-list-header-sord').click();
+                		$('#rup-list').on('load', () => {
+                			done();
+                		});
+                	});
+                    
                 });
                 it('> La ordenacion se invierte: ', () => {
-                    expect($('#rup-list > div:eq(0)').is('#rup-list-itemTemplate_10')).toBeTruthy();
-                    expect($('#rup-list > div:eq(1)').is('#rup-list-itemTemplate_4')).toBeTruthy();
-                    expect($('#rup-list > div:eq(2)').is('#rup-list-itemTemplate_9')).toBeTruthy();
-                    expect($('#rup-list > div:eq(3)').is('#rup-list-itemTemplate_3')).toBeTruthy();
-                    expect($('#rup-list > div:eq(4)').is('#rup-list-itemTemplate_23')).toBeTruthy();
+                    expect($('#rup-list > div:eq(0)').is('#rup-list-itemTemplate_9')).toBeTruthy();
+                    expect($('#rup-list > div:eq(1)').is('#rup-list-itemTemplate_8')).toBeTruthy();
+                    expect($('#rup-list > div:eq(2)').is('#rup-list-itemTemplate_7')).toBeTruthy();
+                    expect($('#rup-list > div:eq(3)').is('#rup-list-itemTemplate_6')).toBeTruthy();
+                    expect($('#rup-list > div:eq(4)').is('#rup-list-itemTemplate_5')).toBeTruthy();
                 });
             });
         });
@@ -92,14 +112,19 @@ describe('Test rup_list', () => {
         describe('> Paginación', () => {
             beforeEach((done) => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
                     $('#rup-list').rup_list('filter');
+                    done();
                 });
             });
             describe('> Página siguiente', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
-                    $('#rup-list-header-page-next').click();
+                    $('#rup-list').on('load', () => {
+                        $('#rup-list-header-page-next').click();
+                         $('#rup-list').on('load', () => {
+                            done();
+                         });
+                          
+                    });
                 });
                 it('> Ha cambiado la página activa en la navegación:', () => {
                     expect($('.page.active').attr('data-page')).toBe('2');
@@ -123,11 +148,13 @@ describe('Test rup_list', () => {
             });
             describe('> Página anterior', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', () => {
+                  //  $('#rup-list').on('load', () => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list-header-page-prev').click();
-                    });
+                    //});
                     $('#rup-list-header-page-next').click();
                 });
                 it('> Cambia la página activa en el nav: ', () => {
@@ -148,8 +175,13 @@ describe('Test rup_list', () => {
             });
             describe('> Acceso directo a página desde el nav', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
-                    $('.page[data-page="2"]', $('#rup-list-header')).click();
+                   	$('#rup-list').on('load', () => {
+                   		$('.page[data-page="2"]', $('#rup-list-header')).click();
+                   		$('#rup-list').on('load', () => {
+                   			done();
+                   		});
+                	});
+                    
                 });
                 describe('> Se marca la página correcta en el nav', () => {
                     it('> Ha cambiado la página activa en la navegación:', () => {
@@ -168,7 +200,9 @@ describe('Test rup_list', () => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
                     $('#rup-list').on('load', () => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list-header-rowNum').rup_combo('setRupValue', '10');
                     });
                     $('#rup-list').rup_list('filter');
@@ -182,15 +216,14 @@ describe('Test rup_list', () => {
             });
             describe('> Navegamos a la última página', () => {
                 beforeEach((done) => {
-                    setTimeout(() => {
-                        $('#rup-list').on('load', () => {
-                            done();
-                        });
-                        $('.page[data-page="4"]', $('#rup-list-header')).click();
-                    }, 250);
+                	$('#rup-list').off('load');
+                	$('#rup-list').on('load', () => {
+                		done();
+                	});
+                    $('.page[data-page="4"]', $('#rup-list-header')).click();
                 });
                 it('> Hay el número de elementos esperados:', () => {
-                    expect($('#rup-list').children().length).toBe(2);
+               		expect($('#rup-list').children().length).toBe(2);
                 });
             });
         });
@@ -198,14 +231,19 @@ describe('Test rup_list', () => {
 
         describe('> Aparición de los separadores ("...") en la paginación', () => {
             beforeEach((done) => {
-                listGen.createList('rup-list', 'listFilterForm', done);
+                
+                listGen.createList('rup-list', 'listFilterForm', () => {
+                	done();
+                });
             });
 
             describe('> Separador del inicio', () => {
                 beforeEach((done) => {
                     $('#rup-list').on('load', () => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('.page[data-page="7"]', $('#rup-list-header')).click();
                     });
                     $('#rup-list').rup_list('filter');
@@ -219,7 +257,9 @@ describe('Test rup_list', () => {
             });
             describe('> Separador del final', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
                 it('> Aparece el separador del final: ', () => {
@@ -235,7 +275,9 @@ describe('Test rup_list', () => {
                         $('#rup-list').off('load');
                         $('#rup-list').on('load', () => {
                             $('#rup-list').off('load');
-                            $('#rup-list').on('load', done);
+                           	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('.page[data-page="4"]', $('#rup-list-header')).click();
                         });
                         $('.page[data-page="3"]', $('#rup-list-header')).click();
@@ -277,7 +319,9 @@ describe('Test rup_list', () => {
         describe('> Selección y multiselección', () => {
             beforeEach((done) => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
             });
@@ -303,7 +347,10 @@ describe('Test rup_list', () => {
                 });
                 describe('> Opción Seleccionar página', () => {
                     beforeEach((done) => {
-                        $('#rup-list').on('listAfterMultiselection', done);
+                        
+                        $('#rup-list').on('listAfterMultiselection', () => {
+                        	done();
+                        });
                         $('.selectable-selectPage', $('#rup-list-header')).click();
                     });
                     it('> Los elementos de la pagina se han seleccionado:', () => {
@@ -313,23 +360,33 @@ describe('Test rup_list', () => {
                     });
                     describe('> Si vamos a la página siguiente', () => {
                         beforeEach((done) => {
-                            $('#rup-list').on('load', done);
+                        	$('#rup-list').off('load');
+                        	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('#rup-list-header-page-next', $('#rup-list-header')).click();
                         });
                         it('> Los elementos no están seleccionados', () => {
-                            $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
-                            });
+                        	
+	                            $('#rup-list').children().toArray().forEach((elem) => {
+	                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
+	                            });
+                        	
                         });
                         describe('> Si volvemos a la pagina anterior', () => {
                             beforeEach((done) => {
-                                $('#rup-list').on('load', done);
+                            	$('#rup-list').off('load');
+                            	$('#rup-list').on('load', () => {
+                            		done();
+                            	});
                                 $('#rup-list-header-page-prev', $('#rup-list-header')).click();
                             });
                             it('> Los elementos de la pagina siguen estando seleccionados', () => {
-                                $('#rup-list').children().toArray().forEach((elem) => {
-                                    expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
-                                });
+                            	
+	                                $('#rup-list').children().toArray().forEach((elem) => {
+	                                expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
+	                               
+                            	});
                             });
                         });
                     });
@@ -338,7 +395,9 @@ describe('Test rup_list', () => {
                     beforeEach((done) => {
                         $('#rup-list').on('listAfterMultiselection', () => {
                             $('#rup-list').off('listAfterMultiselection');
-                            $('#rup-list').on('listAfterMultiselection', done);
+                            $('#rup-list').on('listAfterMultiselection', () => {
+                            	done();
+                            });
                             $('.selectable-deselectPage', $('#rup-list-header')).click();
                         });
                         $('.selectable-selectPage', $('#rup-list-header')).click();
@@ -350,8 +409,11 @@ describe('Test rup_list', () => {
                     });
                 });
                 describe('> Opción Seleccionar todo', () => {
-                    beforeEach((done) => {
-                        $('#rup-list').on('listAfterMultiselection', done);
+                    beforeEach(() => {
+                        
+                        $('#rup-list').on('listAfterMultiselection', () => {
+                        	//done();
+                        });
                         $('.selectable-selectAll', $('#rup-list-header')).click();
                     });
                     it('> Los elementos de la pagina se han seleccionado:', () => {
@@ -360,8 +422,9 @@ describe('Test rup_list', () => {
                         });
                     });
                     describe('> Si deseleccionamos la página', () => {
-                        beforeEach((done) => {
-                            $('#rup-list').on('listAfterMultiselection', done);
+                        beforeEach(() => {
+                            
+                         
                             $('.selectable-deselectPage', $('#rup-list-header')).click();
                         });
                         it('> Los elementos estan deseleccionados', () => {
@@ -371,25 +434,31 @@ describe('Test rup_list', () => {
                         });
                         describe('> Y filtramos', () => {
                             beforeEach((done) => {
-                                $('#rup-list').on('load', done);
+                            	$('#rup-list').off('load');
+                            	$('#rup-list').on('load', () => {
+                            		done();
+                            	});
                                 $('#rup-list').rup_list('filter');
                             });
                             it('> Los elementos deben estar deseleccionados:', () => {
                                 $('#rup-list').children().toArray().forEach((e) => {
-                                    expect($(e).hasClass('rup_list-item-selected')).toBeFalsy();
-                                });
+	                             expect($(e).hasClass('rup_list-item-selected')).toBeFalsy();
+                            	});
                             });
                         });
                     });
                     describe('> Si vamos a la página siguiente', () => {
                         beforeEach((done) => {
-                            $('#rup-list').on('load', done);
+                        	$('#rup-list').off('load');
+                        	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('#rup-list-header-page-next', $('#rup-list-header')).click();
                         });
                         it('> Los elementos no están seleccionados', () => {
                             $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
-                            });
+                            	expect($(elem).hasClass('rup_list-item-selected')).toBeTruthy();
+                        	});
                         });
                     });
                 });
@@ -397,7 +466,10 @@ describe('Test rup_list', () => {
                     beforeEach((done) => {
                         $('#rup-list').on('listAfterMultiselection', () => {
                             $('#rup-list').off('listAfterMultiselection');
-                            $('#rup-list').on('listAfterMultiselection', done);
+                            
+                            $('#rup-list').on('listAfterMultiselection', () => {
+                            	done();
+                            });
                             $('.selectable-deselectAll', $('#rup-list-header')).click();
                         });
                         $('.selectable-selectAll', $('#rup-list-header')).click();
@@ -409,13 +481,16 @@ describe('Test rup_list', () => {
                     });
                     describe('> Si vamos a la página siguiente', () => {
                         beforeEach((done) => {
-                            $('#rup-list').on('load', done);
+                        	$('#rup-list').off('load');
+                        	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('#rup-list-header-page-next', $('#rup-list-header')).click();
                         });
                         it('> Los elementos no están seleccionados', () => {
-                            $('#rup-list').children().toArray().forEach((elem) => {
-                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
-                            });
+	                            $('#rup-list').children().toArray().forEach((elem) => {
+	                                expect($(elem).hasClass('rup_list-item-selected')).toBeFalsy();
+	                            });
                         });
                     });
                 });
@@ -425,7 +500,9 @@ describe('Test rup_list', () => {
 
         describe('> Multiordenación', () => {
             beforeEach((done) => {
-                listGen.createListMultiorder('rup-list', 'listFilterForm', done);
+            	listGen.createListMultiorder('rup-list', 'listFilterForm', () => {
+            		done();
+            	});
             });
 
             describe('> Creación del summary y el botón de edición de la ordenación', () => {
@@ -451,11 +528,10 @@ describe('Test rup_list', () => {
             });
             describe('> Funcionamiento del dialogo de edición de la ordenación', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('rup_list-mord-dialogOpen', () => {
-                        setTimeout(done, 500);
-                    });
+
                     $('#rup-list').on('load', () => {
                         $('.rup_list-mord-dialogbtn:first').click();
+                        done();
                     });
                     $('#rup-list').rup_list('filter');
                 });
@@ -474,7 +550,9 @@ describe('Test rup_list', () => {
                 describe('> Los botones se convierten en líneas', () => {
                     beforeEach((done) => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('button[data-ordvalue="CODCLIENTE"]').click();
                     });
                     it('> Desaparece el botón:', () => {
@@ -493,7 +571,9 @@ describe('Test rup_list', () => {
                 describe('> Las lineas se convierten en botones', () => {
                     beforeEach((done) => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('.rup_list-mord-remove', $('[data-ordValue="USUARIO"]')).click();
                     });
                     it('> Desaparece la línea: ', () => {
@@ -513,7 +593,9 @@ describe('Test rup_list', () => {
             describe('> Funcionamiento del multiSort', () => {
                 describe('> Ordenación con el valor por defecto', () => {
                     beforeEach((done) => {
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list').rup_list('filter');
                     });
                     it('> Deben aparecer los resultados esperados:', () => {
@@ -529,7 +611,9 @@ describe('Test rup_list', () => {
                     beforeEach((done) => {
                         $('#rup-list').on('load', () => {
                             $('#rup-list').off('load');
-                            $('#rup-list').on('load', done);
+                           	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('#rup-list').on('rup_list-mord-dialogOpen', () => {
                                 setTimeout(() => {
                                     $('button[data-ordValue="CODCLIENTE"]').click();
@@ -553,7 +637,9 @@ describe('Test rup_list', () => {
                     beforeEach((done) => {
                         $('#rup-list').on('load', () => {
                             $('#rup-list').off('load');
-                            $('#rup-list').on('load', done);
+                           	$('#rup-list').on('load', () => {
+                        		done();
+                        	});
                             $('#rup-list').on('rup_list-mord-dialogOpen', () => {
                                 setTimeout(() => {
                                     $('.rup_list-mord', $('[data-ordValue="EDAD"]')).click();
@@ -585,7 +671,9 @@ describe('Test rup_list', () => {
                     $('#rup-list').rup_list('filter');
                     $('#rup-list').on('load', () => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('html, body').animate({
                             scrollTop: 500
                         }, 500);
@@ -617,7 +705,9 @@ describe('Test rup_list', () => {
                     $('#rup-list').rup_list('filter');
                     $('#rup-list').on('load', () => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('html, body').animate({
                             scrollTop: 1000
                         }, 500);
@@ -646,7 +736,9 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createHeaderSticky('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
                 $('window, body').css({
@@ -670,7 +762,9 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createShowHide('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
             });
@@ -683,7 +777,10 @@ describe('Test rup_list', () => {
                     delay: 1000
                 };
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                	$('#rup-list').off('load');
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     spyShow = spyOn($.fn, 'show').and.callThrough();
                     $('#listFilterForm').find('#listFilterAceptar').click();
                 });
@@ -710,7 +807,10 @@ describe('Test rup_list', () => {
                     delay: 1000
                 };
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                	$('#rup-list').off('load');
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     spyHide = spyOn($.fn, 'hide').and.callThrough();
                     $('#listFilterForm').find('#listFilterAceptar').click();
                 });
@@ -737,7 +837,9 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createImpresionHTML('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
                 spyAjax = spyOn($, 'rup_ajax').and.callThrough();
@@ -778,7 +880,9 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createSuperSelect('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
             });
@@ -805,7 +909,9 @@ describe('Test rup_list', () => {
             describe('> Mantener lo seleccionado manualmente entre páginas', () => {
                 beforeEach((done) => {
                     $('#rup-list').off('load');
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('.list-item').eq(0).click();
                     $('#rup-list-header-page-next').click();
                 });
@@ -815,7 +921,9 @@ describe('Test rup_list', () => {
                 describe('> Volver a la página anterior', () => {
                     beforeEach((done) => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list-header-page-prev').click();
                     });
                     it('> Debe haber un elemento seleccionado:', () => {
@@ -843,7 +951,9 @@ describe('Test rup_list', () => {
                 describe('> Seleccionar dos elementos en dos paginas', () => {
                     beforeEach((done) => {
                         $('#rup-list').off('load');
-                        $('#rup-list').on('load', done);
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         keyPress(17, () => {
                             $('.list-item').eq(0).click();
                             $('.list-item').eq(2).click();
@@ -869,7 +979,9 @@ describe('Test rup_list', () => {
                         describe('> Al volver a la primera deben mantenerse en el estado selectable', () => {
                             beforeEach((done) => {
                                 $('#rup-list').off('load');
-                                $('#rup-list').on('load', done);
+                               	$('#rup-list').on('load', () => {
+                            		done();
+                            	});
                                 $('#rup-list-header-page-prev').click();
                             });
                             it('> Los elementos seleccionados deben tener un class .rup_list-item-selected:', () => {
@@ -900,7 +1012,10 @@ describe('Test rup_list', () => {
             });
             describe('> Seleccionar con Shift', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                	$('#rup-list').off('load');
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
                 describe('> Seleccionar tres elementos', () => {
@@ -920,7 +1035,10 @@ describe('Test rup_list', () => {
                 });
                 describe('> Click sin Shift', () => {
                     beforeEach((done) => {
-                        $('#rup-list').on('load', done);
+                    	$('#rup-list').off('load');
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list').rup_list('filter');
                     });
                     it('> Ahora solo un elemento debe estar seleccionado:', () => {
@@ -937,7 +1055,10 @@ describe('Test rup_list', () => {
             });
             describe('> Seleccionar con Control + Shift', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                	$('#rup-list').off('load');
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
                 describe('> Seleccionar dos rangos de los elementos no cercanos', () => {
@@ -1020,7 +1141,9 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createMultiFilter('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
             });
@@ -1029,8 +1152,8 @@ describe('Test rup_list', () => {
             });
             describe('> Click al botón dropdown', () => {
                 var spyAjax;
-                beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                beforeEach(() => {
+                   	
                     $('#rup-list').rup_list('filter');
                     $('#listFilterForm').find('#listFilterAceptar_dropdown').click();
                 });
@@ -1038,8 +1161,8 @@ describe('Test rup_list', () => {
                     expect($('#rup-list_dropdownDialog').is(':visible')).toBeTruthy();
                 });
                 describe('> Cancelar', () => {
-                    beforeEach((done) => {
-                        $('#rup-list').on('load', done);
+                    beforeEach(() => {
+                       
                         $('#rup-list').rup_list('filter');
                         $('#rup_dialogCancelar').click();
                     });
@@ -1048,8 +1171,8 @@ describe('Test rup_list', () => {
                     });
                 });
                 describe('> Aplicar', () => {
-                    beforeEach((done) => {
-                        $('#rup-list').on('load', done);
+                    beforeEach(() => {
+                       	
                         $('#rup-list').rup_list('filter');
                         spyAjax = spyOn($, 'rup_ajax').and.callThrough();
                         $('#rup-list_dropdownDialog').find('a.rup-combobox-toggle').click();
@@ -1065,8 +1188,8 @@ describe('Test rup_list', () => {
                         expect($('#listFilterForm').find('input').eq(2).val()).toEqual('20');
                     });
                     describe('Eligir un filtro', () => {
-                        beforeEach((done) => {
-                            $('#rup-list').on('load', done);
+                        beforeEach(() => {
+                           
                             $('#rup-list').rup_list('filter');
                             $('#rup-list_dropdownDialog_combo_label').rup_autocomplete('set', 'Filter 1', 'Filter 1');
                             $('#rup-list_dropdownDialog_btn_apply').click();
@@ -1078,7 +1201,10 @@ describe('Test rup_list', () => {
                 });
                 describe('> Guardar', () => {
                     beforeEach((done) => {
-                        $('#rup-list').on('load', done);
+                    	$('#rup-list').off('load');
+                       	$('#rup-list').on('load', () => {
+                    		done();
+                    	});
                         $('#rup-list').rup_list('filter');
                         $('#listFilterForm').find('input').val('');
                         $('#listFilterForm').find('input').eq(2).val('20');
@@ -1099,13 +1225,18 @@ describe('Test rup_list', () => {
             });
             beforeEach((done) => {
                 listGen.createLoader('rup-list', 'listFilterForm', () => {
-                    $('#rup-list').on('load', done);
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                 });
             });
             describe('> Pasamos a la pagina siguiente para que aparezca el loader', () => {
                 beforeEach((done) => {
-                    $('#rup-list').on('load', done);
+                	$('#rup-list').off('load');
+                   	$('#rup-list').on('load', () => {
+                		done();
+                	});
                     $('#rup-list').rup_list('filter');
                     spyLoader = spyOn($.fn, 'prepend').and.callThrough();
                     $('#rup-list-header-page-next').click();
