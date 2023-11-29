@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<security:global-method-security>
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.find*(..))" access="ROLE_UDA"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.add*(..))"  access="ROLE_UDA"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.remove*(..))" access="ROLE_UDA"/> -->
+<!--        <security:protect-pointcut expression="execution(* com.ejie.*.service..*.update*(..))" access="ROLE_UDA"/> -->
+	</security:global-method-security>
+</beans>

@@ -1,0 +1,73 @@
+# preguntas paso 1
+project_name:
+    type: str
+    help: ¿Cuál es el código de tu aplicación?
+
+war_project_name:
+    type: str
+    help: ¿Cuál va a ser el nombre de tu WAR?
+
+layout_app_type:
+    type: str
+    help: ¿Qué tipo de aplicación es?
+    default: Intranet/Extranet/JASO
+    choices:
+        - Intranet/Extranet/JASO
+        - Internet
+
+layout_app_category:
+    type: str
+    help: ¿Cuál es su categoría?
+    default: Horizontal
+    choices:
+        - Horizontal
+        - Departamental
+
+i18n_app:
+    type: str
+    help: ¿Qué idiomas deseas tener en tu aplicación?
+    multiselect: true
+    choices:
+        - Castellano
+        - Euskera
+        - Inglés
+        - Francés
+
+i18n_default_app:
+    type: str
+    help: ¿Cuál quieres que sea el idioma por defecto?
+    choices:
+        Castellano:
+            value: Castellano
+            validator: "{% if i18n_app != 'Castellano' %}Castellano no está entre los idiomas permitidos{% endif %}"
+        Euskera:
+            value: Euskera
+            validator: "{% if i18n_app != 'Euskera' %}Euskera no está entre los idiomas permitidos{% endif %}"
+        Inglés:
+            value: Inglés
+            validator: "{% if i18n_app != 'Inglés' %}Inglés no está entre los idiomas permitidos{% endif %}"
+        Francés:
+            value: Francés
+            validator: "{% if i18n_app != 'Francés' %}Francés no está entre los idiomas permitidos{% endif %}"
+
+security_app:
+    type: str
+    help: ¿Quieres securizar la aplicación?
+    default: XLNetS
+    choices:
+        - Mock
+        - XLNetS
+        - OAM
+
+ejb_app:
+    type: str
+    help: ¿Quieres crear un módulo EJB para remoting?
+    default: No
+    choices:
+        - Sí
+        - No
+
+ejb_project_name:
+    type: str
+    help: ¿Cuál va a ser el nombre del EJB?
+    when: "{{ ejb_app == 'Sí' }}"
