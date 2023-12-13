@@ -238,7 +238,7 @@
 		List<Object> searchParamList = (List<Object>) mapaWhereSearch.get("params");
 
 		// SQL
-		StringBuilder sbReorderSelectionSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getSearchQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, searchSQL, searchParamList, from_alias, "<#list paramWhere as param>${param}<#if param_has_next>,</#if></#list>");
+		StringBuilder sbReorderSelectionSQL = ${pojo.importType("com.ejie.x38.dto.TableManager")}.getSearchQuery(query, tableRequestDto, ${pojo.getDeclarationName()}.class, filterParamList, searchSQL, searchParamList, from_alias, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>);
 
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new ${pojo.importType("com.ejie.x38.dao.RowNumResultSetExtractor")}<${pojo.getDeclarationName()}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
