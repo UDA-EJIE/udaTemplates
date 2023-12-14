@@ -18,6 +18,7 @@ package ${PACKAGE_NAME};
 import com.ejie.hdiv.config.annotation.ExclusionRegistry;
 import com.ejie.hdiv.config.annotation.RuleRegistry;
 import com.ejie.hdiv.config.annotation.ValidationConfigurer;
+import com.ejie.hdiv.config.annotation.builders.SecurityConfigBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -43,6 +44,10 @@ public class UDA4HdivConfig extends UDA4HdivConfigurerAdapter {
 	@Override
 	protected String getErrorPage() {
 		return "/error";
+	}
+	
+	@Override
+	public void customConfigure(final SecurityConfigBuilder builder) {
 	}
 
 	@Override
