@@ -152,7 +152,13 @@
             	let dataSelect2 = $self.data('select2');
             	if(dataSelect2 !== undefined){
 	            	if(dataSelect2.$selection.find('input').length == 1){
-	            		dataSelect2.$selection.find('input').val('');
+	            		
+	            		if(settings.defaultValueAutocompleteNotLoaded == false){
+	            			dataSelect2.$selection.find('input').val('');
+	            		} else{
+	            			dataSelect2.$selection.find('input').val(param);
+	            		}
+	            		
 	            	}
 	            	let $search = dataSelect2.dropdown.$search || dataSelect2.selection.$search;
 	            	if($search != undefined && texto !== undefined){//sifnifica que esta abierto
@@ -214,8 +220,10 @@
         	var $self = $(this);
             // init de select
             if (this.length > 0) {
+            	var dataSelect2 = $self.data('select2');
+            	dataSelect2.$selection.find('input').val('');
                 // Simple y multi
-            	if($self.data('settings').blank !== undefined){
+            	if($self.data('settings').blank !== undefined){           		
             		$self.val($self.data('settings').blank).trigger('change')
             	}else{
             		$self.val(null).trigger('change');
@@ -1238,6 +1246,11 @@
 				          }
 				         
 				          let seleccionado = $.grep(data, function (v,index) {
+				        	  
+				        	  if (v.text === undefined && v[settings.sourceParam.text] !== undefined) {
+				                  v.text = v[settings.sourceParam.text];
+				                }
+				        	  
 				        	  	if(v.id == valueSelect){
 				        	  		positions.push(index);
 				        	  	}
@@ -2090,6 +2103,7 @@
         dataType: 'json',
         cache: true,
         multiple: false,
+        defaultValueAutocompleteNotLoaded: true,
         multiValueToken:'##'
         };
 

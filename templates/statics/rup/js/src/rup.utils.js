@@ -175,6 +175,109 @@
 
 		},
 		
+		
+		
+		/**
+		 * Formatea una fecha a la fecha deseada 
+		 *
+		 * @name jQuery.rup_utils#formatoFecha
+		 * @function
+		 * @param {date} fechaFinal - Formato de la fecha final a conseguir.
+		 * @param {date} fechaInicial - Fecha inicial que se quiere manipular.		
+		 * @returns {array} -  Devuelve un array con la fecha modificada.
+		 * @example
+		 * $.formatoFecha("yyyy/mm/dd" ,"20/02/2023 15:23:21");
+		 */
+		
+		formatoFecha: function(fechaFinal, fechaInicial){
+			
+			
+			var fechaInicialArray = fechaInicial.split(' ');
+			
+		    var fechaFinalArray =  fechaFinal.split(' ');
+			
+			
+		    var fechaInicialString = fechaInicialArray[0];
+		    // Verificar si la fecha está en el formato dd/mm/yyyy
+            var formatoCorrecto = /^\d{2}\/\d{2}\/\d{4}$/.test(fechaInicialString);
+		    
+		   
+		    if((fechaFinalArray[0] === "dd/mm/yyyy") && formatoCorrecto){
+		    	
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    	
+		    } else if((fechaFinalArray[0] === "dd/mm/yyyy") && !formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	   
+         	    
+         	    if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+            	
+		    	
+		    }else if((fechaFinalArray[0] === "yyyy/mm/dd") && !formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(dd/mm/aaaa)") && formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(dd/mm/aaaa)") && !formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(aaaa/mm/dd)") && formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(aaaa/mm/dd)") && !formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else {
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }
+		    		 
+		},
+		
 		/**
 		 * Devuelve el objeto del dom existente en la posición indicada.
 		 *
@@ -1158,6 +1261,38 @@
      */
 	$.fn.getStaticHdivID = function (id) {		
 		return id;
+	};
+	
+	/**
+     * Permite descifrar el identificador recibido.
+     *
+     * @name decryptHdivID
+     * @function
+     * @since UDA 5.4.0
+     *
+     * @param {string} id - Identificador de la entidad.
+     *
+     * @return {string} Identificador de la entidad sin cifrar.
+     */
+	$.fn.decryptHdivID = function (id) {
+		const source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-,_/<#$>&€=;+|";
+		const target = "tQc5nAijb8ZWawShs0XEzDC6RdFoVuT9GeBY4gHpNlU3J2vkxMIm1rKfO7LqPy-,_/<#$>&€=;+|~";
+		const splitToken = "-:$:-";
+		
+		const encryptedId = id.split(splitToken).pop();
+		let decryptedId = "";
+		
+		for (var i = 0; i < encryptedId.length; i++) {
+			const c = encryptedId.charAt(i);
+			const index = target.indexOf(c);
+			if (index == -1) {
+				decryptedId = decryptedId.concat(c);
+			} else {
+				decryptedId = decryptedId.concat(source.charAt(index));	
+			}  
+		}
+		
+		return decryptedId;
 	};
 	
 	/**
