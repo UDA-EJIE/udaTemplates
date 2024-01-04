@@ -152,7 +152,13 @@
             	let dataSelect2 = $self.data('select2');
             	if(dataSelect2 !== undefined){
 	            	if(dataSelect2.$selection.find('input').length == 1){
-	            		dataSelect2.$selection.find('input').val('');
+	            		
+	            		if(settings.defaultValueAutocompleteNotLoaded == false){
+	            			dataSelect2.$selection.find('input').val('');
+	            		} else{
+	            			dataSelect2.$selection.find('input').val(param);
+	            		}
+	            		
 	            	}
 	            	let $search = dataSelect2.dropdown.$search || dataSelect2.selection.$search;
 	            	if($search != undefined && texto !== undefined){//sifnifica que esta abierto
@@ -214,8 +220,10 @@
         	var $self = $(this);
             // init de select
             if (this.length > 0) {
+            	var dataSelect2 = $self.data('select2');
+            	dataSelect2.$selection.find('input').val('');
                 // Simple y multi
-            	if($self.data('settings').blank !== undefined){
+            	if($self.data('settings').blank !== undefined){           		
             		$self.val($self.data('settings').blank).trigger('change')
             	}else{
             		$self.val(null).trigger('change');
@@ -1238,6 +1246,11 @@
 				          }
 				         
 				          let seleccionado = $.grep(data, function (v,index) {
+				        	  
+				        	  if (v.text === undefined && v[settings.sourceParam.text] !== undefined) {
+				                  v.text = v[settings.sourceParam.text];
+				                }
+				        	  
 				        	  	if(v.id == valueSelect){
 				        	  		positions.push(index);
 				        	  	}
@@ -1451,21 +1464,27 @@
          * @param {string} [data] - Valores de búsqueda cuando tiene autocompletado e identificador de los padres en caso de ser enlazados.
          */
 		_generateUrl: function(settings, data) {
-			const $form = settings.inlineEdit?.$auxForm ? settings.inlineEdit?.$auxForm : $('#' + settings.id).closest('form');
+			let $form;
+			
+			if (settings.$forceForm) {
+				$form = settings.$forceForm;
+			} else {
+				$form = settings.inlineEdit?.$auxForm ? settings.inlineEdit?.$auxForm : $('#' + settings.id).closest('form');
+			}
+			
 			const name = settings.inlineEdit?.auxSiblingFieldName ? settings.inlineEdit?.auxSiblingFieldName : settings.name;
 			
 			if ($form.length === 1) {
-				let url = settings.url + (settings.url.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
-
+				if ($.fn.getHDIV_STATE(undefined, $form) != '') {
+					settings.url += (settings.url.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form) + '&MODIFY_FORM_FIELD_NAME=' + name;
+				}
+				
 				if (data) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.
-					url += "&" + data.replaceAll('#', '%23');
+					settings.url += ($.fn.getHDIV_STATE(undefined, $form) != '' ? '&' : '?') + data.replaceAll('#', '%23');
 				}
-
-				return url + '&MODIFY_FORM_FIELD_NAME=' + name;
-			} else {
-				return settings.url;
 			}
+			return settings.url;
 		},
         /**
 		 * Método de inicialización del componente.
@@ -2084,6 +2103,7 @@
         dataType: 'json',
         cache: true,
         multiple: false,
+        defaultValueAutocompleteNotLoaded: true,
         multiValueToken:'##'
         };
 

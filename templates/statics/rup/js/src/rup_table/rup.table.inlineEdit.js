@@ -948,7 +948,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 				if(searchRupType !== undefined && cellColModel.editoptions) {
 					var searchEditOptions = cellColModel.editoptions;
 					if(searchRupType === 'combo'){//se marca el selected
-						searchEditOptions.selected = ctx.inlineEdit.lastRow.cellValues[cont]
+						searchEditOptions.selected = ctx.oInit.inlineEdit.useLocalValues ? ctx.inlineEdit.lastRow.cellValues[cont] : ctx.json.rows[$fila.idx][cellColModel.name];
 						searchEditOptions.inlineEditFieldName = cellColModel.name;
 					} else if (searchRupType === 'autocomplete') {
 						const cellValue = ctx.inlineEdit.lastRow.cellValues[cont];
@@ -957,7 +957,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 							searchEditOptions.loadObjectsAuto = {[cellValue]:cellValue};
 						}
 					} else if(searchRupType === 'select'){
-						searchEditOptions.selected = ctx.inlineEdit.lastRow.cellValues[cont]
+						searchEditOptions.selected = ctx.oInit.inlineEdit.useLocalValues ? ctx.inlineEdit.lastRow.cellValues[cont] : ctx.json.rows[$fila.idx][cellColModel.name] + '';
 						searchEditOptions.inlineEditFieldName = cellColModel.name;
 					}
 					
@@ -1260,7 +1260,7 @@ function _inlineEditFormSerialize($fila,ctx,child){
 	if(!selectores[0].hasClass('new') && typeof serializedForm !== "boolean"){
 		jQuery.grep(ctx.oInit.colModel, function( n,i) {
 			  if ( n.editable !== true ){
-				  var text = ctx.json.rows[$fila.index()][n.name];
+				  const text = ctx.json.rows[$('tr:not(.group)', $(ctx.nTBody)).index($fila)][n.name];
 				  serializedForm[n.name] = text;
 				  return n;
 			  }
@@ -1288,7 +1288,7 @@ function _guardar(ctx,$fila,child){
 	var row = _inlineEditFormSerialize($fila,ctx,child);
 	
     $.each(ctx.oInit.primaryKey, function (index, key) {
-    	row[key] = ctx.json.rows[$fila.index()][key];
+    	row[key] = ctx.json.rows[$('tr:not(.group)', $(ctx.nTBody)).index($fila)][key];
     });
 	
 	if(!row) {
@@ -1366,7 +1366,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
                 'text': 'text/plain',
                 'xml': 'application/xml, text/xml'
             },
-			type: actionType,
+			type: ctx.oInit.inlineEdit.multipart || (actionType == 'PUT' && ctx.oInit.inlineEdit.usePostAsEditActionType) ? 'POST' : actionType,
 			data: row,
 			dataType: 'json',
 			showLoading: false,
@@ -1386,9 +1386,10 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 					_callFeedbackOk(ctx, msgFeedBack, 'ok');
 					
 					if(actionType === 'PUT'){
+						const rowIndex = $('tr:not(.group)', $(ctx.nTBody)).index($fila);
 						// Modificar
-						dt.row($fila.index()).data(data);
-						ctx.json.rows[$fila.index()] = data;
+						dt.row(rowIndex).data(data);
+						ctx.json.rows[rowIndex] = data;
 						
 						// Actualizamos el último id seleccionado (por si ha sido editado)
 						let posicion = 0;
@@ -1400,7 +1401,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 						});
 						
 						if (ctx.seeker !== undefined && !jQuery.isEmptyObject(ctx.seeker.ajaxOption.data.search) && ctx.seeker.search.funcionParams !== undefined && ctx.seeker.search.funcionParams.length > 0) {
-							_comprobarSeeker(data, ctx, $fila.index());
+							_comprobarSeeker(data, ctx, rowIndex);
 						}
 						
 						ctx.multiselection.lastSelectedId = idPk;
@@ -1589,9 +1590,9 @@ function _loadAuxForm(ctx, actionType, row) {
 		// Preparar la información a enviar al servidor. Como mínimo se enviará el actionType, un booleano que indique si el formulario es multipart y 
 		// el valor de la clave primaria siempre y cuando no contenga un string vacío.
 		const defaultData = {
-			'actionType': actionType,
+			'actionType': actionType == 'PUT' && ctx.oInit.inlineEdit.usePostAsEditActionType ? 'POST' : actionType,
 			'isMultipart': ctx.oInit.inlineEdit.multipart === true ? true : false,
-			...(DataTable.Api().rupTable.getIdPk(row, ctx.oInit) != "" && { 'pkValue': DataTable.Api().rupTable.getIdPk(row, ctx.oInit) })
+			...(ctx.oInit.inlineEdit.rowDefault?.actionType != "CLONE" && DataTable.Api().rupTable.getIdPk(row, ctx.oInit) != "" && { 'pkValue': DataTable.Api().rupTable.getIdPk(row, ctx.oInit) })
 		};
 		let data = ctx.oInit.inlineEdit.data !== undefined ? $.extend({}, defaultData, ctx.oInit.inlineEdit.data) : defaultData;
 		
@@ -1624,15 +1625,16 @@ function _loadAuxForm(ctx, actionType, row) {
 /**
  * Valida los formularios para no, buscarlos.
  *
- * @name formInitializeRUP
+ * @name validarFormulario
  * @function
  * @since UDA 5.0.2 // Table 1.0.0
  *
  * @param {object} ctx - Contexto de la tabla.
-  * @param {object} lastAction - última accion realizado.
+ * @param {object} lastAction - última accion realizado.
  * @param {object} actionType - Tipo de acción.
+ * @param {object} row - Datos de la fila que se cargan.
  */
-function _validarFormulario(ctx,lastAction, actionType, row){    	
+function _validarFormulario(ctx, lastAction, actionType, row){    	
 	if(ctx.oInit.enableDynamicForms){ 
 		let lastSelectedIdUsed = ctx.oInit.inlineEdit.lastSelectedIdUsed;
 		let lastSelected = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);

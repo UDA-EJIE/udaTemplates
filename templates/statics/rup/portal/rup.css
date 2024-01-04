@@ -22584,7 +22584,8 @@
   outline: none;
 }
 
-.r01gContainer .btn-material:disabled {
+.r01gContainer .btn-material:disabled,
+.r01gContainer .btn-material.disabled {
   color: rgba(0, 0, 0, 0.37);
   background-color: rgba(0, 0, 0, 0.12);
   border-color: transparent;
@@ -57785,7 +57786,8 @@
   outline: none;
 }
 
-.r01gContainer .btn-material:disabled {
+.r01gContainer .btn-material:disabled,
+.r01gContainer .btn-material.disabled {
   color: rgba(0, 0, 0, 0.37);
   background-color: rgba(0, 0, 0, 0.12);
   border-color: transparent;

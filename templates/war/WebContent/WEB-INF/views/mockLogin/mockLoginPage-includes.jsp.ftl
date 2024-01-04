@@ -16,9 +16,4 @@
  
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<script type="text/javascript">
-	var	USERNAMES = <#noparse>${param['userNames']}</#noparse>,
-		MOCKURL = "<#noparse>${param['mockUrl']}</#noparse>";
-</script>
-
 <script src="<#noparse>${staticsUrl}</#noparse>/${codapp}/scripts/${warNameShort}/mockLoginPage.js" type="text/javascript"></script>

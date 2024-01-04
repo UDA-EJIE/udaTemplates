@@ -393,7 +393,7 @@
                 }
 
                 // Detecta cuando se pulsa sobre el boton de filtrado o de limpiar lo filtrado
-                if (options.buttons !== undefined && ctx._buttons !== undefined) {
+                if (ctx.oInit.buttons !== undefined && ctx._buttons !== undefined) {
                     ctx._buttons[0].inst.s.disableAllButtons = undefined;
                     DataTable.Api().buttons.displayRegex(ctx);
                 }
@@ -868,7 +868,16 @@
             
             // Elimina del filtro los campos autogenerados por los multicombos que no forman parte de la entidad
             $.fn.deleteMulticomboLabelFromObject(data.filter, ctx.oInit.filter.$filterContainer);
-
+			
+			// Fuerza el mostrado de la primera página cuando se pagina y los criterios de filtrado han cambiado.
+			const newCriteria = ctx.oInit.filter.$filterContainer.serializeArray();
+						
+			if (!_.isEqual(ctx.oInit.filter.oldCriteria, newCriteria)) {
+				ctx.oInit.filter.oldCriteria = newCriteria;
+				ctx._iDisplayStart = 0;
+				data.start = 0;
+			}
+			
             let tableRequest = new TableRequest(data);
             let json = $.extend({}, data, tableRequest.getData());//Mantenemos todos los valores, por si se quieren usar.
 
@@ -990,36 +999,59 @@
          *
          */
         _clearFilter(options) {
-            let $self = this;
-            $('#' + options.id).triggerHandler('tableFilterReset',options);
-            options.filter.$filterContainer.resetForm();
-            
-            // Reinicia por completo los autocomplete ya que sino siguen filtrando
-            $.fn.resetAutocomplete('hidden', options.filter.$filterContainer);
-            
-            //si es Maestro-Detalle restaura el valor del padre.
-            if(options.masterDetail !== undefined){
-	            let tableMaster = $(options.masterDetail.master).DataTable();
-	            let rowSelected = tableMaster.rows('.selected').indexes();
-	            let row = tableMaster.rows(rowSelected).data();
-	            let id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
-	            let $hiddenPKMaster = $('#' + options.id + '_filter_masterPK');
-	            $hiddenPKMaster.val('' + id);
-        	}
-            
-            $self.DataTable().ajax.reload();
-            options.filter.$filterSummary.html(' <i></i>');
+			$('#' + options.sTableId).triggerHandler('tableFilterBeforeReset', options);
 
-            // Provoca un mal funcionamiento del filtrado de Maestro-Detalle en la tabla esclava, 
-            // ya que elimina la referencia del padre y muestra todos los valores en vez de los relacionados.
-            //jQuery('input,textarea').val('');
+			const $form = $('#' + options.sTableId + '_filter_form');
+			jQuery.each($('input[rupType=autocomplete], select.rup_combo, select[rupType=select], input:not([rupType]), select:not([rupType]), input[rupType=date]', $form), function(index, elem) {
+				const elemSettings = jQuery(elem).data('settings');
 
-            jQuery.each($('select.rup_combo',options.filter.$filterContainer), function (index, elem) {
+				if (elemSettings != undefined) {
+					const elemRuptype = jQuery(elem).attr('ruptype');
+
+					if (elemSettings.parent == undefined) {
+						if (elemRuptype == 'autocomplete') {
+							jQuery(elem).rup_autocomplete('setRupValue', '');
+							elem.defaultValue = "";
+						} else if (elemRuptype == 'combo') {
+							jQuery(elem).rup_combo('reload');
+							elem.defaulSelected = false;
+						} else if (elemRuptype == 'select') {
+							jQuery(elem).rup_select('clear');
+							elem.defaultValue = "";
+						} else if (elemRupType == 'date') {
+							jQuery(elem).rup_select('clear');
+							elem.defaultValue = "";
+						}
+					}
+				} else {
+					elem.defaultValue = "";
+					elem.value = "";
+				}
+			});
+
+			// Reinicia por completo los autocomplete porque sino siguen filtrando.
+			$.fn.resetAutocomplete('hidden', options.filter.$filterContainer);
+
+			// Si es Maestro-Detalle restaura el valor del maestro.
+			if (options.masterDetail !== undefined) {
+				const tableMaster = $(options.masterDetail.master).DataTable();
+				const rowSelected = tableMaster.rows('.selected').indexes();
+				const row = tableMaster.rows(rowSelected).data();
+				const id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
+				$('#' + options.id + '_filter_masterPK').val('' + id);
+			}
+
+			options.filter.$filterSummary.html(' <i></i>');
+
+			jQuery.each($('select.rup_combo', options.filter.$filterContainer), function(index, elem) {
 				jQuery(elem).rup_combo('refresh');
-            });
+			});
 
-            $.rup_utils.populateForm([], options.filter.$filterContainer);
+			$.rup_utils.populateForm([], options.filter.$filterContainer);
+			
+			$(this).DataTable().ajax.reload();
 
+			$('#' + options.sTableId).triggerHandler('tableFilterAfterReset', options);
         },
         
         /**
@@ -1228,6 +1260,26 @@
                     fieldValue = '';
                 }
             };
+            
+			// Objeto auxiliar para contar repeticiones
+			const repeticiones = {};
+
+			// Crear un nuevo array de objetos manteniendo "value" original para valores únicos y actualizando "value" para valores repetidos
+			const nuevoArrayDeObjetos = aux.reduce((result, objeto) => {
+				const { name, value } = objeto;
+				if (!repeticiones[name]) {
+					repeticiones[name] = { value, count: 0 };
+				}
+				repeticiones[name].count++;
+				if (repeticiones[name].count === 1) {
+					result.push({ name, value });
+				} else {
+					result.find(item => item.name === name).value = 'Seleccionados ' + repeticiones[name].count;
+				}
+				return result;
+			}, []);
+	
+			aux = nuevoArrayDeObjetos;
 
             for (var i = 0; i < aux.length; i++) {
                 if (aux[i].value !== '' && $.inArray(aux[i].name, settings.filter.excludeSummary) !== 0) {
@@ -1343,7 +1395,12 @@
 	                        break;
 	                    case 'SELECT':
 	                        if (field.next('.ui-multiselect').length === 0) {
-	                            fieldValue = fieldValue + $('option[value=\'' + aux[i].value + '\']', field).html();
+	                            if ($('option[value=\'' + aux[i].value + '\']', field).html() == undefined ){
+									fieldValue = fieldValue  + aux[i].value;  
+								} else {
+								 fieldValue = fieldValue + $('option[value=\'' + aux[i].value + '\']', field).html();
+
+								}
 	                        } else {
 	                            if ($.inArray($(field).attr('id'), filterMulticombo) === -1) {
 	                                numSelected = field.rup_combo('value').length;
@@ -1386,6 +1443,11 @@
                     if (fieldName === '' && fieldValue.trim() === '') {
                         continue;
                     }
+                    //Miramos si el elemento es es un checkbox o un radio, en caso de serlo revisamos fieldName para quitar los inputs
+		            if($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio'){
+						let fValue=fieldValue.split('<span>')[1];
+						fieldValue='<span> '+fValue;
+	          		} 
                     searchString = searchString + fieldName + fieldValue + '; ';
                 }
             }
@@ -1780,7 +1842,11 @@
                                 index = index + line + 1;
                                 DataTable.Api().editForm.updateDetailPagination(ctx, index, numTotal);
                             }
-                            DataTable.Api().select.drawSelectId(tabla.context[0]);
+                            
+                            if (ctx.multiselection.selectedRowsPerPage.length === 1) {
+                                DataTable.Api().select.selectRowIndex(tabla, ctx.multiselection.selectedRowsPerPage[0].line, false);
+                            }
+                            
                             if (tabla.context[0].oInit.inlineEdit !== undefined) {
                                 DataTable.Api().inlineEdit.addchildIcons(tabla.context[0]);
                             }
@@ -1945,6 +2011,8 @@
         primaryKey: ['id'],
         blockPKeditForm: true,
         enableDynamicForms: true,
+        contextMenuActivo: true,
+        selectFilaDer: false,
         searchPaginator: true,
         pagingType: 'full',
         createdRow: function (row) {
