@@ -7,22 +7,7 @@ war_project_name:
     type: str
     help: ¿Cuál va a ser el nombre de tu WAR?
 
-layout_app_type:
-    type: str
-    help: ¿Qué tipo de aplicación es?
-    default: Intranet/Extranet/JASO
-    choices:
-        - Intranet/Extranet/JASO
-        - Internet
-
-layout_app_category:
-    type: str
-    help: ¿Cuál es su categoría?
-    default: Horizontal
-    choices:
-        - Horizontal
-        - Departamental
-
+# Pregunta 1 - Selección de varios idiomas
 i18n_app:
     type: str
     help: ¿Qué idiomas deseas tener en tu aplicación?
@@ -39,35 +24,22 @@ i18n_default_app:
     choices:
         Castellano:
             value: Castellano
-            validator: "{% if i18n_app != 'Castellano' %}Castellano no está entre los idiomas permitidos{% endif %}"
+            validator: "{% if 'Castellano' not in i18n_app %}Castellano no está entre los idiomas permitidos{% endif %}"
         Euskera:
             value: Euskera
-            validator: "{% if i18n_app != 'Euskera' %}Euskera no está entre los idiomas permitidos{% endif %}"
+            validator: "{% if 'Euskera' not in i18n_app %}Euskera no está entre los idiomas permitidos{% endif %}"
         Inglés:
             value: Inglés
-            validator: "{% if i18n_app != 'Inglés' %}Inglés no está entre los idiomas permitidos{% endif %}"
+            validator: "{% if 'Inglés' not in i18n_app %}Inglés no está entre los idiomas permitidos{% endif %}"
         Francés:
             value: Francés
-            validator: "{% if i18n_app != 'Francés' %}Francés no está entre los idiomas permitidos{% endif %}"
+            validator: "{% if 'Francés' not in i18n_app %}Francés no está entre los idiomas permitidos{% endif %}"
 
 security_app:
     type: str
     help: ¿Quieres securizar la aplicación?
     default: XLNetS
     choices:
-        - Mock
-        - XLNetS
-        - OAM
-
-ejb_app:
-    type: str
-    help: ¿Quieres crear un módulo EJB para remoting?
-    default: No
-    choices:
-        - Sí
+        - Si
         - No
-
-ejb_project_name:
-    type: str
-    help: ¿Cuál va a ser el nombre del EJB?
-    when: "{{ ejb_app == 'Sí' }}"
+      
