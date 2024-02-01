@@ -1,8 +1,11 @@
-statics.path=/xxxaStatics
+statics.path=/{{project_name}}Statics
 xlnets.inPortal=FALSE
+{% if entornoEjie %}
 xlnets.path=https://xlnets.servicios.des.ejgv.euskalsarea.eus/n38a/N38LoginInicioServlet
 isEjie=true
-
+{% else %}
+isEjie=false
+{% endif %}
 #Cookie
 cookie.rootPath=true
 cookie.secure=true
@@ -11,7 +14,7 @@ cookie.secure=true
 locale.allowInheritance=false
 
 #The System logs parameters
-log.path=C:/Users/xagustin/Entorno_UDA/datos/xxx/log
+log.path=C:/datos/{{project_name}}/log
 log.level.salidaEstandar=DEBUG
 log.level.udaTrazas=DEBUG
 log.level.aplicTrazas=DEBUG
@@ -26,13 +29,13 @@ log.level.auditoriaBBDD.springJDBC.query=INFO
 log.level.auditoriaBBDD.springJDBC.queryParams=INFO
 
 #File upload path
-fileUpload.path=C:/Users/xagustin/Entorno_UDA/datos/xxx/tmp
+fileUpload.path=C:/datos/{{project_name}}/tmp
 
 #File repositories parameters
-repository.file.path=C:/Users/xagustin/Entorno_UDA/datos/xxx/jackrabbit
+repository.file.path=C:/datos/{{project_name}}/jackrabbit
 
 #IberDok!
-iberdokFolder=C:/Users/xagustin/Entorno_UDA/datos/xxx/iberdok
+iberdokFolder=C:/datos/{{project_name}}/iberdok
 
 # ========================================================
 # PARAMETROS BIG DATA
