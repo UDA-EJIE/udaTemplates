@@ -1,0 +1,8 @@
+{"tables":[
+{"name": "APLICACION", "columns": [{"tableName": "APLICACION", "name": "CODIGO", "type": "VARCHAR2", "nullable": "N", "primaryKey": "P"}, {"tableName": "APLICACION", "name": "CDESCRIPCION", "type": "VARCHAR2", "nullable": "N", "primaryKey": null}, {"tableName": "APLICACION", "name": "EDESCRIPCION", "type": "VARCHAR2", "nullable": "N", "primaryKey": null}, {"tableName": "APLICACION", "name": "DPTOPROD", "type": "VARCHAR2", "nullable": "Y", "primaryKey": null}, {"tableName": "APLICACION", "name": "CONTEXTO", 
+"type": "VARCHAR2", "nullable": "Y", "primaryKey": null}]},
+{"name": "AREAS", "columns": [{"tableName": "AREAS", "name": "ID_LOTE3_T21", "type": "VARCHAR2", "nullable": "Y", "primaryKey": 
+null}, {"tableName": "AREAS", "name": "AREA_ACTIVA_T21", "type": "VARCHAR2", "nullable": "Y", "primaryKey": null}, {"tableName": "AREAS", "name": "ID_AREA_T21", "type": "NUMBER", "nullable": "N", "primaryKey": "P"}, {"tableName": "AREAS", "name": "NOMBRE_AREA_CAST_T21", "type": "VARCHAR2", "nullable": "N", "primaryKey": null}, {"tableName": "AREAS", "name": "NOMBRE_AREA_EUSK_T21", 
+"type": "VARCHAR2", "nullable": "N", "primaryKey": null}]}
+]
+}
