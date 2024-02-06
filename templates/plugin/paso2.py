@@ -1,7 +1,9 @@
 import json
 from copier import Worker
 import os
-from utils import hello_world
+from utils import importsFunction
+from utils import getColumnsDates
+from datetime import datetime
 
 
 #INICIO función principal
@@ -22,10 +24,15 @@ def initPaso2(tables,yaml_data):
         os.mkdir(destinoWarControl)
    # with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["controller*"],overwrite=True) as worker:
    #     worker.run_copy()
+    data["packageName"] = "src.com.ejie."+proyectName  
     for table in tables:
         #añadir funciones
-        data["hello_world"] = hello_world();   
-        data["tableName"] = table["name"].capitalize();  
+        columnsDates = getColumnsDates(table["columns"]) 
+        data["importsFunction"] = importsFunction(table["columns"]) 
+        data["tableName"] = table["name"].capitalize()     
+        #Fecha creación 02-feb-2024 13:40:10
+        now = datetime.now()        
+        data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
         with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
