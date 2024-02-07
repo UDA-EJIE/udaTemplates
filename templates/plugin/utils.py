@@ -4,9 +4,19 @@ def getColumnsDates(columns):
         newColumn = columnOld
         type = columnOld["type"] 
         
-        if type == "NUMBER" or type == "FLOAT":
+        if type == "FLOAT":
                newColumn["DATO_TYPE"] = "BigDecimal"
                newColumn["DATA_IMPORT"] = "java.math.BigDecimal"
+        if type == "NUMBER":
+               if columnOld["dataPrecision"] != None and columnOld["dataPrecision"] > 1 and columnOld["dataPrecision"] < 5:
+                newColumn["DATO_TYPE"] = "Long"
+                newColumn["DATA_IMPORT"] = ""
+               elif columnOld["dataPrecision"] != None and columnOld["dataPrecision"] >= 5:
+                newColumn["DATO_TYPE"] = "BigDecimal"
+                newColumn["DATA_IMPORT"] = "java.math.BigDecimal"
+               else :
+                newColumn["DATO_TYPE"] = "Integer"
+                newColumn["DATA_IMPORT"] = ""
         elif type == "LONG":
                newColumn["DATO_TYPE"] = "Long"
                newColumn["DATA_IMPORT"] = ""

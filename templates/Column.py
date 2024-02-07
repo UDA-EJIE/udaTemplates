@@ -1,6 +1,6 @@
 class Column:
     # Constructor
-        def __init__(self, tableName,name,type,nullable,primaryKey,datoType,datoImport):
+        def __init__(self, tableName,name,type,nullable,primaryKey,datoType,datoImport,dataPrecision):
                 self.tableName = tableName
                 self.name = name
                 self.type = type
@@ -8,6 +8,7 @@ class Column:
                 self.primaryKey = primaryKey
                 self.datoType = datoType
                 self.datoImport = datoImport
+                self.dataPrecision = dataPrecision
 
         def get(self):
             return self;        

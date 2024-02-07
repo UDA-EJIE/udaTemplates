@@ -23,7 +23,7 @@ def initPaso2(tables,yaml_data):
         os.mkdir(destinoWarControl)
    # with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["controller*"],overwrite=True) as worker:
    #     worker.run_copy()
-    data["packageName"] = "src.com.ejie."+proyectName  
+    data["packageName"] = "com.ejie."+proyectName  
     for table in tables:
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
