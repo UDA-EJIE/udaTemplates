@@ -21,10 +21,13 @@ def getColumnsDates(columns):
               newColumn["DATA_IMPORT"] = "java.util.Date"
         elif type == "TIMESTAMP":
               newColumn["DATO_TYPE"] = "Date"
-              newColumn["column"] = "java.util.Date"
+              newColumn["DATA_IMPORT"] = "java.util.Date"
         else :
               newColumn["DATO_TYPE"] = "String"
               newColumn["DATA_IMPORT"] = ""
+        #si el import ya esta, no repetimos
+        if contains(newColumns, lambda x: x["DATA_IMPORT"] == newColumn["DATA_IMPORT"]): 
+             newColumn["DATA_IMPORT"] = ""          
         newColumns.append(newColumn)        
     return newColumns
 
@@ -33,12 +36,10 @@ def to_camel_case(text):
     s = s.split()
     if len(text) == 0:
         return text
-    return s[0] + ''.join(i.capitalize() for i in s[1:])
+    return s[0] + ''.join(i.capitalize() for i in s[1:]) 
 
-def importsFunction(columns):
-    cadena = ""
-    for column in columns:
-        dataImport = column["DATA_IMPORT"]
-        if dataImport != "" and cadena.find(dataImport) == -1:
-            cadena = cadena + "import "+dataImport+"\n"
-    return cadena    
+def contains(list, filter):
+    for x in list:
+        if filter(x):
+            return True
+    return False

@@ -1,7 +1,6 @@
 import json
 from copier import Worker
 import os
-from utils import importsFunction
 from utils import getColumnsDates
 from datetime import datetime
 
@@ -28,7 +27,7 @@ def initPaso2(tables,yaml_data):
     for table in tables:
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
-        data["importsFunction"] = importsFunction(table["columns"]) 
+        data["columnsDates"] = columnsDates
         data["tableName"] = table["name"].capitalize()     
         #Fecha creación 02-feb-2024 13:40:10
         now = datetime.now()        
