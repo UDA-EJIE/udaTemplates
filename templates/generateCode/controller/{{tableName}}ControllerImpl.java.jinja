@@ -64,7 +64,7 @@ public class {{tableName}}Controller  {
 	private static final Logger logger = LoggerFactory.getLogger({{tableName}}Controller.class);
 
 	@Autowired
-	private {{tableName}}Service {{tableName.lower()}}Service;
+	private {{tableName}}Service {{tableNameDecapitalize}}Service;
 
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -84,88 +84,46 @@ public class {{tableName}}Controller  {
 	 * @return {{tableName}} Objeto correspondiente al identificador indicado.
 	 */
 
-	@RequestMapping(value = "{%for i in listPks %}/{{'{'}}{{i.name.lower()}}{{'}'}}{% endfor %}", method = RequestMethod.GET)
-	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("org.springframework.hateoas.Resource")}<${pojo.getDeclarationName()}> get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("com.ejie.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
-        ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
-	<#if !isJpa>	
-		<#foreach field in ctrlUtils.getPrimaryKeyCreator(pojo,cfg)>
-			${ctrl.stringDecapitalize(pojo.getDeclarationName())}.set${pojo.beanCapitalize(field[0])};
-		</#foreach>	
-	<#else>
-		<#if  clazz.getIdentifierProperty().isComposite()>
-			${ctrl.stringDecapitalize(pojo.getDeclarationName())}.setId(new ${pojo.getDeclarationName()}Id());
-		</#if>
-	</#if>
-	<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
-		${field[2]}.set${pojo.beanCapitalize(field[3])}(${field[0]});
-	</#foreach>	
-        ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.find(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
-        ${pojo.getDeclarationName()}Controller.logger.info("[GET - findBy_PK] : Obtener ${pojo.getDeclarationName()} por PK");
-        return new Resource<${pojo.getDeclarationName()}>(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
+	@GetMapping(value = "{%for i in listPks %}/{{'{'}}{{i.name.lower()}}{{'}'}}{% endfor %}")
+	public @ResponseBody {{tableName}} get({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{i.name.lower()}} {% endfor %}) {
+        {{tableName}} {{tableNameDecapitalize}} = new {{tableName}}();
+		{%for i in listPks %}
+		{{tableNameDecapitalize}}.set{{i.name.capitalize()}}({{i.name.lower()}});
+		{% endfor %}
+        {{tableNameDecapitalize}} = this.{{tableNameDecapitalize}}Service.find({{tableNameDecapitalize}});
+        {{tableName}}Controller.logger.info("[GET - findBy_PK] : Obtener {{tableName}} por PK");
+        return {{tableNameDecapitalize}};
 	}
 
 	/**
-	 * Devuelve una lista de beans correspondientes a los valores de filtrados indicados en el objeto pasado como parámetro.
+	 * Devuelve una lista de beans correspondientes a los valores de filtrados
+	 * indicados en el objeto pasado como parametro.
 	 *
-	 * @param filter${pojo.getDeclarationName()} Objeto ${pojo.getDeclarationName()} que contiene los parámetros de filtrado utilizados en la búsqueda.
-	 *
-	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
+	 * @param filter{{tableName}} {{tableName}}
+	 *            Objeto que contiene los parametros de filtrado utilizados en
+	 *            la busqueda.
+	 * @return List<{{tableName}}> 
+	 *            Lista de objetos correspondientes a la busqueda realizada.
 	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAll", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "edit"), 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "delete"), 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "deleteAll"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "clipboardReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "excelReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "pdfReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "odsReport"),
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "csvReport") })
-	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}()
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAll(@${pojo.importType("org.springframework.web.bind.annotation.ModelAttribute")} ${pojo.getDeclarationName()} filter${pojo.getDeclarationName()}) {
-		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL] : Obtener ${pojo.getDeclarationName()} por filtro");
-	    return ${pojo.importType("com.ejie.x38.util.ResourceUtils")}.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAll(filter${pojo.getDeclarationName()}, null));
+	@GetMapping()
+	public @ResponseBody List<{{tableName}}> getAll(@ModelAttribute {{tableName}} filter{{tableName}}) {
+		{{tableName}}Controller.logger.info("[GET - find_ALL] : Obtener {{tableName}} por filtro");
+	    return this.{{tableNameDecapitalize}}Service.findAll(filter{{tableName}}, null);
 	}
 
 	/**
-	 * Devuelve una lista de identificadores.
+	 * Operacion CRUD Edit. Modificacion del bean indicado.
 	 *
-	 * @param param String Contiene el valor del campo a buscar.
-	 * @param startsWith boolean Define si se usará un comodín al inicio.
-	 *
-	 * @return ${pojo.importType("java.util.List")}<${pojo.getDeclarationName()}> Lista de objetos correspondientes a la búsqueda realizada.
+	 * @param {{tableNameDecapitalize}} {{tableName}} 
+	 *            Bean que contiene la informacion a modificar.
+	 * @return {{tableName}} 
+	 *            Bean resultante de la modificacion.
 	 */
-	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "getAllIds", linkTo = {
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
-	@${pojo.importType("org.springframework.web.bind.annotation.GetMapping")}(value = "/allIds")
-	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("java.util.List")}<Resource<${pojo.getDeclarationName()}>> getAllIds(
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "q", required = true) <#list primariaParam as camposPrim> ${camposPrim[1]}<#if camposPrim_has_next>, </#if></#list> param,
-			@${pojo.importType("org.springframework.web.bind.annotation.RequestParam")}(value = "c", required = true) boolean startsWith) {
-		${pojo.getDeclarationName()}Controller.logger.info("[GET - find_ALL_ID] : Obtener CPs de ${pojo.getDeclarationName()}");
-		${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();
-			
-		<#foreach field in ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)>
-		${field[2]}.set${pojo.beanCapitalize(field[3])}(param);
-		</#foreach>
-		
-	    return ${pojo.importType("com.ejie.x38.util.ResourceUtils")}.fromListToResource(this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.findAllIds(${ctrl.stringDecapitalize(pojo.getDeclarationName())}, startsWith));
-	}
-
-	/**
-	 * Operación CRUD Edit. Modificacion del bean indicado.
-	 *
-	 * @param ${ctrl.stringDecapitalize(pojo.getDeclarationName())} Bean ${pojo.getDeclarationName()} que contiene la informacion a modificar.
-	 *
-	 * @return ${pojo.getDeclarationName()} Bean resultante de la modificacion.
-	 */
-	@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALink")}(name = "edit", linkTo = { 
-			@${pojo.importType("com.ejie.x38.hdiv.annotation.UDALinkAllower")}(name = "filter") })
-	@${pojo.importType("org.springframework.web.bind.annotation.PutMapping")}(value = "/edit")
-    public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} Resource<${pojo.getDeclarationName()}> edit(@${pojo.importType("org.springframework.web.bind.annotation.RequestBody")} ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}) {		
-        ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux = this.${ctrl.stringDecapitalize(pojo.getDeclarationName())}Service.update(${ctrl.stringDecapitalize(pojo.getDeclarationName())});
-		${pojo.getDeclarationName()}Controller.logger.info("[PUT] : ${pojo.getDeclarationName()} actualizado correctamente");
-        return new Resource<${pojo.getDeclarationName()}>(${ctrl.stringDecapitalize(pojo.getDeclarationName())}Aux);
+	@PutMapping(value = "/edit")
+    public @ResponseBody {{tableName}} edit(@RequestBody {{tableName}} {{tableNameDecapitalize}}) {		
+        {{tableName}} {{tableNameDecapitalize}}Aux = this.{{tableNameDecapitalize}}Service.update({{tableNameDecapitalize}});
+		{{tableName}}Controller.logger.info("[PUT] : {{tableName}} actualizado correctamente");
+        return {{tableNameDecapitalize}}Aux;
     }
 
 	/**

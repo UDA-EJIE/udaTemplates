@@ -61,6 +61,7 @@ def contains(list, filter):
 # from snake case to camel case
 def snakeToCamel(str):
     # split underscore using split
+    str = str.lower()
     temp = str.split('_')
     
     # joining result 
