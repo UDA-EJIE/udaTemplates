@@ -27,7 +27,8 @@ def initPaso2(tables,yaml_data):
     for table in tables:
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
-        data["columnsDates"] = columnsDates
+        data["listPks"] = columnsDates[1]  
+        data["columnsDates"] = columnsDates[0]
         data["tableName"] = table["name"].capitalize()     
         #Fecha creación 02-feb-2024 13:40:10
         now = datetime.now()        

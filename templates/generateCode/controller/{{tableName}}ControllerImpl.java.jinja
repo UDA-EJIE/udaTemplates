@@ -78,16 +78,13 @@ public class {{tableName}}Controller  {
 	
 	/**
 	 * Operación CRUD Read. Devuelve el bean correspondiente al identificador indicado.
-	 * 
-	 	{% for column in columnsDates 
-     		if column.primaryKey == 'P'%} *
-	 *	@param {{ column.name.lower() }} {{ column.DATO_TYPE }}{% endfor %}
+	 * {% for column in columnsDates %}{% if column.primaryKey == 'P'%} 
+	 * @param {{ column.name.lower() }} {{ column.DATO_TYPE }}{% endif%}{% endfor %}
 	 *
 	 * @return {{tableName}} Objeto correspondiente al identificador indicado.
 	 */
 
-	<#assign primaria = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
-	@RequestMapping(value = "<#list primaria as camposPrim>/{${camposPrim[0]}}</#list>", method = RequestMethod.GET)
+	@RequestMapping(value = "{%for i in listPks %}/{{'{'}}{{i.name.lower()}}{{'}'}}{% endfor %}", method = RequestMethod.GET)
 	<#assign primariaParam = ctrlUtils.getPrimaryKeyHdiv(pojo,cfg)> 
 	public @${pojo.importType("org.springframework.web.bind.annotation.ResponseBody")} ${pojo.importType("org.springframework.hateoas.Resource")}<${pojo.getDeclarationName()}> get(<#list primariaParam as camposPrim>@${pojo.importType("org.springframework.web.bind.annotation.PathVariable")} @${pojo.importType("com.ejie.hdiv.services.TrustAssertion")}(idFor = ${pojo.getDeclarationName()}.class) ${pojo.importType(camposPrim[1])} ${camposPrim[0]}<#if camposPrim_has_next>, </#if></#list>) {
         ${pojo.getDeclarationName()} ${ctrl.stringDecapitalize(pojo.getDeclarationName())} = new ${pojo.getDeclarationName()}();

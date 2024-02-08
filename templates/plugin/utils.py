@@ -1,5 +1,6 @@
 def getColumnsDates(columns):
     newColumns = []
+    columnsPks = []
     for columnOld in columns:   
         newColumn = columnOld
         type = columnOld["type"] 
@@ -38,8 +39,10 @@ def getColumnsDates(columns):
         #si el import ya esta, no repetimos
         if contains(newColumns, lambda x: x["DATA_IMPORT"] == newColumn["DATA_IMPORT"]): 
              newColumn["DATA_IMPORT"] = ""          
-        newColumns.append(newColumn)        
-    return newColumns
+        newColumns.append(newColumn) 
+        if columnOld["primaryKey"] == "P":
+            columnsPks.append(newColumn)       
+    return [newColumns,columnsPks]
 
 def to_camel_case(text):
     s = text.replace("-", " ").replace("_", " ")
@@ -53,3 +56,13 @@ def contains(list, filter):
         if filter(x):
             return True
     return False
+
+# Function to convert the string
+# from snake case to camel case
+def snakeToCamel(str):
+    # split underscore using split
+    temp = str.split('_')
+    
+    # joining result 
+    res = temp[0] + ''.join(ele.title() for ele in temp[1:])
+    return res

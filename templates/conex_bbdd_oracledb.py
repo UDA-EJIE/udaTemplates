@@ -3,6 +3,7 @@ from Column import Column
 from Table import Table
 from datetime import datetime
 import json
+from plugin.utils import snakeToCamel
 
 tables = [] 
 columns = [] 
@@ -18,7 +19,7 @@ query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2
              ON ta.TABLE_NAME = sy.TABLE_NAME
              INNER JOIN USER_TAB_COLUMNS utc
              ON ta.TABLE_NAME = utc.TABLE_NAME 
-             order by sy.SYNONYM_NAME,ta.table_name) tb1 
+             order by sy.SYNONYM_NAME,ta.table_name,utc.column_name) tb1 
         LEFT JOIN 
             (select all_cons_columns.owner , all_cons_columns.table_name, all_cons_columns.column_name, all_constraints.constraint_type
             from all_constraints, all_cons_columns 
@@ -42,7 +43,8 @@ with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             tableNameBBDD = row[0]
             if row[5] != None: #sinonimos
                tableNameBBDD = row[5]  
-
+            #snakeCamelCase
+            tableNameBBDD = snakeToCamel(tableNameBBDD)   
             if tableName == tableNameBBDD:
                 #se crea la columna
                 column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
@@ -70,6 +72,6 @@ tables.sort(key=lambda x: x.name)
 for tb in tables:
     y = json.dumps(tb.__dict__, default=lambda o: o.__dict__)
     tablae = json.loads(y)
-    if tb.name == 'X21A_ALUMNO':
+    if tb.name == 'MULTI_PK':
         print(y)
 print("fin: " + str(datetime.now()))    
