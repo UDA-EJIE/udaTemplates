@@ -167,13 +167,6 @@ public interface {{tableName}}Service {
 	void generateReport({{tableName}} filter{{tableName}}, String[] columns, String[] columnsName, String fileName, String sheetTitle,
 			ArrayList<?> reportsParams, TableRequestDto tableRequestDto, HttpServletRequest request, 
 			HttpServletResponse response);
-      <#foreach property in pojo.getAllPropertiesIterator()>
-        <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
-           <#if c2h.isManyToMany(property)>
-                <#if c2h.isCollection(property)> 
-                  <#include "serviceRelations.ftl"/>
-                </#if> 								
-           </#if>
-        </#if>
-     </#foreach>	
+     
+	{% include 'serviceRelations.jinja' %} 
 }

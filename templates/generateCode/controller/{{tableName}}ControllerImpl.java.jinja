@@ -361,11 +361,5 @@ public class {{tableName}}Controller  {
 	}
 
 {% include 'controllerRelationsImpl.jinja' %}
-	<#foreach property in pojo.getAllPropertiesIterator()>
-      <#if c2h.isManyToMany(property)>
-        <#if c2h.isCollection(property)>
-           <#include "controllerRelationsImpl.ftl"/>					
-        </#if>
-      </#if>
-    </#foreach>	
+
 }
