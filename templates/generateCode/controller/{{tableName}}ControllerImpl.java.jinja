@@ -360,6 +360,7 @@ public class {{tableName}}Controller  {
 		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
 	}
 
+{% include 'controllerRelationsImpl.jinja' %}
 	<#foreach property in pojo.getAllPropertiesIterator()>
       <#if c2h.isManyToMany(property)>
         <#if c2h.isCollection(property)>

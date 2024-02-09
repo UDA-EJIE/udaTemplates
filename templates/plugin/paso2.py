@@ -16,6 +16,8 @@ def initPaso2(tables,yaml_data):
     war = proyectName+proyectWar+"War";
     destinoWar = yaml_data["destinoApp"]+war+"/" 
     destinoWarControl = destinoWar+rutaWar
+    dirService = directorio_actual+"service/" 
+    destinoEarService = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/service"
 
 
     # si no existe crear la carpeta, raiz control - config java
@@ -32,16 +34,21 @@ def initPaso2(tables,yaml_data):
         tName = table["name"]
         data["tableName"] = tName[0].capitalize() + tName[1:] 
         data["tableNameDecapitalize"] = tName    
-        #Fecha creación 02-feb-2024 13:40:10
+        #Fecha creación controllers
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
         with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-         worker.run_copy() 
-        #controller relational java 
-        #with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*"],overwrite=True) as worker:
-            # worker.run_copy()   
+           worker.run_copy() 
+
+        #Fecha creación services
+        now = datetime.now()        
+        data["date"] = now.strftime('%d-%b-%Y %H:%M:%S') 
+        data["project_name"] = proyectName 
+        #service java 
+        with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
+            worker.run_copy()   
         
 #FIN función principal
                   
