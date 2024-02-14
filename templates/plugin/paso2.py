@@ -18,6 +18,8 @@ def initPaso2(tables,yaml_data):
     destinoWarControl = destinoWar+rutaWar
     dirService = directorio_actual+"service/" 
     destinoEarService = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/service"
+    dirDao = directorio_actual+"dao/" 
+    destinoEarDao = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/dao"
 
 
     # si no existe crear la carpeta, raiz control - config java
@@ -40,7 +42,7 @@ def initPaso2(tables,yaml_data):
 
         #controller java 
         with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-           worker.run_copy() 
+          worker.run_copy() 
 
         #Fecha creación services
         now = datetime.now()        
@@ -48,7 +50,14 @@ def initPaso2(tables,yaml_data):
         data["project_name"] = proyectName 
         #service java 
         with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-            worker.run_copy()   
+           worker.run_copy()   
+
+        #Fecha creación Daos
+        now = datetime.now()        
+        data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
+        #Daos java 
+        with Worker(src_path=dirDao, dst_path=destinoEarDao, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
+            worker.run_copy()    
         
 #FIN función principal
                   
