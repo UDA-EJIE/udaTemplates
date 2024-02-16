@@ -44,12 +44,12 @@ def getColumnsDates(columns):
             columnsPks.append(newColumn)       
     return [newColumns,columnsPks]
 
-def to_camel_case(text):
+def toCamelCase(text):
     s = text.replace("-", " ").replace("_", " ")
     s = s.split()
     if len(text) == 0:
-        return text
-    return s[0] + ''.join(i.capitalize() for i in s[1:]) 
+        return text.capitalize()
+    return s[0].capitalize() + ''.join(i.capitalize() for i in s[1:]) 
 
 def contains(list, filter):
     for x in list:

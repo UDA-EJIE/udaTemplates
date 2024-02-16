@@ -3,7 +3,8 @@ from copier import Worker
 import os
 from utils import getColumnsDates
 from datetime import datetime
-
+from utils import snakeToCamel
+from utils import toCamelCase
 
 #INICIO función principal
 def initPaso2(tables,yaml_data):
@@ -33,7 +34,9 @@ def initPaso2(tables,yaml_data):
         columnsDates = getColumnsDates(table["columns"]) 
         data["listPks"] = columnsDates[1]  
         data["columnsDates"] = columnsDates[0]
-        tName = table["name"]
+        tNameOriginal = table["name"]
+        tName = snakeToCamel(tNameOriginal) 
+        data["tableNameOriginal"] = tNameOriginal
         data["tableName"] = tName[0].capitalize() + tName[1:] 
         data["tableNameDecapitalize"] = tName    
         #Fecha creación controllers
@@ -42,7 +45,7 @@ def initPaso2(tables,yaml_data):
 
         #controller java 
         with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-          worker.run_copy() 
+         worker.run_copy() 
 
         #Fecha creación services
         now = datetime.now()        
@@ -50,13 +53,14 @@ def initPaso2(tables,yaml_data):
         data["project_name"] = proyectName 
         #service java 
         with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-           worker.run_copy()   
+          worker.run_copy()   
 
         #Fecha creación Daos
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Daos java 
         with Worker(src_path=dirDao, dst_path=destinoEarDao, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
+            worker.jinja_env.filters["toCamelCase"] = toCamelCase
             worker.run_copy()    
         
 #FIN función principal
