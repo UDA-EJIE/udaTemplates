@@ -110,8 +110,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "UPDATE {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{% if column.primaryKey != 'P' %}{{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %}) WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
-		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% endif%} {% endfor %},{% for column in columnsDates %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != columnsDates|length %},{% endif%} {% endfor %});
+		String query = "UPDATE {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %}) WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
 
 		return {{tableNameDecapitalize}};
 	}
@@ -125,13 +125,10 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
-		<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
-		<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
-		<#assign paramWhereFields = utilidadesDao.whereFindPK(pojo,cfg)>
-		<#assign paramPk = utilidadesDao.commaPrimary(pojo,cfg)>
-		String query = "SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list> FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list> WHERE <#list paramWhereFields as param>${param}<#if param_has_next> AND </#if></#list>";
 
-		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, <#list paramPk as param>${param}<#if param_has_next> , </#if></#list>);
+		String query = "SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %} FROM {{tableNameOriginal.upper()}} t1 WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+
+		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
     }
 
@@ -141,20 +138,17 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      * @param {{tableNameDecapitalize}} {{tableName}}
      */
     public void remove({{tableName}} {{tableNameDecapitalize}}) {
-		<#assign paramPkRemove = utilidadesDao.commaPrimary(pojo,cfg)>
-		<#assign paramWhereRemove = utilidadesDao.getWherePk(pojo,cfg,false)>
-		String query = "DELETE FROM ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} WHERE <#list paramWhereRemove as param>${param}=?<#if param_has_next> AND </#if></#list>";
-		this.jdbcTemplate.update(query, <#list paramPkRemove as param>${param}<#if param_has_next> , </#if></#list>);
+	
+		String query = "DELETE FROM {{tableNameOriginal.upper()}} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		this.jdbcTemplate.update(query, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
     }
     
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-    	<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
-    	<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
-    	<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
+
     	// SELECT
-    	StringBuilder query = new StringBuilder("SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list> ");
+    	StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %}");
     	// FROM
-    	query.append("FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list>");
+    	query.append("FROM {{tableNameOriginal.upper()}} t1 ");
     	// WHERE clause & Params
     	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter{{tableName}}, startsWith);
     	StringBuilder where = new StringBuilder(" WHERE 1=1 ");
@@ -163,9 +157,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
-    	<#assign paramWhereRemove = paramWhere>
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, "{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}"));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
