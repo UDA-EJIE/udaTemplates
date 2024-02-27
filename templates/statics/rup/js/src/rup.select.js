@@ -152,7 +152,13 @@
             	let dataSelect2 = $self.data('select2');
             	if(dataSelect2 !== undefined){
 	            	if(dataSelect2.$selection.find('input').length == 1){
-	            		dataSelect2.$selection.find('input').val('');
+	            		
+	            		if(settings.defaultValueAutocompleteNotLoaded == false){
+	            			dataSelect2.$selection.find('input').val('');
+	            		} else{
+	            			dataSelect2.$selection.find('input').val(param);
+	            		}
+	            		
 	            	}
 	            	let $search = dataSelect2.dropdown.$search || dataSelect2.selection.$search;
 	            	if($search != undefined && texto !== undefined){//sifnifica que esta abierto
@@ -163,6 +169,10 @@
 	            		lis.attr('aria-selected', false);
 	            		$(selectedDate).attr('aria-selected',true);
 	            	}
+            		
+            		// Guardar seleccionado.
+            		settings.selected = param;
+            		
 	            	$self.val(param).trigger('change');
 	            	$('#' + settings.id).rup_select('change');
             	}
@@ -197,6 +207,9 @@
 	            		}
 	            	});
             		
+            		// Guardar seleccionados.
+            		settings.selected = arrayDatos;
+            		
             		$('#' + settings.id).val(arrayDatos).trigger('change');
             	}
             	
@@ -214,8 +227,10 @@
         	var $self = $(this);
             // init de select
             if (this.length > 0) {
+            	var dataSelect2 = $self.data('select2');
+            	dataSelect2.$selection.find('input').val('');
                 // Simple y multi
-            	if($self.data('settings').blank !== undefined){
+            	if($self.data('settings').blank !== undefined){           		
             		$self.val($self.data('settings').blank).trigger('change')
             	}else{
             		$self.val(null).trigger('change');
@@ -1229,6 +1244,7 @@
 				                 $.each(data[i], function (key, value) {
 				 	                if (typeof(value) === 'object') {
 						                 $.each(value, function () {
+						                	 this.id = String(this.id);
 						                	 allFacts.push(this);
 						                 });
 						                }
@@ -1240,7 +1256,11 @@
 				          }
 				         //Se obliga a que las claves sean String recomendado por select2
 				          let seleccionado = $.grep(data, function (v,index) {
-				        	  	v.id = String(v.id);
+				        	  v.id = String(v.id);
+				        	  if (v.text === undefined && v[settings.sourceParam.text] !== undefined) {
+				                  v.text = v[settings.sourceParam.text];
+				                }
+				        	  
 				        	  	if(v.id == valueSelect){
 				        	  		positions.push(index);
 				        	  	}
@@ -1467,7 +1487,7 @@
 			if ($form.length === 1) {
 				let url = settings.url + (settings.url.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form);
 
-				if (data) {
+				if (data && !settings.url.includes(data)) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.
 					url += "&" + data.replaceAll('#', '%23');
 				}
@@ -2094,6 +2114,7 @@
         dataType: 'json',
         cache: true,
         multiple: false,
+        defaultValueAutocompleteNotLoaded: false,
         multiValueToken:'##'
         };
 

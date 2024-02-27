@@ -68,7 +68,25 @@
         ctx.select = [];
         var rowsBody = $(ctx.nTBody);
         // Se selecciona una fila
-        rowsBody.on('click.DT keydown', 'tr:not(.group)', function (e) {
+        
+        if(ctx.oInit.selectFilaDer){
+        rowsBody.on('click.DT keydown contextmenu', 'tr:not(.group)', function (e) {
+            // Solo selecciona si se pulsa sobre la barra espaciadora o se hace click izquierdo col raton
+            if (e.which == 1 || e.which == 32 || e.which == 3) {
+                if (e.target.className.indexOf('openResponsive') > -1 ||
+                    $(this).hasClass('editable')) {// no hacer nada
+                   //no se devuelve nada para los checkbox funcionen.
+                }else{//selecionar
+	                $(this).triggerHandler('tableSelectBeforeSelectRow',ctx);
+	                var idRow = this._DT_RowIndex;
+	                _selectRowIndex(dt, idRow, $(this));
+	                $(this).triggerHandler('tableSelectAfterSelectRow',ctx);
+                }
+            }
+        });
+} else {
+	
+	rowsBody.on('click.DT keydown', 'tr:not(.group)', function (e) {
             // Solo selecciona si se pulsa sobre la barra espaciadora o se hace click izquierdo col raton
             if (e.which == 1 || e.which == 32) {
                 if (e.target.className.indexOf('openResponsive') > -1 ||
@@ -82,7 +100,8 @@
                 }
             }
         });
-
+	
+}
         if (ctx.oInit.inlineEdit === undefined && ctx.oInit.formEdit === undefined) {
             $(window).on('resize.dtr', DataTable.util.throttle(function () { //Se calcula el responsive
                 DataTable.Api().editForm.addchildIcons(ctx);
@@ -116,8 +135,7 @@
 
             if (rowSelectAux !== undefined && row.id === DataTable.Api().rupTable.getIdPk(rowSelectAux, ctx.oInit)) {
                 var rowsBody = $(ctx.nTBody);
-                var line = row.line + 1;
-                $('tr:nth-child(' + line + ')', rowsBody).addClass('selected tr-highlight');
+                $('tr:not(.group)', rowsBody).eq(row.line).addClass('selected tr-highlight');
             }
         }
     }
@@ -220,14 +238,13 @@
     });
 
     apiRegister('select.selectRowIndex()', function (dt, index, isDoubleClick) {
-        var ctx = dt.settings()[0];
-        var rowsBody = $(ctx.nTBody);
+        const ctx = dt.settings()[0];
+        const rowsBody = $(ctx.nTBody);
         var countTr = index;
         if (isDoubleClick !== undefined) {
             countTr = countTr + 1;
         }
-        var tr = $('tr:nth-child(' + countTr + ')', rowsBody);
-        _selectRowIndex(dt, index, tr);
+        _selectRowIndex(dt, index, $('tr:not(.group)', rowsBody).eq(index));
     });
     
     apiRegister('select.defaultId()', function (ctx) {

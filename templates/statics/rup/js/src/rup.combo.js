@@ -1164,7 +1164,7 @@
                     return true;
                 });
                 //						$("#rup-multiCombo_remoteGroup_comboHijo").on('keypress', function(event) {
-                $('#' + settings.id).data('echMultiselect').menu.on('label', 'keydown.multiselect', function (event) {
+                $('#' + settings.id).data('echMultiselect').menu.on('keydown.multiselect', 'label', function (event) {
                     if (event.which > 0) {
                         self._typeAheadMultiselect(event.which, 'focus', settings);
                     }
@@ -1199,7 +1199,7 @@
                 if (settings.multiselect) {
                     //Convertir inputValue en array
                     if (Array.isArray(settings.inputValue) === false) {
-                        settings.inputValue = settings.inputValue.split('##');
+                        settings.inputValue = settings.inputValue?.split('##');
                     }
 
                 }
@@ -1333,7 +1333,9 @@
                 item;
             for (let i = 0; i < array.length; i = i + 1) {
                 item = array[i];
-                item.label = item[settings.sourceParam.label];
+                if (array[i].label == undefined || array[i].label == null) {
+					item.label = item[settings.sourceParam.label];
+				}
                 if (item.style) {
                     remoteImgs[remoteImgs.length] = {};
                     if (optGroupKey == null) {

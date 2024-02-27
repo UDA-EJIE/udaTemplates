@@ -177,7 +177,7 @@ el resto de componentes RUP para estandarizar la asignación del valor al Autoco
 						let settings = data.$labelField.data('settings');
 						if(labelFound !== ''){
 							$('#' + id + '_label').val(labelFound);
-						}else if(settings.showDefault){
+						}else if(settings?.showDefault){
 							$('#' + id + '_label').val(value);
 						}
 					}
@@ -269,7 +269,7 @@ el resto de componentes RUP para estandarizar la asignación del valor al Autoco
 
 			settings = self.data('settings');
 
-			if (settings.combobox) {
+			if (settings?.combobox) {
 				settings.$comboboxToogle.button('disable');
 			}
 
@@ -670,7 +670,7 @@ input.
 				});
 			}
 
-			term = request.term.replace(/%/g, '\\%').replace(/_/g, '\\_');
+			term = String(request.term).replace(/%/g, '\\%').replace(/_/g, '\\_');
 			data = $.extend({
 				q: term,
 				c: settings.contains
@@ -745,7 +745,7 @@ input.
 							}
 							
 							// Limpiar tildes
-							if (settings.accentFolding && labelLimpio !== item.label) {
+							if (settings.accentFolding && labelLimpio !== item.label && (labelLimpio.includes(termLimpio) || item.label.includes(termLimpio))) {
 								// Parte delantera
 								let regex = new RegExp(termLimpio, 'i');
 								var literal = returnValue.label;
@@ -964,9 +964,11 @@ input.
 					return false;
 				};
 				settings.focus = function (event, ui) {
-					$('#' + event.target.id).val(ui.item.label.replace(/<strong>/g, '').replace(/<\/strong>/g, ''));
+					
 					if (settings._focus !== undefined) {
 						settings._focus(event, ui);
+					}else{//se puede personalizar el action entero
+						$('#' + event.target.id).val(ui.item.label.replace(/<strong>/g, '').replace(/<\/strong>/g, ''));
 					}
 					return false; //Evitar acciones jquery.autocomplete.js
 				};
