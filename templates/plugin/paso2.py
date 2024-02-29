@@ -1,7 +1,7 @@
 import json
 from copier import Worker
 import os
-from plugin.utils import getColumnsDates
+from utils import getColumnsDates
 from datetime import datetime
 
 
@@ -13,7 +13,7 @@ def initPaso2(tables,yaml_data):
     directorio_actual = yaml_data["directorio_actual"] 
     dirController = directorio_actual+"controller/" 
     rutaWar = "src/com/ejie/"+proyectName+"/control" 
-    war = proyectName+proyectWar+"War"
+    war = proyectName+proyectWar+"War";
     destinoWar = yaml_data["destinoApp"]+war+"/" 
     destinoWarControl = destinoWar+rutaWar
     dirService = directorio_actual+"service/" 
@@ -31,14 +31,14 @@ def initPaso2(tables,yaml_data):
     for table in tables:
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
-        yaml_data["listPks"] = columnsDates[1]  
-        yaml_data["columnsDates"] = columnsDates[0]
+        data["listPks"] = columnsDates[1]  
+        data["columnsDates"] = columnsDates[0]
         tName = table["name"]
-        yaml_data["tableName"] = tName[0].capitalize() + tName[1:] 
-        yaml_data["tableNameDecapitalize"] = tName    
+        data["tableName"] = tName[0].capitalize() + tName[1:] 
+        data["tableNameDecapitalize"] = tName    
         #Fecha creación controllers
         now = datetime.now()        
-        yaml_data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
+        data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
         with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
@@ -62,7 +62,7 @@ def initPaso2(tables,yaml_data):
 #FIN función principal
                   
 #variables
-directorioRespuestas = "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/plugin/"
+directorioRespuestas = "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/plugin/"
 file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
 #vendrá directamente del formulario tkinter
 tables = json.load(file)
@@ -73,5 +73,5 @@ data = { "project_name": "ppp",
         "directorio_actual" : "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/generateCode/",
         "destinoApp" : "C:/entorno/eclipseEsperanzaW11/eclipse202003EsperanzaW11/runtime-EclipseApplication/"
        }
-#initPaso2(tables,data)  
+initPaso2(tables,data)  
 

@@ -153,7 +153,7 @@ class PaginaDos(ttk.Frame):
 
         # Crear botones
         ttk.Button(button_container, text="Botón 1").pack(side="left", padx=10, pady=5)
-        ttk.Button(button_container, text="Siguiente", command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion())).pack(side="left", padx=10, pady=5)
+        ttk.Button(button_container, text="Botón 2", command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion())).pack(side="left", padx=10, pady=5)
         ttk.Button(button_container, text="Recoger selección", command=self.obtener_seleccion).pack(side="left", padx=10, pady=5)
 
         self.tables = []
@@ -173,11 +173,13 @@ class PaginaDos(ttk.Frame):
 
             for child, original_column in zip(table_frame.columns_frame.winfo_children(), original_table.columns):
                 if isinstance(child, ttk.Checkbutton) and child.instate(["selected"]):
-                    selected_columns.append(Column(original_column.tableName,original_column.name,original_column.type,original_column.nullable,original_column.primaryKey,None,None,original_column.dataPrecision))
+                    selected_columns.append(original_column)
 
             # Solo agregar la tabla al nuevo array si tiene columnas seleccionadas
             if selected_columns:
-                seleccion.append(Table(table_name, selected_columns)) 
+                selected_table = {"name": table_name, "columns": selected_columns}
+                seleccion.append(selected_table)
+
         print("Esto es la selección:", seleccion)
         return seleccion
 
@@ -300,27 +302,27 @@ class PaginaTres(ttk.Frame):
         self.search_button_presentacion = ttk.Button(self.search_container_presentacion, text="Buscar", state="disabled")
         self.search_button_presentacion.pack(side="left")
         self.search_container_presentacion.pack(fill="x", pady=5)
-  
+
+
+        tabla_json = ""    
+        for tb in tables:
+            y = json.dumps(tb.__dict__, default=lambda o: o.__dict__)
+            tabla_json = tabla_json + y 
+
+       
         data = { "project_name": "ppp",
         "security_app": "",
         "war_project_name": "Www",
         "PACKAGE_NAME": "com.ejie."+"ppp"+".control",
-        "directorio_actual" : "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/generateCode/",
+        "directorio_actual" : "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/",
         "destinoApp" : "C:/Users/mllorente/Desktop/paso2Copier/"
         }
-
-        tabla_resultados = []
-        for tb in tables:
-            y = json.dumps(tb.__dict__, default=lambda o: o.__dict__)       
-            tabla_resultados.append(json.loads(y))
-
         
-
         # Botones finales
         buttons_container = ttk.Frame(main_container)
         buttons_container.pack(fill="x", pady=(0, 5), side="bottom", anchor="e")
-        ttk.Button(buttons_container, text="Botón 1").pack(side="right", padx=5)
-        ttk.Button(buttons_container, text="Botón 2", command=lambda: p2.initPaso2(tabla_resultados, data)).pack(side="right", padx=5)
+        ttk.Button(buttons_container, text="Botón 1").pack(command=lambda: p2.initPaso2(tabla_json, data), side="right", padx=5)
+        ttk.Button(buttons_container, text="Botón 2").pack(side="right", padx=5)
 
     def update_search_state(self):
         """
