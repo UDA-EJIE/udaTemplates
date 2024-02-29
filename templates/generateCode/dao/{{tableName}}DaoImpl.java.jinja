@@ -89,98 +89,66 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     /**
      * Inserts a single row in the {{tableName}} table.
      *
-     * @param ${pojo.getDeclarationName()?lower_case} {{tableName}}
+     * @param {{tableNameDecapitalize}} {{tableName}}
      *
      * @return {{tableName}}
      */
-	public {{tableName}} add({{tableName}} ${pojo.getDeclarationName()?lower_case}) {
-		<#assign parametros = utilidadesDao.getInsertFields(pojo,cfg)>
-    	<#assign interrogaciones = parametros >
-    	String query = "INSERT INTO ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} (<#list parametros as param>${param}<#if param_has_next>, </#if></#list>) VALUES (<#list interrogaciones as param>?<#if param_has_next>,</#if></#list>)";
-		<#assign valoresInsert = utilidadesDao.getInsertValues(pojo,cfg)>
-		<#assign nulablesFields = valoresInsert>
-		<#list nulablesFields as ifsValoRes>
-			<#if ifsValoRes[1]!= '0'>
-				   Object ${ifsValoRes[4]}Aux=null;
-		     if (${ifsValoRes[2]}!= null <#if ifsValoRes[3]!=''> && ${ifsValoRes[3]}</#if> && ${ifsValoRes[0]}!=null ){
-			     ${ifsValoRes[4]}Aux=${ifsValoRes[0]};
-		   	  }
-		   </#if>
-		</#list>
-		this.jdbcTemplate.update(query, <#list valoresInsert as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
-		return ${pojo.getDeclarationName()?lower_case};
+	public {{tableName}} add({{tableName}} {{tableNameDecapitalize}}) {
+
+    	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{{ column.name }}{% if loop.index != columnsDates|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnsDates %}?{% if loop.index != columnsDates|length %},{% endif%} {% endfor %})";
+
+		this.jdbcTemplate.update(query, {% for column in columnsDates %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != columnsDates|length %},{% endif%} {% endfor %});
+		return {{tableNameDecapitalize}};
 	}
 
     /**
      * Updates a single row in the {{tableName}} table.
      *
-     * @param ${pojo.getDeclarationName()?lower_case} {{tableName}}
+     * @param {{tableNameDecapitalize}} {{tableName}}
      *
      * @return {{tableName}}
      */
-    public {{tableName}} update({{tableName}} ${pojo.getDeclarationName()?lower_case}) {
-    	<#assign paramSetter =utilidadesDao.getUpdateFields(pojo,cfg)>
-		<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
-		String query = "UPDATE ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} SET <#list paramSetter as param>${param}=?<#if param_has_next>, </#if></#list> WHERE <#list paramWhere as param>${param}=?<#if param_has_next> AND </#if></#list>";
-		<#assign paramUpdate = utilidadesDao.camposQueryUpdate(pojo,cfg)>
-		<#assign nulablesFields = utilidadesDao.getInsertValues(pojo,cfg)>
-		<#assign compuesto = 0>
-		<#list nulablesFields as ifsValoRes>
-			<#if ifsValoRes[1]!= '0'>
-				   Object ${ifsValoRes[4]}Aux = null;
-		     if (${ifsValoRes[2]} != null <#if ifsValoRes[3]!=''> && ${ifsValoRes[3]}</#if> && ${ifsValoRes[0]} != null) {
-			     ${ifsValoRes[4]}Aux = ${ifsValoRes[0]};
-		   	  }
-		   	  <#assign compuesto = 1>
-		   </#if>
-		</#list>
-		<#if compuesto == 1>
-		this.jdbcTemplate.update(query, <#list nulablesFields as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
-		<#else>
-		this.jdbcTemplate.update(query, <#list paramUpdate as param><#if param[1]!= '0'>${param[4]}Aux<#else>${param[0]}</#if><#if param_has_next>, </#if></#list>);
-		</#if>
-		return ${pojo.getDeclarationName()?lower_case};
+    public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
+
+		String query = "UPDATE {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %}) WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
+
+		return {{tableNameDecapitalize}};
 	}
 
     /**
      * Finds a single row in the {{tableName}} table.
      *
-     * @param ${pojo.getDeclarationName()?lower_case} {{tableName}}
+     * @param {{tableNameDecapitalize}} {{tableName}}
      *
      * @return {{tableName}}
      */
     @Transactional (readOnly = true)
-    public {{tableName}} find({{tableName}} ${pojo.getDeclarationName()?lower_case}) {
-		<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
-		<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
-		<#assign paramWhereFields = utilidadesDao.whereFindPK(pojo,cfg)>
-		<#assign paramPk = utilidadesDao.commaPrimary(pojo,cfg)>
-		String query = "SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list> FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list> WHERE <#list paramWhereFields as param>${param}<#if param_has_next> AND </#if></#list>";
+    public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		List<{{tableName}}> ${pojo.getDeclarationName()?lower_case}List = this.jdbcTemplate.query(query, this.rwMap, <#list paramPk as param>${param}<#if param_has_next> , </#if></#list>);
-		return DataAccessUtils.uniqueResult(${pojo.getDeclarationName()?lower_case}List);
+		String query = "SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %} FROM {{tableNameOriginal.upper()}} t1 WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+
+		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
     }
 
     /**
      * Removes a single row in the {{tableName}} table.
      *
-     * @param ${pojo.getDeclarationName()?lower_case} {{tableName}}
+     * @param {{tableNameDecapitalize}} {{tableName}}
      */
-    public void remove({{tableName}} ${pojo.getDeclarationName()?lower_case}) {
-		<#assign paramPkRemove = utilidadesDao.commaPrimary(pojo,cfg)>
-		<#assign paramWhereRemove = utilidadesDao.getWherePk(pojo,cfg,false)>
-		String query = "DELETE FROM ${ctrTl.findDataBaseName(pojo.getDeclarationName())?upper_case} WHERE <#list paramWhereRemove as param>${param}=?<#if param_has_next> AND </#if></#list>";
-		this.jdbcTemplate.update(query, <#list paramPkRemove as param>${param}<#if param_has_next> , </#if></#list>);
+    public void remove({{tableName}} {{tableNameDecapitalize}}) {
+	
+		String query = "DELETE FROM {{tableNameOriginal.upper()}} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		this.jdbcTemplate.update(query, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
     }
     
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-    	<#assign paramSelectFind = utilidadesDao.camposSelectFind(pojo,cfg)>
-    	<#assign paramTablaSelect = utilidadesDao.tablasSelect(pojo,cfg)>
-    	<#assign paramWhere = utilidadesDao.getWherePk(pojo,cfg,false)>
+
     	// SELECT
-    	StringBuilder query = new StringBuilder("SELECT <#list paramSelectFind as param>${param}<#if param_has_next>, </#if></#list> ");
+    	StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %}");
     	// FROM
-    	query.append("FROM <#list paramTablaSelect as param>${param}<#if param_has_next>, </#if></#list>");
+    	query.append("FROM {{tableNameOriginal.upper()}} t1 ");
     	// WHERE clause & Params
     	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter{{tableName}}, startsWith);
     	StringBuilder where = new StringBuilder(" WHERE 1=1 ");
@@ -189,9 +157,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
-    	<#assign paramWhereRemove = paramWhere>
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, <#list paramWhere as param>"${param?lower_case}"<#if param_has_next>,</#if></#list>));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, "{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}"));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
