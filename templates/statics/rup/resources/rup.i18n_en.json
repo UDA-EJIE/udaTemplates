@@ -81,7 +81,11 @@
     "monthNamesShort": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
     "nextText": "Siguiente",
     "prevText": "Anterior",
-    "weekHeader": "&nbsp;&nbsp;&nbsp;"
+    "weekHeader": "&nbsp;&nbsp;&nbsp;",
+    "errors": {
+      "invalidDate": "Invalid date in #%s",
+      "multiSelectLimitExceeded": "Array exceeds multiselection limit. Array size is %i and multiselection limit %i"
+    }
   },
   "rup_dialog": {
     "errorLoadingData": "en_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
@@ -773,7 +777,13 @@
     "mordBajar": "en_Atrasar el campo",
     "quitarCampoOrden": "en_Dejar de ordenar por este campo",
     "ariaSummary": "en_Las opciones de ordenación actuales son: ",
-    "ariaSummaryEmpty": "en_No se han seleccionado opciones de ordenación"
+    "ariaSummaryEmpty": "en_No se han seleccionado opciones de ordenación",
+    "rowPerPage": {
+		"5": "Five",
+		"10": "Ten",
+		"20": "Twenty",
+		"30": "Thirty"
+	}
   },
   "rup_toolbar": {
   	"mbuttonsIdError": "en_El atributo ID es obligatorio en los MButtons."

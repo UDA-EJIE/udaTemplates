@@ -60,7 +60,7 @@
       "optGroupDeselectTitle": "Deseleccionar todos los elementos de este grupo_fr",
       "optGroupSelect": "Seleccionar grupo_fr",
       "optGroupSelectTitle": "Seleccionar todos los elementos de este grupo_fr",
-      "selectedText": "S�lectionn�(s) {0} sur {1}",
+      "selectedText": "Sélectionné(s) {0} sur {1}",
       "uncheckAllText": "Tout décocher",
       "uncheckAllTitle": "Deseleccionar todos los elementos_fr"
     }
@@ -81,7 +81,11 @@
     "monthNamesShort": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
     "nextText": "Siguiente",
     "prevText": "Anterior",
-    "weekHeader": "&nbsp;&nbsp;&nbsp;"
+    "weekHeader": "&nbsp;&nbsp;&nbsp;",
+    "errors": {
+      "invalidDate": "Date invalide dans #%s",
+      "multiSelectLimitExceeded": "fr_El array excede el límite de la multiselección. El tamaño del array es de %i y el de la multiselección de %i"
+    }
   },
   "rup_dialog": {
     "errorLoadingData": "fr_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
@@ -772,7 +776,13 @@
     "mordBajar": "fr_Atrasar el campo",
     "quitarCampoOrden": "fr_Dejar de ordenar por este campo",
     "ariaSummary": "fr_Las opciones de ordenación actuales son: ",
-    "ariaSummaryEmpty": "fr_No se han seleccionado opciones de ordenación"
+    "ariaSummaryEmpty": "fr_No se han seleccionado opciones de ordenación",
+    "rowPerPage": {
+		"5": "Cinq",
+		"10": "Dix",
+		"20": "Vingt",
+		"30": "Trente"
+	}
   },
   "rup_toolbar": {
   	"mbuttonsIdError": "fr_El atributo ID es obligatorio en los MButtons."

@@ -169,6 +169,10 @@
 	            		lis.attr('aria-selected', false);
 	            		$(selectedDate).attr('aria-selected',true);
 	            	}
+            		
+            		// Guardar seleccionado.
+            		settings.selected = param;
+            		
 	            	$self.val(param).trigger('change');
 	            	$('#' + settings.id).rup_select('change');
             	}
@@ -202,6 +206,9 @@
 	            			arrayDatos.push(value);
 	            		}
 	            	});
+            		
+            		// Guardar seleccionados.
+            		settings.selected = arrayDatos;
             		
             		$('#' + settings.id).val(arrayDatos).trigger('change');
             	}
@@ -1235,6 +1242,7 @@
 				                 $.each(data[i], function (key, value) {
 				 	                if (typeof(value) === 'object') {
 						                 $.each(value, function () {
+						                	 this.id = String(this.id);
 						                	 allFacts.push(this);
 						                 });
 						                }
@@ -1244,9 +1252,9 @@
 				        	  data = allFacts;
 				        	  settings.optionsGroups = data;
 				          }
-				         
+				        //Se obliga a que las claves sean String recomendado por select2
 				          let seleccionado = $.grep(data, function (v,index) {
-				        	  
+				        	  v.id = String(v.id);
 				        	  if (v.text === undefined && v[settings.sourceParam.text] !== undefined) {
 				                  v.text = v[settings.sourceParam.text];
 				                }
@@ -1479,7 +1487,7 @@
 					settings.url += (settings.url.includes('?') ? '&' : '?') + '_MODIFY_HDIV_STATE_=' + $.fn.getHDIV_STATE(undefined, $form) + '&MODIFY_FORM_FIELD_NAME=' + name;
 				}
 				
-				if (data) {
+				if (data && !settings.url.includes(data)) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.
 					settings.url += ($.fn.getHDIV_STATE(undefined, $form) != '' ? '&' : '?') + data.replaceAll('#', '%23');
 				}
@@ -2103,7 +2111,7 @@
         dataType: 'json',
         cache: true,
         multiple: false,
-        defaultValueAutocompleteNotLoaded: true,
+        defaultValueAutocompleteNotLoaded: false,
         multiValueToken:'##'
         };
 
