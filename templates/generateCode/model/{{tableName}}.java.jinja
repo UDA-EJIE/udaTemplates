@@ -15,11 +15,10 @@
 */
 package {{packageName}}.model;
 
-<#assign classbody>
-<#include "modelTypeDeclaration.ftl"/> {
+{% include 'modelTypeDeclaration.jinja' %}
 
 <#if !pojo.isInterface()>
-<#include "modelFields.ftl"/>
+{% include 'modelFields.jinja' %}
 
 <#include "modelConstructors.ftl"/>
 
@@ -35,6 +34,3 @@ package {{packageName}}.model;
 </#if>
 <#include "../modelExtraClassCode.ftl"/>
 }
-</#assign>
-${pojo.generateImports()}
-${classbody}
