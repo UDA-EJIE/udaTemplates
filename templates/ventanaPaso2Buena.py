@@ -129,32 +129,56 @@ class PaginaDos(ttk.Frame):
     def __init__(self, master, tables, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
+         # Establecer colores
+        color_principal = "#2E3B55"  # Azul oscuro
+        color_secundario = "#FFFFFF"  # Blanco
+        color_boton = "#4CAF50"       # Verde
+
+        # Fuente y estilos
+        fuente_titulo = ("Arial", 16, "bold")
+        fuente_descripcion = ("Arial", 12)
+        fuente_texto_adicional = ("Arial", 10)
+        fuente_botones = ("Arial", 12, "bold")
+
         self.original_tables = copy.deepcopy(tables)  # Copia profunda de las tablas originales
        
-        # Contenedor del scrollbar
-        scrollbar_container = ttk.Frame(self)
-        scrollbar_container.grid(row=0, sticky="nsew", padx=0, pady=10)
+      # Contenedor del scrollbar
+        scrollbar_container = tk.Frame(self, bg=color_principal, padx=10, pady=10)
+        scrollbar_container.pack(fill=tk.BOTH, expand=True)
+        # Configurar el peso de las columnas para que el contenedor del scrollbar se expanda horizontalmente
+        scrollbar_container.grid_columnconfigure(0, weight=1)
 
         self.scrollbar = ttk.Scrollbar(scrollbar_container, orient="vertical")
         self.canvas = tk.Canvas(scrollbar_container, yscrollcommand=self.scrollbar.set)
-        self.inner_frame = tk.Frame(self.canvas)
+        self.inner_frame = ttk.Frame(self.canvas)
+        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         # Ajustar el tamaño del Frame interno al Canvas
         self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw")
 
         self.scrollbar.config(command=self.canvas.yview)
-        self.canvas.bind('<Configure>', self.on_canvas_configure)
+        self.canvas.bind(("<Configure>",lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))))
         self.canvas.grid(row=0, column=0, sticky="nsew")
         self.scrollbar.grid(row=0, column=1, sticky="ns")
 
-        # Contenedor para los botones
-        button_container = ttk.Frame(self)
-        button_container.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 10))
+        
+        # Pie de página con botones
+        contenedor_botones = tk.Frame(self, bg=color_principal, padx=10, pady=10)
+        contenedor_botones.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # Crear botones
-        ttk.Button(button_container, text="Botón 1").pack(side="left", padx=10, pady=5)
-        ttk.Button(button_container, text="Siguiente", command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion())).pack(side="left", padx=10, pady=5)
-        ttk.Button(button_container, text="Recoger selección", command=self.obtener_seleccion).pack(side="left", padx=10, pady=5)
+        # Botones
+        estilo_boton = ttk.Style()
+        estilo_boton.configure("Custom.TButton", font=fuente_botones, foreground=color_principal, background=color_boton)
+        back_button = ttk.Button(contenedor_botones, text="Back", style="Custom.TButton")
+        back_button.pack(side=tk.RIGHT, padx=5)
+
+        finish_button = ttk.Button(contenedor_botones, text="Siguiente", style="Custom.TButton", command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion()))
+        finish_button.pack(side=tk.RIGHT, padx=5, )
+
+        cancel_button = ttk.Button(contenedor_botones, text="Cancel", style="Custom.TButton")
+        cancel_button.pack(side=tk.RIGHT, padx=5)
+
+
 
         self.tables = []
         self.row_index = 0  # Inicializar el índice de fila
@@ -162,8 +186,11 @@ class PaginaDos(ttk.Frame):
         self.mostrar_tablas(tables)
 
         # Ajustar el peso de las filas en el contenedor principal
-        self.grid_rowconfigure(0, weight=1)  # Contenedor del scrollbar
+        self.grid_rowconfigure(1, weight=0)  # Contenedor del scrollbar
         self.grid_rowconfigure(1, weight=0)  # Contenedor de los botones
+
+        # Agregar evento de rueda del ratón al contenedor principal
+        self.bind_all("<MouseWheel>", self.on_mousewheel)
 
     def obtener_seleccion(self):
         seleccion = []
@@ -173,11 +200,12 @@ class PaginaDos(ttk.Frame):
 
             for child, original_column in zip(table_frame.columns_frame.winfo_children(), original_table.columns):
                 if isinstance(child, ttk.Checkbutton) and child.instate(["selected"]):
-                    selected_columns.append(Column(original_column.tableName,original_column.name,original_column.type,original_column.nullable,original_column.primaryKey,None,None,original_column.dataPrecision))
+                    selected_columns.append(original_column)
 
             # Solo agregar la tabla al nuevo array si tiene columnas seleccionadas
             if selected_columns:
-                seleccion.append(Table(table_name, selected_columns))
+                selected_table = {"name": table_name, "columns": selected_columns}
+                seleccion.append(selected_table)
 
         print("Esto es la selección:", seleccion)
         return seleccion
@@ -193,7 +221,7 @@ class PaginaDos(ttk.Frame):
             table_checkbox.grid(row=0, column=0, sticky="w")
             table_frame.table_checkbox = table_checkbox
 
-            # Botón para expandir o contraer las columnas
+            # Botón para expandirf o contraer las columnas
             expand_button = ttk.Button(table_frame, text="+", command=lambda f=table_frame: self.toggle_columns(f))
             expand_button.grid(row=0, column=1, sticky="w")
 
@@ -213,6 +241,9 @@ class PaginaDos(ttk.Frame):
 
             self.tables.append(table_frame)
 
+        # Actualizar la región de desplazamiento del canvas después de agregar las tablas
+        self.update_scroll_region()
+
     def toggle_columns(self, table_frame):
         # Obtener el índice de la tabla en la lista
         index = self.tables.index(table_frame)
@@ -223,7 +254,7 @@ class PaginaDos(ttk.Frame):
         else:
             table_frame.columns_frame.grid(row=1, column=0, sticky="w")
 
-        # Actualizar la región de desplazamiento del canvas
+        # Actualizar la región de desplazamiento del canvas después de expandir o contraer las tablas
         self.update_scroll_region()
 
     def update_scroll_region(self):
@@ -237,11 +268,16 @@ class PaginaDos(ttk.Frame):
         # Ajustar el ancho del inner_frame para que coincida con el ancho del canvas
         self.inner_frame.config(width=event.width)
 
-        # Actualizar la posición de la ventana de desplazamiento para evitar errores
+        # Actualizar la posición de la ventana de desplazamiento para evitar erroreso
         self.canvas.update_idletasks()
 
         # Asegurar que el tamaño del inner_frame se actualice correctamente
         self.inner_frame.update()
+
+    def on_mousewheel(self, event):
+        """Controla el desplazamiento del scrollbar con la rueda del ratón."""
+        self.canvas.yview_scroll(-1 * (event.delta // 120), "units")
+
 
 
 
@@ -306,8 +342,25 @@ class PaginaTres(ttk.Frame):
 
         tabla_resultados = []
         for tb in tables:
-            y = json.dumps(tb.__dict__, default=lambda o: o.__dict__)       
-            tabla_resultados.append(json.loads(y))
+            tabla = {}
+            tabla['name'] = tb['name']
+            tabla['columns'] = []
+            for column in tb['columns']:
+                columna_dict = {
+                'name': column.name,
+                'type': column.type,
+                'dataPrecision': column.dataPrecision,
+                'datoImport': column.datoImport,
+                'datoType': column.datoType,
+                'nullable': column.nullable,
+                'primaryKey': column.primaryKey,
+                'tableName': column.tableName
+            }
+
+                tabla['columns'].append(columna_dict)
+            tabla_resultados.append(tabla)
+
+        json_resultado = json.dumps(tabla_resultados)
 
 
 
@@ -323,7 +376,7 @@ class PaginaTres(ttk.Frame):
         # Botones finales
         buttons_container = ttk.Frame(main_container)
         buttons_container.pack(fill="x", pady=(0, 5), side="bottom", anchor="e")
-        ttk.Button(buttons_container, text="Botón 1").pack(command=lambda: p2.initPaso2(tabla_resultados, data), side="right", padx=5)
+        ttk.Button(buttons_container, text="Botón 1", command=lambda: p2.initPaso2(tabla_resultados, data)).pack( side="right", padx=5)
         ttk.Button(buttons_container, text="Botón 2").pack(side="right", padx=5)
 
     def update_search_state(self):
