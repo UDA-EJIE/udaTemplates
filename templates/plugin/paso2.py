@@ -5,6 +5,7 @@ from utils import getColumnsDates
 from datetime import datetime
 from utils import snakeToCamel
 from utils import toCamelCase
+import operator
 
 #INICIO función principal
 def initPaso2(tables,yaml_data):
@@ -35,7 +36,10 @@ def initPaso2(tables,yaml_data):
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
         data["listPks"] = columnsDates[1]  
+        columnas = columnsDates[0]
+        allColumns = columnsDates[1] + [x for x in columnas if x['primaryKey'] != 'P']
         data["columnsDates"] = columnsDates[0]
+        data["allColumns"] = allColumns
         tNameOriginal = table["name"]
         tName = snakeToCamel(tNameOriginal) 
         data["tableNameOriginal"] = tNameOriginal
@@ -46,24 +50,24 @@ def initPaso2(tables,yaml_data):
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
-        with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-         worker.run_copy() 
+    #    with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
+     #    worker.run_copy() 
 
         #Fecha creación services
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S') 
         data["project_name"] = proyectName 
         #service java 
-        with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-          worker.run_copy()   
+     #   with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
+     #     worker.run_copy()   
 
         #Fecha creación Daos
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Daos java 
-        with Worker(src_path=dirDao, dst_path=destinoEarDao, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-         worker.jinja_env.filters["toCamelCase"] = toCamelCase
-         worker.run_copy()  
+      #  with Worker(src_path=dirDao, dst_path=destinoEarDao, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
+      #   worker.jinja_env.filters["toCamelCase"] = toCamelCase
+      #   worker.run_copy()  
         
         #Fecha creación Models
         now = datetime.now()        
@@ -71,6 +75,7 @@ def initPaso2(tables,yaml_data):
         #Models java 
         with Worker(src_path=dirModel, dst_path=destinoEarModel, data=yaml_data, exclude=["*model*"],overwrite=True) as worker:
             worker.jinja_env.filters["toCamelCase"] = toCamelCase
+            worker.jinja_env.filters["snakeToCamel"] = snakeToCamel
             worker.run_copy()       
         
 #FIN función principal
