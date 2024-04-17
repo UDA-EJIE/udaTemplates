@@ -28,18 +28,25 @@ def initPaso3(tables,yaml_data):
         columnsDates = getColumnsDates(table["columns"]) 
         data["listPks"] = columnsDates[1]  
         columnas = columnsDates[0]
-        allColumns = columnsDates[1] + [x for x in columnas if x['primaryKey'] != 'P']
+        allColumnsNoPk = [x for x in columnas if x['primaryKey'] != 'P']
+        allColumns = columnsDates[1] + allColumnsNoPk
         data["columnsDates"] = columnsDates[0]
         data["allColumns"] = allColumns
+        data["allColumnsNoPk"] = allColumnsNoPk
         tNameOriginal = table["name"]
         tName = snakeToCamel(tNameOriginal) 
         data["tableNameOriginal"] = tNameOriginal
         data["tableName"] = tName[0].capitalize() + tName[1:] 
-        data["tableNameDecapitalize"] = tName    
- 
+        data["tableNameDecapitalize"] = tName  
+        data["titleMaint"]  = table["name"] + " MAINT"
+        data["nameMaint"]  = table["name"] 
+        data["urlBase"]  = "../"+table["name"]
+        data["filterMaint"]  = True
+        data["typeMaint"] = "DETAIL"
 
         #Generando jsp MAINT 
         with Worker(src_path=dirMaintJsp, dst_path=destinoWarViews, data=yaml_data, exclude=["maint*"],overwrite=True) as worker:
+         worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
 
   
