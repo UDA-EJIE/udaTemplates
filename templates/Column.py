@@ -5,6 +5,8 @@ class Column:
                 self.name = name
                 self.type = type
                 self.nullable = nullable
+                if primaryKey == None:
+                    primaryKey = ""
                 self.primaryKey = primaryKey
                 self.datoType = datoType
                 self.datoImport = datoImport

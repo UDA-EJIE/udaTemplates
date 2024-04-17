@@ -3,7 +3,6 @@ from Column import Column
 from Table import Table
 from datetime import datetime
 import json
-from plugin.utils import snakeToCamel
 
 tables = [] 
 columns = [] 
@@ -43,8 +42,7 @@ with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             tableNameBBDD = row[0]
             if row[5] != None: #sinonimos
                tableNameBBDD = row[5]  
-            #snakeCamelCase
-            tableNameBBDD = snakeToCamel(tableNameBBDD)   
+                          
             if tableName == tableNameBBDD:
                 #se crea la columna
                 column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])

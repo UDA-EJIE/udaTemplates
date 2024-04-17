@@ -17,20 +17,13 @@ package {{packageName}}.model;
 
 {% include 'modelTypeDeclaration.jinja' %}
 
-<#if !pojo.isInterface()>
 {% include 'modelFields.jinja' %}
 
-<#include "modelConstructors.ftl"/>
+{%include "modelConstructors.jinja"%}
 
-<#include "modelPropertyAccessors.ftl"/>
+{%include "modelInterfacePropertyAccessors.jinja"%}
 
-<#include "modelToString.ftl"/>
+{%include "modelToString.jinja"%}
 
-<#include "../modelEqualsHashcode.ftl"/>
 
-<#else>
-<#include "modelInterfacePropertyAccessors.ftl"/>
-
-</#if>
-<#include "../modelExtraClassCode.ftl"/>
 }

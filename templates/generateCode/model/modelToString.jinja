@@ -1,0 +1,16 @@
+	/**
+	 * Intended only for logging and debugging.
+	 * 
+	 * Here, the contents of every main field are placed into the result.
+	 * @return String
+	 */
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(this.getClass().getName()).append(" Object { " ); 
+{% for column in allColumns %}  
+		result.append("{% if loop.index != 1 %},{% endif%} [ {{ column.name.lower()|toCamelCase }}: ").append(this.{{ column.name.lower()|toCamelCase }}).append(" ]");	
+{% endfor %} 
+		result.append("}");
+		return result.toString();
+	}

@@ -1,0 +1,23 @@
+ {% for column in allColumns %}
+ 	/**
+     * Method 'get{{ column.name|toCamelCase }}'.
+     *
+     * @return {{ column.DATO_TYPE }}
+     */
+	
+	
+	public {{ column.DATO_TYPE }} get{{ column.name|toCamelCase }}() {
+		return this.{{ column.name.lower()|snakeToCamel }};
+	}
+	
+	/**
+	 * Method 'set{{ column.name|toCamelCase }}'.
+	 *
+	 * @param {{ column.name.lower()|toCamelCase }} {{ column.DATO_TYPE }}
+	 * @return
+	 */
+	
+	public void set{{ column.name|toCamelCase }}({{ column.DATO_TYPE }} {{ column.name.lower()|toCamelCase }}) {
+		this.{{ column.name.lower()|toCamelCase }} = {{ column.name.lower()|toCamelCase }};
+	}
+ {% endfor %}
