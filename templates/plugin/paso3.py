@@ -51,11 +51,11 @@ def initPaso3(tables,yaml_data):
         destinoWarViewsFinalIncludes = destinoWarViewsFinal +"includes/"        
 
         #Generando jsp MAINT 
-        with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=yaml_data, exclude=["maint*"],overwrite=True) as worker:
+        with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=yaml_data, exclude=["*.js"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
         #Generando jsp Includes MAINT 
-        with Worker(src_path=dirMaintJspIncludes, dst_path=destinoWarViewsFinalIncludes, data=yaml_data, exclude=["maint*"],overwrite=True) as worker:
+        with Worker(src_path=dirMaintJspIncludes, dst_path=destinoWarViewsFinalIncludes, data=yaml_data,overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy()
 
