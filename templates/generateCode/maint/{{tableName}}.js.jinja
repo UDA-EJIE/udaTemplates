@@ -1,5 +1,5 @@
 /*!
- * Copyright 2023 E.J.I.E., S.A.
+ * Copyright 2024 E.J.I.E., S.A.
  *
  * Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la "Licencia");
  * Solo podrá usarse esta obra si se respeta la Licencia.
@@ -15,103 +15,61 @@
  */
 
 jQuery(function($) {
-	<#list gridColumns as columnProperties>
-	<#if (columnProperties.activated)?string == "true">
-		<#switch columnProperties.editType>
-		<#case "Datepicker">
-	$("#${columnProperties.name}_detail_table").rup_date();
-	$("#${columnProperties.name}_filter_table").rup_date();
-	
-			<#break>
-		<#default>
-			<#break>
-	  	</#switch>
-	</#if>
-	</#list>
+	{% for column in allColumnsNoPk %}
+	{% if column.activate != false: %}
+		{% if column.type == "Datepicker" %}
+	$("#{{column.name.lower()|toCamelCase}}_detail_table").rup_date();
+	$("#{{column.name.lower()|toCamelCase}}_filter_table").rup_date();
+		{% endif %}
+	{% endif %}
+	{% endfor %}
 const tableColModels = [
-		<#assign pkCont = 0>
-		<#list gridColumns as columnProperties>
-		<#if (maint.primaryKey)?has_content && (maint.primaryKey)?contains(columnProperties.name)>
-			<#assign pkCont = pkCont + 1>
-		<#elseif (columnProperties.primaryKey)?string == "false" || (maint.typeMaint)?string != "INLINE">
+		{% for column in allColumns %}
 		{
-			name: "${columnProperties.name}",
-			index: "${columnProperties.name}",
-			editable: ${columnProperties.editable?string},
-			<#switch columnProperties.editType>
-				<#case "Combo">
-					<#assign rupType = "combo">
-					<#break>
-				<#case "Autocomplete">
-					<#assign rupType = "autocomplete">
-					<#break>
-				<#case "Datepicker">
-					<#assign rupType = "datepicker">
-					<#break>
-				<#default>
-					<#assign rupType = "">
-			</#switch>
-			<#if rupType != "">
-			ruptype: "${rupType}",
-			</#if>
-			hidden: ${columnProperties.hidden?string}
-		}<#if columnProperties_has_next>,</#if>
-		<#else>
-		</#if>
-		</#list>
+			name: "{{column.name.lower()|toCamelCase}}",
+			index: "{{column.name.lower()|toCamelCase}}",
+			editable: {{column.editable}},
+		{% if column.type == "Text" %}
+			rupType: "combo",
+		{% elif column.type == "Autocomplete" %}
+			rupType: "autocomplete",
+		{% elif column.type == "Datepicker" %}
+			rupType: "datepicker",
+		{% else %}
+			rupType: "datepicker",
+		{% endif%}	
+			hidden: {{column.hidden}}
+		}{% if loop.index != allColumns|length %},{% endif%}
+		{% endfor %}
 	];
-	<#-- Comprobar si la primaryKey existe y no es multipk, cuando las condiciones no se cumplan, se generará el identificador por defecto -->
-	<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(";")>
-		<#assign primaryKey = maint.primaryKey>
-	<#else>
-		<#assign primaryKey = "id">
-    </#if>
-	
-	<#if (maint.filterMaint)?string == "true">
-	// Formulario de filtrado.
-	$('#${primaryKey}_filter_table').rup_autocomplete({
-		source : './allIds',
-		sourceParam : {label: 'nid', value: '${primaryKey}'},
-		menuMaxHeight: 175,
-		combobox: true,
-		contains: true,
-		showDefault: true
-	});
-	</#if>
 
-	$("#${maint.nameMaint}").rup_table({
+	$("#{{nameMaint}}").rup_table({
 		colReorder: {
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
-		primaryKey: "${primaryKey}",
-        <#if (maint.filterMaint)?string == "true">
+		primaryKey: "{{maint.primaryKey}}",
+        {% if maint.filterMaint != false: %}
 		filter: {
-  	  		id: "${maint.nameMaint}_filter_form",
-  	  		filterToolbar: "${maint.nameMaint}_filter_toolbar",
-  	  		collapsableLayerId: "${maint.nameMaint}_filter_fieldset"
+  	  		id: "{{nameMaint}}_filter_form",
+  	  		filterToolbar: "{{nameMaint}}_filter_toolbar",
+  	  		collapsableLayerId: "{{nameMaint}}_filter_fieldset"
      	},
-     	<#else>
+     	{% else %}
      	filter: "noFilter",
-     	</#if> 
+     	{% endif%} 
      	<#if (maint.isMaint)?string == "true">
      		<#if (maint.typeMaint)?string == "DETAIL">
      	formEdit: {
      		titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        	detailForm: "#${maint.nameMaint}_detail_div",
-        	<#if (maint.detailServerMaint)?string == "true">
-        	fillDataMethod: "clientSide",
-        	</#if>
-		   	<#if (maint.detailServerMaint)?string == "false">
-		   	direct: true,
-		   	</#if>
+        	detailForm: "#{{nameMaint}}_detail_div",
         	<#if (maint.clientValidationMaint)?string == "true">
 			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {
-				<#list gridColumns as columnProperties>
+				{% for column in allColumns %}
 					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
-    				"${columnProperties.name}": {
+    				"{{column.name.lower()|toCamelCase}}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
 							<#case "number">
@@ -139,7 +97,7 @@ const tableColModels = [
 						</#switch>	
 					}<#if columnProperties_has_next>,</#if>
 					</#if>
-				</#list>
+				{% endfor %}
 				}
 		   	}
 		   	</#if>
@@ -151,9 +109,9 @@ const tableColModels = [
 			<#-- Reglas de validaciÃƒÂ³n -->
          	validate: { 
     			rules: {
-					<#list gridColumns as columnProperties>
+					{% for column in allColumns %}
 					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
-    				"${columnProperties.name}": {
+    				"{{column.name.lower()|toCamelCase}}": {
 						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
 						<#switch columnProperties.typeEditRules>
 							<#case "number">
@@ -181,7 +139,7 @@ const tableColModels = [
 						</#switch>	
 					}<#if columnProperties_has_next>,</#if>
 					</#if>
-    				</#list>
+    				{% endfor %}
 				}
     		}
     			</#if>

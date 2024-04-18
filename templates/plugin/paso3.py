@@ -22,7 +22,8 @@ def initPaso3(tables,yaml_data):
     data["proyectName"] = proyectName
     data["proyectWar"] = proyectWar
     dirMaintJspIncludes = dirMaintJsp + "includes/"
-    data["maint"] = {"detailSaveButton":True}
+    data["maint"] = {"detailSaveButton":True, "filterMaint":True}
+    destinoStaticsJs = yaml_data["destinoApp"]+proyectName+"Statics/WebContent/"+proyectName+"/scripts/"+proyectName+proyectWar+"/" 
 
    # with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["controller*"],overwrite=True) as worker:
    #     worker.run_copy()
@@ -49,7 +50,8 @@ def initPaso3(tables,yaml_data):
         data["typeMaint"] = "DETAIL"
         data["urlStatics"]  = "../"+table["name"]
         destinoWarViewsFinal = destinoWarViews + tName.lower() +"/"
-        destinoWarViewsFinalIncludes = destinoWarViewsFinal +"includes/"        
+        destinoWarViewsFinalIncludes = destinoWarViewsFinal +"includes/"  
+        data["maint"]["primaryKey"] = data["listPks"][0]      
 
         #Generando jsp MAINT 
         with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=yaml_data, exclude=["*.js"],overwrite=True) as worker:
@@ -59,6 +61,10 @@ def initPaso3(tables,yaml_data):
         with Worker(src_path=dirMaintJspIncludes, dst_path=destinoWarViewsFinalIncludes, data=yaml_data,overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy()
+        #Generando js MAINT 
+        with Worker(src_path=dirMaintJsp, dst_path=destinoStaticsJs, data=yaml_data, exclude=["*.jsp"],overwrite=True) as worker:
+         worker.jinja_env.filters["toCamelCase"] = toCamelCase
+         worker.run_copy() 
 
   
         

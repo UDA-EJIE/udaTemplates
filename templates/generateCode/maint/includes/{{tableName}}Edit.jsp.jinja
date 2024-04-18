@@ -32,24 +32,24 @@
 				{% if column.activate != false: %}
 					{% if column.type == "Text" %}
 						<div class="form-groupMaterial col">
-						<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+						<form:input path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table"/>
 					{% elif column.type == "Textarea" %}
 						<div class="form-groupMaterial col">
-						<form:textarea path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>					
+						<form:textarea path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table"/>					
 					{% elif column.type == "Checkbox" %}
 						<div class="checkbox-material col">
-						<form:checkbox path="${columnProperties.name}" id="${columnProperties.name}_detail_table" value=""/>							
+						<form:checkbox path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table" value=""/>							
 					{% elif column.type == "Datepicker" %}
 						<div class="form-groupMaterial col">
-						<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+						<form:input path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table"/>
 					{% elif column.type == "Password" %}
 						<div class="form-groupMaterial col">
-						<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table" type="password"/>
+						<form:input path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table" type="password"/>
 					{% else %}
 						<div class="form-groupMaterial col">
-						<form:input path="${columnProperties.name}" id="${columnProperties.name}_detail_table"/>
+						<form:input path="{{column.name.lower()|toCamelCase}}" id="{{column.name.lower()|toCamelCase}}_detail_table"/>
 					{% endif %}
-					<label for="${columnProperties.name}_detail_table"><spring:message code="${columnProperties.label}"/></label>
+					<label for="{{column.name.lower()|toCamelCase}}_detail_table"><spring:message code="${columnProperties.label}"/></label>
 					</div>
 				{% endif%}>
 				{% endfor %}
