@@ -22,6 +22,7 @@ def initPaso3(tables,yaml_data):
     data["proyectName"] = proyectName
     data["proyectWar"] = proyectWar
     dirMaintJspIncludes = dirMaintJsp + "includes/"
+    data["maint"] = {"detailSaveButton":True}
 
    # with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["controller*"],overwrite=True) as worker:
    #     worker.run_copy()
