@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ET
 def getColumnsDates(columns):
     newColumns = []
     columnsPks = []
@@ -67,3 +68,10 @@ def snakeToCamel(str):
     # joining result 
     res = temp[0] + ''.join(ele.title() for ele in temp[1:])
     return res
+
+def modifyTiles(ruta,entityName):
+    tree = ET.parse(ruta)
+    root = tree.getroot()   
+    diag = root.find('definition[@name="'+entityName+'"]') 
+    if (diag == None): 
+         print("aa")   

@@ -5,6 +5,7 @@ from utils import getColumnsDates
 from datetime import datetime
 from utils import snakeToCamel
 from utils import toCamelCase
+from utils import modifyTiles
 import operator
 
 #INICIO función principal
@@ -24,9 +25,8 @@ def initPaso3(tables,yaml_data):
     dirMaintJspIncludes = dirMaintJsp + "includes/"
     data["maint"] = {"detailSaveButton":True, "filterMaint":True}
     destinoStaticsJs = yaml_data["destinoApp"]+proyectName+"Statics/WebContent/"+proyectName+"/scripts/"+proyectName+proyectWar+"/" 
+    rutaTiles = destinoWarViews+"tiles.xml"
 
-   # with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["controller*"],overwrite=True) as worker:
-   #     worker.run_copy()
     data["packageName"] = "com.ejie."+proyectName  
     for table in tables:
         #añadir funciones
@@ -65,6 +65,7 @@ def initPaso3(tables,yaml_data):
         with Worker(src_path=dirMaintJsp, dst_path=destinoStaticsJs, data=yaml_data, exclude=["*.jsp"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
+         modifyTiles(rutaTiles,table["name"].lower())
 
   
         
