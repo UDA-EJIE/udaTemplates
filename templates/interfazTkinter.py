@@ -1,22 +1,30 @@
-import tkinter as tk
-from tkinter import ttk, filedialog
+from customtkinter import *
 import yaml
 from pathlib import Path
-from copier import Worker
 import os
+import yaml
+from copier import Worker
+import tkinter as tk
+
 
 
 def toggle_textbox():
     if use_default_location.get():
-        entry_location.config(state=tk.DISABLED)
+        entry_location.config(state="disabled")
     else:
-        entry_location.config(state=tk.NORMAL)
+        entry_location.config(state="normal")
 
 def update_default_language_options():
-    selected_languages = [lang_option for lang_option, lang_var in zip(language_options, language_vars) if lang_var.get()]
-    default_language_combobox['values'] = selected_languages
-    default_language_combobox.set(selected_languages[0] if selected_languages else "")
-
+    idiomas_seleccionados = []
+        # Iterar sobre los checkbox y agregar los idiomas seleccionados a la lista
+    for lang_option, lang_var in zip(language_options, language_vars):
+        if lang_var.get():
+            idiomas_seleccionados.append(lang_option)
+    default_language_combobox = CTkComboBox(idiomas_inner_frame, values= idiomas_seleccionados)
+    default_language_combobox.grid(row=7, column=1, padx=(0, 20), pady=(25, 2), sticky="ew")
+    default_language_combobox.set(idiomas_seleccionados[0] if idiomas_seleccionados else "")
+    default_language_combobox._values = idiomas_seleccionados
+    
 
 def save_to_yaml():
     data = {
@@ -30,102 +38,101 @@ def save_to_yaml():
     with open("respuestas_paso1.yml", "w") as yaml_file:
         yaml.dump(data, yaml_file, default_flow_style=False)
     
-    
-
-    # Añadir la lógica para copiar archivos
     src_path = str(Path("C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v4/udaTemplates/templates"))
     dst_path = "C:/Users/mllorente/Desktop/ProyectoBueno"
 
-    # Obtener la ruta del archivo actual (script o módulo)
     ruta_archivo_actual = __file__
-
-    # Obtener el directorio que contiene el archivo
     directorio_actual = os.path.dirname(ruta_archivo_actual)
-
-    print("Ruta del archivo actual:", ruta_archivo_actual)
-    print("Directorio actual:", directorio_actual)
-    print("esto es la aaaa", entry_location.get())
 
     with open("respuestas_paso1.yml", "r") as file:
         yaml_data = yaml.safe_load(file)
-        print(yaml_data)
     
     with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data) as worker:
         worker.run_copy()
       
 def browse_location():
     folder_selected = filedialog.askdirectory()
-    entry_location.delete(0, tk.END)
+    entry_location.delete(0, "end")
     entry_location.insert(0, folder_selected)
 
-
-root = tk.Tk()
+root = CTk()
 root.title("Crear nueva aplicación")
-root.geometry("600x700")  # Ajusta las dimensiones de la ventana según tus necesidades
+root.geometry("900x700")
 
-# Configurar la expansión de la última columna
+# Configurar el color de fondo de la ventana
+root.config(bg="#E0E0E0")
+
 root.columnconfigure(1, weight=1)
 
-# Descripción
-description_label = ttk.Label(root, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar", font=('Arial', 10))
-description_label.grid(row=0, column=0, columnspan=3, pady=(10, 5), padx=20, sticky=tk.W)
+configuration_frame = CTkFrame(root)
+configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
 
-# Código de aplicación
-code_label = ttk.Label(root, text="Código de aplicación:")
-code_label.grid(row=1, column=0, sticky=tk.W, padx=(20, 10), pady=(5, 2))
-entry_code = ttk.Entry(root)
-entry_code.grid(row=1, column=1, padx=(0, 20), pady=(5, 2), sticky=tk.EW)
+configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
+configuration_label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
-# Usar localización por defecto
+description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
+description_label.grid(row=1, column=0, columnspan=3, pady=(10, 5), padx=20, sticky="w")
+
+code_label = CTkLabel(root, text="Código de aplicación:", bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
+code_label.grid(row=2, column=0, sticky="w", padx=(20, 10), pady=(20, 2))
+entry_code = CTkEntry(root, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3, text_color="black")
+entry_code.grid(row=2, column=1, padx=(30, 400), pady=(20, 2), sticky="ew")
+
 use_default_location = tk.BooleanVar()
-location_checkbox = ttk.Checkbutton(root, text="Usar localización por defecto", variable=use_default_location, command=toggle_textbox)
-location_checkbox.grid(row=2, column=0, columnspan=2, pady=(5, 2), padx=20, sticky=tk.W)
+location_checkbox = CTkCheckBox(root, text="Usar localización por defecto", checkbox_height=20, checkbox_width=20, border_color='#337ab7', variable=use_default_location, command=toggle_textbox, bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
+location_checkbox.grid(row=3, column=0, columnspan=2, pady=(5, 2), padx=20, sticky="w")
 
-localizacion_label = ttk.Label(root, text="Localización:")
-localizacion_label.grid(row=3, column=0, sticky=tk.W, padx=(20, 10), pady=(5, 2))
-entry_location = ttk.Entry(root, state=tk.DISABLED)
-entry_location.grid(row=3, column=1, pady=(5, 2), padx=20, sticky=tk.EW)
+localizacion_label = CTkLabel(root, text="Localización:",  bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
+localizacion_label.grid(row=4, column=0, sticky="w", padx=(20, 10), pady=(5, 2))
+entry_location = CTkEntry(root, state="disabled", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3)
+entry_location.grid(row=4, column=1, padx=(30, 130), pady=(5, 2), sticky="ew")
 
-location_button = ttk.Button(root, text="Explorar", command=browse_location)
-location_button.grid(row=3, column=2, pady=(5, 2), padx=5)
+location_button = CTkButton(root, text="Explorar", command=browse_location, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
+location_button.grid(row=4, column=1, pady=(5, 2), padx=(600, 20))
 
-# Nombre del WAR
-war_label = ttk.Label(root, text="Nombre del WAR:")
-war_label.grid(row=4, column=0, sticky=tk.W, padx=(20, 10), pady=(5, 2))
-entry_war = ttk.Entry(root)
-entry_war.grid(row=4, column=1, padx=(0, 20), pady=(5, 2), sticky=tk.EW)
+war_label = CTkLabel(root, text="Nombre del WAR:", bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
+war_label.grid(row=5, column=0, sticky="w", padx=(20, 10), pady=(5, 30))
+entry_war = CTkEntry(root, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3)
+entry_war.grid(row=5, column=1, padx=(30, 20), pady=(5, 30), sticky="ew")
 
-# Contenedor de idiomas
-languages_frame = ttk.LabelFrame(root, text="Idiomas")
-languages_frame.grid(row=5, column=0, columnspan=2, pady=10, padx=20, sticky=tk.EW)
+languages_frame = CTkFrame(root,  bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
+languages_frame.grid(row=6, column=0, columnspan=2, pady=(5, 30), padx=20, sticky="ew")
+
+# Crear un marco interno para organizar los widgets dentro del contenedor "Idiomas"
+idiomas_inner_frame = CTkFrame(languages_frame, fg_color='#E0E0E0', bg_color='#E0E0E0', border_color='#69a3d6')
+idiomas_inner_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+# Crear un widget Label encima del borde del marco
+label_on_border = CTkLabel(root, text="Idiomas", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
+label_on_border.place(in_=languages_frame, anchor="sw" )
 
 language_options = ["Castellano", "Euskera", "Inglés", "Francés"]
 language_vars = [tk.BooleanVar() for _ in language_options]
 for i, (lang_option, lang_var) in enumerate(zip(language_options, language_vars)):
-    ttk.Checkbutton(languages_frame, text=lang_option, variable=lang_var, command=update_default_language_options).grid(row=0, column=i, padx=5, pady=(5, 2), sticky=tk.W)
+    CTkCheckBox(idiomas_inner_frame, text=lang_option, variable=lang_var, command=update_default_language_options, checkbox_height=20, checkbox_width=20, border_color='#337ab7', bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold")).grid(row=0, column=i, padx=5, pady=(10, 2), sticky="w")
 
-# Idioma por defecto
-default_language_label = ttk.Label(root, text="Idioma por defecto:")
-default_language_label.grid(row=6, column=0, sticky=tk.W, padx=(20, 10), pady=(5, 2))
+default_language_label = CTkLabel(idiomas_inner_frame, text="Idioma por defecto:", text_color="black", font=("Arial", 12, "bold"))
+default_language_label.grid(row=7, column=0, sticky="w", padx=(10, 10), pady=(25, 2))
 default_language_var = tk.StringVar()
-default_language_combobox = ttk.Combobox(root, textvariable=default_language_var)
-default_language_combobox.grid(row=6, column=1, padx=(0, 20), pady=(5, 2), sticky=tk.EW)
 
-# Contenedor de seguridad con XLNets
-security_frame = ttk.LabelFrame(root, text="Seguridad con XLNets")
-security_frame.grid(row=7, column=0, columnspan=2, pady=10, padx=20, sticky=tk.EW)
+
+security_frame = CTkFrame(root, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
+security_frame.grid(row=8, column=0, columnspan=2, pady=(30, 20), padx=20, sticky="ew")
+
+# Crear un widget Label encima del borde del marco
+labelSecurityFrame = CTkLabel(root, text="Seguridad con XLNets", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
+labelSecurityFrame.place(in_=security_frame, anchor="sw" )
 
 security_var = tk.StringVar(value="No")
-security_yes_radio = ttk.Radiobutton(security_frame, text="Sí", value="Si", variable=security_var)
-security_yes_radio.grid(row=0, column=0, padx=5, pady=(5, 2), sticky=tk.W)
-security_no_radio = ttk.Radiobutton(security_frame, text="No", value="No", variable=security_var)
-security_no_radio.grid(row=0, column=1, padx=5, pady=(5, 2), sticky=tk.W)
+security_yes_radio = CTkRadioButton(security_frame, text="Sí", value="Si", variable=security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
+security_yes_radio.grid(row=0, column=0, padx=5, pady=(20, 10), sticky="nsew")
+security_no_radio = CTkRadioButton(security_frame, text="No", value="No", variable=security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
+security_no_radio.grid(row=0, column=1, padx=5, pady=(20, 10), sticky="nsew")
 
-# Botones en la parte inferior
-finish_button = ttk.Button(root, text="Finish", command=save_to_yaml)
-finish_button.grid(row=11, column=0, pady=(20, 10), padx=20, sticky=tk.W)
+finish_button = CTkButton(root, text="Finish", command=save_to_yaml, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
+finish_button.grid(row=11, column=1, pady=(7, 7), padx=(550, 0))
 
-cancel_button = ttk.Button(root, text="Cancelar", command=root.destroy)
-cancel_button.grid(row=11, column=1, pady=(20, 10), padx=20, sticky=tk.E)
+cancel_button = CTkButton(root, text="Cancelar", command=root.destroy, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
+cancel_button.grid(row=11, column=1, pady=(7, 7), padx=(300, 0))
 
 root.mainloop()
