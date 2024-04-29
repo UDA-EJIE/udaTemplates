@@ -5,6 +5,7 @@ from utils import getColumnsDates
 from datetime import datetime
 from utils import snakeToCamel
 from utils import toCamelCase
+from utils import modifyJackson
 import operator
 
 #INICIO función principal
@@ -17,6 +18,7 @@ def initPaso2(tables,yaml_data):
     rutaWar = "src/com/ejie/"+proyectName+"/control" 
     war = proyectName+proyectWar+"War";
     destinoWar = yaml_data["destinoApp"]+war+"/" 
+    destinoWarViews = destinoWar+"WebContent/WEB-INF/spring/"
     destinoWarControl = destinoWar+rutaWar
     dirService = directorio_actual+"service/" 
     destinoEarService = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/service"
@@ -24,13 +26,14 @@ def initPaso2(tables,yaml_data):
     destinoEarDao = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/dao"
     dirModel = directorio_actual+"model/" 
     destinoEarModel = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/model"
-
+    rutaJackson = destinoWarViews+"jackson-config.xml"
 
     # si no existe crear la carpeta, raiz control - config java
     if os.path.isdir(destinoWarControl) == False:
         os.mkdir(destinoWarControl)
     data["packageName"] = "com.ejie."+proyectName  
-    for table in tables:
+    lastTable = False
+    for x, table in enumerate(tables):
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
         data["listPks"] = columnsDates[1]  
@@ -74,7 +77,10 @@ def initPaso2(tables,yaml_data):
         with Worker(src_path=dirModel, dst_path=destinoEarModel, data=yaml_data, exclude=["*model*"],overwrite=True) as worker:
             worker.jinja_env.filters["toCamelCase"] = toCamelCase
             worker.jinja_env.filters["snakeToCamel"] = snakeToCamel
-            worker.run_copy()       
+            worker.run_copy()
+            if(x == len(tables) - 1):
+                lastTable = True
+            modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
         
 #FIN función principal
                   

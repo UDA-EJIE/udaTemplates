@@ -28,7 +28,8 @@ def initPaso3(tables,yaml_data):
     rutaTiles = destinoWarViews+"tiles.xml"
 
     data["packageName"] = "com.ejie."+proyectName  
-    for table in tables:
+    lastTable = False
+    for x, table in enumerate(tables):
         #añadir funciones
         columnsDates = getColumnsDates(table["columns"]) 
         data["listPks"] = columnsDates[1]  
@@ -65,8 +66,9 @@ def initPaso3(tables,yaml_data):
         with Worker(src_path=dirMaintJsp, dst_path=destinoStaticsJs, data=yaml_data, exclude=["*.jsp"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
-         modifyTiles(rutaTiles,table["name"].lower())
-
+         if(x == len(tables) - 1):
+           lastTable = True
+        modifyTiles(rutaTiles,table["name"].lower(),lastTable)
   
         
 #FIN función principal

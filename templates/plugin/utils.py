@@ -1,4 +1,7 @@
 import xml.etree.ElementTree as ET
+from lxml import etree
+from io import StringIO, BytesIO
+from lxml.etree import Element
 def getColumnsDates(columns):
     newColumns = []
     columnsPks = []
@@ -69,9 +72,51 @@ def snakeToCamel(str):
     res = temp[0] + ''.join(ele.title() for ele in temp[1:])
     return res
 
-def modifyTiles(ruta,entityName):
+def modifyTiles(ruta,entityName, final):
     tree = ET.parse(ruta)
     root = tree.getroot()   
     diag = root.find('definition[@name="'+entityName+'"]') 
     if (diag == None): 
-         print("aa")   
+         padre = ET.Element("definition")
+         padre.set('extends','template')
+         padre.set('name',entityName)
+         content = ET.Element("put-attribute")
+         content.set('name','content')
+         content.set('value',"/WEB-INF/views/"+entityName+"/"+entityName+".jsp")
+         includes = ET.Element("put-attribute")
+         includes.set('name','includes')
+         includes.set('value',"/WEB-INF/views/"+entityName+"/"+entityName+"-includes.jsp")
+         ET.indent(tree, '  ')
+         padre.append(content)
+         padre.append(includes)
+         root.append(padre)
+         tree.write(ruta)
+    if(final):
+        ET.indent(tree, '  ') 
+        tree.write(ruta) 
+
+def modifyJackson(ruta,entityName, final, packageName):
+    packageName = packageName + ".model."+entityName
+    tree = etree.parse(ruta)
+    root = tree.getroot()   
+    diag = root.find("./*[@id='udaModule']") #Debe existir el bean
+    serial = diag.find("./*[@name='serializers']")
+    if (serial == None): #buscar el serializers
+         serial = Element("property")
+         serial.set('name',"serializers")
+         # crear ulti map
+         utilMap = Element("util")
+         serial.append(utilMap)
+         diag.append(serial) 
+    else:  
+        utilMap = serial.find("./")           
+    if (utilMap.find("./*[@key='#{T("+packageName+")}']") == None):
+        entry = Element("entry")
+        entry.set('key','#{T('+packageName+')}')
+        entry.set('value-ref',"customSerializer")
+        etree.indent(root, space="    ")
+        utilMap.append(entry)
+        tree.write(ruta)
+    if(final):
+       etree.indent(root, space="    ") 
+       tree.write(ruta)                 
