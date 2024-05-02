@@ -5,14 +5,21 @@ import os
 import yaml
 from copier import Worker
 import tkinter as tk
+import logging
 
 
 
-def toggle_textbox():
+def toggle_textbox():# check localización por defecto
     if use_default_location.get():
-        entry_location.config(state="disabled")
+        entry_location.configure(text_color="grey")
+        entry_location.delete(0, "end")
+        entry_location.insert(0, os.getcwd())
+        entry_location.configure(state="disabled")
+        location_button.configure(state="disabled")
     else:
-        entry_location.config(state="normal")
+        entry_location.configure(state="normal")
+        location_button.configure(state="normal")
+        entry_location.configure(text_color="black")
 
 def update_default_language_options():
     idiomas_seleccionados = []
@@ -27,6 +34,14 @@ def update_default_language_options():
     
 
 def save_to_yaml():
+
+    if(entry_code.get() == ''):
+        configuration_warning.configure(text="Campo 'Código de aplicación' obligatorio")
+        return FALSE
+    if(entry_war.get() == ''):
+        configuration_warning.configure(text="Campo 'Nombre del WAR' obligatorio")
+        return FALSE
+    configuration_warning.configure(text="")
     yaml_data = {
         "i18n_app": [lang_option for lang_option, lang_var in zip(language_options, language_vars) if lang_var.get()],
         "i18n_default_app": default_language_var.get(),
@@ -37,15 +52,19 @@ def save_to_yaml():
 
 
     ruta_archivo_actual = __file__
-    directorio_actual = os.path.dirname(ruta_archivo_actual)
+    directorio_actual = os.path.dirname(ruta_archivo_actual) + "\\proyecto"
     
     with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data) as worker:
+        logging.info('Inicio: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
         worker.run_copy()
+        logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
+        print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
       
 def browse_location():
     folder_selected = filedialog.askdirectory()
-    entry_location.delete(0, "end")
-    entry_location.insert(0, folder_selected)
+    if not folder_selected == '':
+        entry_location.delete(0, "end")
+        entry_location.insert(0, folder_selected)
 
 root = CTk()
 root.title("Crear nueva aplicación")
@@ -62,6 +81,9 @@ configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
 configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
 configuration_label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
+configuration_warning = CTkLabel(configuration_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
+configuration_warning.grid(row=0, column=3, columnspan=3, pady=(20, 5), padx=70, sticky="w")
+
 description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
 description_label.grid(row=1, column=0, columnspan=3, pady=(10, 5), padx=20, sticky="w")
 
@@ -71,15 +93,22 @@ entry_code = CTkEntry(root, bg_color='#E0E0E0', fg_color='#69a3d6', border_color
 entry_code.grid(row=2, column=1, padx=(30, 400), pady=(20, 2), sticky="ew")
 
 use_default_location = tk.BooleanVar()
-location_checkbox = CTkCheckBox(root, text="Usar localización por defecto", checkbox_height=20, checkbox_width=20, border_color='#337ab7', variable=use_default_location, command=toggle_textbox, bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
+location_checkbox = CTkCheckBox(root,hover=True, text="Usar localización por defecto", checkbox_height=20, checkbox_width=20, border_color='#337ab7', variable=use_default_location, command=toggle_textbox, bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
 location_checkbox.grid(row=3, column=0, columnspan=2, pady=(5, 2), padx=20, sticky="w")
+location_checkbox.select()
 
 localizacion_label = CTkLabel(root, text="Localización:",  bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
 localizacion_label.grid(row=4, column=0, sticky="w", padx=(20, 10), pady=(5, 2))
-entry_location = CTkEntry(root, state="disabled", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3)
+entry_location = CTkEntry(root, state="normal", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3)
 entry_location.grid(row=4, column=1, padx=(30, 130), pady=(5, 2), sticky="ew")
+entry_location.configure(placeholder_text=os.getcwd())
+entry_location.configure(placeholder_text_color="grey")
+entry_location.configure(text_color="grey")
+entry_location.delete(0, "end")
+entry_location.insert(0, os.getcwd())
+entry_location.configure(state="disabled")
 
-location_button = CTkButton(root, text="Explorar", command=browse_location, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
+location_button = CTkButton(root,state="disabled", text="Explorar", command=browse_location, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
 location_button.grid(row=4, column=1, pady=(5, 2), padx=(600, 20))
 
 war_label = CTkLabel(root, text="Nombre del WAR:", bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
@@ -98,16 +127,24 @@ idiomas_inner_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 label_on_border = CTkLabel(root, text="Idiomas", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
 label_on_border.place(in_=languages_frame, anchor="sw" )
 
+# pbligatoria Castellano y Euskera
 language_options = ["Castellano", "Euskera", "Inglés", "Francés"]
-language_vars = [tk.BooleanVar() for _ in language_options]
+language_vars = []
+language_vars.append(tk.BooleanVar(name="Castellano",value=TRUE))
+language_vars.append(tk.BooleanVar(name="Euskera",value=TRUE))
+language_vars.append(tk.BooleanVar(name="Inglés",value=False))
+language_vars.append(tk.BooleanVar(name="Francés",value=False))
+stateCheck = "disabled"
 for i, (lang_option, lang_var) in enumerate(zip(language_options, language_vars)):
-    CTkCheckBox(idiomas_inner_frame, text=lang_option, variable=lang_var, command=update_default_language_options, checkbox_height=20, checkbox_width=20, border_color='#337ab7', bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold")).grid(row=0, column=i, padx=5, pady=(10, 2), sticky="w")
+    if(lang_option != 'Castellano' and lang_option != 'Euskera'):
+        stateCheck = "normal"
+    CTkCheckBox(idiomas_inner_frame,state=stateCheck, text=lang_option, variable=lang_var, command=update_default_language_options, checkbox_height=20, checkbox_width=20, border_color='#337ab7', bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold")).grid(row=0, column=i, padx=5, pady=(10, 2), sticky="w")
 
 default_language_label = CTkLabel(idiomas_inner_frame, text="Idioma por defecto:", text_color="black", font=("Arial", 12, "bold"))
 default_language_label.grid(row=7, column=0, sticky="w", padx=(10, 10), pady=(25, 2))
 default_language_var = tk.StringVar()
 
-
+update_default_language_options()
 security_frame = CTkFrame(root, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
 security_frame.grid(row=8, column=0, columnspan=2, pady=(30, 20), padx=20, sticky="ew")
 
@@ -115,7 +152,7 @@ security_frame.grid(row=8, column=0, columnspan=2, pady=(30, 20), padx=20, stick
 labelSecurityFrame = CTkLabel(root, text="Seguridad con XLNets", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
 labelSecurityFrame.place(in_=security_frame, anchor="sw" )
 
-security_var = tk.StringVar(value="No")
+security_var = tk.StringVar(value="Si")
 security_yes_radio = CTkRadioButton(security_frame, text="Sí", value="Si", variable=security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
 security_yes_radio.grid(row=0, column=0, padx=5, pady=(20, 10), sticky="nsew")
 security_no_radio = CTkRadioButton(security_frame, text="No", value="No", variable=security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
