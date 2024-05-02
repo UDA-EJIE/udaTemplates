@@ -1,0 +1,56 @@
+statics.path=/{{project_name}}Statics
+xlnets.inPortal=FALSE
+{% if entornoEjie %}
+xlnets.path=https://xlnets.servicios.des.ejgv.euskalsarea.eus/n38a/N38LoginInicioServlet
+isEjie=true
+{% else %}
+isEjie=false
+{% endif %}
+#Cookie
+cookie.rootPath=true
+cookie.secure=true
+
+#Locale
+locale.allowInheritance=false
+
+#The System logs parameters
+log.path=C:/datos/{{project_name}}/log
+log.level.salidaEstandar=DEBUG
+log.level.udaTrazas=DEBUG
+log.level.aplicTrazas=DEBUG
+log.level.auditoriaAccesos=INFO
+#By default, the trace system audit  dataBase is disabled. 
+#In case, you want to activate the audit system you need change the level trace to info, debug or trace level (is recomended the info level)
+log.level.auditoriaBBDD=INFO
+
+# Nivel de traza de las operaciones SQL
+log.level.auditoriaBBDD.springJDBC.query=INFO
+# Nivel de traza de los par�metros de las operaciones SQL
+log.level.auditoriaBBDD.springJDBC.queryParams=INFO
+
+#File upload path
+fileUpload.path=C:/datos/{{project_name}}/tmp
+
+#File repositories parameters
+repository.file.path=C:/datos/{{project_name}}/jackrabbit
+
+#IberDok!
+iberdokFolder=C:/datos/{{project_name}}/iberdok
+
+# ========================================================
+# PARAMETROS BIG DATA
+# ========================================================
+
+momo.servicio=uda
+momo.app=x38
+momo.securityTokenId=PIB-3123456786-0
+
+momo.w43taEndpointUri=data.extra.integracion.jakina.ejiedes.net
+momo.w43taEndpointPort=80
+momo.develomentMode=false
+ 
+momo.doMomo.salidaEstandar=true
+momo.doMomo.incidencias=true
+momo.doMomo.udaTrazas=true
+momo.doMomo.aplicTrazas=true
+momo.doMomo.auditoriaAccesos=true

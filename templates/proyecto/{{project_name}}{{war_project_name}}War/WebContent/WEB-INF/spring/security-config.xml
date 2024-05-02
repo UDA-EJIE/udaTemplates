@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+		
+	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperMockImpl">
+		<property name="principal">
+			<list>
+				<map>
+					<entry key="userName" value="USER_UDA"/>
+					<entry key="name" value="UDA"/>
+					<entry key="surname" value="User"/>
+					<entry key="fullName" value="UDA User"/>
+					<entry key="nif" value="17398234h"/>
+					<entry key="nif" value="00000001R"/>
+					<entry key="policy" value="1"/>
+					<entry key="position" value="01"/>
+					<entry key="isCertificate" value="no"/>
+					<entry key="roles">
+						<list>
+							<value>UDA</value>
+						</list>
+					</entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptor"
+	        class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+	  <property name="authenticationManager" ref="authenticationManager"/>
+	  <property name="accessDecisionManager" ref="affirmativeBased"/>
+	  <property name="securityMetadataSource">
+		<security:filter-security-metadata-source use-expressions="true" request-matcher="regex">
+			<security:intercept-url pattern="/**" access=""/>
+			<security:intercept-url pattern="/logout" access="isAuthenticated()" />
+		 </security:filter-security-metadata-source>
+	  </property>
+	</bean>
+	
+</beans>
