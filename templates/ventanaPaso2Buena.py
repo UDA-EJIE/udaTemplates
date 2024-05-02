@@ -27,7 +27,7 @@ class PaginaUno(CTkFrame):
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
 
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
-        configuration_label.pack(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
+        configuration_label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
         description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
         description_label.grid(row=1, column=0, columnspan=3, pady=(10, 5), padx=20, sticky="w")
@@ -325,27 +325,27 @@ class PaginaTres(ctk.CTkFrame):
         self.search_button_presentacion.pack(side="left")
         self.search_container_presentacion.pack(fill="x", pady=5)
  
-        # tabla_resultados = []
-        # for tb in tables:
-        #     tabla = {}
-        #     tabla['name'] = tb['name']
-        #     tabla['columns'] = []
-        #     for column in tb['columns']:
-        #         columna_dict = {
-        #         'name': column.name,
-        #         'type': column.type,
-        #         'dataPrecision': column.dataPrecision,
-        #         'datoImport': column.datoImport,
-        #         'datoType': column.datoType,
-        #         'nullable': column.nullable,
-        #         'primaryKey': column.primaryKey,
-        #         'tableName': column.tableName
-        #     }
+        tabla_resultados = []
+        for tb in tables:
+            tabla = {}
+            tabla['name'] = tb['name']
+            tabla['columns'] = []
+            for column in tb['columns']:
+                columna_dict = {
+                'name': column.name,
+                'type': column.type,
+                'dataPrecision': column.dataPrecision,
+                'datoImport': column.datoImport,
+                'datoType': column.datoType,
+                'nullable': column.nullable,
+                'primaryKey': column.primaryKey,
+                'tableName': column.tableName
+            }
 
-        #         tabla['columns'].append(columna_dict)
-        #     tabla_resultados.append(tabla)
+                tabla['columns'].append(columna_dict)
+            tabla_resultados.append(tabla)
 
-        # json_resultado = json.dumps(tabla_resultados)
+        json_resultado = json.dumps(tabla_resultados)
 
 
 

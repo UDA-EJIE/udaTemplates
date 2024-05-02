@@ -27,7 +27,7 @@ def update_default_language_options():
     
 
 def save_to_yaml():
-    data = {
+    yaml_data = {
         "i18n_app": [lang_option for lang_option, lang_var in zip(language_options, language_vars) if lang_var.get()],
         "i18n_default_app": default_language_var.get(),
         "project_name": entry_code.get(),
@@ -35,17 +35,9 @@ def save_to_yaml():
         "war_project_name": entry_war.get()
     }
 
-    with open("respuestas_paso1.yml", "w") as yaml_file:
-        yaml.dump(data, yaml_file, default_flow_style=False)
-    
-    src_path = str(Path("C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v4/udaTemplates/templates"))
-    dst_path = "C:/Users/mllorente/Desktop/ProyectoBueno"
 
     ruta_archivo_actual = __file__
     directorio_actual = os.path.dirname(ruta_archivo_actual)
-
-    with open("respuestas_paso1.yml", "r") as file:
-        yaml_data = yaml.safe_load(file)
     
     with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data) as worker:
         worker.run_copy()
@@ -130,7 +122,7 @@ security_no_radio = CTkRadioButton(security_frame, text="No", value="No", variab
 security_no_radio.grid(row=0, column=1, padx=5, pady=(20, 10), sticky="nsew")
 
 finish_button = CTkButton(root, text="Finish", command=save_to_yaml, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-finish_button.grid(row=11, column=1, pady=(7, 7), padx=(550, 0))
+finish_button.grid(row=11, column=1, pady=(7, 7), padx=(500, 0))
 
 cancel_button = CTkButton(root, text="Cancelar", command=root.destroy, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
 cancel_button.grid(row=11, column=1, pady=(7, 7), padx=(300, 0))
