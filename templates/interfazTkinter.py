@@ -7,8 +7,7 @@ from copier import Worker
 import tkinter as tk
 import logging
 
-
-
+root = CTk()
 def toggle_textbox():# check localización por defecto
     if use_default_location.get():
         entry_location.configure(text_color="grey")
@@ -23,10 +22,12 @@ def toggle_textbox():# check localización por defecto
 
 def update_default_language_options():
     idiomas_seleccionados = []
+
         # Iterar sobre los checkbox y agregar los idiomas seleccionados a la lista
     for lang_option, lang_var in zip(language_options, language_vars):
         if lang_var.get():
             idiomas_seleccionados.append(lang_option)
+
     default_language_combobox = CTkComboBox(idiomas_inner_frame, values= idiomas_seleccionados)
     default_language_combobox.grid(row=7, column=1, padx=(0, 20), pady=(25, 2), sticky="ew")
     default_language_combobox.set(idiomas_seleccionados[0] if idiomas_seleccionados else "")
@@ -53,12 +54,21 @@ def save_to_yaml():
 
     ruta_archivo_actual = __file__
     directorio_actual = os.path.dirname(ruta_archivo_actual) + "\\proyecto"
+    idiomasExcludes = []
+
+    for lang_option, lang_var in zip(language_options, language_vars):
+       if lang_var.get() == FALSE:
+         if lang_option == "Inglés":
+            idiomasExcludes.append("*i18n_en*")
+         if lang_option == "Frances":
+            idiomasExcludes.append("*i18n_fr*")   
     
-    with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data) as worker:
+    with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data,exclude=idiomasExcludes) as worker:
         logging.info('Inicio: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
         worker.run_copy()
         logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
         print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
+        root.mainloop()
       
 def browse_location():
     folder_selected = filedialog.askdirectory()
@@ -66,7 +76,7 @@ def browse_location():
         entry_location.delete(0, "end")
         entry_location.insert(0, folder_selected)
 
-root = CTk()
+
 root.title("Crear nueva aplicación")
 root.geometry("900x700")
 
@@ -127,7 +137,7 @@ idiomas_inner_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 label_on_border = CTkLabel(root, text="Idiomas", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
 label_on_border.place(in_=languages_frame, anchor="sw" )
 
-# pbligatoria Castellano y Euskera
+# obligatoria Castellano y Euskera
 language_options = ["Castellano", "Euskera", "Inglés", "Francés"]
 language_vars = []
 language_vars.append(tk.BooleanVar(name="Castellano",value=TRUE))
