@@ -6,6 +6,7 @@ from datetime import datetime
 from utils import snakeToCamel
 from utils import toCamelCase
 from utils import modifyTiles
+from utils import modifyMenu
 import operator
 
 #INICIO función principal
@@ -26,6 +27,7 @@ def initPaso3(tables,yaml_data):
     data["maint"] = {"detailSaveButton":True, "filterMaint":True}
     destinoStaticsJs = yaml_data["destinoApp"]+proyectName+"Statics/WebContent/"+proyectName+"/scripts/"+proyectName+proyectWar+"/" 
     rutaTiles = destinoWarViews+"tiles.xml"
+    rutaMenu = destinoWar+"WebContent/WEB-INF/layouts/menuMantenimientos.jsp"
 
     data["packageName"] = "com.ejie."+proyectName  
     lastTable = False
@@ -69,6 +71,7 @@ def initPaso3(tables,yaml_data):
          if(x == len(tables) - 1):
            lastTable = True
         modifyTiles(rutaTiles,table["name"].lower(),lastTable)
+        modifyMenu(rutaMenu,table["name"].lower(),lastTable)
   
         
 #FIN función principal
