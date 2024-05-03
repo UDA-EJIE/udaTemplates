@@ -11,11 +11,11 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Crea un bean por cada clase anotada con @Service -->
-	<context:component-scan base-package="com.ejie.xxx.service" />
+	<context:component-scan base-package="com.ejie.{{project_name}}.service" />
            
 	<!-- Application Message Bundle -->
 	<bean id="appMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="xxx.i18n" />
+		<property name="basename" value="{{project_name}}.i18n" />
 		<property name="defaultEncoding" value="UTF-8"/>
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
@@ -23,7 +23,7 @@
 	
 	<!-- Application Configuration Properties -->
 	<bean id="appConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-            <property name="location" value="classpath:xxx/xxx.properties"/>
+            <property name="location" value="classpath:{{project_name}}/{{project_name}}.properties"/>
             <property name="fileEncoding" value="UTF-8"/>
     </bean>
 	

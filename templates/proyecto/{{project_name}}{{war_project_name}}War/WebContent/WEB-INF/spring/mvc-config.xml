@@ -12,8 +12,8 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.xxx.control' -->
-	<context:component-scan base-package="com.ejie.xxx.control" />
+	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.{{project_name}}.control' -->
+	<context:component-scan base-package="com.ejie.{{project_name}}.control" />
 
 	<!-- Mapeos directos -->
 	<mvc:view-controller path="/sessionInfo" view-name="serSessionTestServlet" />
@@ -30,7 +30,7 @@
  	<!-- Recursos idiomáticos (i18n) -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="parentMessageSource" ref="appMessageSource" />
-		<property name="basename" value="/WEB-INF/resources/xxxPrueba.i18n" />
+		<property name="basename" value="/WEB-INF/resources/{{project_name}}{{war_project_name}}.i18n" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
@@ -44,9 +44,9 @@
     <!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
     <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
 		<!-- <property name="paramName" value="locale" /> -->
-       	<property name="defaultLanguage" value="es" />
+       	<property name="defaultLanguage" value="{{defaultLanguage}}" />
        	<property name="defaultLayout" value="horizontal" />
-       	<property name="availableLangs" value="es, eu" />
+       	<property name="availableLangs" value="{{availableLangs}}" />
 		<!-- <property name="portalCookie" value="r01euskadiCookie" /> -->
      </bean>
 

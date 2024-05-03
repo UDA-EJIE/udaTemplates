@@ -8,6 +8,7 @@ import tkinter as tk
 import logging
 
 root = CTk()
+
 def toggle_textbox():# check localización por defecto
     if use_default_location.get():
         entry_location.configure(text_color="grey")
@@ -25,17 +26,25 @@ def update_default_language_options():
 
         # Iterar sobre los checkbox y agregar los idiomas seleccionados a la lista
     for lang_option, lang_var in zip(language_options, language_vars):
-        if lang_var.get():
-            idiomas_seleccionados.append(lang_option)
+        idiomas_seleccionados.append(lang_option)
 
-    default_language_combobox = CTkComboBox(idiomas_inner_frame, values= idiomas_seleccionados)
+    default_language_combobox = CTkComboBox(idiomas_inner_frame, values= idiomas_seleccionados, command=validarIdioma)
     default_language_combobox.grid(row=7, column=1, padx=(0, 20), pady=(25, 2), sticky="ew")
     default_language_combobox.set(idiomas_seleccionados[0] if idiomas_seleccionados else "")
     default_language_combobox._values = idiomas_seleccionados
-    
+
+    return default_language_combobox   
+def validarIdioma(idiomaSeleccionado):
+
+ for lang_option, lang_var in zip(language_options, language_vars):
+     if lang_var.get() == FALSE:
+         if lang_option == idiomaSeleccionado:
+            configuration_warning.configure(text="El idioma por defecto('"+idiomaSeleccionado+"'), no esta seleccionado")
+            return FALSE
+ configuration_warning.configure(text="")    
 
 def save_to_yaml():
-
+    
     if(entry_code.get() == ''):
         configuration_warning.configure(text="Campo 'Código de aplicación' obligatorio")
         return FALSE
@@ -50,19 +59,29 @@ def save_to_yaml():
         "security_app": security_var.get(),
         "war_project_name": entry_war.get()
     }
-
+    if security_yes_radio._check_state:
+        yaml_data["xlnets"] = TRUE
+    else:
+       yaml_data["xlnets"] = FALSE     
 
     ruta_archivo_actual = __file__
     directorio_actual = os.path.dirname(ruta_archivo_actual) + "\\proyecto"
     idiomasExcludes = []
-
+    availableLangs = "es, eu"
     for lang_option, lang_var in zip(language_options, language_vars):
        if lang_var.get() == FALSE:
          if lang_option == "Inglés":
             idiomasExcludes.append("*i18n_en*")
          if lang_option == "Frances":
-            idiomasExcludes.append("*i18n_fr*")   
-    
+            idiomasExcludes.append("*i18n_fr*") 
+       else:  
+        if lang_option == "Inglés":
+          availableLangs = availableLangs + " ,en"
+        if lang_option == "Frances":
+          availableLangs = availableLangs + " ,fr"   
+             
+    yaml_data["defaultLanguage"] = default_language_combobox.get()
+    yaml_data["availableLangs"] = availableLangs
     with Worker(src_path=directorio_actual, dst_path=entry_location.get(), data=yaml_data,exclude=idiomasExcludes) as worker:
         logging.info('Inicio: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
         worker.run_copy()
@@ -92,7 +111,7 @@ configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicaci�
 configuration_label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
 configuration_warning = CTkLabel(configuration_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
-configuration_warning.grid(row=0, column=3, columnspan=3, pady=(20, 5), padx=70, sticky="w")
+configuration_warning.grid(row=0, column=3, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
 description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
 description_label.grid(row=1, column=0, columnspan=3, pady=(10, 5), padx=20, sticky="w")
@@ -145,16 +164,17 @@ language_vars.append(tk.BooleanVar(name="Euskera",value=TRUE))
 language_vars.append(tk.BooleanVar(name="Inglés",value=False))
 language_vars.append(tk.BooleanVar(name="Francés",value=False))
 stateCheck = "disabled"
+
 for i, (lang_option, lang_var) in enumerate(zip(language_options, language_vars)):
     if(lang_option != 'Castellano' and lang_option != 'Euskera'):
         stateCheck = "normal"
-    CTkCheckBox(idiomas_inner_frame,state=stateCheck, text=lang_option, variable=lang_var, command=update_default_language_options, checkbox_height=20, checkbox_width=20, border_color='#337ab7', bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold")).grid(row=0, column=i, padx=5, pady=(10, 2), sticky="w")
+    CTkCheckBox(idiomas_inner_frame,state=stateCheck, text=lang_option, variable=lang_var, checkbox_height=20, checkbox_width=20, border_color='#337ab7', bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold")).grid(row=0, column=i, padx=5, pady=(10, 2), sticky="w")
 
 default_language_label = CTkLabel(idiomas_inner_frame, text="Idioma por defecto:", text_color="black", font=("Arial", 12, "bold"))
 default_language_label.grid(row=7, column=0, sticky="w", padx=(10, 10), pady=(25, 2))
 default_language_var = tk.StringVar()
 
-update_default_language_options()
+default_language_combobox = update_default_language_options()
 security_frame = CTkFrame(root, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
 security_frame.grid(row=8, column=0, columnspan=2, pady=(30, 20), padx=20, sticky="ew")
 
