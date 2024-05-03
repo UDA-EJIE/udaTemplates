@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 from lxml import etree
 from io import StringIO, BytesIO
 from lxml.etree import Element
+import fileinput
+import logging
 def getColumnsDates(columns):
     newColumns = []
     columnsPks = []
@@ -119,4 +121,31 @@ def modifyJackson(ruta,entityName, final, packageName):
         tree.write(ruta)
     if(final):
        etree.indent(root, space="    ") 
-       tree.write(ruta)                 
+       tree.write(ruta)    
+
+def modifyMenu(ruta,entityName, final):
+ linea1 = "	<spring:url value=\"/"+entityName+"/maint\" var=\""+entityName+"Maint\" htmlEscape=\"true\"/>"
+ linea2 = "	<a class=\"dropdown-item\" href=\"${"+entityName+"Maint}\">"
+ linea3 = "		<spring:message code=\""+entityName+"Maint\" />"
+ linea4 = "	</a>"
+ encontrado = False
+ with fileinput.input(ruta, inplace=True) as f:
+   for linea in f:
+      if linea == "</div>": #ultima linea 
+          if not encontrado:
+            print (linea1)
+            print (linea2)
+            print (linea3)
+            print (linea4)
+          print (linea)
+      else:   
+        if linea in (entityName+"/maint"):#encontrado
+            encontrado = True
+            logging.warning('Mantenimiento ya definido en el menu.jsp')
+        print (linea)
+
+def writeConfig(ruta,entityName, final):
+    configfile_name = "config.ini"
+
+def readConfig(ruta,entityName, final):
+    configfile_name = "config.ini"    
