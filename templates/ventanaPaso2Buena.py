@@ -46,13 +46,47 @@ class PaginaUno(CTkFrame):
             self.entries.append(entry)
 
         # Botones
-        test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
+        self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
 
-        next_button = CTkButton(self, text="Siguiente", command=lambda: master.mostrar_pagina_siguiente(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        next_button = CTkButton(self, text="Siguiente", command= self.avanzar_paso2, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")
 
     def probar_conexion(self):
+        # Obtener datos de los cuadros de texto
+        data = {
+            "Service name": self.entries[0].get(),
+            "SID": self.entries[1].get(),
+            "Host": self.entries[2].get(),
+            "Puerto": self.entries[3].get(),
+            "Usuario": self.entries[4].get(),
+            "Contraseña": self.entries[5].get(),
+            "Esquema Catálogo": self.entries[6].get(),
+            "URL": self.entries[7].get()
+        }
+        
+        un = self.entries[4].get()
+        cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
+        pw = self.entries[5].get()
+        d = "C:/oracle/instantclient_21_12"
+        
+        
+        try:
+            oracledb.init_oracle_client(lib_dir=d)
+            oracledb.connect(user=un, password=pw, dsn=cs)
+            print("Connection successful!")
+            self.update_button_color('#4CAF50')  # Green color on successful connection
+        except oracledb.Error as e:
+            print("Error connecting to Oracle Database:", e)
+            self.update_button_color('#FF0000')  # Red color on error
+            
+    def update_button_color(self, color):
+        self.test_button.configure(fg_color=color)    
+        
+        
+    def avanzar_paso2(self): 
+        
+        
         # Obtener datos de los cuadros de texto
         data = {
             "Service name": self.entries[0].get(),
@@ -72,13 +106,13 @@ class PaginaUno(CTkFrame):
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
 
-        tables = [] 
-        columns = [] 
+        
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
         d = "C:/oracle/instantclient_21_12"
-        print(cs)
+        tables = [] 
+        columns = [] 
         query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
          FROM  
             (SELECT ta.table_name,sy.SYNONYM_NAME, utc.COLUMN_NAME, utc.data_type,utc.nullable,utc.DATA_PRECISION
@@ -138,7 +172,7 @@ class PaginaUno(CTkFrame):
 
       
 
-class PaginaDos(ctk.CTkFrame):
+class PaginaDos(CTkFrame):
     def __init__(self, master, tables, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.configure(corner_radius=10, fg_color="#E0E0E0")
@@ -147,50 +181,50 @@ class PaginaDos(ctk.CTkFrame):
         self.tables = []
 
         # Header frame using grid
-        self.header_frame = ctk.CTkFrame(self, fg_color="#4CAF50")
+        self.header_frame = CTkFrame(self, fg_color="#4CAF50")
         self.header_frame.grid(row=0, column=0, sticky="ew")
         self.grid_columnconfigure(0, weight=1)  # Ensure this column can expand
         self.grid_rowconfigure(1, weight=1)     # Central row where the scrollable frame will go
 
-        header_label = ctk.CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
+        header_label = CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
         header_label.pack(pady=10, padx=10)
 
         # Scrollable frame in the middle using pack inside a grid row
-        self.middle_frame = ctk.CTkFrame(self)
+        self.middle_frame = CTkFrame(self)
         self.middle_frame.grid(row=1, column=0, sticky="nsew")
-        self.scrollable_frame = ctk.CTkScrollableFrame(self.middle_frame, fg_color="#E0E0E0", scrollbar_fg_color="#4CAF50")
+        self.scrollable_frame = CTkScrollableFrame(self.middle_frame, fg_color="#E0E0E0", scrollbar_fg_color="#E0E0E0")
         self.scrollable_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         self.populate_scrollable_frame(self.scrollable_frame, tables)
 
         # Footer frame using grid for buttons
-        self.footer_frame = ctk.CTkFrame(self, fg_color="#2E3B55")
+        self.footer_frame = CTkFrame(self, fg_color="#E0E0E0")
         self.footer_frame.grid(row=2, column=0, pady=(5, 30) ,sticky="ew")
         self.setup_footer_buttons()
 
     def populate_scrollable_frame(self, frame, tables):
         for table in tables:
-            table_frame = ctk.CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
+            table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
             table_frame.pack(fill="x", padx=10, pady=2, expand=True)
 
-            table_checkbox = ctk.CTkCheckBox(table_frame, text=table.name, variable=tk.BooleanVar(value=True), 
+            table_checkbox = CTkCheckBox(table_frame, text=table.name, variable=tk.BooleanVar(value=True), 
                                             text_color="black", font=("Arial", 10, "bold"),
                                             checkbox_height=15, checkbox_width=15, border_color='#337ab7')
             table_checkbox.pack(side="left", padx=5)
 
-            expand_icon = ctk.CTkLabel(table_frame, text="▼", fg_color="#FFFFFF", cursor="hand2", 
+            expand_icon = CTkLabel(table_frame, text="▼", fg_color="#FFFFFF", cursor="hand2", 
                                     text_color="black", font=("Arial", 10, "bold"))
             expand_icon.pack(side="left", padx=5)
             expand_icon.bind("<Button-1>", lambda event, f=table_frame: self.toggle_columns(f))
 
-            columns_frame = ctk.CTkFrame(table_frame, fg_color="#F0F0F0", corner_radius=10)
+            columns_frame = CTkFrame(table_frame, fg_color="#F0F0F0", corner_radius=10)
             table_frame.columns_frame = columns_frame
             columns_frame.pack(fill="x", expand=True, padx=20, pady=2)
             columns_frame.pack_forget()  # Start with columns hidden
 
             # Correct placement of column checkboxes inside the columns_frame
             for column in table.columns:
-                column_checkbox = ctk.CTkCheckBox(columns_frame, text=column.name, variable=tk.BooleanVar(value=True), 
+                column_checkbox = CTkCheckBox(columns_frame, text=column.name, variable=tk.BooleanVar(value=True), 
                                                 text_color="black", font=("Arial", 10, "bold"),
                                                 checkbox_height=15, checkbox_width=15, border_color='#337ab7')
                 column_checkbox.pack(anchor="w", padx=20)
@@ -227,19 +261,19 @@ class PaginaDos(ctk.CTkFrame):
         return seleccion_checkbox
     
     def setup_footer_buttons(self):
-        select_all_button = ctk.CTkButton(self.footer_frame, text="Seleccionar Todas", command=self.select_all)
+        select_all_button = CTkButton(self.footer_frame, text="Seleccionar Todas", command=self.select_all)
         select_all_button.pack(side="left", padx=5)
 
-        deselect_all_button = ctk.CTkButton(self.footer_frame, text="Deseleccionar Todas", command=self.deselect_all)
+        deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas", command=self.deselect_all)
         deselect_all_button.pack(side="left", padx=5)
 
-        back_button = ctk.CTkButton(self.footer_frame, text="Back")
+        back_button = CTkButton(self.footer_frame, text="Back")
         back_button.pack(side="right", padx=5)
 
-        next_button = ctk.CTkButton(self.footer_frame, text="Siguiente",  command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion_checkbox()))
+        next_button = CTkButton(self.footer_frame, text="Siguiente",  command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion_checkbox()))
         next_button.pack(side="right", padx=5)
         
-        cancel_button = ctk.CTkButton(self.footer_frame, text="Cancel")
+        cancel_button = CTkButton(self.footer_frame, text="Cancel")
         cancel_button.pack(side="right", padx=5)
 
 
@@ -257,95 +291,109 @@ class PaginaDos(ctk.CTkFrame):
             for checkbox in table_frame.columns_frame.winfo_children():
                 checkbox.deselect() # Checkbox de las columnas
             
-class PaginaTres(ctk.CTkFrame):
+class PaginaTres(CTkFrame):
     def __init__(self, master, tables, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
-        
-         # Header frame using grid
-        self.header_frame = ctk.CTkFrame(self, fg_color="#4CAF50")
-        self.header_frame.grid(row=0, column=0, sticky="ew")
-        self.grid_columnconfigure(0, weight=1)  # Ensure this column can expand
-        self.grid_rowconfigure(2, weight=1)     # Central row where the scrollable frame will go
+    
 
-        header_label = ctk.CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
-        header_label.pack(pady=10, padx=10)
-
-        self.configure(corner_radius=10)
-        # Variables para controlar el estado de los checkboxes
+        # Variables para controlar los checkboxes
         self.modelo_datos_var = tk.BooleanVar(value=False)
         self.daos_var = tk.BooleanVar(value=False)
         self.servicios_var = tk.BooleanVar(value=False)
         self.controladores_var = tk.BooleanVar(value=False)
+        
+        self.configure(corner_radius=10)
+        
+        # Header frame usando grid
+        self.header_frame = CTkFrame(self, fg_color="#4CAF50")
+        self.header_frame.grid(row=0, column=0, sticky="new")
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)  # Asegura que el contenedor principal se expanda
+
+        header_label = CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
+        header_label.grid(row=0, column=0, pady=10, padx=10)
 
         # Contenedor principal
-        main_container = ctk.CTkFrame(self, fg_color="#E0E0E0")
-        main_container.grid(row=1, column=0, sticky="ew")
+        main_container = CTkFrame(self, fg_color="#E0E0E0")
+        main_container.grid(row=1, column=0, sticky="nsew")
+        main_container.grid_columnconfigure(0, weight=1)
+        main_container.grid_rowconfigure(0, weight=1)
+        main_container.grid_rowconfigure(1, weight=1)
 
         # Contenedor de Componentes de Negocio
-        negocio_container = ctk.CTkFrame(main_container, fg_color="#E0E0E0", border_width=3, border_color="#69a3d6")
-        negocio_container.pack(fill="x", padx=(0,0), pady=(0, 30))
+        negocio_container = CTkFrame(main_container, fg_color="#E0E0E0", border_width=3, border_color="#69a3d6")
+        negocio_container.grid(row=0, column=0, sticky="nsew")
+        negocio_container.grid_columnconfigure(0, weight=1)
 
         # Título "Componentes de Negocio"
-        ctk.CTkLabel(negocio_container, text="Componentes de Negocio",  text_color="black", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5), padx=(20,20))
- 
-        # Componentes "Modelo de Datos", "DAOs" y "Servicios"
-        for component, var in [("Modelo de Datos", self.modelo_datos_var), 
-                               ("DAOs", self.daos_var), 
-                               ("Servicios", self.servicios_var)]:
-            component_container = ctk.CTkFrame(negocio_container, fg_color="#69a3d6")
-            ctk.CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component, text_color="black", font=("Arial", 11, "bold"), command=self.update_search_state).pack(side="left", padx=(20,0), pady=(0, 5))
-            component_container.pack(fill="x", pady=5, padx=(20,20))
+        CTkLabel(negocio_container, text="Componentes de Negocio", text_color="black", font=("Arial", 13, "bold")).grid(row=0, column=0, sticky="w", pady=(10, 20), padx=(20, 20))
 
-        # Contenedor de texto al lado del botón "Buscar" para Componentes de Negocio"
-        self.search_container_negocio = ctk.CTkFrame(negocio_container)
+        # Componentes individuales
+        for index, (component, var) in enumerate([("Modelo de Datos", self.modelo_datos_var), 
+                                                  ("DAOs", self.daos_var), 
+                                                  ("Servicios", self.servicios_var)]):
+            component_container = CTkFrame(negocio_container, fg_color="#E0E0E0")
+            component_container.grid(row=index+1, column=0, sticky="ew", pady=5, padx=(20, 20))
+            CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component, text_color="black", font=("Arial", 11, "bold")).grid(row=0, column=0, padx=(20, 0), sticky="w")
+        
+        # Entry y Botón de Buscar para Componentes de Negocio
+        search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
+        search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
+        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.buscar_archivos)
+        search_button_negocio.grid(row=4, column=0, padx=(670, 0), pady=(10,0))
 
-        self.search_container_negocio
-        self.search_entry_negocio = ctk.CTkEntry(self.search_container_negocio, state="disabled")
-        self.search_entry_negocio.pack(side="left")
-        self.search_button_negocio = ctk.CTkButton(self.search_container_negocio, text="Buscar", command=self.buscar_archivos)
-        self.search_button_negocio.pack(side="left", padx=5)
-        self.search_container_negocio.pack(fill="x", pady=5)
-
-        # Contenedor de Componentes de Presentación
-        presentacion_container = ctk.CTkFrame(main_container, fg_color="#E0E0E0")
-        presentacion_container.pack(fill="x", pady=(0, 10))
+        # Contenedor de Componentes de Presentacións
+        presentacion_container = CTkFrame(main_container, fg_color="#E0E0E0", bg_color="#E0E0E0", border_width=3, border_color="#69a3d6")
+        presentacion_container.grid(row=1, column=0, sticky="nsew")
+        presentacion_container.grid_columnconfigure(0, weight=1)
 
         # Título "Componentes de Presentación"
-        ctk.CTkLabel(presentacion_container, text="Componentes de Presentación", text_color="black", font=("Arial", 14, "bold")).pack(anchor="w", pady=(0, 5))
+        CTkLabel(presentacion_container, text="Componentes de Presentación",text_color="black", font=("Arial", 13, "bold")).grid(row=0, column=0, sticky="w", pady=(10, 20), padx=(20, 20))
 
+        contenedor_controlador = CTkFrame(presentacion_container, fg_color="#E0E0E0")
+        contenedor_controlador.grid(row=1, column=0, sticky="ew", pady=5, padx=(20, 20))
         # Checkbox para "Controladores"
-        controladores_checkbox = ctk.CTkCheckBox(presentacion_container, text="Controladores", variable=self.controladores_var, command=self.update_search_state)
-        controladores_checkbox.pack(anchor="w")
+        controladores_checkbox = CTkCheckBox(contenedor_controlador, onvalue=True, offvalue=False, text="Controladores", text_color="black", font=("Arial", 12, "bold"), variable=self.controladores_var, command=self.update_search_state)
+        controladores_checkbox.grid(row=1, column=0, padx=(20, 0), sticky="w")
 
-        # Contenedor de texto y botón para "Controladores"
-        self.search_container_presentacion = ctk.CTkFrame(presentacion_container)
-        self.search_entry_presentacion = ctk.CTkEntry(self.search_container_presentacion, state="disabled")
-        self.search_entry_presentacion.pack(side="left")
-        self.search_button_presentacion = ctk.CTkButton(self.search_container_presentacion, text="Buscar", state="disabled")
-        self.search_button_presentacion.pack(side="left")
-        self.search_container_presentacion.pack(fill="x", pady=5)
+        # Entry y Botón de Buscar para Componentes de Presentación
+        search_entry_presentacion = CTkEntry(presentacion_container, width=600, fg_color='#69a3d6')
+        search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
+        search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.buscar_archivos)
+        search_button_presentacion.grid(row=2, column=0, padx=(670, 0), pady=(10,0))
+
+        # Botones finales en el pie de página
+        buttons_container = CTkFrame(self, fg_color="#E0E0E0", bg_color="#E0E0E0")
+        buttons_container.grid(row=2, column=0, sticky="sew")
+        buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
+        buttons_container.grid_columnconfigure(1, weight=1)
+
+        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,150),  pady=(40, 10), sticky="e")
+
+        self.grid_rowconfigure(2, weight=0)  # Botones no expanden
  
-        tabla_resultados = []
-        for tb in tables:
-            tabla = {}
-            tabla['name'] = tb['name']
-            tabla['columns'] = []
-            for column in tb['columns']:
-                columna_dict = {
-                'name': column.name,
-                'type': column.type,
-                'dataPrecision': column.dataPrecision,
-                'datoImport': column.datoImport,
-                'datoType': column.datoType,
-                'nullable': column.nullable,
-                'primaryKey': column.primaryKey,
-                'tableName': column.tableName
-            }
+        # tabla_resultados = []
+        # for tb in tables:
+        #     tabla = {}
+        #     tabla['name'] = tb['name']
+        #     tabla['columns'] = []
+        #     for column in tb['columns']:
+        #         columna_dict = {
+        #         'name': column.name,
+        #         'type': column.type,
+        #         'dataPrecision': column.dataPrecision,
+        #         'datoImport': column.datoImport,
+        #         'datoType': column.datoType,
+        #         'nullable': column.nullable,
+        #         'primaryKey': column.primaryKey,
+        #         'tableName': column.tableName
+        #     }
 
-                tabla['columns'].append(columna_dict)
-            tabla_resultados.append(tabla)
+        #         tabla['columns'].append(columna_dict)
+        #     tabla_resultados.append(tabla)
 
-        json_resultado = json.dumps(tabla_resultados)
+        # json_resultado = json.dumps(tabla_resultados)
 
 
 
@@ -359,12 +407,7 @@ class PaginaTres(ctk.CTkFrame):
         }
 
      
-        # Botones finales
-        buttons_container = ctk.CTkFrame(self)
-        buttons_container.grid(row=2, column=0, sticky="ew")
-        ctk.CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data)).pack(side="right", padx=5)
-        ctk.CTkButton(buttons_container, text="Atras").pack(side="right", padx=5)
-
+        
     def update_search_state(self):
         """Actualiza el estado de los contenedores de búsqueda según el estado de los checkboxes."""
         if any([self.modelo_datos_var.get(), self.daos_var.get(), self.servicios_var.get()]):
@@ -385,12 +428,44 @@ class PaginaTres(ctk.CTkFrame):
         """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
         folder_path = os.path.dirname(__file__)
         files = [file for file in os.listdir(folder_path) if file.endswith("Classes")]
+        self.mostrar_resultados(files, folder_path)
+
+    def mostrar_resultados(self, files, folder_path):
+        """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
-            print(f"Se encontraron los siguientes archivos en la ruta '{folder_path}':")
-            for file in files:
-                print(file)
+            resultados_window = ctk.CTkToplevel(self)
+            resultados_window.title("Resultados de Búsqueda")
+            resultados_window.geometry("300x200")
+            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
+
+            # Variable para almacenar el archivo seleccionado
+            selected_file = tk.StringVar(value=None)
+
+            # Frame para contener los radiobuttons
+            file_frame = ctk.CTkFrame(resultados_window)
+            file_frame.pack(fill="both", expand=True)
+
+            # Añadir radiobuttons para cada archivo
+            for index, file in enumerate(files):
+                radiobutton = ctk.CTkRadioButton(file_frame, text=file, variable=selected_file, value=file)
+                radiobutton.grid(row=index, column=0, sticky="w", padx=20, pady=2)
+
+            # Botones de acción en el pie de página
+            button_frame = ctk.CTkFrame(resultados_window)
+            button_frame.pack(fill="x", pady=20)
+            
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
+            accept_button.pack(side="left", padx=10, expand=True)
+            cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
+            cancel_button.pack(side="right", padx=10, expand=True)
         else:
-            print("No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+            ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+
+    def aceptar(self, selected_file):
+        if selected_file:
+            print(f"Archivo seleccionado: {selected_file}")
+        else:
+            print("No se seleccionó ningún archivo.")
 
    
 
