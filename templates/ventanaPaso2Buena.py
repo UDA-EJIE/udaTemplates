@@ -373,27 +373,27 @@ class PaginaTres(CTkFrame):
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
  
-        # tabla_resultados = []
-        # for tb in tables:
-        #     tabla = {}
-        #     tabla['name'] = tb['name']
-        #     tabla['columns'] = []
-        #     for column in tb['columns']:
-        #         columna_dict = {
-        #         'name': column.name,
-        #         'type': column.type,
-        #         'dataPrecision': column.dataPrecision,
-        #         'datoImport': column.datoImport,
-        #         'datoType': column.datoType,
-        #         'nullable': column.nullable,
-        #         'primaryKey': column.primaryKey,
-        #         'tableName': column.tableName
-        #     }
+        tabla_resultados = []
+        for tb in tables:
+            tabla = {}
+            tabla['name'] = tb['name']
+            tabla['columns'] = []
+            for column in tb['columns']:
+                columna_dict = {
+                'name': column.name,
+                'type': column.type,
+                'dataPrecision': column.dataPrecision,
+                'datoImport': column.datoImport,
+                'datoType': column.datoType,
+                'nullable': column.nullable,
+                'primaryKey': column.primaryKey,
+                'tableName': column.tableName
+            }
 
-        #         tabla['columns'].append(columna_dict)
-        #     tabla_resultados.append(tabla)
+                tabla['columns'].append(columna_dict)
+            tabla_resultados.append(tabla)
 
-        # json_resultado = json.dumps(tabla_resultados)
+        json_resultado = json.dumps(tabla_resultados)
 
 
 
