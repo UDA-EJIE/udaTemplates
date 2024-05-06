@@ -9,6 +9,7 @@ from tkinter import filedialog
 import json
 from customtkinter import *
 import plugin.paso3 as p3
+import customtkinter as ctk
 
 
 
@@ -48,7 +49,7 @@ class PaginaUno(CTkFrame):
         
 
          # Botones
-        buscar_button = CTkButton(war_frame, text="Buscar...", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        buscar_button = CTkButton(war_frame, text="Buscar...", command=self.buscar_archivos, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         buscar_button.grid(row=0, column=2, columnspan=2, pady=(30, 2), padx=20, sticky="ew")
       
 
@@ -152,7 +153,50 @@ class PaginaUno(CTkFrame):
                     tableName = tableNameBBDD   
     
         self.master.mostrar_pagina_siguiente(tables) 
+    
+    
+    def buscar_archivos(self):
+        """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
+        folder_path = os.path.dirname(__file__)
+        files = [file for file in os.listdir(folder_path) if file.endswith("War")]
+        self.mostrar_resultados(files, folder_path)
 
+    def mostrar_resultados(self, files, folder_path):
+        """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
+        if files:
+            resultados_window = ctk.CTkToplevel(self)
+            resultados_window.title("Resultados de Búsqueda")
+            resultados_window.geometry("300x200")
+            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
+
+            # Variable para almacenar el archivo seleccionado
+            selected_file = tk.StringVar(value=None)
+
+            # Frame para contener los radiobuttons
+            file_frame = ctk.CTkFrame(resultados_window)
+            file_frame.pack(fill="both", expand=True)
+
+            # Añadir radiobuttons para cada archivo
+            for index, file in enumerate(files):
+                radiobutton = ctk.CTkRadioButton(file_frame, text=file, variable=selected_file, value=file)
+                radiobutton.grid(row=index, column=0, sticky="w", padx=20, pady=2)
+
+            # Botones de acción en el pie de página
+            button_frame = ctk.CTkFrame(resultados_window)
+            button_frame.pack(fill="x", pady=20)
+            
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
+            accept_button.pack(side="left", padx=10, expand=True)
+            cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
+            cancel_button.pack(side="right", padx=10, expand=True)
+        else:
+            ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+
+    def aceptar(self, selected_file):
+        if selected_file:
+            print(f"Archivo seleccionado: {selected_file}")
+        else:
+            print("No se seleccionó ningún archivo.")
 
 class ventanaPaso2(CTkFrame):
     def __init__(self, master, tables, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
@@ -160,61 +204,83 @@ class ventanaPaso2(CTkFrame):
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=2)
         self.grid_columnconfigure(1, weight=1)
 
-        # Cabecera
-        cabecera = CTkLabel(self, text="Generar nuevo mantenimiento para una aplicación", font=("Arial", 14, "bold"), text_color="black")
-        cabecera.grid(row=0, column=0, columnspan=2, pady=20, padx=20, sticky="w")
+        configuration_frame = CTkFrame(self)
+        configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
+        configuration_frame.grid_columnconfigure(0, weight=1) 
 
-        # Texto descriptivo
-        texto = CTkLabel(self, text="Este Wizard genera un nuevo mantenimiento para una aplicación UDA", text_color="black")
-        texto.grid(row=1, column=0, columnspan=2, padx=20, sticky="w")
+
+        configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
+        configuration_label.grid(row=0, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
+
+        description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
+        description_label.grid(row=1, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
+
+        desc_label = CTkLabel(configuration_frame, text="Seleccione el WAR al que se quiere añadir el mantenimiento y configure una conexión a la base de datos")
+        desc_label.grid(row=2, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
+
+        contenedor_opciones = CTkFrame(self, corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
+        contenedor_opciones.grid(row=1, column=0, columnspan= 2,  sticky="nswe", padx=10, pady=10)
+        contenedor_opciones.grid_columnconfigure(0, weight=1)
+        contenedor_opciones.grid_rowconfigure(1, weight=1)
 
         # Nombre del mantenimiento
-        nombre_label = CTkLabel(self, text="Nombre del mantenimiento:", text_color="black")
-        nombre_label.grid(row=2, column=0, sticky="w", padx=20)
-        self.nombre_entry = CTkEntry(self)
-        self.nombre_entry.grid(row=2, column=1, padx=20, pady=5, sticky="ew")
+        nombre_label = CTkLabel(contenedor_opciones, text="Nombre del mantenimiento:", text_color="black")
+        nombre_label.grid(row=0, column=0, sticky="w", padx=10, pady=(10,10))
+        self.nombre_entry = CTkEntry(contenedor_opciones, width=400)
+        self.nombre_entry.grid(row=0, column=1, padx=(10, 100),  pady=(10,10), sticky="ew")
 
         # Título del mantenimiento
-        titulo_label = CTkLabel(self, text="Título del mantenimiento:", text_color="black")
-        titulo_label.grid(row=3, column=0, sticky="w", padx=20)
-        self.titulo_entry = CTkEntry(self)
-        self.titulo_entry.grid(row=3, column=1, padx=20, pady=5, sticky="ew")
+        titulo_label = CTkLabel(contenedor_opciones, text="Título del mantenimiento:", text_color="black")
+        titulo_label.grid(row=1, column=0, sticky="w", padx=10, pady=(10,10))
+        self.titulo_entry = CTkEntry(contenedor_opciones, width=400)
+        self.titulo_entry.grid(row=1, column=1, padx=(10, 100),  pady=(10,10), sticky="ew")
 
         # Checkbox para estado de mantenimiento
-        mantenimiento_checkbox = CTkCheckBox(self, text="Mantenimiento", text_color="black")
-        mantenimiento_checkbox.grid(row=4, column=0, padx=20, pady=5, sticky="w")
+        mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
+        mantenimiento_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
         # Radiobuttons para tipo de mantenimiento
-        tipo_label = CTkLabel(self, text="Tipo de Mantenimiento:", text_color="black")
-        tipo_label.grid(row=5, column=0, sticky="w", padx=20)
+        tipo_label = CTkLabel(contenedor_opciones, text="Tipo de Mantenimiento:", text_color="black")
+        tipo_label.grid(row=3, column=0, sticky="w", padx=20)
         tipo_var = tk.StringVar(value="Edición en línea")
-        tipo_radio1 = CTkRadioButton(self, text="Edición en línea", variable=tipo_var, value="Edición en línea", text_color="black")
-        tipo_radio1.grid(row=5, column=1, sticky="w", padx=20)
-        tipo_radio2 = CTkRadioButton(self, text="Formulario de detalle", variable=tipo_var, value="Formulario de detalle", text_color="black")
-        tipo_radio2.grid(row=6, column=1, sticky="w", padx=20)
+        tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=tipo_var, value="Edición en línea", text_color="black")
+        tipo_radio1.grid(row=3, column=1, sticky="w", padx=20)
+        tipo_radio2 = CTkRadioButton(contenedor_opciones, text="Formulario de detalle", variable=tipo_var, value="Formulario de detalle", text_color="black")
+        tipo_radio2.grid(row=4, column=1, sticky="w", padx=20)
+
+        # Checkbox para estado de mantenimiento
+        detalle_servidor_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
+        detalle_servidor_checkbox.grid(row=5, column=1, padx=20, pady=5, sticky="w")
+
+        # Radiobuttons para tipo de mantenimiento
+        tipologia_label = CTkLabel(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
+        tipologia_label.grid(row=6, column=1, sticky="w", padx=20)
+
+        tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        tipologia_label_combobox.grid(row=6, column=1, sticky="w", padx=(200, 20), pady=10)
 
         # Opciones adicionales
-        botonera_checkbox = CTkCheckBox(self, text="Botonera", text_color="black")
+        botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
         botonera_checkbox.grid(row=7, column=0, padx=20, pady=5, sticky="w")
 
-        menu_contextual_checkbox = CTkCheckBox(self, text="Menú contextual", text_color="black")
+        menu_contextual_checkbox = CTkCheckBox(contenedor_opciones, text="Menú contextual", text_color="black")
         menu_contextual_checkbox.grid(row=8, column=0, padx=20, pady=5, sticky="w")
 
-        filtrado_datos_checkbox = CTkCheckBox(self, text="Filtrado de datos", text_color="black")
+        filtrado_datos_checkbox = CTkCheckBox(contenedor_opciones, text="Filtrado de datos", text_color="black")
         filtrado_datos_checkbox.grid(row=9, column=0, padx=20, pady=5, sticky="w")
 
-        busqueda_checkbox = CTkCheckBox(self, text="Búsqueda", text_color="black")
+        busqueda_checkbox = CTkCheckBox(contenedor_opciones, text="Búsqueda", text_color="black")
         busqueda_checkbox.grid(row=10, column=0, padx=20, pady=5, sticky="w")
 
-        validaciones_cliente_checkbox = CTkCheckBox(self, text="Validaciones cliente", text_color="black")
+        validaciones_cliente_checkbox = CTkCheckBox(contenedor_opciones, text="Validaciones cliente", text_color="black")
         validaciones_cliente_checkbox.grid(row=11, column=0, padx=20, pady=5, sticky="w")
 
-        multiseleccion_checkbox = CTkCheckBox(self, text="Multiselección", text_color="black")
+        multiseleccion_checkbox = CTkCheckBox(contenedor_opciones, text="Multiselección", text_color="black")
         multiseleccion_checkbox.grid(row=12, column=0, padx=20, pady=5, sticky="w")
 
         # Footer con botones de navegación
         footer_frame = CTkFrame(self)
-        footer_frame.grid(row=13, column=0, columnspan=2, pady=20, padx=20, sticky="se")
+        footer_frame.grid(row=3, column=0, columnspan=2, pady=20, padx=20, sticky="se")
         btn_back = CTkButton(footer_frame, text="Back")
         btn_back.pack(side="left", padx=10, pady=5)
         btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(data_mantenimiento, tables))
@@ -265,8 +331,16 @@ class VentanaPaso3(CTkFrame):
         
         # Creamos los radio buttons dentro del scrollbar
         for i, table in enumerate(tables):
-            radio_button = CTkRadioButton(scrollbar, text=table.name, variable=self.radio_var, value=table.name, text_color="black")
+            radio_button = CTkRadioButton(scrollbar, text=table.name, variable=self.radio_var, value=table.name, text_color="black", command=lambda i=i: self.actualizar_indice(i))
             radio_button.grid(row=i, column=0, sticky="w", padx=10, pady=2)
+
+        # Si no se proporciona un índice seleccionado, usamos 0 por defecto
+        if indexSeleccionado is None:
+            indexSeleccionado = 0
+        self.tabla_seleccionada_index = indexSeleccionado
+
+        # Asegurarse de que el índice predeterminado se maneja desde el inicio
+        self.actualizar_indice(indexSeleccionado)
 
         # Derecha: Contenedor para los campos de entrada y opciones
         right_container = CTkFrame(self, corner_radius=5, fg_color="#E0E0E0", border_color="#69a3d6")
@@ -303,7 +377,7 @@ class VentanaPaso3(CTkFrame):
         
         btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_back.pack(side="left", padx=10, pady=5)
-        btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_cuatro(tables, data_mantenimiento, self.abrir_ventana_columnas()))
         btn_next.pack(side="left", padx=10, pady=5)
         btn_finish = CTkButton(footer_frame, text="Finish", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_finish.pack(side="left", padx=10, pady=5)
@@ -314,123 +388,87 @@ class VentanaPaso3(CTkFrame):
     def actualizar_indice(self, index):
         """Actualizar el índice de la tabla seleccionada."""
         self.tabla_seleccionada_index = index
+        print("Índice seleccionado:", index)
 
     def abrir_ventana_columnas(self):
-        tabla_seleccionada = self.tabla_seleccionada.get()
+        """Usar el índice seleccionado para abrir otra ventana o realizar alguna acción."""
         index_seleccionado = self.tabla_seleccionada_index
-        print("Tabla seleccionada:", tabla_seleccionada)
         print("Índice seleccionado:", index_seleccionado)
-        if tabla_seleccionada != "" and index_seleccionado != -1:
-            return index_seleccionado
+        return index_seleccionado
            
-
-class VentanaColumnas(tk.Frame):
-    def __init__(self, master, tables, data_mantenimineto, index_seleccionado, *args, **kwargs):
+class VentanaColumnas(CTkFrame):
+    def __init__(self, master, tables, data_mantenimiento, index_seleccionado, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         
-         # Establecer colores
-        color_principal = "#2E3B55"  # Azul oscuro
-        color_secundario = "#FFFFFF"  # Blanco
-        color_boton = "#4CAF50"       # Verde
+        self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
+         # Configura el contenedor principal para que las columnas se expandan
+        self.grid_columnconfigure(0, weight=1)  # Esto hace que la columna se expanda
+      
+        configuration_frame = CTkFrame(self)
+        configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
+        configuration_frame.grid_columnconfigure(0, weight=1) 
 
-        # Fuente y estilos
-        fuente_titulo = ("Arial", 16, "bold")
-        fuente_descripcion = ("Arial", 12)
-        fuente_texto_adicional = ("Arial", 10)
-        fuente_botones = ("Arial", 12, "bold")
 
-        # Contenedor principal con color de fondo azul oscuro
-        contenedor_principal = tk.Frame(self, bg=color_principal, padx=10, pady=10)
-        contenedor_principal.pack(fill=tk.BOTH, expand=True)
+        configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
+        configuration_label.grid(row=0, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
-        # Contenedor para la cabecera
-        contenedor_cabecera = tk.Frame(contenedor_principal, bg=color_principal, padx=10, pady=10)
-        contenedor_cabecera.pack(fill=tk.X)
+        description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
+        description_label.grid(row=1, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
-        # Cabecera con el título
-        titulo_label = tk.Label(contenedor_cabecera, text="Generar nuevo mantenimiento para una aplicación", font=fuente_titulo, fg=color_secundario, bg=color_principal)
-        titulo_label.pack(anchor=tk.W)
+        desc_label = CTkLabel(configuration_frame, text="Seleccione el WAR al que se quiere añadir el mantenimiento y configure una conexión a la base de datos")
+        desc_label.grid(row=2, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
+        # Contenedor principal
+        contenedor_principal = ctk.CTkFrame(self)
+        contenedor_principal.grid(row=3, column=0, sticky="nsew", padx=10, pady=10)
+        contenedor_principal.grid_columnconfigure(0, weight=1)
+        contenedor_principal.grid_rowconfigure(0, weight=1)
+        # # Configuración del grid para que el contenedor principal expanda correctamente
+        # self.grid_rowconfigure(0, weight=1)
+        # self.grid_columnconfigure(0, weight=1)
+        # contenedor_principal.grid_columnconfigure(0, weight=1)
 
-        # Descripción debajo del título
-        descripcion_label = tk.Label(contenedor_cabecera, text="Este wizard genera un nuevo mantenimiento para una aplicación UDA", font=fuente_descripcion, fg=color_secundario, bg=color_principal)
-        descripcion_label.pack(anchor=tk.W)
+        # # Cabecera con el título
+        # titulo_label = ctk.CTkLabel(contenedor_principal, text="Generar nuevo mantenimiento para una aplicación", text_color="black")
+        # titulo_label.grid(row=0, column=0, sticky="w")
 
-        # Texto adicional entre la cabecera y las columnas
-        texto_adicional = tk.Label(contenedor_principal, text="Configure las propiedades de las columnas que aparecerán en el mantenimiento.\nNota: Solo se generarán las columnas que estén checkeadas.\nPropiedades:", font=fuente_texto_adicional, padx=10, pady=20, fg=color_secundario, bg=color_principal, justify=tk.LEFT)
-        texto_adicional.pack(anchor=tk.W)
+        # # Descripción debajo del título
+        # descripcion_label = ctk.CTkLabel(contenedor_principal, text="Este wizard genera un nuevo mantenimiento para una aplicación UDA", fg_color="#E0E0E0", text_color="black")
+        # descripcion_label.grid(row=1, column=0, sticky="w")
 
-        # Canvas para contener los Checkbuttons con scrollbar
-        canvas = tk.Canvas(contenedor_principal, bg=color_secundario, highlightthickness=0)
-        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # # Texto adicional
+        # texto_adicional = ctk.CTkLabel(contenedor_principal, text="Configure las propiedades de las columnas que aparecerán en el mantenimiento.\nNota: Solo se generarán las columnas que estén checkeadas.\nPropiedades:", text_color="black", justify="left")
+        # texto_adicional.grid(row=2, column=0, sticky="w", padx=10, pady=20)
 
-        # Contenedor para los Checkbuttons dentro del Canvas
-        contenedor_checkbuttons = ttk.Frame(canvas, style="Custom.TFrame")
-        canvas.create_window((0, 0), window=contenedor_checkbuttons, anchor=tk.NW)
+        # Contenedor Scrollable para los Checkbuttons
+        scrollable_container = ctk.CTkScrollableFrame(contenedor_principal, fg_color="#E0E0E0", width=400, height=300)
+        scrollable_container.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
-        # Scrollbar
-        scrollbar = ttk.Scrollbar(contenedor_principal, orient=tk.VERTICAL, command=canvas.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # Configurar el canvas y el scrollbar
-        canvas.configure(yscrollcommand=scrollbar.set)
-
-        self.index_seleccionado = index_seleccionado
-        
-        # Obtener las columnas de la tabla seleccionada
-        columnas = tables[self.index_seleccionado].columns
-        text = ""
-        # Crear Checkbuttons para cada columna
+        # Checkbuttons para cada columna
         self.column_checkboxes = []
-        for columna in columnas:
-            if columna.nullable is not None:
-                text += " " + columna.nullable
+        for i, columna in enumerate(tables[index_seleccionado].columns):
+            text = ""
+            if columna.nullable:
+                text += " Nullable"
+            if columna.primaryKey:
+                text += " PK"
+            var = ctk.BooleanVar(value=True)
+            checkbox = ctk.CTkCheckBox(scrollable_container, text=f"{columna.name}: {columna.type}{text}", variable=var, text_color="black", font=("Arial", 12, "bold"))
+            checkbox.grid(row=i, column=0, sticky="w")
 
-            if columna.primaryKey is not None:
-                text += " - " + columna.primaryKey
-
-            # Marcar el Checkbutton por defecto
-            var = tk.BooleanVar()
-            var.set(True)
-
-            checkbox = ttk.Checkbutton(contenedor_checkbuttons, text=columna.name + ':' + columna.type + text , variable=var, style="Custom.TCheckbutton")
-            checkbox.pack(anchor=tk.W)
-            self.column_checkboxes.append(checkbox)
-
-        # Pie de página con botones
-        contenedor_botones = tk.Frame(self, bg=color_principal, padx=10, pady=10)
-        contenedor_botones.pack(side=tk.BOTTOM, fill=tk.X)
-        
-
-        directorioRespuestas = "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/plugin/"
-        file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
-        #vendrá directamente del formulario tkinter
-        tables = json.load(file)
-        data = { "project_name": "aaa",
-                "security_app": "",
-                "war_project_name": "bbb",
-                "PACKAGE_NAME": "com.ejie."+"aaa"+".control",
-                "directorio_actual" : "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/generateCode/",
-                "destinoApp" : "C:/pruebacopier/"
-       }
         # Botones
-        estilo_boton = ttk.Style()
-        estilo_boton.configure("Custom.TButton", font=fuente_botones, foreground=color_principal, background=color_boton)
-        back_button = ttk.Button(contenedor_botones, text="Back", style="Custom.TButton")
-        back_button.pack(side=tk.RIGHT, padx=5)
+        contenedor_botones = ctk.CTkFrame(self, fg_color="#E0E0E0")
+        contenedor_botones.grid(row=4, column=0, sticky="se", padx=10, pady=10)
 
-        finish_button = ttk.Button(contenedor_botones, text="Finish", style="Custom.TButton",command=lambda: p3.initPaso3(tables=tables , yaml_data=data))
-        finish_button.pack(side=tk.RIGHT, padx=5)
+        back_button = ctk.CTkButton(contenedor_botones, text="Back")
+        back_button.grid(row=0, column=0, padx=5, sticky="e")
 
-        cancel_button = ttk.Button(contenedor_botones, text="Cancel", style="Custom.TButton")
-        cancel_button.pack(side=tk.RIGHT, padx=5)
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish", command=lambda: self.finish_action(tables, data_mantenimiento))
+        finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
-        # Aplicar estilo a los Checkbuttons
-        estilo_checkbutton = ttk.Style()
-        estilo_checkbutton.configure("Custom.TCheckbutton", foreground=color_principal, background=color_secundario, font=fuente_texto_adicional)
+        cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel")
+        cancel_button.grid(row=0, column=2, padx=5, sticky="e")
 
-        # Aplicar estilo al contenedor de los Checkbuttons
-        estilo_frame = ttk.Style()
-        estilo_frame.configure("Custom.TFrame", background=color_secundario, borderwidth=1, relief="solid", padding=(10, 10))
 
 
 class VentanaPrincipal(tk.Tk):
