@@ -96,5 +96,5 @@ data = { "project_name": "ppp",
         "directorio_actual" : "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/generateCode/",
         "destinoApp" : "C:/entorno/eclipseEsperanzaW11/eclipse202003EsperanzaW11/runtime-EclipseApplication/"
        }
-initPaso2(tables,data)  
+#initPaso2(tables,data)  
 

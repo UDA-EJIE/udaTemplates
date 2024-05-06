@@ -15,6 +15,7 @@ import customtkinter as ctk
 
 
 class PaginaUno(CTkFrame):
+
     def __init__(self, master, tables=None, columns=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
@@ -29,10 +30,11 @@ class PaginaUno(CTkFrame):
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
         configuration_label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
+        self.configuration_warning = CTkLabel(configuration_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
+        self.configuration_warning.grid(row=0, column=3, columnspan=3, pady=(20, 5), padx=20, sticky="w")
+
         description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
         description_label.grid(row=1, column=0, columnspan=3, pady=(10, 5), padx=20, sticky="w")
-
-      
 
         # Formulario
         labels = ["Service name:", "SID:", "Host:", "Puerto:", "Usuario:", "Contraseña:", "Esquema Catálogo:", "URL:"]
@@ -80,9 +82,13 @@ class PaginaUno(CTkFrame):
             oracledb.connect(user=un, password=pw, dsn=cs)
             print("Connection successful!")
             self.update_button_color('#4CAF50')  # Green color on successful connection
+            self.configuration_warning.configure(text="Connection successful!")
+            self.configuration_warning.configure(text_color ="#4CAF50")
         except oracledb.Error as e:
             print("Error connecting to Oracle Database:", e)
             self.update_button_color('#FF0000')  # Red color on error
+            self.configuration_warning.configure(text="Error connecting to Oracle Database")
+            self.configuration_warning.configure(text_color ="#FF0000")
             
     def update_button_color(self, color):
         self.test_button.configure(fg_color=color)    
