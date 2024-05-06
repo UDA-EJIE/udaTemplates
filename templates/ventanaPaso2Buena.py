@@ -36,13 +36,17 @@ class PaginaUno(CTkFrame):
 
         # Formulario
         labels = ["Service name:", "SID:", "Host:", "Puerto:", "Usuario:", "Contraseña:", "Esquema Catálogo:", "URL:"]
+        valores = ["serviceName", "sid", "host", "puerto", "usuario", "password", "esquema", "url"]
         self.entries = []
+        bbdd = utl.readConfig("BBDD", None)
         
         for i, label_text in enumerate(labels):
             label = CTkLabel(self, text=label_text, fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
             label.grid(row=i+1, column=0, sticky="w", padx=(20, 10), pady=(20, 2))
             entry = CTkEntry(self, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black", show='*' if label_text == 'Contraseña:' else None)
             entry.grid(row=i+1, column=1, padx=(0, 200), pady=(20, 2), sticky="ew")
+            if (bbdd != None and valores[i] != None):
+               entry.insert(0, bbdd[valores[i]])     
             self.entries.append(entry)
 
         # Botones

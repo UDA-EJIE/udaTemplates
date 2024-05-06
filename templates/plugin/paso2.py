@@ -1,11 +1,11 @@
 import json
 from copier import Worker
 import os
-from utils import getColumnsDates
+from plugin.utils import getColumnsDates
 from datetime import datetime
-from utils import snakeToCamel
-from utils import toCamelCase
-from utils import modifyJackson
+from plugin.utils import snakeToCamel
+from plugin.utils import toCamelCase
+from plugin.utils import modifyJackson
 import operator
 
 #INICIO función principal

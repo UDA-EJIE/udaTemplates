@@ -4,6 +4,8 @@ from io import StringIO, BytesIO
 from lxml.etree import Element
 import fileinput
 import logging
+import configparser
+
 def getColumnsDates(columns):
     newColumns = []
     columnsPks = []
@@ -144,8 +146,22 @@ def modifyMenu(ruta,entityName, final):
             logging.warning('Mantenimiento ya definido en el menu.jsp')
         print (linea)
 
-def writeConfig(ruta,entityName, final):
-    configfile_name = "config.ini"
+def writeConfig(section):
+    configfile_name = "plugin/config.ini"
+    config = configparser.ConfigParser()
+    config['Section 1'] = {'key1': 'value1', 'key2': 'value2'}
+    config['Section 2'] = {}
+    config['Section 2']['key3'] = 'value3'
+    config['Section 2']['key4'] = 'value4'
+ 
+ 
+    with open(configfile_name, 'w') as configfile:
+     config.write(configfile)
 
-def readConfig(ruta,entityName, final):
-    configfile_name = "config.ini"    
+def readConfig(valor,key):
+    configfile_name = "plugin/config.ini"
+    config = configparser.ConfigParser()
+    config.read(configfile_name) 
+    if key == None:
+     return config[valor]
+    return config[valor][key]
