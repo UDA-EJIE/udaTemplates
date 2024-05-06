@@ -12,6 +12,7 @@ import copy
 import json
 from customtkinter import *
 import customtkinter as ctk
+from functools import partial
 
 d = "C:/python/oracle/instantclient_21_12"
 class PaginaUno(CTkFrame):
@@ -203,17 +204,29 @@ class PaginaDos(CTkFrame):
         self.footer_frame = CTkFrame(self, fg_color="#E0E0E0")
         self.footer_frame.grid(row=2, column=0, pady=(5, 30) ,sticky="ew")
         self.setup_footer_buttons()
-
+    listaColumnas = {}    
+    var_list = []
+    def choose(self,table,index):
+     
+     for column in table.columns:
+        columna = self.listaColumnas[table.name+column.name]
+        if(self.var_list[index].get() == 1):
+            columna.select()
+        else:
+            columna.deselect()   
+   
     def populate_scrollable_frame(self, frame, tables):
-        for table in tables:
+       
+        for index, table in enumerate(tables):
+            self.var_list.append(IntVar(value=1))
             table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
             table_frame.pack(fill="x", padx=10, pady=2, expand=True)
 
-            table_checkbox = CTkCheckBox(table_frame, text=table.name, variable=tk.BooleanVar(value=True), 
+            table_checkbox = CTkCheckBox(table_frame, text=table.name,command=partial(self.choose,table,index), variable=self.var_list[index], 
                                             text_color="black", font=("Arial", 10, "bold"),
                                             checkbox_height=15, checkbox_width=15, border_color='#337ab7')
             table_checkbox.pack(side="left", padx=5)
-
+            
             expand_icon = CTkLabel(table_frame, text="▼", fg_color="#FFFFFF", cursor="hand2", 
                                     text_color="black", font=("Arial", 10, "bold"))
             expand_icon.pack(side="left", padx=5)
@@ -230,7 +243,7 @@ class PaginaDos(CTkFrame):
                                                 text_color="black", font=("Arial", 10, "bold"),
                                                 checkbox_height=15, checkbox_width=15, border_color='#337ab7')
                 column_checkbox.pack(anchor="w", padx=20)
-
+                self.listaColumnas[table.name+column.name] = column_checkbox
             self.tables.append(table_frame)
 
     def toggle_columns(self, table_frame):
