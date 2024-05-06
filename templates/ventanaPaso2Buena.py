@@ -13,9 +13,9 @@ import json
 from customtkinter import *
 import customtkinter as ctk
 
-
+d = "C:/python/oracle/instantclient_21_12"
 class PaginaUno(CTkFrame):
-
+    
     def __init__(self, master, tables=None, columns=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
@@ -74,8 +74,6 @@ class PaginaUno(CTkFrame):
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
-        d = "C:/oracle/instantclient_21_12"
-        
         
         try:
             oracledb.init_oracle_client(lib_dir=d)
@@ -108,19 +106,13 @@ class PaginaUno(CTkFrame):
             "Esquema Catálogo": self.entries[6].get(),
             "URL": self.entries[7].get()
         }
-
-        # Guardar datos en un archivo YAML
-        with open("respuestas_paso1.yml", "w") as yaml_file:
-            yaml.dump(data, yaml_file, default_flow_style=False)
-
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
-
-        
+       
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
-        d = "C:/oracle/instantclient_21_12"
+        
         tables = [] 
         columns = [] 
         query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
