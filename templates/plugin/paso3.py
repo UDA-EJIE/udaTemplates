@@ -1,12 +1,12 @@
 import json
 from copier import Worker
 import os
-from utils import getColumnsDates
+from plugin.utils import getColumnsDates
 from datetime import datetime
-from utils import snakeToCamel
-from utils import toCamelCase
-from utils import modifyTiles
-from utils import modifyMenu
+from plugin.utils import snakeToCamel
+from plugin.utils import toCamelCase
+from plugin.utils import modifyTiles
+from plugin.utils import modifyMenu
 import operator
 
 #INICIO función principal
@@ -88,5 +88,5 @@ data = { "project_name": "ppp",
         "directorio_actual" : "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/generateCode/",
         "destinoApp" : "C:/entorno/eclipseEsperanzaW11/eclipse202003EsperanzaW11/runtime-EclipseApplication/"
        }
-initPaso3(tables,data)  
+#initPaso3(tables,data)  
 
