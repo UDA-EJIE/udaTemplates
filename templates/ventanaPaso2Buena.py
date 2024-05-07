@@ -282,6 +282,10 @@ class PaginaDos(CTkFrame):
         deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas", command=self.deselect_all)
         deselect_all_button.pack(side="left", padx=5)
 
+        configuration_warning = CTkLabel(self.footer_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
+        configuration_warning.pack(side="left", padx=5)
+        self.master.configuration_warning = configuration_warning
+
         back_button = CTkButton(self.footer_frame, text="Back")
         back_button.pack(side="right", padx=5)
 
@@ -546,6 +550,9 @@ class VentanaPrincipal(CTk):
         self.mostrar_pagina(PaginaDos, tables)
 
     def mostrar_pagina_tres(self, tables=None):
+        if(len(tables) == 0):
+            self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
+            return False
         self.mostrar_pagina(PaginaTres, tables)
 
     def mostrar_pagina_anterior(self):
