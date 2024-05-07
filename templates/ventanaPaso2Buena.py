@@ -284,23 +284,23 @@ class PaginaDos(CTkFrame):
         return seleccion_checkbox
     
     def setup_footer_buttons(self):
-        select_all_button = CTkButton(self.footer_frame, text="Seleccionar Todas", command=self.select_all)
+        select_all_button = CTkButton(self.footer_frame, text="Seleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.select_all)
         select_all_button.pack(side="left", padx=5)
 
-        deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas", command=self.deselect_all)
+        deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.deselect_all)
         deselect_all_button.pack(side="left", padx=5)
 
         configuration_warning = CTkLabel(self.footer_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
         configuration_warning.pack(side="left", padx=5)
         self.master.configuration_warning = configuration_warning
 
-        back_button = CTkButton(self.footer_frame, text="Atras", command=lambda : self.master.mostrar_pagina_uno())
+        back_button = CTkButton(self.footer_frame, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_uno())
         back_button.pack(side="right", padx=5)
 
-        next_button = CTkButton(self.footer_frame, text="Siguiente",  command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion_checkbox()))
+        next_button = CTkButton(self.footer_frame, text="Siguiente", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25,  command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion_checkbox()))
         next_button.pack(side="right", padx=5)
         
-        cancel_button = CTkButton(self.footer_frame, text="Cancelar",)
+        cancel_button = CTkButton(self.footer_frame, text="Cancelar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25,)
         cancel_button.pack(side="right", padx=5)
 
 
@@ -364,9 +364,9 @@ class PaginaTres(CTkFrame):
             CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component, text_color="black", font=("Arial", 11, "bold")).grid(row=0, column=0, padx=(20, 0), sticky="w")
         
         # Entry y Botón de Buscar para Componentes de Negocio
-        search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
-        search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
-        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.buscar_archivos)
+        self.search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
+        self.search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
+        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos(boton_pulsado="negocio"))
         search_button_negocio.grid(row=4, column=0, padx=(670, 0), pady=(10,0))
 
         # Contenedor de Componentes de Presentacións
@@ -384,9 +384,9 @@ class PaginaTres(CTkFrame):
         controladores_checkbox.grid(row=1, column=0, padx=(20, 0), sticky="w")
 
         # Entry y Botón de Buscar para Componentes de Presentación
-        search_entry_presentacion = CTkEntry(presentacion_container, width=600, fg_color='#69a3d6')
-        search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
-        search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.buscar_archivos)
+        self.search_entry_presentacion = CTkEntry(presentacion_container, width=600, fg_color='#69a3d6')
+        self.search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
+        search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos(boton_pulsado="presentacion"))
         search_button_presentacion.grid(row=2, column=0, padx=(670, 0), pady=(10,0))
 
         # Botones finales en el pie de página
@@ -395,8 +395,8 @@ class PaginaTres(CTkFrame):
         buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
         buttons_container.grid_columnconfigure(1, weight=1)
 
-        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
-        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,150),  pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
  
@@ -451,17 +451,29 @@ class PaginaTres(CTkFrame):
             self.search_entry_presentacion.config(state="disabled")
             self.search_button_presentacion.config(state="disabled")
 
-    def buscar_archivos(self, ruta_personalizada = None):
-        """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
-        if ruta_personalizada == None:
-            files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
-            self.mostrar_resultados(files)
+    def buscar_archivos(self, boton_pulsado, ruta_personalizada = None):
+
+
+        if boton_pulsado == "negocio":
+            """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
+            if ruta_personalizada == None:
+                files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
+                self.mostrar_resultados(files, boton_pulsado)
+            else:
+                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
+                self.mostrar_resultados(files, boton_pulsado)
         else:
-            files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
-            self.mostrar_resultados(files)
+            """Busca archivos con terminación 'war' en la misma ruta del script Python."""
+            if ruta_personalizada == None:
+                files = [file for file in os.listdir(ruta_classes) if file.endswith("War")]
+                self.mostrar_resultados(files, boton_pulsado)
+            else:
+                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                self.mostrar_resultados(files, boton_pulsado)
 
 
-    def mostrar_resultados(self, files):
+
+    def mostrar_resultados(self, files, boton_pulsado):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
 
@@ -491,16 +503,22 @@ class PaginaTres(CTkFrame):
             
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado))
             accept_button.pack(side="right", padx=10, expand=True)
         else:
             ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
-    def aceptar(self, selected_file):
-        if selected_file:
+    def aceptar(self, frame, selected_file, boton_pulsado):
+        if selected_file and boton_pulsado == "negocio":
             print(f"Archivo seleccionado: {selected_file}")
+            self.search_entry_negocio.insert(0, selected_file)
+            frame.destroy()
+        elif(selected_file and boton_pulsado == "presentacion"):
+            print(f"Archivo seleccionado: {selected_file}")
+            self.search_entry_presentacion.insert(0, selected_file)
+            frame.destroy()
         else:
-            print("No se seleccionó ningún archivo.")
+            print("No se seleccionó ningún archivo.")       
 
     def open_file_explorer(self, frame):
         # Esta función se llama cuando el usuario hace clic en "Buscar"
@@ -514,46 +532,6 @@ class PaginaTres(CTkFrame):
         else:
             print("No se seleccionó ningún directorio.")
 
-   
-
-class NuevaVentana(tk.Toplevel):
-    def __init__(self, master, files, *args, **kwargs):
-        super().__init__(master, *args, **kwargs)
-        self.title("Selección de Archivos")
-        self.geometry("300x300")
-
-        # Lista de archivos con checkboxes
-        self.files_vars = []
-        for file in files:
-            file_var = tk.BooleanVar(value=False)
-            ttk.Checkbutton(self, text=file, variable=file_var).pack(anchor="w")
-            self.files_vars.append(file_var)
-
-        # Botones "Cancelar" y "OK"
-        buttons_container = ttk.Frame(self)
-        buttons_container.pack(fill="x", pady=5, side="bottom", anchor="e")
-        ttk.Button(buttons_container, text="Cancelar", command=self.destroy).pack(side="right", padx=5)
-        ttk.Button(buttons_container, text="OK", command=lambda: self.ok_button_clicked(files)).pack(side="right", padx=5)
-
-        # Variable para almacenar el archivo seleccionado
-        self.selected_file = None
-
-    def ok_button_clicked(self, files):
-        """Acción al hacer clic en el botón 'OK'."""
-        # Obtener el archivo seleccionado
-        selected_file = None
-        print("el zip", zip(self.files_vars, files))
-        for file, file_var in zip(self.files_vars, files): 
-            print("esto es el file", file)
-            print("esto es el file_var", file_var)
-            if file_var:
-                selected_file = file_var
-                break
-
-        if selected_file:
-            print(f"Se seleccionó el archivo: {selected_file}")
-        else:
-            print("Ningún archivo seleccionado.")   
 
 class VentanaPrincipal(CTk):
     def __init__(self):
