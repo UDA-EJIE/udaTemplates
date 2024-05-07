@@ -14,7 +14,7 @@ from customtkinter import *
 import customtkinter as ctk
 from functools import partial
 
-d = "C:/python/oracle/instantclient_21_12"
+d = utl.readConfig("ORACLE", "rutaD")
 class PaginaUno(CTkFrame):
     
     def __init__(self, master, tables=None, columns=None, *args, **kwargs):

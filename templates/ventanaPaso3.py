@@ -10,9 +10,7 @@ import json
 from customtkinter import *
 import plugin.paso3 as p3
 import customtkinter as ctk
-
-
-
+import plugin.utils as utl
 
 class PaginaUno(CTkFrame):
     def __init__(self, master, tables=None, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
@@ -55,13 +53,17 @@ class PaginaUno(CTkFrame):
 
         # Formulario
         labels = ["Service name:", "SID:", "Host:", "Puerto:", "Usuario:", "Contraseña:", "Esquema Catálogo:", "URL:"]
+        valores = ["serviceName", "sid", "host", "puerto", "usuario", "password", "esquema", "url"]
         self.entries = []
-        
+        bbdd = utl.readConfig("BBDD", None)
+
         for i, label_text in enumerate(labels):
             label = CTkLabel(self, text=label_text, fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
             label.grid(row=i+1, column=0, sticky="w", padx=(20, 10), pady=(15, 2))
             entry = CTkEntry(self, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black", show='*' if label_text == 'Contraseña:' else None)
             entry.grid(row=i+1, column=1, padx=(0, 200), pady=(15, 2), sticky="ew")
+            if (bbdd != None and valores[i] != None):
+               entry.insert(0, bbdd[valores[i]])
             self.entries.append(entry)
 
         # Botones
@@ -83,11 +85,6 @@ class PaginaUno(CTkFrame):
             "Esquema Catálogo": self.entries[6].get(),
             "URL": self.entries[7].get()
         }
-
-        # Guardar datos en un archivo YAML
-        with open("respuestas_paso1.yml", "w") as yaml_file:
-            yaml.dump(data, yaml_file, default_flow_style=False)
-
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
 
@@ -96,7 +93,7 @@ class PaginaUno(CTkFrame):
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
-        d = "C:\oracle\instantclient_21_12"
+        d = utl.readConfig("ORACLE", "rutaD")
         print(cs)
         query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
          FROM  
@@ -190,7 +187,8 @@ class PaginaUno(CTkFrame):
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
         else:
-            ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+            print("a")
+            #ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
     def aceptar(self, selected_file):
         if selected_file:
