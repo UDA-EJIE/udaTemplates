@@ -14,7 +14,10 @@ from customtkinter import *
 import customtkinter as ctk
 from functools import partial
 
+
+
 d = utl.readConfig("ORACLE", "rutaD")
+ruta_classes = utl.readConfig("RUTA", "ruta_classes")
 tables_original = None
 class PaginaUno(CTkFrame):
     
@@ -448,15 +451,20 @@ class PaginaTres(CTkFrame):
             self.search_entry_presentacion.config(state="disabled")
             self.search_button_presentacion.config(state="disabled")
 
-    def buscar_archivos(self):
+    def buscar_archivos(self, ruta_personalizada = None):
         """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
-        folder_path = os.path.dirname(__file__)
-        files = [file for file in os.listdir(folder_path) if file.endswith("Classes")]
-        self.mostrar_resultados(files, folder_path)
+        if ruta_personalizada == None:
+            files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
+            self.mostrar_resultados(files)
+        else:
+            files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
+            self.mostrar_resultados(files)
 
-    def mostrar_resultados(self, files, folder_path):
+
+    def mostrar_resultados(self, files):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
+
             resultados_window = ctk.CTkToplevel(self)
             resultados_window.title("Resultados de Búsqueda")
             resultados_window.geometry("600x300")
@@ -478,7 +486,7 @@ class PaginaTres(CTkFrame):
             button_frame = ctk.CTkFrame(resultados_window)
             button_frame.pack(fill="x", pady=20)
             
-            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command=lambda: self.aceptar(selected_file.get()))
+            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window)) 
             buscar_button.pack(side="left", padx=10, expand=True)
             
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
@@ -493,6 +501,18 @@ class PaginaTres(CTkFrame):
             print(f"Archivo seleccionado: {selected_file}")
         else:
             print("No se seleccionó ningún archivo.")
+
+    def open_file_explorer(self, frame):
+        # Esta función se llama cuando el usuario hace clic en "Buscar"
+        # Abre un diálogo para seleccionar un directorio
+        frame.destroy()
+        directory = filedialog.askdirectory(parent=self)      
+        if directory:  # Si se selecciona un directorio
+            selected_directory = directory  # Guardar la ruta del directorio seleccionado
+            self.buscar_archivos(selected_directory)
+            print(f"Directorio seleccionado: {selected_directory}")
+        else:
+            print("No se seleccionó ningún directorio.")
 
    
 
@@ -548,10 +568,7 @@ class VentanaPrincipal(CTk):
         self.pagina_actual = None
         self.mostrar_pagina(PaginaUno)
 
-    def mostrar_pagina(self, pagina, tables=None):
-        if(len(tables) == 0):
-            self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
-            return False
+    def mostrar_pagina(self, pagina, tables=None):      
         if self.pagina_actual is not None:
             self.pagina_actual.destroy()
         self.pagina_actual = pagina(self, tables)
@@ -561,6 +578,9 @@ class VentanaPrincipal(CTk):
         self.mostrar_pagina(PaginaDos, tables)
 
     def mostrar_pagina_tres(self, tables=None):
+        if(len(tables) == 0):
+            self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
+            return False
         self.mostrar_pagina(PaginaTres, tables)
 
     def mostrar_pagina_uno(self):
