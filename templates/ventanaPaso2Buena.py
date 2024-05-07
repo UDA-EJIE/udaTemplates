@@ -15,6 +15,7 @@ import customtkinter as ctk
 from functools import partial
 
 d = utl.readConfig("ORACLE", "rutaD")
+tables_original = None
 class PaginaUno(CTkFrame):
     
     def __init__(self, master, tables=None, columns=None, *args, **kwargs):
@@ -170,7 +171,7 @@ class PaginaUno(CTkFrame):
                         tables.append(Table(tableName,columns))   
                     tableName = tableNameBBDD   
      
-        self.master.mostrar_pagina_siguiente(tables)           
+        self.master.mostrar_pagina_dos(tables)           
 
 
       
@@ -182,6 +183,10 @@ class PaginaDos(CTkFrame):
 
         self.original_tables = copy.deepcopy(tables)
         self.tables = []
+
+        global tables_original
+        
+        tables_original = tables
 
         # Header frame using grid
         self.header_frame = CTkFrame(self, fg_color="#4CAF50")
@@ -198,7 +203,7 @@ class PaginaDos(CTkFrame):
         self.scrollable_frame = CTkScrollableFrame(self.middle_frame, fg_color="#E0E0E0", scrollbar_fg_color="#E0E0E0")
         self.scrollable_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-        self.populate_scrollable_frame(self.scrollable_frame, tables)
+        self.populate_scrollable_frame(self.scrollable_frame, tables_original)
 
         # Footer frame using grid for buttons
         self.footer_frame = CTkFrame(self, fg_color="#E0E0E0")
@@ -282,17 +287,13 @@ class PaginaDos(CTkFrame):
         deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas", command=self.deselect_all)
         deselect_all_button.pack(side="left", padx=5)
 
-        configuration_warning = CTkLabel(self.footer_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
-        configuration_warning.pack(side="left", padx=5)
-        self.master.configuration_warning = configuration_warning
-
-        back_button = CTkButton(self.footer_frame, text="Back")
+        back_button = CTkButton(self.footer_frame, text="Atras", command=lambda : self.master.mostrar_pagina_uno())
         back_button.pack(side="right", padx=5)
 
         next_button = CTkButton(self.footer_frame, text="Siguiente",  command=lambda: self.master.mostrar_pagina_tres(self.obtener_seleccion_checkbox()))
         next_button.pack(side="right", padx=5)
         
-        cancel_button = CTkButton(self.footer_frame, text="Cancel")
+        cancel_button = CTkButton(self.footer_frame, text="Cancelar",)
         cancel_button.pack(side="right", padx=5)
 
 
@@ -387,7 +388,7 @@ class PaginaTres(CTkFrame):
         buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
         buttons_container.grid_columnconfigure(1, weight=1)
 
-        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
         CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,150),  pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
@@ -454,7 +455,7 @@ class PaginaTres(CTkFrame):
         if files:
             resultados_window = ctk.CTkToplevel(self)
             resultados_window.title("Resultados de Búsqueda")
-            resultados_window.geometry("300x200")
+            resultados_window.geometry("600x300")
             resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
 
             # Variable para almacenar el archivo seleccionado
@@ -473,10 +474,13 @@ class PaginaTres(CTkFrame):
             button_frame = ctk.CTkFrame(resultados_window)
             button_frame.pack(fill="x", pady=20)
             
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
-            accept_button.pack(side="left", padx=10, expand=True)
+            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command=lambda: self.aceptar(selected_file.get()))
+            buscar_button.pack(side="left", padx=10, expand=True)
+            
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
+            accept_button.pack(side="right", padx=10, expand=True)
         else:
             ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
@@ -546,18 +550,14 @@ class VentanaPrincipal(CTk):
         self.pagina_actual = pagina(self, tables)
         self.pagina_actual.grid(row=0, column=0, sticky="nsew")
 
-    def mostrar_pagina_siguiente(self, tables=None):
+    def mostrar_pagina_dos(self, tables=None):
         self.mostrar_pagina(PaginaDos, tables)
 
     def mostrar_pagina_tres(self, tables=None):
-        if(len(tables) == 0):
-            self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
-            return False
         self.mostrar_pagina(PaginaTres, tables)
 
-    def mostrar_pagina_anterior(self):
-        # Lógica para volver a la página anterior
-        print("Volviendo a la página anterior")
+    def mostrar_pagina_uno(self):
+        self.mostrar_pagina(PaginaUno)
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
