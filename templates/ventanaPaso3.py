@@ -12,6 +12,10 @@ import plugin.paso3 as p3
 import customtkinter as ctk
 import plugin.utils as utl
 
+
+
+d = utl.readConfig("ORACLE", "rutaD")
+
 class PaginaUno(CTkFrame):
     def __init__(self, master, tables=None, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
@@ -27,14 +31,17 @@ class PaginaUno(CTkFrame):
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
         configuration_label.grid(row=0, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
+        self.configuration_warning = CTkLabel(configuration_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
+        self.configuration_warning.grid(row=0, column=2, columnspan=3, pady=(20, 5), padx=20, sticky="w")
+
         description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
         description_label.grid(row=1, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
         desc_label = CTkLabel(configuration_frame, text="Seleccione el WAR al que se quiere añadir el mantenimiento y configure una conexión a la base de datos")
         desc_label.grid(row=2, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
-        war_frame = CTkFrame(configuration_frame, fg_color="#E0E0E0", border_color="#707070", border_width=3, height=2.5, width=500)
-        war_frame.grid(row=3, column=0, sticky="ew")
+        war_frame = CTkFrame(configuration_frame, fg_color="#E0E0E0", border_color="#707070", border_width=3, height=2.5)
+        war_frame.grid(row=3, column=0, sticky="ew", columnspan=3)
         war_frame.grid_columnconfigure(0, weight=1)
         war_frame.grid_rowconfigure(0, weight=1, minsize=100)
 
@@ -48,7 +55,7 @@ class PaginaUno(CTkFrame):
 
          # Botones
         buscar_button = CTkButton(war_frame, text="Buscar...", command=self.buscar_archivos, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        buscar_button.grid(row=0, column=2, columnspan=2, pady=(30, 2), padx=20, sticky="ew")
+        buscar_button.grid(row=0, column=2, pady=(30, 2), padx=20, sticky="ew")
       
 
         # Formulario
@@ -67,14 +74,50 @@ class PaginaUno(CTkFrame):
             self.entries.append(entry)
 
         # Botones
-        test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
+        self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
 
-        next_button = CTkButton(self, text="Siguiente", command=lambda: master.mostrar_pagina_siguiente(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        next_button = CTkButton(self, text="Siguiente", command=lambda: self.avanzar_paso2(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")
 
     def probar_conexion(self):
-    # Obtener datos de los cuadros de texto
+        # Obtener datos de los cuadros de texto
+        data = {
+            "Service name": self.entries[0].get(),
+            "SID": self.entries[1].get(),
+            "Host": self.entries[2].get(),
+            "Puerto": self.entries[3].get(),
+            "Usuario": self.entries[4].get(),
+            "Contraseña": self.entries[5].get(),
+            "Esquema Catálogo": self.entries[6].get(),
+            "URL": self.entries[7].get()
+        }
+        
+        un = self.entries[4].get()
+        cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
+        pw = self.entries[5].get()
+        
+        try:
+            oracledb.init_oracle_client(lib_dir=d)
+            oracledb.connect(user=un, password=pw, dsn=cs)
+            print("Connection successful!")
+            self.update_button_color('#4CAF50')  # Green color on successful connection
+            self.configuration_warning.configure(text="Connection successful!")
+            self.configuration_warning.configure(text_color ="#4CAF50")
+        except oracledb.Error as e:
+            print("Error connecting to Oracle Database:", e)
+            self.update_button_color('#FF0000')  # Red color on error
+            self.configuration_warning.configure(text="Error connecting to Oracle Database")
+            self.configuration_warning.configure(text_color ="#FF0000")
+            
+    def update_button_color(self, color):
+        self.test_button.configure(fg_color=color)    
+        
+        
+    def avanzar_paso2(self): 
+        
+        
+        # Obtener datos de los cuadros de texto
         data = {
             "Service name": self.entries[0].get(),
             "SID": self.entries[1].get(),
@@ -87,14 +130,13 @@ class PaginaUno(CTkFrame):
         }
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
-
-        tables = [] 
-        columns = [] 
+       
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
-        d = utl.readConfig("ORACLE", "rutaD")
-        print(cs)
+        
+        tables = [] 
+        columns = [] 
         query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
          FROM  
             (SELECT ta.table_name,sy.SYNONYM_NAME, utc.COLUMN_NAME, utc.data_type,utc.nullable,utc.DATA_PRECISION
@@ -113,7 +155,7 @@ class PaginaUno(CTkFrame):
                 and all_constraints.owner = all_cons_columns.owner 
             order by all_cons_columns.owner,all_cons_columns.table_name) tb2
         ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
-
+        
         oracledb.init_oracle_client(lib_dir=d)
         with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
             with connection.cursor() as cursor:
@@ -126,8 +168,8 @@ class PaginaUno(CTkFrame):
                     cont = cont + 1
                     tableNameBBDD = row[0]
                     if row[5] != None: #sinonimos
-                        tableNameBBDD = row[5]  
-                                
+                      tableNameBBDD = row[5]  
+                    #snakeCamelCase)   
                     if tableName == tableNameBBDD:
                         #se crea la columna
                         column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
@@ -148,8 +190,9 @@ class PaginaUno(CTkFrame):
                     if cont == len(rows) and contPrimaryKey < len(columns): #si es la última se mete a la tabla
                         tables.append(Table(tableName,columns))   
                     tableName = tableNameBBDD   
-    
-        self.master.mostrar_pagina_siguiente(tables) 
+     
+        self.master.mostrar_pagina_dos(tables)           
+
     
     
     def buscar_archivos(self):
@@ -490,7 +533,7 @@ class VentanaPrincipal(tk.Tk):
         nueva_pagina.grid(row=0, column=0, sticky="nsew")
         self.pagina_actual = nueva_pagina
 
-    def mostrar_pagina_siguiente(self, tables, data_mantenimiento=None , indexSeleccionado=None):
+    def mostrar_pagina_dos(self, tables, data_mantenimiento=None , indexSeleccionado=None):
         self.mostrar_pagina(ventanaPaso2, tables, data_mantenimiento, indexSeleccionado), 
 
     def mostrar_pagina_tres(self, data_mantenimiento, tables, indexSeleccionado=None):
