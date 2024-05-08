@@ -17,15 +17,15 @@ def initPaso2(tables,yaml_data):
     dirController = directorio_actual+"controller/" 
     rutaWar = "src/com/ejie/"+proyectName+"/control" 
     war = proyectName+proyectWar+"War";
-    destinoWar = yaml_data["destinoApp"]+war+"/" 
+    destinoWar = yaml_data["destinoWar"]+"/" 
     destinoWarViews = destinoWar+"WebContent/WEB-INF/spring/"
     destinoWarControl = destinoWar+rutaWar
     dirService = directorio_actual+"service/" 
-    destinoEarService = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/service"
+    destinoEarService = yaml_data["destinoApp"]+"/src/com/ejie/"+proyectName+"/service"
     dirDao = directorio_actual+"dao/" 
-    destinoEarDao = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/dao"
+    destinoEarDao = yaml_data["destinoApp"]+"/src/com/ejie/"+proyectName+"/dao"
     dirModel = directorio_actual+"model/" 
-    destinoEarModel = yaml_data["destinoApp"]+proyectName+"EARClasses/src/com/ejie/"+proyectName+"/model"
+    destinoEarModel = yaml_data["destinoApp"]+"/src/com/ejie/"+proyectName+"/model"
     rutaJackson = destinoWarViews+"jackson-config.xml"
 
     # si no existe crear la carpeta, raiz control - config java

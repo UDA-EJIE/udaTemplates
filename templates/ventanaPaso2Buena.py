@@ -14,8 +14,6 @@ from customtkinter import *
 import customtkinter as ctk
 from functools import partial
 
-
-
 d = utl.readConfig("ORACLE", "rutaD")
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
 tables_original = None
@@ -257,9 +255,24 @@ class PaginaTres(CTkFrame):
             CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component, text_color="black", font=("Arial", 11, "bold")).grid(row=0, column=0, padx=(20, 0), sticky="w")
         
         # Entry y Botón de Buscar para Componentes de Negocio
+        rutaActual = utl.rutaActual(__file__)
+        textRutaControlador = rutaActual
+        ruta_classes = utl.readConfig("RUTA", "ruta_classes")
+        ruta_war = utl.readConfig("RUTA", "ruta_war")
+        if(ruta_classes != None):
+           textRutaNegocio = ruta_classes 
+        if(ruta_war != None):
+           textRutaControlador = ruta_classes 
+        archivoClases = utl.buscarArchivo(textRutaNegocio,"Classes") 
+        archivoWar = utl.buscarArchivo(textRutaControlador,"War") 
+        if(archivoClases != '' ):
+           textRutaNegocio = textRutaNegocio+"\\"+archivoClases 
+        if(ruta_war != ''):
+           textRutaControlador = textRutaControlador+"\\"+archivoWar  
         self.search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
+        self.search_entry_negocio.insert(0, textRutaNegocio)
         self.search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
-        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos(boton_pulsado="negocio"))
+        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0',fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos(boton_pulsado="negocio"))
         search_button_negocio.grid(row=4, column=0, padx=(670, 0), pady=(10,0))
 
         # Contenedor de Componentes de Presentacións
@@ -278,6 +291,7 @@ class PaginaTres(CTkFrame):
 
         # Entry y Botón de Buscar para Componentes de Presentación
         self.search_entry_presentacion = CTkEntry(presentacion_container, width=600, fg_color='#69a3d6')
+        self.search_entry_presentacion.insert(0, textRutaControlador)
         self.search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
         search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos(boton_pulsado="presentacion"))
         search_button_presentacion.grid(row=2, column=0, padx=(670, 0), pady=(10,0))
@@ -287,9 +301,9 @@ class PaginaTres(CTkFrame):
         buttons_container.grid(row=2, column=0, sticky="sew")
         buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
         buttons_container.grid_columnconfigure(1, weight=1)
-
+        
         CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
-        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, data), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar)), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
  
@@ -313,20 +327,21 @@ class PaginaTres(CTkFrame):
                 tabla['columns'].append(columna_dict)
             tabla_resultados.append(tabla)
 
-        json_resultado = json.dumps(tabla_resultados)
+        json_resultado = json.dumps(tabla_resultados)     
 
-
-
-       
-        data = { "project_name": "aaa",
+    def getDatos(self,rutaActual,archivoClases,archivoWar):
+        project_name = archivoClases.replace("Classes","")
+        #war tiene que tener un classpath valido
+        war_name = utl.obtenerNombreProyecto(self.search_entry_presentacion.get(),archivoWar)
+        data = { "project_name": project_name,
         "security_app": "",
-        "war_project_name": "bbb",
-        "PACKAGE_NAME": "com.ejie."+"ppp"+".control",
-        "directorio_actual" : "C:/Users/mllorente/Desktop/Entornos_UDA/workspaces/workspace_2020_v5/udaTemplates/templates/generateCode/",
-        "destinoApp" : "C:/pruebacopier/"
-        }
-
-     
+        "war_project_name": war_name,
+        "PACKAGE_NAME": "com.ejie."+project_name+".control",
+        "directorio_actual" : rutaActual+"/generateCode/",
+        "destinoApp" : self.search_entry_negocio.get(),
+        "destinoWar" : self.search_entry_presentacion.get()
+       }
+        return data
         
     def update_search_state(self):
         """Actualiza el estado de los contenedores de búsqueda según el estado de los checkboxes."""

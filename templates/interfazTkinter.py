@@ -1,7 +1,6 @@
 from customtkinter import *
 import yaml
 from pathlib import Path
-import os
 import yaml
 from copier import Worker
 import tkinter as tk
@@ -177,8 +176,7 @@ class Paso1(CTk):
         else:
             yaml_data["xlnets"] = FALSE     
 
-        ruta_archivo_actual = __file__
-        rutaPath = os.path.dirname(ruta_archivo_actual)
+        rutaPath = utl.rutaActual(__file__)
         directorio_actual = rutaPath + "\\proyecto"
         idiomasExcludes = []
         availableLangs = "es, eu"

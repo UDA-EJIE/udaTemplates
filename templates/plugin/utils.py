@@ -5,6 +5,8 @@ from lxml.etree import Element
 import fileinput
 import logging
 import configparser
+import os
+from pathlib import Path
 
 def getColumnsDates(columns):
     newColumns = []
@@ -147,18 +149,59 @@ def modifyMenu(ruta,entityName, final):
         print (linea)
 #section String padre, keyArray array de llaves
 def writeConfig(section,key):
-    configfile_name = "plugin/config.ini"
-    config = configparser.ConfigParser()
-    config.read(configfile_name)
-    config[section] = key
- 
-    with open(configfile_name, 'w') as configfile:
-     config.write(configfile)
+    try:
+        configfile_name = "plugin/config.ini"
+        config = configparser.ConfigParser()
+        config.read(configfile_name)
+        config[section] = key
+    
+        with open(configfile_name, 'w') as configfile:
+            config.write(configfile)
+    except:
+        print("An exception occurred")
 
 def readConfig(valor,key):
     configfile_name = "plugin/config.ini"
-    config = configparser.ConfigParser()
-    config.read(configfile_name) 
-    if key == None:
-     return config[valor]
-    return config[valor][key]
+    try:
+        config = configparser.ConfigParser()
+        config.read(configfile_name) 
+        if key == None:
+            return config[valor]
+        return config[valor][key]
+    except:
+        print("An exception occurred")
+    return ""
+
+def rutaActual(ruta_archivo_actual):
+    rutaPath = ""
+    try:
+        rutaPath = os.path.dirname(ruta_archivo_actual)
+    except:
+        print("An exception occurred")    
+    return rutaPath
+
+def buscarArchivo(ruta,tipo):
+    path = ""
+    try:
+        files = [file for file in os.listdir(ruta) if file.endswith(tipo)]
+        if len(files) != 0:
+            return Path(files[0]).stem
+    except:
+        print("An exception occurred")
+    return path
+
+def obtenerNombreProyecto(ruta,nombreWar):
+    path = ""
+    try:
+        tree = etree.parse(ruta+"/.classpath")
+        root = tree.getroot()
+        diag = root.xpath(".//classpathentry[contains(@path, '%s')]" % "EARClasses")
+        path = diag[0].attrib["path"]
+        path = path.replace("/","")
+        path = path.replace("EARClassesbuildclasses","")
+        nombreWar = nombreWar.replace("War","")
+        nombreWar = nombreWar.replace(path,"")
+        return nombreWar
+    except:
+        print("An exception occurred")
+    return path
