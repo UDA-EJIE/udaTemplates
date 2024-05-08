@@ -145,15 +145,12 @@ def modifyMenu(ruta,entityName, final):
             encontrado = True
             logging.warning('Mantenimiento ya definido en el menu.jsp')
         print (linea)
-
-def writeConfig(section):
+#section String padre, keyArray array de llaves
+def writeConfig(section,key):
     configfile_name = "plugin/config.ini"
     config = configparser.ConfigParser()
-    config['Section 1'] = {'key1': 'value1', 'key2': 'value2'}
-    config['Section 2'] = {}
-    config['Section 2']['key3'] = 'value3'
-    config['Section 2']['key4'] = 'value4'
- 
+    config.read(configfile_name)
+    config[section] = key
  
     with open(configfile_name, 'w') as configfile:
      config.write(configfile)

@@ -6,6 +6,7 @@ import yaml
 from copier import Worker
 import tkinter as tk
 import logging
+import plugin.utils as utl
 
 self = CTk()
 
@@ -177,7 +178,8 @@ class Paso1(CTk):
             yaml_data["xlnets"] = FALSE     
 
         ruta_archivo_actual = __file__
-        directorio_actual = os.path.dirname(ruta_archivo_actual) + "\\proyecto"
+        rutaPath = os.path.dirname(ruta_archivo_actual)
+        directorio_actual = rutaPath + "\\proyecto"
         idiomasExcludes = []
         availableLangs = "es, eu"
         
@@ -195,11 +197,16 @@ class Paso1(CTk):
                 
         yaml_data["defaultLanguage"] = self.default_language_combobox.get()
         yaml_data["availableLangs"] = availableLangs
-        with Worker(src_path=directorio_actual, dst_path=self.entry_location.get(), data=yaml_data,exclude=idiomasExcludes) as worker:
+        destinoPath = self.entry_location.get()
+        if(destinoPath == ''):
+            destinoPath = rutaPath
+        with Worker(src_path=directorio_actual, dst_path=destinoPath, data=yaml_data,exclude=idiomasExcludes) as worker:
             logging.info('Inicio: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             worker.run_copy()
             logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
+            #guardar ultima ruta creada
+            utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
             self.mainloop()
         
     def browse_location(self):
