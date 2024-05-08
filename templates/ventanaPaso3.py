@@ -244,6 +244,8 @@ class ventanaPaso2(CTkFrame):
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=2)
         self.grid_columnconfigure(1, weight=1)
 
+
+
         configuration_frame = CTkFrame(self)
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
         configuration_frame.grid_columnconfigure(0, weight=1) 
@@ -265,69 +267,73 @@ class ventanaPaso2(CTkFrame):
 
         # Nombre del mantenimiento
         nombre_label = CTkLabel(contenedor_opciones, text="Nombre del mantenimiento:", text_color="black")
-        nombre_label.grid(row=0, column=0, sticky="w", padx=10, pady=(10,10))
-        self.nombre_entry = CTkEntry(contenedor_opciones, width=400)
-        self.nombre_entry.grid(row=0, column=1, padx=(10, 100),  pady=(10,10), sticky="ew")
+        nombre_label.grid(row=0, column=0, sticky="w", padx=(20, 0), pady=(10,10))
+        self.nombre_entry = CTkEntry(contenedor_opciones)
+        self.nombre_entry.grid(row=0, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
 
         # Título del mantenimiento
         titulo_label = CTkLabel(contenedor_opciones, text="Título del mantenimiento:", text_color="black")
-        titulo_label.grid(row=1, column=0, sticky="w", padx=10, pady=(10,10))
-        self.titulo_entry = CTkEntry(contenedor_opciones, width=400)
-        self.titulo_entry.grid(row=1, column=1, padx=(10, 100),  pady=(10,10), sticky="ew")
+        titulo_label.grid(row=1, column=0, sticky="w", padx=(20, 0), pady=(10,10))
+        self.titulo_entry = CTkEntry(contenedor_opciones)
+        self.titulo_entry.grid(row=1, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
 
         # Checkbox para estado de mantenimiento
         mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
         mantenimiento_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
-        # Radiobuttons para tipo de mantenimiento
-        tipo_label = CTkLabel(contenedor_opciones, text="Tipo de Mantenimiento:", text_color="black")
-        tipo_label.grid(row=3, column=0, sticky="w", padx=20)
-        tipo_var = tk.StringVar(value="Edición en línea")
-        tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=tipo_var, value="Edición en línea", text_color="black")
-        tipo_radio1.grid(row=3, column=1, sticky="w", padx=20)
-        tipo_radio2 = CTkRadioButton(contenedor_opciones, text="Formulario de detalle", variable=tipo_var, value="Formulario de detalle", text_color="black")
-        tipo_radio2.grid(row=4, column=1, sticky="w", padx=20)
-
         # Checkbox para estado de mantenimiento
         detalle_servidor_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
-        detalle_servidor_checkbox.grid(row=5, column=1, padx=20, pady=5, sticky="w")
+        detalle_servidor_checkbox.grid(row=3, column=0, padx=20, pady=5, sticky="w")
 
         # Radiobuttons para tipo de mantenimiento
-        tipologia_label = CTkLabel(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
-        tipologia_label.grid(row=6, column=1, sticky="w", padx=20)
+        tipo_label = CTkLabel(contenedor_opciones, text="Tipo de Mantenimiento:", text_color="black")
+        tipo_label.grid(row=4, column=0, sticky="w", padx=(20, 0))
+        tipo_var = tk.StringVar(value="Edición en línea")
+        tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=tipo_var, value="Edición en línea", text_color="black")
+        tipo_radio1.grid(row=4, column=0, sticky="w", padx=(200, 0))
+        tipo_radio2 = CTkRadioButton(contenedor_opciones, text="Formulario de detalle", variable=tipo_var, value="Formulario de detalle", text_color="black")
+        tipo_radio2.grid(row=5, column=0, sticky="w", padx=(200, 0))
+
+        
+
+        # Radiobuttons para tipo de mantenimiento
+        tipologia_label = CTkCheckBox(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
+        tipologia_label.grid(row=6, column=0, sticky="w", padx=20)
+
+
+        label_tipologia = CTkLabel(contenedor_opciones, text="Tipología de botones:", text_color="black")
+        label_tipologia.grid(row=7, column=0, sticky="w", padx=(20, 0))
 
         tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        tipologia_label_combobox.grid(row=6, column=1, sticky="w", padx=(200, 20), pady=10)
+        tipologia_label_combobox.grid(row=7, column=0, sticky="w", padx=(280, 20), pady=10)
 
         # Opciones adicionales
         botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
-        botonera_checkbox.grid(row=7, column=0, padx=20, pady=5, sticky="w")
+        botonera_checkbox.grid(row=8, column=0, padx=20, pady=5, sticky="w")
 
         menu_contextual_checkbox = CTkCheckBox(contenedor_opciones, text="Menú contextual", text_color="black")
-        menu_contextual_checkbox.grid(row=8, column=0, padx=20, pady=5, sticky="w")
+        menu_contextual_checkbox.grid(row=9, column=0, padx=20, pady=5, sticky="w")
 
         filtrado_datos_checkbox = CTkCheckBox(contenedor_opciones, text="Filtrado de datos", text_color="black")
-        filtrado_datos_checkbox.grid(row=9, column=0, padx=20, pady=5, sticky="w")
+        filtrado_datos_checkbox.grid(row=10, column=0, padx=20, pady=5, sticky="w")
 
         busqueda_checkbox = CTkCheckBox(contenedor_opciones, text="Búsqueda", text_color="black")
-        busqueda_checkbox.grid(row=10, column=0, padx=20, pady=5, sticky="w")
+        busqueda_checkbox.grid(row=11, column=0, padx=20, pady=5, sticky="w")
 
         validaciones_cliente_checkbox = CTkCheckBox(contenedor_opciones, text="Validaciones cliente", text_color="black")
-        validaciones_cliente_checkbox.grid(row=11, column=0, padx=20, pady=5, sticky="w")
+        validaciones_cliente_checkbox.grid(row=12, column=0, padx=20, pady=5, sticky="w")
 
         multiseleccion_checkbox = CTkCheckBox(contenedor_opciones, text="Multiselección", text_color="black")
-        multiseleccion_checkbox.grid(row=12, column=0, padx=20, pady=5, sticky="w")
+        multiseleccion_checkbox.grid(row=13, column=0, padx=20, pady=(5, 20), sticky="w")
 
         # Footer con botones de navegación
-        footer_frame = CTkFrame(self)
-        footer_frame.grid(row=3, column=0, columnspan=2, pady=20, padx=20, sticky="se")
-        btn_back = CTkButton(footer_frame, text="Back")
+        footer_frame = CTkFrame(self, fg_color="#E0E0E0")
+        footer_frame.grid(row=3, column=0, columnspan=2, pady= (20,20), padx=20, sticky="se")
+        btn_back = CTkButton(footer_frame, text="Back", command=lambda :master.mostrar_pagina_uno(),  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_back.pack(side="left", padx=10, pady=5)
-        btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(data_mantenimiento, tables))
+        btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(data_mantenimiento, tables) ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_next.pack(side="left", padx=10, pady=5)
-        btn_finish = CTkButton(footer_frame, text="Finish")
-        btn_finish.pack(side="left", padx=10, pady=5)
-        btn_cancel = CTkButton(footer_frame, text="Cancel")
+        btn_cancel = CTkButton(footer_frame, text="Cancel", command=lambda : self.destroy() ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_cancel.pack(side="left", padx=10, pady=5)
 
     def obtener_datos(self):
@@ -413,14 +419,12 @@ class VentanaPaso3(CTkFrame):
 
         # Footer con botones
         footer_frame = CTkFrame(self, fg_color="#E0E0E0")
-        footer_frame.grid(row=1, column=0, columnspan=2, sticky="se", padx=10, pady=10)
+        footer_frame.grid(row=1, column=0, columnspan=2, sticky="se", padx=10, pady=(20, 20))
         
-        btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command= lambda: master.mostrar_pagina_dos(tables))
         btn_back.pack(side="left", padx=10, pady=5)
         btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_cuatro(tables, data_mantenimiento, self.abrir_ventana_columnas()))
         btn_next.pack(side="left", padx=10, pady=5)
-        btn_finish = CTkButton(footer_frame, text="Finish", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        btn_finish.pack(side="left", padx=10, pady=5)
         btn_cancel = CTkButton(footer_frame, text="Cancel" ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_cancel.pack(side="left", padx=10, pady=5)
 
@@ -443,6 +447,7 @@ class VentanaColumnas(CTkFrame):
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
          # Configura el contenedor principal para que las columnas se expandan
         self.grid_columnconfigure(0, weight=1)  # Esto hace que la columna se expanda
+        self.grid_rowconfigure(3, weight=1)  # Row para contenedor_principal se expande
       
         configuration_frame = CTkFrame(self)
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
@@ -462,22 +467,6 @@ class VentanaColumnas(CTkFrame):
         contenedor_principal.grid(row=3, column=0, sticky="nsew", padx=10, pady=10)
         contenedor_principal.grid_columnconfigure(0, weight=1)
         contenedor_principal.grid_rowconfigure(0, weight=1)
-        # # Configuración del grid para que el contenedor principal expanda correctamente
-        # self.grid_rowconfigure(0, weight=1)
-        # self.grid_columnconfigure(0, weight=1)
-        # contenedor_principal.grid_columnconfigure(0, weight=1)
-
-        # # Cabecera con el título
-        # titulo_label = ctk.CTkLabel(contenedor_principal, text="Generar nuevo mantenimiento para una aplicación", text_color="black")
-        # titulo_label.grid(row=0, column=0, sticky="w")
-
-        # # Descripción debajo del título
-        # descripcion_label = ctk.CTkLabel(contenedor_principal, text="Este wizard genera un nuevo mantenimiento para una aplicación UDA", fg_color="#E0E0E0", text_color="black")
-        # descripcion_label.grid(row=1, column=0, sticky="w")
-
-        # # Texto adicional
-        # texto_adicional = ctk.CTkLabel(contenedor_principal, text="Configure las propiedades de las columnas que aparecerán en el mantenimiento.\nNota: Solo se generarán las columnas que estén checkeadas.\nPropiedades:", text_color="black", justify="left")
-        # texto_adicional.grid(row=2, column=0, sticky="w", padx=10, pady=20)
 
         # Contenedor Scrollable para los Checkbuttons
         scrollable_container = ctk.CTkScrollableFrame(contenedor_principal, fg_color="#E0E0E0", width=400, height=300)
@@ -541,8 +530,8 @@ class VentanaPrincipal(CTk):
     def mostrar_pagina_cuatro(self, tables, data_mantenimineto, indexSeleccionado):
         self.mostrar_pagina(VentanaColumnas, tables, data_mantenimineto, indexSeleccionado)   
 
-    def mostrar_pagina_anterior(self):
-        self.mostrar_pagina(PaginaUno)
+    def mostrar_pagina_uno(self, tables = None, data_mantenimiento=None , indexSeleccionado=None):
+        self.mostrar_pagina(PaginaUno, tables, data_mantenimiento, indexSeleccionado )
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
