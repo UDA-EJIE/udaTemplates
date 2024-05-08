@@ -60,21 +60,10 @@ class PaginaUno(CTkFrame):
         self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
 
-        next_button = CTkButton(self, text="Siguiente", command= self.avanzar_paso2, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")
-
+        next_button = CTkButton(self, text="Siguiente", command=self.master.mostrarSpinner, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")        
+       
     def probar_conexion(self):
-        # Obtener datos de los cuadros de texto
-        data = {
-            "Service name": self.entries[0].get(),
-            "SID": self.entries[1].get(),
-            "Host": self.entries[2].get(),
-            "Puerto": self.entries[3].get(),
-            "Usuario": self.entries[4].get(),
-            "Contraseña": self.entries[5].get(),
-            "Esquema Catálogo": self.entries[6].get(),
-            "URL": self.entries[7].get()
-        }
         
         un = self.entries[4].get()
         cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
@@ -97,88 +86,6 @@ class PaginaUno(CTkFrame):
         self.test_button.configure(fg_color=color)    
         
         
-    def avanzar_paso2(self): 
-        
-        
-        # Obtener datos de los cuadros de texto
-        data = {
-            "Service name": self.entries[0].get(),
-            "SID": self.entries[1].get(),
-            "Host": self.entries[2].get(),
-            "Puerto": self.entries[3].get(),
-            "Usuario": self.entries[4].get(),
-            "Contraseña": self.entries[5].get(),
-            "Esquema Catálogo": self.entries[6].get(),
-            "URL": self.entries[7].get()
-        }
-        # Puedes agregar aquí la lógica para probar la conexión a la base de datos
-        print("Conexión probada")
-       
-        un = self.entries[4].get()
-        cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
-        pw = self.entries[5].get()
-        
-        tables = [] 
-        columns = [] 
-        query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
-         FROM  
-            (SELECT ta.table_name,sy.SYNONYM_NAME, utc.COLUMN_NAME, utc.data_type,utc.nullable,utc.DATA_PRECISION
-             FROM user_tables ta
-             LEFT JOIN user_synonyms sy
-             ON ta.TABLE_NAME = sy.TABLE_NAME
-             INNER JOIN USER_TAB_COLUMNS utc
-             ON ta.TABLE_NAME = utc.TABLE_NAME 
-             order by sy.SYNONYM_NAME,ta.table_name,utc.column_name) tb1 
-        LEFT JOIN 
-            (select all_cons_columns.owner , all_cons_columns.table_name, all_cons_columns.column_name, all_constraints.constraint_type
-            from all_constraints, all_cons_columns 
-            where 
-                all_constraints.constraint_type = 'P' AND all_constraints.owner = :esquema
-                and all_constraints.constraint_name = all_cons_columns.constraint_name
-                and all_constraints.owner = all_cons_columns.owner 
-            order by all_cons_columns.owner,all_cons_columns.table_name) tb2
-        ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
-        
-        oracledb.init_oracle_client(lib_dir=d)
-        with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(query, esquema="X21B")
-                rows = cursor.fetchall()
-                tableName = ''
-                cont = 0
-                contPrimaryKey = 0
-                for row in rows:
-                    cont = cont + 1
-                    tableNameBBDD = row[0]
-                    if row[5] != None: #sinonimos
-                      tableNameBBDD = row[5]  
-                    #snakeCamelCase)   
-                    if tableName == tableNameBBDD:
-                        #se crea la columna
-                        column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
-                        columns.append(column)
-                        if row[4]  == 'P': #primarykey
-                            contPrimaryKey = contPrimaryKey + 1
-                    else:
-                        if cont > 1 and contPrimaryKey < len(columns):
-                            tables.append(Table(tableName,columns)) 
-                        contPrimaryKey = 0    
-                        if row[4]  == 'P': #primarykey
-                            contPrimaryKey = contPrimaryKey + 1    
-                        columns = []
-                        #se crea la columna
-                        column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
-                        columns.append(column)  
-                    
-                    if cont == len(rows) and contPrimaryKey < len(columns): #si es la última se mete a la tabla
-                        tables.append(Table(tableName,columns))   
-                    tableName = tableNameBBDD   
-     
-        self.master.mostrar_pagina_dos(tables)           
-
-
-      
-
 class PaginaDos(CTkFrame):
     def __init__(self, master, tables, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
@@ -212,6 +119,7 @@ class PaginaDos(CTkFrame):
         self.footer_frame = CTkFrame(self, fg_color="#E0E0E0")
         self.footer_frame.grid(row=2, column=0, pady=(5, 30) ,sticky="ew")
         self.setup_footer_buttons()
+        self.master.ocultarSpinner()
     listaColumnas = {}    
     var_list = []
     def choose(self,table,index):
@@ -557,12 +465,97 @@ class VentanaPrincipal(CTk):
 
     def mostrar_pagina_tres(self, tables=None):
         if(len(tables) == 0):
-            self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
-            return False
+          self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
+          return False
         self.mostrar_pagina(PaginaTres, tables)
 
     def mostrar_pagina_uno(self):
         self.mostrar_pagina(PaginaUno)
+    
+    def mostrarSpinner(self):
+        resultados_window2 = ctk.CTkToplevel(app)
+        resultados_window2.title("Cargando...")
+        resultados_window2.geometry("800x500")
+        resultados_window2.attributes('-topmost', True)
+        resultados_window2.wm_attributes('-alpha',0.8)
+        #resultados_window2.resizable(width=None, height=None)
+        #resultados_window2.transient()
+        resultados_window2.overrideredirect(True)
+      
+        label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
+        label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
+        self.resultados_window2 = resultados_window2   
+        resultados_window2.after(2000, self.avanzar_paso2)
+
+    def ocultarSpinner(self):
+        self.resultados_window2.destroy()  
+
+    def avanzar_paso2(self):         
+
+        # Puedes agregar aquí la lógica para probar la conexión a la base de datos
+        print("Conexión probada")
+       
+        un = self.pagina_actual.entries[4].get()
+        cs = self.pagina_actual.entries[2].get() + ":" + self.pagina_actual.entries[3].get() + "/" + self.pagina_actual.entries[0].get()
+        pw = self.pagina_actual.entries[5].get()
+        
+        tables = [] 
+        columns = [] 
+        query = """select tb1.table_name, tb1.column_name,tb1.DATA_TYPE,tb1.NULLABLE,tb2.constraint_type, tb1.SYNONYM_NAME, tb1.DATA_PRECISION
+         FROM  
+            (SELECT ta.table_name,sy.SYNONYM_NAME, utc.COLUMN_NAME, utc.data_type,utc.nullable,utc.DATA_PRECISION
+             FROM user_tables ta
+             LEFT JOIN user_synonyms sy
+             ON ta.TABLE_NAME = sy.TABLE_NAME
+             INNER JOIN USER_TAB_COLUMNS utc
+             ON ta.TABLE_NAME = utc.TABLE_NAME 
+             order by sy.SYNONYM_NAME,ta.table_name,utc.column_name) tb1 
+        LEFT JOIN 
+            (select all_cons_columns.owner , all_cons_columns.table_name, all_cons_columns.column_name, all_constraints.constraint_type
+            from all_constraints, all_cons_columns 
+            where 
+                all_constraints.constraint_type = 'P' AND all_constraints.owner = :esquema
+                and all_constraints.constraint_name = all_cons_columns.constraint_name
+                and all_constraints.owner = all_cons_columns.owner 
+            order by all_cons_columns.owner,all_cons_columns.table_name) tb2
+        ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
+        
+        oracledb.init_oracle_client(lib_dir=d)
+        with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, esquema=pw.upper())
+                rows = cursor.fetchall()
+                tableName = ''
+                cont = 0
+                contPrimaryKey = 0
+                for row in rows:
+                    cont = cont + 1
+                    tableNameBBDD = row[0]
+                    if row[5] != None: #sinonimos
+                      tableNameBBDD = row[5]  
+                    #snakeCamelCase)   
+                    if tableName == tableNameBBDD:
+                        #se crea la columna
+                        column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
+                        columns.append(column)
+                        if row[4]  == 'P': #primarykey
+                            contPrimaryKey = contPrimaryKey + 1
+                    else:
+                        if cont > 1 and contPrimaryKey < len(columns):
+                            tables.append(Table(tableName,columns)) 
+                        contPrimaryKey = 0    
+                        if row[4]  == 'P': #primarykey
+                            contPrimaryKey = contPrimaryKey + 1    
+                        columns = []
+                        #se crea la columna
+                        column = Column(tableNameBBDD,row[1],row[2],row[3],row[4],None,None,row[6])
+                        columns.append(column)  
+                    
+                    if cont == len(rows) and contPrimaryKey < len(columns): #si es la última se mete a la tabla
+                        tables.append(Table(tableName,columns))   
+                    tableName = tableNameBBDD   
+     
+        self.mostrar_pagina_dos(tables)    
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
