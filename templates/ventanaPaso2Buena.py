@@ -389,7 +389,7 @@ class PaginaTres(CTkFrame):
             button_frame = ctk.CTkFrame(resultados_window)
             button_frame.pack(fill="x", pady=20)
             
-            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window)) 
+            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window, boton_pulsado=boton_pulsado)) 
             buscar_button.pack(side="left", padx=10, expand=True)
             
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
@@ -408,17 +408,18 @@ class PaginaTres(CTkFrame):
             print(f"Archivo seleccionado: {selected_file}")
             self.search_entry_presentacion.insert(0, selected_file)
             frame.destroy()
+
         else:
             print("No se seleccionó ningún archivo.")       
 
-    def open_file_explorer(self, frame):
+    def open_file_explorer(self, frame, boton_pulsado):
         # Esta función se llama cuando el usuario hace clic en "Buscar"
         # Abre un diálogo para seleccionar un directorio
         frame.destroy()
         directory = filedialog.askdirectory(parent=self)      
         if directory:  # Si se selecciona un directorio
             selected_directory = directory  # Guardar la ruta del directorio seleccionado
-            self.buscar_archivos(selected_directory)
+            self.buscar_archivos(boton_pulsado, selected_directory)
             print(f"Directorio seleccionado: {selected_directory}")
         else:
             print("No se seleccionó ningún directorio.")
