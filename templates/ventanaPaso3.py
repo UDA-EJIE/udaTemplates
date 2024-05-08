@@ -25,7 +25,8 @@ class PaginaUno(CTkFrame):
 
         configuration_frame = CTkFrame(self)
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
-        configuration_frame.grid_columnconfigure(0, weight=1) 
+        configuration_frame.grid_columnconfigure(0, weight=1)
+        configuration_frame.grid_rowconfigure(0, weight=1)
 
 
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
@@ -53,8 +54,8 @@ class PaginaUno(CTkFrame):
         war_entry.grid(row=0, column=1 , padx=(0, 20), pady=(30, 2), sticky="ew")
         
 
-         # Botones
-        buscar_button = CTkButton(war_frame, text="Buscar...", command=self.buscar_archivos, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        # Botones
+        buscar_button = CTkButton(war_frame, text="Buscar...", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : self.buscar_archivos())
         buscar_button.grid(row=0, column=2, pady=(30, 2), padx=20, sticky="ew")
       
 
@@ -193,8 +194,7 @@ class PaginaUno(CTkFrame):
      
         self.master.mostrar_pagina_dos(tables)           
 
-    
-    
+
     def buscar_archivos(self):
         """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
         folder_path = os.path.dirname(__file__)
@@ -206,8 +206,10 @@ class PaginaUno(CTkFrame):
         if files:
             resultados_window = ctk.CTkToplevel(self)
             resultados_window.title("Resultados de Búsqueda")
-            resultados_window.geometry("300x200")
-            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
+            resultados_window.geometry("600x300")
+            # Configuraciones después de que la ventana está visible
+            resultados_window.after(100, lambda: resultados_window.attributes('-topmost', True))
+
 
             # Variable para almacenar el archivo seleccionado
             selected_file = tk.StringVar(value=None)
@@ -229,10 +231,7 @@ class PaginaUno(CTkFrame):
             accept_button.pack(side="left", padx=10, expand=True)
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
-        else:
-            print("a")
-            #ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
-
+        
     def aceptar(self, selected_file):
         if selected_file:
             print(f"Archivo seleccionado: {selected_file}")
@@ -512,7 +511,7 @@ class VentanaColumnas(CTkFrame):
 
 
 
-class VentanaPrincipal(tk.Tk):
+class VentanaPrincipal(CTk):
     def __init__(self):
         super().__init__()
         self.title("Generar código para una aplicación UDA")
