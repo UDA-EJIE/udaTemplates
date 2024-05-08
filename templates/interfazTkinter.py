@@ -207,7 +207,7 @@ class Paso1(CTk):
             print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             #guardar ultima ruta creada
             utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
-            self.mainloop()
+            self.destroy()
         
     def browse_location(self):
         folder_selected = filedialog.askdirectory()
