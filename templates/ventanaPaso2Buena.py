@@ -60,7 +60,7 @@ class PaginaUno(CTkFrame):
         self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
 
-        next_button = CTkButton(self, text="Siguiente", command=self.master.mostrarSpinner, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        next_button = CTkButton(self, text="Siguiente", command=lambda:self.master.mostrarSpinner("avanzarPaso2"), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")        
        
     def probar_conexion(self):
@@ -192,10 +192,10 @@ class PaginaDos(CTkFrame):
         return seleccion_checkbox
     
     def setup_footer_buttons(self):
-        select_all_button = CTkButton(self.footer_frame, text="Seleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.select_all)
+        select_all_button = CTkButton(self.footer_frame, text="Seleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda:self.master.mostrarSpinner("selectAll"))
         select_all_button.pack(side="left", padx=5)
 
-        deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=self.deselect_all)
+        deselect_all_button = CTkButton(self.footer_frame, text="Deseleccionar Todas",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda:self.master.mostrarSpinner("deselectAll"))
         deselect_all_button.pack(side="left", padx=5)
 
         configuration_warning = CTkLabel(self.footer_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
@@ -210,21 +210,6 @@ class PaginaDos(CTkFrame):
         
         cancel_button = CTkButton(self.footer_frame, text="Cancelar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25,)
         cancel_button.pack(side="right", padx=5)
-
-
-    def select_all(self):
-        for table_frame in self.tables:
-            # Assuming _state is an attribute that holds the checkbox state
-            table_frame.winfo_children()[0].select()  # Checkbox de la tabla
-            for checkbox in table_frame.columns_frame.winfo_children():
-                checkbox.select()
-
-    def deselect_all(self):
-        for table_frame in self.tables:
-            # Assuming _state is an attribute that holds the checkbox state
-            table_frame.winfo_children()[0].deselect()  # Checkbox de la tabla
-            for checkbox in table_frame.columns_frame.winfo_children():
-                checkbox.deselect() # Checkbox de las columnas
             
 class PaginaTres(CTkFrame):
     def __init__(self, master, tables, *args, **kwargs):
@@ -360,8 +345,6 @@ class PaginaTres(CTkFrame):
             self.search_button_presentacion.config(state="disabled")
 
     def buscar_archivos(self, boton_pulsado, ruta_personalizada = None):
-
-
         if boton_pulsado == "negocio":
             """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
             if ruta_personalizada == None:
@@ -414,7 +397,7 @@ class PaginaTres(CTkFrame):
             accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado))
             accept_button.pack(side="right", padx=10, expand=True)
         else:
-            ctk.CTkMessageBox.show_info("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+            print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
     def aceptar(self, frame, selected_file, boton_pulsado):
         if selected_file and boton_pulsado == "negocio":
@@ -472,7 +455,7 @@ class VentanaPrincipal(CTk):
     def mostrar_pagina_uno(self):
         self.mostrar_pagina(PaginaUno)
     
-    def mostrarSpinner(self):
+    def mostrarSpinner(self,caso):
         resultados_window2 = ctk.CTkToplevel(app)
         resultados_window2.title("Cargando...")
         resultados_window2.geometry("800x500")
@@ -485,7 +468,12 @@ class VentanaPrincipal(CTk):
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         self.resultados_window2 = resultados_window2   
-        resultados_window2.after(2000, self.avanzar_paso2)
+        if(caso == "avanzarPaso2"):
+            resultados_window2.after(2000, self.avanzar_paso2)
+        elif caso == "selectAll": 
+            resultados_window2.after(2000, self.select_all) 
+        elif caso == "deselectAll": 
+            resultados_window2.after(2000, self.deselect_all)      
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  
@@ -555,7 +543,23 @@ class VentanaPrincipal(CTk):
                         tables.append(Table(tableName,columns))   
                     tableName = tableNameBBDD   
      
-        self.mostrar_pagina_dos(tables)    
+        self.mostrar_pagina_dos(tables)  
+
+    def select_all(self):
+        for table_frame in self.pagina_actual.tables:
+            # Assuming _state is an attribute that holds the checkbox state
+            table_frame.winfo_children()[0].select()  # Checkbox de la tabla
+            for checkbox in table_frame.columns_frame.winfo_children():
+                checkbox.select()
+        self.ocultarSpinner()        
+
+    def deselect_all(self):
+        for table_frame in self.pagina_actual.tables:
+            # Assuming _state is an attribute that holds the checkbox state
+            table_frame.winfo_children()[0].deselect()  # Checkbox de la tabla
+            for checkbox in table_frame.columns_frame.winfo_children():
+                checkbox.deselect() # Checkbox de las columnas   
+        self.ocultarSpinner()               
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
