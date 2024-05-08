@@ -30,7 +30,13 @@ def initPaso2(tables,yaml_data):
 
     # si no existe crear la carpeta, raiz control - config java
     if os.path.isdir(destinoWarControl) == False:
-        os.mkdir(destinoWarControl)
+        os.makedirs(destinoWarControl)
+    if os.path.isdir(destinoEarService) == False:
+        os.makedirs(destinoEarService)
+    if os.path.isdir(destinoEarDao) == False:
+        os.makedirs(destinoEarDao)
+    if os.path.isdir(destinoEarModel) == False:
+        os.makedirs(destinoEarModel)            
     data["packageName"] = "com.ejie."+proyectName  
     lastTable = False
     for x, table in enumerate(tables):
@@ -51,36 +57,37 @@ def initPaso2(tables,yaml_data):
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
-    #    with Worker(src_path=dirController, dst_path=destinoWarControl, data=yaml_data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-     #    worker.run_copy() 
+        with Worker(src_path=dirController, dst_path=destinoWarControl, data=data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
+         worker.run_copy() 
 
         #Fecha creación services
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S') 
         data["project_name"] = proyectName 
         #service java 
-     #   with Worker(src_path=dirService, dst_path=destinoEarService, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-     #     worker.run_copy()   
+        with Worker(src_path=dirService, dst_path=destinoEarService, data=data, exclude=["*Rel*"],overwrite=True) as worker:
+          worker.run_copy()   
 
         #Fecha creación Daos
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Daos java 
-      #  with Worker(src_path=dirDao, dst_path=destinoEarDao, data=yaml_data, exclude=["*Rel*"],overwrite=True) as worker:
-      #   worker.jinja_env.filters["toCamelCase"] = toCamelCase
-      #   worker.run_copy()  
+        with Worker(src_path=dirDao, dst_path=destinoEarDao, data=data, exclude=["*Rel*"],overwrite=True) as worker:
+         worker.jinja_env.filters["toCamelCase"] = toCamelCase
+         worker.run_copy()  
         
         #Fecha creación Models
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Models java 
-        with Worker(src_path=dirModel, dst_path=destinoEarModel, data=yaml_data, exclude=["*model*"],overwrite=True) as worker:
+        with Worker(src_path=dirModel, dst_path=destinoEarModel, data=data, exclude=["*model*"],overwrite=True) as worker:
             worker.jinja_env.filters["toCamelCase"] = toCamelCase
             worker.jinja_env.filters["snakeToCamel"] = snakeToCamel
             worker.run_copy()
             if(x == len(tables) - 1):
                 lastTable = True
-            modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
+            if os.path.isdir(rutaJackson) == True:    
+                modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
         
 #FIN función principal
                   

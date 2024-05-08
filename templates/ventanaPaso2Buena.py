@@ -301,12 +301,7 @@ class PaginaTres(CTkFrame):
         buttons_container.grid(row=2, column=0, sticky="sew")
         buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
         buttons_container.grid_columnconfigure(1, weight=1)
-        
-        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
-        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar)), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
-        self.grid_rowconfigure(2, weight=0)  # Botones no expanden
- 
         tabla_resultados = []
         for tb in tables:
             tabla = {}
@@ -326,8 +321,11 @@ class PaginaTres(CTkFrame):
 
                 tabla['columns'].append(columna_dict)
             tabla_resultados.append(tabla)
+        
+        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar)), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
-        json_resultado = json.dumps(tabla_resultados)     
+        self.grid_rowconfigure(2, weight=0)  # Botones no expanden
 
     def getDatos(self,rutaActual,archivoClases,archivoWar):
         project_name = archivoClases.replace("Classes","")
