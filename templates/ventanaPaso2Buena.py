@@ -47,30 +47,53 @@ class PaginaUno(CTkFrame):
         bbdd = utl.readConfig("BBDD", None)
         
         for i, label_text in enumerate(labels):
+            sv = StringVar()
+            sv.trace_add("write", lambda name, index, mode, sv=lambda:sv: self.urlModify())
             label = CTkLabel(self, text=label_text, fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
             label.grid(row=i+1, column=0, sticky="w", padx=(20, 10), pady=(20, 2))
-            entry = CTkEntry(self, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black", show='*' if label_text == 'Contraseña:' else None)
+            entry = CTkEntry(self,textvariable=sv, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, 
+                             width=500, text_color="grey" if label_text == 'URL:' else 'black', show='*' if label_text == 'Contraseña:' else None,state='disabled' if label_text == 'URL:' else 'normal')
             entry.grid(row=i+1, column=1, padx=(0, 200), pady=(20, 2), sticky="ew")
             if (bbdd != None and valores[i] != None):
                entry.insert(0, bbdd[valores[i]])     
             self.entries.append(entry)
-
+        self.urlModify()
         # Botones
         self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
 
         next_button = CTkButton(self, text="Siguiente", command=lambda:self.master.mostrarSpinner("avanzarPaso2"), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")        
-       
+    
+    def urlModify(self):
+        if(len(self.entries) > 6):
+            entryUrl = self.entries[7]
+            entryService = self.entries[0].get()
+            entrySid = self.entries[1].get()
+            entryHost = self.entries[2].get()
+            entryPuerto = self.entries[3].get()
+            cadena = "jdbc:oracle:thin:@"
+            if(entrySid == ''):
+                cadena = cadena +"//"+ entryHost + ":" + entryPuerto + "/" + entryService
+            else:
+                cadena = cadena + entryHost + ":" + entryPuerto + ":" + entrySid    
+            entryUrl.configure(state="normal")
+            entryUrl.delete(0, "end")
+            entryUrl.insert(0, cadena)
+            entryUrl.configure(state="disabled")  
+
     def probar_conexion(self):
         
         un = self.entries[4].get()
-        cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
         pw = self.entries[5].get()
         
         try:
             oracledb.init_oracle_client(lib_dir=d)
-            oracledb.connect(user=un, password=pw, dsn=cs)
+            if(self.entries[1].get() == ''):
+                cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
+                oracledb.connect(user=un, password=pw, dsn=cs)
+            else:#con SID
+                oracledb.connect(user=un, password=pw, sid=self.entries[1].get(),host=self.entries[2].get(),port=self.entries[3].get())    
             print("Connection successful!")
             self.update_button_color('#4CAF50')  # Green color on successful connection
             self.configuration_warning.configure(text="Connection successful!")
@@ -535,7 +558,6 @@ class VentanaPrincipal(CTk):
         print("Conexión probada")
        
         un = self.pagina_actual.entries[4].get()
-        cs = self.pagina_actual.entries[2].get() + ":" + self.pagina_actual.entries[3].get() + "/" + self.pagina_actual.entries[0].get()
         pw = self.pagina_actual.entries[5].get()
         
         tables = [] 
@@ -560,8 +582,13 @@ class VentanaPrincipal(CTk):
         ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
         
         oracledb.init_oracle_client(lib_dir=d)
-        with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
-            with connection.cursor() as cursor:
+        if(self.pagina_actual.entries[1].get() == ''):
+          cs = self.pagina_actual.entries[2].get() + ":" + self.pagina_actual.entries[3].get() + "/" + self.pagina_actual.entries[0].get()
+          connection =  oracledb.connect(user=un, password=pw, dsn=cs)
+        else:#con SID
+          connection =  oracledb.connect(user=un, password=pw, sid=self.pagina_actual.entries[1].get(),host=self.pagina_actual.entries[2].get(),port=self.pagina_actual.entries[3].get())
+        
+        with connection.cursor() as cursor:
                 cursor.execute(query, esquema=pw.upper())
                 rows = cursor.fetchall()
                 tableName = ''
