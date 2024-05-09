@@ -136,7 +136,7 @@ class PaginaDos(CTkFrame):
             self.var_list.append(IntVar(value=0))
             table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
             table_frame.pack(fill="x", padx=10, pady=2, expand=True)
-
+            #check con la lista de tablas
             table_checkbox = CTkCheckBox(table_frame, text=table.name,command=partial(self.choose,table,index), variable=self.var_list[index], 
                                             text_color="black", font=("Arial", 10, "bold"),
                                             checkbox_height=15, checkbox_width=15, border_color='#337ab7')
@@ -154,8 +154,9 @@ class PaginaDos(CTkFrame):
 
             # Correct placement of column checkboxes inside the columns_frame
             for column in table.columns:
-                column_checkbox = CTkCheckBox(columns_frame, text=column.name, variable=tk.BooleanVar(value=True), 
+                column_checkbox = CTkCheckBox(columns_frame, text=column.name, variable=tk.BooleanVar(value=False), 
                                                 text_color="black", font=("Arial", 10, "bold"),
+                                                command=partial(self.selectTableFromColumn,table_checkbox,column.name),
                                                 checkbox_height=15, checkbox_width=15, border_color='#337ab7')
                 column_checkbox.pack(anchor="w", padx=20)
                 self.listaColumnas[table.name+column.name] = column_checkbox
@@ -169,7 +170,10 @@ class PaginaDos(CTkFrame):
         else:
             table_frame.columns_frame.pack(fill="x", expand=True, padx=20, pady=2)
             table_frame.winfo_children()[1].configure(text="▲")  # Icono cambia a 'contraer'
-
+    def selectTableFromColumn(self,tableCheck,columnName):
+        if (len(self.listaColumnas) != 0 and 
+            self.listaColumnas[tableCheck._text+columnName].get() == 1):
+            tableCheck.select()
     def obtener_seleccion_checkbox(self):
         seleccion_checkbox = []
         
@@ -361,7 +365,8 @@ class PaginaTres(CTkFrame):
         if(self.controladores_var.get() and self.search_entry_presentacion.get() == ''):
             self.configuration_warning.configure(text="Ninguna carpeta War seleccionada")
             return False
-       # p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar))
+        p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar),self)
+        app.destroy()
     def update_search_state(self):
         """Actualiza el estado de los contenedores de búsqueda según el estado de los checkboxes."""
         if any([self.modelo_datos_var.get(), self.daos_var.get(), self.servicios_var.get()]):
@@ -494,7 +499,7 @@ class VentanaPrincipal(CTk):
 
     def mostrar_pagina_tres(self, tables=None):
         if(len(tables) == 0):
-          self.configuration_warning.configure(text="Debe seleccionar al menos una tabla")
+          self.configuration_warning.configure(text="Debe seleccionar al menos una tabla y una columna")
           return False
         self.mostrar_pagina(PaginaTres, tables)
 

@@ -9,7 +9,7 @@ from plugin.utils import modifyJackson
 import operator
 
 #INICIO función principal
-def initPaso2(tables,yaml_data):
+def initPaso2(tables,yaml_data,ventanaPaso2):
     # work only controller
     proyectName = yaml_data["project_name"]
     proyectWar = yaml_data["war_project_name"]
@@ -57,37 +57,41 @@ def initPaso2(tables,yaml_data):
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')    
 
         #controller java 
-        with Worker(src_path=dirController, dst_path=destinoWarControl, data=data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
-         worker.run_copy() 
+        if(ventanaPaso2.controladores_var.get()):
+            with Worker(src_path=dirController, dst_path=destinoWarControl, data=data, exclude=["Mvc*","*RelationsImpl"],overwrite=True) as worker:
+             worker.run_copy() 
 
         #Fecha creación services
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S') 
         data["project_name"] = proyectName 
         #service java 
-        with Worker(src_path=dirService, dst_path=destinoEarService, data=data, exclude=["*Rel*"],overwrite=True) as worker:
-          worker.run_copy()   
+        if(ventanaPaso2.servicios_var.get()):
+            with Worker(src_path=dirService, dst_path=destinoEarService, data=data, exclude=["*Rel*"],overwrite=True) as worker:
+                worker.run_copy()   
 
         #Fecha creación Daos
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Daos java 
-        with Worker(src_path=dirDao, dst_path=destinoEarDao, data=data, exclude=["*Rel*"],overwrite=True) as worker:
-         worker.jinja_env.filters["toCamelCase"] = toCamelCase
-         worker.run_copy()  
+        if(ventanaPaso2.daos_var.get()):
+         with Worker(src_path=dirDao, dst_path=destinoEarDao, data=data, exclude=["*Rel*"],overwrite=True) as worker:
+             worker.jinja_env.filters["toCamelCase"] = toCamelCase
+             worker.run_copy()  
         
         #Fecha creación Models
         now = datetime.now()        
         data["date"] = now.strftime('%d-%b-%Y %H:%M:%S')  
         #Models java 
-        with Worker(src_path=dirModel, dst_path=destinoEarModel, data=data, exclude=["*model*"],overwrite=True) as worker:
-            worker.jinja_env.filters["toCamelCase"] = toCamelCase
-            worker.jinja_env.filters["snakeToCamel"] = snakeToCamel
-            worker.run_copy()
-            if(x == len(tables) - 1):
-                lastTable = True
-            if os.path.isdir(rutaJackson) == True:    
-                modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
+        if(ventanaPaso2.modelo_datos_var.get()):
+            with Worker(src_path=dirModel, dst_path=destinoEarModel, data=data, exclude=["*model*"],overwrite=True) as worker:
+                worker.jinja_env.filters["toCamelCase"] = toCamelCase
+                worker.jinja_env.filters["snakeToCamel"] = snakeToCamel
+                worker.run_copy()
+                if(x == len(tables) - 1):
+                    lastTable = True
+                if os.path.isdir(rutaJackson) == True:    
+                    modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
         
 #FIN función principal
                   
