@@ -353,11 +353,14 @@ class PaginaTres(CTkFrame):
 
                 tabla['columns'].append(columna_dict)
             tabla_resultados.append(tabla)
-        
+            self.tabla_resultados = tabla_resultados
+        self.rutaActual = rutaActual
+        self.archivoClases = archivoClases
+        self.archivoWar = archivoWar
         self.configuration_warning = CTkLabel(buttons_container,  text="", font=("Arial", 13, "bold"),text_color="red")
         self.configuration_warning.grid(row=0, column=1, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
-        CTkButton(buttons_container, text="Siguiente", command=lambda: self.validarPaso2(tabla_resultados, rutaActual,archivoClases,archivoWar), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: self.master.mostrarSpinner("finalizar"), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
 
@@ -375,21 +378,6 @@ class PaginaTres(CTkFrame):
        }
         return data
 
-    def validarPaso2(self,tabla_resultados,rutaActual,archivoClases,archivoWar):
-        negocioActivado = False
-        if(self.modelo_datos_var.get() == True or self.daos_var.get() == True or self.servicios_var.get() == True):
-            negocioActivado = True
-        if (self.controladores_var.get() == False and negocioActivado == False): 
-            self.configuration_warning.configure(text="Debe seleccionar al menos un componente")
-            return False   
-        if(self.search_entry_negocio.get() == '' and negocioActivado):
-            self.configuration_warning.configure(text="Ninguna carpeta EarClasses seleccionada")
-            return False
-        if(self.controladores_var.get() and self.search_entry_presentacion.get() == ''):
-            self.configuration_warning.configure(text="Ninguna carpeta War seleccionada")
-            return False
-        p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar),self)
-        app.destroy()
     def update_search_state(self):
         """Actualiza el estado de los contenedores de búsqueda según el estado de los checkboxes."""
         if any([self.modelo_datos_var.get(), self.daos_var.get(), self.servicios_var.get()]):
@@ -543,11 +531,13 @@ class VentanaPrincipal(CTk):
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         self.resultados_window2 = resultados_window2   
         if(caso == "avanzarPaso2"):
-            resultados_window2.after(2000, self.avanzar_paso2)
+            resultados_window2.after(1000, self.avanzar_paso2)
         elif caso == "selectAll": 
-            resultados_window2.after(2000, self.select_all) 
+            resultados_window2.after(1000, self.select_all) 
         elif caso == "deselectAll": 
-            resultados_window2.after(2000, self.deselect_all)      
+            resultados_window2.after(1000, self.deselect_all) 
+        elif caso == "finalizar":
+            resultados_window2.after(1000, self.validarPaso2)         
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  
@@ -637,7 +627,38 @@ class VentanaPrincipal(CTk):
             table_frame.winfo_children()[0].deselect()  # Checkbox de la tabla
             for checkbox in table_frame.columns_frame.winfo_children():
                 checkbox.deselect() # Checkbox de las columnas   
-        self.ocultarSpinner()               
+        self.ocultarSpinner() 
+
+    def validarPaso2(self):
+        this = self
+        self = self.pagina_actual
+        tabla_resultados = self.tabla_resultados
+        rutaActual = self.rutaActual
+        archivoClases = self.archivoClases
+        archivoWar = self.archivoWar
+        negocioActivado = False
+        if(self.modelo_datos_var.get() == True or self.daos_var.get() == True or self.servicios_var.get() == True):
+            negocioActivado = True
+        if (self.controladores_var.get() == False and negocioActivado == False): 
+            self.configuration_warning.configure(text="Debe seleccionar al menos un componente")
+            this.ocultarSpinner()
+            return False   
+        if(self.search_entry_negocio.get() == '' and negocioActivado):
+            self.configuration_warning.configure(text="Ninguna carpeta EarClasses seleccionada")
+            this.ocultarSpinner()
+            return False
+        if(self.controladores_var.get() and self.search_entry_presentacion.get() == ''):
+            self.configuration_warning.configure(text="Ninguna carpeta War seleccionada")
+            this.ocultarSpinner()
+            return False
+        
+        p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar),self)
+        this.ocultarSpinner()
+        this.mostrarResumenFinal(tabla_resultados)
+        #self.configuration_warning.after(1000, app.destroy())
+
+    def mostrarResumenFinal(self,tablas):   
+       self.pagina_actual.configuration_warning.configure(text="Se han creado "+str(len(tablas))+" tablas ")                       
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
