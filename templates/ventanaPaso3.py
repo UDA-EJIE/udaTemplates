@@ -24,6 +24,7 @@ class PaginaUno(CTkFrame):
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
          # Configura el contenedor principal para que las columnas se expandan
         self.grid_columnconfigure(0, weight=1)  # Esto hace que la columna se expanda
+        self.grid_columnconfigure(1, weight=1) 
 
         configuration_frame = CTkFrame(self)
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
@@ -52,8 +53,8 @@ class PaginaUno(CTkFrame):
         labelSecurityFrame = CTkLabel(self, text="Selección del proyecto WAR", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         labelSecurityFrame.place(in_=war_frame, anchor="sw", x=10, y=35 )
 
-        self.war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black")
-        self.war_entry.grid(row=0, column=0 , padx=(200,60), pady=(30, 2), sticky="ew")
+        self.war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=600, text_color="black")
+        self.war_entry.grid(row=0, column=0 , padx=(220,60), pady=(30, 2), sticky="ew")
         
 
         # Botones
@@ -67,10 +68,11 @@ class PaginaUno(CTkFrame):
         self.entries = []
         bbdd = utl.readConfig("BBDD", None)
 
+
         for i, label_text in enumerate(labels):
             label = CTkLabel(self, text=label_text, fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
             label.grid(row=i+1, column=0, sticky="w", padx=(20, 10), pady=(15, 2))
-            entry = CTkEntry(self, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black", show='*' if label_text == 'Contraseña:' else None)
+            entry = CTkEntry(self, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=400, text_color="black", show='*' if label_text == 'Contraseña:' else None)
             entry.grid(row=i+1, column=1, padx=(0, 200), pady=(15, 2), sticky="ew")
             if (bbdd != None and valores[i] != None):
                entry.insert(0, bbdd[valores[i]])
@@ -78,10 +80,10 @@ class PaginaUno(CTkFrame):
 
         # Botones
         self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=20, padx=20, sticky="ew")
+        self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=10, padx=20, sticky="ew")
 
         next_button = CTkButton(self, text="Siguiente", command=lambda: self.avanzar_paso2(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        next_button.grid(row=len(labels) + 2, column=1, pady=10, padx=20, sticky="e")
+        next_button.grid(row=len(labels) + 2, column=1, pady=0, padx=20, sticky="e")
 
     def probar_conexion(self):
         # Obtener datos de los cuadros de texto
@@ -293,91 +295,143 @@ class ventanaPaso2(CTkFrame):
 
         # Nombre del mantenimiento
         nombre_label = CTkLabel(contenedor_opciones, text="Nombre del mantenimiento:", text_color="black")
-        nombre_label.grid(row=0, column=0, sticky="w", padx=(20, 0), pady=(10,10))
+        nombre_label.grid(row=0, column=0, sticky="w", padx=(20, 0), pady=(10,5))
         self.nombre_entry = CTkEntry(contenedor_opciones, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", height=2.5, width=500)
-        self.nombre_entry.grid(row=0, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
+        self.nombre_entry.grid(row=0, column=0, padx=(200, 100),  pady=(10,5), sticky="ew")
 
         # Título del mantenimiento
         titulo_label = CTkLabel(contenedor_opciones, text="Título del mantenimiento:", text_color="black")
-        titulo_label.grid(row=1, column=0, sticky="w", padx=(20, 0), pady=(10,10))
+        titulo_label.grid(row=1, column=0, sticky="w", padx=(20, 0), pady=(5,5))
         self.titulo_entry = CTkEntry(contenedor_opciones,fg_color='#69a3d6', border_color='#69a3d6', text_color="black", height=2.5, width=500)
-        self.titulo_entry.grid(row=1, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
+        self.titulo_entry.grid(row=1, column=0, padx=(200, 100),  pady=(5,5), sticky="ew")
 
-        # Checkbox para estado de mantenimiento
-        mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
-        mantenimiento_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
+        self.checkbox_var = BooleanVar(value=True)
         # Checkbox para estado de mantenimiento
-        detalle_servidor_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black")
-        detalle_servidor_checkbox.grid(row=3, column=0, padx=20, pady=5, sticky="w")
+        self.mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black", variable=self.checkbox_var, command= lambda : self.mantenimiento_activo())
+        self.mantenimiento_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
         # Radiobuttons para tipo de mantenimiento
         tipo_label = CTkLabel(contenedor_opciones, text="Tipo de Mantenimiento:", text_color="black")
-        tipo_label.grid(row=4, column=0, sticky="w", padx=(20, 0))
-        tipo_var = tk.StringVar(value="Edición en línea")
-        tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=tipo_var, value="Edición en línea", text_color="black")
-        tipo_radio1.grid(row=4, column=0, sticky="w", padx=(200, 0))
-        tipo_radio2 = CTkRadioButton(contenedor_opciones, text="Formulario de detalle", variable=tipo_var, value="Formulario de detalle", text_color="black")
-        tipo_radio2.grid(row=5, column=0, sticky="w", padx=(200, 0))
+        tipo_label.grid(row=3, column=0, sticky="w", padx=(20, 0))
+        
+        
+
+
+        self.tipo_var = tk.StringVar(value="Edición en línea")
+        self.tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=self.tipo_var, value="Edición en línea", text_color="black", command=lambda: self.edicion_linea() )
+        self.tipo_radio1.grid(row=3, column=0, sticky="w", padx=(200, 0))
+        self.tipo_radio2 = CTkRadioButton(contenedor_opciones, text="Formulario de detalle", variable=self.tipo_var, value="Formulario de detalle", text_color="black", command=lambda: self.edicion_formulario_detalle())
+        self.tipo_radio2.grid(row=4, column=0, sticky="w", padx=(200, 0))
+
+        # Radiobuttons para tipo de mantenimiento / se inicializan antes para poder deshabilitarlos
+        self.recuperar_checkbox = CTkCheckBox(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
+        self.recuperar_checkbox.grid(row=5, column=0, sticky="w", padx=(200, 0) ,pady=(10,10))
+
+
+        self.label_tipologia = CTkLabel(contenedor_opciones, text="Tipología de botones:", text_color="black")
+        self.label_tipologia.grid(row=6, column=0, sticky="w", padx=(200, 0))
+
+        self.tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], dropdown_text_color="black",dropdown_fg_color='#69a3d6',border_color="black", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width=200)
+        self.tipologia_label_combobox.grid(row=6, column=0, sticky="w", padx=(350, 20), pady=10)
 
         
 
-        # Radiobuttons para tipo de mantenimiento
-        tipologia_label = CTkCheckBox(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
-        tipologia_label.grid(row=6, column=0, sticky="w", padx=(200, 0) ,pady=(10,10))
-
-
-        label_tipologia = CTkLabel(contenedor_opciones, text="Tipología de botones:", text_color="black")
-        label_tipologia.grid(row=7, column=0, sticky="w", padx=(200, 0))
-
-        tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], dropdown_text_color="black",dropdown_fg_color='#69a3d6',border_color="black", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width=200)
-        tipologia_label_combobox.grid(row=7, column=0, sticky="w", padx=(350, 20), pady=10)
-
         # Opciones adicionales
-        botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
-        botonera_checkbox.grid(row=8, column=0, padx=20, pady=5, sticky="w")
+        self.botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
+        self.botonera_checkbox.grid(row=7, column=0, padx=20, pady=5, sticky="w")
 
-        menu_contextual_checkbox = CTkCheckBox(contenedor_opciones, text="Menú contextual", text_color="black")
-        menu_contextual_checkbox.grid(row=9, column=0, padx=20, pady=5, sticky="w")
+        self.menu_contextual_checkbox = CTkCheckBox(contenedor_opciones, text="Menú contextual", text_color="black")
+        self.menu_contextual_checkbox.grid(row=8, column=0, padx=20, pady=5, sticky="w")
 
-        filtrado_datos_checkbox = CTkCheckBox(contenedor_opciones, text="Filtrado de datos", text_color="black")
-        filtrado_datos_checkbox.grid(row=10, column=0, padx=20, pady=5, sticky="w")
+        self.filtrado_datos_checkbox = CTkCheckBox(contenedor_opciones, text="Filtrado de datos", text_color="black")
+        self.filtrado_datos_checkbox.grid(row=9, column=0, padx=20, pady=5, sticky="w")
 
-        busqueda_checkbox = CTkCheckBox(contenedor_opciones, text="Búsqueda", text_color="black")
-        busqueda_checkbox.grid(row=11, column=0, padx=20, pady=5, sticky="w")
+        self.busqueda_checkbox = CTkCheckBox(contenedor_opciones, text="Búsqueda", text_color="black")
+        self.busqueda_checkbox.grid(row=10, column=0, padx=20, pady=5, sticky="w")
 
-        validaciones_cliente_checkbox = CTkCheckBox(contenedor_opciones, text="Validaciones cliente", text_color="black")
-        validaciones_cliente_checkbox.grid(row=12, column=0, padx=20, pady=5, sticky="w")
+        self.validaciones_cliente_checkbox = CTkCheckBox(contenedor_opciones, text="Validaciones cliente", text_color="black")
+        self.validaciones_cliente_checkbox.grid(row=11, column=0, padx=20, pady=5, sticky="w")
 
-        multiseleccion_checkbox = CTkCheckBox(contenedor_opciones, text="Multiselección", text_color="black")
-        multiseleccion_checkbox.grid(row=13, column=0, padx=20, pady=(5, 20), sticky="w")
+        self.multiseleccion_checkbox = CTkCheckBox(contenedor_opciones, text="Multiselección", text_color="black")
+        self.multiseleccion_checkbox.grid(row=12, column=0, padx=20, pady=(5, 20), sticky="w")
 
         # Footer con botones de navegación
         footer_frame = CTkFrame(self, fg_color="#E0E0E0")
         footer_frame.grid(row=3, column=0, columnspan=2, padx=20, sticky="se")
         btn_back = CTkButton(footer_frame, text="Back", command=lambda :master.mostrar_pagina_uno(),  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        btn_back.pack(side="left", padx=10, pady=5)
-        btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(data_mantenimiento, tables) ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        btn_next.pack(side="left", padx=10, pady=5)
+        btn_back.pack(side="left", padx=10)
+        btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(self.obtener_datos(), tables) ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        btn_next.pack(side="left", padx=10)
         btn_cancel = CTkButton(footer_frame, text="Cancel", command=lambda : self.destroy() ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        btn_cancel.pack(side="left", padx=10, pady=5)
+        btn_cancel.pack(side="left", padx=10)
+
+        self.edicion_linea()
+
+
+
+    def mantenimiento_activo(self): 
+        #Funcion para deshabilitar botones ne funcion de mantenimiento
+        if self.checkbox_var.get() == True:
+
+            self.tipo_var.set("Edición en línea")
+            self.tipo_radio1.configure(state="normal")
+            self.tipo_radio2.configure(state="normal")
+
+        else: 
+            self.tipo_radio1.configure(state="disabled")
+            self.tipo_radio2.configure(state="disabled")
+
+            
+
+
+
+        self.recuperar_checkbox.configure(state="disabled")
+        self.tipologia_label_combobox.configure(state="disabled")
+        self.label_tipologia.configure(text_color="grey")
+
+    def edicion_linea(self):
+        #funcion para deshabilitar los botones cuando es edicion en linea 
+        self.recuperar_checkbox.configure(state="disabled")
+        self.tipologia_label_combobox.configure(state="disabled")
+        self.label_tipologia.configure(text_color="grey")
+
+    def edicion_formulario_detalle(self):
+        self.recuperar_checkbox.configure(state="normal")
+        self.tipologia_label_combobox.configure(state="normal")
+        self.label_tipologia.configure(text_color="black")
+
+
 
     def obtener_datos(self):
+        """Función para recopilar todos los datos de la interfaz en formato de lista de tuplas."""
+       
+        if self.mantenimiento_checkbox.get() == 0:
+            self.tipo_var = None
+            datos_servidor = 0
+            tipologia_valor = None
 
-        arrayInfoPag2 = []
-        nombre = self.nombre_entry.get()
-        titulo = self.titulo_entry.get()
-        mantenimiento = self.checkbox_var.get()
-        
-        if self.tipo_var.get() == " Edición en línea":
-            tipo = "DETAIL"
-        else:
-            tipo = "INLINE"
-        
-        arrayInfoPag2.append([nombre, titulo, mantenimiento, tipo])
+        else: 
+            self.tipo_var = self.tipo_var.get()
+            datos_servidor = self.recuperar_checkbox.get()
+            tipologia_valor = self.tipologia_label_combobox.get()
+       
+        datos = [
 
-
-        return arrayInfoPag2
+            ("nombre_mantenimiento", self.nombre_entry.get()),
+            ("titulo_mantenimiento", self.titulo_entry.get()),
+            ("mantenimineto", self.mantenimiento_checkbox.get()),  # Asumiendo que mantenimiento_checkbox usa un BooleanVar
+            ("tipo_mantenimineto", self.tipo_var),
+            ("datos_servidor", datos_servidor),
+            ("tipologia_botones", tipologia_valor),
+            ("botonera", self.botonera_checkbox.get()),  # Asumiendo uso de BooleanVar
+            ("menu_contextual", self.menu_contextual_checkbox.get()),
+            ("filtrado_datos", self.filtrado_datos_checkbox.get()),
+            ("busqueda", self.busqueda_checkbox.get()),
+            ("validaciones_cliente", self.validaciones_cliente_checkbox.get()),
+            ("multiseleccion", self.multiseleccion_checkbox.get())
+        ]
+        return datos
 
 
 
@@ -403,7 +457,7 @@ class VentanaPaso3(CTkFrame):
         
         # Creamos los radio buttons dentro del scrollbar
         for i, table in enumerate(tables):
-            radio_button = CTkRadioButton(scrollbar, text=table.name, variable=self.radio_var, value=table.name, text_color="black", command=lambda i=i: self.actualizar_indice(i))
+            radio_button = CTkRadioButton(scrollbar, text=table.name, variable=self.radio_var, value=table.name, text_color="black", command=lambda table=table, i=i: self.actualizar_indice(i, table.name))
             radio_button.grid(row=i, column=0, sticky="w", padx=10, pady=2)
 
         # Si no se proporciona un índice seleccionado, usamos 0 por defecto
@@ -411,8 +465,7 @@ class VentanaPaso3(CTkFrame):
             indexSeleccionado = 0
         self.tabla_seleccionada_index = indexSeleccionado
 
-        # Asegurarse de que el índice predeterminado se maneja desde el inicio
-        self.actualizar_indice(indexSeleccionado)
+      
 
         # Derecha: Contenedor para los campos de entrada y opciones
         right_container = CTkFrame(self, corner_radius=5, fg_color="#E0E0E0", border_color="#69a3d6")
@@ -422,13 +475,17 @@ class VentanaPaso3(CTkFrame):
         # Campos de entrada y otros widgets en el contenedor derecho
         url_label = CTkLabel(right_container, text="URL(*):", text_color="black")
         url_label.grid(row=0, column=0, sticky="w", padx=10, pady=10)
-        url_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        url_entry.grid(row=0, column=1, sticky="we", padx=10, pady=10)
+        self.url_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        self.url_entry.grid(row=0, column=1, sticky="we", padx=10, pady=10)
 
         alias_label = CTkLabel(right_container, text="Alias(*):", text_color="black")
         alias_label.grid(row=1, column=0, sticky="w", padx=10, pady=10)
-        alias_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        alias_entry.grid(row=1, column=1, sticky="we", padx=10, pady=10)
+        self.alias_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        self.alias_entry.grid(row=1, column=1, sticky="we", padx=10, pady=10)
+
+          # Asegurarse de que el índice predeterminado se maneja desde el inicio
+        self.actualizar_indice(indexSeleccionado, tables[indexSeleccionado].name)
+
 
         cargar_check = CTkCheckBox(right_container, text="Cargar al inicio de la ventana", text_color="black")
         cargar_check.grid(row=2, column=0, columnspan=2, sticky="w", padx=10, pady=10)
@@ -455,9 +512,15 @@ class VentanaPaso3(CTkFrame):
         btn_cancel.pack(side="left", padx=10, pady=5)
 
 
-    def actualizar_indice(self, index):
+    def actualizar_indice(self, index, name):
         """Actualizar el índice de la tabla seleccionada."""
         self.tabla_seleccionada_index = index
+        # Borrar contenido existente
+        self.url_entry.delete(0, "end") 
+        self.alias_entry.delete(0, "end")  
+        self.url_entry.insert(0, "../" + name)
+        self.alias_entry.insert(0, name)
+        
         print("Índice seleccionado:", index)
 
     def abrir_ventana_columnas(self):
