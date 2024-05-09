@@ -15,6 +15,8 @@ import plugin.utils as utl
 
 
 d = utl.readConfig("ORACLE", "rutaD")
+ruta_classes = utl.readConfig("RUTA", "ruta_classes")
+ruta_war = utl.readConfig("RUTA", "ruta_war")
 
 class PaginaUno(CTkFrame):
     def __init__(self, master, tables=None, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
@@ -50,12 +52,12 @@ class PaginaUno(CTkFrame):
         labelSecurityFrame = CTkLabel(self, text="Selección del proyecto WAR", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         labelSecurityFrame.place(in_=war_frame, anchor="sw", x=10, y=35 )
 
-        war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black")
-        war_entry.grid(row=0, column=1 , padx=(0, 20), pady=(30, 2), sticky="ew")
+        self.war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=500, text_color="black")
+        self.war_entry.grid(row=0, column=0 , padx=(200,60), pady=(30, 2), sticky="ew")
         
 
         # Botones
-        buscar_button = CTkButton(war_frame, text="Buscar...", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : self.buscar_archivos())
+        buscar_button = CTkButton(war_frame, text="Buscar...", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos())
         buscar_button.grid(row=0, column=2, pady=(30, 2), padx=20, sticky="ew")
       
 
@@ -195,21 +197,25 @@ class PaginaUno(CTkFrame):
         self.master.mostrar_pagina_dos(tables)           
 
 
-    def buscar_archivos(self):
-        """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
-        folder_path = os.path.dirname(__file__)
-        files = [file for file in os.listdir(folder_path) if file.endswith("War")]
-        self.mostrar_resultados(files, folder_path)
+    def buscar_archivos(self, ruta_personalizada = None):
+            """Busca archivos con terminación 'war' en la misma ruta del script Python."""
+            if ruta_personalizada == None:
+                files = [file for file in os.listdir(ruta_classes) if file.endswith("War")]
+                self.mostrar_resultados(files,)
+            else:
+                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                self.mostrar_resultados(files)
 
-    def mostrar_resultados(self, files, folder_path):
+
+
+    def mostrar_resultados(self, files):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
+
             resultados_window = ctk.CTkToplevel(self)
             resultados_window.title("Resultados de Búsqueda")
             resultados_window.geometry("600x300")
-            # Configuraciones después de que la ventana está visible
-            resultados_window.after(100, lambda: resultados_window.attributes('-topmost', True))
-
+            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
 
             # Variable para almacenar el archivo seleccionado
             selected_file = tk.StringVar(value=None)
@@ -227,16 +233,36 @@ class PaginaUno(CTkFrame):
             button_frame = ctk.CTkFrame(resultados_window)
             button_frame.pack(fill="x", pady=20)
             
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(selected_file.get()))
-            accept_button.pack(side="left", padx=10, expand=True)
+            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window)) 
+            buscar_button.pack(side="left", padx=10, expand=True)
+            
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
-        
-    def aceptar(self, selected_file):
-        if selected_file:
-            print(f"Archivo seleccionado: {selected_file}")
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get()))
+            accept_button.pack(side="right", padx=10, expand=True)
         else:
-            print("No se seleccionó ningún archivo.")
+            print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+
+    def aceptar(self, frame, selected_file):
+        if selected_file :
+            print(f"Archivo seleccionado: {selected_file}")
+            self.war_entry.insert(0, selected_file)
+            frame.destroy()
+
+        else:
+            print("No se seleccionó ningún archivo.")       
+
+    def open_file_explorer(self, frame):
+        # Esta función se llama cuando el usuario hace clic en "Buscar"
+        # Abre un diálogo para seleccionar un directorio
+        frame.destroy()
+        directory = filedialog.askdirectory(parent=self)      
+        if directory:  # Si se selecciona un directorio
+            selected_directory = directory  # Guardar la ruta del directorio seleccionado
+            self.buscar_archivos(selected_directory)
+            print(f"Directorio seleccionado: {selected_directory}")
+        else:
+            print("No se seleccionó ningún directorio.")
 
 class ventanaPaso2(CTkFrame):
     def __init__(self, master, tables, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
@@ -268,13 +294,13 @@ class ventanaPaso2(CTkFrame):
         # Nombre del mantenimiento
         nombre_label = CTkLabel(contenedor_opciones, text="Nombre del mantenimiento:", text_color="black")
         nombre_label.grid(row=0, column=0, sticky="w", padx=(20, 0), pady=(10,10))
-        self.nombre_entry = CTkEntry(contenedor_opciones)
+        self.nombre_entry = CTkEntry(contenedor_opciones, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", height=2.5, width=500)
         self.nombre_entry.grid(row=0, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
 
         # Título del mantenimiento
         titulo_label = CTkLabel(contenedor_opciones, text="Título del mantenimiento:", text_color="black")
         titulo_label.grid(row=1, column=0, sticky="w", padx=(20, 0), pady=(10,10))
-        self.titulo_entry = CTkEntry(contenedor_opciones)
+        self.titulo_entry = CTkEntry(contenedor_opciones,fg_color='#69a3d6', border_color='#69a3d6', text_color="black", height=2.5, width=500)
         self.titulo_entry.grid(row=1, column=0, padx=(200, 100),  pady=(10,10), sticky="ew")
 
         # Checkbox para estado de mantenimiento
@@ -298,14 +324,14 @@ class ventanaPaso2(CTkFrame):
 
         # Radiobuttons para tipo de mantenimiento
         tipologia_label = CTkCheckBox(contenedor_opciones, text="Recuperar datos de detalle desde servidor", text_color="black")
-        tipologia_label.grid(row=6, column=0, sticky="w", padx=20)
+        tipologia_label.grid(row=6, column=0, sticky="w", padx=(200, 0) ,pady=(10,10))
 
 
         label_tipologia = CTkLabel(contenedor_opciones, text="Tipología de botones:", text_color="black")
-        label_tipologia.grid(row=7, column=0, sticky="w", padx=(20, 0))
+        label_tipologia.grid(row=7, column=0, sticky="w", padx=(200, 0))
 
-        tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
-        tipologia_label_combobox.grid(row=7, column=0, sticky="w", padx=(280, 20), pady=10)
+        tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], dropdown_text_color="black",dropdown_fg_color='#69a3d6',border_color="black", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width=200)
+        tipologia_label_combobox.grid(row=7, column=0, sticky="w", padx=(350, 20), pady=10)
 
         # Opciones adicionales
         botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
@@ -328,7 +354,7 @@ class ventanaPaso2(CTkFrame):
 
         # Footer con botones de navegación
         footer_frame = CTkFrame(self, fg_color="#E0E0E0")
-        footer_frame.grid(row=3, column=0, columnspan=2, pady= (20,20), padx=20, sticky="se")
+        footer_frame.grid(row=3, column=0, columnspan=2, padx=20, sticky="se")
         btn_back = CTkButton(footer_frame, text="Back", command=lambda :master.mostrar_pagina_uno(),  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_back.pack(side="left", padx=10, pady=5)
         btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(data_mantenimiento, tables) ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
@@ -364,7 +390,7 @@ class VentanaPaso3(CTkFrame):
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=2)
 
         # Izquierda: Contenedor para la lista de entidades con radio buttons
-        left_container = CTkFrame(self, corner_radius=5, bg_color="#E0E0E0", border_color="#69a3d6")
+        left_container = CTkFrame(self, corner_radius=3, bg_color="#E0E0E0", border_color="#69a3d6", )
         left_container.grid(row=0, column=0, sticky="nswe", padx=10, pady=10)
         left_container.grid_rowconfigure(0, weight=1)
         left_container.grid_columnconfigure(0, weight=1)
@@ -396,12 +422,12 @@ class VentanaPaso3(CTkFrame):
         # Campos de entrada y otros widgets en el contenedor derecho
         url_label = CTkLabel(right_container, text="URL(*):", text_color="black")
         url_label.grid(row=0, column=0, sticky="w", padx=10, pady=10)
-        url_entry = CTkEntry(right_container, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        url_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         url_entry.grid(row=0, column=1, sticky="we", padx=10, pady=10)
 
         alias_label = CTkLabel(right_container, text="Alias(*):", text_color="black")
         alias_label.grid(row=1, column=0, sticky="w", padx=10, pady=10)
-        alias_entry = CTkEntry(right_container, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        alias_entry = CTkEntry(right_container, fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         alias_entry.grid(row=1, column=1, sticky="we", padx=10, pady=10)
 
         cargar_check = CTkCheckBox(right_container, text="Cargar al inicio de la ventana", text_color="black")
@@ -489,13 +515,13 @@ class VentanaColumnas(CTkFrame):
         contenedor_botones = ctk.CTkFrame(self, fg_color="#E0E0E0")
         contenedor_botones.grid(row=4, column=0, sticky="se", padx=10, pady=10)
 
-        back_button = ctk.CTkButton(contenedor_botones, text="Back")
+        back_button = ctk.CTkButton(contenedor_botones, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_tres(data_mantenimiento, tables,  index_seleccionado))
         back_button.grid(row=0, column=0, padx=5, sticky="e")
 
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish", command=lambda: self.finish_action(tables, data_mantenimiento))
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.finish_action(tables, data_mantenimiento))
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
-        cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel")
+        cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         cancel_button.grid(row=0, column=2, padx=5, sticky="e")
 
 
