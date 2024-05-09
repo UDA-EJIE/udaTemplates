@@ -16,6 +16,7 @@ from functools import partial
 
 d = utl.readConfig("ORACLE", "rutaD")
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
+ruta_war = utl.readConfig("RUTA", "ruta_war")
 tables_original = None
 class PaginaUno(CTkFrame):
     
@@ -132,7 +133,7 @@ class PaginaDos(CTkFrame):
     def populate_scrollable_frame(self, frame, tables):
        
         for index, table in enumerate(tables):
-            self.var_list.append(IntVar(value=1))
+            self.var_list.append(IntVar(value=0))
             table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
             table_frame.pack(fill="x", padx=10, pady=2, expand=True)
 
@@ -252,7 +253,7 @@ class PaginaTres(CTkFrame):
                                                   ("Servicios", self.servicios_var)]):
             component_container = CTkFrame(negocio_container, fg_color="#E0E0E0")
             component_container.grid(row=index+1, column=0, sticky="ew", pady=5, padx=(20, 20))
-            CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component, text_color="black", font=("Arial", 11, "bold")).grid(row=0, column=0, padx=(20, 0), sticky="w")
+            CTkCheckBox(component_container, variable=var, onvalue=True, offvalue=False, text=component,command=self.update_search_state, text_color="black", font=("Arial", 11, "bold")).grid(row=0, column=0, padx=(20, 0), sticky="w")
         
         # Entry y Botón de Buscar para Componentes de Negocio
         rutaActual = utl.rutaActual(__file__)
@@ -263,7 +264,7 @@ class PaginaTres(CTkFrame):
            textRutaNegocio = ruta_classes 
         if(ruta_war != None):
            textRutaControlador = ruta_classes 
-        archivoClases = utl.buscarArchivo(textRutaNegocio,"Classes") 
+        archivoClases = utl.buscarArchivo(textRutaNegocio,"EARClasses") 
         archivoWar = utl.buscarArchivo(textRutaControlador,"War") 
         if(archivoClases != '' ):
            textRutaNegocio = textRutaNegocio+"\\"+archivoClases 
@@ -271,6 +272,8 @@ class PaginaTres(CTkFrame):
            textRutaControlador = textRutaControlador+"\\"+archivoWar  
         self.search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
         self.search_entry_negocio.insert(0, textRutaNegocio)
+        self.search_entry_negocio.configure(text_color="grey")
+        self.search_entry_negocio.configure(state="disabled")
         self.search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
         search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0',fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos(boton_pulsado="negocio"))
         search_button_negocio.grid(row=4, column=0, padx=(670, 0), pady=(10,0))
@@ -292,6 +295,8 @@ class PaginaTres(CTkFrame):
         # Entry y Botón de Buscar para Componentes de Presentación
         self.search_entry_presentacion = CTkEntry(presentacion_container, width=600, fg_color='#69a3d6')
         self.search_entry_presentacion.insert(0, textRutaControlador)
+        self.search_entry_presentacion.configure(text_color="grey")
+        self.search_entry_presentacion.configure(state="disabled")
         self.search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
         search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos(boton_pulsado="presentacion"))
         search_button_presentacion.grid(row=2, column=0, padx=(670, 0), pady=(10,0))
@@ -322,8 +327,10 @@ class PaginaTres(CTkFrame):
                 tabla['columns'].append(columna_dict)
             tabla_resultados.append(tabla)
         
+        self.configuration_warning = CTkLabel(buttons_container,  text="", font=("Arial", 13, "bold"),text_color="red")
+        self.configuration_warning.grid(row=0, column=1, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
-        CTkButton(buttons_container, text="Siguiente", command=lambda: p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar)), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
+        CTkButton(buttons_container, text="Siguiente", command=lambda: self.validarPaso2(tabla_resultados, rutaActual,archivoClases,archivoWar), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
 
@@ -340,44 +347,62 @@ class PaginaTres(CTkFrame):
         "destinoWar" : self.search_entry_presentacion.get()
        }
         return data
-        
+
+    def validarPaso2(self,tabla_resultados,rutaActual,archivoClases,archivoWar):
+        negocioActivado = False
+        if(self.modelo_datos_var.get() == True or self.daos_var.get() == True or self.servicios_var.get() == True):
+            negocioActivado = True
+        if (self.controladores_var.get() == False and negocioActivado == False): 
+            self.configuration_warning.configure(text="Debe seleccionar al menos un componente")
+            return False   
+        if(self.search_entry_negocio.get() == '' and negocioActivado):
+            self.configuration_warning.configure(text="Ninguna carpeta EarClasses seleccionada")
+            return False
+        if(self.controladores_var.get() and self.search_entry_presentacion.get() == ''):
+            self.configuration_warning.configure(text="Ninguna carpeta War seleccionada")
+            return False
+       # p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar))
     def update_search_state(self):
         """Actualiza el estado de los contenedores de búsqueda según el estado de los checkboxes."""
         if any([self.modelo_datos_var.get(), self.daos_var.get(), self.servicios_var.get()]):
-            self.search_entry_negocio.config(state="normal")
-            self.search_button_negocio.config(state="normal")
+            self.search_entry_negocio.configure(state="normal")
+            self.search_entry_negocio.configure(text_color="black")
+            self.search_entry_negocio.configure(state="disabled")
         else:
-            self.search_entry_negocio.config(state="disabled")
-            self.search_button_negocio.config(state="disabled")
+            self.search_entry_negocio.configure(state="normal")
+            self.search_entry_negocio.configure(text_color="grey")
+            self.search_entry_negocio.configure(state="disabled")
 
         if self.controladores_var.get():
-            self.search_entry_presentacion.config(state="normal")
-            self.search_button_presentacion.config(state="normal")
+            self.search_entry_presentacion.configure(state="normal")
+            self.search_entry_presentacion.configure(text_color="black")
+            self.search_entry_presentacion.configure(state="disabled")
         else:
-            self.search_entry_presentacion.config(state="disabled")
-            self.search_button_presentacion.config(state="disabled")
+            self.search_entry_presentacion.configure(state="normal")
+            self.search_entry_presentacion.configure(text_color="grey")
+            self.search_entry_presentacion.configure(state="disabled")
 
     def buscar_archivos(self, boton_pulsado, ruta_personalizada = None):
         if boton_pulsado == "negocio":
             """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
             if ruta_personalizada == None:
                 files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
-                self.mostrar_resultados(files, boton_pulsado)
+                self.mostrar_resultados(files, boton_pulsado,ruta_classes)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
-                self.mostrar_resultados(files, boton_pulsado)
+                self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
         else:
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_classes) if file.endswith("War")]
-                self.mostrar_resultados(files, boton_pulsado)
+                files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
+                self.mostrar_resultados(files, boton_pulsado,ruta_war)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
-                self.mostrar_resultados(files, boton_pulsado)
+                self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
 
 
 
-    def mostrar_resultados(self, files, boton_pulsado):
+    def mostrar_resultados(self, files, boton_pulsado,ruta):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
 
@@ -407,19 +432,26 @@ class PaginaTres(CTkFrame):
             
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado))
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado,ruta))
             accept_button.pack(side="right", padx=10, expand=True)
         else:
             print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
-    def aceptar(self, frame, selected_file, boton_pulsado):
+    def aceptar(self, frame, selected_file, boton_pulsado, ruta):
         if selected_file and boton_pulsado == "negocio":
             print(f"Archivo seleccionado: {selected_file}")
-            self.search_entry_negocio.insert(0, selected_file)
+            self.search_entry_negocio.configure(state="normal")
+            self.search_entry_negocio.delete(0, "end")
+            self.search_entry_negocio.insert(0, ruta+"/"+selected_file)
+            self.search_entry_negocio.configure(text_color="grey")
+            self.search_entry_negocio.configure(state="disabled")
             frame.destroy()
         elif(selected_file and boton_pulsado == "presentacion"):
             print(f"Archivo seleccionado: {selected_file}")
-            self.search_entry_presentacion.insert(0, selected_file)
+            self.search_entry_presentacion.configure(state="normal")
+            self.search_entry_presentacion.delete(0, "end")
+            self.search_entry_presentacion.insert(0, ruta+"/"+selected_file)
+            self.search_entry_presentacion.configure(state="disabled")
             frame.destroy()
 
         else:
