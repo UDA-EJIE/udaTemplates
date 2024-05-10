@@ -492,7 +492,14 @@ class VentanaPrincipal(CTk):
     def __init__(self):
         super().__init__()
         self.title("Generar código de negocio y control")
-        self.geometry("900x700") # Puedes ajustar las dimensiones según tus necesidades
+        width = self.winfo_screenwidth() - 100
+        height = self.winfo_screenheight() - 100
+        self.geometry(str(width)+"x"+str(height)) # Puedes ajustar las dimensiones según tus necesidades
+        padx = 0 # the padding you need.
+        pady = 0
+        toplevel_offsetx = 50
+        toplevel_offsety = 50
+        self.geometry(f"+{toplevel_offsetx + padx}+{toplevel_offsety + pady}")
         self.resizable(width=True, height=True)
 
         self.grid_rowconfigure(0, weight=1)
@@ -522,13 +529,19 @@ class VentanaPrincipal(CTk):
     def mostrarSpinner(self,caso):
         resultados_window2 = ctk.CTkToplevel(app)
         resultados_window2.title("Cargando...")
-        resultados_window2.geometry("800x500")
         resultados_window2.attributes('-topmost', True)
         resultados_window2.wm_attributes('-alpha',0.8)
         #resultados_window2.resizable(width=None, height=None)
         #resultados_window2.transient()
         resultados_window2.overrideredirect(True)
-      
+        toplevel_offsetx, toplevel_offsety = app.winfo_x(), app.winfo_y()
+        padx = -10 # the padding you need.
+        pady = -10
+        resultados_window2.geometry(f"+{toplevel_offsetx + padx}+{toplevel_offsety + pady}")
+        width = self.winfo_screenwidth() - 80
+        height = self.winfo_screenheight() - 80
+        resultados_window2.geometry(str(width)+"x"+str(height))
+
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         self.resultados_window2 = resultados_window2   
