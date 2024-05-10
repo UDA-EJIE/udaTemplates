@@ -265,6 +265,7 @@ class PaginaTres(CTkFrame):
         main_container.grid_columnconfigure(0, weight=1)
         main_container.grid_rowconfigure(0, weight=1)
         main_container.grid_rowconfigure(1, weight=1)
+        self.main_container = main_container
 
         # Contenedor de Componentes de Negocio
         negocio_container = CTkFrame(main_container, fg_color="#E0E0E0", border_width=3, border_color="#69a3d6")
@@ -333,6 +334,7 @@ class PaginaTres(CTkFrame):
         buttons_container.grid(row=2, column=0, sticky="sew")
         buttons_container.grid_columnconfigure(0, weight=1)  # Distribuir espacio uniformemente
         buttons_container.grid_columnconfigure(1, weight=1)
+        self.buttons_container = buttons_container
 
         tabla_resultados = []
         for tb in tables:
@@ -657,8 +659,21 @@ class VentanaPrincipal(CTk):
         this.mostrarResumenFinal(tabla_resultados)
         #self.configuration_warning.after(1000, app.destroy())
 
-    def mostrarResumenFinal(self,tablas):   
-       self.pagina_actual.configuration_warning.configure(text="Se han creado "+str(len(tablas))+" tablas ")                       
+    def mostrarResumenFinal(self,tablas):
+        this = self
+        self = self.pagina_actual
+        self.main_container.destroy()
+        self.buttons_container.destroy()
+        main_container = CTkFrame(self, fg_color="#E0E0E0")
+        main_container.grid(row=2, column=2, sticky="nsew")
+        main_container.grid_columnconfigure(0, weight=1)
+        main_container.grid_rowconfigure(0, weight=1)
+        main_container.grid_rowconfigure(1, weight=1)
+        configuration_warning = CTkLabel(main_container,  text="Se han creado "+str(len(tablas))+" tablas ", font=("Arial", 13, "bold"),text_color="red")
+        configuration_warning.grid(row=0, column=1, columnspan=1, pady=(20, 5), padx=20, sticky="w")  
+        configuration_warning.pack(side="left", padx=5)
+        button = CTkButton(main_container, text="Cerrar", command=lambda:app.destroy(), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25) 
+        button.pack(side="left", padx=5)
 
 if __name__ == "__main__":
     app = VentanaPrincipal()
