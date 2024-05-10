@@ -13,6 +13,7 @@ import json
 from customtkinter import *
 import customtkinter as ctk
 from functools import partial
+from plugin.GIFLabel import *
 
 d = utl.readConfig("ORACLE", "rutaD")
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
@@ -541,6 +542,8 @@ class VentanaPrincipal(CTk):
         width = self.winfo_screenwidth() - 80
         height = self.winfo_screenheight() - 80
         resultados_window2.geometry(str(width)+"x"+str(height))
+        label2 = GIFLabel(resultados_window2, "./plugin/images/spinner.gif")
+        label2.grid(row=11, column=11, columnspan=10, pady=(50, 5), padx=50, sticky="w")
 
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
