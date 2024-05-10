@@ -308,15 +308,13 @@ class ventanaPaso2(CTkFrame):
 
         self.checkbox_var = BooleanVar(value=True)
         # Checkbox para estado de mantenimiento
-        self.mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black", variable=self.checkbox_var, command= lambda : self.mantenimiento_activo())
+        self.mantenimiento_checkbox = CTkCheckBox(contenedor_opciones, text="Mantenimiento", text_color="black", variable=self.checkbox_var, command= lambda : self.mantenimiento_activo(data_mantenimiento))
         self.mantenimiento_checkbox.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
         # Radiobuttons para tipo de mantenimiento
         tipo_label = CTkLabel(contenedor_opciones, text="Tipo de Mantenimiento:", text_color="black")
         tipo_label.grid(row=3, column=0, sticky="w", padx=(20, 0))
         
-        
-
 
         self.tipo_var = tk.StringVar(value="Edición en línea")
         self.tipo_radio1 = CTkRadioButton(contenedor_opciones, text="Edición en línea", variable=self.tipo_var, value="Edición en línea", text_color="black", command=lambda: self.edicion_linea() )
@@ -332,10 +330,10 @@ class ventanaPaso2(CTkFrame):
         self.label_tipologia = CTkLabel(contenedor_opciones, text="Tipología de botones:", text_color="black")
         self.label_tipologia.grid(row=6, column=0, sticky="w", padx=(200, 0))
 
+
         self.tipologia_label_combobox = CTkComboBox(contenedor_opciones, values=["SAVE", "SAVE_REPEAT"], dropdown_text_color="black",dropdown_fg_color='#69a3d6',border_color="black", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width=200)
         self.tipologia_label_combobox.grid(row=6, column=0, sticky="w", padx=(350, 20), pady=10)
 
-        
 
         # Opciones adicionales
         self.botonera_checkbox = CTkCheckBox(contenedor_opciones, text="Botonera", text_color="black")
@@ -366,25 +364,59 @@ class ventanaPaso2(CTkFrame):
         btn_cancel = CTkButton(footer_frame, text="Cancel", command=lambda : self.destroy() ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_cancel.pack(side="left", padx=10)
 
+        if data_mantenimiento ==None:
+            self.checkbox_var = BooleanVar(value=True)
+        else: 
+           self.checkbox_var = BooleanVar(value=True if data_mantenimiento[2][1] == 0  else False)
+
+           self.mantenimiento_activo(data_mantenimiento)
+
+        if data_mantenimiento is not None:
+            self.nombre_entry.insert(0, data_mantenimiento[00][1])
+            self.titulo_entry.insert(0, data_mantenimiento[1][1])
+            self.tipo_var.set(data_mantenimiento[3][1])
+            self.configurar_checkbox(self.recuperar_checkbox, data_mantenimiento[6][1])  
+            self.tipologia_label_combobox.set(data_mantenimiento[5][1])
+            self.configurar_checkbox(self.botonera_checkbox, data_mantenimiento[6][1])   
+            self.configurar_checkbox(self.menu_contextual_checkbox, data_mantenimiento[7][1])
+            self.configurar_checkbox(self.filtrado_datos_checkbox, data_mantenimiento[8][1])
+            self.configurar_checkbox(self.busqueda_checkbox, data_mantenimiento[9][1])
+            self.configurar_checkbox(self.validaciones_cliente_checkbox, data_mantenimiento[10][1])
+            self.configurar_checkbox(self.multiseleccion_checkbox, data_mantenimiento[11][1])
+
+
+
+
         self.edicion_linea()
 
 
+    # Otras configuraciones de CheckBox
+       
 
-    def mantenimiento_activo(self): 
+    def configurar_checkbox(self, checkbox, valor):
+        """Configura el estado de un CTkCheckBox basado en un valor entero."""
+        if valor == 1:
+            checkbox.select()
+        else:
+            checkbox.deselect()
+
+    def mantenimiento_activo(self, data_mantenimiento): 
         #Funcion para deshabilitar botones ne funcion de mantenimiento
-        if self.checkbox_var.get() == True:
+        if self.checkbox_var.get() == False:    
 
             self.tipo_var.set("Edición en línea")
             self.tipo_radio1.configure(state="normal")
             self.tipo_radio2.configure(state="normal")
+            
+            self.checkbox_var = BooleanVar(value=True)
 
-        else: 
+        elif self.checkbox_var.get() == True: 
             self.tipo_radio1.configure(state="disabled")
             self.tipo_radio2.configure(state="disabled")
+            
+            self.checkbox_var = BooleanVar(value=False)
 
             
-
-
 
         self.recuperar_checkbox.configure(state="disabled")
         self.tipologia_label_combobox.configure(state="disabled")
@@ -409,22 +441,21 @@ class ventanaPaso2(CTkFrame):
         if self.mantenimiento_checkbox.get() == 0:
             self.tipo_var = None
             datos_servidor = 0
-            tipologia_valor = None
+
 
         else: 
             self.tipo_var = self.tipo_var.get()
             datos_servidor = self.recuperar_checkbox.get()
-            tipologia_valor = self.tipologia_label_combobox.get()
        
         datos = [
 
             ("nombre_mantenimiento", self.nombre_entry.get()),
             ("titulo_mantenimiento", self.titulo_entry.get()),
-            ("mantenimineto", self.mantenimiento_checkbox.get()),  # Asumiendo que mantenimiento_checkbox usa un BooleanVar
+            ("mantenimineto", self.mantenimiento_checkbox.get()),  
             ("tipo_mantenimineto", self.tipo_var),
             ("datos_servidor", datos_servidor),
-            ("tipologia_botones", tipologia_valor),
-            ("botonera", self.botonera_checkbox.get()),  # Asumiendo uso de BooleanVar
+            ("tipologia_botones", self.tipologia_label_combobox.get()),
+            ("botonera", self.botonera_checkbox.get()), 
             ("menu_contextual", self.menu_contextual_checkbox.get()),
             ("filtrado_datos", self.filtrado_datos_checkbox.get()),
             ("busqueda", self.busqueda_checkbox.get()),
@@ -504,7 +535,7 @@ class VentanaPaso3(CTkFrame):
         footer_frame = CTkFrame(self, fg_color="#E0E0E0")
         footer_frame.grid(row=1, column=0, columnspan=2, sticky="se", padx=10, pady=(20, 20))
         
-        btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command= lambda: master.mostrar_pagina_dos(tables))
+        btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command= lambda: master.mostrar_pagina_dos(data_mantenimiento=data_mantenimiento, tables=tables))
         btn_back.pack(side="left", padx=10, pady=5)
         btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_cuatro(tables, data_mantenimiento, self.abrir_ventana_columnas()))
         btn_next.pack(side="left", padx=10, pady=5)
