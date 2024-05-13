@@ -110,7 +110,7 @@ class PaginaUno(CTkFrame):
         
         
 class PaginaDos(CTkFrame):
-    def __init__(self, master, tables, *args, **kwargs):
+    def __init__(self, master, tables, estado_tables=None,  *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.configure(corner_radius=10, fg_color="#E0E0E0")
 
@@ -143,8 +143,13 @@ class PaginaDos(CTkFrame):
         self.footer_frame.grid(row=2, column=0, pady=(5, 30) ,sticky="ew")
         self.setup_footer_buttons()
         self.master.ocultarSpinner()
+
+        if estado_tables != None:
+            self.estado_tables_checkbox(estado_tables)
+    
     listaColumnas = {}    
     var_list = []
+    
     def choose(self,table,index):
      
      for column in table.columns:
@@ -153,10 +158,17 @@ class PaginaDos(CTkFrame):
             columna.select()
         else:
             columna.deselect()   
+
+    def estado_tables_checkbox(self, estado_checkboxes):
+        print("prueba")
+        for tables in estado_checkboxes:
+            for column in tables['columns']:
+                columna = self.listaColumnas[tables['name']+column.name]
+                columna.select()
    
-    def populate_scrollable_frame(self, frame, tables):
+    def populate_scrollable_frame(self, frame, tables_original):
        
-        for index, table in enumerate(tables):
+        for index, table in enumerate(tables_original):
             self.var_list.append(IntVar(value=0))
             table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
             table_frame.pack(fill="x", padx=10, pady=2, expand=True)
@@ -239,7 +251,7 @@ class PaginaDos(CTkFrame):
         cancel_button.pack(side="right", padx=5)
             
 class PaginaTres(CTkFrame):
-    def __init__(self, master, tables, *args, **kwargs):
+    def __init__(self, master, tables, estado_tables=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
     
 
@@ -362,7 +374,7 @@ class PaginaTres(CTkFrame):
         self.archivoWar = archivoWar
         self.configuration_warning = CTkLabel(buttons_container,  text="", font=("Arial", 13, "bold"),text_color="red")
         self.configuration_warning.grid(row=0, column=1, columnspan=3, pady=(20, 5), padx=20, sticky="w")
-        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
+        CTkButton(buttons_container, text="Atras",bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.master.mostrar_pagina_dos(tables_original, estado_tables=tables)).grid(row=0, column=1, padx=(0,150),  pady=(40, 10),  sticky="e")
         CTkButton(buttons_container, text="Siguiente", command=lambda: self.master.mostrarSpinner("finalizar"), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25).grid(row=0, column=1, padx=(0,30), pady=(40, 10), sticky="e")
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
@@ -509,20 +521,20 @@ class VentanaPrincipal(CTk):
         self.pagina_actual = None
         self.mostrar_pagina(PaginaUno)
 
-    def mostrar_pagina(self, pagina, tables=None):      
+    def mostrar_pagina(self, pagina, tables=None, estado_tables=None):      
         if self.pagina_actual is not None:
             self.pagina_actual.destroy()
-        self.pagina_actual = pagina(self, tables)
+        self.pagina_actual = pagina(self, tables, estado_tables)
         self.pagina_actual.grid(row=0, column=0, sticky="nsew")
 
-    def mostrar_pagina_dos(self, tables=None):
-        self.mostrar_pagina(PaginaDos, tables)
+    def mostrar_pagina_dos(self, tables=None, estado_tables=None):
+        self.mostrar_pagina(PaginaDos, tables, estado_tables)
 
-    def mostrar_pagina_tres(self, tables=None):
+    def mostrar_pagina_tres(self, tables=None, estado_tables=None):
         if(len(tables) == 0):
           self.configuration_warning.configure(text="Debe seleccionar al menos una tabla y una columna")
           return False
-        self.mostrar_pagina(PaginaTres, tables)
+        self.mostrar_pagina(PaginaTres, tables, estado_tables)
 
     def mostrar_pagina_uno(self):
         self.mostrar_pagina(PaginaUno)
