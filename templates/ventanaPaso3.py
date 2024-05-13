@@ -209,14 +209,14 @@ class PaginaUno(CTkFrame):
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
                 files = [file for file in os.listdir(ruta_classes) if file.endswith("War")]
-                self.mostrar_resultados(files,)
+                self.mostrar_resultados(files,ruta_classes)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
-                self.mostrar_resultados(files)
+                self.mostrar_resultados(files,ruta_personalizada)
 
 
 
-    def mostrar_resultados(self, files):
+    def mostrar_resultados(self, files, ruta):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
         if files:
 
@@ -246,17 +246,23 @@ class PaginaUno(CTkFrame):
             
             cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
             cancel_button.pack(side="right", padx=10, expand=True)
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get()))
+            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(),ruta))
             accept_button.pack(side="right", padx=10, expand=True)
         else:
             print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
 
-    def aceptar(self, frame, selected_file):
+    def aceptar(self, frame, selected_file,ruta):
         if selected_file :
-            print(f"Archivo seleccionado: {selected_file}")
-            self.war_entry.insert(0, selected_file)
-            frame.destroy()
-
+            selected_file = ruta+"/"+selected_file
+            nombreProyecto = utl.obtenerNombreProyectoWar(selected_file)
+            if nombreProyecto != '':
+                print(f"Archivo seleccionado: {selected_file}")
+                self.war_entry.insert(0, selected_file)
+                self.master.nombreProyecto = nombreProyecto
+                self.master.archivoWar = selected_file
+                frame.destroy()
+            else:    
+                print("Este war no contiene un web.xml.") 
         else:
             print("No se seleccionó ningún archivo.")       
 
@@ -610,6 +616,7 @@ class VentanaColumnas(CTkFrame):
             var = ctk.BooleanVar(value=True)
             checkbox = ctk.CTkCheckBox(scrollable_container, text=f"{columna.name}: {columna.type}{text}", variable=var, text_color="black", font=("Arial", 12, "bold"))
             checkbox.grid(row=i, column=0, sticky="w")
+            self.column_checkboxes.append(var)
 
         # Botones
         contenedor_botones = ctk.CTkFrame(self, fg_color="#E0E0E0")
@@ -617,13 +624,38 @@ class VentanaColumnas(CTkFrame):
 
         back_button = ctk.CTkButton(contenedor_botones, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_tres(data_mantenimiento, tables,  index_seleccionado))
         back_button.grid(row=0, column=0, padx=5, sticky="e")
+        rutaActual = utl.rutaActual(__file__)
 
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.finish_action(tables, data_mantenimiento))
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), self.master.getDatos(rutaActual)))
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
         cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         cancel_button.grid(row=0, column=2, padx=5, sticky="e")
 
+    def getTablaResultados(self,tb):
+        tabla_resultados = []
+        
+        tabla = {}
+        tabla['name'] = tb.name
+        tabla['columns'] = []
+        i = 0
+        for column in tb.columns:
+            if(self.column_checkboxes[i].get()):
+                columna_dict = {
+                    'name': column.name,
+                    'type': column.type,
+                    'dataPrecision': column.dataPrecision,
+                    'datoImport': column.datoImport,
+                    'datoType': column.datoType,
+                    'nullable': column.nullable,
+                    'primaryKey': column.primaryKey,
+                    'tableName': column.tableName
+                }
+
+                tabla['columns'].append(columna_dict)
+            i = i +1    
+        tabla_resultados.append(tabla)
+        return tabla_resultados 
 
 
 class VentanaPrincipal(CTk):
@@ -658,6 +690,18 @@ class VentanaPrincipal(CTk):
 
     def mostrar_pagina_uno(self, tables = None, data_mantenimiento=None , indexSeleccionado=None):
         self.mostrar_pagina(PaginaUno, tables, data_mantenimiento, indexSeleccionado )
+
+    def getDatos(self,rutaActual):
+        project_name = self.nombreProyecto
+        war_name = self.archivoWar.split('/')[1]
+        data = { "project_name": project_name,
+        "security_app": "",
+        "war_project_name": war_name,
+        "PACKAGE_NAME": "com.ejie."+project_name+".control",
+        "directorio_actual" : rutaActual+"/generateCode/",
+        "destinoApp" : self.archivoWar
+       }
+        return data    
 
 if __name__ == "__main__":
     app = VentanaPrincipal()

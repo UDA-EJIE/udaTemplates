@@ -205,3 +205,15 @@ def obtenerNombreProyecto(ruta,nombreWar):
     except:
         print("An exception occurred")
     return path
+
+def obtenerNombreProyectoWar(ruta):
+    path = ""
+    try:
+        tree = etree.parse(ruta+"/WebContent/WEB-INF/web.xml")
+        root = tree.getroot()
+        diag = root.find("./*[{http://java.sun.com/xml/ns/javaee}param-name='webAppName']")
+        nombreWar = diag[1].text
+        return nombreWar
+    except:
+        print("An exception occurred")
+    return path

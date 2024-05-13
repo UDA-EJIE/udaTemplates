@@ -17,15 +17,18 @@ def initPaso3(tables,yaml_data):
     directorio_actual = yaml_data["directorio_actual"] 
     dirController = directorio_actual+"controller/" 
     rutaWar = "src/com/ejie/"+proyectName+"/control" 
-    war = proyectName+proyectWar+"War";
-    destinoWar = yaml_data["destinoApp"]+war+"/" 
+    
+    destinoWar = yaml_data["destinoApp"]+"/" 
     destinoWarViews = destinoWar+"WebContent/WEB-INF/views/"
     dirMaintJsp = directorio_actual+"maint/"
     data["proyectName"] = proyectName
-    data["proyectWar"] = proyectWar
+    
     dirMaintJspIncludes = dirMaintJsp + "includes/"
     data["maint"] = {"detailSaveButton":True, "filterMaint":True}
-    destinoStaticsJs = yaml_data["destinoApp"]+proyectName+"Statics/WebContent/"+proyectName+"/scripts/"+proyectName+proyectWar+"/" 
+    dest = yaml_data["destinoApp"].replace(proyectWar,"")
+    proyectWar = proyectWar.replace("War","")
+    data["proyectWar"] = proyectWar
+    destinoStaticsJs = dest+proyectName+"Statics/WebContent/"+proyectName+"/scripts/"+proyectWar+"/" 
     rutaTiles = destinoWarViews+"tiles.xml"
     rutaMenu = destinoWar+"WebContent/WEB-INF/layouts/menuMantenimientos.jsp"
 
@@ -57,21 +60,22 @@ def initPaso3(tables,yaml_data):
         data["maint"]["primaryKey"] = data["listPks"][0]      
 
         #Generando jsp MAINT 
-        with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=yaml_data, exclude=["*.js"],overwrite=True) as worker:
+        with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=data, exclude=["*.js"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
         #Generando jsp Includes MAINT 
-        with Worker(src_path=dirMaintJspIncludes, dst_path=destinoWarViewsFinalIncludes, data=yaml_data,overwrite=True) as worker:
+        with Worker(src_path=dirMaintJspIncludes, dst_path=destinoWarViewsFinalIncludes, data=data,overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy()
         #Generando js MAINT 
-        with Worker(src_path=dirMaintJsp, dst_path=destinoStaticsJs, data=yaml_data, exclude=["*.jsp"],overwrite=True) as worker:
+        with Worker(src_path=dirMaintJsp, dst_path=destinoStaticsJs, data=data, exclude=["*.jsp"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
          worker.run_copy() 
          if(x == len(tables) - 1):
            lastTable = True
         modifyTiles(rutaTiles,table["name"].lower(),lastTable)
         modifyMenu(rutaMenu,table["name"].lower(),lastTable)
+        print("Fin mantenimento: "+data["tableName"])  
   
         
 #FIN función principal
