@@ -45,7 +45,6 @@ class PaginaUno(CTkFrame):
         labels = ["Service name:", "SID:", "Host:", "Puerto:", "Usuario:", "Contraseña:", "Esquema Catálogo:", "URL:"]
         valores = ["serviceName", "sid", "host", "puerto", "usuario", "password", "esquema", "url"]
         self.entries = []
-        bbdd = utl.readConfig("BBDD", None)
         
         for i, label_text in enumerate(labels):
             sv = StringVar()
@@ -55,8 +54,11 @@ class PaginaUno(CTkFrame):
             entry = CTkEntry(self,textvariable=sv, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, 
                              width=500, text_color="grey" if label_text == 'URL:' else 'black', show='*' if label_text == 'Contraseña:' else None,state='disabled' if label_text == 'URL:' else 'normal')
             entry.grid(row=i+1, column=1, padx=(0, 200), pady=(20, 2), sticky="ew")
-            if (bbdd != None and valores[i] != None):
-               entry.insert(0, bbdd[valores[i]])     
+            if (valores[i] != None):
+               try:
+                entry.insert(0, utl.readConfig("BBDD", valores[i]))  
+               except ValueError:    
+                   print("Error al obtener el valor:" + ValueError)
             self.entries.append(entry)
         self.urlModify()
         # Botones
