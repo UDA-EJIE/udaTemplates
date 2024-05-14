@@ -23,16 +23,26 @@ class MainMenu(CTk):
         self.button_paso_3 = CTkButton(self, text="Paso 3", command=self.abrir_paso3)
         self.button_paso_3.pack(pady=10, padx=20, fill="x")
 
+    def on_close(self,ventana):
+        ventana.destroy()  # Destruye la ventana del paso
+        self.deiconify()   # Muestra el menú principal
+
     def abrir_paso1(self):
+        self.withdraw()  # Oculta el menú principal
         ventana = paso1.Paso1()
+        ventana.protocol("WM_DELETE_WINDOW", lambda: self.on_close(ventana))  # Configura el callback
         ventana.mainloop()
 
     def abrir_paso2(self):
+        self.withdraw()
         ventana = paso2.VentanaPrincipal()
+        ventana.protocol("WM_DELETE_WINDOW", lambda: self.on_close(ventana))
         ventana.mainloop()
 
     def abrir_paso3(self):
+        self.withdraw()
         ventana = paso3.VentanaPrincipal()
+        ventana.protocol("WM_DELETE_WINDOW", lambda: self.on_close(ventana))
         ventana.mainloop()
 
 if __name__ == "__main__":
