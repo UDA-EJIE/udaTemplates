@@ -157,8 +157,8 @@ def writeConfig(section,key):
     
         with open(configfile_name, 'w') as configfile:
             config.write(configfile)
-    except:
-        print("An exception occurred")
+    except ValueError:
+        print("An exception occurred al escribir el config: " + ValueError)
 
 def readConfig(valor,key):
     configfile_name = "plugin/config.ini"
@@ -169,7 +169,7 @@ def readConfig(valor,key):
             return config[valor]
         return config[valor][key]
     except:
-        print("An exception occurred")
+        print("An exception occurred: leer config")
     return ""
 
 def rutaActual(ruta_archivo_actual):
@@ -177,7 +177,7 @@ def rutaActual(ruta_archivo_actual):
     try:
         rutaPath = os.path.dirname(ruta_archivo_actual)
     except:
-        print("An exception occurred")    
+        print("An exception occurred: rutaActual")    
     return rutaPath
 
 def buscarArchivo(ruta,tipo):
@@ -187,7 +187,7 @@ def buscarArchivo(ruta,tipo):
         if len(files) != 0:
             return Path(files[0]).stem
     except:
-        print("An exception occurred")
+        print("An exception occurred: buscarArchivo")
     return path
 
 def obtenerNombreProyecto(ruta,nombreWar):
@@ -203,7 +203,7 @@ def obtenerNombreProyecto(ruta,nombreWar):
         nombreWar = nombreWar.replace(path,"")
         return nombreWar
     except:
-        print("An exception occurred")
+        print("An exception occurred: obtenerNombreProyecto")
     return path
 
 def obtenerNombreProyectoWar(ruta):
@@ -215,5 +215,5 @@ def obtenerNombreProyectoWar(ruta):
         nombreWar = diag[1].text
         return nombreWar
     except:
-        print("An exception occurred")
+        print("An exception occurred: obtenerNombreProyectoWar")
     return path
