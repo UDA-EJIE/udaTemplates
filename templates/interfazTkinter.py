@@ -6,6 +6,7 @@ from copier import Worker
 import tkinter as tk
 import logging
 import plugin.utils as utl
+import menuPrincipal as m
 
 self = CTk()
 
@@ -25,7 +26,7 @@ class Paso1(CTk):
 
         self.columnconfigure(1, weight=1)
 
-        configuration_frame = CTkFrame(self)
+        configuration_frame = CTkFrame(self, bg_color="black")
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
 
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
@@ -204,14 +205,17 @@ class Paso1(CTk):
             logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             #guardar ultima ruta creada
-            utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
-            self.destroy()
+            #utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
+    
+        m.MainMenuLoop(self)
         
     def browse_location(self):
         folder_selected = filedialog.askdirectory()
         if not folder_selected == '':
             self.entry_location.delete(0, "end")
             self.entry_location.insert(0, folder_selected)
+
+
 
 if __name__ == "__main__":
 

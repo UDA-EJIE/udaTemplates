@@ -11,10 +11,13 @@ from customtkinter import *
 import plugin.paso3 as p3
 import customtkinter as ctk
 import plugin.utils as utl
+import menuPrincipal as m
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+d = os.path.join(base_path, 'instantclient_21_12')
 
-
-d = utl.readConfig("ORACLE", "rutaD")
+no_internal = os.path.dirname(base_path)
+#d = utl.readConfig("ORACLE", "rutaD")
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
 ruta_war = utl.readConfig("RUTA", "ruta_war")
 
@@ -210,8 +213,8 @@ class PaginaUno(CTkFrame):
     def buscar_archivos(self, ruta_personalizada = None):
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_classes) if file.endswith("War")]
-                self.mostrar_resultados(files,ruta_classes)
+                files = [file for file in os.listdir(no_internal) if file.endswith("War")]
+                self.mostrar_resultados(files,no_internal)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
                 self.mostrar_resultados(files,ruta_personalizada)
@@ -628,7 +631,7 @@ class VentanaColumnas(CTkFrame):
         back_button.grid(row=0, column=0, padx=5, sticky="e")
         rutaActual = utl.rutaActual(__file__)
 
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), self.master.getDatos(rutaActual)))
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, rutaActual))
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
         cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
@@ -658,7 +661,11 @@ class VentanaColumnas(CTkFrame):
             i = i +1    
         tabla_resultados.append(tabla)
         return tabla_resultados 
+    
+    def paso3(self,tables, index_seleccionado, rutaActual): 
 
+        p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), self.master.getDatos(rutaActual))
+        m.MainMenuLoop(self.master)
 
 class VentanaPrincipal(CTk):
     def __init__(self):

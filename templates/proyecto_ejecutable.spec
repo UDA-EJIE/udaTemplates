@@ -5,7 +5,7 @@
 block_cipher = None
 
 a = Analysis(
-    ['main.py'],
+    ['menuPrincipal.py'],
     pathex=['.'],
     binaries=[],
     datas=[
@@ -21,14 +21,14 @@ a = Analysis(
         ('generateCode/maint/*', 'generateCode/maint'),
         ('generateCode/model/*', 'generateCode/model'),
         ('generateCode/service/*', 'generateCode/service'),
-        ('maintPlugingNuevo/*', 'maintPlugingNuevo'),
-        ('maintPlugingNuevoEdit/*', 'maintPlugingNuevoEdit'),
+		('instantclient_21_12/*', 'instantclient_21_12'),
         ('plugin/*', 'plugin'),
         ('plugin/images/*', 'plugin/images'),
         ('proyecto/*', 'proyecto'),
         ('proyecto/{{project_name}}Config/*', 'proyecto/{{project_name}}Config'),
         ('proyecto/{{project_name}}EAR/*', 'proyecto/{{project_name}}EAR'),
         ('proyecto/{{project_name}}EARClasses/*', 'proyecto/{{project_name}}EARClasses'),
+        ('proyecto/{{project_name}}Statics/*', 'proyecto/{{project_name}}Statics'),
         ('proyecto/{{project_name}}Statics/*', 'proyecto/{{project_name}}Statics'),
         ('proyecto/{{project_name}}{{ejb_project_name}}EJB/*', 'proyecto/{{project_name}}{{ejb_project_name}}EJB'),
         ('proyecto/{{project_name}}{{war_project_name}}War/*', 'proyecto/{{project_name}}{{war_project_name}}War'),
@@ -54,7 +54,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='mi_proyecto',
+    name='pluginCopierUDA',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -72,5 +72,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='mi_proyecto',
+    name='copierUDA',
 )

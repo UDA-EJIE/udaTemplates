@@ -45,6 +45,12 @@ class MainMenu(CTk):
         ventana.protocol("WM_DELETE_WINDOW", lambda: self.on_close(ventana))
         ventana.mainloop()
 
-if __name__ == "__main__":
+
+
+def MainMenuLoop(self):
+    self.destroy()
     app = MainMenu()
     app.mainloop()
+
+if __name__ == "__main__":
+    MainMenu().mainloop()

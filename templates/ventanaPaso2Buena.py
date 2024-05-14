@@ -14,11 +14,22 @@ from customtkinter import *
 import customtkinter as ctk
 from functools import partial
 from plugin.GIFLabel import *
+import menuPrincipal as m
 
-d = utl.readConfig("ORACLE", "rutaD")
+
+
+base_path = os.path.dirname(os.path.abspath(__file__))
+d = os.path.join(base_path, 'instantclient_21_12')
+
+no_internal = os.path.dirname(base_path)
+# d = os.getcwd()+"_internal/oracle/instantclient_21_12"
+#TODO:utl.readConfig("ORACLE", "rutaD")""
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
 ruta_war = utl.readConfig("RUTA", "ruta_war")
 tables_original = None
+
+
+
 class PaginaUno(CTkFrame):
     
     def __init__(self, master, tables=None, columns=None, *args, **kwargs):
@@ -301,8 +312,8 @@ class PaginaTres(CTkFrame):
         # Entry y Botón de Buscar para Componentes de Negocio
         rutaActual = utl.rutaActual(__file__)
         textRutaControlador = rutaActual
-        ruta_classes = utl.readConfig("RUTA", "ruta_classes")
-        ruta_war = utl.readConfig("RUTA", "ruta_war")
+        ruta_classes = "" #utl.readConfig("RUTA", "ruta_classes")
+        ruta_war = "" #utl.readConfig("RUTA", "ruta_war")
         if(ruta_classes != None):
            textRutaNegocio = ruta_classes 
         if(ruta_war != None):
@@ -419,16 +430,16 @@ class PaginaTres(CTkFrame):
         if boton_pulsado == "negocio":
             """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
-                self.mostrar_resultados(files, boton_pulsado,ruta_classes)
+                files = [file for file in os.listdir(no_internal) if file.endswith("Classes")]
+                self.mostrar_resultados(files, boton_pulsado,no_internal)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
         else:
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
-                self.mostrar_resultados(files, boton_pulsado,ruta_war)
+                files = [file for file in os.listdir(no_internal) if file.endswith("War")]
+                self.mostrar_resultados(files, boton_pulsado,no_internal)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
@@ -542,22 +553,22 @@ class VentanaPrincipal(CTk):
         self.mostrar_pagina(PaginaUno)
     
     def mostrarSpinner(self,caso):
-        resultados_window2 = ctk.CTkToplevel(app)
+        resultados_window2 = ctk.CTkToplevel(self)
         resultados_window2.title("Cargando...")
         resultados_window2.attributes('-topmost', True)
         resultados_window2.wm_attributes('-alpha',0.8)
         #resultados_window2.resizable(width=None, height=None)
         #resultados_window2.transient()
         resultados_window2.overrideredirect(True)
-        toplevel_offsetx, toplevel_offsety = app.winfo_x(), app.winfo_y()
+        toplevel_offsetx, toplevel_offsety = self.winfo_x(), self.winfo_y()
         padx = -10 # the padding you need.
         pady = -10
         resultados_window2.geometry(f"+{toplevel_offsetx + padx}+{toplevel_offsety + pady}")
         width = self.winfo_screenwidth() - 80
         height = self.winfo_screenheight() - 80
         resultados_window2.geometry(str(width)+"x"+str(height))
-        label2 = GIFLabel(resultados_window2, "./plugin/images/spinner.gif")
-        label2.grid(row=11, column=11, columnspan=10, pady=(50, 5), padx=50, sticky="w")
+        # label2 = GIFLabel(resultados_window2, "./plugin/images/spinner.gif")
+        # label2.grid(row=11, column=11, columnspan=10, pady=(50, 5), padx=50, sticky="w")
 
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
@@ -578,6 +589,7 @@ class VentanaPrincipal(CTk):
 
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
+        print(no_internal)
        
         un = self.pagina_actual.entries[4].get()
         pw = self.pagina_actual.entries[5].get()
@@ -702,7 +714,7 @@ class VentanaPrincipal(CTk):
         configuration_warning = CTkLabel(main_container,  text="Se han creado "+str(len(tablas))+" tablas ", font=("Arial", 13, "bold"),text_color="red")
         configuration_warning.grid(row=0, column=1, columnspan=1, pady=(20, 5), padx=20, sticky="w")  
         configuration_warning.pack(side="left", padx=5)
-        button = CTkButton(main_container, text="Cerrar", command=lambda:app.destroy(), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25) 
+        button = CTkButton(main_container, text="Cerrar", command=lambda: m.MainMenuLoop(self.master), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25) 
         button.pack(side="left", padx=5)
 
 if __name__ == "__main__":
