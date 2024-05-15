@@ -21,9 +21,6 @@ import menuPrincipal as m
 base_path = os.path.dirname(os.path.abspath(__file__))
 d = os.path.join(base_path, 'instantclient_21_12')
 
-no_internal = os.path.dirname(base_path)
-# d = os.getcwd()+"_internal/oracle/instantclient_21_12"
-#TODO:utl.readConfig("ORACLE", "rutaD")""
 ruta_classes = utl.readConfig("RUTA", "ruta_classes")
 ruta_war = utl.readConfig("RUTA", "ruta_war")
 tables_original = None
@@ -311,12 +308,13 @@ class PaginaTres(CTkFrame):
         
         # Entry y Botón de Buscar para Componentes de Negocio
         rutaActual = utl.rutaActual(__file__)
+        textRutaNegocio = rutaActual
         textRutaControlador = rutaActual
-        ruta_classes = "" #utl.readConfig("RUTA", "ruta_classes")
-        ruta_war = "" #utl.readConfig("RUTA", "ruta_war")
-        if(ruta_classes != None):
+        ruta_classes = utl.readConfig("RUTA", "ruta_classes")
+        ruta_war = utl.readConfig("RUTA", "ruta_war")
+        if(ruta_classes != None and ruta_classes != ""):
            textRutaNegocio = ruta_classes 
-        if(ruta_war != None):
+        if(ruta_war != None and ruta_war != ""):
            textRutaControlador = ruta_classes 
         archivoClases = utl.buscarArchivo(textRutaNegocio,"EARClasses") 
         archivoWar = utl.buscarArchivo(textRutaControlador,"War") 
@@ -393,7 +391,7 @@ class PaginaTres(CTkFrame):
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
 
     def getDatos(self,rutaActual,archivoClases,archivoWar):
-        project_name = archivoClases.replace("Classes","")
+        project_name = archivoClases.replace("EARClasses","")
         #war tiene que tener un classpath valido
         war_name = utl.obtenerNombreProyecto(self.search_entry_presentacion.get(),archivoWar)
         data = { "project_name": project_name,
@@ -430,16 +428,16 @@ class PaginaTres(CTkFrame):
         if boton_pulsado == "negocio":
             """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(no_internal) if file.endswith("Classes")]
-                self.mostrar_resultados(files, boton_pulsado,no_internal)
+                files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
+                self.mostrar_resultados(files, boton_pulsado,ruta_classes)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
         else:
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(no_internal) if file.endswith("War")]
-                self.mostrar_resultados(files, boton_pulsado,no_internal)
+                files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
+                self.mostrar_resultados(files, boton_pulsado,ruta_war)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
@@ -589,7 +587,6 @@ class VentanaPrincipal(CTk):
 
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
-        print(no_internal)
        
         un = self.pagina_actual.entries[4].get()
         pw = self.pagina_actual.entries[5].get()

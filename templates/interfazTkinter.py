@@ -205,7 +205,7 @@ class Paso1(CTk):
             logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             #guardar ultima ruta creada
-            #utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
+            utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
     
         m.MainMenuLoop(self)
         

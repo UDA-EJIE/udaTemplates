@@ -150,7 +150,8 @@ def modifyMenu(ruta,entityName, final):
 #section String padre, keyArray array de llaves
 def writeConfig(section,key):
     try:
-        configfile_name = "plugin/config.ini"
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        configfile_name = os.path.join(base_path, 'config.ini')
         config = configparser.ConfigParser()
         config.read(configfile_name)
         config[section] = key
@@ -161,23 +162,25 @@ def writeConfig(section,key):
         print("An exception occurred al escribir el config: " + ValueError)
 
 def readConfig(valor,key):
-    configfile_name = "plugin/config.ini"
+
     try:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        configfile_name = os.path.join(base_path, 'config.ini')
         config = configparser.ConfigParser()
         config.read(configfile_name) 
         if key == None:
             return config[valor]
         return config[valor][key]
-    except:
-        print("An exception occurred: leer config")
+    except Exception as e:
+        print("An exception occurred: leer config: " , e)
     return ""
 
 def rutaActual(ruta_archivo_actual):
     rutaPath = ""
     try:
         rutaPath = os.path.dirname(ruta_archivo_actual)
-    except:
-        print("An exception occurred: rutaActual")    
+    except Exception as e:
+        print("An exception occurred: rutaActual", e)    
     return rutaPath
 
 def buscarArchivo(ruta,tipo):
@@ -186,8 +189,8 @@ def buscarArchivo(ruta,tipo):
         files = [file for file in os.listdir(ruta) if file.endswith(tipo)]
         if len(files) != 0:
             return Path(files[0]).stem
-    except:
-        print("An exception occurred: buscarArchivo")
+    except Exception as e:
+        print("An exception occurred: buscarArchivo", e)
     return path
 
 def obtenerNombreProyecto(ruta,nombreWar):
@@ -202,8 +205,8 @@ def obtenerNombreProyecto(ruta,nombreWar):
         nombreWar = nombreWar.replace("War","")
         nombreWar = nombreWar.replace(path,"")
         return nombreWar
-    except:
-        print("An exception occurred: obtenerNombreProyecto")
+    except ValueError:
+        print("An exception occurred: obtenerNombreProyecto: ", ValueError)
     return path
 
 def obtenerNombreProyectoWar(ruta):
@@ -214,6 +217,6 @@ def obtenerNombreProyectoWar(ruta):
         diag = root.find("./*[{http://java.sun.com/xml/ns/javaee}param-name='webAppName']")
         nombreWar = diag[1].text
         return nombreWar
-    except:
-        print("An exception occurred: obtenerNombreProyectoWar")
+    except Exception as e:
+        print("An exception occurred: obtenerNombreProyectoWar",e)
     return path
