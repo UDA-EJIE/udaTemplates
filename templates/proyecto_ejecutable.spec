@@ -29,7 +29,6 @@ a = Analysis(
         ('proyecto/{{project_name}}EAR/*', 'proyecto/{{project_name}}EAR'),
         ('proyecto/{{project_name}}EARClasses/*', 'proyecto/{{project_name}}EARClasses'),
         ('proyecto/{{project_name}}Statics/*', 'proyecto/{{project_name}}Statics'),
-        ('proyecto/{{project_name}}Statics/*', 'proyecto/{{project_name}}Statics'),
         ('proyecto/{{project_name}}{{ejb_project_name}}EJB/*', 'proyecto/{{project_name}}{{ejb_project_name}}EJB'),
         ('proyecto/{{project_name}}{{war_project_name}}War/*', 'proyecto/{{project_name}}{{war_project_name}}War'),
         # Añade más rutas si es necesario
@@ -54,7 +53,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='pluginCopierUDA',
+    name='mi_proyecto',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

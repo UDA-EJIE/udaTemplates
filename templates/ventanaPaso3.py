@@ -13,17 +13,19 @@ import customtkinter as ctk
 import plugin.utils as utl
 import menuPrincipal as m
 
-base_path = os.path.dirname(os.path.abspath(__file__))
-d = os.path.join(base_path, 'instantclient_21_12')
+base_path_internal = os.path.dirname(os.path.abspath(__file__))
+d = os.path.join(base_path_internal, 'instantclient_21_12')
 
-no_internal = os.path.dirname(base_path)
+base_path = os.path.dirname(base_path_internal)
 #d = utl.readConfig("ORACLE", "rutaD")
-ruta_classes = utl.readConfig("RUTA", "ruta_classes")
+ruta_classes = utl.readConfig("RUTA", "ruta_clarusses")
 ruta_war = utl.readConfig("RUTA", "ruta_war")
 
 class PaginaUno(CTkFrame):
     def __init__(self, master, tables=None, data_mantenimiento=None, indexSeleccionado=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        print(base_path)
+        print(base_path)
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
          # Configura el contenedor principal para que las columnas se expandan
         self.grid_columnconfigure(0, weight=1)  # Esto hace que la columna se expanda
@@ -213,8 +215,8 @@ class PaginaUno(CTkFrame):
     def buscar_archivos(self, ruta_personalizada = None):
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(no_internal) if file.endswith("War")]
-                self.mostrar_resultados(files,no_internal)
+                files = [file for file in os.listdir(base_path) if file.endswith("War")]
+                self.mostrar_resultados(files,base_path)
             else:
                 files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
                 self.mostrar_resultados(files,ruta_personalizada)
@@ -630,8 +632,9 @@ class VentanaColumnas(CTkFrame):
         back_button = ctk.CTkButton(contenedor_botones, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_tres(data_mantenimiento, tables,  index_seleccionado))
         back_button.grid(row=0, column=0, padx=5, sticky="e")
         rutaActual = utl.rutaActual(__file__)
-
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, rutaActual))
+        print(rutaActual)
+        print("esta es la ruta que le paso", base_path_internal)
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, base_path))
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
         cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
@@ -707,9 +710,10 @@ class VentanaPrincipal(CTk):
         "security_app": "",
         "war_project_name": war_name,
         "PACKAGE_NAME": "com.ejie."+project_name+".control",
-        "directorio_actual" : rutaActual+"/generateCode/",
+        "directorio_actual" : rutaActual+"/_internal/generateCode/",
         "destinoApp" : self.archivoWar
        }
+        print(data)
         return data    
 
 if __name__ == "__main__":
