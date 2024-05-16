@@ -12,6 +12,7 @@ import plugin.paso3 as p3
 import customtkinter as ctk
 import plugin.utils as utl
 import menuPrincipal as m
+from pathlib import Path
 
 d = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instantclient_21_12')
 
@@ -57,7 +58,7 @@ class PaginaUno(CTkFrame):
         
 
         # Botones
-        buscar_button = CTkButton(war_frame, text="Buscar...", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos())
+        buscar_button = CTkButton(war_frame, text="Buscar...", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos(self.selectDirectory(self.war_entry.get())))
         buscar_button.grid(row=0, column=2, pady=(30, 2), padx=20, sticky="ew")
       
 
@@ -88,7 +89,12 @@ class PaginaUno(CTkFrame):
 
         next_button = CTkButton(self, text="Siguiente", command=lambda: self.avanzar_paso2(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=0, padx=20, sticky="e")
-
+    def selectDirectory(self,directory):
+        if(directory == ""):
+            return directory
+        else:
+            par = Path(directory)
+            return str(par.parent)
     def urlModify(self):
         if(len(self.entries) > 6):
             entryUrl = self.entries[7]
@@ -164,12 +170,17 @@ class PaginaUno(CTkFrame):
         ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
         
         oracledb.init_oracle_client(lib_dir=d)
-        if(self.entries[1].get() == ''):
-          cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
-          connection =  oracledb.connect(user=un, password=pw, dsn=cs)
-        else:#con SID
-          connection =  oracledb.connect(user=un, password=pw, sid=self.entries[1].get(),host=self.entries[2].get(),port=self.entries[3].get())
-        
+        try:
+            if(self.entries[1].get() == ''):
+                cs = self.entries[2].get() + ":" + self.entries[3].get() + "/" + self.entries[0].get()
+                connection =  oracledb.connect(user=un, password=pw, dsn=cs)
+            else:#con SID
+                connection =  oracledb.connect(user=un, password=pw, sid=self.entries[1].get(),host=self.entries[2].get(),port=self.entries[3].get())
+        except Exception as e: 
+            print("An exception occurred BBDD:  ", e)  
+            self.configuration_warning.configure(text="An exception occurred: " + str(e))
+            self.configuration_warning.configure(text_color ="red")
+            return False  
         with connection.cursor() as cursor:
                 cursor.execute(query, esquema=pw.upper())
                 rows = cursor.fetchall()
@@ -202,55 +213,64 @@ class PaginaUno(CTkFrame):
                     if cont == len(rows) and contPrimaryKey < len(columns): #si es la última se mete a la tabla
                         tables.append(Table(tableName,columns))   
                     tableName = tableNameBBDD   
-     
+        if self.war_entry.get() == "":
+            self.configuration_warning.configure(text="Seleccione un proyecto WAR")
+            self.configuration_warning.configure(text_color ="red")
+            return False
         self.master.mostrar_pagina_dos(tables)           
 
 
     def buscar_archivos(self, ruta_personalizada = None):
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
+            files = None
             if ruta_personalizada == None:
                 files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
                 self.mostrar_resultados(files,ruta_war)
             else:
-                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                try:
+                    files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                except:
+                    print("No encontro la ruta: " + ruta_personalizada)    
                 self.mostrar_resultados(files,ruta_personalizada)
 
 
 
     def mostrar_resultados(self, files, ruta):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
-        if files:
+        resultados_window = ctk.CTkToplevel(self)
+        resultados_window.title("Resultados de Búsqueda")
+        resultados_window.geometry("600x300")
+        resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
 
-            resultados_window = ctk.CTkToplevel(self)
-            resultados_window.title("Resultados de Búsqueda")
-            resultados_window.geometry("600x300")
-            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
+        # Variable para almacenar el archivo seleccionado
+        selected_file = tk.StringVar(value=None)
 
-            # Variable para almacenar el archivo seleccionado
-            selected_file = tk.StringVar(value=None)
-
-            # Frame para contener los radiobuttons
-            file_frame = ctk.CTkFrame(resultados_window)
-            file_frame.pack(fill="both", expand=True)
-
-            # Añadir radiobuttons para cada archivo
+        # Frame para contener los radiobuttons
+        file_frame = ctk.CTkFrame(resultados_window)
+        file_frame.pack(fill="both", expand=True)
+        desc_label = CTkLabel(file_frame, text="Seleccione un WAR ")
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(5, 1), padx=20, sticky="w")
+        if (ruta != ''):
+            desc_label2 = CTkLabel(file_frame, text="(" + ruta +")")
+            desc_label2.grid(row=1, column=0, columnspan=3, pady=(0,2), padx=30, sticky="w")
+        # Añadir radiobuttons para cada archivo
+        if(files != None and len(files) > 0):
             for index, file in enumerate(files):
                 radiobutton = ctk.CTkRadioButton(file_frame, text=file, variable=selected_file, value=file)
-                radiobutton.grid(row=index, column=0, sticky="w", padx=20, pady=2)
+                radiobutton.grid(row=index + 3, column=0, sticky="w", padx=60, pady=3)
 
-            # Botones de acción en el pie de página
-            button_frame = ctk.CTkFrame(resultados_window)
-            button_frame.pack(fill="x", pady=20)
+        # Botones de acción en el pie de página
+        button_frame = ctk.CTkFrame(resultados_window)
+        button_frame.pack(fill="x", pady=20)
             
-            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window)) 
-            buscar_button.pack(side="left", padx=10, expand=True)
+        buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window)) 
+        buscar_button.pack(side="left", padx=10, expand=True)
             
-            cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
-            cancel_button.pack(side="right", padx=10, expand=True)
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(),ruta))
-            accept_button.pack(side="right", padx=10, expand=True)
-        else:
-            print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
+        cancel_button.pack(side="right", padx=10, expand=True)
+        accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(),ruta))
+        accept_button.pack(side="right", padx=10, expand=True)
+
 
     def aceptar(self, frame, selected_file,ruta):
         if selected_file :
@@ -698,7 +718,8 @@ class VentanaPrincipal(CTk):
 
     def getDatos(self,rutaActual):
         project_name = self.nombreProyecto
-        war_name = self.archivoWar.split('/')[1]
+        splits = self.archivoWar.split('/')
+        war_name = splits[len(splits) - 1]
         if getattr(sys, 'frozen', False):#cuadno es ejecutable
             rutaActual = rutaActual + "/_internal"
         data = { "project_name": project_name,
