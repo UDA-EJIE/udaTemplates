@@ -720,8 +720,7 @@ class VentanaPrincipal(CTk):
         project_name = self.nombreProyecto
         splits = self.archivoWar.split('/')
         war_name = splits[len(splits) - 1]
-        if getattr(sys, 'frozen', False):#cuadno es ejecutable
-            rutaActual = rutaActual + "/_internal"
+
         data = { "project_name": project_name,
         "security_app": "",
         "war_project_name": war_name,

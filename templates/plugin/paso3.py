@@ -59,6 +59,8 @@ def initPaso3(tables,yaml_data):
         destinoWarViewsFinalIncludes = destinoWarViewsFinal +"includes/"  
         data["maint"]["primaryKey"] = data["listPks"][0]      
 
+        print("SRC MAINT Jsp:: " +dirMaintJsp)
+        print("DEST MAINT Jsp:: " +destinoWarViewsFinal)
         #Generando jsp MAINT 
         with Worker(src_path=dirMaintJsp, dst_path=destinoWarViewsFinal, data=data, exclude=["*.js"],overwrite=True) as worker:
          worker.jinja_env.filters["toCamelCase"] = toCamelCase
