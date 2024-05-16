@@ -15,7 +15,7 @@ import customtkinter as ctk
 from functools import partial
 from plugin.GIFLabel import *
 import menuPrincipal as m
-
+from pathlib import Path
 
 
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -320,14 +320,18 @@ class PaginaTres(CTkFrame):
         archivoWar = utl.buscarArchivo(textRutaControlador,"War") 
         if(archivoClases != '' ):
            textRutaNegocio = textRutaNegocio+"\\"+archivoClases 
-        if(ruta_war != ''):
+        else:
+            textRutaNegocio = ""
+        if(archivoWar != ''):
            textRutaControlador = textRutaControlador+"\\"+archivoWar  
+        else:
+            textRutaControlador = ""
         self.search_entry_negocio = CTkEntry(negocio_container, width=600, fg_color='#69a3d6')
         self.search_entry_negocio.insert(0, textRutaNegocio)
         self.search_entry_negocio.configure(text_color="grey")
         self.search_entry_negocio.configure(state="disabled")
         self.search_entry_negocio.grid(row=4, column=0, padx=(0,230), pady=(10,0))
-        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0',fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos(boton_pulsado="negocio"))
+        search_button_negocio = CTkButton(negocio_container, text="Buscar",bg_color='#E0E0E0',fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command= lambda: self.buscar_archivos("negocio",self.selectDirectory(self.search_entry_negocio.get())))
         search_button_negocio.grid(row=4, column=0, padx=(670, 0), pady=(10,0))
 
         # Contenedor de Componentes de Presentacións
@@ -350,7 +354,7 @@ class PaginaTres(CTkFrame):
         self.search_entry_presentacion.configure(text_color="grey")
         self.search_entry_presentacion.configure(state="disabled")
         self.search_entry_presentacion.grid(row=2, column=0, padx=(0,230), pady=(10,0))
-        search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos(boton_pulsado="presentacion"))
+        search_button_presentacion = CTkButton(presentacion_container, text="Buscar", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25, command=lambda : self.buscar_archivos("presentacion",self.selectDirectory(self.search_entry_presentacion.get())))
         search_button_presentacion.grid(row=2, column=0, padx=(670, 0), pady=(10,0))
 
         # Botones finales en el pie de página
@@ -390,10 +394,19 @@ class PaginaTres(CTkFrame):
 
         self.grid_rowconfigure(2, weight=0)  # Botones no expanden
 
+    def selectDirectory(self,directory):
+        if(directory == ""):
+            return directory
+        else:
+            par = Path(directory)
+            return str(par.parent)
+        
     def getDatos(self,rutaActual,archivoClases,archivoWar):
         project_name = archivoClases.replace("EARClasses","")
         #war tiene que tener un classpath valido
-        war_name = utl.obtenerNombreProyecto(self.search_entry_presentacion.get(),archivoWar)
+        war_name = ""
+        if(self.controladores_var.get()):
+            war_name = utl.obtenerNombreProyecto(self.search_entry_presentacion.get(),archivoWar)
         data = { "project_name": project_name,
         "security_app": "",
         "war_project_name": war_name,
@@ -425,59 +438,77 @@ class PaginaTres(CTkFrame):
             self.search_entry_presentacion.configure(state="disabled")
 
     def buscar_archivos(self, boton_pulsado, ruta_personalizada = None):
+        files = None
         if boton_pulsado == "negocio":
             """Busca archivos con terminación 'Classes' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
+                try:
+                    files = [file for file in os.listdir(ruta_classes) if file.endswith("Classes")]
+                except:
+                    print("No encontro la ruta: " + ruta_classes)
                 self.mostrar_resultados(files, boton_pulsado,ruta_classes)
             else:
-                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
+                try:
+                    files = [file for file in os.listdir(ruta_personalizada) if file.endswith("Classes")]
+                except:
+                    print("No encontro la ruta: " + ruta_personalizada)    
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
         else:
             """Busca archivos con terminación 'war' en la misma ruta del script Python."""
             if ruta_personalizada == None:
-                files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
+                try:
+                    files = [file for file in os.listdir(ruta_war) if file.endswith("War")]
+                except:
+                    print("No encontro la ruta: " + ruta_war)    
                 self.mostrar_resultados(files, boton_pulsado,ruta_war)
             else:
-                files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                try:
+                    files = [file for file in os.listdir(ruta_personalizada) if file.endswith("War")]
+                except:
+                    print("No encontro la ruta: " + ruta_personalizada)    
                 self.mostrar_resultados(files, boton_pulsado,ruta_personalizada)
 
 
 
     def mostrar_resultados(self, files, boton_pulsado,ruta):
         """Muestra los archivos encontrados en una nueva ventana con radiobuttons."""
-        if files:
 
-            resultados_window = ctk.CTkToplevel(self)
-            resultados_window.title("Resultados de Búsqueda")
-            resultados_window.geometry("600x300")
-            resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
+        resultados_window = ctk.CTkToplevel(self)
+        resultados_window.title("Resultados de Búsqueda")
+        resultados_window.geometry("600x300")
+        resultados_window.attributes('-topmost', True)  # Asegura que la ventana emergente se muestre al frente
 
-            # Variable para almacenar el archivo seleccionado
-            selected_file = tk.StringVar(value=None)
+        # Variable para almacenar el archivo seleccionado
+        selected_file = tk.StringVar(value=None)
 
-            # Frame para contener los radiobuttons
-            file_frame = ctk.CTkFrame(resultados_window)
-            file_frame.pack(fill="both", expand=True)
+        # Frame para contener los radiobuttons
+        file_frame = ctk.CTkFrame(resultados_window)
+        file_frame.pack(fill="both", expand=True)
 
-            # Añadir radiobuttons para cada archivo
+        desc_label = CTkLabel(file_frame, text="Seleccione un Archivo ")
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(5, 1), padx=20, sticky="w")
+        if (ruta != ''):
+            desc_label2 = CTkLabel(file_frame, text="(" + ruta +")")
+            desc_label2.grid(row=1, column=0, columnspan=3, pady=(0,2), padx=30, sticky="w")
+
+        # Añadir radiobuttons para cada archivo
+        if(files != None and len(files) > 0):
             for index, file in enumerate(files):
                 radiobutton = ctk.CTkRadioButton(file_frame, text=file, variable=selected_file, value=file)
-                radiobutton.grid(row=index, column=0, sticky="w", padx=20, pady=2)
+                radiobutton.grid(row=index + 3, column=0, sticky="w", padx=60, pady=3)
 
-            # Botones de acción en el pie de página
-            button_frame = ctk.CTkFrame(resultados_window)
-            button_frame.pack(fill="x", pady=20)
+        # Botones de acción en el pie de página
+        button_frame = ctk.CTkFrame(resultados_window)
+        button_frame.pack(fill="x", pady=20)
             
-            buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window, boton_pulsado=boton_pulsado)) 
-            buscar_button.pack(side="left", padx=10, expand=True)
+        buscar_button = ctk.CTkButton(button_frame, text="Buscar", command= lambda: self.open_file_explorer(resultados_window, boton_pulsado=boton_pulsado)) 
+        buscar_button.pack(side="left", padx=10, expand=True)
             
-            cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
-            cancel_button.pack(side="right", padx=10, expand=True)
-            accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado,ruta))
-            accept_button.pack(side="right", padx=10, expand=True)
-        else:
-            print("No se encontraron archivos", "No se encontraron archivos con terminación 'Classes' en la ruta actual.")
+        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
+        cancel_button.pack(side="right", padx=10, expand=True)
+        accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(), boton_pulsado,ruta))
+        accept_button.pack(side="right", padx=10, expand=True)
+
 
     def aceptar(self, frame, selected_file, boton_pulsado, ruta):
         if selected_file and boton_pulsado == "negocio":
@@ -485,7 +516,6 @@ class PaginaTres(CTkFrame):
             self.search_entry_negocio.configure(state="normal")
             self.search_entry_negocio.delete(0, "end")
             self.search_entry_negocio.insert(0, ruta+"/"+selected_file)
-            self.search_entry_negocio.configure(text_color="grey")
             self.search_entry_negocio.configure(state="disabled")
             frame.destroy()
         elif(selected_file and boton_pulsado == "presentacion"):
@@ -613,11 +643,18 @@ class VentanaPrincipal(CTk):
         ON tb1.table_name = tb2.table_name AND tb1.column_name = tb2.column_name"""
         
         oracledb.init_oracle_client(lib_dir=d)
-        if(self.pagina_actual.entries[1].get() == ''):
-          cs = self.pagina_actual.entries[2].get() + ":" + self.pagina_actual.entries[3].get() + "/" + self.pagina_actual.entries[0].get()
-          connection =  oracledb.connect(user=un, password=pw, dsn=cs)
-        else:#con SID
-          connection =  oracledb.connect(user=un, password=pw, sid=self.pagina_actual.entries[1].get(),host=self.pagina_actual.entries[2].get(),port=self.pagina_actual.entries[3].get())
+        try:
+            if(self.pagina_actual.entries[1].get() == ''):
+             cs = self.pagina_actual.entries[2].get() + ":" + self.pagina_actual.entries[3].get() + "/" + self.pagina_actual.entries[0].get()
+             connection =  oracledb.connect(user=un, password=pw, dsn=cs)
+            else:#con SID
+             connection =  oracledb.connect(user=un, password=pw, sid=self.pagina_actual.entries[1].get(),host=self.pagina_actual.entries[2].get(),port=self.pagina_actual.entries[3].get())
+        except Exception as e: 
+            print("An exception occurred BBDD:  ", e)  
+            self.pagina_actual.configuration_warning.configure(text="An exception occurred: " + str(e))
+            self.pagina_actual.configuration_warning.configure(text_color ="red")
+            self.ocultarSpinner()
+            return False
         
         with connection.cursor() as cursor:
                 cursor.execute(query, esquema=pw.upper())
