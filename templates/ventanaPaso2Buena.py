@@ -132,12 +132,12 @@ class PaginaDos(CTkFrame):
         tables_original = tables
 
         # Header frame using grid
-        self.header_frame = CTkFrame(self, fg_color="#4CAF50")
+        self.header_frame = CTkFrame(self, fg_color="black")
         self.header_frame.grid(row=0, column=0, sticky="ew")
         self.grid_columnconfigure(0, weight=1)  # Ensure this column can expand
         self.grid_rowconfigure(1, weight=1)     # Central row where the scrollable frame will go
 
-        header_label = CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
+        header_label = CTkLabel(self.header_frame, text="Seleccione las tablas y sus columnas para la generación de código", font=("Arial", 14, "bold"))
         header_label.pack(pady=10, padx=10)
 
         # Scrollable frame in the middle using pack inside a grid row
@@ -274,13 +274,13 @@ class PaginaTres(CTkFrame):
         self.configure(corner_radius=10)
         
         # Header frame usando grid
-        self.header_frame = CTkFrame(self, fg_color="#4CAF50")
+        self.header_frame = CTkFrame(self, fg_color="black")
         self.header_frame.grid(row=0, column=0, sticky="new")
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)  # Asegura que el contenedor principal se expanda
 
-        header_label = CTkLabel(self.header_frame, text="Gestión de Tablas", font=("Arial", 14, "bold"))
-        header_label.grid(row=0, column=0, pady=10, padx=10)
+        header_label = CTkLabel(self.header_frame, text="Seleccione las opciones para los distintos componentes", font=("Arial", 14, "bold"))
+        header_label.pack(pady=10, padx=10)
 
         # Contenedor principal
         main_container = CTkFrame(self, fg_color="#E0E0E0")
@@ -738,18 +738,17 @@ class VentanaPrincipal(CTk):
     def mostrarResumenFinal(self,tablas):
         this = self
         self = self.pagina_actual
+        self.header_frame.destroy()
         self.main_container.destroy()
         self.buttons_container.destroy()
         main_container = CTkFrame(self, fg_color="#E0E0E0")
-        main_container.grid(row=2, column=2, sticky="nsew")
+        main_container.grid(row=1, column=0, columnspan=3, sticky="nsew")
         main_container.grid_columnconfigure(0, weight=1)
         main_container.grid_rowconfigure(0, weight=1)
-        main_container.grid_rowconfigure(1, weight=1)
-        configuration_warning = CTkLabel(main_container,  text="Se han creado "+str(len(tablas))+" tablas ", font=("Arial", 13, "bold"),text_color="red")
-        configuration_warning.grid(row=0, column=1, columnspan=1, pady=(20, 5), padx=20, sticky="w")  
-        configuration_warning.pack(side="left", padx=5)
+        configuration_warning = CTkLabel(main_container,  text="Se han creado "+str(len(tablas))+" tablas ", font=("Arial", 13, "bold"),text_color="black")
+        configuration_warning.grid(row=0, column=0, pady=(20, 5), padx=(500,0), sticky="w")  
         button = CTkButton(main_container, text="Cerrar", command=lambda: m.MainMenuLoop(self.master), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25) 
-        button.pack(side="left", padx=5)
+        button.grid(row=0, column=0, pady=(100, 5), padx=(500,0), sticky="w") 
 
 if __name__ == "__main__":
     app = VentanaPrincipal()

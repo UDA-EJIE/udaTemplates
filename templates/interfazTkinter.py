@@ -40,7 +40,7 @@ class Paso1(CTk):
 
         code_label = CTkLabel(self, text="Código de aplicación:", bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
         code_label.grid(row=2, column=0, sticky="w", padx=(20, 10), pady=(20, 2))
-        self.entry_code = CTkEntry(self, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3, text_color="black")
+        self.entry_code = CTkEntry(self, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3, text_color="black" )
         self.entry_code.grid(row=2, column=1, padx=(30, 400), pady=(20, 2), sticky="ew")
 
         self.use_default_location = tk.BooleanVar()
@@ -51,7 +51,7 @@ class Paso1(CTk):
         localizacion_label = CTkLabel(self, text="Localización:",  bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
         localizacion_label.grid(row=4, column=0, sticky="w", padx=(20, 10), pady=(5, 2))
         self.entry_location = CTkEntry(self, state="normal", bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', height=2.5, border_width=3)
-        self.entry_location.grid(row=4, column=1, padx=(30, 130), pady=(5, 2), sticky="ew")
+        self.entry_location.grid(row=4, column=1, padx=(30,180), pady=(5, 2), sticky="ew")
         self.entry_location.configure(placeholder_text=os.getcwd())
         self.entry_location.configure(placeholder_text_color="grey")
         self.entry_location.configure(text_color="grey")
@@ -60,7 +60,7 @@ class Paso1(CTk):
         self.entry_location.configure(state="disabled")
 
         self.location_button = CTkButton(self,state="disabled", text="Explorar", command=self.browse_location, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-        self.location_button.grid(row=4, column=1, pady=(5, 2), padx=(600, 20))
+        self.location_button.grid(row=4, column=1, pady=(5, 2), padx= (0, 20), sticky="e")
 
         war_label = CTkLabel(self, text="Nombre del WAR:", bg_color='#E0E0E0', text_color="black", font=("Arial", 12, "bold"))
         war_label.grid(row=5, column=0, sticky="w", padx=(20, 10), pady=(5, 30))
@@ -106,15 +106,15 @@ class Paso1(CTk):
 
         self.security_var = tk.StringVar(value="Si")
         self.security_yes_radio = CTkRadioButton(security_frame, text="Sí", value="Si", variable=self.security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
-        self.security_yes_radio.grid(row=0, column=0, padx=5, pady=(20, 10), sticky="nsew")
+        self.security_yes_radio.grid(row=0, column=0, padx=(20, 0), pady=(20, 10), sticky="nsew")
         security_no_radio = CTkRadioButton(security_frame, text="No", value="No", variable=self.security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
         security_no_radio.grid(row=0, column=1, padx=5, pady=(20, 10), sticky="nsew")
 
         finish_button = CTkButton(self, text="Finish", command=self.save_to_yaml, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-        finish_button.grid(row=11, column=1, pady=(7, 7), padx=(500, 0))
+        finish_button.grid(row=12, column=1, pady=(130, 0), padx=(560, 30), sticky = "se")
 
         cancel_button = CTkButton(self, text="Cancelar", command=self.destroy, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-        cancel_button.grid(row=11, column=1, pady=(7, 7), padx=(300, 0))
+        cancel_button.grid(row=12, column=1, pady=(130, 0), padx=(300,150), sticky = "se")
 
 
 
