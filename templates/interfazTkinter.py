@@ -7,6 +7,8 @@ import tkinter as tk
 import logging
 import plugin.utils as utl
 import menuPrincipal as m
+import customtkinter as ctk
+from datetime import datetime
 
 self = CTk()
 
@@ -56,7 +58,11 @@ class Paso1(CTk):
         self.entry_location.configure(placeholder_text_color="grey")
         self.entry_location.configure(text_color="grey")
         self.entry_location.delete(0, "end")
-        self.entry_location.insert(0, os.getcwd())
+        rutaUltimoProyecto = utl.readConfig("RUTA", "ruta_ultimo_proyecto")
+        if rutaUltimoProyecto == '':
+            self.entry_location.insert(0, os.getcwd())
+        else:
+            self.entry_location.insert(0, rutaUltimoProyecto)    
         self.entry_location.configure(state="disabled")
 
         self.location_button = CTkButton(self,state="disabled", text="Explorar", command=self.browse_location, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
@@ -110,11 +116,11 @@ class Paso1(CTk):
         security_no_radio = CTkRadioButton(security_frame, text="No", value="No", variable=self.security_var, text_color="black", radiobutton_height= 18 , radiobutton_width= 18)
         security_no_radio.grid(row=0, column=1, padx=5, pady=(20, 10), sticky="nsew")
 
-        finish_button = CTkButton(self, text="Finish", command=self.save_to_yaml, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-        finish_button.grid(row=12, column=1, pady=(130, 0), padx=(560, 30), sticky = "se")
+        finish_button = CTkButton(self, text="Finish", command=lambda:self.mostrarSpinner(), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
+        finish_button.grid(row=12, column=1, pady=(60, 0), padx=(560, 30), sticky = "se")
 
         cancel_button = CTkButton(self, text="Cancelar", command=self.destroy, bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25)
-        cancel_button.grid(row=12, column=1, pady=(130, 0), padx=(300,150), sticky = "se")
+        cancel_button.grid(row=12, column=1, pady=(60, 0), padx=(300,150), sticky = "se")
 
 
 
@@ -155,16 +161,7 @@ class Paso1(CTk):
         self.configuration_warning.configure(text="")    
 
     def save_to_yaml(self):
-        
-        if(self.entry_code.get() == ''):
-            self.configuration_warning.configure(text="Campo 'Código de aplicación' obligatorio")
-            return FALSE
-        if(self.entry_war.get() == ''):
-            self.configuration_warning.configure(text="Campo 'Nombre del WAR' obligatorio")
-            return FALSE
-        self.configuration_warning.configure(text="")
-        
-        
+        inicio = datetime.now()
         yaml_data = {
             "i18n_app": [lang_option for lang_option, lang_var in zip(self.language_options, self.language_vars) if lang_var.get()],
             "i18n_default_app": self.default_language_var.get(),
@@ -199,15 +196,22 @@ class Paso1(CTk):
         destinoPath = self.entry_location.get()
         if(destinoPath == ''):
             destinoPath = rutaPath
-        with Worker(src_path=directorio_actual, dst_path=destinoPath, data=yaml_data,exclude=idiomasExcludes) as worker:
+        with Worker(src_path=directorio_actual,overwrite=True, dst_path=destinoPath, data=yaml_data,exclude=idiomasExcludes) as worker:
             logging.info('Inicio: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             worker.run_copy()
             logging.info('Fin: Crear proyecto: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
-            print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
             #guardar ultima ruta creada
-            utl.writeConfig("RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath})
-    
+            utl.writeConfig(
+                "RUTA", {"ruta_classes":destinoPath,"ruta_war":destinoPath,"ruta_ultimo_proyecto":destinoPath})
+        self.ocultarSpinner()
+        print('Fin: proyecto Creado: ' + yaml_data["project_name"]+yaml_data["war_project_name"])
+        fin = datetime.now()
+        print('Tiempo: proyecto Creado en: ' + str((fin-inicio).total_seconds()) + " segundos")
         m.MainMenuLoop(self)
+
+            
+        
+
         
     def browse_location(self):
         folder_selected = filedialog.askdirectory()
@@ -215,6 +219,43 @@ class Paso1(CTk):
             self.entry_location.delete(0, "end")
             self.entry_location.insert(0, folder_selected)
 
+    def mostrarSpinner(self):
+        if(self.entry_code.get() == ''):
+            self.configuration_warning.configure(text="Campo 'Código de aplicación' obligatorio")
+            return FALSE
+        if(self.entry_war.get() == ''):
+            self.configuration_warning.configure(text="Campo 'Nombre del WAR' obligatorio")
+            return FALSE 
+        if os.path.isdir(self.entry_location.get()) == False:
+            self.configuration_warning.configure(text="La localización no existe")
+            return FALSE
+        self.wm_attributes('-alpha',0.4)
+        resultados_window2 = ctk.CTkToplevel(self)
+        resultados_window2.title("")
+        resultados_window2.attributes('-topmost', True)
+        resultados_window2.wm_attributes('-alpha',0.8)
+        self.title("Cargando...")
+        resultados_window2.overrideredirect(True)
+        toplevel_offsetx, toplevel_offsety = self.winfo_x(), self.winfo_y()
+        padx = -10 # the padding you need.
+        pady = -10
+        resultados_window2.geometry(f"+{toplevel_offsetx + padx}+{toplevel_offsety + pady}")
+        width = self.winfo_screenwidth() - 80
+        height = self.winfo_screenheight() - 80
+        resultados_window2.geometry(str(width)+"x"+str(height))
+        self.resultados_window2 = resultados_window2  
+
+        l_frame = CTkFrame(resultados_window2, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
+        l_frame.grid(row=8, column=4, columnspan=4, pady=(200, 20), padx=100, sticky="ew")
+        l = CTkLabel(l_frame, text="Cargando...", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 50, "bold"))
+        l.grid(row=3, column=6, columnspan=6, pady=(200, 5), padx=200, sticky="w")
+        l.pack()
+        self.update()
+        resultados_window2.after(100, self.save_to_yaml())
+
+
+    def ocultarSpinner(self):
+        self.resultados_window2.destroy()
 
 
 if __name__ == "__main__":
