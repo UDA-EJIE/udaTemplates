@@ -10,7 +10,7 @@ from plugin.utils import modifyMenu
 import operator
 
 #INICIO función principal
-def initPaso3(tables,yaml_data):
+def initPaso3(tables,yaml_data, data_mantenimiento):
     # work only controller
     proyectName = yaml_data["project_name"]
     proyectWar = yaml_data["war_project_name"]
@@ -58,6 +58,9 @@ def initPaso3(tables,yaml_data):
         destinoWarViewsFinal = destinoWarViews + tName.lower() +"/"
         destinoWarViewsFinalIncludes = destinoWarViewsFinal +"includes/"  
         data["maint"]["primaryKey"] = data["listPks"][0]      
+        data["maint"]["isMaint"] = True
+        data["maint"]["typeMaint"] = 'INLINE' if data_mantenimiento[3][1] == 'Edición en línea' else "DETAIL"
+        data["maint"]["clientValidationMaint"] = True
 
         print("SRC MAINT Jsp:: " +dirMaintJsp)
         print("DEST MAINT Jsp:: " +destinoWarViewsFinal)
@@ -82,11 +85,11 @@ def initPaso3(tables,yaml_data):
         
 #FIN función principal
                   
-#variables
-directorioRespuestas = "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/plugin/"
-file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
-#vendrá directamente del formulario tkinter
-tables = json.load(file)
+# #variables
+# directorioRespuestas = "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/plugin/"
+# file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
+# #vendrá directamente del formulario tkinter
+# tables = json.load(file)
 data = { "project_name": "ppp",
         "security_app": "",
         "war_project_name": "Www",
