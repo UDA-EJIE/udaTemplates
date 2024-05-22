@@ -56,121 +56,105 @@ const tableColModels = [
   	  		collapsableLayerId: "{{nameMaint}}_filter_fieldset"
      	},
      	{% else %}
-     	filter: "noFilter",
-     	{% endif%} 
-     	<#if (maint.isMaint)?string == "true">
-     		<#if (maint.typeMaint)?string == "DETAIL">
-     	formEdit: {
-     		titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        	detailForm: "#{{nameMaint}}_detail_div",
-        	<#if (maint.clientValidationMaint)?string == "true">
-			<#-- Reglas de validaciÃƒÂ³n -->
-         	validate: { 
-    			rules: {
-				{% for column in allColumns %}
-					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
-    				"{{column.name.lower()|toCamelCase}}": {
-						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
-						<#switch columnProperties.typeEditRules>
-							<#case "number">
-							number: true<#if (columnProperties.minValueEditRules)?has_content || (columnProperties.maxValueEditRules)?has_content>,
-							min: ${columnProperties.minValueEditRules?string}</#if><#if (columnProperties.maxValueEditRules)?has_content>,
-							max: ${columnProperties.maxValueEditRules?string}</#if>
-								<#break>	
-							<#case "integer">
-							integer: true
-								<#break>
-							<#case "email">
-							email: true
-								<#break>
-							<#case "url">
-							url: true
-								<#break>
-							<#case "date">
-							date: true
-								<#break>
-							<#case "time">
-							time: true
-								<#break>
-							<#default>
-								<#break>
-						</#switch>	
-					}<#if columnProperties_has_next>,</#if>
-					</#if>
-				{% endfor %}
-				}
-		   	}
-		   	</#if>
-		},
-    		</#if>
-    		<#if (maint.typeMaint)?string == "INLINE">		
-    	inlineEdit: {
-    			<#if (maint.clientValidationMaint)?string == "true">
-			<#-- Reglas de validaciÃƒÂ³n -->
-         	validate: { 
-    			rules: {
-					{% for column in allColumns %}
-					<#if (maint.primaryKey)?has_content && !(maint.primaryKey)?contains(columnProperties.name)>
-    				"{{column.name.lower()|toCamelCase}}": {
-						required: ${columnProperties.requiredEditRules?string}<#if columnProperties.typeEditRules?has_content>,</#if>
-						<#switch columnProperties.typeEditRules>
-							<#case "number">
-								number: true<#if (columnProperties.minValueEditRules)?has_content || (columnProperties.maxValueEditRules)?has_content>,
-								min: ${columnProperties.minValueEditRules?string}</#if><#if (columnProperties.maxValueEditRules)?has_content>,
-								max: ${columnProperties.maxValueEditRules?string}</#if>
-								<#break>	
-							<#case "integer">
-								integer: true
-								<#break>
-							<#case "email">
-								email: true
-								<#break>
-							<#case "url">
-								url: true
-								<#break>
-							<#case "date">
-								date: true
-								<#break>
-							<#case "time">
-								time: true
-								<#break>
-							<#default>
-								<#break>
-						</#switch>	
-					}<#if columnProperties_has_next>,</#if>
-					</#if>
-    				{% endfor %}
-				}
-    		}
-    			</#if>
-    	},
-    		</#if>
-    	</#if>
-		<#if (maint.multiSelectMaint)?string == "true">
-	    multiSelect: {
-       		style: "multi"
-   		},
-   		<#else>
-   		select: {
-       		activate: true
-   		},
-		</#if>
-		<#if (maint.searchMaint)?string == "true">
-		seeker: {
-			activate: true
-		},
-		</#if>
-		<#if (maint.toolBarButtonsMaint)?string == "true">	
-		buttons: {
-			activate: true
-			<#if (maint.isMaint)?string == "false">
-			,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
-			</#if>
-			<#if (maint.contextMenuMaint)?string == "false">
-			,contextMenu: false
-			</#if>
-		},
-		</#if>
-		order: [[${grid.sortPosition - pkCont + maint.multiSelectMaint?string(1, 0)?number}, "${grid.sortOrder}"]]
+     		filter: "noFilter",
+     	{% endif %}
+     	{% if maint.isMaint %}
+     		{% if maint.typeMaint == "DETAIL" %}
+     			formEdit: {
+     				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
+        			detailForm: "#{{nameMaint}}_detail_div",
+        			{% if maint.clientValidationMaint %}
+						validate: { 
+    						rules: {
+								{% for column in allColumnsNoPk %}
+									{% if maint.primaryKey and not column.name in maint.primaryKey %}
+    								"{{column.name.lower()|toCamelCase}}": {
+										required: {{column.requiredEditRules}},
+										{% if column.typeEditRules %}
+											{% if column.typeEditRules == "number" %}
+												number: true,
+												min: {{column.minValueEditRules}},
+												max: {{column.maxValueEditRules}}
+											{% elif column.typeEditRules == "integer" %}
+												integer: true
+											{% elif column.typeEditRules == "email" %}
+												email: true
+											{% elif column.typeEditRules == "url" %}
+												url: true
+											{% elif column.typeEditRules == "date" %}
+												date: true
+											{% elif column.typeEditRules == "time" %}
+												time: true
+											{% endif %}
+										{% endif %}
+									{% endif %}	
+									}{% if not loop.last %},{% endif %}
+								{% endfor %}
+    							}
+    						}
+    				{% endif %}
+    				}
+    		{% endif %}
+    		{% if maint.typeMaint == "INLINE" %}
+    			inlineEdit: {
+    				{% if maint.clientValidationMaint %}
+						validate: { 
+    						rules: {
+								{% for column in allColumnsNoPk %}
+									{% if maint.primaryKey and not column.name in maint.primaryKey %}
+    								"{{column.name.lower()|toCamelCase}}": {
+										required: {{column.requiredEditRules}},
+										{% if column.typeEditRules %}
+											{% if column.typeEditRules == "number" %}
+												number: true,
+												min: {{column.minValueEditRules}},
+												max: {{column.maxValueEditRules}}
+											{% elif column.typeEditRules == "integer" %}
+												integer: true
+											{% elif column.typeEditRules == "email" %}
+												email: true
+											{% elif column.typeEditRules == "url" %}
+												url: true
+											{% elif column.typeEditRules == "date" %}
+												date: true
+											{% elif column.typeEditRules == "time" %}
+												time: true
+											{% endif %}
+										{% endif %}
+									{% endif %}
+									}{% if not loop.last %},{% endif %}
+								{% endfor %}
+    							}
+    						}
+    				{% endif %}
+    				}
+    		{% endif %}
+    	{% endif %}
+		{% if maint.multiSelectMaint %}
+		    multiSelect: {
+       			style: "multi"
+   			},
+   		{% else %}
+   			select: {
+       			activate: true
+   			},
+		{% endif %}
+		{% if maint.searchMaint %}
+			seeker: {
+				activate: true
+			},
+		{% endif %}
+		{% if maint.toolBarButtonsMaint %}
+			buttons: {
+				activate: true
+				{% if not maint.isMaint %}
+					,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
+				{% endif %}
+				{% if not maint.contextMenuMaint %}
+					,contextMenu: false
+				{% endif %}
+			},
+		{% endif %}
+		
 	});
 });

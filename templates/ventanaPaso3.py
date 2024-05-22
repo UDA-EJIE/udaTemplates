@@ -647,7 +647,7 @@ class VentanaColumnas(CTkFrame):
         back_button.grid(row=0, column=0, padx=5, sticky="e")
         rutaActual = utl.rutaActual(__file__)
        
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, self.master.getDatos(rutaActual)))
+        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, self.master.getDatos(rutaActual), data_mantenimiento))
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
         cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
@@ -678,9 +678,9 @@ class VentanaColumnas(CTkFrame):
         tabla_resultados.append(tabla)
         return tabla_resultados 
     
-    def paso3(self,tables, index_seleccionado, datosCargados): 
+    def paso3(self,tables, index_seleccionado, datosCargados, data_mantenimiento): 
 
-        p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), datosCargados)
+        p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), datosCargados, data_mantenimiento)
         m.MainMenuLoop(self.master)
 
 class VentanaPrincipal(CTk):
