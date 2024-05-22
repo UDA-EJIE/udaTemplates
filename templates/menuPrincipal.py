@@ -47,10 +47,11 @@ class MainMenu(CTk):
 
 
 
-def MainMenuLoop(self):
-    self.destroy()
+def MainMenuLoop(self):   
     app = MainMenu()
+    self.destroy()
     app.mainloop()
+    
 
 if __name__ == "__main__":
     MainMenu().mainloop()
