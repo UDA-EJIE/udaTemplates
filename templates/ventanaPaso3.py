@@ -59,7 +59,10 @@ class PaginaUno(CTkFrame):
            rutaActual = ruta_war 
         archivoWar = utl.buscarArchivo(rutaActual,"War") 
         if(archivoWar != ''):
-           rutaActual = rutaActual+"\\"+archivoWar  
+           rutaActual = rutaActual+"/"+archivoWar
+           nombreProyecto = utl.obtenerNombreProyectoWar(rutaActual) 
+           self.master.nombreProyecto = nombreProyecto
+           self.master.archivoWar = rutaActual 
         else:
             rutaActual = ""  
         self.war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=600, text_color="black")
@@ -622,24 +625,26 @@ class VentanaPaso3(CTkFrame):
 class VentanaColumnas(CTkFrame):
     def __init__(self, master, tables, data_mantenimiento, index_seleccionado, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
-        
+        self.tables = tables
+        self.data_mantenimiento = data_mantenimiento
+        self.index_seleccionado = index_seleccionado
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=4)
          # Configura el contenedor principal para que las columnas se expandan
         self.grid_columnconfigure(0, weight=1)  # Esto hace que la columna se expanda
         self.grid_rowconfigure(3, weight=1)  # Row para contenedor_principal se expande
       
-        configuration_frame = CTkFrame(self)
-        configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
-        configuration_frame.grid_columnconfigure(0, weight=1) 
+        self.configuration_frame = CTkFrame(self)
+        self.configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
+        self.configuration_frame.grid_columnconfigure(0, weight=1) 
 
 
-        configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
+        configuration_label = CTkLabel(self.configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
         configuration_label.grid(row=0, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
-        description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
+        description_label = CTkLabel(self.configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
         description_label.grid(row=1, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
 
-        desc_label = CTkLabel(configuration_frame, text="Seleccione el WAR al que se quiere añadir el mantenimiento y configure una conexión a la base de datos")
+        desc_label = CTkLabel(self.configuration_frame, text="Seleccione el WAR al que se quiere añadir el mantenimiento y configure una conexión a la base de datos")
         desc_label.grid(row=2, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
         # Contenedor principal
         contenedor_principal = ctk.CTkFrame(self)
@@ -648,8 +653,8 @@ class VentanaColumnas(CTkFrame):
         contenedor_principal.grid_rowconfigure(0, weight=1)
 
         # Contenedor Scrollable para los Checkbuttons
-        scrollable_container = ctk.CTkScrollableFrame(contenedor_principal, fg_color="#E0E0E0", width=400, height=300)
-        scrollable_container.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        self.scrollable_container = ctk.CTkScrollableFrame(contenedor_principal, fg_color="#E0E0E0", width=400, height=300)
+        self.scrollable_container.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
 
         # Checkbuttons para cada columna
@@ -661,22 +666,21 @@ class VentanaColumnas(CTkFrame):
             if columna.primaryKey:
                 text += " PK"
             var = ctk.BooleanVar(value=True)
-            checkbox = ctk.CTkCheckBox(scrollable_container, text=f"{columna.name}: {columna.type}{text}", variable=var, text_color="black", font=("Arial", 12, "bold"))
+            checkbox = ctk.CTkCheckBox(self.scrollable_container, text=f"{columna.name}: {columna.type}{text}", variable=var, text_color="black", font=("Arial", 12, "bold"))
             checkbox.grid(row=i, column=0, sticky="w")
             self.column_checkboxes.append(var)
 
         # Botones
-        contenedor_botones = ctk.CTkFrame(self, fg_color="#E0E0E0")
-        contenedor_botones.grid(row=4, column=0, sticky="se", padx=10, pady=10)
+        self.contenedor_botones = ctk.CTkFrame(self, fg_color="#E0E0E0")
+        self.contenedor_botones.grid(row=4, column=0, sticky="se", padx=10, pady=10)
 
-        back_button = ctk.CTkButton(contenedor_botones, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_tres(data_mantenimiento, tables,  index_seleccionado))
+        back_button = ctk.CTkButton(self.contenedor_botones, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_tres(data_mantenimiento, tables,  index_seleccionado))
         back_button.grid(row=0, column=0, padx=5, sticky="e")
-        rutaActual = utl.rutaActual(__file__)
-       
-        finish_button = ctk.CTkButton(contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda: self.paso3(tables, index_seleccionado, self.master.getDatos(rutaActual), data_mantenimiento))
+        
+        finish_button = ctk.CTkButton(self.contenedor_botones, text="Finish",  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda:self.master.mostrarSpinner("finalizar") )
         finish_button.grid(row=0, column=1, padx=5, sticky="e")
 
-        cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        cancel_button = ctk.CTkButton(self.contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         cancel_button.grid(row=0, column=2, padx=5, sticky="e")
         self.master.ocultarSpinner()
 
@@ -706,9 +710,10 @@ class VentanaColumnas(CTkFrame):
         return tabla_resultados 
     
     def paso3(self,tables, index_seleccionado, datosCargados, data_mantenimiento): 
-
-        p3.initPaso3(self.getTablaResultados(tables[index_seleccionado]), datosCargados, data_mantenimiento)
-        m.MainMenuLoop(self.master)
+        this = self.master
+        tablaResultados = self.getTablaResultados(tables[index_seleccionado])
+        p3.initPaso3(tablaResultados, datosCargados, data_mantenimiento)
+        this.mostrarResumenFinal(tablaResultados)    
 
 class VentanaPrincipal(CTk):
     def __init__(self):
@@ -794,10 +799,31 @@ class VentanaPrincipal(CTk):
             self.update()
             resultados_window2.after(1000,self.mostrar_pagina_tres(self.pagina_actual.obtener_datos(),self.pagina_actual.tables)) 
         elif caso == "paso4To5":
-            resultados_window2.after(1000,self.mostrar_pagina_cuatro(self.pagina_actual.tables, self.pagina_actual.data_mantenimiento, self.pagina_actual.abrir_ventana_columnas()))               
+            resultados_window2.after(1000,self.mostrar_pagina_cuatro(self.pagina_actual.tables, self.pagina_actual.data_mantenimiento, self.pagina_actual.abrir_ventana_columnas()))
+        elif caso == "finalizar":
+            self.update()
+            pfinal = self.pagina_actual
+            rutaActual = utl.rutaActual(__file__)
+            resultados_window2.after(1000, pfinal.paso3(pfinal.tables, pfinal.index_seleccionado, self.getDatos(rutaActual), pfinal.data_mantenimiento))                   
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  
+
+    def mostrarResumenFinal(self,tablas):
+        self = self.pagina_actual
+        self.configuration_frame.destroy()
+        self.contenedor_botones.destroy()
+        self.scrollable_container.destroy()
+        main_container = CTkFrame(self, fg_color="#E0E0E0")
+        main_container.grid(row=1, column=0, columnspan=3, sticky="nsew")
+        main_container.grid_columnconfigure(0, weight=1)
+        main_container.grid_rowconfigure(0, weight=1)
+        configuration_warning = CTkLabel(main_container,  text="Se han creado "+str(len(tablas))+" mantenimientos ", font=("Arial", 13, "bold"),text_color="black")
+        configuration_warning.grid(row=0, column=0, pady=(20, 5), padx=(500,0), sticky="w")  
+        button = CTkButton(main_container, text="Cerrar", command=lambda: m.MainMenuLoop(self.master), bg_color='#E0E0E0', fg_color='#69a3d6', border_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), width= 100, height=25) 
+        button.grid(row=0, column=0, pady=(100, 5), padx=(500,0), sticky="w") 
+        self.master.ocultarSpinner()
+
 
 if __name__ == "__main__":
     app = VentanaPrincipal()

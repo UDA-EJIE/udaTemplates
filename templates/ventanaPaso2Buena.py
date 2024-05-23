@@ -743,7 +743,6 @@ class VentanaPrincipal(CTk):
         this.mostrarResumenFinal(tabla_resultados)
 
     def mostrarResumenFinal(self,tablas):
-        this = self
         self = self.pagina_actual
         self.header_frame.destroy()
         self.main_container.destroy()
