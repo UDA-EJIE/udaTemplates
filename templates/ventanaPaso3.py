@@ -52,9 +52,19 @@ class PaginaUno(CTkFrame):
         # Crear un widget Label encima del borde del marco
         labelSecurityFrame = CTkLabel(self, text="Selección del proyecto WAR", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         labelSecurityFrame.place(in_=war_frame, anchor="sw", x=10, y=35 )
-
+        # Entry y Botón de Buscar para Componentes de Negocio
+        rutaActual = utl.rutaActual(__file__)
+        ruta_war = utl.readConfig("RUTA", "ruta_war")
+        if(ruta_war != None and ruta_war != ""):
+           rutaActual = ruta_war 
+        archivoWar = utl.buscarArchivo(rutaActual,"War") 
+        if(archivoWar != ''):
+           rutaActual = rutaActual+"\\"+archivoWar  
+        else:
+            rutaActual = ""  
         self.war_entry = CTkEntry(war_frame, fg_color='#69a3d6', border_color='#69a3d6', height=2.5, width=600, text_color="black")
         self.war_entry.grid(row=0, column=0 , padx=(220,60), pady=(30, 2), sticky="ew")
+        self.war_entry.insert(0, rutaActual)
         
 
         # Botones
@@ -87,8 +97,9 @@ class PaginaUno(CTkFrame):
         self.test_button = CTkButton(self, text="Probar conexión", command=self.probar_conexion, fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         self.test_button.grid(row=len(labels) + 1, column=0, columnspan=2, pady=10, padx=20, sticky="ew")
 
-        next_button = CTkButton(self, text="Siguiente", command=lambda: self.avanzar_paso2(), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        next_button = CTkButton(self, text="Siguiente", command=lambda:self.master.mostrarSpinner("avanzarPaso2"), fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         next_button.grid(row=len(labels) + 2, column=1, pady=0, padx=20, sticky="e")
+        
     def selectDirectory(self,directory):
         if(directory == ""):
             return directory
@@ -144,6 +155,12 @@ class PaginaUno(CTkFrame):
         
         # Puedes agregar aquí la lógica para probar la conexión a la base de datos
         print("Conexión probada")
+        
+        if self.war_entry.get() == "":
+           self.configuration_warning.configure(text="Seleccione un proyecto WAR")
+           self.configuration_warning.configure(text_color ="red")
+           self.master.ocultarSpinner()
+           return False
        
         un = self.entries[4].get()
         pw = self.entries[5].get()
@@ -180,6 +197,7 @@ class PaginaUno(CTkFrame):
             print("An exception occurred BBDD:  ", e)  
             self.configuration_warning.configure(text="An exception occurred: " + str(e))
             self.configuration_warning.configure(text_color ="red")
+            self.master.ocultarSpinner()
             return False  
         with connection.cursor() as cursor:
                 cursor.execute(query, esquema=pw.upper())
@@ -213,10 +231,6 @@ class PaginaUno(CTkFrame):
                     if cont == len(rows) and contPrimaryKey < len(columns): #si es la última se mete a la tabla
                         tables.append(Table(tableName,columns))   
                     tableName = tableNameBBDD   
-        if self.war_entry.get() == "":
-            self.configuration_warning.configure(text="Seleccione un proyecto WAR")
-            self.configuration_warning.configure(text_color ="red")
-            return False
         self.master.mostrar_pagina_dos(tables)           
 
 
@@ -269,7 +283,7 @@ class PaginaUno(CTkFrame):
         cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=resultados_window.destroy)
         cancel_button.pack(side="right", padx=10, expand=True)
         accept_button = ctk.CTkButton(button_frame, text="Aceptar", command=lambda: self.aceptar(resultados_window, selected_file.get(),ruta))
-        accept_button.pack(side="right", padx=10, expand=True)
+        accept_button.pack(side="right", padx=10, expand=True)        
 
 
     def aceptar(self, frame, selected_file,ruta):
@@ -306,7 +320,8 @@ class ventanaPaso2(CTkFrame):
         self.grid_columnconfigure(1, weight=1)
 
 
-
+        self.tables = tables
+        self.data_mantenimiento = data_mantenimiento
         configuration_frame = CTkFrame(self)
         configuration_frame.grid(row=0, column=0, columnspan=3, sticky="ew")
         configuration_frame.grid_columnconfigure(0, weight=1) 
@@ -314,6 +329,9 @@ class ventanaPaso2(CTkFrame):
 
         configuration_label = CTkLabel(configuration_frame,  text="Crear nueva aplicación", font=("Arial", 14, "bold"))
         configuration_label.grid(row=0, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
+
+        self.configuration_warning = CTkLabel(configuration_frame,  text="", font=("Arial", 13, "bold"),text_color="red")
+        self.configuration_warning.grid(row=0, column=2, columnspan=3, pady=(20, 5), padx=20, sticky="w")
 
         description_label = CTkLabel(configuration_frame, text="Este Wizard genera la estructura necesaria para desarrollar una aplicación estándar")
         description_label.grid(row=1, column=0, columnspan=3, pady=(5, 5), padx=20, sticky="w")
@@ -392,7 +410,7 @@ class ventanaPaso2(CTkFrame):
         footer_frame.grid(row=3, column=0, columnspan=2, padx=20, sticky="se")
         btn_back = CTkButton(footer_frame, text="Back", command=lambda :master.mostrar_pagina_uno(),  fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_back.pack(side="left", padx=10)
-        btn_next = CTkButton(footer_frame, text="Next", command=lambda: master.mostrar_pagina_tres(self.obtener_datos(), tables) ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
+        btn_next = CTkButton(footer_frame, text="Next", command=lambda: self.validarPaso3() ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_next.pack(side="left", padx=10)
         btn_cancel = CTkButton(footer_frame, text="Cancel", command=lambda : self.destroy() ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_cancel.pack(side="left", padx=10)
@@ -421,10 +439,16 @@ class ventanaPaso2(CTkFrame):
 
 
         self.edicion_linea()
-
+        self.master.ocultarSpinner()
 
     # Otras configuraciones de CheckBox
        
+    def validarPaso3(self):
+        if(self.titulo_entry.get() == '' or self.nombre_entry.get() == ''):
+            self.configuration_warning.configure(text="El nombre y el título del mantenimiento es obligatorio")
+            self.configuration_warning.configure(text_color ="red")
+            return FALSE
+        self.master.mostrarSpinner("paso3To4")
 
     def configurar_checkbox(self, checkbox, valor):
         """Configura el estado de un CTkCheckBox basado en un valor entero."""
@@ -502,7 +526,8 @@ class ventanaPaso2(CTkFrame):
 class VentanaPaso3(CTkFrame):
     def __init__(self, master, tables, data_mantenimiento, indexSeleccionado=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
-
+        self.tables = tables
+        self.data_mantenimiento = data_mantenimiento
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.configure(corner_radius=10, fg_color="#E0E0E0", border_color="#69a3d6", border_width=2)
@@ -570,10 +595,11 @@ class VentanaPaso3(CTkFrame):
         
         btn_back = CTkButton(footer_frame, text="Back", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command= lambda: master.mostrar_pagina_dos(data_mantenimiento=data_mantenimiento, tables=tables))
         btn_back.pack(side="left", padx=10, pady=5)
-        btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : master.mostrar_pagina_cuatro(tables, data_mantenimiento, self.abrir_ventana_columnas()))
+        btn_next = CTkButton(footer_frame, text="Next", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"), command=lambda : self.master.mostrarSpinner("paso4To5"))
         btn_next.pack(side="left", padx=10, pady=5)
         btn_cancel = CTkButton(footer_frame, text="Cancel" ,fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         btn_cancel.pack(side="left", padx=10, pady=5)
+        self.master.ocultarSpinner()
 
 
     def actualizar_indice(self, index, name):
@@ -652,6 +678,7 @@ class VentanaColumnas(CTkFrame):
 
         cancel_button = ctk.CTkButton(contenedor_botones, text="Cancel", fg_color='#69a3d6', text_color="black", font=("Arial", 12, "bold"))
         cancel_button.grid(row=0, column=2, padx=5, sticky="e")
+        self.master.ocultarSpinner()
 
     def getTablaResultados(self,tb):
         tabla_resultados = []
@@ -698,11 +725,15 @@ class VentanaPrincipal(CTk):
         self.mostrar_pagina(PaginaUno, tables=None, data_mantenimineto=None, indexSeleccionado=None)
 
     def mostrar_pagina(self, pagina, tables, data_mantenimineto, indexSeleccionado):
-        nueva_pagina = pagina(self, tables, data_mantenimineto, indexSeleccionado)
+        
         if self.pagina_actual:
             self.pagina_actual.destroy()
+        nueva_pagina = pagina(self, tables, data_mantenimineto, indexSeleccionado) 
+        self.mostrarSpinner("") 
+        self.update()  
         nueva_pagina.grid(row=0, column=0, sticky="nsew")
         self.pagina_actual = nueva_pagina
+        self.ocultarSpinner()
 
     def mostrar_pagina_dos(self, tables, data_mantenimiento=None , indexSeleccionado=None):
         self.mostrar_pagina(ventanaPaso2, tables, data_mantenimiento, indexSeleccionado), 
@@ -729,7 +760,44 @@ class VentanaPrincipal(CTk):
         "destinoApp" : self.archivoWar
        }
         print(data)
-        return data    
+        return data  
+
+    def mostrarSpinner(self,caso):
+        resultados_window2 = ctk.CTkToplevel(self)
+        resultados_window2.title("")
+        resultados_window2.attributes('-topmost', True)
+        resultados_window2.wm_attributes('-alpha',0.8)
+        #resultados_window2.resizable(width=None, height=None)
+        #resultados_window2.transient()
+        resultados_window2.overrideredirect(True)
+        toplevel_offsetx, toplevel_offsety = self.winfo_x(), self.winfo_y()
+        padx = -10 # the padding you need.
+        pady = -10
+        resultados_window2.geometry(f"+{toplevel_offsetx + padx}+{toplevel_offsety + pady}")
+        width = self.winfo_screenwidth() - 80
+        height = self.winfo_screenheight() - 80
+        resultados_window2.geometry(str(width)+"x"+str(height))
+        # label2 = GIFLabel(resultados_window2, "./plugin/images/spinner.gif")
+        # label2.grid(row=11, column=11, columnspan=10, pady=(50, 5), padx=50, sticky="w")
+        l_frame = CTkFrame(resultados_window2, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
+        l_frame.grid(row=8, column=4, columnspan=4, pady=(200, 20), padx=100, sticky="ew")
+        l = CTkLabel(l_frame, text="Cargando...", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 50, "bold"))
+        l.grid(row=3, column=6, columnspan=6, pady=(200, 5), padx=200, sticky="w")
+        l.pack()
+
+        label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
+        label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
+        self.resultados_window2 = resultados_window2   
+        if(caso == "avanzarPaso2"):
+            resultados_window2.after(1000, self.pagina_actual.avanzar_paso2)
+        elif caso == "paso3To4":#ir a las columnas
+            self.update()
+            resultados_window2.after(1000,self.mostrar_pagina_tres(self.pagina_actual.obtener_datos(),self.pagina_actual.tables)) 
+        elif caso == "paso4To5":
+            resultados_window2.after(1000,self.mostrar_pagina_cuatro(self.pagina_actual.tables, self.pagina_actual.data_mantenimiento, self.pagina_actual.abrir_ventana_columnas()))               
+
+    def ocultarSpinner(self):
+        self.resultados_window2.destroy()  
 
 if __name__ == "__main__":
     app = VentanaPrincipal()

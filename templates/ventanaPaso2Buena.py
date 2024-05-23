@@ -170,14 +170,13 @@ class PaginaDos(CTkFrame):
             columna.deselect()   
 
     def estado_tables_checkbox(self, estado_checkboxes):
-        print("prueba")
         for tables in estado_checkboxes:
             for column in tables['columns']:
                 columna = self.listaColumnas[tables['name']+column.name]
                 columna.select()
    
     def populate_scrollable_frame(self, frame, tables_original):
-       
+        self.var_list = []
         for index, table in enumerate(tables_original):
             self.var_list.append(IntVar(value=0))
             table_frame = CTkFrame(frame, fg_color="#FFFFFF", corner_radius=10)
@@ -582,7 +581,7 @@ class VentanaPrincipal(CTk):
     
     def mostrarSpinner(self,caso):
         resultados_window2 = ctk.CTkToplevel(self)
-        resultados_window2.title("Cargando...")
+        resultados_window2.title("")
         resultados_window2.attributes('-topmost', True)
         resultados_window2.wm_attributes('-alpha',0.8)
         #resultados_window2.resizable(width=None, height=None)
@@ -597,6 +596,11 @@ class VentanaPrincipal(CTk):
         resultados_window2.geometry(str(width)+"x"+str(height))
         # label2 = GIFLabel(resultados_window2, "./plugin/images/spinner.gif")
         # label2.grid(row=11, column=11, columnspan=10, pady=(50, 5), padx=50, sticky="w")
+        l_frame = CTkFrame(resultados_window2, bg_color='#E0E0E0', fg_color='#E0E0E0', border_color='#69a3d6', border_width=3)
+        l_frame.grid(row=8, column=4, columnspan=4, pady=(200, 20), padx=100, sticky="ew")
+        l = CTkLabel(l_frame, text="Cargando...", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 50, "bold"))
+        l.grid(row=3, column=6, columnspan=6, pady=(200, 5), padx=200, sticky="w")
+        l.pack()
 
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
@@ -608,7 +612,11 @@ class VentanaPrincipal(CTk):
         elif caso == "deselectAll": 
             resultados_window2.after(1000, self.deselect_all) 
         elif caso == "finalizar":
-            resultados_window2.after(1000, self.validarPaso2)         
+            resultados_window2.after(1000, self.validarPaso2) 
+        elif caso == "paso2To3":
+            resultados_window2.after(1000,self.mostrar_pagina_tres(self.pagina_actual.obtener_seleccion_checkbox())) 
+        elif caso == "paso2To1":
+            resultados_window2.after(1000,self.mostrar_pagina_uno())               
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  
@@ -733,7 +741,6 @@ class VentanaPrincipal(CTk):
         p2.initPaso2(tabla_resultados, self.getDatos(rutaActual,archivoClases,archivoWar),self)
         this.ocultarSpinner()
         this.mostrarResumenFinal(tabla_resultados)
-        #self.configuration_warning.after(1000, app.destroy())
 
     def mostrarResumenFinal(self,tablas):
         this = self

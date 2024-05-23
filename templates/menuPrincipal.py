@@ -43,6 +43,7 @@ class MainMenu(CTk):
         self.withdraw()
         ventana = paso3.VentanaPrincipal()
         ventana.protocol("WM_DELETE_WINDOW", lambda: self.on_close(ventana))
+        ventana.ocultarSpinner()
         ventana.mainloop()
 
 
