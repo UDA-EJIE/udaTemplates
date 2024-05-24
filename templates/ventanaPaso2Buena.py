@@ -600,6 +600,9 @@ class VentanaPrincipal(CTk):
         l_frame.grid(row=8, column=4, columnspan=4, pady=(200, 20), padx=100, sticky="ew")
         l = CTkLabel(l_frame, text="Cargando...", bg_color="#E0E0E0", fg_color="#E0E0E0", text_color="black", font=("Arial", 50, "bold"))
         l.grid(row=3, column=6, columnspan=6, pady=(200, 5), padx=200, sticky="w")
+        progressbar = CTkProgressBar(resultados_window2, orientation="horizontal")
+        progressbar.grid(row=10, column=6, pady=10, padx=20, sticky="n")
+        progressbar.start()
         l.pack()
 
         label = CTkLabel(resultados_window2, text="Cargando...", fg_color="#E0E0E0", text_color="black", font=("Arial", 12, "bold"))
