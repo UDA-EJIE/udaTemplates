@@ -609,17 +609,17 @@ class VentanaPrincipal(CTk):
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         self.resultados_window2 = resultados_window2   
         if(caso == "avanzarPaso2"):
-            resultados_window2.after(1000, self.avanzar_paso2)
+            resultados_window2.after(710, self.avanzar_paso2)
         elif caso == "selectAll": 
-            resultados_window2.after(1000, self.select_all) 
+            resultados_window2.after(710, self.select_all) 
         elif caso == "deselectAll": 
-            resultados_window2.after(1000, self.deselect_all) 
+            resultados_window2.after(710, self.deselect_all) 
         elif caso == "finalizar":
-            resultados_window2.after(1000, self.validarPaso2) 
+            resultados_window2.after(710, self.validarPaso2) 
         elif caso == "paso2To3":
-            resultados_window2.after(1000,self.mostrar_pagina_tres(self.pagina_actual.obtener_seleccion_checkbox())) 
+            resultados_window2.after(710,self.mostrar_pagina_tres(self.pagina_actual.obtener_seleccion_checkbox())) 
         elif caso == "paso2To1":
-            resultados_window2.after(1000,self.mostrar_pagina_uno())               
+            resultados_window2.after(710,self.mostrar_pagina_uno())               
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  

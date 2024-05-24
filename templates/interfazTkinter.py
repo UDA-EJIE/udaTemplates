@@ -254,7 +254,7 @@ class Paso1(CTk):
         progressbar.start()
         l.pack()
         self.update()
-        resultados_window2.after(100, self.save_to_yaml())
+        resultados_window2.after(710, self.save_to_yaml())
 
 
     def ocultarSpinner(self):

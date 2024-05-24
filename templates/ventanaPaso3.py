@@ -13,6 +13,7 @@ import customtkinter as ctk
 import plugin.utils as utl
 import menuPrincipal as m
 from pathlib import Path
+import time
 
 d = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instantclient_21_12')
 
@@ -797,17 +798,17 @@ class VentanaPrincipal(CTk):
         label.grid(row=0, column=0, columnspan=3, pady=(20, 5), padx=20, sticky="w")
         self.resultados_window2 = resultados_window2   
         if(caso == "avanzarPaso2"):
-            resultados_window2.after(1000, self.pagina_actual.avanzar_paso2)
+            resultados_window2.after(710, self.pagina_actual.avanzar_paso2)
         elif caso == "paso3To4":#ir a las columnas
             self.update()
-            resultados_window2.after(1000,self.mostrar_pagina_tres(self.pagina_actual.obtener_datos(),self.pagina_actual.tables)) 
+            resultados_window2.after(710,self.mostrar_pagina_tres(self.pagina_actual.obtener_datos(),self.pagina_actual.tables)) 
         elif caso == "paso4To5":
-            resultados_window2.after(1000,self.mostrar_pagina_cuatro(self.pagina_actual.tables, self.pagina_actual.data_mantenimiento, self.pagina_actual.abrir_ventana_columnas()))
+            resultados_window2.after(710,self.mostrar_pagina_cuatro(self.pagina_actual.tables, self.pagina_actual.data_mantenimiento, self.pagina_actual.abrir_ventana_columnas()))
         elif caso == "finalizar":
             self.update()
             pfinal = self.pagina_actual
             rutaActual = utl.rutaActual(__file__)
-            resultados_window2.after(1000, pfinal.paso3(pfinal.tables, pfinal.index_seleccionado, self.getDatos(rutaActual), pfinal.data_mantenimiento))                   
+            resultados_window2.after(710, pfinal.paso3(pfinal.tables, pfinal.index_seleccionado, self.getDatos(rutaActual), pfinal.data_mantenimiento))                   
 
     def ocultarSpinner(self):
         self.resultados_window2.destroy()  
