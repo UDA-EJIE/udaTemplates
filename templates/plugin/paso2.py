@@ -11,6 +11,7 @@ import operator
 #INICIO función principal
 def initPaso2(tables,yaml_data,ventanaPaso2):
     # work only controller
+    data = {}
     proyectName = yaml_data["project_name"]
     proyectWar = yaml_data["war_project_name"]
     directorio_actual = yaml_data["directorio_actual"] 
