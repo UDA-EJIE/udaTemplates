@@ -94,18 +94,3 @@ def initPaso2(tables,yaml_data,ventanaPaso2):
                     modifyJackson(rutaJackson,tName,lastTable,data["packageName"])                   
         
 #FIN función principal
-                  
-#variables
-directorioRespuestas = "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/plugin/"
-file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
-#vendrá directamente del formulario tkinter
-tables = json.load(file)
-data = { "project_name": "ppp",
-        "security_app": "",
-        "war_project_name": "Www",
-        "PACKAGE_NAME": "com.ejie."+"ppp"+".control",
-        "directorio_actual" : "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/generateCode/",
-        "destinoApp" : "C:/entorno/eclipseEsperanzaW11/eclipse202003EsperanzaW11/runtime-EclipseApplication/"
-       }
-#initPaso2(tables,data)  
-

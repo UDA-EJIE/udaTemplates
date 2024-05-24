@@ -17,7 +17,7 @@ def initPaso3(tables,yaml_data, data_mantenimiento):
     directorio_actual = yaml_data["directorio_actual"] 
     dirController = directorio_actual+"controller/" 
     rutaWar = "src/com/ejie/"+proyectName+"/control" 
-    
+    data = {}
     destinoWar = yaml_data["destinoApp"]+"/" 
     destinoWarViews = destinoWar+"WebContent/WEB-INF/views/"
     dirMaintJsp = directorio_actual+"maint/"
@@ -84,18 +84,3 @@ def initPaso3(tables,yaml_data, data_mantenimiento):
   
         
 #FIN función principal
-                  
-# #variables
-# directorioRespuestas = "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/plugin/"
-# file = open(directorioRespuestas+"respuestasTablasSeleccionadas.json")
-# #vendrá directamente del formulario tkinter
-# tables = json.load(file)
-data = { "project_name": "ppp",
-        "security_app": "",
-        "war_project_name": "Www",
-        "PACKAGE_NAME": "com.ejie."+"ppp"+".control",
-        "directorio_actual" : "C:/aplic/x21aVersiones/4.x.x/udaTemplates/udaTemplates/templates/generateCode/",
-        "destinoApp" : "C:/entorno/eclipseEsperanzaW11/eclipse202003EsperanzaW11/runtime-EclipseApplication/"
-       }
-#initPaso3(tables,data)  
-
