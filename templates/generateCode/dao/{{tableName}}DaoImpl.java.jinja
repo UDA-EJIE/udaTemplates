@@ -162,7 +162,4 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
-
-   {# {% include 'findAllDinamycRelImpl.jinja' %}
-   {% include 'daoRelationsImpl.jinja' %}   #} 
 }

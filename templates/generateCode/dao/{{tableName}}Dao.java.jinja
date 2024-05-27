@@ -147,6 +147,4 @@ public interface {{tableName}}Dao {
     List<TableRowDto<{{tableName}}>> search({{tableName}} filter{{tableName}}, {{tableName}} search{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith);
   
   	List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith);
-
-    {% include 'daoRelations.jinja' %}
 }

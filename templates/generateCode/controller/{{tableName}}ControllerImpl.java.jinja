@@ -359,7 +359,4 @@ public class {{tableName}}Controller  {
 
 		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
 	}
-
-{% include 'controllerRelationsImpl.jinja' %}
-
 }
