@@ -516,6 +516,7 @@ class PaginaTres(CTkFrame):
             self.search_entry_negocio.delete(0, "end")
             self.search_entry_negocio.insert(0, ruta+"/"+selected_file)
             self.search_entry_negocio.configure(state="disabled")
+            self.archivoClases = selected_file
             frame.destroy()
         elif(selected_file and boton_pulsado == "presentacion"):
             print(f"Archivo seleccionado: {selected_file}")
@@ -523,6 +524,7 @@ class PaginaTres(CTkFrame):
             self.search_entry_presentacion.delete(0, "end")
             self.search_entry_presentacion.insert(0, ruta+"/"+selected_file)
             self.search_entry_presentacion.configure(state="disabled")
+            self.archivoWar = selected_file
             frame.destroy()
 
         else:
