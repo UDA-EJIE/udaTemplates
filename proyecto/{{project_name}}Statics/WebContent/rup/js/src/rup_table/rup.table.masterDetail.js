@@ -92,7 +92,6 @@
             if (rowSelected[0] !== undefined) { //Se ha deseleccionado, no entrar.
                 var row = tableMaster.rows(rowSelected).data();
                 var id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
-                $hiddenPKMaster.data('nid',row[0].nid);
                 $hiddenPKMaster.val('' + id);
                 $('#' + ctx.sTableId + '_filter_filterButton').click();
             } else { //se deselecciona
@@ -100,6 +99,16 @@
             }
 
         });
+        
+        //Se manda el valor del padre
+	    $('#'+ctx.sTableId).on('tableEditFormAfterData', function(event, ctx) {
+	    	if(ctx.oInit.formEdit != undefined) {
+				if (ctx.oInit.formEdit.data == undefined) {
+					ctx.oInit.formEdit.data = {};
+				}
+				ctx.oInit.formEdit.data.pkValueIdPadre = tableMaster.context[0].multiselection.lastSelectedId;
+	    	}
+		});
 
         //Se filtra.
         tableMaster.on('tableAfterReorderData', function () {
@@ -121,7 +130,6 @@
 
     function _deselectMaster(dt, ctx, $hiddenPKMaster) {
         $hiddenPKMaster.val('-1');
-        $hiddenPKMaster.data('nid',undefined);
         $('#' + ctx.sTableId + ' > tbody tr').remove();
         var asStripeClasses = ctx.asStripeClasses;
         var iStripes = asStripeClasses.length;

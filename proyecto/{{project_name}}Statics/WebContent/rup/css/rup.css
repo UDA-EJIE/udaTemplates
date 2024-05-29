@@ -16640,7 +16640,7 @@ fieldset {
   /* AJUSTE DE TAMAÑO Y MARGEN DEL ICONO */ }
   .btn-material:focus {
     outline: none; }
-  .btn-material:disabled {
+  .btn-material:disabled, .btn-material.disabled {
     color: rgba(0, 0, 0, 0.37);
     background-color: rgba(0, 0, 0, 0.12);
     border-color: transparent;
@@ -43165,7 +43165,7 @@ fieldset {
   /* AJUSTE DE TAMAÑO Y MARGEN DEL ICONO */ }
   .btn-material:focus {
     outline: none; }
-  .btn-material:disabled {
+  .btn-material:disabled, .btn-material.disabled {
     color: rgba(0, 0, 0, 0.37);
     background-color: rgba(0, 0, 0, 0.12);
     border-color: transparent;

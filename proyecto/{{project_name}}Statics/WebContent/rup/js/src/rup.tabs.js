@@ -554,6 +554,16 @@
                     beforeClose: userFunction
                 });
             };
+            
+			// Permite eliminar diálogos huerfanos
+			const notTabDialogCount = $("div.rup-dialog").length;
+
+			settings.show = function() {
+				if ($("div.rup-dialog").length > notTabDialogCount) {
+					$("div.rup-dialog").last().remove();
+				}
+			};
+            
             //if (settings.navigation!==true){
             $(div).tabs({
                 ajaxOptions: settings.cache === false ? $.extend(ajaxOptions, {
@@ -638,7 +648,16 @@
                     settings.iniLoad = false;
                 }
 
-                label = $.rup.i18nParse(json_i18n, element.i18nCaption);
+                
+                if (element.label !== undefined){
+                	
+                	label = element.label
+                	
+                } else {
+                	    label = $.rup.i18nParse(json_i18n, element.i18nCaption);
+                	
+                }
+        
 
                 if (settings.lengthLiteral !== undefined) {
                     title = label;

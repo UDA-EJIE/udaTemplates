@@ -175,6 +175,109 @@
 
 		},
 		
+		
+		
+		/**
+		 * Formatea una fecha a la fecha deseada 
+		 *
+		 * @name jQuery.rup_utils#formatoFecha
+		 * @function
+		 * @param {date} fechaFinal - Formato de la fecha final a conseguir.
+		 * @param {date} fechaInicial - Fecha inicial que se quiere manipular.		
+		 * @returns {array} -  Devuelve un array con la fecha modificada.
+		 * @example
+		 * $.formatoFecha("yyyy/mm/dd" ,"20/02/2023 15:23:21");
+		 */
+		
+		formatoFecha: function(fechaFinal, fechaInicial){
+			
+			
+			var fechaInicialArray = fechaInicial.split(' ');
+			
+		    var fechaFinalArray =  fechaFinal.split(' ');
+			
+			
+		    var fechaInicialString = fechaInicialArray[0];
+		    // Verificar si la fecha está en el formato dd/mm/yyyy
+            var formatoCorrecto = /^\d{2}\/\d{2}\/\d{4}$/.test(fechaInicialString);
+		    
+		   
+		    if((fechaFinalArray[0] === "dd/mm/yyyy") && formatoCorrecto){
+		    	
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    	
+		    } else if((fechaFinalArray[0] === "dd/mm/yyyy") && !formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	   
+         	    
+         	    if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+            	
+		    	
+		    }else if((fechaFinalArray[0] === "yyyy/mm/dd") && !formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(dd/mm/aaaa)") && formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(dd/mm/aaaa)") && !formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(aaaa/mm/dd)") && formatoCorrecto){
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }else if((fechaFinalArray[0] === "(aaaa/mm/dd)") && !formatoCorrecto){
+		    	if(fechaFinalArray[1] !== undefined){
+		    		return [fechaInicialArray[0], fechaInicialArray[1]];
+		    	}else {
+		    		return [fechaInicialArray[0]];
+		    	}
+		    	
+		    }else {
+		    	var fechaArrayNuevo = fechaInicialString.split('/');
+         	    var nuevaFechaFormato = fechaArrayNuevo[2] + '/' + fechaArrayNuevo[1] + '/' + fechaArrayNuevo[0];
+         	  
+         	   if(fechaFinalArray[1] !== undefined){
+		    		return [nuevaFechaFormato, fechaInicialArray[1]];
+		    	}else {
+		    		return [nuevaFechaFormato];
+		    	}
+		    	
+		    }
+		    		 
+		},
+		
 		/**
 		 * Devuelve el objeto del dom existente en la posición indicada.
 		 *
@@ -436,6 +539,9 @@
 							$arbol[selectorArray] = tree_data;
                             formElem.on('loaded.jstree', loadedJstreeEvent);
 
+						} else if(formElem.attr('ruptype') === 'select') {
+							// Necesario invocar al método search que por detrás se encargará de llamar a setRupValue.
+							formElem['rup_' + formElem.attr('ruptype')]('search', aData[i]);
 						} else {
 							// Forma de evitar el EVAL
 							formElem['rup_' + formElem.attr('ruptype')]('setRupValue', aData[i]);
@@ -1032,73 +1138,6 @@
 	};
 	
 	/**
-     * Elimina el campo autogenerado por el componente combo de un objeto. 
-     * Dicho campo sólo sirve para gestión interna, por lo tanto, es seguro y recomendable eliminarlo.
-     *
-     * @name deleteMulticomboLabelFromObject
-     * @function
-     * @since UDA 4.2.2
-     *
-     * @param {object} obj - Objeto del que se quiere eliminar el campo autogenerado.
-     * @param {object} container - Contenedor del componente.
-     */
-	$.fn.deleteMulticomboLabelFromObject = function (obj, container) {
-		if (obj !== undefined && obj !== null && container !== undefined && container !== null) {
-			Object.keys(obj).filter(function (key) {
-				// Se escapan todos los puntos para evitar errores sintácticos
-				const escapedKey = key.replaceAll('.', '\\.');
-				// Si container es un fila de la tabla (tr) significa que la función ha sido llamada desde rup.table.inlineEdit y es necesario añadir el sufijo _inline
-				const suffix = container.is('tr') ? '_inline' : '';
-				const element = container.find("[name$=" + escapedKey + suffix + "]");
-	        	if (element.length > 1 && $(element[0]).prop('multiple')) {
-	        		delete obj["_" + key];
-				}
-	        });
-		}
-	};
-	
-	/**
-	 * Elimina el campo autogenerado por el componente autocomplete de un objeto. 
-	 * Dicho campo sólo sirve para gestión interna, por lo tanto, es seguro y recomendable eliminarlo.
-	 *
-	 * @name deleteAutocompleteLabelFromObject
-	 * @function
-	 * @since UDA 4.2.2
-	 *
-	 * @param {object} obj - Objeto del que se quiere eliminar el campo autogenerado.
-	 */
-	$.fn.deleteAutocompleteLabelFromObject = function (obj) {
-		if (obj !== undefined && obj !== null) {
-			const flattenedObj = $.fn.flattenJSON(obj);
-			
-			// Nos aseguramos de que el campo _label provenga de un autocomplete
-			Object.keys(flattenedObj).filter(function (key) {
-				if (/_label$/.test(key)) {
-					if (Object.prototype.hasOwnProperty.call(flattenedObj, key.substring(0, key.indexOf('_label')))) {
-						// Necesario hacer un split por si la clave a usar está anidada
-						const keys = key.split('.');
-						
-						// Eliminamos el _label
-						const recursiveRemoveKey = function (object, deleteKey) {
-							if (object[deleteKey] != undefined) {
-								delete object[deleteKey];
-							} else {
-								Object.values(object).forEach(function (val) { 
-									if (typeof val === 'object') {
-										recursiveRemoveKey(val, deleteKey);
-									}
-								})
-							}
-						}
-			
-						recursiveRemoveKey(obj, keys[keys.length - 1]);
-					}
-				}
-			})
-		}
-	};
-	
-	/**
      * Convierte un JSON con múltiples niveles en un JSON con un único nivel.
      *
      * @name flattenJSON
@@ -1120,99 +1159,6 @@
 			}
 		}
 		return flattenedObj;
-	};
-	
-	/**
-     * Comprueba si el parámetro ha sido cifrado por Hdiv.
-     *
-     * @name isHdiv
-     * @function
-     * @since UDA 5.0.0 (backported)
-     *
-     * @param {string} id - Identificador de la entidad.
-     *
-     * @return {boolean} Verdadero si el parámetro ha sido cifrado por Hdiv.
-     */
-	$.fn.isHdiv = function (id) {
-		return /(.+)-([0-9a-fA-F]{3})-(.{8}-([0-9a-fA-FU]{1,33})-\d+-.+)/.test(id);
-	};
-	
-	/**
-     * Procesa el identificador recibido para poder devolver la parte que no altera su cifrado entre peticiones.
-     * Es útil cuando se necesita comparar identificadores cifrados.
-     *
-     * @name getStaticHdivID
-     * @function
-     * @since UDA 5.0.0 (backported)
-     *
-     * @param {string} id - Identificador de la entidad.
-     *
-     * @return {string} Identificador de la entidad con la parte dinámica del cifrado eliminada.
-     */
-	$.fn.getStaticHdivID = function (id) {
-		let regex = /([0-9a-fA-F]+)-([0-9a-fA-F]+)-([0-9a-fA-F]+)$/;
-		
-		if (regex.test(id)) {
-			id = id.replace(regex, '');
-		}
-		
-		return id;
-	};
-	
-	/**
-     * Obtiene el parámetro HDIV_STATE de la URL o de un formulario.
-     *
-     * @name getHDIV_STATE
-     * @function
-     * @since UDA 5.0.0 (backported)
-     *
-     * @param {boolean} hasMoreParams - Parámetro necesario para peticiones GET. Se utilizará para saber si el parámetro HDIV_STATE es el único existente en la URL.
-     * @param {object} $form - Formulario del que extraer el parámetro HDIV_STATE. Este parámetro tiene prioridad respecto a hasMoreParams, por lo tanto, si se recibe será el que se use.
-     *
-     * @return {string} Parámetro HDIV_STATE.
-     */
-	$.fn.getHDIV_STATE = function (hasMoreParams, $form) {
-		let hdivStateParam = '';
-		
-		// Cuando se recibe un formulario se extrae directamente de ahí el parámetro HDIV_STATE
-		if ($form != undefined && $form.length == 1) {
-			let fieldHdiv = $form.find('input[name="_HDIV_STATE_"]');
-			hdivStateParam = fieldHdiv.length == 1 ? fieldHdiv.val() : '';
-		} else {
-			// Si el parámetro HDIV_STATE está disponible se obtiene y se devuelve, en caso contrario, se devuelve vacío
-			let searchParams = new URLSearchParams(window.location.search);
-			hdivStateParam = searchParams.get('_HDIV_STATE_');
-			let prefix = '';
-			
-			// Si se ha especificado un valor booleano en el parámetro recibido es porque se trata de una petición GET
-			if (hasMoreParams !== undefined && hasMoreParams !== null && typeof hasMoreParams === "boolean") {
-				prefix = (hasMoreParams ? '&' : '?') + '_HDIV_STATE_=';
-			}
-		    
-		    if (hdivStateParam != undefined && hdivStateParam != null && hdivStateParam != '') {
-		    	hdivStateParam = prefix + hdivStateParam;
-		    } else {
-		    	hdivStateParam = '';
-		    }
-		}
-	    
-	    return hdivStateParam;
-	};
-	
-	/**
-     * Reinicia por completo los autocomplete de un formulario para que no sigan filtrando.
-     *
-     * @name resetAutocomplete
-     * @function
-     * @since UDA 4.2.2
-     *
-     * @param {string} type - Valor del atributo type.
-     * @param {object} obj - Formulario del que obtener los autocompletes a reiniciar.
-     */
-	$.fn.resetAutocomplete = function (type, obj) {
-		jQuery.each($('input[ruptype=autocomplete][type=' + type + ']', obj), function (index, elem) {
-        	$("#" + elem.id).rup_autocomplete("setRupValue", "");
-        });
 	};
 
 	jQuery.rup_utils.base64 = {

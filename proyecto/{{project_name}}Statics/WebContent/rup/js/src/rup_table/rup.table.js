@@ -365,10 +365,14 @@
                 //Viene del servidor por eso la linea de la pagina es 1 menos.
                 $.each(json.reorderedSelection, function (index, p) {
                 	let idEntity = DataTable.Api().rupTable.getIdPk(p.pk, ctx.oInit);
-                	if(ctx.oInit.formEdit !== undefined){                	
-	                	var hdivStateParamValue = $.fn.getHDIV_STATE(undefined, ctx.oInit.formEdit.idForm);
-	                    if (hdivStateParamValue !== '' && index == 0) {
-	                    	ctx.multiselection.lastSelectedId = idEntity;
+                	if(ctx.oInit.formEdit !== undefined){
+						if(ctx.multiselection.lastSelectedId != '' && idEntity != ''){
+	                		// Se actualiza con el último identificador seleccionado.
+	                		ctx.multiselection.lastSelectedId = idEntity;
+	                	}
+	                	//Se marcaría el primero, en caso de no encontrar.
+	                	if (index == 0) {
+	                		posibleLastselection = idEntity;
 	                    }
                 	}
                     var arra = {
@@ -379,19 +383,23 @@
                     ctx.multiselection.selectedIds.splice(index, 0, arra.id);
                     ctx.multiselection.selectedRowsPerPage.splice(index, 0, arra);
                 });
+                //Si viene reordenación, debe de tener un último seleccionado.                
+                if(json.reorderedSelection != null && json.reorderedSelection.length > 0 && ctx.multiselection.lastSelectedId == ''){
+                	ctx.multiselection.lastSelectedId = posibleLastselection;
+                }
                 if (ctx.multiselection !== undefined && !ctx.multiselection.selectedAll) {
                     ctx.multiselection.numSelected = ctx.multiselection.selectedIds.length;
                 }
 
                 // Detecta cuando se pulsa sobre el boton de filtrado o de limpiar lo filtrado
-                if (options.buttons !== undefined && ctx._buttons !== undefined) {
+                if (ctx.oInit.buttons !== undefined && ctx._buttons !== undefined) {
                     ctx._buttons[0].inst.s.disableAllButtons = undefined;
                     DataTable.Api().buttons.displayRegex(ctx);
                 }
                 $('#' + ctx.sTableId).triggerHandler('tableAfterReorderData',ctx);
             });
 
-            apiRegister('rupTable.getIdPk()', function (json, optionsParam) {
+            apiRegister('rupTable.getIdPk()', function (json = {}, optionsParam) {
                 var opts = options;
                 if (optionsParam !== undefined) {
                     opts = optionsParam;
@@ -404,7 +412,7 @@
                 	if (Object.prototype.hasOwnProperty.call(json, key)) {
                 		id = id + json[key];
                 	} else if (key.indexOf('.') !== -1) {
-                	    id = $self._getDescendantProperty(json, key);
+                	    id = id + $self._getDescendantProperty(json, key);
                 	}
 
                     if (opts.primaryKey.length > 1 && index < opts.primaryKey.length - 1) {
@@ -420,7 +428,7 @@
              *
              * @name comparePKs
              * @function
-             * @since UDA 5.0.0 (backported) // Table 1.0.0
+             * @since UDA 5.0.0 // Table 1.0.0
              * 
              * @param {object} firstRow - Fila de la tabla a comparar.
              * @param {object} secondRow - Fila de la tabla a comparar.
@@ -431,12 +439,7 @@
             	let firstRowPK = DataTable.Api().rupTable.getIdPk(firstRow);
             	let secondRowPK = DataTable.Api().rupTable.getIdPk(secondRow);
             	
-            	// Si Hdiv está activado se comprueba el parámetro nid en vez de la PK (es lo mismo pero sin cifrar)
-            	if ($.fn.isHdiv(firstRowPK) && $.fn.isHdiv(secondRowPK)) {
-            		return firstRow.nid === secondRow.nid;
-            	} else {
-            		return firstRowPK === secondRowPK;
-            	}
+            	return firstRowPK === secondRowPK;
             });
 
             /**
@@ -474,8 +477,6 @@
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo disable.
                             if (input.attr('ruptype') === 'date' && !input.rup_date('isDisabled')) {
                                 input.rup_date('disable');
-                            } else if (input.attr('ruptype') === 'combo' && !input.rup_combo('isDisabled')) {
-                                input.rup_combo('disable');
                             } else if (input.attr('ruptype') === 'time' && !input.rup_time('isDisabled')) {
                                 input.rup_time('disable');
                             } else if (input.attr('type') === 'checkbox') {
@@ -524,8 +525,8 @@
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo enable.
                             if (input.attr('ruptype') === 'date' && input.rup_date('isDisabled')) {
                                 input.rup_date('enable');
-                            } else if (input.attr('ruptype') === 'combo' && input.rup_combo('isDisabled')) {
-                                input.rup_combo('enable');
+                            } else if (input.attr('ruptype') === 'select' && input.rup_select('isDisabled')) {
+                                input.rup_select('enable');
                             } else if (input.attr('ruptype') === 'time' && input.rup_time('isDisabled')) {
                                 input.rup_time('enable');
                             } else if (input.attr('type') === 'checkbox') {
@@ -821,10 +822,16 @@
          *
          */
         _ajaxRequestData(data, ctx) {
-            //Para añadir un id de busqueda distinto al value, como por ejemplo la fecha.
-        	if (ctx.oInit.ordering && data.order[0] != undefined && data.order[0].column != undefined) {
-        		data.columns[data.order[0].column].colSidx = ctx.aoColumns[data.order[0].column].colSidx;
-        	}
+
+			//Guardar los valores de sidx
+        	if (ctx.oInit.ordering) {
+	        	for (var i = 0; i < data.order.length; i++) {
+	        		if(data.order[i] != undefined && data.order[i].column != undefined){
+						data.columns[data.order[i].column].colSidx = ctx.aoColumns[data.order[i].column].colSidx;
+					}
+				}
+        	}    	
+        	
             //El data viene del padre:Jquery.table y como no tiene el prefijo de busqueda se añade.
             if (ctx.oInit.filter.$filterContainer) {
                 data.filter = window.form2object(ctx.oInit.filter.$filterContainer[0]);
@@ -848,20 +855,16 @@
                 });
             }
             
-            // Elimina los campos _label generados en los autocompletes del filtro
-            $.fn.deleteAutocompleteLabelFromObject(data.filter);
-            
-            // Elimina del filtro los campos autogenerados por los multicombos que no forman parte de la entidad
-            $.fn.deleteMulticomboLabelFromObject(data.filter, ctx.oInit.filter.$filterContainer);
-            
-         // Fuerza el mostrado de la primera página cuando se pagina y los criterios de filtrado han cambiado.
-			const newCriteria = ctx.oInit.filter.$filterContainer.serializeArray();
-						
-			if (!_.isEqual(ctx.oInit.filter.oldCriteria, newCriteria)) {
-				ctx.oInit.filter.oldCriteria = newCriteria;
-				ctx._iDisplayStart = 0;
-				data.start = 0;
-			}
+            if(ctx.oInit.filter.$filterContainer !== undefined){
+				// Fuerza el mostrado de la primera página cuando se pagina y los criterios de filtrado han cambiado.
+				const newCriteria = ctx.oInit.filter.$filterContainer.serializeArray();
+							
+				if (!_.isEqual(ctx.oInit.filter.oldCriteria, newCriteria)) {
+					ctx.oInit.filter.oldCriteria = newCriteria;
+					ctx._iDisplayStart = 0;
+					data.start = 0;
+				}
+            }
 
             let tableRequest = new TableRequest(data);
             let json = $.extend({}, data, tableRequest.getData());//Mantenemos todos los valores, por si se quieren usar.
@@ -984,36 +987,50 @@
          *
          */
         _clearFilter(options) {
-            let $self = this;
-            $('#' + options.id).triggerHandler('tableFilterReset',options);
-            options.filter.$filterContainer.resetForm();
-            
-            // Reinicia por completo los autocomplete ya que sino siguen filtrando
-            $.fn.resetAutocomplete('hidden', options.filter.$filterContainer);
-            
-            //si es Maestro-Detalle restaura el valor del padre.
-            if(options.masterDetail !== undefined){
-	            let tableMaster = $(options.masterDetail.master).DataTable();
-	            let rowSelected = tableMaster.rows('.selected').indexes();
-	            let row = tableMaster.rows(rowSelected).data();
-	            let id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
-	            let $hiddenPKMaster = $('#' + options.id + '_filter_masterPK');
-	            $hiddenPKMaster.val('' + id);
-        	}
-            
-            $self.DataTable().ajax.reload();
-            options.filter.$filterSummary.html(' <i></i>');
+			$('#' + options.sTableId).triggerHandler('tableFilterBeforeReset', options);
 
-            // Provoca un mal funcionamiento del filtrado de Maestro-Detalle en la tabla esclava, 
-            // ya que elimina la referencia del padre y muestra todos los valores en vez de los relacionados.
-            //jQuery('input,textarea').val('');
+			const $form = $('#' + options.sTableId + '_filter_form');
+			jQuery.each($('select[rupType=select], input:not([rupType]), select:not([rupType]), input[rupType=date]', $form), function(index, elem) {
+				const elemSettings = jQuery(elem).data('settings');
 
-            jQuery.each($('select.rup_combo',options.filter.$filterContainer), function (index, elem) {
-				jQuery(elem).rup_combo('refresh');
-            });
+				if (elemSettings != undefined) {
+					const elemRuptype = jQuery(elem).attr('ruptype');
 
-            $.rup_utils.populateForm([], options.filter.$filterContainer);
+					if (elemSettings.parent == undefined) {
+						if (elemRuptype == 'select') {
+							jQuery(elem).rup_select('clear');
+							elem.defaultValue = "";
+						} else if (elemRupType == 'date') {
+							jQuery(elem).rup_select('clear');
+							elem.defaultValue = "";
+						}
+					}
+				} else {
+					elem.defaultValue = "";
+					elem.value = "";
+				}
+			});
 
+			// Si es Maestro-Detalle restaura el valor del maestro.
+			if (options.masterDetail !== undefined) {
+				const tableMaster = $(options.masterDetail.master).DataTable();
+				const rowSelected = tableMaster.rows('.selected').indexes();
+				const row = tableMaster.rows(rowSelected).data();
+				const id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
+				$('#' + options.id + '_filter_masterPK').val('' + id);
+			}
+
+			options.filter.$filterSummary.html(' <i></i>');
+
+			jQuery.each($('select.rup_select', options.filter.$filterContainer), function(index, elem) {
+				jQuery(elem).rup_select('refresh');
+			});
+
+			$.rup_utils.populateForm([], options.filter.$filterContainer);
+			
+			$(this).DataTable().ajax.reload();
+
+			$('#' + options.sTableId).triggerHandler('tableFilterAfterReset', options);
         },
         
         /**
@@ -1114,7 +1131,7 @@
                 toggleIcon2Tmpl = "<span id='{0}' class='collapse_icon_right mdi mdi-arrow-up-drop-circle'></span>";
 
                 $toggleIcon1 = $($.rup_utils.format(toggleIcon1Tmpl, filterOpts.toggleIcon1Id));
-                $toggleLabel = $($.rup_utils.format(toggleLabelTmpl, filterOpts.toggleLabelId, $.rup.i18n.base.rup_jqtable.plugins.filter.filterCriteria));
+                $toggleLabel = $($.rup_utils.format(toggleLabelTmpl, filterOpts.toggleLabelId, $.rup.i18n.base.rup_table.plugins.filter.filterCriteria));
                 $filterSummary = $($.rup_utils.format(filterSummaryTmpl, filterOpts.filterSummaryId));
                 $toggleIcon2 = $($.rup_utils.format(toggleIcon2Tmpl, filterOpts.toggleIcon2Id));
 
@@ -1222,6 +1239,26 @@
                     fieldValue = '';
                 }
             };
+            
+			// Objeto auxiliar para contar repeticiones
+			const repeticiones = {};
+
+			// Crear un nuevo array de objetos manteniendo "value" original para valores únicos y actualizando "value" para valores repetidos
+			const nuevoArrayDeObjetos = aux.reduce((result, objeto) => {
+				const { name, value } = objeto;
+				if (!repeticiones[name]) {
+					repeticiones[name] = { value, count: 0 };
+				}
+				repeticiones[name].count++;
+				if (repeticiones[name].count === 1) {
+					result.push({ name, value });
+				} else {
+					result.find(item => item.name === name).value = 'Seleccionados ' + repeticiones[name].count;
+				}
+				return result;
+			}, []);
+	
+			aux = nuevoArrayDeObjetos;
 
             for (var i = 0; i < aux.length; i++) {
                 if (aux[i].value !== '' && $.inArray(aux[i].name, settings.filter.excludeSummary) !== 0) {
@@ -1319,13 +1356,7 @@
 	                            fieldValue += label.html();
 	                        } else {
 	                        	//Mirar si es masterDetail
-	                            
-	                            if(settings.masterDetail !== undefined && settings.masterDetail.masterPrimaryKey === aux[i].name){
-	                            	let md = settings.masterDetail;
-	                            	fieldValue += (md.masterPrimaryNid) ? field.data('nid') : $(field).val();
-	                            }else{
-	                            	fieldValue += $(field).val();
-	                            }
+								fieldValue += $(field).val();
 	                        }
 	                        break;
 	                        //Rup-tree
@@ -1337,10 +1368,15 @@
 	                        break;
 	                    case 'SELECT':
 	                        if (field.next('.ui-multiselect').length === 0) {
-	                            fieldValue = fieldValue + $('option[value=\'' + aux[i].value + '\']', field).html();
+	                            if ($('option[value=\'' + aux[i].value + '\']', field).html() == undefined ){
+									fieldValue = fieldValue  + aux[i].value;  
+								} else {
+								 fieldValue = fieldValue + $('option[value=\'' + aux[i].value + '\']', field).html();
+
+								}
 	                        } else {
 	                            if ($.inArray($(field).attr('id'), filterMulticombo) === -1) {
-	                                numSelected = field.rup_combo('value').length;
+	                                numSelected = field.rup_select('getRupValue').length;
 	                                if (numSelected !== 0) {
 	                                    fieldValue += numSelected;
 	                                } else {
@@ -1380,13 +1416,18 @@
                     if (fieldName === '' && fieldValue.trim() === '') {
                         continue;
                     }
+                    //Miramos si el elemento es es un checkbox o un radio, en caso de serlo revisamos fieldName para quitar los inputs
+		            if($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio'){
+						let fValue=fieldValue.split('<span>')[1];
+						fieldValue='<span> '+fValue;
+	          		} 
                     searchString = searchString + fieldName + fieldValue + '; ';
                 }
             }
 
             //Añadir criterios
-            if (settings.multiFilter !== undefined && typeof settings.multiFilter.fncFilterName === "function") {
-                searchString = settings.multiFilter.fncFilterName.bind($self, searchString)();
+            if (settings.multiFilter !== undefined && typeof settings.multiFilter.getName === "function") {
+                searchString = settings.multiFilter.getName.bind($self, searchString)();
             }
 
             settings.filter.$filterSummary.html(' <i>' + searchString + '</i>');
@@ -1424,7 +1465,6 @@
                       
                     $.when(DataTable.editForm.fnOpenSaveDialog(params[0], params[1], params[2], ctx.oInit.formEdit.customTitle)).then(function () {
                     	var row = ctx.json.rows[params[2]];
-                    	ctx.oInit.formEdit.$navigationBar.funcionParams = {};
         	            var multiselection = ctx.multiselection;
         	            var indexInArray = jQuery.inArray(DataTable.Api().rupTable.getIdPk(row, ctx.oInit), multiselection.selectedIds);
         	            if (ctx.multiselection.selectedAll) { //Si es selecAll recalcular el numero de los selects. Solo la primera vez es necesario.
@@ -1520,6 +1560,8 @@
             global.initRupI18nPromise.then(() => {
                 var $self = this;
 
+				global.initTableMultiFilter = jQuery.Deferred();
+
                 if (args[0].buttons != undefined && args[0].buttons.contextMenu === undefined) {
                     args[0].buttons.contextMenu = true;
                 }
@@ -1582,43 +1624,44 @@
 
                 // getDefault multifilter
                 if (options.multiFilter !== undefined && options.multiFilter.getDefault === undefined) {
-                    var usuario;
-                    if (options.multiFilter.userFilter != null) {
-                        usuario = options.multiFilter.userFilter;
-                    } else {
-                        usuario = window.LOGGED_USER;
+                    if (!options.multiFilter.userFilter) {
+                        options.multiFilter.userFilter = window.LOGGED_USER;
                     }
                     var ctx = {};
                     ctx.oInit = options;
                     ctx.sTableId = $self[0].id;
                     $.rup_ajax({
                         url: options.urlBase +
-                        	options.multiFilter.url + '/getDefault?filterSelector=' +
+                        	options.multiFilter.url + '/getDefault?selector=' +
                             options.multiFilter.idFilter + '&user=' +
-                            usuario,
+                            options.multiFilter.userFilter,
                         type: 'GET',
                         dataType: 'json',
                         showLoading: false,
                         contentType: 'application/json',
                         //async : false,
                         complete: function () {
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterCompleteGetDefaultFilter',ctx);
+							global.initTableMultiFilter.resolve();
+                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterCompleteGetActiveFilter',ctx);
                         },
                         success: function (data) {
                             if (data != null) {
-                                var valorFiltro = JSON.parse(data.filterValue);
+								ctx.oInit.multiFilter.defaultId = String(data.id);
+								
+								const valorFiltro = JSON.parse(data.data);
 
+								if (valorFiltro) {
+									DataTable.Api().multiFilter.fillForm(valorFiltro, ctx);
+									$self._doFilter(data);
+								}
 
-                                DataTable.Api().multiFilter.fillForm(valorFiltro, ctx);
-                                $self._doFilter(data);
-                                $(options.filter.$filterSummary, 'i').prepend(data.filterName + '{');
-                                $(options.filter.$filterSummary, 'i').append('}');
-
+								$(options.filter.$filterSummary, 'i').prepend(' ' + data.text + ' ');
+								$(options.filter.$filterSummary, 'i').append(data.data ? data.data : '{ }');
                             }
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterSuccessGetDefaultFilter',ctx);
+                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterSuccessGetActiveFilter',ctx);
                         },
                         error: function () {
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterErrorGetDefaultFilter',ctx);
+                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterErrorGetActiveFilter',ctx);
                         }
                     });
                 }
@@ -1691,7 +1734,6 @@
                 	}
                 	$self._initFilter(options);
                 } else if (filterOptions === 'noFilter' && options.filterForm !== undefined) {
-                	// Garantizar la posibilidad del envío del parámetro HDIV_STATE cuando el formulario de filtrado no esté habilitado
                 	options.filter = {};
                 	if (options.filterForm) {
                 		options.filter.id = $(options.filterForm).attr('id');
@@ -1700,7 +1742,7 @@
                     }
                 	options.filter.$filterContainer = jQuery('#' + options.filter.id);
                 } else {
-                	// Para casos en los que no se quiera usar el formulario de filtrado y Hdiv no esté activado
+                	// Para casos en los que no se quiera usar el formulario de filtrado.
                 	args[0].filter = undefined;
                 }
 
@@ -1775,7 +1817,11 @@
                                 index = index + line + 1;
                                 DataTable.Api().editForm.updateDetailPagination(ctx, index, numTotal);
                             }
-                            DataTable.Api().select.drawSelectId(tabla.context[0]);
+                            
+                            if (ctx.multiselection.selectedRowsPerPage.length === 1) {
+                                DataTable.Api().select.selectRowIndex(tabla, ctx.multiselection.selectedRowsPerPage[0].line, false);
+                            }
+                            
                             if (tabla.context[0].oInit.inlineEdit !== undefined) {
                                 DataTable.Api().inlineEdit.addchildIcons(tabla.context[0]);
                             }
@@ -1802,7 +1848,7 @@
                             if (ctx.oInit.inlineEdit.rowDefault.actionType === 'CLONE') {
                                 DataTable.Api().inlineEdit.cloneLine(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line);
                             } //else{
-                            DataTable.Api().inlineEdit.editInline(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line);
+                            DataTable.Api().inlineEdit.editInline(tabla, ctx, ctx.oInit.inlineEdit.rowDefault.line, ctx.oInit.inlineEdit.rowDefault.actionType === 'CLONE' ? 'POST' : ctx.oInit.inlineEdit.rowDefault.actionType);
                             var count = tabla.columns().responsiveHidden().reduce(function (a, b) {
                                 return b === false ? a + 1 : a;
                             }, 0);
@@ -1821,13 +1867,13 @@
                         }
                     }
 
-                    if (settingsTable.oInit.formEdit !== undefined && settingsTable.oInit.responsive !== undefined &&
-                        settingsTable.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
-                        DataTable.Api().editForm.addchildIcons(settingsTable);
-                    }
-                    if (options.inlineEdit === undefined && options.formEdit === undefined) {
-                        DataTable.Api().editForm.addchildIcons(settingsTable);
-                    }
+					if (settingsTable.oInit.formEdit !== undefined && settingsTable.oInit.responsive !== undefined &&
+						settingsTable.oInit.responsive.selectorResponsive !== undefined) { //si el selector es por defecto.selectorResponsive: 'td span.dtr-data'
+						DataTable.Api().editForm.addchildIcons(settingsTable);
+					}
+					if (options.inlineEdit === undefined && options.formEdit === undefined) {
+						DataTable.Api().editForm.addchildIcons(settingsTable);
+					}
 
                 });
 
@@ -1935,6 +1981,8 @@
         primaryKey: ['id'],
         blockPKeditForm: true,
         enableDynamicForms: false,
+        contextMenuActivo: true,
+        selectFilaDer: false,
         searchPaginator: true,
         pagingType: 'full',
         createdRow: function (row) {

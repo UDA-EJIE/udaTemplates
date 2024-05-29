@@ -247,6 +247,14 @@
          * jQuery("#form").rup_form("resetForm");
          */
         resetForm: function () {
+	
+			//Los rup select no se limpiaban con el reset nativo, por lo tanto, se usa el metodo clear
+			$('#' + $(this).attr('id') + ' select').each(function(index, element){
+				if ($(element).attr('ruptype') == 'select'){
+					$(element).rup_select('clear');
+				}
+			});
+			
             return this.each(function () {
                 $(this).resetForm();
             });
@@ -282,12 +290,12 @@
          */
         clearFields: function (includeHidden) {
             return this.each(function () {
-                var ruptype = $(this).attr('ruptype');
+                const ruptype = $(this).attr('ruptype');
 
-                if (ruptype === undefined || ruptype !== 'combo') {
+                if (ruptype === undefined || ruptype !== 'select' ) {
                     $(this).clearFields(includeHidden);
-                } else {
-                    $(this).rup_combo('clear');
+                } else if (ruptype === 'select') {
+                    $(this).rup_select('clear');
                 }
             });
         },
