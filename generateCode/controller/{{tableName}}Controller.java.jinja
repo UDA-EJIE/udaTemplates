@@ -283,11 +283,12 @@ public class {{tableName}}Controller  {
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
 			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody(param = "reportsParams", required = false) ArrayList<?> reportsParams,
 			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException {
 		{{tableName}}Controller.logger.info("[POST - generateExcelReport] : Devuelve un fichero excel");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
 	
 		/**
@@ -307,11 +308,12 @@ public class {{tableName}}Controller  {
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
 			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody(param = "reportsParams", required = false) ArrayList<?> reportsParams,
 			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generatePDFReport] : Devuelve un fichero pdf");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
 	
 		/**
@@ -331,11 +333,12 @@ public class {{tableName}}Controller  {
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
 			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody(param = "reportsParams", required = false) ArrayList<?> reportsParams,
 			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generateODSReport] : Devuelve un fichero ods");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
 
 	/**
@@ -355,10 +358,11 @@ public class {{tableName}}Controller  {
 			@RequestJsonBody(param = "columnsName", required = false) String[] columnsName,
 			@RequestJsonBody(param = "fileName", required = false) String fileName,
 			@RequestJsonBody(param = "sheetTitle", required = false) String sheetTitle,
+			@RequestJsonBody(param = "reportsParams", required = false) ArrayList<?> reportsParams,
 			@RequestJsonBody TableRequestDto tableRequestDto, HttpServletRequest request,
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generateCSVReport] : Devuelve un fichero csv");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, tableRequestDto, request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
 }

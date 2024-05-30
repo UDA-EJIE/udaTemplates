@@ -232,15 +232,19 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	 * @param sheetTitle String
 	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
+	 * @param locale Locale
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
 	@Override
 	public void generateReport({{tableName}} filter{{tableName}}, String[] columns, String[] columnsName, String fileName, String sheetTitle, ArrayList<?> reportsParams,
-			TableRequestDto tableRequestDto, HttpServletRequest request, HttpServletResponse response) {
+			TableRequestDto tableRequestDto, Locale locale, HttpServletRequest request, HttpServletResponse response) {
 		// Accede a la DB para recuperar datos
 		List<{{tableName}}> filteredData = getDataForReports(filter{{tableName}}, tableRequestDto);
 		String extension = null;
+		
+		// Obtener idioma
+		String language = locale.getLanguage();
 
 		// Comprobar si las siguientes variables estan vacias, en caso de estarlo se las
 		// asigna un valor generico
@@ -248,7 +252,7 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 		sheetTitle = (sheetTitle != null && !sheetTitle.isEmpty()) ? sheetTitle : {{tableName}}.class.getSimpleName();
 
 		// Obtener el formato de fecha especifico del locale
-		SimpleDateFormat formatter = DateTimeManager.getDateTimeFormat(request.getLocale());
+		SimpleDateFormat formatter = DateTimeManager.getDateTimeFormat(locale);
 
 		// Cuando no se definen columnas porque se quieren obtener todas
 		if (columns == null) {
@@ -296,8 +300,6 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 			generateODSReport(filteredData, columns,columnsName, fileName, sheetTitle, response);
 		} else if (reportType.equals("csvReport")) {
 			extension = ".csv";
-			// Obtener idioma
-			String language = request.getLocale().getLanguage();
 			generateCSVReport(filteredData, columns,columnsName, fileName, sheetTitle, language, response);
 		}
 

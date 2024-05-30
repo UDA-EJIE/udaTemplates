@@ -162,11 +162,12 @@ public interface {{tableName}}Service {
 	 * @param sheetTitle String
 	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
+	 * @param locale Locale
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
 	void generateReport({{tableName}} filter{{tableName}}, String[] columns, String[] columnsName, String fileName, String sheetTitle,
-			ArrayList<?> reportsParams, TableRequestDto tableRequestDto, HttpServletRequest request, 
+			ArrayList<?> reportsParams, TableRequestDto tableRequestDto, Locale locale, HttpServletRequest request, 
 			HttpServletResponse response);
      
 }
