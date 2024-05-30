@@ -242,7 +242,7 @@ public class {{tableName}}Controller  {
 			@RequestJsonBody(param="filter") {{tableName}} filter{{tableName}},
 			@RequestJsonBody TableRequestDto tableRequestDto) {
 		{{tableName}}Controller.logger.info("[POST - removeMultiple] : Eliminar multiples {{tableName}}s");
-		this.{{tableNameDecapitalize}}Service.removeMultiple(tableRequestDto);
+		this.{{tableNameDecapitalize}}Service.removeMultiple(filter{{tableName}}, tableRequestDto, false);
 		{{tableName}}Controller.logger.info("All entities correctly deleted!");
 		
 		return tableRequestDto.getMultiselection().getSelectedIds();
