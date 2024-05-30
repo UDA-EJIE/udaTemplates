@@ -5,8 +5,8 @@
 	<!-- Permite el uso de variables de entorno -->
 	<property environment="env" />
 	<property name="outputDirectory" value="EarContent/APP-INF/lib/" />
-	<property name="mavenCommand" value="${env.M2_HOME}/bin/mvn.bat" />
-	<property name="mavenSettings" value="${env.M2_HOME}/conf/settings-nexus3.xml" />
+	<property name="mavenCommand" value="${env.M2_HOME}/bin/mvn.cmd" />
+	<property name="mavenSettings" value="${env.M2_HOME}/conf/settings.xml" />
 		
 	<!-- Obtener dependencias -->
 	<target name="mavenRunDependencies" description="Resuelve las dependencias del proyecto desde Maven">
