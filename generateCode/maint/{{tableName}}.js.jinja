@@ -29,10 +29,8 @@ const tableColModels = [
 			name: "{{column.name.lower()|toCamelCase}}",
 			index: "{{column.name.lower()|toCamelCase}}",
 			editable: {{column.editable}},
-		{% if column.type == "Text" %}
-			rupType: "combo",
-		{% elif column.type == "Autocomplete" %}
-			rupType: "autocomplete",
+		{% if column.type == "Select" %}
+			rupType: "select",
 		{% elif column.type == "Datepicker" %}
 			rupType: "datepicker",
 		{% else %}

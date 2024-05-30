@@ -153,11 +153,13 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	/**
 	 * Removes rows from the {{tableName}} table.
 	 *
+	 * @param filter{{tableName}} {{tableName}}
 	 * @param tableRequestDto TableRequestDto
+	 * @param startsWith Boolean
 	 */
 	@Transactional(rollbackFor = Throwable.class)
-	public void removeMultiple(TableRequestDto tableRequestDto) {
-		this.{{tableNameDecapitalize}}Dao.removeMultiple(tableRequestDto);
+	public void removeMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
+		this.{{tableNameDecapitalize}}Dao.removeMultiple(filter{{tableName}}, tableRequestDto, startsWith);
 	}
         
 	/**

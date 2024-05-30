@@ -72,11 +72,11 @@
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
-     * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @return ${pojo.getDeclarationName()}
      */
     @${pojo.importType("org.springframework.transaction.annotation.Transactional")} (readOnly = true)	
-    public ${pojo.getDeclarationName()} find${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
+    public ${pojo.getDeclarationName()} find${tablaMNName}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
 
 		StringBuilder where = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ${pojo.importType("java.util.ArrayList")}<Object>();
@@ -101,12 +101,12 @@
 		query.append(where);
 
 		StringBuilder order = new StringBuilder(${pojo.getDeclarationName()}DaoImpl.STRING_BUILDER_INIT);
-		if (pagination != null) {
-			if (pagination.getSord() != null) {
-				order.append(" order by " + pagination.getSord() + " " + pagination.getSidx());
+		if (tableRequestDto != null) {
+			if (tableRequestDto.getSord() != null) {
+				order.append(" order by " + tableRequestDto.getSord() + " " + tableRequestDto.getSidx());
 				query.append(order);
 			}
-			query = new StringBuilder(${pojo.importType("com.ejie.x38.dto.PaginationManager")}.getPaginationQuery(pagination, query));
+			query = new StringBuilder(${pojo.importType("com.ejie.x38.dto.TableManager")}.getPaginationQuery(tableRequestDto, query));
       	}	
 		${pojo.importType("java.util.List")}<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}> listaHijo =  this.jdbcTemplate.query(query.toString(),
 			new RowMapper<${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}>() {
@@ -150,5 +150,5 @@
 
 		StringBuilder query =  new StringBuilder("SELECT count(1) FROM ${pojo.beanCapitalize(tablaMN?lower_case)} t1,${subclass.getTable().getName()} t2  ");
 		query.append(where);	
-		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
+		return this.jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
     }

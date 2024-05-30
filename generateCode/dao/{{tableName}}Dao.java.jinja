@@ -100,9 +100,11 @@ public interface {{tableName}}Dao {
 	/**
 	 * Filter in the {{tableName}} table.
 	 *
+	 * @param filter{{tableName}} {{tableName}}
 	 * @param tableRequestDto TableRequestDto
+	 * @param startsWith Boolean
 	 */	
-	 void removeMultiple(TableRequestDto tableRequestDto);
+	 void removeMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith);
 	
     /**
      * Counts rows in the {{tableName}} table using like.

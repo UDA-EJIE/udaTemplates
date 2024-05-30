@@ -42,10 +42,10 @@
      *
      * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
      * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
-     * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
+     * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
      * @return ${pojo.getDeclarationName()}
      */
-	${pojo.getDeclarationName()} find${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination);
+	${pojo.getDeclarationName()} find${tablaMN}(${pojo.getDeclarationName()} ${pojo.getDeclarationName()?lower_case}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))} ${nombreSubclass?lower_case}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto);
 
     /**
      * Counts rows rows in the ${tablaMN} table.

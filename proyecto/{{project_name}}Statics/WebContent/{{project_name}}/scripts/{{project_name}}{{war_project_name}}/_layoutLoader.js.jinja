@@ -30,7 +30,9 @@ jQuery(document).ready(function(){
 		});
 	}
 	
-	jQuery.extend(true, jQuery.rup.i18n.base.rup_combo, { blankNotDefined : "----" });
+	window.initRupI18nPromise.then(function() {
+		jQuery.extend(true, jQuery.rup.i18n.base.rup_select, { blankNotDefined : "----" });
+	});
 	
 	//pie
 	$(".footer [title]").rup_tooltip();
