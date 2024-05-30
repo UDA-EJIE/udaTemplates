@@ -16,7 +16,7 @@
 package {{packageName}}.service;
 
 import com.ejie.x38.dto.TableRequestDto;
-import com.ejie.x38.dto.TableResourceResponseDto;
+import com.ejie.x38.dto.TableResponseDto;
 import com.ejie.x38.dto.TableRowDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,9 +116,9 @@ public interface {{tableName}}Service {
 	 * @param tableRequestDto TableRequestDto
 	 * @param startsWith Boolean
 	 *
-	 * @return TableResourceResponseDto<{{tableName}}>
+	 * @return TableResponseDto<{{tableName}}>
 	 */	
-	TableResourceResponseDto<{{tableName}}> filter({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto,  Boolean startsWith);
+	TableResponseDto<{{tableName}}> filter({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto,  Boolean startsWith);
     
     /**
 	 * Searches rows in the {{tableName}} table.

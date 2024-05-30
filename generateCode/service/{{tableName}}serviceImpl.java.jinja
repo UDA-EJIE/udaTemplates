@@ -16,7 +16,7 @@
 package {{packageName}}.service;
 
 import com.ejie.x38.dto.TableRequestDto;
-import com.ejie.x38.dto.TableResourceResponseDto;
+import com.ejie.x38.dto.TableResponseDto;
 import com.ejie.x38.dto.TableRowDto;
 import com.ejie.x38.util.DateTimeManager;
 import com.lowagie.text.Document;
@@ -62,7 +62,7 @@ import com.ejie.{{project_name}}.dao.{{tableName}}Dao;
 public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 
 	@Autowired
-	private {{tableName}}Dao {{tableNameDecapitalize}};
+	private {{tableName}}Dao {{tableNameDecapitalize}}Dao;
 
 	/**
 	 * Inserts a single row in the {{tableName}} table.
@@ -169,12 +169,12 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	 * @param tableRequestDto TableRequestDto
 	 * @param startsWith Boolean
 	 *
-	 * @return TableResourceResponseDto<{{tableName}}>
+	 * @return TableResponseDto<{{tableName}}>
 	 */	
-	public TableResourceResponseDto<{{tableName}}> filter({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
+	public TableResponseDto<{{tableName}}> filter({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 		List<{{tableName}}> lista{{tableName}} = this.{{tableNameDecapitalize}}Dao.findAllLike(filter{{tableName}}, tableRequestDto, false);
 		Long recordNum = this.{{tableNameDecapitalize}}Dao.findAllLikeCount(filter{{tableName}} != null ? filter{{tableName}} : new {{tableName}}(), false);
-		TableResourceResponseDto<{{tableName}}> tableResponseDto = new TableResourceResponseDto<{{tableName}}>(tableRequestDto, recordNum, lista{{tableName}});
+		TableResponseDto<{{tableName}}> tableResponseDto = new TableResponseDto<{{tableName}}>(tableRequestDto, recordNum, lista{{tableName}});
 		
 		if (tableRequestDto.getMultiselection().getSelectedIds() != null && !tableRequestDto.getMultiselection().getSelectedIds().isEmpty()) {
 			List<TableRowDto<{{tableName}}>> reorderSelection = this.{{tableNameDecapitalize}}Dao.reorderSelection(filter{{tableName}}, tableRequestDto, startsWith);
