@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
-  <runtime name="Oracle WebLogic Server 14  (14.2.1.4)"/>
+  <runtime name="Oracle WebLogic Server 14.1.1.0"/>
   <fixed facet="jst.ear"/>
   <installed facet="jst.ear" version="5.0"/>
-  <installed facet="wls.ear" version="12.2.1.4"/>
+  <installed facet="wls.ear" version="14.1.1.0"/>
 </faceted-project>
