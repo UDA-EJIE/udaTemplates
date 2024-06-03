@@ -29,7 +29,6 @@ import javax.sql.DataSource;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ejie.{{project_name}}.model.{{tableName}};
@@ -57,7 +56,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMap = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}(
-				{% for column in columnsDates %}resultSet.get{{ column.DATO_TYPE }}("{{ column.name }}"){% if loop.index != columnsDates|length %},{% endif%} {% endfor %}
+				{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %}
 			);
 		}
 	};
@@ -158,8 +157,252 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, "{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}"));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, "{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}"));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
+
+	/**
+	 * Returns a map with the needed value to create the conditions to filter by  
+	 * the {{tableName}} entity 
+	 * 
+	 * @param {{tableNameDecapitalize}} {{tableName}}
+	 *            Bean with the criteria values to filter by.
+     * @param startsWith Boolean	 
+	 * @return Map created with two keys
+	 *         key query stores the sql query syntax
+	 *         key params stores the parameter values to be used in the condition sentence.
+	 */
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
+	private Map<String, Object> getWhereLikeMap ({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith){
+
+		StringBuffer where = new StringBuffer({{tableName}}DaoImpl.STRING_BUILDER_INIT);
+		List<Object> params = new ArrayList<Object>();
+
+		{% for column in allColumns %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null ) {
+			{% if column.DATO_TYPE == 'String' %}
+			where.append(" AND UPPER(t1.{{column.name}}) like ? ESCAPE  '\\'");
+			if (startsWith){
+				params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}().toUpperCase() +"%");
+			}else{
+				params.add("%"+{{tableNameDecapitalize}}.get{{column.name|toCamelCase }}().toUpperCase() +"%");
+			}
+			where.append(" AND t1.{{column.name}} IS NOT NULL");
+			{% else%} 
+			where.append(" AND t1.{{column.name}} = ?");
+			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());
+			{% endif%}
+		}	
+		{% endfor %}
+
+		Map<String,Object> mapWhere = new HashMap<String, Object>();
+		mapWhere.put("query", where);
+		mapWhere.put("params", params);
+
+		return mapWhere;
+	}
+
+		/**
+	 * Returns a map with the needed value to create the conditions to filter by  
+	 * the {{tableName}} entity 
+	 * 
+	 * @param {{tableNameDecapitalize}} {{tableName}}
+	 *            Bean with the criteria values to filter by.
+	 * @return Map created with two keys
+	 *         key query stores the sql query syntax
+	 *         key params stores the parameter values to be used in the condition sentence.
+	 */
+	// CHECKSTYLE:OFF CyclomaticComplexity - Generación de código de UDA
+	private Map<String, Object> getWhereMap ({{tableName}} {{tableNameDecapitalize}}){
+
+		StringBuffer where = new StringBuffer({{tableName}}DaoImpl.STRING_BUILDER_INIT);
+		List<Object> params = new ArrayList<Object>();
+
+		{% for column in allColumns %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null ) {
+			where.append(" AND t1.{{column.name}} = ?");
+			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());
+		}	
+		{% endfor %}
+
+		Map<String,Object> mapWhere = new HashMap<String, Object>();
+		mapWhere.put("query", where);
+		mapWhere.put("params", params);
+
+		return mapWhere;
+	}
+
+	/**
+	 * Finds a List of rows in the {{tableName}} table.
+	 * 
+	 * @param {{tableNameDecapitalize}} {{tableName}}
+	 * @param tableRequestDto TableRequestDto
+	 * @return List 
+	 */
+	 @Transactional (readOnly = true)
+	 public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
+		query.append("FROM {{tableNameDecapitalize}} t1 ");
+		
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
+		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+		
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		if (tableRequestDto != null) {
+			query = TableManager.getPaginationQuery(tableRequestDto, query, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST);
+		}
+		 
+		return (List<{{tableName}}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
+	}
+
+	    /**
+     * Counts rows in the {{tableName}} table.
+     * 
+     * @param {{tableNameDecapitalize}} {{tableName}}
+     * @return Long
+     */
+    @Transactional (readOnly = true)
+    public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+		
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
+		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		where.append(mapaWhere.get("query"));
+		query.append(where);		
+		
+		List<?> params = (List<?>) mapaWhere.get("params");
+		
+		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
+	}
+
+		/**
+	 * Finds rows in the {{tableName}} table using like.
+     * 
+     * @param {{tableNameDecapitalize}} {{tableName}}
+     * @param tableRequestDto TableRequestDto
+     * @param startsWith Boolean
+     * @return List 
+     */
+	@Transactional (readOnly = true)
+    public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
+        query.append("FROM {{tableName}} t1 ");
+      	
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
+		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		if (tableRequestDto != null) {
+			query = TableManager.getPaginationQuery(tableRequestDto, query, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST);
+		}
+		
+		return (List<{{tableName}}>) this.jdbcTemplate.query(query.toString(), this.rwMap, params.toArray());
+	}
+
+		/**
+	 * Counts rows in the {{tableName}} table using like.
+     * 
+     * @param {{tableNameDecapitalize}} {{tableName}}
+     * @param startsWith Boolean
+     * @return Long 
+     */
+	@Transactional (readOnly = true)
+    public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+
+		//Where clause & Params
+		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
+		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		where.append(mapaWhere.get("query"));
+		query.append(where);
+
+		List<?> params = (List<?>) mapaWhere.get("params");
+
+		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
+	}
+
+		@Override
+	public List<TableRowDto<{{tableName}}>> reorderSelection({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto,
+			Boolean startsWith) {
+		
+		// SELECT
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
+		
+		// FROM
+        sbSQL.append("FROM {{tableName}} t1 ");
+        
+		// FILTRADO 
+		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
+		// Claula where  de filtrado
+		sbSQL.append(" WHERE 1=1 ").append(mapaWhere.get("query"));
+		// Parámetros de filtrado
+		@SuppressWarnings("unchecked")
+		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");		
+		
+		// SQL para la reordenación
+		StringBuilder sbReorderSelectionSQL = TableManager.getReorderQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, {% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		
+		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
+	}
+	
+	@Override
+	public List<TableRowDto<{{tableName}}>> search({{tableName}} filterParams, {{tableName}} searchParams, TableRequestDto tableRequestDto, Boolean startsWith) {
+		
+		// SELECT 
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
+		
+		// FROM
+		sbSQL.append("FROM {{tableName}} t1 ");
+      	
+		//TABLAS_ALIAS
+		List<String> from_alias = new ArrayList<String>();
+		from_alias.add("t1");
+		
+		// FILTRADO
+		// Mapa de filtrado
+		Map<String, ?> mapaWhereFilter = this.getWhereLikeMap(filterParams, startsWith); 
+		// Claula where  de filtrado
+		sbSQL.append(" WHERE 1=1 ").append(mapaWhereFilter.get("query"));
+		// Parámetros de filtrado
+		@SuppressWarnings("unchecked")
+		List<Object> filterParamList = (List<Object>) mapaWhereFilter.get("params");
+		
+		// BUSQUEDA
+		Map<String, ?> mapaWhereSearch = this.getWhereLikeMap(searchParams, startsWith);
+		// Claula where  de búsqueda
+		String searchSQL = ((StringBuffer) mapaWhereSearch.get("query")).toString();
+		// Parámetros de búsqueda
+		@SuppressWarnings("unchecked")
+		List<Object> searchParamList = (List<Object>) mapaWhereSearch.get("params");
+		
+
+		// SQL para la busqueda
+		StringBuilder sbReorderSelectionSQL = TableManager.getSearchQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, searchSQL, searchParamList, from_alias, {% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
+				
+		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
+	}
+
+	
+	/*
+	 * OPERACIONES RUP_TABLE
+	 */
+	
+	@Override
+	public void removeMultiple(TableRequestDto tableRequestDto) {
+		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(tableRequestDto, {{tableName}}.class, "{{tableName}}", new String[]{{'{'}}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{{'}'}});
+		
+		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
+		
+		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
+	}
 }

@@ -17,7 +17,7 @@
 	 * @return
 	 */
 	
-	public void set{{ column.name|toCamelCase }}({{ column.DATO_TYPE }} {{ column.name.lower()|toCamelCase }}) {
-		this.{{ column.name.lower()|toCamelCase }} = {{ column.name.lower()|toCamelCase }};
+	public void set{{ column.name|toCamelCase }}({{ column.DATO_TYPE }} {{ column.name.lower()|snakeToCamel }}) {
+		this.{{ column.name.lower()|snakeToCamel }} = {{ column.name.lower()|snakeToCamel }};
 	}
  {% endfor %}
