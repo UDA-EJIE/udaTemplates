@@ -71,16 +71,6 @@ public interface {{tableName}}Dao {
      */
     List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto);
 
-    /**
-     * Finds a List of rows containing the CP field in the {{tableName}} table.
-     *
-     * @param ${ctrTl.stringDecapitalize(pojo.getDeclarationName())} {{tableName}}
-	 * @param startsWith boolean
-     *
-     * @return List<{{tableName}}>
-     */
-    List<{{tableName}}> findAllIds({{tableName}} {{tableNameDecapitalize}}, boolean startsWith);
-
 	/**
      * Finds rows in the {{tableName}} table using like.
      *
