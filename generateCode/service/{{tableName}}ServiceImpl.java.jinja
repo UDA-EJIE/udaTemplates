@@ -121,18 +121,6 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
 		return (List<{{tableName}}>) this.{{tableNameDecapitalize}}Dao.findAll({{tableNameDecapitalize}}, tableRequestDto);
 	}
-	
-	/**
-	 * Finds a List of rows containing the CP field in the {{tableName}} table.
-	 *
-	 * @param {{tableNameDecapitalize}} {{tableName}}
-	 * @param startsWith boolean
-	 *
-	 * @return List<{{tableName}}>
-	 */
-	public List<{{tableName}}> findAllIds({{tableName}} {{tableNameDecapitalize}}, boolean startsWith) {
-		return this.{{tableNameDecapitalize}}Dao.findAllIds({{tableNameDecapitalize}}, startsWith);
-	}
     
 	/**
 	 * Finds rows in the {{tableName}} table using like.

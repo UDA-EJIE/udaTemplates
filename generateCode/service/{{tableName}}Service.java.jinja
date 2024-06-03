@@ -77,16 +77,6 @@ public interface {{tableName}}Service {
 	List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto);
 
 	/**
-	 * Finds a List of rows containing the CP field in the {{tableName}} table.
-	 *
-	 * @param {{tableNameDecapitalize}} {{tableName}}
-	 * @param startsWith boolean
-	 *
-	 * @return List<{{tableName}}>
-	 */
-	List<{{tableName}}> findAllIds({{tableName}} {{tableNameDecapitalize}}, boolean startsWith);
-
-	/**
 	 * Finds rows in the {{tableName}} table using like.
 	 *
 	 * @param {{tableNameDecapitalize}} {{tableName}}
