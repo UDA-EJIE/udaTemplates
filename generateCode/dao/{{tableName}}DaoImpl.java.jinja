@@ -391,17 +391,26 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 				
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
-
 	
-	/*
-	 * OPERACIONES RUP_TABLE
-	 */
-	
+	/**
+	 * Remove multiple method for rup_table
+     *
+     * @param {{tableNameDecapitalize}} {{tableName}}
+	 * @param tableRequestDto TableRequestDto
+	 * @param startsWith Boolean
+     */
 	@Override
-	public void removeMultiple(TableRequestDto tableRequestDto) {
-		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(tableRequestDto, {{tableName}}.class, "{{tableName}}", new String[]{{'{'}}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{{'}'}});
+	public void removeMultiple({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
+		// Like clause and params
+		Map<String, Object> mapaWhereLike = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
 		
-		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
+		// Delete query
+		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(mapaWhereLike, tableRequestDto, {{tableName}}.class, "{{tableName}}", "t1", new String[]{{'{'}}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{{'}'}});
+		
+		// Params list. Includes needed params for like and IN/NOT IN clauses
+		@SuppressWarnings("unchecked")
+		List<Object> params = (List<Object>) mapaWhereLike.get("params");
+		params.addAll(tableRequestDto.getMultiselection().getSelectedIds());
 		
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
 	}
