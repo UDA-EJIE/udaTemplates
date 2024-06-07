@@ -56,7 +56,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMap = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}(
-				{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %}
+				{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %}
 			);
 		}
 	};
@@ -64,7 +64,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMapPK = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}(
-				{% for column in listPks %}resultSet.get{{ column.DATO_TYPE }}("{{ column.name }}"){% if loop.index != listPks|length %},{% endif%} {% endfor %}
+				{% for column in listPks %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != listPks|length %},{% endif%} {% endfor %}
            	);
     	}
   	};

@@ -88,7 +88,7 @@ public class {{tableName}}Controller  {
 	 */
 
 	@GetMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name.lower()|snakeToCamel }}{{'}'}}{% endfor %}")
-	public @ResponseBody {{tableName}} get({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% endfor %}) {
+	public @ResponseBody {{tableName}} get({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
         {{tableName}} {{tableNameDecapitalize}} = new {{tableName}}();
 		{%for i in listPks %}
 		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name.lower()|snakeToCamel }});
@@ -155,7 +155,7 @@ public class {{tableName}}Controller  {
 	 */
 
 	@DeleteMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name.lower()|snakeToCamel }}{{'}'}}{% endfor %}")
-	public @ResponseBody {{tableName}} remove({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% endfor %}) {
+	public @ResponseBody {{tableName}} remove({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
         {{tableName}} {{tableNameDecapitalize}} = new {{tableName}}();
 		{%for i in listPks %}
 		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name.lower()|snakeToCamel }});
