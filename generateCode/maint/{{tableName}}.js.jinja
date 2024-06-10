@@ -28,15 +28,13 @@ const tableColModels = [
 		{
 			name: "{{column.name.lower()|toCamelCase}}",
 			index: "{{column.name.lower()|toCamelCase}}",
-			editable: {{column.editable}},
+			editable: true,
 		{% if column.type == "Select" %}
 			rupType: "select",
 		{% elif column.type == "Datepicker" %}
-			rupType: "datepicker",
-		{% else %}
-			rupType: "datepicker",
+			rupType: "date",
 		{% endif%}	
-			hidden: {{column.hidden}}
+			hidden: false
 		}{% if loop.index != allColumns|length %},{% endif%}
 		{% endfor %}
 	];
@@ -67,7 +65,7 @@ const tableColModels = [
 								{% for column in allColumnsNoPk %}
 									{% if maint.primaryKey and not column.name in maint.primaryKey %}
     								"{{column.name.lower()|toCamelCase}}": {
-										required: {{column.requiredEditRules}},
+										required: true,
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
 												number: true,
@@ -91,7 +89,7 @@ const tableColModels = [
     							}
     						}
     				{% endif %}
-    				}
+    				},
     		{% endif %}
     		{% if maint.typeMaint == "INLINE" %}
     			inlineEdit: {
@@ -101,7 +99,7 @@ const tableColModels = [
 								{% for column in allColumnsNoPk %}
 									{% if maint.primaryKey and not column.name in maint.primaryKey %}
     								"{{column.name.lower()|toCamelCase}}": {
-										required: {{column.requiredEditRules}},
+										required: true,
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
 												number: true,
@@ -125,7 +123,7 @@ const tableColModels = [
     							}
     						}
     				{% endif %}
-    				}
+    				},
     		{% endif %}
     	{% endif %}
 		{% if maint.multiSelectMaint %}
