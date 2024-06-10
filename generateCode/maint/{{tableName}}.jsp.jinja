@@ -22,7 +22,7 @@
 {% endif%}
 
 <table id="{{nameMaint}}" class="tableFit table-striped table-bordered table-material" 
-	data-url-base="{{urlBase}}"
+	data-url-base="{{urlBase.lower()|toCamelCase}}"
 	data-filter-form="{{nameMaint}}_filter_form">
     <thead>
         <tr>

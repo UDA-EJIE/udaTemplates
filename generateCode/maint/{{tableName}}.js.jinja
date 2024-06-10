@@ -36,7 +36,7 @@ const tableColModels = [
 		{% elif column.type == "Datepicker" %}
 			rupType: "datepicker",
 		{% else %}
-			rupType: "datepicker",
+			rupType: "date",
 		{% endif%}	
 			hidden: {{column.hidden}}
 		}{% if loop.index != allColumns|length %},{% endif%}
@@ -93,7 +93,7 @@ const tableColModels = [
     							}
     						}
     				{% endif %}
-    				}
+    				},
     		{% endif %}
     		{% if maint.typeMaint == "INLINE" %}
     			inlineEdit: {
@@ -127,7 +127,7 @@ const tableColModels = [
     							}
     						}
     				{% endif %}
-    				}
+    				},
     		{% endif %}
     	{% endif %}
 		{% if maint.multiSelectMaint %}
