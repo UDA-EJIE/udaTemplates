@@ -9,7 +9,7 @@
 		StringBuilder result = new StringBuilder();
 		result.append(this.getClass().getName()).append(" Object { " ); 
 {% for column in allColumns %}  
-		result.append("{% if loop.index != 1 %},{% endif%} [ {{ column.name.lower()|snakeToCamel }}: ").append(this.{{ column.name.lower()|snakeToCamel }}).append(" ]");	
+		result.append("{% if loop.index != 1 %},{% endif%} [ {{ column.name|snakeToCamel }}: ").append(this.{{ column.name|snakeToCamel }}).append(" ]");	
 {% endfor %} 
 		result.append("}");
 		return result.toString();

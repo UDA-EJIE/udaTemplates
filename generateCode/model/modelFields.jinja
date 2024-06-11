@@ -2,4 +2,4 @@
 
   {% if listPks|length >= 2%}//Clave compuesta{% endif%}
 {% for column in columnsDates %}
-  private {{ column.DATO_TYPE }} {{ column.name.lower()|snakeToCamel }};{% endfor %}
+  private {{ column.DATO_TYPE }} {{ column.name|snakeToCamel }};{% endfor %}

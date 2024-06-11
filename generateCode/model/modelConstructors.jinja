@@ -6,20 +6,20 @@
     
  /** 
  * Method '{{tableName}}'.
- {% for column in listPks %}* @param {{ column.name.lower()|snakeToCamel }}
+ {% for column in listPks %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in listPks %}{{ column.DATO_TYPE }} {{ column.name.lower()|snakeToCamel }}{% if loop.index != listPks|length %},{% endif%}{% endfor %}) {
-	{% for column in listPks %}this.{{ column.name.lower()|snakeToCamel }} = {{ column.name.lower()|snakeToCamel }};
+ public {{tableName}}({% for column in listPks %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% if loop.index != listPks|length %},{% endif%}{% endfor %}) {
+	{% for column in listPks %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
 
  /** 
  * Method '{{tableName}}'.
- {% for column in allColumns %}* @param {{ column.name.lower()|snakeToCamel }}
+ {% for column in allColumns %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in allColumns %}{{ column.DATO_TYPE }} {{ column.name.lower()|snakeToCamel }}{% if loop.index != allColumns|length %},{% endif%}{% endfor %}) {
-	{% for column in allColumns %}this.{{ column.name.lower()|snakeToCamel }} = {{ column.name.lower()|snakeToCamel }};
+ public {{tableName}}({% for column in allColumns %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% if loop.index != allColumns|length %},{% endif%}{% endfor %}) {
+	{% for column in allColumns %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }

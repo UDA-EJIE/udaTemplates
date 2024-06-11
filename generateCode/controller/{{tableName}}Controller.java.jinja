@@ -87,11 +87,11 @@ public class {{tableName}}Controller  {
 	 * @return {{tableName}} Objeto correspondiente al identificador indicado.
 	 */
 
-	@GetMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name.lower()|snakeToCamel }}{{'}'}}{% endfor %}")
-	public @ResponseBody {{tableName}} get({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
+	@GetMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name|snakeToCamel }}{{'}'}}{% endfor %}")
+	public @ResponseBody {{tableName}} get({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
         {{tableName}} {{tableNameDecapitalize}} = new {{tableName}}();
 		{%for i in listPks %}
-		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name.lower()|snakeToCamel }});
+		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name|snakeToCamel }});
 		{% endfor %}
         {{tableNameDecapitalize}} = this.{{tableNameDecapitalize}}Service.find({{tableNameDecapitalize}});
         {{tableName}}Controller.logger.info("[GET - findBy_PK] : Obtener {{tableName}} por PK");
@@ -154,11 +154,11 @@ public class {{tableName}}Controller  {
 	 * @return {{tableName}} Objeto correspondiente al identificador indicado.
 	 */
 
-	@DeleteMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name.lower()|snakeToCamel }}{{'}'}}{% endfor %}")
-	public @ResponseBody {{tableName}} remove({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name.lower()|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
+	@DeleteMapping(value = "{%for i in listPks %}/{{'{'}}{{ i.name|snakeToCamel }}{{'}'}}{% endfor %}")
+	public @ResponseBody {{tableName}} remove({%for i in listPks %}@PathVariable {{i.DATO_TYPE}} {{ i.name|snakeToCamel }} {% if loop.index != listPks|length %},{% endif%} {% endfor %}) {
         {{tableName}} {{tableNameDecapitalize}} = new {{tableName}}();
 		{%for i in listPks %}
-		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name.lower()|snakeToCamel }});
+		{{tableNameDecapitalize}}.set{{ i.name|toCamelCase }}({{ i.name|snakeToCamel }});
 		{% endfor %}
         this.{{tableNameDecapitalize}}Service.remove({{tableNameDecapitalize}});
         {{tableName}}Controller.logger.info("[DELETE] : Obtener {{tableName}} borrado correctamente");

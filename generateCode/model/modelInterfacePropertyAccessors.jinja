@@ -7,7 +7,7 @@
 	
 	
 	public {{ column.DATO_TYPE }} get{{ column.name|toCamelCase }}() {
-		return this.{{ column.name.lower()|snakeToCamel }};
+		return this.{{ column.name|snakeToCamel }};
 	}
 	
 	/**
@@ -17,7 +17,7 @@
 	 * @return
 	 */
 	
-	public void set{{ column.name|toCamelCase }}({{ column.DATO_TYPE }} {{ column.name.lower()|snakeToCamel }}) {
-		this.{{ column.name.lower()|snakeToCamel }} = {{ column.name.lower()|snakeToCamel }};
+	public void set{{ column.name|toCamelCase }}({{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}) {
+		this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
 	}
  {% endfor %}
