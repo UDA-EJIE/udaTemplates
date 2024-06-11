@@ -27,8 +27,8 @@
     <thead>
         <tr>
         	{% for column in allColumnsNoPk %}
-			<th data-col-prop="{{column.name.lower()|toCamelCase}}" data-col-sidx="{{ column.name.upper()}}" data-col-type="{{ column.type}}">
-				<spring:message code="{{column.name.lower()|toCamelCase}}"/>
+			<th data-col-prop="{{column.name.lower|snakeToCamel}}" data-col-sidx="{{ column.name.upper()}}" data-col-type="{{ column.type}}">
+				<spring:message code="{{column.name.lower|snakeToCamel}}"/>
 			</th>
 
             {% endfor %}
