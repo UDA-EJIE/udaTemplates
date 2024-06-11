@@ -27,8 +27,8 @@ jQuery(function($) {
 	const tableColModels = [
 		{% for column in allColumnsNoPk %}
 		{
-			name: "{{column.name.lower()|toCamelCase}}",
-			index: "{{column.name.lower()|toCamelCase}}",
+			name: "{{column.name.lower()|snakeToCamel}}",
+			index: "{{column.name.lower()|snakeToCamel}}",
 			editable: {{column.editable}},
 		{% if column.type == "Select" %}
 			rupType: "select",
