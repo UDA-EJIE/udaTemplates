@@ -16,15 +16,16 @@
 
 jQuery(function($) {
 	{% for column in allColumnsNoPk %}
-	{% if column.activate != false: %}
-		{% if column.type == "Datepicker" %}
+		{% if column.activate != false: %}
+			{% if column.type == "Datepicker" %}
 	$("#{{column.name.lower()|toCamelCase}}_detail_table").rup_date();
 	$("#{{column.name.lower()|toCamelCase}}_filter_table").rup_date();
+			{% endif %}
 		{% endif %}
-	{% endif %}
 	{% endfor %}
-const tableColModels = [
-		{% for column in allColumns %}
+	
+	const tableColModels = [
+		{% for column in allColumnsNoPk %}
 		{
 			name: "{{column.name.lower()|toCamelCase}}",
 			index: "{{column.name.lower()|toCamelCase}}",
