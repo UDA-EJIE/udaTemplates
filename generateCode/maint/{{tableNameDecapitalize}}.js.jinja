@@ -15,146 +15,148 @@
  */
 
 jQuery(function($) {
-	{% for column in allColumnsNoPk %}
-		{% if column.activate %}
-			{% if column.type == "Datepicker" %}
-	$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
-	$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
-			{% endif %}
-		{% endif %}
-	{% endfor %}
-	
-	const tableColModels = [
+	window.initRupI18nPromise.then(function () {
 		{% for column in allColumnsNoPk %}
-		{
-			name: "{{column.name|snakeToCamel}}",
-			index: "{{column.name|snakeToCamel}}",
-			editable: {{column.editable}},
-		{% if column.type == "Select" %}
-			rupType: "select",
-		{% elif column.type == "Datepicker" %}
-			rupType: "date",
-		{% endif%}	
-			hidden: {{column.hidden}}
-		}{% if loop.index != allColumns|length %},{% endif%}
+			{% if column.activate %}
+				{% if column.type == "Datepicker" %}
+		$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
+		$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
+				{% endif %}
+			{% endif %}
 		{% endfor %}
-	];
-
-	$("#{{maint.name}}").rup_table({
-		colReorder: {
-			fixedColumnsLeft: 1
-		},
-		colModel: tableColModels,
-		primaryKey: "{{maint.primaryKey}}",
-        {% if maint.filter %}
-		filter: {
-  	  		id: "{{maint.name}}_filter_form",
-  	  		filterToolbar: "{{maint.name}}_filter_toolbar",
-  	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
-     	},
-     	{% else %}
-     		filter: "noFilter",
-     	{% endif %}
-     	{% if maint.isMaint %}
-     		{% if maint.type == "DETAIL" %}
-     			formEdit: {
-     				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        			detailForm: "#{{maint.name}}_detail_div",
-        			{% if maint.loadFromModel %}
-        			loadFromModel: true
-        			{% endif %}
-        			{% if maint.clientValidation %}
-						validate: { 
-    						rules: {
-								{% for column in allColumnsNoPk %}
-									{% if maint.primaryKey and not column.name in maint.primaryKey %}
-    								"{{column.name|snakeToCamel}}": {
-										required: {{column.requiredEditRules}},
-										{% if column.typeEditRules %}
-											{% if column.typeEditRules == "number" %}
-												number: true,
-												min: {{column.minValueEditRules}},
-												max: {{column.maxValueEditRules}}
-											{% elif column.typeEditRules == "integer" %}
-												integer: true
-											{% elif column.typeEditRules == "email" %}
-												email: true
-											{% elif column.typeEditRules == "url" %}
-												url: true
-											{% elif column.typeEditRules == "date" %}
-												date: true
-											{% elif column.typeEditRules == "time" %}
-												time: true
-											{% endif %}
-										{% endif %}
-									{% endif %}	
-									}{% if not loop.last %},{% endif %}
-								{% endfor %}
-    							}
-    						}
-    				{% endif %}
-    				},
-    		{% endif %}
-    		{% if maint.type == "INLINE" %}
-    			inlineEdit: {
-    				{% if maint.clientValidation %}
-						validate: { 
-    						rules: {
-								{% for column in allColumnsNoPk %}
-									{% if maint.primaryKey and not column.name in maint.primaryKey %}
-    								"{{column.name|snakeToCamel}}": {
-										required: {{column.requiredEditRules}},
-										{% if column.typeEditRules %}
-											{% if column.typeEditRules == "number" %}
-												number: true,
-												min: {{column.minValueEditRules}},
-												max: {{column.maxValueEditRules}}
-											{% elif column.typeEditRules == "integer" %}
-												integer: true
-											{% elif column.typeEditRules == "email" %}
-												email: true
-											{% elif column.typeEditRules == "url" %}
-												url: true
-											{% elif column.typeEditRules == "date" %}
-												date: true
-											{% elif column.typeEditRules == "time" %}
-												time: true
-											{% endif %}
-										{% endif %}
-									{% endif %}
-									}{% if not loop.last %},{% endif %}
-								{% endfor %}
-    							}
-    						}
-    				{% endif %}
-    				},
-    		{% endif %}
-    	{% endif %}
-		{% if maint.multiselection %}
-		    multiSelect: {
-       			style: "multi"
-   			},
-   		{% else %}
-   			select: {
-       			activate: true
-   			},
-		{% endif %}
-		{% if maint.search %}
-			seeker: {
-				activate: true
-			},
-		{% endif %}
-		{% if maint.buttons %}
-			buttons: {
-				activate: true
-				{% if not maint.isMaint %}
-					,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
-				{% endif %}
-				{% if not maint.contextMenu %}
-					,contextMenu: false
-				{% endif %}
-			},
-		{% endif %}
 		
+		const tableColModels = [
+			{% for column in allColumnsNoPk %}
+			{
+				name: "{{column.name|snakeToCamel}}",
+				index: "{{column.name|snakeToCamel}}",
+				editable: {{column.editable}},
+			{% if column.type == "Select" %}
+				rupType: "select",
+			{% elif column.type == "Datepicker" %}
+				rupType: "date",
+			{% endif%}	
+				hidden: {{column.hidden}}
+			}{% if loop.index != allColumns|length %},{% endif%}
+			{% endfor %}
+		];
+	
+		$("#{{maint.name}}").rup_table({
+			colReorder: {
+				fixedColumnsLeft: 1
+			},
+			colModel: tableColModels,
+			primaryKey: "{{maint.primaryKey}}",
+	        {% if maint.filter %}
+			filter: {
+	  	  		id: "{{maint.name}}_filter_form",
+	  	  		filterToolbar: "{{maint.name}}_filter_toolbar",
+	  	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
+	     	},
+	     	{% else %}
+	     		filter: "noFilter",
+	     	{% endif %}
+	     	{% if maint.isMaint %}
+	     		{% if maint.type == "DETAIL" %}
+	     			formEdit: {
+	     				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
+	        			detailForm: "#{{maint.name}}_detail_div",
+	        			{% if maint.loadFromModel %}
+	        			loadFromModel: true
+	        			{% endif %}
+	        			{% if maint.clientValidation %}
+							validate: { 
+	    						rules: {
+									{% for column in allColumnsNoPk %}
+										{% if maint.primaryKey and not column.name in maint.primaryKey %}
+	    								"{{column.name|snakeToCamel}}": {
+											required: {{column.requiredEditRules}},
+											{% if column.typeEditRules %}
+												{% if column.typeEditRules == "number" %}
+													number: true,
+													min: {{column.minValueEditRules}},
+													max: {{column.maxValueEditRules}}
+												{% elif column.typeEditRules == "integer" %}
+													integer: true
+												{% elif column.typeEditRules == "email" %}
+													email: true
+												{% elif column.typeEditRules == "url" %}
+													url: true
+												{% elif column.typeEditRules == "date" %}
+													date: true
+												{% elif column.typeEditRules == "time" %}
+													time: true
+												{% endif %}
+											{% endif %}
+										{% endif %}	
+										}{% if not loop.last %},{% endif %}
+									{% endfor %}
+	    							}
+	    						}
+	    				{% endif %}
+	    				},
+	    		{% endif %}
+	    		{% if maint.type == "INLINE" %}
+	    			inlineEdit: {
+	    				{% if maint.clientValidation %}
+							validate: { 
+	    						rules: {
+									{% for column in allColumnsNoPk %}
+										{% if maint.primaryKey and not column.name in maint.primaryKey %}
+	    								"{{column.name|snakeToCamel}}": {
+											required: {{column.requiredEditRules}},
+											{% if column.typeEditRules %}
+												{% if column.typeEditRules == "number" %}
+													number: true,
+													min: {{column.minValueEditRules}},
+													max: {{column.maxValueEditRules}}
+												{% elif column.typeEditRules == "integer" %}
+													integer: true
+												{% elif column.typeEditRules == "email" %}
+													email: true
+												{% elif column.typeEditRules == "url" %}
+													url: true
+												{% elif column.typeEditRules == "date" %}
+													date: true
+												{% elif column.typeEditRules == "time" %}
+													time: true
+												{% endif %}
+											{% endif %}
+										{% endif %}
+										}{% if not loop.last %},{% endif %}
+									{% endfor %}
+	    							}
+	    						}
+	    				{% endif %}
+	    				},
+	    		{% endif %}
+	    	{% endif %}
+			{% if maint.multiselection %}
+			    multiSelect: {
+	       			style: "multi"
+	   			},
+	   		{% else %}
+	   			select: {
+	       			activate: true
+	   			},
+			{% endif %}
+			{% if maint.search %}
+				seeker: {
+					activate: true
+				},
+			{% endif %}
+			{% if maint.buttons %}
+				buttons: {
+					activate: true
+					{% if not maint.isMaint %}
+						,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
+					{% endif %}
+					{% if not maint.contextMenu %}
+						,contextMenu: false
+					{% endif %}
+				},
+			{% endif %}
+			
+		});
 	});
 });
