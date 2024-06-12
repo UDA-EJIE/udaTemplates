@@ -44,6 +44,9 @@ jQuery(function($) {
 		$("#{{maint.name}}").rup_table({
 			primaryKey: "{{maint.primaryKey}}",
 			colModel: tableColModels,
+			{% if maint.loadOnStartUp %}
+			loadOnStartUp: true,
+			{% endif %}
 			colReorder: {{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}},
 	        {% if maint.filter %}
 			filter: {
