@@ -60,7 +60,7 @@ jQuery(function($) {
 	     				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
 	        			detailForm: "#{{maint.name}}_detail_div",
 	        			{% if maint.loadFromModel %}
-	        			loadFromModel: true
+	        			loadFromModel: true,
 	        			{% endif %}
 	        			{% if maint.clientValidation %}
 							validate: { 
