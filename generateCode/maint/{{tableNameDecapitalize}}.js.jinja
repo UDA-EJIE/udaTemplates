@@ -42,9 +42,9 @@ jQuery(function($) {
 		];
 	
 		$("#{{maint.name}}").rup_table({
-			colReorder: {},
-			colModel: tableColModels,
 			primaryKey: "{{maint.primaryKey}}",
+			colModel: tableColModels,
+			colReorder: {{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}},
 	        {% if maint.filter %}
 			filter: {
 	  	  		id: "{{maint.name}}_filter_form",
