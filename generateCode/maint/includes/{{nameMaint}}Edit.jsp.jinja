@@ -69,7 +69,7 @@
 			<button id="{{maint.name}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="save" />
 			</button>
-			{% if maint.detailSaveButton %}
+			{% if maint.detailSaveButton == "SAVE_REPEAT" %}
 			<!-- Botón guardar y continuar -->
 			<button id="{{maint.name}}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="saveAndContinue" />
