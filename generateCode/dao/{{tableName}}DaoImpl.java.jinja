@@ -110,7 +110,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "UPDATE {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %}) WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
 		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
 
 		return {{tableNameDecapitalize}};
@@ -126,7 +126,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %} FROM {{tableNameOriginal.upper()}} t1 WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		String query = "SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} FROM {{tableNameOriginal.upper()}} t1 WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
 
 		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
