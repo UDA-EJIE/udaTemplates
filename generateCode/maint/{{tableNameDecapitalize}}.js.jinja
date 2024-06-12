@@ -16,7 +16,7 @@
 
 jQuery(function($) {
 	{% for column in allColumnsNoPk %}
-		{% if column.activate != false: %}
+		{% if column.activate %}
 			{% if column.type == "Datepicker" %}
 	$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
 	$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
@@ -40,27 +40,30 @@ jQuery(function($) {
 		{% endfor %}
 	];
 
-	$("#{{nameMaint}}").rup_table({
+	$("#{{maint.name}}").rup_table({
 		colReorder: {
 			fixedColumnsLeft: 1
 		},
 		colModel: tableColModels,
 		primaryKey: "{{maint.primaryKey}}",
-        {% if maint.filterMaint != false: %}
+        {% if maint.filter %}
 		filter: {
-  	  		id: "{{nameMaint}}_filter_form",
-  	  		filterToolbar: "{{nameMaint}}_filter_toolbar",
-  	  		collapsableLayerId: "{{nameMaint}}_filter_fieldset"
+  	  		id: "{{maint.name}}_filter_form",
+  	  		filterToolbar: "{{maint.name}}_filter_toolbar",
+  	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
      	},
      	{% else %}
      		filter: "noFilter",
      	{% endif %}
      	{% if maint.isMaint %}
-     		{% if maint.typeMaint == "DETAIL" %}
+     		{% if maint.type == "DETAIL" %}
      			formEdit: {
      				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        			detailForm: "#{{nameMaint}}_detail_div",
-        			{% if maint.clientValidationMaint %}
+        			detailForm: "#{{maint.name}}_detail_div",
+        			{% if maint.loadFromModel %}
+        			loadFromModel: true
+        			{% endif %}
+        			{% if maint.clientValidation %}
 						validate: { 
     						rules: {
 								{% for column in allColumnsNoPk %}
@@ -92,9 +95,9 @@ jQuery(function($) {
     				{% endif %}
     				},
     		{% endif %}
-    		{% if maint.typeMaint == "INLINE" %}
+    		{% if maint.type == "INLINE" %}
     			inlineEdit: {
-    				{% if maint.clientValidationMaint %}
+    				{% if maint.clientValidation %}
 						validate: { 
     						rules: {
 								{% for column in allColumnsNoPk %}
@@ -127,7 +130,7 @@ jQuery(function($) {
     				},
     		{% endif %}
     	{% endif %}
-		{% if maint.multiSelectMaint %}
+		{% if maint.multiselection %}
 		    multiSelect: {
        			style: "multi"
    			},
@@ -136,18 +139,18 @@ jQuery(function($) {
        			activate: true
    			},
 		{% endif %}
-		{% if maint.searchMaint %}
+		{% if maint.search %}
 			seeker: {
 				activate: true
 			},
 		{% endif %}
-		{% if maint.toolBarButtonsMaint %}
+		{% if maint.buttons %}
 			buttons: {
 				activate: true
 				{% if not maint.isMaint %}
 					,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
 				{% endif %}
-				{% if not maint.contextMenuMaint %}
+				{% if not maint.contextMenu %}
 					,contextMenu: false
 				{% endif %}
 			},

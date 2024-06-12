@@ -16,14 +16,14 @@
 
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
-<h2 class="title">{{titleMaint}}</h2>
-{% if filterMaint == true: %}
-<jsp:include page="includes/{{nameMaint}}FilterForm.jsp"></jsp:include>
+<h2 class="title">{{maint.title}}</h2>
+{% if maint.filter %}
+<jsp:include page="includes/{{maint.name}}FilterForm.jsp"></jsp:include>
 {% endif%}
 
-<table id="{{nameMaint}}" class="tableFit table-striped table-bordered table-material" 
+<table id="{{maint.name}}" class="tableFit table-striped table-bordered table-material" 
 	data-url-base="{{urlBase.lower()|toCamelCase}}"
-	data-filter-form="#{{nameMaint}}_filter_form">
+	data-filter-form="#{{maint.name}}_filter_form">
     <thead>
         <tr>
         	{% for column in allColumnsNoPk %}
@@ -35,6 +35,6 @@
         </tr>
     </thead>
 </table>
-{% if filterMaint == true and typeMaint == "DETAIL": %}
-<jsp:include page="includes/{{nameMaint}}Edit.jsp"></jsp:include>
+{% if maint.filter and maint.type == "DETAIL": %}
+<jsp:include page="includes/{{maint.name}}Edit.jsp"></jsp:include>
 {% endif%}
