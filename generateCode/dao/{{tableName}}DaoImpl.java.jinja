@@ -146,7 +146,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 
     	// SELECT
-    	StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %}");
+    	StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
     	// FROM
     	query.append("FROM {{tableNameOriginal.upper()}} t1 ");
     	// WHERE clause & Params
