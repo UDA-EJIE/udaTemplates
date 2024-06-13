@@ -47168,6 +47168,33 @@
   text-decoration: underline;
 }
 
+.r01gContainer .collapse_icon_right {
+  float: right;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.r01gContainer .collapse_icon_right:hover {
+  opacity: 0.3;
+}
+
+.r01gContainer .collapse_label,
+.r01gContainer .matched_layer {
+  font-weight: normal;
+}
+
+.r01gContainer .matched_layer {
+  float: left;
+}
+
+.r01gContainer .search_collapse_layer {
+  float: left;
+}
+
+.r01gContainer .search_nav_layer {
+  float: right;
+}
+
 .r01gContainer .table-bordered {
   border: 1px solid #c0c0c0;
   border-bottom: 1px solid #dee2e6;
