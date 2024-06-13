@@ -351,7 +351,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");		
 		
 		// SQL para la reordenación
-		StringBuilder sbReorderSelectionSQL = TableManager.getReorderQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, {% for column in listPks %}"{{ column.name|snakeToCamel }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		StringBuilder sbReorderSelectionSQL = TableManager.getReorderQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, {% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
 		
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
