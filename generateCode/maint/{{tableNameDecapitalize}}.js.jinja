@@ -47,7 +47,7 @@ jQuery(function($) {
 			{% if maint.loadOnStartUp %}
 			loadOnStartUp: true,
 			{% endif %}
-			colReorder: {{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}},
+			colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
 			order: [
 				[{{maint.order.sidx}}, {{maint.order.sord}}]
 			],
