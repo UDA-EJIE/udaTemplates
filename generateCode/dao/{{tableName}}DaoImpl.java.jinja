@@ -244,7 +244,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	 @Transactional (readOnly = true)
 	 public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
-		query.append("FROM {{tableNameDecapitalize}} t1 ");
+		query.append("FROM {{tableNameOriginal.upper()}} t1 ");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
@@ -269,7 +269,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 ");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
@@ -293,7 +293,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
-        query.append("FROM {{tableName}} t1 ");
+        query.append("FROM {{tableNameOriginal.upper()}} t1 ");
       	
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -319,7 +319,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 ");
 
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -340,7 +340,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
 		
 		// FROM
-        sbSQL.append("FROM {{tableName}} t1 ");
+        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 ");
         
 		// FILTRADO 
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
@@ -363,7 +363,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
 		
 		// FROM
-		sbSQL.append("FROM {{tableName}} t1 ");
+		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 ");
       	
 		//TABLAS_ALIAS
 		List<String> from_alias = new ArrayList<String>();
