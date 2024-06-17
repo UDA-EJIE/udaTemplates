@@ -43,7 +43,6 @@ jQuery(function($) {
 	
 		$("#{{maint.name}}").rup_table({
 			primaryKey: "{{maint.primaryKey}}",
-			colModel: tableColModels,
 			{% if maint.loadOnStartUp %}
 			loadOnStartUp: true,
 			{% endif %}
@@ -159,7 +158,8 @@ jQuery(function($) {
 			seeker: {
 				activate: true
 			},
-			{% endif %}			
+			{% endif %}
+			colModel: tableColModels
 		});
 	});
 });
