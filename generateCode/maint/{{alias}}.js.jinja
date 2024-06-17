@@ -48,7 +48,7 @@ jQuery(function($) {
 			{% endif %}
 			colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
 			order: [
-				[{{maint.order.sidx}}, {{maint.order.sord}}]
+				[{{maint.order.sidx}}, "{{maint.order.sord}}"]
 			],
 	        {% if maint.filter %}
 			filter: {
