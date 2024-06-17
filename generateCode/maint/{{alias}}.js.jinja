@@ -134,33 +134,32 @@ jQuery(function($) {
 	    				{% endif %}
 	    				},
 	    		{% endif %}
+				{% if maint.multiselection %}
+					multiSelect: {
+						style: "multi"
+					},
+				{% else %}
+					select: {
+						activate: true
+					},
+				{% endif %}
+				{% if maint.buttons %}
+					buttons: {
+						activate: true
+						{% if not maint.isMaint %}
+							,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
+						{% endif %}
+						{% if not maint.contextMenu %}
+							,contextMenu: false
+						{% endif %}
+					},
+				{% endif %}
 	    	{% endif %}
-			{% if maint.multiselection %}
-			    multiSelect: {
-	       			style: "multi"
-	   			},
-	   		{% else %}
-	   			select: {
-	       			activate: true
-	   			},
-			{% endif %}
 			{% if maint.search %}
 				seeker: {
 					activate: true
 				},
-			{% endif %}
-			{% if maint.buttons %}
-				buttons: {
-					activate: true
-					{% if not maint.isMaint %}
-						,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
-					{% endif %}
-					{% if not maint.contextMenu %}
-						,contextMenu: false
-					{% endif %}
-				},
-			{% endif %}
-			
+			{% endif %}			
 		});
 	});
 });
