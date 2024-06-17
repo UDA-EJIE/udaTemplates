@@ -16,7 +16,7 @@
 
 jQuery(function($) {
 	{% for column in allColumnsNoPk %}
-	{% if column.activate != false: %}
+	{% if column.activate: %}
 		{% if column.type == "Datepicker" %}
 	$("#{{column.name.lower()|toCamelCase}}_detail_table").rup_date();
 	$("#{{column.name.lower()|toCamelCase}}_filter_table").rup_date();
@@ -44,12 +44,16 @@ const tableColModels = [
 	];
 
 	$("#{{nameMaint}}").rup_table({
-		colReorder: {
-			fixedColumnsLeft: 1
-		},
-		colModel: tableColModels,
 		primaryKey: "{{maint.primaryKey}}",
-        {% if maint.filterMaint != false: %}
+		colModel: tableColModels,
+		{% if maint.loadOnStartUp %}
+		loadOnStartUp: true,
+		{% endif %}
+		colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
+		order: [
+			[{{maint.order.sidx}}, {{maint.order.sord}}]
+		],
+        {% if maint.filter != false: %}
 		filter: {
   	  		id: "{{nameMaint}}_filter_form",
   	  		filterToolbar: "{{nameMaint}}_filter_toolbar",
@@ -63,7 +67,10 @@ const tableColModels = [
      			formEdit: {
      				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
         			detailForm: "#{{nameMaint}}_detail_div",
-        			{% if maint.clientValidationMaint %}
+					{% if not maint.detail.requestData %}
+	        		loadFromModel: true,
+	        		{% endif %}
+        			{% if maint.clientValidation %}
 						validate: { 
     						rules: {
 								{% for column in allColumnsNoPk %}
@@ -139,18 +146,18 @@ const tableColModels = [
        			activate: true
    			},
 		{% endif %}
-		{% if maint.searchMaint %}
+		{% if maint.search %}
 			seeker: {
 				activate: true
 			},
 		{% endif %}
-		{% if maint.toolBarButtonsMaint %}
+		{% if maint.buttons %}
 			buttons: {
 				activate: true
 				{% if not maint.isMaint %}
 					,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
 				{% endif %}
-				{% if not maint.contextMenuMaint %}
+				{% if not maint.contextMenu %}
 					,contextMenu: false
 				{% endif %}
 			},

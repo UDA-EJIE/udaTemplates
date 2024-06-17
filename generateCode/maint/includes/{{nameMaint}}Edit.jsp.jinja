@@ -30,7 +30,7 @@
 			<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">	
 				<!-- Campos del formulario de detalle -->
 				{% for column in allColumnsNoPk %}
-				{% if column.activate != false: %}
+				{% if column.activate: %}
 					{% if column.type == "Text" %}
 						<div class="form-groupMaterial col">
 						<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table"/>
@@ -69,7 +69,7 @@
 			<button id="{{nameMaint}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="save" />
 			</button>
-			{% if maint.detailSaveButton != false: %}
+			{% if maint.detail.saveButton != false: %}
 			<!-- Botón guardar y continuar -->
 			<button id="{{nameMaint}}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="saveAndContinue" />
