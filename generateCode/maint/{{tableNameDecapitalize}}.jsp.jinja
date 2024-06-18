@@ -17,7 +17,7 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <h2 class="title">{{titleMaint}}</h2>
-{% if filterMaint == true: %}
+{% if maint.filter: %}
 <jsp:include page="includes/{{nameMaint}}FilterForm.jsp"></jsp:include>
 {% endif%}
 
@@ -35,6 +35,6 @@
         </tr>
     </thead>
 </table>
-{% if filterMaint == true and typeMaint == "DETAIL": %}
+{% if maint.filter and maint.type == "DETAIL": %}
 <jsp:include page="includes/{{nameMaint}}Edit.jsp"></jsp:include>
 {% endif%}
