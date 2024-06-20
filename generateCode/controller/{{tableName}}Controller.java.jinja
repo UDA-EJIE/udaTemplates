@@ -61,7 +61,7 @@ import {{packageName}}.model.{{tableName}};
  */
 
 @Controller
-@RequestMapping(value = "/{{tableName.lower()}}")
+@RequestMapping(value = "/{{tableNameOriginal|toRestUrlNaming}}")
 
 public class {{tableName}}Controller  {
 	private static final Logger logger = LoggerFactory.getLogger({{tableName}}Controller.class);
