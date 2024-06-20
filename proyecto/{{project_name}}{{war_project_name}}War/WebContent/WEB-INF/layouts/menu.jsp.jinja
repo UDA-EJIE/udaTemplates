@@ -9,22 +9,13 @@
     		<spring:message code="inicio" />
     	</a>
     	<ul class="nav navbar-nav">
-      		<li class="nav-item dropdown">
-        		<a class="nav-link dropdown-toggle" href="#" id="responsiveNavbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        			<spring:message code="menu1" />
-        		</a>
-        		<div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
-	            	<a class="dropdown-item" href="#">
-	            		<spring:message code="submenu11" />
-	           		</a>
-		            <a class="dropdown-item" href="#">
-		            	<spring:message code="submenu12" />
-		           	</a>
-		           	<a class="dropdown-item" href="#">
-		            	<spring:message code="submenu13" />
-		           	</a>
-        		</div>
-      		</li>
+			<!-- Mantenimientos generados con el plugin -->
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<spring:message code="mantenimientos" />
+				</a>
+				<jsp:include page="menuMantenimientos.jsp" />
+			</li>
     	</ul>
     	<ul class="nav navbar-nav float-md-right rup-nav-tools">
       		<li class="nav-item">
