@@ -45,6 +45,8 @@ jQuery(function($) {
 			primaryKey: "{{maint.primaryKey}}",
 			{% if maint.loadOnStartUp %}
 			loadOnStartUp: true,
+			{% else %}
+	     	loadOnStartUp: false,
 			{% endif %}
 			colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
 			order: [
