@@ -43,7 +43,7 @@ const tableColModels = [
 		{% endfor %}
 	];
 
-	$("#{{nameMaint}}").rup_table({
+	$("#{{maint.name}}").rup_table({
 		primaryKey: "{{maint.primaryKey}}",
 		colModel: tableColModels,
 		{% if maint.loadOnStartUp %}
@@ -57,18 +57,18 @@ const tableColModels = [
 		],
         {% if maint.filter != false: %}
 		filter: {
-  	  		id: "{{nameMaint}}_filter_form",
-  	  		filterToolbar: "{{nameMaint}}_filter_toolbar",
-  	  		collapsableLayerId: "{{nameMaint}}_filter_fieldset"
+  	  		id: "{{maint.name}}_filter_form",
+  	  		filterToolbar: "{{maint.name}}_filter_toolbar",
+  	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
      	},
      	{% else %}
      		filter: "noFilter",
      	{% endif %}
      	{% if maint.isMaint %}
-     		{% if maint.typeMaint == "DETAIL" %}
+     		{% if maint.type == "DETAIL" %}
      			formEdit: {
      				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        			detailForm: "#{{nameMaint}}_detail_div",
+        			detailForm: "#{{maint.name}}_detail_div",
 					{% if not maint.detail.requestData %}
 	        		loadFromModel: true,
 	        		{% endif %}
@@ -104,7 +104,7 @@ const tableColModels = [
     				{% endif %}
     				},
     		{% endif %}
-    		{% if maint.typeMaint == "INLINE" %}
+    		{% if maint.type == "INLINE" %}
     			inlineEdit: {
     				{% if maint.clientValidationMaint %}
 						validate: { 

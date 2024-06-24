@@ -19,8 +19,8 @@
 <!-- Formulario de filtrado -->
 <form:form modelAttribute="{{tableName.lower()}}" id="{{tableName}}_filter_form">
 	<!-- Barra de herramientas del formulario de filtrado -->
-	<div id="{{nameMaint}}_filter_toolbar" class="formulario_legend"></div>
-	<fieldset id="{{nameMaint}}_filter_fieldset" class="rup-table-filter-fieldset">
+	<div id="{{maint.name}}_filter_toolbar" class="formulario_legend"></div>
+	<fieldset id="{{maint.name}}_filter_fieldset" class="rup-table-filter-fieldset">
 		<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
 			<!-- Campos del formulario de filtrado -->
 			{% for column in allColumnsNoPk %}
@@ -51,14 +51,14 @@
 			<!-- Fin campos del formulario de filtrado -->
 		</div>
 		<!-- Botonera del formulario de filtrado -->
-		<div id="{{nameMaint}}_filter_buttonSet" class="text-right">
+		<div id="{{maint.name}}_filter_buttonSet" class="text-right">
 			<!-- Botón de limpiar -->
-			<button id="{{nameMaint}}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis mr-2">
+			<button id="{{maint.name}}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis mr-2">
 				<i class="mdi mdi-eraser"></i>
 				<span><spring:message code="clear" /></span>
 			</button>
 			<!-- Botón de filtrado -->
-			<button id="{{nameMaint}}_filter_filterButton" type="button" class="btn-material btn-material-primary-low-emphasis" >
+			<button id="{{maint.name}}_filter_filterButton" type="button" class="btn-material btn-material-primary-low-emphasis" >
 				<i class="mdi mdi-filter"></i>
 				<span><spring:message code="filter" /></span>
 			</button>
