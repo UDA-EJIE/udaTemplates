@@ -15,14 +15,10 @@
  */
 
 jQuery(function($) {
-	{% for column in allColumnsNoPk %}
-	{% if column.activate: %}
-		{% if column.type == "Datepicker" %}
+{% for column in allColumnsNoPk %} {% if column.activate: %} {% if column.type == "Datepicker" %}
 	$("#{{column.name.lower()|toCamelCase}}_detail_table").rup_date();
 	$("#{{column.name.lower()|toCamelCase}}_filter_table").rup_date();
-		{% endif %}
-	{% endif %}
-	{% endfor %}
+{% endif %}	{% endif %}	{% endfor %}
 const tableColModels = [
 		{% for column in allColumns %}
 		{
@@ -62,42 +58,42 @@ const tableColModels = [
   	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
      	},
      	{% else %}
-     		filter: "noFilter",
+     	filter: "noFilter",
      	{% endif %}
      	{% if maint.isMaint %}
      		{% if maint.type == "DETAIL" %}
-     			formEdit: {
-     				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
-        			detailForm: "#{{maint.name}}_detail_div",
+     	formEdit: {
+     		titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
+        	detailForm: "#{{maint.name}}_detail_div",
 					{% if not maint.detail.requestData %}
-	        		loadFromModel: true,
+	    	loadFromModel: true,
 	        		{% endif %}
         			{% if maint.clientValidation %}
-						validate: { 
-    						rules: {
+				validate: { 
+    					rules: {
 								{% for column in allColumnsNoPk %}
 									{% if maint.primaryKey and not column.name in maint.primaryKey %}
     								"{{column.name.lower()|toCamelCase}}": {
-										required: {{column.requiredEditRules}},
+							required: {{column.requiredEditRules}},
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
-												number: true,
-												min: {{column.minValueEditRules}},
-												max: {{column.maxValueEditRules}}
+							number: true,
+							min: {{column.minValueEditRules}},
+							max: {{column.maxValueEditRules}}
 											{% elif column.typeEditRules == "integer" %}
-												integer: true
+							integer: true
 											{% elif column.typeEditRules == "email" %}
-												email: true
+							email: true
 											{% elif column.typeEditRules == "url" %}
-												url: true
+							url: true
 											{% elif column.typeEditRules == "date" %}
-												date: true
+							date: true
 											{% elif column.typeEditRules == "time" %}
-												time: true
+							time: true
 											{% endif %}
 										{% endif %}
 									{% endif %}	
-									}{% if not loop.last %},{% endif %}
+							}{% if not loop.last %},{% endif %}
 								{% endfor %}
     							}
     						}
@@ -105,29 +101,29 @@ const tableColModels = [
     				},
     		{% endif %}
     		{% if maint.type == "INLINE" %}
-    			inlineEdit: {
+    	inlineEdit: {
     				{% if maint.clientValidationMaint %}
-						validate: { 
-    						rules: {
+				validate: { 
+    			rules: {
 								{% for column in allColumnsNoPk %}
 									{% if maint.primaryKey and not column.name in maint.primaryKey %}
     								"{{column.name.lower()|toCamelCase}}": {
-										required: {{column.requiredEditRules}},
+						required: {{column.requiredEditRules}},
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
-												number: true,
-												min: {{column.minValueEditRules}},
-												max: {{column.maxValueEditRules}}
+						number: true,
+						min: {{column.minValueEditRules}},
+						max: {{column.maxValueEditRules}}
 											{% elif column.typeEditRules == "integer" %}
-												integer: true
+						integer: true
 											{% elif column.typeEditRules == "email" %}
-												email: true
+						email: true
 											{% elif column.typeEditRules == "url" %}
-												url: true
+						url: true
 											{% elif column.typeEditRules == "date" %}
-												date: true
+						date: true
 											{% elif column.typeEditRules == "time" %}
-												time: true
+						time: true
 											{% endif %}
 										{% endif %}
 									{% endif %}
@@ -140,30 +136,29 @@ const tableColModels = [
     		{% endif %}
     	{% endif %}
 		{% if maint.multiSelectMaint %}
-		    multiSelect: {
-       			style: "multi"
-   			},
+		multiSelect: {
+       		style: "multi"
+   		},
    		{% else %}
-   			select: {
-       			activate: true
-   			},
+   		select: {
+       		activate: true
+   		},
 		{% endif %}
 		{% if maint.search %}
-			seeker: {
-				activate: true
-			},
+		seeker: {
+			activate: true
+		},
 		{% endif %}
 		{% if maint.buttons %}
-			buttons: {
-				activate: true
+		buttons: {
+			activate: true
 				{% if not maint.isMaint %}
-					,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
+				,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
 				{% endif %}
 				{% if not maint.contextMenu %}
-					,contextMenu: false
+				,contextMenu: false
 				{% endif %}
-			},
-		{% endif %}
-		
+		}
+		{% endif %}		
 	});
 });
