@@ -17,16 +17,16 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <!-- Formulario de detalle -->
-<div id="{{nameMaint}}_detail_div" class="rup-table-formEdit-detail d-none">
+<div id="{{maint.name}}_detail_div" class="rup-table-formEdit-detail d-none">
 	<!-- Barra de navegación del detalle -->
-	<div id ="{{nameMaint}}_detail_navigation" class="row no-gutters"></div>
+	<div id ="{{maint.name}}_detail_navigation" class="row no-gutters"></div>
 	<!-- Separador -->
 	<hr class="m-1">
 	<div class="dialog-content-material">
 		<!-- Formulario -->
-		<form:form modelAttribute="{{tableNameDecapitalize}}" id="{{nameMaint}}_detail_form">
+		<form:form modelAttribute="{{tableNameDecapitalize}}" id="{{maint.name}}_detail_form">
 			<!-- Feedback del formulario de detalle -->
-			<div id ="{{nameMaint}}_detail_feedback"></div>
+			<div id ="{{maint.name}}_detail_feedback"></div>
 			<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">	
 				<!-- Campos del formulario de detalle -->
 				{% for column in allColumnsNoPk %}
@@ -62,16 +62,16 @@
 	<div class="rup-table-buttonpanel-material">
 		<div class="text-right">
 			<!-- Botón cancelar -->
-			<button id="{{nameMaint}}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
+			<button id="{{maint.name}}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
 				<spring:message code="cancel" />
 			</button>
 			<!-- Botón guardar -->
-			<button id="{{nameMaint}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
+			<button id="{{maint.name}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="save" />
 			</button>
 			{% if maint.detail.saveButton == "SAVE_REPEAT" %}
 			<!-- Botón guardar y continuar -->
-			<button id="{{nameMaint}}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
+			<button id="{{maint.name}}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="saveAndContinue" />
 			</button>
 			{% endif%}
