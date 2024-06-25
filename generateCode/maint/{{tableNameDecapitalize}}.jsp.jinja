@@ -17,7 +17,7 @@
 <%@include file="/WEB-INF/includeTemplate.inc"%>
 
 <h2 class="title">{{maint.title}}</h2>
-{% if maint.filter: %}
+{% if maint.filter %}
 <jsp:include page="includes/{{maint.name}}FilterForm.jsp"></jsp:include>
 {% endif%}
 
