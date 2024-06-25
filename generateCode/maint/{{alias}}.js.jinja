@@ -42,11 +42,7 @@ const tableColModels = [
 	$("#{{maint.name}}").rup_table({
 		primaryKey: "{{maint.primaryKey}}",
 		colModel: tableColModels,
-		{% if maint.loadOnStartUp %}
-		loadOnStartUp: true,
-		{% else %}
-	    loadOnStartUp: false,
-		{% endif %}
+		{% if maint.loadOnStartUp %}loadOnStartUp: true,{% else %}loadOnStartUp: false,{% endif %}
 		colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
 		order: [
 			[{{maint.order.sidx}}, {{maint.order.sord}}]
