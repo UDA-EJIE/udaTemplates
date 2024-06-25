@@ -47,8 +47,7 @@ const tableColModels = [
 		order: [
 			[{{maint.order.sidx}}, {{maint.order.sord}}]
 		],
-        {% if maint.filter != false: %}
-		filter: {
+        {% if maint.filter != false: %}filter: {
   	  		id: "{{maint.name}}_filter_form",
   	  		filterToolbar: "{{maint.name}}_filter_toolbar",
   	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
@@ -56,8 +55,7 @@ const tableColModels = [
      	{% else %}
      	filter: "noFilter",
      	{% endif %}
-     	{% if maint.isMaint %}
-     		{% if maint.type == "DETAIL" %}
+     	{% if maint.isMaint %}{% if maint.type == "DETAIL" %}
      	formEdit: {
      		titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
         	detailForm: "#{{maint.name}}_detail_div",
@@ -94,7 +92,7 @@ const tableColModels = [
     							}
     						}
     				{% endif %}
-    				},
+    			 },
     		{% endif %}
     		{% if maint.type == "INLINE" %}
     	inlineEdit: {
