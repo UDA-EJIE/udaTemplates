@@ -63,31 +63,30 @@ const tableColModels = [
 	    	loadFromModel: true,
 	        		{% endif %}
         			{% if maint.clientValidation %}
-				validate: { 
-    					rules: {
-								{% for column in allColumnsNoPk %}
-									{% if maint.primaryKey and not column.name in maint.primaryKey %}
-    								"{{column.name.lower()|toCamelCase}}": {
-							required: {{column.requiredEditRules}},
+			validate: { 
+    			rules: {
+						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
+    					"{{column.name.lower()|toCamelCase}}": {
+						required: {{column.requiredEditRules}},
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
-							number: true,
-							min: {{column.minValueEditRules}},
-							max: {{column.maxValueEditRules}}
+						number: true,
+						min: {{column.minValueEditRules}},
+						max: {{column.maxValueEditRules}}
 											{% elif column.typeEditRules == "integer" %}
-							integer: true
+						integer: true
 											{% elif column.typeEditRules == "email" %}
-							email: true
+						email: true
 											{% elif column.typeEditRules == "url" %}
-							url: true
+						url: true
 											{% elif column.typeEditRules == "date" %}
-							date: true
+						date: true
 											{% elif column.typeEditRules == "time" %}
-							time: true
+						time: true
 											{% endif %}
 										{% endif %}
 									{% endif %}	
-							}{% if not loop.last %},{% endif %}
+						}{% if not loop.last %},{% endif %}
 								{% endfor %}
     							}
     						}
@@ -100,9 +99,8 @@ const tableColModels = [
     				{% if maint.clientValidationMaint %}
 				validate: { 
     				rules: {
-								{% for column in allColumnsNoPk %}
-									{% if maint.primaryKey and not column.name in maint.primaryKey %}
-    								"{{column.name.lower()|toCamelCase}}": {
+							{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
+    				"{{column.name.lower()|toCamelCase}}": {
 					required: {{column.requiredEditRules}},
 										{% if column.typeEditRules %}
 											{% if column.typeEditRules == "number" %}
@@ -122,7 +120,7 @@ const tableColModels = [
 											{% endif %}
 										{% endif %}
 									{% endif %}
-							}{% if not loop.last %},{% endif %}
+					}{% if not loop.last %},{% endif %}
 								{% endfor %}
     							}
     						}
@@ -130,29 +128,24 @@ const tableColModels = [
     				},
     		{% endif %}
     	{% endif %}
-		{% if maint.multiSelectMaint %}
-		multiSelect: {
+		{% if maint.multiselection %}multiSelect: {
        		style: "multi"
    		},
-   		{% else %}
-   		select: {
+   		{% else %}select: {
        		activate: true
    		},
 		{% endif %}
-		{% if maint.search %}
-		seeker: {
+		{% if maint.search %}seeker: {
 			activate: true
 		},
 		{% endif %}
-		{% if maint.buttons %}
-		buttons: {
+		{% if maint.buttons %}buttons: {
 			activate: true
 				{% if not maint.isMaint %}
-				,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
+			,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
 				{% endif %}
 				{% if not maint.contextMenu %}
-				,contextMenu: false
-				{% endif %}
+			,contextMenu: false	{% endif %}
 		}
 		{% endif %}		
 	});
