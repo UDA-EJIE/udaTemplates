@@ -16,13 +16,12 @@
 
 jQuery(function($) {
 	window.initRupI18nPromise.then(function () {
-		{% for column in allColumnsNoPk %} {% if column.activate %} {% if column.type == "Datepicker" %}
+	{% for column in allColumnsNoPk %} {% if column.activate %} {% if column.type == "Datepicker" %}
 		$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
 		$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
-		{% endif %}	{% endif %}	{% endfor %}
-		
-		const tableColModels = [
-			{% for column in allColumnsNoPk %}
+	{% endif %}	{% endif %}	{% endfor %}
+	const tableColModels = [
+			{% for column in allColumns %}
 			{
 				name: "{{column.name|snakeToCamel}}",
 				index: "{{column.name|snakeToCamel}}",
@@ -30,35 +29,31 @@ jQuery(function($) {
 			{% if column.type == "Select" %}
 				rupType: "select",
 			{% elif column.type == "Datepicker" %}
+				rupType: "datepicker",
+			{% else %}
 				rupType: "date",
 			{% endif%}	
 				hidden: {{column.hidden}}
 			}{% if loop.index != allColumns|length %},{% endif%}
 			{% endfor %}
 		];
-	
+
 		$("#{{maint.name}}").rup_table({
 			primaryKey: "{{maint.primaryKey}}",
-			{% if maint.loadOnStartUp %}
-			loadOnStartUp: true,
-			{% else %}
-	     	loadOnStartUp: false,
-			{% endif %}
+			{% if maint.loadOnStartUp %}loadOnStartUp: true,{% else %}loadOnStartUp: false,{% endif %}
 			colReorder: {{ '{' }}{% if maint.multiselection %}fixedColumnsLeft: 1{% endif %}{{ '}' }},
 			order: [
 				[{{maint.order.sidx}}, "{{maint.order.sord}}"]
 			],
-	        {% if maint.filter %}
-			filter: {
-	  	  		id: "{{maint.name}}_filter_form",
-	  	  		filterToolbar: "{{maint.name}}_filter_toolbar",
-	  	  		collapsableLayerId: "{{maint.name}}_filter_fieldset"
-	     	},
-	     	{% else %}
-	     	filter: "noFilter",
-	     	{% endif %}
-	     	{% if maint.isMaint %}
-	     	{% if maint.type == "DETAIL" %}
+			{% if maint.filter %}filter: {
+				id: "{{maint.name}}_filter_form",
+				filterToolbar: "{{maint.name}}_filter_toolbar",
+				collapsableLayerId: "{{maint.name}}_filter_fieldset"
+			},
+			{% else %}
+			filter: "noFilter",
+			{% endif %}
+			{% if maint.isMaint %}{% if maint.type == "DETAIL" %}
 			formEdit: {
 				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
 				detailForm: "#{{maint.name}}_detail_div",
@@ -68,12 +63,10 @@ jQuery(function($) {
 				{% if maint.clientValidation %}
 				validate: { 
 					rules: {
-					{% for column in allColumnsNoPk %}
-						{% if maint.primaryKey and not column.name in maint.primaryKey %}
+						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
 						"{{column.name|snakeToCamel}}": {
 							required: {{column.requiredEditRules}},
-							{% if column.typeEditRules %}
-							{% if column.typeEditRules == "number" %}
+							{% if column.typeEditRules %}{% if column.typeEditRules == "number" %}
 							number: true,
 							min: {{column.minValueEditRules}},
 							max: {{column.maxValueEditRules}}
@@ -87,11 +80,10 @@ jQuery(function($) {
 							date: true
 							{% elif column.typeEditRules == "time" %}
 							time: true
-							{% endif %}
-							{% endif %}
-						{% endif %}
+							{% endif %}{% endif %}
+						{% endif %}	
 						}{% if not loop.last %},{% endif %}
-					{% endfor %}
+						{% endfor %}
 					}
 				}
 				{% endif %}
@@ -99,15 +91,14 @@ jQuery(function($) {
 			{% endif %}
 			{% if maint.type == "INLINE" %}
 			inlineEdit: {
-				{% if maint.clientValidation %}
+				activate: true,
+				{% if maint.clientValidationMaint %}
 				validate: { 
 					rules: {
-					{% for column in allColumnsNoPk %}
-						{% if maint.primaryKey and not column.name in maint.primaryKey %}
+						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
 						"{{column.name|snakeToCamel}}": {
 							required: {{column.requiredEditRules}},
-							{% if column.typeEditRules %}
-							{% if column.typeEditRules == "number" %}
+							{% if column.typeEditRules %}{% if column.typeEditRules == "number" %}
 							number: true,
 							min: {{column.minValueEditRules}},
 							max: {{column.maxValueEditRules}}
@@ -121,40 +112,33 @@ jQuery(function($) {
 							date: true
 							{% elif column.typeEditRules == "time" %}
 							time: true
-							{% endif %}
-							{% endif %}
+							{% endif %}{% endif %}
 						{% endif %}
 						}{% if not loop.last %},{% endif %}
-					{% endfor %}
+						{% endfor %}
 					}
 				}
 				{% endif %}
 			},
-			{% endif %}
-	    	{% endif %}
-			{% if maint.multiselection %}
-			multiSelect: {
+			{% endif %}{% endif %}
+			{% if maint.multiselection %}multiSelect: {
 				style: "multi"
 			},
-			{% else %}
-			select: {
+			{% else %}select: {
 				activate: true
 			},
 			{% endif %}
-			{% if maint.buttons %}
-			buttons: {
+			{% if maint.search %}seeker: {
+				activate: true
+			},
+			{% endif %}
+			{% if maint.buttons %}buttons: {
 				activate: true
 				{% if not maint.isMaint %}
 				,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
 				{% endif %}
 				{% if not maint.contextMenu %}
-				,contextMenu: false
-				{% endif %}
-			},
-			{% endif %}
-			{% if maint.search %}
-			seeker: {
-				activate: true
+				,contextMenu: false{% endif %}
 			},
 			{% endif %}
 			colModel: tableColModels
