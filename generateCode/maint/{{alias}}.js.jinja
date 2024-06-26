@@ -20,7 +20,7 @@ jQuery(function($) {
 		$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
 		$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
 	{% endif %}	{% endif %}	{% endfor %}
-	const tableColModels = [
+		const tableColModels = [
 			{% for column in allColumns %}
 			{
 				name: "{{column.name|snakeToCamel}}",
