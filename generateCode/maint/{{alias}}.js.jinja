@@ -29,8 +29,6 @@ jQuery(function($) {
 			{% if column.type == "Select" %}
 				rupType: "select",
 			{% elif column.type == "Datepicker" %}
-				rupType: "datepicker",
-			{% else %}
 				rupType: "date",
 			{% endif%}	
 				hidden: {{column.hidden}}
