@@ -31,8 +31,6 @@ jQuery(function($) {
 			{% elif column.type == "Autocomplete" %}
 				rupType: "autocomplete",
 			{% elif column.type == "Datepicker" %}
-				rupType: "datepicker",
-			{% else %}
 				rupType: "date",
 			{% endif%}	
 				hidden: {{column.hidden}}
