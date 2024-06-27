@@ -90,7 +90,7 @@ jQuery(function($) {
 			{% if maint.type == "INLINE" %}
 			inlineEdit: {
 				activate: true,
-				{% if maint.clientValidationMaint %}
+				{% if maint.clientValidation %}
 				validate: { 
 					rules: {
 						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
