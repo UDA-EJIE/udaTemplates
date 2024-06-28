@@ -9,7 +9,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
 	{% if xlnets == 1 %}
-	<!-- EJEMPLO CON XLNets: Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
+	<!-- EJEMPLO CON XLNetS: Especificar un valor entre 0 (no cacheo - peticiones continuas) y 600 segundos -->
 	<bean id="perimetralSecurityWrapper" class="com.ejie.x38.security.PerimetralSecurityWrapperN38Impl">		
 		<property name="xlnetCachingPeriod" value="120" />
 	</bean>
