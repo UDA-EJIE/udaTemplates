@@ -23,7 +23,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
-import {{namePackageEjb}}.{{serviceName}}SkeletonRemote ;
+import {{namePackageEjb}};
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,22 +55,20 @@ public class {{serviceName}}Stub implements {{serviceName}}StubRemote   {
 	@Autowired
 	private RemoteEJBFactory remoteEJBFactory;
 
-	 <#assign param ="">
-	<#assign listaMetodos = methods>
 {%for metodo in metodos:%}
-{% set method_name, ret_type, param_types = extract_java_types(metodo)%}
+{% set method_name, ret_type, param_types = extract_java_types(metodo) %}
 	/**
 	 * Method {{method_name}}.
-	<#foreach parametro in skeletonUtils.getParametersSkeleton(param,false,false)>
-	 * @param ${ctrUtils.stringDecapitalize(stubUtils.replaceDto(parametro))} ${stubUtils.replaceDto(parametro)} 
-	</#foreach>
-	 * @return <#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${stubUtils.replaceDto(parametro)}</#foreach>
+	{% for param in param_types %}
+	 * @param {{ param }} {{ param }} 
+	{% endfor %}
+	 * @return {{ ret_type }}
 	 */
 
 	@Override
-	${skeletonUtils.generateTransactionAttribute(metodo[0])}
-	public <#if isJpa><#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)>${stubUtils.replaceDto(parametro)}</#foreach><#else>${metodo[2]}</#if> ${metodo[0]} (<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>${stubUtils.replaceDto(parametro)} arg${parametro_index}<#if parametro_has_next>, </#if></#list>) <#if metodo[4]!= ""> throws ${metodo[4]}</#if> {
-		<#foreach parametro in skeletonUtils.getParametersSkeleton(metodo[1]+';',false,false)><#if parametro!='void'>return</#if></#foreach> this.{{serviceName|fistLetterMin}}SkeletonRemote.${metodo[0]}(<#list skeletonUtils.getParametersSkeleton(param,false,false) as parametro>arg${parametro_index}, </#list>new TransactionMetadata(this.getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName()));
+	@TransactionAttribute (TransactionAttributeType.REQUIRED)
+	public {{ ret_type }} {{method_name}} ({%for param in param_types %}{{param}} arg{{loop.index }} {% if loop.index != param_types|length %},{% endif%} {% endfor %})
+		return this.{{serviceName|fistLetterMin}}SkeletonRemote.{{method_name}}({%for param in param_types %}arg{{loop.index }} {% if loop.index != param_types|length %},{% endif%} {% endfor %}, new TransactionMetadata(this.getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName()));
 	}
 {% endfor %}
 	@SuppressWarnings("unused")
