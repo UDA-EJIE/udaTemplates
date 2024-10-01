@@ -97,6 +97,12 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 
     	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{{ column.name }}{% if loop.index != columnsDates|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnsDates %}?{% if loop.index != columnsDates|length %},{% endif%} {% endfor %})";
 
+		{% if entidadPadre is not none %}
+			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
+			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
+				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
+			}
+		{% endif %}		
 		this.jdbcTemplate.update(query, {% for column in columnsDates %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != columnsDates|length %},{% endif%} {% endfor %});
 		return {{tableNameDecapitalize}};
 	}
@@ -111,8 +117,13 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
 		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
+			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
+				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
+			}
+		{% endif %}	
 		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
-
+	
 		return {{tableNameDecapitalize}};
 	}
 
@@ -197,6 +208,23 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		}	
 		{% endfor %}
 
+		{% for column in columnasDaos %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
+			{% if column.DATO_TYPE == 'String' %}
+			where.append(" AND UPPER(t1.{{column.name}}) like ? ESCAPE  '\\'");
+			if (startsWith){
+				params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
+			}else{
+				params.add("%"+{{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
+			}
+			where.append(" AND t1.{{column.name}} IS NOT NULL");
+			{% else%} 
+			where.append(" AND t1.{{column.name}} = ?");
+			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
+			{% endif%}
+		}	
+		{% endfor %}
+
 		Map<String,Object> mapWhere = new HashMap<String, Object>();
 		mapWhere.put("query", where);
 		mapWhere.put("params", params);
@@ -224,6 +252,13 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null ) {
 			where.append(" AND t1.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());
+		}	
+		{% endfor %}
+
+		{% for column in allColumns %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
+			where.append(" AND t1.{{column.name}} = ?");
+			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
 		}	
 		{% endfor %}
 
