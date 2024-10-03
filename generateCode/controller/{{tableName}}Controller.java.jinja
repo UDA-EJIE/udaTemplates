@@ -366,4 +366,56 @@ public class {{tableName}}Controller  {
 
 		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
+	
+		/**
+	* Method 'unBind' 
+	*
+	* @param {{colControllerPk[0][0].name|snakeToCamel}} {{colControllerPk[0][0].DATO_TYPE|snakeToCamel}}
+	* @param {{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}} {{colControllerPkRel[0][0].DATO_TYPE|snakeToCamel}} 
+	*/
+	@RequestMapping(value = "/unbind", method = RequestMethod.POST)
+	public void unBind(
+	@RequestParam(value = "{{colControllerPk[0][0].name|snakeToCamel}}", required = false) {{colControllerPk[0][0].DATO_TYPE|snakeToCamel}} {{colControllerPk[0][0].name|snakeToCamel}},
+	@RequestParam(value = "{{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}}", required = false) {{colControllerPkRel[0][0].DATO_TYPE|snakeToCamel}}{{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}}
+	) {
+		{{tableName}} {{tableName|snakeToCamel}} = new {{tableName}}();
+		{{entidadRelacion}} {{entidadRelacion|snakeToCamel}} = new {{entidadRelacion}}();
+		
+		if ({{colControllerPk[0][0].name|snakeToCamel}} != null) {
+			{{tableName|snakeToCamel}}.set{{colControllerPk[0][0].name.capitali}}({{colControllerPk[0][0].name|snakeToCamel}});
+		}
+		
+		if ({{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}} != null) {
+			{{entidadRelacion|snakeToCamel}}.set{{colControllerPkRel[0][0].name|snakeToCamel}}(recursoIdRecurso);
+		}
+		
+		{{tableName|snakeToCamel}}.get{{entidadRelacion}}().add({{entidadRelacion|snakeToCamel}});
+		this.{{tableName|snakeToCamel}}Service.remove({{tableName|snakeToCamel}});    
+	}
+
+		/**
+	* Method 'bind' 
+	*
+	* @param {{colControllerPk[0][0].name|snakeToCamel}} {{colControllerPk[0][0].DATO_TYPE|snakeToCamel}}
+	* @param {{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}} {{colControllerPkRel[0][0].DATO_TYPE|snakeToCamel}} 
+	*/
+	@RequestMapping(value = "/bind", method = RequestMethod.POST)
+	public void bind(
+	@RequestParam(value = "{{colControllerPk[0][0].name|snakeToCamel}}", required = false) {{colControllerPk[0][0].DATO_TYPE|snakeToCamel}} {{colControllerPk[0][0].name|snakeToCamel}},
+	@RequestParam(value = "{{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}}", required = false) {{colControllerPkRel[0][0].DATO_TYPE|snakeToCamel}}{{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}}
+	) {
+		{{tableName}} {{tableName|snakeToCamel}} = new {{tableName}}();
+		{{entidadRelacion}} {{entidadRelacion|snakeToCamel}} = new {{entidadRelacion}}();
+		
+		if ({{colControllerPk[0][0].name|snakeToCamel}} != null) {
+			{{tableName|snakeToCamel}}.set{{colControllerPk[0][0].name.capitali}}({{colControllerPk[0][0].name|snakeToCamel}});
+		}
+		
+		if ({{colControllerPkRel[0][0].tableName|snakeToCamel}}{{colControllerPkRel[0][0].name|snakeToCamel}} != null) {
+			{{entidadRelacion|snakeToCamel}}.set{{colControllerPkRel[0][0].name|snakeToCamel}}(recursoIdRecurso);
+		}
+		
+		{{tableName|snakeToCamel}}.get{{entidadRelacion}}().add({{entidadRelacion|snakeToCamel}});
+		this.{{tableName|snakeToCamel}}Service.remove({{tableName|snakeToCamel}});    
+	}
 }

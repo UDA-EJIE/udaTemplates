@@ -1,5 +1,5 @@
-  private static final long serialVersionUID = 1L; 
-
+  private static final long serialVersionUID = 1L;
   {% if listPks|length >= 2%}//Clave compuesta{% endif%}
 {% for column in columnsDates %}
-  private {{ column.DATO_TYPE }} {{ column.name|snakeToCamel }};{% endfor %}
+  {% if column.DATO_TYPE == 'List' %} private List<{{ column.entidad }}> {{ column.name|snakeToCamel }} = new ArrayList<{{ column.entidad }}>();
+{% else %} private {{ column.DATO_TYPE }} {{ column.name|snakeToCamel }};{% endif %}{% endfor %}
