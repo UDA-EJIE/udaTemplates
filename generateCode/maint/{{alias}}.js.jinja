@@ -16,10 +16,10 @@
 
 jQuery(function($) {
 	window.initRupI18nPromise.then(function () {
-	{% for column in allColumnsNoPk %} {% if column.activate: %} {% if column.type == "Datepicker" %}
+	{% for column in allColumnsNoPk %} {% if column.type == "Datepicker" %}
 		$("#{{column.name|snakeToCamel}}_detail_table").rup_date();
 		$("#{{column.name|snakeToCamel}}_filter_table").rup_date();
-	{% endif %}	{% endif %}	{% endfor %}
+	{% endif %}	{% endfor %}
 		const tableColModel = [
 			{% for column in allColumns %}
 			{

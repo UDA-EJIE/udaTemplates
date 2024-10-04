@@ -24,29 +24,27 @@
 		<div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
 			<!-- Campos del formulario de filtrado -->
 			{% for column in allColumnsNoPk %}
-				{% if column.activate: %}
-					{% if column.type == "Text" %}
-						<div class="form-groupMaterial col">
-						<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
-					{% elif column.type == "Textarea" %}				
-						<div class="form-groupMaterial col">
-						<form:textarea path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
-					{% elif column.type == "Checkbox" %}
-						<div class="checkbox-material col">
-						<form:checkbox path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>							
-					{% elif column.type == "Datepicker" %}
-						<div class="form-groupMaterial col">
-						<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
-					{% elif column.type == "Password" %}
-						<div class="form-groupMaterial col">
-						<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table" type="password"/>
-					{% else %}
-						<div class="form-groupMaterial col">
-						<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
-					{% endif %}	
-					<label for="{{column.name|snakeToCamel}}_filter_table"><spring:message code="${columnProperties.label}"/></label>
-					</div>
-				{% endif%}
+				{% if column.type == "Text" %}
+			<div class="form-groupMaterial col">
+				<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
+				{% elif column.type == "Textarea" %}				
+			<div class="form-groupMaterial col">
+				<form:textarea path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
+				{% elif column.type == "Checkbox" %}
+			<div class="checkbox-material col">
+				<form:checkbox path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>							
+				{% elif column.type == "Datepicker" %}
+			<div class="form-groupMaterial col">
+				<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
+				{% elif column.type == "Password" %}
+			<div class="form-groupMaterial col">
+				<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table" type="password"/>
+				{% else %}
+			<div class="form-groupMaterial col">
+				<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
+				{% endif %}	
+				<label for="{{column.name|snakeToCamel}}_filter_table"><spring:message code="${columnProperties.label}"/></label>
+			</div>
 			{% endfor %}
 			<!-- Fin campos del formulario de filtrado -->
 		</div>
