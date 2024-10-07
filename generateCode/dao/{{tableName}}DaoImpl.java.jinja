@@ -97,7 +97,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 
     	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{{ column.name }}{% if loop.index != columnsDates|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnsDates %}?{% if loop.index != columnsDates|length %},{% endif%} {% endfor %})";
 
-		{% if entidadPadre is not none %}
+		{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
 			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
@@ -117,11 +117,13 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
 		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+			
+			{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
 			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
-		{% endif %}	
+			{% endif %}
 		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
 	
 		return {{tableNameDecapitalize}};
@@ -207,7 +209,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			{% endif%}
 		}	
 		{% endfor %}
-
+		{%if dao is not none %}
 		{% for column in columnasDaos %}
 		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
 			{% if column.DATO_TYPE == 'String' %}
@@ -224,6 +226,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			{% endif%}
 		}	
 		{% endfor %}
+		{% endif %}
 
 		Map<String,Object> mapWhere = new HashMap<String, Object>();
 		mapWhere.put("query", where);
@@ -255,12 +258,14 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		}	
 		{% endfor %}
 
+		{%if dao is not none %}
 		{% for column in allColumns %}
 		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
 			where.append(" AND t1.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
 		}	
 		{% endfor %}
+		{% endif %}
 
 		Map<String,Object> mapWhere = new HashMap<String, Object>();
 		mapWhere.put("query", where);
