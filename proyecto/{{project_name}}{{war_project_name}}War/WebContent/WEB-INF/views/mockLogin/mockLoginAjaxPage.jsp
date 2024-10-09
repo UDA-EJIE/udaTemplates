@@ -9,7 +9,7 @@
 	<div class="login-inner ui-widget">	
 		<div class="login-up">
 			<div class="separator"></div>
-			<img src="${staticsUrl}/rup/basic-theme/images/login.png" alt='<spring:message code="app.title"/>'>
+			<img src="${staticsUrl}/rup/portal/images/login.png" alt='<spring:message code="app.title"/>'>
 			<div class="separator"></div>
 		</div>
 		<div class="login-down">

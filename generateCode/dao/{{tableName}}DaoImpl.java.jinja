@@ -93,6 +93,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      *
      * @return {{tableName}}
      */
+	@Override 
 	public {{tableName}} add({{tableName}} {{tableNameDecapitalize}}) {
 
     	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnasDaos %}{{ column.name}}{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnasDaos %}?{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %})";
@@ -114,6 +115,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      *
      * @return {{tableName}}
      */
+	@Override 
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
 		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnasDaos %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnasDaos|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
@@ -136,6 +138,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      *
      * @return {{tableName}}
      */
+	@Override 
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
@@ -150,12 +153,13 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      *
      * @param {{tableNameDecapitalize}} {{tableName}}
      */
+	@Override 
     public void remove({{tableName}} {{tableNameDecapitalize}}) {
 	
 		String query = "DELETE FROM {{tableNameOriginal.upper()}} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
 		this.jdbcTemplate.update(query, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
     }
-    
+    @Override
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 
     	// SELECT
@@ -303,6 +307,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      * @param {{tableNameDecapitalize}} {{tableName}}
      * @return Long
      */
+	@Override 
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
 		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
@@ -326,6 +331,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      * @param startsWith Boolean
      * @return List 
      */
+	@Override 
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} "); 
@@ -353,6 +359,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      * @param startsWith Boolean
      * @return Long 
      */
+	@Override 
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
 		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
@@ -368,7 +375,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
 	}
 
-		@Override
+	@Override
 	public List<TableRowDto<{{tableName}}>> reorderSelection({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto,
 			Boolean startsWith) {
 		
