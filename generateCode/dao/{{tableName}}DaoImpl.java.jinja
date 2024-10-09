@@ -95,7 +95,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
 	public {{tableName}} add({{tableName}} {{tableNameDecapitalize}}) {
 
-    	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnsDates %}{{ column.name }}{% if loop.index != columnsDates|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnsDates %}?{% if loop.index != columnsDates|length %},{% endif%} {% endfor %})";
+    	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnasDaos %}{{ column.name}}{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnasDaos %}?{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %})";
 
 		{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
@@ -103,7 +103,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
 		{% endif %}		
-		this.jdbcTemplate.update(query, {% for column in columnsDates %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != columnsDates|length %},{% endif%} {% endfor %});
+		this.jdbcTemplate.update(query, {% for column in columnasDaos %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != columnasDaos|length %},{% endif%} {% endfor %});
 		return {{tableNameDecapitalize}};
 	}
 
@@ -116,7 +116,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnsDates %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnsDates|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnasDaos %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnasDaos|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
 			
 			{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
@@ -124,7 +124,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
 			{% endif %}
-		this.jdbcTemplate.update(query, {% for column in columnsDates %} {% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() ,{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		this.jdbcTemplate.update(query, {% for column in columnasDaos %}{% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(),{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
 	
 		return {{tableNameDecapitalize}};
 	}
@@ -139,7 +139,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} FROM {{tableNameOriginal.upper()}} t1 WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} {{entidadPadre.upper()}} , t2 {% endif%} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
 
 		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
@@ -159,9 +159,9 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 
     	// SELECT
-    	StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
+    	StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %}{%endif %} ");
     	// FROM
-    	query.append("FROM {{tableNameOriginal.upper()}} t1 ");
+    	query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
     	// WHERE clause & Params
     	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter{{tableName}}, startsWith);
     	StringBuilder where = new StringBuilder(" WHERE 1=1 ");
@@ -202,26 +202,22 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			}else{
 				params.add("%"+{{tableNameDecapitalize}}.get{{column.name|toCamelCase }}().toUpperCase() +"%");
 			}
-			where.append(" AND t1.{{column.name}} IS NOT NULL");
-			{% else%} 
+			where.append(" AND t1.{{column.name}} IS NOT NULL");{% else%} 
 			where.append(" AND t1.{{column.name}} = ?");
-			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());
-			{% endif%}
-		}	
-		{% endfor %}
+			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());{% endif%}
+			}{% endfor %}
 		{%if dao is not none %}
-		{% for column in columnasDaos %}
-		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
+		{% for column in padreOriginalCol %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
 			{% if column.DATO_TYPE == 'String' %}
-			where.append(" AND UPPER(t1.{{column.name}}) like ? ESCAPE  '\\'");
+			where.append(" AND UPPER(t2.{{column.name}}) like ? ESCAPE  '\\'");
 			if (startsWith){
 				params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
 			}else{
 				params.add("%"+{{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
 			}
-			where.append(" AND t1.{{column.name}} IS NOT NULL");
-			{% else%} 
-			where.append(" AND t1.{{column.name}} = ?");
+			where.append(" AND t2.{{column.name}} IS NOT NULL");{% else%} 
+			where.append(" AND t2.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
 			{% endif%}
 		}	
@@ -259,9 +255,9 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		{% endfor %}
 
 		{%if dao is not none %}
-		{% for column in allColumns %}
-		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
-			where.append(" AND t1.{{column.name}} = ?");
+		{% for column in padreOriginalCol %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
+			where.append(" AND t2.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
 		}	
 		{% endfor %}
@@ -283,12 +279,12 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	 */
 	 @Transactional (readOnly = true)
 	 public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
-		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
-		query.append("FROM {{tableNameDecapitalize}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %}"); 
+		query.append("FROM {{tableNameDecapitalize}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 		
@@ -309,11 +305,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);		
 		
@@ -332,12 +328,12 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} "); 
-        query.append("FROM {{tableName}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} "); 
+        query.append("FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
       	
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
@@ -359,11 +355,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
      */
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 ");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
 
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
@@ -377,15 +373,15 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			Boolean startsWith) {
 		
 		// SELECT
-		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} ");
 		
 		// FROM
-        sbSQL.append("FROM {{tableName}} t1 ");
+        sbSQL.append("FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
         
 		// FILTRADO 
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
 		// Claula where  de filtrado
-		sbSQL.append(" WHERE 1=1 ").append(mapaWhere.get("query"));
+		sbSQL.append(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}").append(mapaWhere.get("query"));
 		// Parámetros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");		
@@ -400,20 +396,23 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	public List<TableRowDto<{{tableName}}>> search({{tableName}} filterParams, {{tableName}} searchParams, TableRequestDto tableRequestDto, Boolean startsWith) {
 		
 		// SELECT 
-		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnsDates %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnsDates|length %},{% endif%}{% endfor %} ");
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} ");
 		
 		// FROM
-		sbSQL.append("FROM {{tableName}} t1 ");
+		sbSQL.append("FROM {{tableName}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
       	
 		//TABLAS_ALIAS
 		List<String> from_alias = new ArrayList<String>();
 		from_alias.add("t1");
+		{%if dao is not none%}
+		from_alias.add("t2");
+		{%endif%}
 		
 		// FILTRADO
 		// Mapa de filtrado
 		Map<String, ?> mapaWhereFilter = this.getWhereLikeMap(filterParams, startsWith); 
 		// Claula where  de filtrado
-		sbSQL.append(" WHERE 1=1 ").append(mapaWhereFilter.get("query"));
+		sbSQL.append(" WHERE 1=1 {% if dao is not none %} % dao AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}").append(mapaWhereFilter.get("query"));
 		// Parámetros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhereFilter.get("params");
