@@ -3,7 +3,7 @@
  */
  public {{tableName}}() {
   }
-    
+{% if listPks | length > 0 %}
  /** 
  * Method '{{tableName}}'.
  {% for column in listPks %}* @param {{ column.name|snakeToCamel }}
@@ -13,6 +13,7 @@
 	{% for column in listPks %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
+ {% endif %}
 
  /** 
  * Method '{{tableName}}'.
