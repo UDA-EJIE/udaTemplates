@@ -47,7 +47,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	 */
 	public static final int STRING_BUILDER_INIT = 4096;
 
-    protected static final String[] ORDER_BY_WHITE_LIST = new String[] { {% for column in columnsDates %}"{{ column.name }}"{% if loop.index != columnsDates|length %},{% endif%} {% endfor %}};
+    protected static final String[] ORDER_BY_WHITE_LIST = new String[] { {% for column in columnasDaos %}"{{ column.name }}"{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %}};
 
     private JdbcTemplate jdbcTemplate;
 
@@ -57,7 +57,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMap = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}(
-				{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %}
+				{% for column in columnasDaos %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != columnasDaos|length %},{% endif%} {% endfor %}
 			);
 		}
 	};
