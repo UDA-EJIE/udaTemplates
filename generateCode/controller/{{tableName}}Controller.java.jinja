@@ -367,6 +367,9 @@ public class {{tableName}}Controller  {
 		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
 	}
 	
+	
+	{% if controller is not none %}
+
 		/**
 	* Method 'unBind' 
 	*
@@ -393,6 +396,7 @@ public class {{tableName}}Controller  {
 		this.{{tableName|snakeToCamel}}Service.remove({{tableName|snakeToCamel}});    
 	}
 
+	
 		/**
 	* Method 'bind' 
 	*
@@ -418,4 +422,5 @@ public class {{tableName}}Controller  {
 		{{tableName|snakeToCamel}}.get{{entidadRelacion}}().add({{entidadRelacion|snakeToCamel}});
 		this.{{tableName|snakeToCamel}}Service.remove({{tableName|snakeToCamel}});    
 	}
+	{% endif %}
 }
