@@ -125,8 +125,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			
 			{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
-			if ({{tableNameDecapitalize}}.get{{entidadPadre|snakeToCamel}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre|snakeToCamel}}().get{{primaryKeyPadre}}()!=null ){
-				get{{entidadPadre|snakeToCamel}}{{primaryKeyPadre|snakeToCamel}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre|snakeToCamel}}().get{{primaryKeyPadre|snakeToCamel}}();
+			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
+				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
 			{% endif %}
 		this.jdbcTemplate.update(query, {% for column in columnasDaos %}{% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(),{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
