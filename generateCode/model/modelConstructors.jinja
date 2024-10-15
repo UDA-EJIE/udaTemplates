@@ -15,6 +15,18 @@
  }
  {% endif %}
 
+{% if not constructorEntidad %}
+ /** 
+ * Method '{{tableName}}'.
+ {% for column in columnasDaos %}* @param {{ column.name|snakeToCamel }}
+ {% endfor %}*
+ */    
+ public {{tableName}}({% for column in columnasDaos %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %}) {
+	{% for column in columnasDaos %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
+  {% endfor %}
+ }
+{% endif %}
+
  /** 
  * Method '{{tableName}}'.
  {% for column in allColumns %}* @param {{ column.name|snakeToCamel }}
