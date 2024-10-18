@@ -68,7 +68,12 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMapPK = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}(
-				{% for column in listPks %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != listPks|length %},{% endif%} {% endfor %}
+				{% if listPks %} {% for column in listPks %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != listPks|length %},{% endif%} {% endfor %} {%else%}
+				{% if not constructorEntidad %}	
+			{% for column in columnasDaos %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != columnasDaos|length %},{% endif%} {% endfor %} {%else%}
+			{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %} 
+			{%endif%}
+			{%endif%}
            	);
     	}
   	};
@@ -121,7 +126,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
     public {{tableName}} update({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnasDaos %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnasDaos|length %},{% endif%}{% endif%}{% endfor %} WHERE {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
+		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnasDaos %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnasDaos|length %},{% endif%}{% endif%}{% endfor %} WHERE {% if listPks %} {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{% endif%}";
 			
 			{% if dao is not none %}
 			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
@@ -129,7 +134,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
 			{% endif %}
-		this.jdbcTemplate.update(query, {% for column in columnasDaos %}{% if column.primaryKey != 'P' %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(),{% endif%} {% endfor %}{% for column in listPks %} {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		this.jdbcTemplate.update(query {% if dao is not none %}, get{{entidadPadre}}{{primaryKeyPadre}}Aux {% endif %}{% for column in columnasDaos %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% endif%} {% endfor %}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 	
 		return {{tableNameDecapitalize}};
 	}
@@ -145,9 +150,9 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} {{entidadPadre.upper()}} , t2 {% endif%} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
+		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} {{entidadPadre.upper()}} , t2 {% endif%} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
 
-		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
     }
 
@@ -159,8 +164,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
     public void remove({{tableName}} {{tableNameDecapitalize}}) {
 	
-		String query = "DELETE FROM {{tableNameOriginal.upper()}} WHERE {% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}";
-		this.jdbcTemplate.update(query, {% for column in listPks %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		String query = "DELETE FROM {{tableNameOriginal.upper()}} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%}";
+		this.jdbcTemplate.update(query {% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
     }
     @Override
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
@@ -178,7 +183,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, {{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, "{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}"));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, "{% if listPks %}{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}{%endif%}"));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
@@ -323,7 +328,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		
 		List<?> params = (List<?>) mapaWhere.get("params");
 		
-		return this.jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
+		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
 	}
 
 		/**
@@ -375,7 +380,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 
 		List<?> params = (List<?>) mapaWhere.get("params");
 
-		return this.jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
+		return this.jdbcTemplate.queryForObject(query.toString(), params.toArray(), Long.class);
 	}
 
 	@Override
@@ -397,7 +402,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");		
 		
 		// SQL para la reordenación
-		StringBuilder sbReorderSelectionSQL = TableManager.getReorderQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, {% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		StringBuilder sbReorderSelectionSQL = TableManager.getReorderQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList {% if listPks %}{% for column in listPks %}, "{{ column.name }}"{% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 		
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
@@ -437,30 +442,21 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		
 
 		// SQL para la busqueda
-		StringBuilder sbReorderSelectionSQL = TableManager.getSearchQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, searchSQL, searchParamList, from_alias, {% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %});
+		StringBuilder sbReorderSelectionSQL = TableManager.getSearchQuery(sbSQL, tableRequestDto, {{tableName}}.class, filterParamList, searchSQL, searchParamList, from_alias {% if listPks %}{% for column in listPks %}, "{{ column.name }}"{% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 				
 		return this.jdbcTemplate.query(sbReorderSelectionSQL.toString(), new RowNumResultSetExtractor<{{tableName}}>(this.rwMapPK, tableRequestDto), filterParamList.toArray());
 	}
+
 	
-	/**
-	 * Remove multiple method for rup_table
-     *
-     * @param {{tableNameDecapitalize}} {{tableName}}
-	 * @param tableRequestDto TableRequestDto
-	 * @param startsWith Boolean
-     */
+	/*
+	 * OPERACIONES RUP_TABLE
+	 */
+	
 	@Override
-	public void removeMultiple({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-		// Like clause and params
-		Map<String, Object> mapaWhereLike = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
+	public void removeMultiple(TableRequestDto tableRequestDto) {
+		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(tableRequestDto, {{tableName}}.class, "{{tableName}}", new String[]{{'{'}}{% if listPks %}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%}{{'}'}});
 		
-		// Delete query
-		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(mapaWhereLike, tableRequestDto, {{tableName}}.class, "{{tableName}}", "t1", new String[]{{'{'}}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{{'}'}});
-		
-		// Params list. Includes needed params for like and IN/NOT IN clauses
-		@SuppressWarnings("unchecked")
-		List<Object> params = (List<Object>) mapaWhereLike.get("params");
-		params.addAll(tableRequestDto.getMultiselection().getSelectedIds());
+		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
 		
 		this.jdbcTemplate.update(sbRemoveMultipleSQL.toString(), params.toArray());
 	}
