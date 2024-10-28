@@ -22,7 +22,7 @@
 {% endif%}
 
 <table id="{{maint.name}}" class="tableFit table-striped table-bordered table-material" 
-	data-url-base="{{urlBase}}"
+	data-url-base="../{{tableNameOriginal|snakeToCamel}}"
 	data-filter-form="#{{maint.name}}_filter_form">
     <thead>
         <tr>
