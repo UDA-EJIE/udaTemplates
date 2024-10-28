@@ -28,7 +28,7 @@
         <tr>
         	{% for column in allColumns %}
 			<th data-col-prop="{{column.name|snakeToCamel}}" data-col-sidx="{{ column.name.upper()}}" data-col-type="{{ column.type}}">
-				<spring:message code="{{column.name.lower|snakeToCamel}}"/>
+				<spring:message code="{{column.name|snakeToCamel}}"/>
 			</th>
 
             {% endfor %}
