@@ -66,7 +66,7 @@ import {{packageName}}.model.{{tableName}};
  */
 
 @Controller
-@RequestMapping(value = "/{{tableNameOriginal|toRestUrlNaming}}")
+@RequestMapping(value = "/{{tableNameOriginal|snakeToCamel}}")
 
 public class {{tableName}}Controller  {
 	private static final Logger logger = LoggerFactory.getLogger({{tableName}}Controller.class);
@@ -182,9 +182,9 @@ public class {{tableName}}Controller  {
 	 */
 	@GetMapping(value = "/maint")
 	public String getFormEdit(Model model) {
-		{{tableName}}Controller.logger.info("[GET - View] : {{tableNameDecapitalize}}");
-		model.addAttribute("{{tableNameDecapitalize}}", new {{tableName}}());
-		return "{{tableNameDecapitalize}}";
+		{{tableName}}Controller.logger.info("[GET - View] : {{tableNameOriginal|snakeToCamel}}");
+		model.addAttribute("{{tableNameOriginal|snakeToCamel}}", new {{tableName}}());
+		return "{{tableNameOriginal|snakeToCamel}}";
 	}
 	 
 	 /**

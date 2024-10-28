@@ -134,7 +134,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
 			}
 			{% endif %}
-		this.jdbcTemplate.update(query {% if dao is not none %}, get{{entidadPadre}}{{primaryKeyPadre}}Aux {% endif %}{% for column in columnasDaos %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% endif%} {% endfor %}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
+		this.jdbcTemplate.update(query {% for column in columnasDaos %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% endif%} {% endfor %}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 	
 		return {{tableNameDecapitalize}};
 	}
@@ -318,7 +318,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
@@ -343,7 +343,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} "); 
-        query.append("FROM {{tableName.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+        query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
       	
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -370,7 +370,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableName.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
 
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -391,7 +391,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} ");
 		
 		// FROM
-        sbSQL.append("FROM {{tableName.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
         
 		// FILTRADO 
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
@@ -414,7 +414,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol|length %},{% endif%}{% endfor %} {% endif %} ");
 		
 		// FROM
-		sbSQL.append("FROM {{tableName.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
       	
 		//TABLAS_ALIAS
 		List<String> from_alias = new ArrayList<String>();
