@@ -21,7 +21,7 @@
  {% for column in columnasDaos %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in columnasDaos %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %}) {
+ public {{tableName}}({% for column in columnasDaos %}{% if column.DATO_TYPE == 'List' %} List<{{ column.entidad|toCamelCase }}> {{ column.name|snakeToCamel}} {% else %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}) {
 	{% for column in columnasDaos %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
@@ -32,7 +32,7 @@
  {% for column in allColumns %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in allColumns %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% if loop.index != allColumns|length %},{% endif%}{% endfor %}) {
+ public {{tableName}}({% for column in allColumns %}{% if column.DATO_TYPE == 'List' %} List<{{ column.entidad|toCamelCase }}> {{ column.name|snakeToCamel}} {% else %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}) {
 	{% for column in allColumns %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
