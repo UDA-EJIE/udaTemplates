@@ -61,7 +61,7 @@
 	 *
 	 * @name init
 	 * @function
-	 * @since UDA 3.4.0 // Table 1.0.0
+	 * @since UDA 3.4.0
 	 * 
 	 * @param {object} dt - Es el objeto table.
 	 *
@@ -84,15 +84,16 @@
         var rowsBody = $(ctx.oInit.masterDetail.master + ' > tbody');
 
         var tableMaster = $(ctx.oInit.masterDetail.master).DataTable();
+        
+		var tableDetailOptions = ctx.oInit;
 
         //Se edita el row/fila.
-        rowsBody.on('click.DT', 'tr:not(.group)', function () {
+        rowsBody.on('click.DT', 'tr:not(.dtrg-group)', function () {
             //var tableMaster = $(ctx.oInit.masterDetail.master).DataTable();
             var rowSelected = tableMaster.rows('.selected').indexes();
             if (rowSelected[0] !== undefined) { //Se ha deseleccionado, no entrar.
                 var row = tableMaster.rows(rowSelected).data();
                 var id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
-                $hiddenPKMaster.data('nid',row[0].nid);
                 $hiddenPKMaster.val('' + id);
                 $('#' + ctx.sTableId + '_filter_filterButton').click();
             } else { //se deselecciona
@@ -100,6 +101,16 @@
             }
 
         });
+        
+        //Se manda el valor del padre
+	    $('#'+ctx.sTableId).on('tableEditFormAfterData', function(event, ctx) {
+	    	if(ctx.oInit.formEdit != undefined) {
+				if (ctx.oInit.formEdit.data == undefined) {
+					ctx.oInit.formEdit.data = {};
+				}
+				ctx.oInit.formEdit.data.pkValueIdPadre = tableMaster.context[0].multiselection.lastSelectedId;
+	    	}
+		});
 
         //Se filtra.
         tableMaster.on('tableAfterReorderData', function () {
@@ -112,6 +123,13 @@
             }
 
         });
+        
+		// Bloquea la botonera en la tabla de detalle cuando no hay registros seleccionados en la tabla maestra.
+		tableMaster.on('tableButtonsAddActionConfirmed', function(event, ctx) {
+			$('#' + ctx.sTableId + '_filter_cleanButton').click();
+			// Limpia el criterio de filtrado de la tabla de detalle (parte visual).
+			tableDetailOptions.filter.$filterSummary.html(' <i></i>');
+		});
 
     };
 
@@ -121,7 +139,6 @@
 
     function _deselectMaster(dt, ctx, $hiddenPKMaster) {
         $hiddenPKMaster.val('-1');
-        $hiddenPKMaster.data('nid',undefined);
         $('#' + ctx.sTableId + ' > tbody tr').remove();
         var asStripeClasses = ctx.asStripeClasses;
         var iStripes = asStripeClasses.length;

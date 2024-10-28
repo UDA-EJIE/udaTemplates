@@ -59,7 +59,7 @@
      *
      * @name init
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      *
@@ -138,7 +138,7 @@
      *
      * @name createFilterColumn
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      * @param {object} ctx - Es el contecto del table donde esta la configuración del mismo.
@@ -168,7 +168,9 @@
                 } else if (result[0].rupType == 'select' || result[0].searchoptions?.rupType == 'select') {
                     $(this).html('<select name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"></select>');
                 } else {
-                    $(this).html('<input type="text" placeholder="' + title + '" name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"/>');
+					const maxlength = $.rup_utils.isNumeric(result[0].searchoptions?.maxlength) ? ' maxlength="' + result[0].searchoptions.maxlength + '"' : '';
+
+					$(this).html('<input type="text" placeholder="' + title + '" name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"' + maxlength + '/>');
                 }
             }
         });
@@ -189,8 +191,8 @@
 	                        var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
 	                        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
 	                        if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
-	                            $('#' + idTabla + '_search_searchForm').rup_form();
-	                            $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
+								ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+								$.rup_ajax(ajaxOptions);
 	                        }
 	                        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
 	
@@ -210,7 +212,7 @@
      *
      * @name createSearchRow
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      * @param {object} ctx - Es el contexto del table donde esta la configuración del mismo.
@@ -305,14 +307,14 @@
             var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
             $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
             if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
-                $('#' + idTabla + '_search_searchForm').rup_form();
                 var tmp = ajaxOptions.success;
                 ajaxOptions.success = function () {
                     tmp(arguments[0], arguments[1], arguments[2]);
                     ajaxOptions.success = tmp;
                     $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
                 };
-                $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
+				ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+				$.rup_ajax(ajaxOptions);
             }
         });
 
@@ -322,12 +324,6 @@
         });
 
         $navLayer.hide();
-
-        function doSearchButtonNavigation($button, buttonId) {
-            if (!$button.prop('disabled')) {
-                $self.rup_jqtable('navigateToMatchedRow', buttonId);
-            }
-        }
 
         // Elemento primero
         $firstNavButton.on('click', function () {
@@ -370,7 +366,7 @@
      *
      * @name selectSearch
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      * @param {object} ctx - Es el contecto del table donde esta la configuración del mismo.
@@ -421,7 +417,7 @@
      *
      * @name paginar
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} ctx - Es el contexto del table donde esta la configuración del mismo.
      * @param {object} dato - Son los datos de las filas que viene del controller..
@@ -441,7 +437,7 @@
      *
      * @name updateDetailSeekPagination
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {integer} currentRowNum - Número de la posción actual del registro selecionado.
      * @param {integer} totalRowNum - Número total de registros seleccionados.
@@ -472,7 +468,7 @@
      *
      * @name processData
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      * @param {object} ctx - Es el contecto del table donde esta la configuración del mismo.
@@ -505,7 +501,7 @@
      *
      * @name getDatos
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} ctx - Es el contexto del table donde esta la configuración del mismo.
      * 
@@ -513,10 +509,15 @@
      *
      */
     function _getDatos(ctx) {
-        var datos = ctx.aBaseJson;
-        if (datos !== undefined && ctx.seeker.search.$searchForm[0] !== undefined) {
-            datos.search = form2object(ctx.seeker.search.$searchForm[0]);
-        }
+        const datos = ctx.aBaseJson;
+        const $form = $('#' + ctx.sTableId + '_seeker_form');
+        
+        if (datos !== undefined) {
+			if (ctx.seeker.search.$searchForm[0] !== undefined) {
+				datos.search = form2object(ctx.seeker.search.$searchForm[0]);
+			}
+		}
+		
         return datos;
     }
 
@@ -525,7 +526,7 @@
      *
      * @name createRupComponent
      * @function
-     * @since UDA 3.4.0 // Table 1.0.0
+     * @since UDA 3.4.0
      * 
      * @param {object} dt - Es el objeto table.
      * @param {object} ctx - Es el contecto del table donde esta la configuración del mismo.
@@ -571,6 +572,10 @@
 	                	if (searchRupType !== undefined && cellColModel.searchoptions) {
 	                		searchEditOptions = cellColModel.searchoptions;
 	                		
+	                		if (new Set(["select"]).has(searchRupType)) {
+								searchEditOptions.$forceForm = $('#' + idTabla + '_seeker_form');
+							}
+	                		
 	                		// Invocación al componente RUP
 	                		$elem['rup_' + searchRupType](searchEditOptions);
 	                	}
@@ -582,26 +587,21 @@
     }
 
     function _limpiarSeeker(dt, ctx) {
-    	$('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeClear',ctx);
-        
+        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeClear',ctx);
         const $form = $('#' + ctx.sTableId + '_search_searchForm');
         
         // Reinicia el formulario.
         $form.resetForm();
         
-        // Limpia los rup_autocomplete, rup_combo y rup_select.
-        jQuery.each($('input[rupType=autocomplete], select.rup_combo, select[rupType=select]', $form), function (index, elem) {
+        // Limpia los rup_select.
+        jQuery.each($('select[rupType=select]', $form), function (index, elem) {
 			const elemSettings = jQuery(elem).data('settings');
 			
 			if (elemSettings != undefined) {
 				const elemRuptype = jQuery(elem).attr('ruptype');
 				
 				if (elemSettings.parent == undefined) {
-					if (elemRuptype == 'autocomplete') {
-						jQuery(elem).rup_autocomplete('setRupValue', '');
-					} else if (elemRuptype == 'combo') {
-						jQuery(elem).rup_combo('reload');
-					} else if (elemRuptype == 'select') {
+					if (elemRuptype == 'select') {
 						jQuery(elem).rup_select('clear');
 					}
 				}
@@ -612,46 +612,47 @@
 				}
 			}
         });
+        
         ctx.seeker.search.funcionParams = {};
         ctx.seeker.search.pos = 0;
         _processData(dt, ctx, []);
         $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterClear',ctx);
     }
 
-    function _enabledButtons(ctx) {
-        if (ctx.seeker !== undefined) {
-            $.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
-                if ($(this).attr('ruptype') === 'date') {
-                    $(this).rup_date('disable');
-                    $(this).next().addClass('form-control-customer');
-                } else if ($(this).attr('ruptype') === 'combo') {
-                    $(this).rup_combo('disable');
-                    $(this).next().find('a').addClass('form-control-customer').attr('readonly', true);
-                } else if ($(this).attr('ruptype') === 'time') {
-                    $(this).rup_time('disable');
-                } else {
-                    $(this).prop('disabled', true);
-                }
-            });
-        }
-    }
+	function _enabledButtons(ctx) {
+		if (ctx.seeker !== undefined) {
+			$.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function(key, id) {
+				const rupType = $(this).attr('ruptype');
+				if (rupType === 'date') {
+					$(this).rup_date('disable');
+					$(this).next().addClass('form-control-customer');
+				} else if (rupType === 'select') {
+					$(this).rup_select('disable');
+				} else if (rupType === 'time') {
+					$(this).rup_time('disable');
+				} else {
+					$(this).prop('disabled', true);
+				}
+			});
+		}
+	}
 
-    function _disabledButtons(ctx) {
-        if (ctx.seeker !== undefined) {
-            $.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
-                if ($(this).attr('ruptype') === 'date') {
-                    $(this).rup_date('enable');
-                } else if ($(this).attr('ruptype') === 'combo') {
-                    $(this).rup_combo('enable');
-                    $(this).next().find('a').attr('readonly', false);
-                } else if ($(this).attr('ruptype') === 'time') {
-                    $(this).rup_time('enable');
-                } else {
-                    $(this).prop('disabled', false);
-                }
-            });
-        }
-    }
+	function _disabledButtons(ctx) {
+		if (ctx.seeker !== undefined) {
+			$.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function(key, id) {
+				const rupType = $(this).attr('ruptype');
+				if (rupType === 'date') {
+					$(this).rup_date('enable');
+				} else if (rupType === 'select') {
+					$(this).rup_select('enable');
+				} else if (rupType === 'time') {
+					$(this).rup_time('enable');
+				} else {
+					$(this).prop('disabled', false);
+				}
+			});
+		}
+	}
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * DataTables API

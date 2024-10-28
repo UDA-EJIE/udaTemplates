@@ -330,9 +330,6 @@
                         }
                     });
                 }
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_wizard', 'init');
             }
 
             //Ir al paso inicial
@@ -460,7 +457,7 @@
             $('#step' + stepNumber + ' .ui-multiselect').each(function () {
                 var selectObj = $('#' + $(this).prev().attr('id'));
                 if (selectObj.data('settings') !== undefined) {
-                    var seleccionados = selectObj.rup_combo('label');
+                    var seleccionados = selectObj.rup_select('label');
                     if (seleccionados.length > 0) { //Existen elementos seleccionados?
                         if (selectObj.data('settings').summaryInline == undefined) {
                             //Tratamiento por defecto
@@ -580,8 +577,8 @@
                 }
             });
 
-            //rup_combo (multicombo se procesa antes)
-            $('#step' + stepNumber + ' .rup_combo').each(function () {
+            //rup_select (multicombo se procesa antes)
+            $('#step' + stepNumber + ' .rup_select').each(function () {
                 $(this).remove();
             });
 
@@ -658,18 +655,6 @@
                     //Añadir la capa
                     $(pointer).append(tab);
                 }
-
-
-                // rup_jqtable
-                $('#step' + stepNumber + ' .rup-table-container').each(function () {
-                    var $table = $(this);
-
-                    $table.fluidWidth({
-                        fluidBaseLayer: '#' + $table.parent().attr('id')
-                    });
-
-                });
-
 
                 //h1 a /h1 para Pesatañas
                 if (settings.summaryTabs2Accordion) {

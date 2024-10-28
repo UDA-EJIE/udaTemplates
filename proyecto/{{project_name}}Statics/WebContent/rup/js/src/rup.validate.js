@@ -337,17 +337,19 @@
             resetForm: function () {
             	const self = this,
                 	settings = self.data('settings'),
-                    combos = $('[ruptype=\'combo\']', self);
+                    selects = $('[ruptype=\'select\']', self);
 
                 // En caso de mostrarse el feedback de error se oculta.
                 if (settings != null && settings.feedback !== undefined && settings.showErrorsInFeedback) {
                 	settings.feedback.rup_feedback('hide');
                 }
                 
-                // Limpiar los combos por completo. Es importante hacerlo antes de la llamada a "resetForm" porque si no la limpieza de los labels no es llevada a cabo.
-                if (combos.length > 0) {
-                	combos.rup_combo('clear');
-                }
+                // Limpiar los select por completo. Es importante hacerlo antes de la llamada a "resetForm" porque si no la limpieza de los labels no es llevada a cabo.
+				if (selects.length > 0) {
+					selects.each(function(index, elem) {
+						$(elem).rup_select('clear');
+					});
+				}
 
                 // Se reinician los mensajes de error.
                 self.validate().resetForm();
@@ -355,7 +357,7 @@
             /**
              * Se eliminan los menssajes de error de las reglas de validacion.
              *
-             * @function resetForm
+             * @function resetElements
              * @example
              * $("#formValidaciones").rup_validate("resetElements");
              */
@@ -365,27 +367,6 @@
 
                 validator.resetElements(validator.elements());
             }
-        });
-        
-        // Corrección para el establecimiento del foco tras las validaciones del combo y autocomplete.
-        $.extend($.validator.prototype, {
-        	focusInvalid: function focusInvalid() {
-        		if (this.settings.focusInvalid) {
-        			try {
-        				let $element = $(this.findLastActive() || this.errorList.length && this.errorList[0].element || []);
-
-        				if ($element.attr('rupType') === 'combo') {
-        					$element = $('#' + $element.attr('id') + '-button');
-        				} else if ($element.attr('rupType') === 'autocomplete') {
-        					$element = $('#' + $element.attr('id') + '_label');
-        				}
-        				// Manually trigger focusin event; without it, focusin handler isn't called, findLastActive won't have anything to find
-        				$element.filter(":visible").focus().trigger("focusin");
-        			} catch (e) {
-        				// Ignore IE throwing errors when focusing hidden elements
-        			}
-        		}
-        	}
         });
 
         //********************************
@@ -496,33 +477,18 @@
                 showErrorsInFeedback: function () {
                 },
                 errorPlacement: function (label, element) {
-
-                    if (element.attr('ruptype') === 'combo') {
-                        var comboElem = $('#' + element.attr('id') + '-button');
-                        if (comboElem) {
-                            label.insertAfter(comboElem);
-                        }
-                    } else {
-                        label.insertAfter(element);
-                    }
+					label.insertAfter(element);
                 }
             },
             // Configuracion de las propiedades a aplicar en caso de que se deban mostrar los errores mediante la visualizacion por defecto.
             showFieldErrorAsDefault: {
                 errorElement: 'img',
                 errorPlacement: function (error, element) {
-                    var errorElem = error.attr('src', this.errorImage).addClass('rup-maint_validateIcon').html('').rup_tooltip({
-                        'applyToPortal': true
-                    });
+					const errorElem = error.attr('src', this.errorImage).addClass('rup-maint_validateIcon').html('').rup_tooltip({
+						'applyToPortal': true
+					});
 
-                    if (element.attr('ruptype') === 'combo') {
-                        var comboElem = $('#' + element.attr('id') + '-button');
-                        if (comboElem) {
-                            errorElem.insertAfter(comboElem);
-                        }
-                    } else {
-                        errorElem.insertAfter(element);
-                    }
+					errorElem.insertAfter(element);
                 }
             }
         };
@@ -599,10 +565,6 @@
 
                 // Se almacena la configuracion del componente en el objeto dom para poder recuperarla en sucesivas invocaciones a los metodos del componente.
                 self.data('settings', settings);
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_validate', 'init');
-                self.trigger('load');
             }
         });
 
@@ -612,14 +574,14 @@
 
         $.fn.rup_validate.defaults = {
             adapter: 'validate_material',
-            ignore: ':hidden[ruptype!=\'autocomplete\'][ruptype!=\'combo\']',
+            ignore: '.select2-selection__rendered input',
             feedbackOptions: {
                 gotoTop: false,
                 fadeSpeed: null,
                 delay: null
             },
             feedbackErrorConfig: {
-                errorMsg: $.rup.i18nParse($.rup.i18n.base, 'rup_jqtable.validateError'),
+                errorMsg: $.rup.i18nParse($.rup.i18n.base, 'rup_table.validateError'),
                 getField: function (self, form, fieldName) {
                     return $('[name=\'' + fieldName + '\']', form);
                 },

@@ -1,0 +1,776 @@
+{
+  "rup_accordion": {
+    "headFormatError": "Error de estructura html.<br/>El accordion requiere de un objeto html &#34&#60a&#62&#34 integrado en cada cabecera.<br/>Revise su html en busca de errores de emparejado o de composición general._fr",
+    "strucPairError": "Error de estructura html.<br/>El accordion debe contener pares de objetos cabecera y contenido.<br/>Revise su html en busca de errores de emparejado o de composición general._fr"
+  },
+  "rup_ajax": {
+    "errorTitle": "fr_Error",
+    "httpStatus0": "fr_No dispone de conexión a internet. Por favor compruebe su conexión a internet",
+    "httpStatus401": "fr_No tiene permisos",
+    "httpStatus404": "fr_La url a la que intenta acceder no es válida",
+    "httpStatus500": "fr_Se ha producido un error interno",
+    "httpStatus503": "fr_El servicio solicitado no está disponible"
+  },
+  "rup_blockUI": {
+    "cargando": "fr_Procesando, espere por favor"
+  },
+  "rup_breadCrumb": {
+    "disconnect": "fr_Desconectar",
+    "exit": "fr_Salida",
+    "menuDisconnectMessage": "fr_¿Está seguro de que desea desconectar su sesión de usuario actual?",
+    "menuDisconnectTitle": "fr_Desconexión de Usuario",
+    "menuSecuritySystemDisconnectMessage": "fr_¿Está seguro de que desea finalizar la sesión de usuario actual del sistema de seguridad?",
+    "start": "Accueil",
+    "userAre": " êtes ici:",
+    "youAre": "Vous êtes ici:"
+  },
+  "rup_select": {
+    "ajaxError": "fr_Se ha producido un error al recuperar los datos del servidor",
+    "blankNotDefined": "fr_[Falta literal]",
+    "loadingText": "fr_Cargando...",
+	"appendToError": "fr_En el combo con identificador {0}, es necesario especificar un selector válido para la propiedad appendTo.",
+    "multiselect": {
+      "checkAllText": "Tout cocher",
+      "checkAllTitle": "Seleccionar todos los elementos_fr",
+      "noneSelectedText": "Selectionner les options",
+      "optGroupDeselect": "Deseleccionar grupo_fr",
+      "optGroupDeselectTitle": "Deseleccionar todos los elementos de este grupo_fr",
+      "optGroupSelect": "Seleccionar grupo_fr",
+      "optGroupSelectTitle": "Seleccionar todos los elementos de este grupo_fr",
+      "selectedText": "# selectionnés",
+      "uncheckAllText": "Tout décocher",
+      "uncheckAllTitle": "Deseleccionar todos los elementos_fr"
+    }
+  },
+  "rup_date": {
+    "buttonText": "Ouvrir le calendrier",
+    "closeText": "Cerrar",
+    "currentText": "Hoy",
+    "dateFormat": "dd/mm/yy",
+    "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    "dayNamesMin": ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+    "dayNamesShort": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+    "firstDay": "1",
+    "mask": "(dd/mm/aaaa)",
+    "maskDateTime": "(dd/mm/aaaa hh:mm)",
+    "maskDateTimeSec": "(dd/mm/aaaa hh:mm:ss)",
+    "monthNames": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+    "monthNamesShort": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    "nextText": "Siguiente",
+    "prevText": "Anterior",
+    "weekHeader": "&nbsp;&nbsp;&nbsp;",
+    "errors": {
+      "invalidDate": "Date invalide dans #%s",
+      "missingTime": "fr_La opción datetimepicker está activa en #%s, pero únicamente ha recibido la fecha, falta la hora.",
+      "multiSelectLimitExceeded": "fr_El array excede el límite de la multiselección. El tamaño del array es de %i y el de la multiselección de %i"
+    }
+  },
+  "rup_dialog": {
+    "errorLoadingData": "fr_<b>Error recuperando los datos solicitados para crear el diálogo.</b>",
+    "noURL": "fr_No puede crearse un diálogo de tipo ajax sin URL definida."
+  },
+  "rup_feedback": {
+    "closingLiteral": "fr_Cierre del mensage"
+  },
+  "rup_global": {
+    "aceptar": "fr_Aceptar",
+    "cancel": "fr_Cancelar",
+    "cancelar": "fr_Cancelar",
+    "cerrar": "fr_cerrar",
+    "clean": "fr_Limpiar",
+    "close": "fr_Cerrar",
+    "developerError": "fr_Error de desarrollo",
+    "dialogTypeError": "fr_¡ERROR¡</br> No se ha especificado el tipo de diálogo, por lo que el dialogo no puede crearse correctamente.",
+    "error": "fr_Error",
+    "initError": "fr_Se ha especificado más de un elemento en el constructor.<br> Por favor revise la función de creación para el objeto con ID:",
+    "metodError": "fr_Error en el método:",
+	"functionNotSupportedError": "fr_Función no soportada.",
+    "parameterError": "fr_Error al especificar los parámetros de la función. Se ha especificado algún parámetro mal o no se ha especificado (siendo obligatorio).",
+    "parametro": "fr_Parametro: ",
+    "charError": "fr_Caracter no aceptable",
+    "rupCheckStyleError": "fr_NO SE CUMPLEN LAS NORMAS DE LA GUIA DE ESTILOS DE RUP. DEBE EXISTIR UNA ACCIÓN SECUNDARIA.",
+    "save": "fr_Guardar",
+    "save_repeat": "fr_Guardar y continuar",
+    "search": "fr_Buscar",
+    "selectorError": "fr_El selector especificado es incorrecto (no devuelve nada)"
+  },
+  "rup_language": {
+    "changeLanguage": "Changement de langue",
+    "changeLanguageLiteral": "fr_Idioma actual de la página en ",
+    "changeLanguageLiteral_en": "en_Cambia el idioma de la página a ",
+    "changeLanguageLiteral_es": "Cambia el idioma de la página a ",
+    "changeLanguageLiteral_eu": "eu_Cambia el idioma de la página a ",
+    "changeLanguageLiteral_fr": "fr_Cambia el idioma de la página a ",
+    "closingLiteral": "fr_Cierre del menu ideomático",
+    "en": "English",
+    "en_short": "en",
+    "es": "Castellano",
+    "es_short": "es",
+    "eu": "Euskara",
+    "eu_short": "eu",
+    "fr": "Français",
+    "fr_short": "fr"
+  },
+  "rup_menu": {
+    "developerError": "fr_Error de desarrollo",
+    "displayMenuError": "fr_El valor del atributo &#34display&#34 es incorrecto. Por favor introduzca uno de los siguientes valores:&#34vertical&#34 o &#34horizontal&#34. ",
+    "structuralError": "fr_No se ha especificado correctamente el área de visualizacion de pagina.<br> Al incluirse un menú vertical o un menú mixto, dicho área (&#60;div&#62;) debe ir identificada como contentMV (id=&#34;contentMV&#34;)"
+  },
+  "rup_message": {
+    "aceptar": "fr_Aceptar",
+    "alert": "fr_Alerta",
+    "confirmacion": "fr_Confirmación",
+    "correct": "fr_Correcto",
+    "error": "fr_error",
+    "tituloError": "fr_Se ha producido un error"
+  },
+  "rup_progressbar": {
+    "loading": "Cargando...",
+    "progress": "${value} de ${max}"
+  },
+  "rup_report": {
+    "errorMsg": "fr_Se ha producido un error al generar el documento, por favor vuelva a intentarlo.",
+    "errorTitle": "fr_Error al generar informe",
+    "waitMsg": "fr_Generando el documento, por favor espere...",
+    "waitTitle": "fr_Descargar informe"
+  },
+  "rup_tabs": {
+    "serverError": "fr_Se ha producido un error en la llamada de la pestaña.<br>El error devuelto por el servidor es:",
+    "tabLimitError": "fr_Límite de pestañas alcanzado.",
+    "resizeError": "fr_No es posible redimensionar porque el plugin 'jQuery.resizable' no está disponible."
+  },
+  "rup_time": {
+    "buttonText": "Abrir hora",
+    "closeText": "Cerrar",
+    "currentText": "Ahora",
+    "hourText": "Hora",
+    "mask": "(hh:mm)",
+    "minuteText": "Minuto",
+    "secondText": "Segundo",
+    "timeOnlyTitle": "Seleccione Tiempo",
+    "timeText": "Tiempo",
+    "millisecText": "fr_MiliSegundo",
+    "microsecText": "fr_MicroSegundo"
+  },
+  "rup_tree": {
+    "ccp": {
+      "copy": "Copiar_fr",
+      "cut": "Cortar_fr",
+      "label": "Edición_fr",
+      "paste": "Pegar_fr"
+    },
+    "create": "Nuevo_fr",
+    "loading": "Cargando ..._fr",
+    "new_node": "Nuevo nodo_fr",
+    "remove": "Eliminar_fr",
+    "rename": "Cambiar nombre_fr"
+  },
+  "rup_upload": {
+    "acceptFileTypesError": "El tipo de archivo no es válido_fr",
+    "cancelUpload": "Cancelar_fr",
+    "deleteUploaded": "Eliminar_fr",
+    "maxFileSizeError": "El fichero supera el límite máximo de tamaño_fr",
+    "maxNumberOfFilesError": "Se ha excedido el número máximo de ficheros_fr",
+    "minFileSizeError": "El fichero no supera el límite mínimo de tamaño_fr",
+    "pifError": "RUP_UPLOAD - No se ha especificado el valor del parámetro folderPath para el uso del PIF._fr",
+    "openUploaded": "Abrir_fr",
+    "startUpload": "Subir_fr"
+  },
+  "rup_utils": {
+    "paramsError": "Alguno de los parámetros especificados es 'null' o 'undefined'_fr",
+    "illegalChar": "Alguno de los caracteres no está permitido._fr",
+    "relToAbsUrlParamError": "La url => <b style='color:red'>&#34",
+    "relToAbsUrlParamErrorEnd": "&#34</b><br/> del metodo &#34$.rup_utils.relToAbsUrl&#34; es incorrecta._fr",
+    "relToAbsUrlParamFormatError": "Parametro del metodo &#34$.rup_utils.relToAbsUrl&#34; incorrecto.<br/>La url debe ser de tipo String._fr"
+  },
+  "rup_validate": {
+    "format": {
+      "date": "dd/mm/yyyy"
+    },
+    "messages": {
+      "validationErrorTitle": "Erreur de validation",
+      "fieldError": "Le champ validé n'existe pas dans le formulaire.",
+      "accept": "Veuillez entrer une valeur avec une extension valide.",
+      "alphanumeric": "fr_Por favor, introduzca letras, números, espacios o guiones bajos.",
+      "creditcard": "Veuillez entrer un numéro de carte de crédit valide.",
+      "date": "Veuillez entrer une date valide.",
+      "dateISO": "Veuillez entrer une date valide (ISO).",
+      "digits": "Veuillez entrer (seulement) une valeur numérique.",
+      "dni": "Veuillez entrer un carte d'identité valide.",
+      "email": "Veuillez entrer une adresse email valide.",
+      "equalTo": "Veuillez entrer une nouvelle fois la même valeur.",
+      "integer": "fr_Por favor, introduzca un número entero positivo o negativo.",
+      "letters": "fr_Por favor, únicamente introduzca letras (espacios en blanco permitidos).",
+      "lettersunicode": "fr_Por favor, introduzca únicamente letras y tildes (espacios en blanco permitidos).",
+      "lettersonly": "fr_Por favor, únicamente introduzca letras.",
+      "lettersunicodeonly": "fr_Por favor, introduzca únicamente letras y tildes.",
+      "letterswithbasicpunc": "fr_Por favor, introduzca únicamente letras y signos de puntuación.",
+      "lettersunicodewithbasicpunc": "fr_Por favor, introduzca únicamente letras, tildes y signos de puntuación.",
+      "max": "Veuillez entrer une valeur inférieure ou égale à {0}.",
+      "maxWords": "Veuillez ne pas entrer plus de {0} mots.",
+      "maxlength": "Veuillez ne pas entrer plus de {0} caractères.",
+      "min": "Veuillez entrer une valeur supérieure ou égale à {0}.",
+      "minWords": "Veuillez entrer au moins {0} mots.",
+      "minlength": "Veuillez entrer au moins {0} caractères.",
+      "nowhitespace": "fr_Por favor, no introduzca espacios en blanco.",
+      "number": "Veuillez entrer un nombre valide.",
+      "pattern": "fr_El formato no es válido",
+      "range": "Veuillez entrer une valeur entre {0} et {1}.",
+      "rangeWords": "Veuillez entrer entre {0} et {1} mots.",
+      "rangelength": "Veuillez entrer entre {0} et {1} caractères.",
+      "remote": "Veuillez remplir ce champ pour continuer.",
+      "required": "Ce champ est requis.",
+      "url": "Veuillez entrer une URL valide."
+    },
+    "regexp": {
+      "decimal": "^-?(?:\\d+|\\d{1,3}(?:.\\d{3})+)(?:\\,\\d+)?$"
+    }
+  },
+  "rup_wizard": {
+    "next": "Siguiente_fr",
+    "prev": "Anterior_fr",
+    "summary": "Resumen_fr"
+  },
+  "rup_button": {
+    "new": "Nuevo_fr",
+    "mbuttonsIdError": "fr_El atributo ID es obligatorio en los MButtons."
+  },
+  "rup_table": {
+    "seleccionada": "[FR]seleccionada",
+    "seleccionadas": "[FR]seleccionadas",
+    "fila": "[FR]fila",
+    "toolbar": {
+      "add": "Ajouter",
+      "edit": "[FR]Editar",
+      "clone": "[FR]Clonar",
+      "delete": "[FR]Eliminar",
+      "reports": {
+        "main": "[FR]Informes",
+        "copyButton": "[FR]Copiar",
+        "excelButton": "Excel",
+        "odsButton": "Ods",
+        "pdfButton": "Pdf",
+        "csvButton": "Csv"
+      },
+      "feedback": {
+      	"keyNameError": "Incohérence entre les primaryKey du client et du serveur. Veuillez vérifier la définition du rup_table."
+      }
+    },
+    "copyButton": {
+      "changes": "[FR]Copia de registros en portapapeles",
+      "saveAndContinue": {
+        "_": "[FR]¿Desea copiar %d registros?",
+        "1": "[FR]¿Desea copiar un registro?"
+      },
+      "saved": {
+        "_": "[FR]Copiados %d registros al portapapeles",
+        "1": "[FR]Copiado un registro al portapapeles"
+      },
+      "copyTitle": "[FR]Copiar al portapapeles",
+      "copyKeys": "[FR]Presiona ctrl o ⌘ + C para copiar los datos de la tabla al portapapeles. Para cancelar, haz click sobre este mensaje o pulsa el botón escape."
+    },
+    "collection": "[FR]Collection",
+    "pageLength": {
+      "-1": "[FR]Show all rows",
+      "_": "[FR]Show %d rows"
+    },
+    "cancel": "Cancelar",
+    "changes": "fr_Control de cambios",
+    "checkAddedSelectedElems": "fr_Los elementos añadidos en la pagina actual van a ser deseleccionados, ¿desea continuar?",
+    "checkSelectedElems": "fr_Se van a deseleccionar los elementos seleccionados, ¿desea continuar?",
+    "clearSelection": "deshacer selección",
+    "col": {
+      "bCancel": "Cancelar",
+      "bSubmit": "Enviar",
+      "caption": "Mostrar/ocultar columnas"
+    },
+    "de": "fr_de",
+    "deSelectAll": "deseleccionar los ",
+    "deSelectedElems": "Se han deseleccionado los ",
+    "defaults": {
+      "detailForm_pager": "Mostrando {0} de {1}",
+      "emptyrecords": "Sin registros que mostrar",
+      "loadtext": "Cargando...",
+      "pgtext": "Página {0} de {1}",
+      "recordtext": "Mostrando {0} - {1} de {2}"
+    },
+    "del": {
+      "bCancel": "Cancelar",
+      "bSubmit": "Eliminar",
+      "caption": "Eliminar",
+      "msg": "¿Desea eliminar los registros seleccionados?"
+    },
+    "delete": "fr_Eliminar",
+    "deleteAll": "fr_¿Está seguro que desea eliminar todos los registros seleccionados?",
+    "deletedOK": "fr_El elemento se ha borrado correctamente.",
+    "deselectMsg": "Se han deseleccionado los {0} elementos de la página {1}.",
+    "deselectRestMsg": "Deseleccionar los {0} restantes",
+    "detailTitle": "fr_Detalle de Registro",
+    "add": {
+    	"save": "Ajouter",
+    	"saveData": "[FR]¿Está seguro que desea crear el siguiente registro?"
+    },
+    "edit": {
+      "addCaption": "Agregar registro",
+      "bCancel": "Cancelar",
+      "bClose": "Cerrar",
+      "bExit": "Cancelar",
+      "bNo": "No",
+      "bSubmit": "Guardar",
+      "bYes": "Sí",
+      "editCaption": "Modificar registro",
+      "msg": {
+        "customarray": "La función personalizada debe devolver un array.",
+        "customfcheck": "La función personalizada debe estar presente en el caso de validación personalizada.",
+        "date": "Introduza una fecha correcta ",
+        "email": "No es una dirección de correo válida",
+        "integer": "Introduzca un valor entero",
+        "maxValue": "El valor debe ser menor o igual a ",
+        "minValue": "El valor debe ser mayor o igual a ",
+        "nodefined": " no está definido.",
+        "novalue": " valor de retorno es requerido.",
+        "number": "Introduzca un número",
+        "required": "Campo obligatorio",
+        "url": "No es una URL válida. Prefijo requerido ('http://' or 'https://')"
+      },
+      "save": "[FR]Guardar",
+      "saveData": "[FR]Se han modificado los datos, ¿guardar cambios?"
+    },
+    "element(s)": "fr_Elemento(s)",
+    "elements": "fr_Elementos",
+    "emptyChanges": "fr_No se han realizado cambios.",
+    "warnings": {
+      "methodNotAvailable": "fr_Método no disponible."
+    },
+    "errors": {
+      "errcap": "fr_Error",
+      "errorOnGet": "fr_Se ha producido un error al tratar de recuperar los datos",
+      "model": "fr_Las columnas de nombres son diferentes de las columnas de modelo",
+      "norecords": "fr_No hay datos para procesar",
+      "nourl": "fr_No se ha especificado una URL",
+      "wrongParam": "fr_No se ha recibido el parámetro esperado.",
+      "wrongParams": "fr_No se han recibido los parámetros esperados.",
+      "wrongColModel": "fr_No existe ni \"editoptions\" ni \"searchoptions\" para \"{0}\", pero sí \"rupType\", por lo tanto, las propiedades del elemento no han sido bien definidas en el \"colModel\" de la tabla.",
+      "noMasterPKField": {
+        "msg": "fr_Se ha producido un error a la hora de inicializar la rup_table de detalle, no se ha incluído en el formulario de filtrado \"#{0}\" el input de la clave del padre \"{1}\".",
+        "title": "fr_Error en la inicialización de la tabla"
+      }
+    },
+    "feedback": {
+      "deletedOK": "fr_El elemento se ha borrado correctamente.",
+      "insertError": "fr_Error al insertar el elemento.",
+      "insertOK": "fr_El elemento se ha añadido correctamente.",
+      "modifyOK": "fr_El elemento se ha modificado correctamente.",
+      "validateError": "fr_Se han producido los siguientes errores:<br/>"
+    },
+    "filter": "fr_Filtrar",
+    "first": "Premier",
+    "formatter": {
+      "baseLinkUrl": "",
+      "checkbox": {
+        "disabled": "true"
+      },
+      "currency": {
+        "decimalPlaces": "2",
+        "decimalSeparator": ",",
+        "defaultValue": "0,00",
+        "prefix": "",
+        "suffix": "",
+        "thousandsSeparator": "."
+      },
+      "date": {
+        "AmPm": [
+          "am",
+          "pm",
+          "AM",
+          "PM"
+        ],
+        "S": "return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] :'th';",
+        "dayNames": [
+          "Do",
+          "Lu",
+          "Ma",
+          "Mi",
+          "Ju",
+          "Vi",
+          "Sa",
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado"
+        ],
+        "masks": {
+          "FullDateTime": "l, F d, Y g:i:s A",
+          "ISO8601Long": "Y-m-d H:i:s",
+          "ISO8601Short": "Y-m-d",
+          "LongDate": "l, F d, Y",
+          "LongTime": "g:i:s A",
+          "MonthDay": "F d",
+          "RupDate": "d/m/Y",
+          "RupDateTime": "d/m/Y H:i",
+          "RupDateTimeSec": "d/m/Y H:i:s",
+          "RupTime": "H:i",
+          "RupTimeSec": "H:i:s",
+          "ShortDate": "n/j/Y",
+          "ShortTime": "g:i A",
+          "SortableDateTime": "Y-m-dTH:i:s",
+          "UniversalSortableDateTime": "Y-m-d H:i:sO",
+          "YearMonth": "F, Y"
+        },
+        "monthNames": [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre"
+        ],
+        "newformat": "d/m/Y",
+        "reformatAfterEdit": "false",
+        "srcformat": "d/m/y H:i:s"
+      },
+      "idName": "id",
+      "integer": {
+        "defaultValue": "0",
+        "thousandsSeparator": "."
+      },
+      "number": {
+        "decimalPlaces": "2",
+        "decimalSeparator": ",",
+        "defaultValue": "0,00",
+        "thousandsSeparator": "."
+      },
+      "showAction": "",
+      "target": ""
+    },
+    "insertError": "fr_Error al insertar el elemento.",
+    "insertOK": "fr_El elemento se ha añadido correctamente.",
+    "invalidRowId": "fr_El identificador de la fila no es válido. No se puede completar la acción",
+    "last": "Dernier",
+    "modify": "fr_Editar",
+    "modifyOK": "fr_El elemento se ha modificado correctamente.",
+    "multiselectHeader": "fr_Seleccionar todos los elementos de la página",
+    "nav": {
+      "addtext": " ",
+      "addtitle": "Agregar nueva fila",
+      "alertcap": "Aviso",
+      "alerttext": "Seleccione una fila",
+      "deltext": " ",
+      "deltitle": "Eliminar fila seleccionada",
+      "edittext": " ",
+      "edittitle": "Modificar fila seleccionada",
+      "refreshtext": "",
+      "refreshtitle": "Recargar datos",
+      "searchtext": " ",
+      "searchtitle": "Buscar información",
+      "viewtext": "",
+      "viewtitle": "Ver fila seleccionada"
+    },
+    "new": "fr_Añadir",
+    "next": "Suivant",
+    "noGrid": "fr_No es posible crear un mantenimiento sin un grid.",
+    "noRecordsFound": "No hay registros.",
+    "noReg": "fr_Seleccione un registro.",
+    "numResult": "fr_Número de resultados",
+    "ofPage": " elementos de la página.",
+    "pager": {
+      "anterior": "Anterior",
+      "input": "Página actual",
+      "primPag": "Primera Página",
+      "select": "Número de elementos por página",
+      "selected": "seleccionados",
+      "siguiente": "Siguiente",
+      "ultiPag": "Última Página"
+    },
+    "plugins": {
+      "filter": {
+        "filterCriteria": "fr_Criterios de filtrado",
+        "filterContainerError": "fr_El identificador especificado para el formulario de búsqueda no existe.",
+        "filterToolbarError": "fr_El identificador especificado para la barra de controles del formulario de filtrado no existe."
+      },
+      "jerarquia": {
+        "deselectChild": "fr_Deseleccionar hijos",
+        "deselectDescendent": "fr_Deseleccionar descendientes",
+        "filtered": "fr_El elemento cumple el filtro",
+        "selectChild": "fr_Seleccionar hijos",
+        "selectDescendent": "fr_Seleccionar descendientes"
+      },
+      "multifilter": {
+        "apply": "fr_Aplicar",
+        "cancel": "fr_Cancelar",
+        "close": "fr_Cerrar",
+        "defaultFilter": "fr_Filtro por defecto",
+        "emptyName": "fr_Seleccione un filtro",
+        "error": "fr_Error al completar la acción",
+        "errorNoexiste": "fr_Nombre de filtro inexistente",
+        "errorValidate": "fr_Formulario sin validar",
+        "filters": "fr_Nombre",
+        "noRecords": "fr_No existe un filtro con ese nombre",
+        "ok": "fr_Acción completada con éxito",
+        "remove": "fr_Eliminar",
+        "save": "fr_Guardar",
+        "tittle": "fr_Administrador de filtros",
+        "tooLong": "fr_Nombre demasiado largo"
+      },
+      "multiselection": {
+        "deselectAll": "fr_Desmarcar todos",
+        "deselectAllPage": "fr_Desmarcar visibles",
+        "selectAll": "fr_Marcar todos",
+        "selectAllPage": "fr_Marcar visibles"
+      },
+      "search": {
+        "matchedRecords": "fr_{0} elementos encontrados",
+        "matchedRecordsCount": "fr_Elemento {0} de {1} encontrados",
+        "searchCriteria": "fr_Criterios de búsqueda"
+      }
+    },
+    "previous": "Précédent",
+    "save": "fr_Guardar",
+    "saveAndContinue": "fr_Se perderan los cambios en los datos modificados, ¿desea continuar?",
+    "search": {
+      "Find": "Buscar",
+      "Reset": "Limpiar",
+      "caption": "Búsqueda...",
+      "groupOps": [{
+          "op": "AND",
+          "text": "todo"
+        },
+        {
+          "op": "OR",
+          "text": "cualquier"
+        }
+      ],
+      "matchText": " match",
+      "odata": [
+        "igual",
+        "no igual a",
+        "menor que",
+        "menor o igual que",
+        "mayor que",
+        "mayor o igual a",
+        "empiece por",
+        "no empiece por",
+        "está en",
+        "no está en",
+        "termina por",
+        "no termina por",
+        "contiene",
+        "no contiene"
+      ],
+      "rulesText": " reglas"
+    },
+    "searchOptions": "fr_Criterios de Búsqueda:",
+    "selectAll": "seleccionar los ",
+    "selectAllRest": "restantes",
+    "selectMsg": "Se han seleccionado los {0} elementos de la página {1}.",
+    "selectRestMsg": "Seleccionar los {0} restantes",
+    "selected": "fr_seleccionados",
+    "selectedElems": "Se han seleccionado los ",
+    "summary": {
+      "cabecera": "Cabecera de la tabla",
+      "datos": "Datos de la tabla",
+      "paginador": "Elemento de paginación de la tabla",
+      "paginador_navegar": "Elemento de navegación de la paginación de la tabla"
+    },
+    "templates": {
+      "detailForm": {
+        "body": "<div id='{0}' style='padding-top:0.6em;'></div>",
+        "elementCounter": "<div style='float:left;font-size:11px' id='pagination_{0}'><img src='{1}/rup/css/images/numero_elementos.png' alt='{2}'><div style='float: right; margin-left: 3px; margin-top: 2px; position: relative;' id='rup_table_selectedElements_{0}'></div></div>",
+        "errorFeedback": "<div id='{0}' style='display:none'><span></span></div>",
+        "form": "<form name='FormPost' id='{0}' class='FormGrid' onSubmit='return false;' style='width:100%;overflow:auto;position:relative;height:{1};'></form>",
+        "paginationBar": "<div style='float:right' id='pag_{0}'></div>",
+        "paginationLink": "<a id='{0}' class='rup-table_linkPaginacionDetalle' href='javascript:void(0)' alt='{1}'>{1}</a>",
+        "separator": "<div style='border-bottom:1px solid #D1D1D1; clear:both'></div>"
+      },
+      "message": {
+        "confirm": "<div id='rup_msgDIV_msg_icon' class='rup-message_icon-confirm'></div><div id='rup_msgDIV_msg' class='rup-message_msg-confirm white-space-normal'>{0}</div>"
+      },
+      "multiselection": {
+        "deselectRemainingRecords": "<input type='button' id='rup_table_{0}_deselectAll' style='margin-left:1em' class='botonElementosRestantes' value='{1}' alt='{2}' />",
+        "selectRemainingRecords": "<input type='button' id='rup_table_{0}_selectAll' style='margin-left:1em' class='botonElementosRestantes' value='{1}' alt='{2}' />"
+      }
+    },
+    "titleDelAll": "fr_Eliminar los registros",
+    "toolbarNewButtonError": "fr_Error al crear un nuevo botón. <br/>Las tres variables de todo nuevo botón deben estar informadas.",
+    "validateError": "fr_Se han producido los siguientes errores:<br/>",
+    "view": {
+      "bClose": "Cerrar",
+      "caption": "Consultar registro"
+    }
+  },
+  "sProcessing": "<span class='sProcessingText'>[FR]Procesando...</span>",
+  "sLengthMenu": "_MENU_",
+  "sZeroRecords": "[FR]No se encontraron resultados",
+  "sEmptyTable": "[FR]Ningún dato disponible en esta tabla",
+  "sInfo": "[FR]Mostrando _START_ - _END_ de _TOTAL_",
+  "sInfoEmpty": "[FR]Mostrando 0 - 0 de 0",
+  "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+  "sInfoPostFix": "",
+  "sSearch": "[FR]Buscar:",
+  "sUrl": "",
+  "sInfoThousands": " ",
+  "sLoadingRecords": "[FR]Cargando...",
+  "oPaginate": {
+    "sFirst": "[FR]Primero",
+    "sLast": "[FR]Último",
+    "sNext": "[FR]Siguiente",
+    "sPrevious": "[FR]Anterior"
+  },
+  "oAria": {
+    "sSortAscending": ": [FR]Activar para ordenar la columna de manera ascendente",
+    "sSortDescending": ": [FR]Activar para ordenar la columna de manera descendente"
+  },
+  "pagina": "[FR]Página ",
+  "toPagina": " [FR]de {0}",
+  "rup_calendar": {
+    "error_noview": "Calendario: Vista {0} no encontrada",
+    "error_dateformat": "Calendario: Formato de fecha inválido {0}. Debe ser \"now\" o \"yyyy-mm-dd\"",
+    "error_loadurl": "Calendario: URL de carga de eventos no configurada",
+    "error_where": "Calendario: Dirección de navegación incorrecta {0}. Los valores correctos son \"next\" o \"prev\" o \"today\"",
+    "error_timedevide": "Calendario: parámetro para el separador de hora debe dividir 60 por un entero. Por ejemplo 10, 15, 30",
+
+    "no_events_in_day": "No hay eventos hoy",
+
+    "title_year": "Año {0}",
+    "title_month": "{0} {1}",
+    "title_week": "Semana {0} del {1}",
+    "title_day": "{0} {1} {2} {3}",
+
+    "week": "Semana {0}",
+    "all_day": "Todo el día",
+    "time": "Tiempo",
+    "events": "Eventos",
+    "before_time": "Horas previas",
+    "after_time": "Horas posteriores",
+
+    "m0": "Enero",
+    "m1": "Febrero",
+    "m2": "Marzo",
+    "m3": "Abril",
+    "m4": "Mayo",
+    "m5": "Junio",
+    "m6": "Julio",
+    "m7": "Agosto",
+    "m8": "Septiembre",
+    "m9": "Octubre",
+    "m10": "Noviembre",
+    "m11": "Diciembre",
+
+    "ms0": "Ene",
+    "ms1": "Feb",
+    "ms2": "Mar",
+    "ms3": "Abr",
+    "ms4": "May",
+    "ms5": "Jun",
+    "ms6": "Jul",
+    "ms7": "Ago",
+    "ms8": "Sep",
+    "ms9": "Oct",
+    "ms10": "Nov",
+    "ms11": "Dic",
+
+    "d0": "Domingo",
+    "d1": "Lunes",
+    "d2": "Martes",
+    "d3": "Miércoles",
+    "d4": "Jueves",
+    "d5": "Viernes",
+    "d6": "Sábado",
+
+    "easter": "Pascua",
+    "easterMonday": "Lunes de Pascua",
+
+    "first_day": 1,
+    "week_numbers_iso_8601": true,
+
+    "holidays": {
+      "01-01": "Año Nuevo",
+      "06-01": "Día de Reyes",
+      "19-03": "San José",
+      "easter-3": "Jueves Santo",
+      "easter-2": "Viernes Santo",
+      "easter": "Pascua",
+      "easter+1": "Lunes de Pascua",
+      "01-05": "Día del Trabajador",
+      "15-08": "Asunción",
+      "12-10": "Fiesta Nacional de España",
+      "01-11": "Día de todos los Santos",
+      "06-12": "Día de la Constitución",
+      "08-12": "Inmaculada Concepción",
+      "25-12": "Navidad"
+    }
+  },
+  "rup_list": {
+    "errors": {
+      "validateSkeletonDialog": {
+        "title": "fr_Esqueleto no válido",
+        "msg": "fr_El esqueleto HTML sobre el que montar el listado no es correcto."
+      }
+    },
+    "multiSortDialog": {
+      "title": "fr_Multi-ordenación",
+      "msg1": "fr_Seleccione alguna de las opciones disponibles para agregar a la multi-ordenación:",
+      "msg2": "fr_Si no se visualiza ninguno es porque ya han sido todos incluídos en la ordenación en la lista inferior.",
+      "msg3": "fr_Campos ya incluídos en la ordenación:",
+      "msg4": "fr_Puede reordenarlos, eliminarlos o cambiar el tipo de ordenación de cada uno."
+    },
+    "multiselection": {
+      "deselectAll": "fr_Desmarcar todos",
+      "deselectAllPage": "fr_Desmarcar visibles",
+      "selectAll": "fr_Marcar todos",
+      "selectAllPage": "fr_Marcar visibles"
+    },
+    "paginacion": "fr_Paginación",
+    "paginaAnterior": "fr_Página anterior",
+    "paginaSiguiente": "fr_Página siguiente",
+    "paginaLabel": "fr_Página {0} de {1}",
+    "sort": {
+      "asc": "fr_Orden ascendente",
+      "desc": "fr_Orden descendente"
+    },
+    "openMordDialog": "fr_Abre el diálogo de opciones de ordenación del listado",
+    "mordSubir": "fr_Adelantar el campo",
+    "mordBajar": "fr_Atrasar el campo",
+    "quitarCampoOrden": "fr_Dejar de ordenar por este campo",
+    "ariaSummary": "fr_Las opciones de ordenación actuales son: ",
+    "ariaSummaryEmpty": "fr_No se han seleccionado opciones de ordenación",
+    "rowPerPage": {
+		"5": "Cinq",
+		"10": "Dix",
+		"20": "Vingt",
+		"30": "Trente"
+	}
+  },
+  "rup_toolbar": {
+  	"mbuttonsIdError": "fr_El atributo ID es obligatorio en los MButtons."
+  },
+  "rup_base": {
+  	"i18nRupJsonParseError": "fr_Se ha producido un error en el análisis del fichero JSON de literales => {0}.\n\nError devuelto:\n {1}: {2} - {3}",
+  	"i18nAppJsonParseError": "fr_Se ha producido un error en el análisis del fichero JSON de literales de la aplicación => {0}.\n\nError devuelto:\n {1}: {2} - {3}",
+  	"cookieLanguageNotSupportedErrorTitle": "fr_'Cookie' de idioma no soportada",
+  	"cookieLanguageNotSupportedError": "fr_La 'cookie' de idioma ({0}) no se corresponde con los idiomas soportados.\n\nLa página no se mostrará correctamente.",
+  	"cookieLanguageNotFoundErrorTitle": "fr_Falta la 'cookie' de idioma",
+  	"cookieLanguageNotFoundError": "fr_No se ha encontrado la 'cookie' de idioma ({0}) requerida por UDA.\nRevise la configuración del navegador.\n\nLa página no se mostrará correctamente."
+  }
+}

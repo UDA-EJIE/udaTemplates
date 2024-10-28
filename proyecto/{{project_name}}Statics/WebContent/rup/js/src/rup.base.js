@@ -33,7 +33,7 @@
 }(function ($) {
 
     // NO MODIFICAR: (AUTOGENERADO)
-    var rup_version = '4.5.0';
+    var rup_version = '6.1.0';
 
     jQuery.migrateMute = true;
 
@@ -97,19 +97,6 @@
    * @typedef {number} Integer
    */
 
-    // [Ajuste para IE] función asociada a deficiencias de IE(msie). Cuando se deje de soportar este navegador, hay que eliminar este polyfill
-    if (!String.prototype.includes) {//To check browser supports or not
-    	String.prototype.includes = function (str) {//Add method includes to String type
-    	  var returnValue = false;
-
-    	  if (this.indexOf(str) !== -1) {
-    		returnValue = true;
-    	  }
-
-    	  return returnValue;
-    	}
-    }
-    
     String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
     };
@@ -264,10 +251,6 @@
                 success: function (data) {
                     //Se cargan los literales generales de la aplicacion en RUP
                     $.rup.i18n.base = data;
-                    //Se cargan los literales de la tabla por separado (consecuencia de la naturalza de JqGrid)
-                    $.jgrid = {};
-                    $.extend($.jgrid, data.rup_jqtable);
-                    $.jgrid.formatter.date.S = new Function('j', data.rup_jqtable.formatter.date.S);
                 },
                 error: function (XMLHttpRequest, textStatus) {
                     //tratamiento de error
@@ -326,7 +309,7 @@
          * @param {string} defaultValue - Valor por defecto a usar cuando no se pueda devolver el recurso solicitado.
          * @return {string} Recurso idiomático.
          */
-        i18nParse: function (properties, i18nCaption, defaultValue = 'Error') {
+        i18nParse: function (properties, i18nCaption, defaultValue = 'Error de i18n: ' + i18nCaption + ' no encontrado') {
             if (i18nCaption !== undefined && i18nCaption !== null && i18nCaption !== '') {
                 var i18nCaptionArr = i18nCaption.split('.'),
                     i18nValue = properties;
@@ -412,18 +395,7 @@
             $.rup.LOCALE_PARAM_NAME = window.LOCALE_PARAM_NAME;
             //metodos http permitidos en la emulacion xhr para el uso con iframes
             $.rup.IFRAME_ONLY_SUPPORTED_METHODS = ['GET', 'POST'];
-            //Auditoria
-            if(window.AUDIT_PATH) {
-                $.rup.AUDIT_PATH = window.AUDIT_PATH;
-            }
-            else {
-                if($.rup.CTX_PATH[$.rup.CTX_PATH.length -1 ] === '/') {
-                    $.rup.AUDIT_PATH =$.rup.CTX_PATH + 'audit';
-                }
-                else {
-                    $.rup.AUDIT_PATH =$.rup.CTX_PATH + '/audit';
-                }
-            }
+			
             if(window.IS_EJIE) {
                 $.rup.IS_EJIE = window.IS_EJIE;
             }
@@ -818,33 +790,6 @@
         },
         isShiftPressed: function () {
             return jQuery('body').data('tmp.multiselect.shiftPressed') === true;
-        }
-    });
-    /**
-	 * Creamos la funcion que audita el componente
-	 */
-    function prepareAuditData (compName, auditing) {
-        return {
-            'url': window.location.href,
-            'versionRup': $.rup.version,
-            'nombreComponente': compName,
-            'codApp': $.rup.APP_RESOURCES,
-            'timeStamp': Date.now(),
-            'auditing': auditing
-        };
-    }
-    function ajaxAudit (jsonPost) {
-        $.ajax($.rup.AUDIT_PATH,{
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(jsonPost)
-        });
-    }
-    jQuery.extend($.rup,{
-        auditComponent: function(compName, auditing) {
-            if($.rup.IS_EJIE) {
-                ajaxAudit(prepareAuditData(compName, auditing));
-            }
         }
     });
 

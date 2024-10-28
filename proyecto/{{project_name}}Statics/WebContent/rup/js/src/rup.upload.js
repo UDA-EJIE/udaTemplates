@@ -246,7 +246,7 @@
          * @function
          * @name destroy
          * @example
-         * $(selector).rup_combo("destroy");
+         * $(selector).rup_upload("destroy");
          */
         destroy: function () {
             $(this).fileupload('destroy');
@@ -352,9 +352,6 @@
                 }
 
             });
-
-            //Se audita el componente
-            $.rup.auditComponent('rup_upload', 'init');
         },
         _private: function () {}
     });

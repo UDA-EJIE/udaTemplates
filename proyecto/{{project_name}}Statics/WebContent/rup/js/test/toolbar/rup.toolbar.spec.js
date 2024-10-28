@@ -63,7 +63,7 @@ describe('Test Toolbar > ', () => {
     describe('Métodos públicos > ', () => {
         describe('Método addButton > ', () => {
             let buttonObj;
-            beforeEach(() => {
+            beforeEach((done) => {
                 buttonObj = {
                     click: () => {
                     	window.alert('ASD');
@@ -72,6 +72,7 @@ describe('Test Toolbar > ', () => {
                     text: 'Added Button'
                 };
                 $toolbar.rup_toolbar('addButton', buttonObj);
+                setTimeout(done, 200);
             });
             it('Debe existir el boton', () => {
                 expect($('[id="exampleToolbar##addedButton"]').length).toBe(1);
@@ -79,7 +80,7 @@ describe('Test Toolbar > ', () => {
         });
         describe('Método addMButton > ', () => {
             let mButton;
-            beforeEach(() => {
+            beforeEach((done) => {
                 mButton = {
                     idParent: 'exampleToolbar',
                     id: 'addedMButton',
@@ -106,7 +107,10 @@ describe('Test Toolbar > ', () => {
                 };
                 var idMBtn = mButton.idParent + '##' + mButton.id;
                 $toolbar.rup_toolbar('addMButton', mButton);
-                $toolbar.rup_toolbar('addButtonsToMButton', mButton.buttons, $('[id="' + idMBtn + '-mbutton-group"]'));
+				setTimeout(function() {
+					$toolbar.rup_toolbar('addButtonsToMButton', mButton.buttons, $('[id="' + idMBtn + '-mbutton-group"]'));
+					setTimeout(done, 200);
+				}, 200);
             });
 
             it('Debe existir el mButton', () => {
@@ -119,7 +123,7 @@ describe('Test Toolbar > ', () => {
             });
         });
         describe('Método addButtonsToMButton >', () => {
-            beforeEach(() => {
+            beforeEach((done) => {
                 let button = {
                     id: 'addedButton',
                     i18nCaption: 'boton',
@@ -127,6 +131,7 @@ describe('Test Toolbar > ', () => {
                 };
 
                 $toolbar.rup_toolbar('addButtonsToMButton', [button], $('[id="exampleToolbar##mbutton1-mbutton-group"]'));
+                setTimeout(done, 200);
             });
 
             it('Debe existir el botón añadido', () => {
@@ -134,8 +139,9 @@ describe('Test Toolbar > ', () => {
             });
         });
         describe('Método disableButton > ', () => {
-            beforeEach(() => {
+            beforeEach((done) => {
                 $toolbar.rup_toolbar('disableButton', 'searchBtn');
+                setTimeout(done, 200);
             });
             it('Debe tener las clases que lo deshabilitan', () => {
                 expect($('[id="exampleToolbar##searchBtn"]').is(':disabled'))
@@ -153,8 +159,9 @@ describe('Test Toolbar > ', () => {
             });
         });
         describe('Método pressButton > ', () => {
-            beforeEach(() => {
+            beforeEach((done) => {
                 $toolbar.rup_toolbar('pressButton', 'searchBtn', 'pressed-button');
+                setTimeout(done, 200);
             });
             it('Debe tener la clase de presionado ', () => {
                 expect($('[id="exampleToolbar##searchBtn"]').hasClass('pressed-button')).toBeTruthy();

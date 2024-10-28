@@ -65,6 +65,7 @@ import Printd from 'printd';
  *          var userVal = item.find('#usuario_value_' + json.codigoPK);
  *          userVal.text(userVal.text() + ' -Added');
  *      },
+ *      beforeLoad: () => {},
  *      load: () => {}
  * });
  */
@@ -72,7 +73,7 @@ import Printd from 'printd';
     if (typeof define === 'function' && define.amd) {
 
         // AMD. Register as an anonymous module.
-        define(['jquery', 'rup.base', 'rup.button', 'rup.autocomplete', 'rup.dialog'], factory);
+        define(['jquery', 'rup.base', 'rup.button', 'rup.dialog'], factory);
     } else {
 
         // Browser globals
@@ -98,6 +99,7 @@ import Printd from 'printd';
      * @property {boolean} [createFooter=true] - Si es true crea una copia del header en la parte inferior del listado
      * @property {String} [sord=null] - Determina la dirección de la ordenación
      * @property {Funcion} [modElement=() =>{}] - Callback que se ejecuta antes del añadido de cada tarjeta al listado
+     * @property {Funcion} [beforeLoad=() => {}] - Callback que se ejecuta antes de cada filtrado
      * @property {Funcion} [load=() => {}] - Callback que se ejecuta tras cada filtrado
      * @property {Object} [selectable=Object] - Determina la configuración de la selección
      * @property {boolean} [isMultiSort=false] - Si es true el modo de ordenación cambia a multiordenación
@@ -153,16 +155,16 @@ import Printd from 'printd';
             rowNum: {
                 source: [{
                     value: '5',
-                    i18nCaption: '5'
+                    i18nCaption: $.rup.i18nTemplate($.rup.i18n.base, 'rup_list.rowPerPage.5')
                 }, {
                     value: '10',
-                    i18nCaption: '10'
+                    i18nCaption: $.rup.i18nTemplate($.rup.i18n.base, 'rup_list.rowPerPage.10')
                 }, {
                     value: '20',
-                    i18nCaption: '20'
+                    i18nCaption: $.rup.i18nTemplate($.rup.i18n.base, 'rup_list.rowPerPage.20')
                 }, {
                     value: '30',
-                    i18nCaption: '30'
+                    i18nCaption: $.rup.i18nTemplate($.rup.i18n.base, 'rup_list.rowPerPage.30')
                 }],
                 value: '5'
             },
@@ -176,6 +178,7 @@ import Printd from 'printd';
             createFooter: true,
             loader: () => {},
             modElement: () => {},
+            beforeLoad: function () {},
             load: function () {}
         },
 
@@ -369,8 +372,8 @@ import Printd from 'printd';
                  * SORT - MULTISORT
                  */
                 if (!opciones.isMultiSort) {
-                    // Sidx select to rup-combo
-                    self._sidxComboInit.apply(self);
+                    // Sidx select to rup_select
+                    self._sidxSelectInit.apply(self);
                     // Inicialización sord
                     self._sordButtonInit(self);
                 } else {
@@ -379,6 +382,7 @@ import Printd from 'printd';
                 }
 
                 // Asociación de eventos
+                $('#' + self.element[0].id).on('beforeLoad', opciones.beforeLoad);
                 $('#' + self.element[0].id).on('load', opciones.load);
                 $('#' + self.element[0].id).on('modElement', (e, item, json) => {
                     opciones.modElement(e, item, json);
@@ -440,9 +444,6 @@ import Printd from 'printd';
                 } else {
                     $('#' + self.element[0].id).trigger('initComplete');
                 }
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_list', 'init');
             }).catch((error) => {
                 console.error('Error al inicializar el componente:\n', error);
             });
@@ -908,16 +909,31 @@ import Printd from 'printd';
             const opciones = self.options;
 
             opciones.multiFilter = {};
-            opciones.multiFilter._filterSelector = 'generated';
-            opciones.multiFilter._filterUser = 'udaPruebas';
+            opciones.multiFilter._selector = 'generated';
+            opciones.multiFilter._user = 'udaPruebas';
             opciones.multiFilter._dialogId = self.element[0].id + '_dropdownDialog';
 
             opciones.multiFilter.$btn = $('#' + opciones.filterForm).find('button').eq(0);
-            opciones.multiFilter.$dialog = $('<div id="' + opciones.multiFilter._dialogId + '" class="dialog-content-material"><div id="' + opciones.multiFilter._dialogId + '_feedback" role="alert"></div><form><div class="form-row"><div class="form-groupMaterial col-12"><label for="' + opciones.multiFilter._dialogId + '_combo">Filtros</label><input id="' + opciones.multiFilter._dialogId + '_combo" /></div></div><div class="form-row"><div class="checkbox-material col-12"><input type="checkbox" id="' + opciones.multiFilter._dialogId + '-defaultFilter" /><label for="' + opciones.multiFilter._dialogId + '-defaultFilter">Filtro por defecto</label></div></div></form></div>');
+			opciones.multiFilter.$dialog = $(
+				'<div id="' + opciones.multiFilter._dialogId + '" class="dialog-content-material">' + 
+					'<div id="' + opciones.multiFilter._dialogId + '_feedback" role="alert"></div>' + 
+					'<form>' + 
+						'<div class="form-row"><div class="form-groupMaterial col-12">' + 
+							'<label for="' + opciones.multiFilter._dialogId + '_select">Filtros</label>' + 
+							'<select id="' + opciones.multiFilter._dialogId + '_select"></select>' + 
+						'</div>' +
+						'<div class="form-row">' + 
+							'<div class="checkbox-material col-12">' + 
+								'<input type="checkbox" id="' + opciones.multiFilter._dialogId + '-activeFilter" />' + 
+								'<label for="' + opciones.multiFilter._dialogId + '-activeFilter">Filtro por defecto</label>' + 
+							'</div>' + 
+						'</div>' + 
+					'</form>' + 
+				'</div>');
 
             opciones.multiFilter.$btn.after(opciones.multiFilter.$dialog);
 
-            opciones.multiFilter.$combo = $('#' + opciones.multiFilter._dialogId + '_combo');
+            opciones.multiFilter.$select = $('#' + opciones.multiFilter._dialogId + '_select');
             opciones.multiFilter.$feedback = $('#' + opciones.multiFilter._dialogId + '_feedback');
 
             opciones.multiFilter.$feedback.rup_feedback({
@@ -942,11 +958,11 @@ import Printd from 'printd';
                                 if ($('#' + opciones.filterForm).rup_form('formToJson').length != 0) {
                                     var elem = {
                                         filtro: {
-                                            filterSelector: opciones.multiFilter._filterSelector,
-                                            filterName: opciones.multiFilter.$label.val(),
-                                            filterValue: JSON.stringify($('#' + opciones.filterForm).rup_form('formToJson')),
-                                            filterDefault: opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked,
-                                            filterUser: opciones.multiFilter._filterUser
+                                            selector: opciones.multiFilter._selector,
+                                            text: opciones.multiFilter.$label.val(),
+                                            data: JSON.stringify($('#' + opciones.filterForm).rup_form('formToJson')),
+                                            active: opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked,
+                                            user: opciones.multiFilter._user
                                         }
                                     };
                                     $.rup_ajax({
@@ -956,10 +972,10 @@ import Printd from 'printd';
                                         data: JSON.stringify(elem),
                                         contentType: 'application/json',
                                         success: () => {
-                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_jqtable.plugins.multifilter.ok, 'ok');
+                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_table.plugins.multifilter.ok, 'ok');
                                         },
                                         error: () => {
-                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_jqtable.plugins.multifilter.error, 'error');
+                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_table.plugins.multifilter.error, 'error');
                                         }
                                     });
                                 }
@@ -983,28 +999,28 @@ import Printd from 'printd';
                                 if (opciones.multiFilter.selected) {
                                     var elem = {
                                         filtro: {
-                                            filterSelector: opciones.multiFilter.selected.filterSelector,
-                                            filterName: opciones.multiFilter.selected.filterName,
-                                            filterValue: JSON.stringify(opciones.multiFilter.selected.filterValue),
-                                            filterDefault: opciones.multiFilter.selected.filterDefault,
-                                            filterUser: opciones.multiFilter.selected.filterUser
+                                            selector: opciones.multiFilter.selected.selector,
+                                            text: opciones.multiFilter.selected.text,
+                                            data: JSON.stringify(opciones.multiFilter.selected.value),
+                                            active: opciones.multiFilter.selected.default,
+                                            user: opciones.multiFilter.selected.user
                                         }
                                     };
                                     $.rup_ajax({
                                         url: opciones.action + '/./multiFilter/delete',
-                                        type: 'POST',
+                                        type: 'DELETE',
                                         dataType: 'json',
                                         data: JSON.stringify(elem),
                                         contentType: 'application/json',
                                         success: () => {
-                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_jqtable.plugins.multifilter.ok, 'ok');
-                                            opciones.multiFilter.$combo.rup_autocomplete('set', '', '');
+                                            opciones.multiFilter.$select.rup_select('set', '', '');
+                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_table.plugins.multifilter.ok, 'ok');
                                             opciones.multiFilter.$label.data('tmp.loadObjects.term', null);
                                             opciones.multiFilter.$label.data('loadObjects', {});
                                             opciones.multiFilter.$label.data('tmp.data', {});
                                         },
                                         error: () => {
-                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_jqtable.plugins.multifilter.error, 'error');
+                                            opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_table.plugins.multifilter.error, 'error');
                                         }
                                     });
                                 }
@@ -1023,101 +1039,95 @@ import Printd from 'printd';
                 }
             });
 
-            opciones.multiFilter.$combo.rup_autocomplete({
-                source: opciones.action +
-                    '/./multiFilter/getAll?filterSelector=' +
-                    opciones.multiFilter._filterSelector + '&user=' +
-                    opciones.multiFilter._filterUser,
+            opciones.multiFilter.$select.rup_select({
+                url: opciones.action +
+                    '/./multiFilter/getAll?selector=' +
+                    opciones.multiFilter._selector + '&user=' +
+                    opciones.multiFilter._user,
                 sourceParam: {
-                    label: 'filterName',
-                    value: 'filterDefault',
-                    data: 'filterValue',
+                    text: 'text',
+                    id: 'id',
+                    data: 'data',
                     category: 'filter'
                 },
                 method: 'GET',
-                menuMaxHeight: 325,
-                minLength: 3,
-                combobox: true,
+                combo: true,
+                autocomplete: true,
+                allowClear: true,
                 contains: true,
                 select: function () {
-                    if (opciones.multiFilter.$combo.rup_autocomplete('getRupValue')) {
+                    if (opciones.multiFilter.$select.rup_select('getRupValue')) {
                         opciones.multiFilter.selected = {
-                            filterSelector: opciones.multiFilter._filterSelector,
-                            filterName: opciones.multiFilter.$combo.rup_autocomplete('getRupValue'),
-                            filterDefault: opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked,
-                            filterUser: opciones.multiFilter._filterUser
+                            selector: opciones.multiFilter._selector,
+                            id: opciones.multiFilter.$select.rup_select('getRupValue'),
+                            active: opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked,
+                            user: opciones.multiFilter._user
                         };
                         $.rup_ajax({
                             url: opciones.action +
-                                '/./multiFilter/getAll?filterSelector=' +
-                                opciones.multiFilter._filterSelector + '&user=' +
-                                opciones.multiFilter._filterUser,
+                                '/./multiFilter/getAll?selector=' +
+                                opciones.multiFilter._selector + '&user=' +
+                                opciones.multiFilter._user,
                             type: 'GET',
                             dataType: 'json',
                             contentType: 'application/json',
                             success: function (data) {
-                                if (opciones.multiFilter.selected.filterName) {
+                                if (opciones.multiFilter.selected.id) {
                                     for (let i = 0; i < data.length; i++) {
-                                        if (opciones.multiFilter.selected.filterName == data[i].filterName) {
-                                            opciones.multiFilter.selected.filterValue = JSON.parse(data[i].filterValue);
-                                            opciones.multiFilter.selected.filterDefault = data[i].filterDefault;
+                                        if (opciones.multiFilter.selected.id == data[i].id) {
+                                            opciones.multiFilter.selected.data = JSON.parse(data[i].data);
+                                            opciones.multiFilter.selected.active = data[i].active;
                                         }
                                     }
-                                    if (opciones.multiFilter.selected.filterDefault) {
-                                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked = true;
+                                    if (opciones.multiFilter.selected.active) {
+                                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked = true;
                                     } else {
-                                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked = false;
+                                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked = false;
                                     }
 
                                     $('#' + opciones.filterForm).find('input').val('');
                                     for (let i = 0; i < $('#' + opciones.filterForm).find('input').length; i++) {
-                                        if (opciones.multiFilter.selected.filterValue[$('#' + opciones.filterForm).find('input').eq(i).attr('name')] != undefined) {
-                                            $('#' + opciones.filterForm).find('input').eq(i).val(opciones.multiFilter.selected.filterValue[$('#' + opciones.filterForm).find('input').eq(i).attr('name')]);
+                                        if (opciones.multiFilter.selected.data[$('#' + opciones.filterForm).find('input').eq(i).attr('name')] != undefined) {
+                                            $('#' + opciones.filterForm).find('input').eq(i).val(opciones.multiFilter.selected.data[$('#' + opciones.filterForm).find('input').eq(i).attr('name')]);
                                         }
                                     }
                                 }
                             },
                             error: () => {
-                                opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_jqtable.plugins.multifilter.error, 'error');
+                                opciones.multiFilter.$feedback.rup_feedback('set', $.rup.i18n.base.rup_table.plugins.multifilter.error, 'error');
                             }
                         });
                     }
                 }
             });
 
-            opciones.multiFilter.$label = $('#' + opciones.multiFilter._dialogId + '_combo_label');
+            opciones.multiFilter.$label = $('label[for="' + opciones.multiFilter._dialogId + '_select"]');
 
             //filtro por derecho
             $.rup_ajax({
                 url: opciones.action +
-                    '/./multiFilter/getDefault?filterSelector=' +
-                    opciones.multiFilter._filterSelector + '&user=' +
-                    opciones.multiFilter._filterUser,
+                    '/./multiFilter/getDefault?selector=' +
+                    opciones.multiFilter._selector + '&user=' +
+                    opciones.multiFilter._user,
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
-                    opciones.multiFilter.$label.val(data.filterName);
-                    data.filterValue = JSON.parse(data.filterValue);
-                    if (data.filterDefault) {
-                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked = true;
+                    opciones.multiFilter.$label.val(data.text);
+                    data.data = JSON.parse(data.data);
+                    if (data.active) {
+                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked = true;
                     } else {
-                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-defaultFilter')[0].checked = false;
+                        opciones.multiFilter.$dialog.find('#' + opciones.multiFilter._dialogId + '-activeFilter')[0].checked = false;
                     }
                     for (let i = 0; i < $('#' + opciones.filterForm).find('input').length; i++) {
-                        if (data.filterValue[$('#' + opciones.filterForm).find('input').eq(i).attr('name')] != undefined) {
-                            $('#' + opciones.filterForm).find('input').eq(i).val(data.filterValue[$('#' + opciones.filterForm).find('input').eq(i).attr('name')]);
+                        if (data.data[$('#' + opciones.filterForm).find('input').eq(i).attr('name')] != undefined) {
+                            $('#' + opciones.filterForm).find('input').eq(i).val(data.data[$('#' + opciones.filterForm).find('input').eq(i).attr('name')]);
                         }
                     }
                 }
             });
-
-            opciones.multiFilter.$label.data('uiAutocomplete')._renderItem = (ul, item) => {
-                return $('<li></li>').data(
-                    'item.autocomplete', item).append(
-                    '<a>' + item.label + '</a>')
-                    .appendTo(ul);
-            };
+            
             opciones.multiFilter.$label.off('blur click');
         },
 
@@ -1176,25 +1186,26 @@ import Printd from 'printd';
         },
 
         /**
-         * Método interno que configura el combo de seleccion de sidx en la ordenación simple
-         * @name _sidxComboInit
+         * Método interno que configura el select de seleccion de sidx en la ordenación simple
+         * @name _sidxSelectInit
          * @private
          * @function
          */
-        _sidxComboInit: function () {
+        _sidxSelectInit: function () {
             const self = this;
             const opciones = self.options;
 
             let doChange = function(obj, change){
-                if (!$('#' + obj.id).rup_combo('isDisabled')) {
+                if (!$('#' + obj.id).rup_select('isDisabled') && obj.selected != opciones.sidx.value) {
+					opciones.sidx.value = obj.selected;
                 	let iden = opciones._header.sidx[0].id;
-                    $('#'+iden).rup_combo('setRupValue', $('#' + obj.id).rup_combo('getRupValue'));
+                    $('#'+iden).rup_select('setRupValue', $('#' + obj.id).rup_select('getRupValue'));
                     if(opciones.createFooter){
                     	iden = opciones._footer.sidx[0].id;
-                    	$('#'+iden).rup_combo('setRupValue', $('#' + obj.id).rup_combo('getRupValue'));
+                    	$('#'+iden).rup_select('setRupValue', $('#' + obj.id).rup_select('getRupValue'));
                     }
                     if(change){
-                        self._changeOption('sidx', $('#' + obj.id).rup_combo('getRupValue'));
+                        self._changeOption('sidx', $('#' + obj.id).rup_select('getRupValue'));
                     }
                 }
             };
@@ -1203,30 +1214,30 @@ import Printd from 'printd';
                 doChange(this, true);
             };
             let changeF = function(){
-                doChange(this, false);
+                doChange(this, true);
             };
+            
+            opciones.sidx.source.filter(data => data.id = data.value);
 
             var sidxRupConf = {
-                source: opciones.sidx.source,
-                width: 'initial',
+                data: opciones.sidx.source,
                 selected: opciones.sidx.value,
                 rowStriping: true,
                 ordered: false,
                 change: changeH
             };
-            opciones._header.sidx.rup_combo(sidxRupConf);
+            opciones._header.sidx.rup_select(sidxRupConf);
             opciones._header.sidx = $('#' + opciones._idListHeader.sidx);
             if(opciones.createFooter){
                 var sidxRupConfFoot = {
-                        source: opciones.sidx.source,
-                        width: 'initial',
+                        data: opciones.sidx.source,
                         selected: opciones.sidx.value,
                         rowStriping: true,
                         ordered: false,
                         change: changeF
                     };
        
-                opciones._footer.sidx.rup_combo(sidxRupConfFoot);
+                opciones._footer.sidx.rup_select(sidxRupConfFoot);
                 opciones._footer.sidx = $('#' + opciones._idListFooter.sidx);
             }
         },
@@ -1432,7 +1443,7 @@ import Printd from 'printd';
         },
 
         /**
-         * Método interno que configura el combo de elementos de lista por página
+         * Método interno que configura el select de elementos de lista por página
          * @name _rownumInit
          * @private
          * @function
@@ -1442,19 +1453,18 @@ import Printd from 'printd';
             const opciones = self.options;
 
            let doChange = function(obj, change){
-                if(opciones.createFooter){
-                	let iden = opciones._header.rowNum[0].id;
-                    if (obj.id == 'rup-list-footer-rowNum') {
-                    	$('#'+iden).rup_combo('setRupValue', $('#' + obj.id).rup_combo('getRupValue'));
-                    }
-                    if (obj.id == 'rup-list-header-rowNum') {
-                    	iden = opciones._footer.rowNum[0].id;
-                    	$('#'+iden).rup_combo('setRupValue', $('#' + obj.id).rup_combo('getRupValue'));
-                    }
-                }
-                if(change){
-                    self._changeOption('rowNum', $('#' + obj.id).rup_combo('getRupValue'));
-                }
+				if (!$('#' + obj.id).rup_select('isDisabled') && obj.selected != opciones.sidx.value) {
+					opciones.sidx.value = obj.selected;
+					let iden = opciones._header.rowNum[0].id;
+					$('#'+iden).rup_select('setRupValue', $('#' + obj.id).rup_select('getRupValue'));
+					if(opciones.createFooter){
+						iden = opciones._footer.rowNum[0].id;
+						$('#'+iden).rup_select('setRupValue', $('#' + obj.id).rup_select('getRupValue'));
+					}
+					if(change){
+                    	self._changeOption('rowNum', $('#' + obj.id).rup_select('getRupValue'));
+                	}
+				}
             };
 
 
@@ -1462,12 +1472,13 @@ import Printd from 'printd';
                 doChange(this, true);
             };
             let changeF = function(){
-                doChange(this, false);
+                doChange(this, true);
             };
+            
+            opciones.rowNum.source.filter(data => data.id = data.value);
 
             var rowNumRupConf = {
-                source: opciones.rowNum.source,
-                width: 'initial',
+                data: opciones.rowNum.source,
                 selected: opciones.rowNum.value,
                 rowStriping: true,
                 ordered: false,
@@ -1475,13 +1486,12 @@ import Printd from 'printd';
             };
 
             let iden = opciones._header.rowNum[0].id;
-            $('#'+iden).rup_combo(rowNumRupConf);
+            $('#'+iden).rup_select(rowNumRupConf);
             opciones._header.rowNum = $('#' + opciones._idListHeader.rowNum);
             
             if(opciones.createFooter){
                 var rowNumRupConfFoot = {
-                        source: opciones.rowNum.source,
-                        width: 'initial',
+                        data: opciones.rowNum.source,
                         selected: opciones.rowNum.value,
                         rowStriping: true,
                         ordered: false,
@@ -1489,7 +1499,7 @@ import Printd from 'printd';
                     };
                
                 let idenFoot = opciones._footer.rowNum[0].id;
-                $('#'+idenFoot).rup_combo(rowNumRupConfFoot);
+                $('#'+idenFoot).rup_select(rowNumRupConfFoot);
                 opciones._footer.rowNum = $('#' + opciones._idListFooter.rowNum);
             }
         },
@@ -1639,8 +1649,8 @@ import Printd from 'printd';
                 let tmpSordArr = opciones.multiorder.sord.split(',').map((e) => {
                     return e.trim();
                 });
-                if (tmpSidxArr.indexOf($(e.target).attr('data-ordValue')) == -1) {
-                    tmpSidxArr.push($(e.target).attr('data-ordValue'));
+                if (tmpSidxArr.indexOf($(e.currentTarget).attr('data-ordValue')) == -1) {
+                    tmpSidxArr.push($(e.currentTarget).attr('data-ordValue'));
                     tmpSordArr.push(ord);
                 }
                 opciones.multiorder.sidx = tmpSidxArr.join(',');
@@ -1648,20 +1658,20 @@ import Printd from 'printd';
             }
             //Creamos la linea
             let $operateLine = $(`
-                <div id="${opciones._idMultiSortDialog}-ord-line-${$(e.target).attr('data-ordValue')}" 
+                <div id="${opciones._idMultiSortDialog}-ord-line-${$(e.currentTarget).attr('data-ordValue')}" 
                     class="rup_list-ord-line btn-group mb-3" 
-                    data-ordValue="${$(e.target).attr('data-ordValue')}"
+                    data-ordValue="${$(e.currentTarget).attr('data-ordValue')}"
                     role="toolbar" 
                     aria-controls="${self.element[0].id}"
-                    aria-label="${$(e.target).text().trim()}, ${$.rup.i18n.base.rup_list.sort[ord]}">
+                    aria-label="${$(e.currentTarget).text().trim()}, ${$.rup.i18n.base.rup_list.sort[ord]}">
                     <div class="rup_list-apord input-group-text"></div>
                     <button class="rup_list-mord-up btn btn-secondary p-1 mdi mdi-arrow-up"
                         aria-label="${$.rup.i18n.base.rup_list.mordSubir}"
-                        aria-controls="${self.element[0].id} ${opciones._idMultiSortDialog}-ord-line-${$(e.target).attr('data-ordValue')}"></button>
+                        aria-controls="${self.element[0].id} ${opciones._idMultiSortDialog}-ord-line-${$(e.currentTarget).attr('data-ordValue')}"></button>
                     <button class="rup_list-mord-down btn btn-secondary p-1 mdi mdi-arrow-down"
                         aria-label="${$.rup.i18n.base.rup_list.mordBajar}"
-                        aria-controls="${self.element[0].id} ${opciones._idMultiSortDialog}-ord-line-${$(e.target).attr('data-ordValue')}"></button>
-                    <div class="rup_list-mord-label input-group-text rounded-0 w-50" aria-hidden="true">${$(e.target).text()}</div>
+                        aria-controls="${self.element[0].id} ${opciones._idMultiSortDialog}-ord-line-${$(e.currentTarget).attr('data-ordValue')}"></button>
+                    <div class="rup_list-mord-label input-group-text rounded-0 w-50" aria-hidden="true">${$(e.currentTarget).text()}</div>
                     <button aria-controls="${self.element[0].id}"
                         class="rup_list-mord btn btn-secondary mdi" 
                         data-direction="${ord}"
@@ -1672,10 +1682,10 @@ import Printd from 'printd';
                 </div>
             `);
             $operateLine.find('button').rup_button();
-            $(e.target).remove();
+            $(e.currentTarget).remove();
             sortDiv.append($operateLine);
 
-            self._fnOrderOfOrderFields.apply(self, [$('[data-ordValue="' + $(e.target).attr('data-ordValue') + '"]', sortDiv), isInit]);
+            self._fnOrderOfOrderFields.apply(self, [$('[data-ordValue="' + $(e.currentTarget).attr('data-ordValue') + '"]', sortDiv), isInit]);
         },
 
         /**
@@ -2433,6 +2443,9 @@ import Printd from 'printd';
                     dataType: 'json',
                     data: JSON.stringify(filter),
                     contentType: 'application/json',
+					beforeSend: function() {
+						self.element.trigger('beforeLoad', filter);
+					},
                     success: function (xhr) {
                         $pagenavH.find('.page').remove();
                         $pagenavH.find('.page-separator').hide();
@@ -2447,6 +2460,7 @@ import Printd from 'printd';
                             if(opciones.createFooter){
                                 opciones._footer.obj.hide();
                             }
+							opciones.records = 0;
                             opciones.feedback.rup_feedback('set', $.rup.i18n.base.rup_table.errors.errorOnGet, 'error');
                             opciones._content.slideDown();
 
@@ -2542,6 +2556,7 @@ import Printd from 'printd';
                                 if(opciones.createFooter){
                                     opciones._footer.obj.hide();
                                 }
+								opciones.records = 0;
                                 opciones.feedback.rup_feedback('set', $.rup.i18n.base.rup_table.defaults.emptyrecords, 'alert');
                                 opciones._content.slideDown();
                                 self.element.trigger('load');

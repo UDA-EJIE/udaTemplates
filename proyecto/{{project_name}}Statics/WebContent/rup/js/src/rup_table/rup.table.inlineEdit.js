@@ -58,7 +58,7 @@ DataTable.inlineEdit.version = '1.2.4';
 *
 * @name init
 * @function
-* @since UDA 3.4.0 // Table 1.0.0
+* @since UDA 3.4.0
 *
 * @param {object} dt - Es el objeto table.
 *
@@ -69,14 +69,14 @@ DataTable.inlineEdit.init = function ( dt ) {
 	var idRow;
 	// Se edita el row/fila.
 	var rowsBody = $( ctx.nTBody);
-	rowsBody.on( 'dblclick.DT keypress','tr:not(.group)',  function (e) {
+	rowsBody.on( 'dblclick.DT keypress','tr:not(.dtrg-group)',  function (e) {
 		// Solo selecciona si se pulsa sobre el enter o se hace click izquierdo col raton
             if (e.type == 'keypress' && e.which == 13 || e.type === 'dblclick') {
 			if($(this).hasClass('editable')){
 				return false;
 			}
 			idRow = this._DT_RowIndex;
-			_editInline(dt,ctx,idRow);
+			_editInline(dt, ctx, idRow, 'PUT');
 			$('#'+ctx.sTableId).triggerHandler('tableEditInlineClickRow',ctx);
 		}
 	} );
@@ -85,15 +85,15 @@ DataTable.inlineEdit.init = function ( dt ) {
 	    if(showHide && row.child() !== undefined){
 	    	row.child().on( 'dblclick.DT',  function () {
 	    		idRow = row.index();
-	    		_editInline(dt,ctx,idRow);
+	    		_editInline(dt, ctx, idRow, 'PUT');
 	    	} );
 	 
 	    	if(ctx.oInit.inlineEdit.rowDefault !== undefined && ctx.oInit.inlineEdit.rowDefault === 'estadoFinal'){
 	    		ctx.oInit.inlineEdit.rowDefault = undefined;
 	    		_restaurarFila(ctx,true);
-	    		_editInline(dt,ctx,row.index());
+	    		_editInline(dt, ctx, row.index(), 'PUT');
 	    		if(ctx.oInit.inlineEdit.currentPos !== null && ctx.oInit.inlineEdit.currentPos.actionType === 'CLONE'){
-	    			$('#' + ctx.sTableId + ' tbody tr:not(.group)').eq(0).addClass('new');
+	    			$('#' + ctx.sTableId + ' tbody tr:not(.dtrg-group)').eq(0).addClass('new');
 	    			DataTable.Api().rupTable.selectPencil(ctx,0);
 	    		}
 	    	}
@@ -204,6 +204,14 @@ DataTable.inlineEdit.init = function ( dt ) {
 					$('#' + ctx.sTableId+'cancelButton_1_contextMenuToolbar').addClass('disabledButtonsTable');
 					ctx.inlineEdit.lastRow = undefined;
 					ctx.oInit.inlineEdit.alta = undefined;
+					
+					// Garantiza la deselección, evitando un error en el filtrado posterior.
+					if (ctx.oInit.multiSelect !== undefined) {
+						DataTable.Api().multiSelect.deselectAll(dt);
+					} else if (ctx.oInit.select !== undefined) {
+						DataTable.Api().select.deselect(ctx);
+					}
+					
 			        dt.ajax.reload(undefined, false);
 				}
 				
@@ -254,7 +262,7 @@ DataTable.inlineEdit.init = function ( dt ) {
  *
  * @name init
  * @function
- * @since UDA 3.7.0 // Table 1.0.0
+ * @since UDA 3.7.0
  *
  * @param  {DataTable.settings} ctx Settings object to operate on
  *
@@ -353,7 +361,7 @@ function init ( ctx ) {
 *
 * @name _onResponsiveResize
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - Es el objeto table.
 *
@@ -369,7 +377,7 @@ function _onResponsiveResize(dt){
 *
 * @name _add
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - Es el objeto table.
 * @param {object} ctx - Contexto del Datatable.
@@ -396,8 +404,8 @@ function _add(dt,ctx){
 				ctx.oInit.inlineEdit.alta = true;
 				dt.ajax.reload( function (  ) {
 					ctx.oInit.inlineEdit.alta = undefined;
-					$('#' + ctx.sTableId + ' tbody tr:not(.group)').eq(0).addClass('new');
-					_editInline(dt,ctx,0);
+					$('#' + ctx.sTableId + ' tbody tr:not(.dtrg-group)').eq(0).addClass('new');
+					_editInline(dt, ctx, 0, 'POST');
 				} );
 				
 			}
@@ -407,8 +415,8 @@ function _add(dt,ctx){
 		ctx.oInit.inlineEdit.alta = true;
 		dt.ajax.reload( function (  ) {
 			ctx.oInit.inlineEdit.alta = undefined;
-			$('#' + ctx.sTableId + ' tbody tr:not(.group)').eq(0).addClass('new');
-			_editInline(dt,ctx,0);
+			$('#' + ctx.sTableId + ' tbody tr:not(.dtrg-group)').eq(0).addClass('new');
+			_editInline(dt, ctx, 0, 'POST');
 		} );
 
 	}
@@ -420,7 +428,7 @@ function _add(dt,ctx){
 *
 * @name _addChildIcons
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Contexto del Datatable.
 *
@@ -485,69 +493,73 @@ function _addChildIcons(ctx){
 /**
 * Método principal para la edición en línea.
 *
-* @name _add
+* @name _editInline
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - Es el objeto table.
 * @param {object} ctx - Contexto del Datatable.
 * @param {integer} idRow - Número con la posición de la fila que hay que obtener.
+* @param {string} [actionType='POST'] - Método del formulario a obtener.
 *
 */
-function _editInline ( dt,ctx, idRow ){
+function _editInline (dt, ctx, idRow, actionType = 'POST'){
 	if(ctx.inlineEdit.lastRow !== undefined && ctx.inlineEdit.lastRow.idx !== idRow){//si no es la misma fila.
 		_restaurarFila(ctx,false);
 	}
-	const $rowSelect = $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(idRow);
+	
+	$.when(_loadAuxForm(ctx, actionType, ctx.json.rows[idRow])).then(function () {
+		const $rowSelect = $('#' + ctx.sTableId + ' > tbody > tr:not(.dtrg-group)').eq(idRow);
         if (!$rowSelect.hasClass('editable')) {
-		_changeInputsToRup(ctx,idRow);
-		// Se deshabilitan los botones predefinidos de la tabla.
-		DataTable.Api().buttons.disableAllButtons(ctx, ctx.ext.buttons.custom);
-	}
+			_changeInputsToRup(ctx,idRow);
+			// Se deshabilitan los botones predefinidos de la tabla.
+			DataTable.Api().buttons.disableAllButtons(ctx, ctx.ext.buttons.custom);
+		}
+		
+		// Habilitamos en la botonera y contextMenu
+		$('#' + ctx.sTableId+'saveButton_1').prop('disabled', false);
+		$('#' + ctx.sTableId+'saveButton_1_contextMenuToolbar').removeClass('disabledButtonsTable');
+		$('#' + ctx.sTableId+'cancelButton_1').prop('disabled', false);
+		$('#' + ctx.sTableId+'cancelButton_1_contextMenuToolbar').removeClass('disabledButtonsTable');
+		
+		// Cuando sea añadir registro no hay que habilitar el boton de informes
+	        if (!$rowSelect.hasClass('odd new')) {
+			$('#' + ctx.sTableId+'informes_01').prop('disabled', false);
+		}
 	
-	// Habilitamos en la botonera y contextMenu
-	$('#' + ctx.sTableId+'saveButton_1').prop('disabled', false);
-	$('#' + ctx.sTableId+'saveButton_1_contextMenuToolbar').removeClass('disabledButtonsTable');
-	$('#' + ctx.sTableId+'cancelButton_1').prop('disabled', false);
-	$('#' + ctx.sTableId+'cancelButton_1_contextMenuToolbar').removeClass('disabledButtonsTable');
-	
-	// Cuando sea añadir registro no hay que habilitar el boton de informes
-        if (!$rowSelect.hasClass('odd new')) {
-		$('#' + ctx.sTableId+'informes_01').prop('disabled', false);
-	}
-
-	DataTable.Api().seeker.enabledButtons(ctx);
-	
-	$('#'+ctx.sTableId).triggerHandler('tableInlineEdit',ctx);
-	var selectores = {};
-	selectores[0] = $rowSelect;
-        if ($rowSelect.next().find('.child').length === 1) {
-            selectores[1] = $rowSelect.next().find('.child');
-	}
-	
-	$.each(selectores,function() {//se crea evento para los selectores creados.
-		_crearEventos(ctx,this);
-	});
-	
-	if(ctx.oInit.inlineEdit.clone !== true){
-		//Añadir la seleccion del mismo.
-		if (ctx.oInit.multiSelect !== undefined) {
-			dt['row'](idRow).multiSelect();
-		}else{
-			var rowsBody = $( ctx.nTBody);
-			$('tr',rowsBody).removeClass('selected tr-highlight');
-			DataTable.Api().select.selectRowIndex(dt,idRow,true);
-			if(ctx.multiselection.selectedIds == ""){//es nuevo
-				ctx.multiselection.selectedIds = [];
+		DataTable.Api().seeker.enabledButtons(ctx);
+		
+		$('#'+ctx.sTableId).triggerHandler('tableInlineEdit',ctx);
+		var selectores = {};
+		selectores[0] = $rowSelect;
+	        if ($rowSelect.next().find('.child').length === 1) {
+	            selectores[1] = $rowSelect.next().find('.child');
+		}
+		
+		$.each(selectores,function() {//se crea evento para los selectores creados.
+			_crearEventos(ctx,this);
+		});
+		
+		if(ctx.oInit.inlineEdit.clone !== true){
+			//Añadir la seleccion del mismo.
+			if (ctx.oInit.multiSelect !== undefined) {
+				dt['row'](idRow).multiSelect();
+			}else{
+				var rowsBody = $( ctx.nTBody);
+				$('tr',rowsBody).removeClass('selected tr-highlight');
+				DataTable.Api().select.selectRowIndex(dt,idRow,true);
+				if(ctx.multiselection.selectedIds == ""){//es nuevo
+					ctx.multiselection.selectedIds = [];
+				}
 			}
 		}
-	}
-	
-	dt.responsive.recalc();
-        if (ctx.oInit.inlineEdit.currentPos !== undefined && ctx.oInit.inlineEdit.currentPos.actionType !== undefined &&
-            ctx.oInit.inlineEdit.currentPos.actionType === 'CLONE' && $rowSelect.find('span.openResponsive').length === 0) { //revisar cuando es clone por si el responsive falla
-		 _addChildIcons(ctx);
-	}
+		
+		dt.responsive.recalc();
+	        if (ctx.oInit.inlineEdit.currentPos !== undefined && ctx.oInit.inlineEdit.currentPos.actionType !== undefined &&
+	            ctx.oInit.inlineEdit.currentPos.actionType === 'CLONE' && $rowSelect.find('span.openResponsive').length === 0) { //revisar cuando es clone por si el responsive falla
+			 _addChildIcons(ctx);
+		}
+	});
 }
 
 /**
@@ -555,7 +567,7 @@ function _editInline ( dt,ctx, idRow ){
 *
 * @name getRowSelected
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - Instancia de la tabla.
 * @param {string} actionType - Acción a ajecutar en el formulario para ir al controller, basado en REST.
@@ -572,13 +584,7 @@ function _getRowSelected(dt, actionType){
 		};
 	var lastSelectedId = ctx.multiselection.lastSelectedId;
 	if (!ctx.multiselection.selectedAll) {
-		let staticID = $.fn.getStaticHdivID(ctx.multiselection.lastSelectedId);
-		$.each(ctx.multiselection.selectedRowsPerPage, function(index, p) {
-			// Obtener el último seleccionado para tener el identificador actualizado (solamente es necesario cuando se usa Hdiv porque cambia el cifrado entre peticiones)
-			if ($.fn.isHdiv(p.id) && staticID === $.fn.getStaticHdivID(p.id)) {
-				ctx.multiselection.lastSelectedId = p.id;
-			}
-			
+		$.each(ctx.multiselection.selectedRowsPerPage, function(index, p) {			
 			if (p.id == ctx.multiselection.lastSelectedId) {
 				rowDefault.id = p.id;
 				rowDefault.page = p.page;
@@ -633,7 +639,7 @@ function _getRowSelected(dt, actionType){
 		}
 	} else {
 		if (actionType === 'PUT') {
-			_editInline(dt, ctx, rowDefault.line);
+			_editInline(dt, ctx, rowDefault.line, actionType);
 		} else if (actionType === 'CLONE') {
 			dt.ajax.reload(undefined, false);
 			rowDefault.actionType = actionType;
@@ -649,7 +655,7 @@ function _getRowSelected(dt, actionType){
 *
 * @name cloneLine
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 *
 * @param {object} dt - Objeto table.
@@ -675,7 +681,7 @@ function _cloneLine(dt, ctx, line){
 *
 * @name getNextPageSelected
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Contexto del Datatable.
 * @param {integer} pageInit - Página a partir de la cual hay que mirar, en general serà la 1.
@@ -723,7 +729,7 @@ function _getNextPageSelected(ctx,pageInit,orden){
 *
 * @name getLineByPageSelected
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Settings object to operate on.
 * @param {integer} lineInit - Linea a partir de la cual hay que mirar, en general será la 1.
@@ -760,7 +766,7 @@ function _getLineByPageSelected(ctx,lineInit){
 *
 * @name _restaurarFila
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Contexto del Datatable.
 * @param {boolean} limpiar - Si es true limpia e inicializa todo y si es false solo restaura la línea.
@@ -771,7 +777,7 @@ function _restaurarFila(ctx,limpiar){
 	if(ctx.inlineEdit !== undefined && ctx.inlineEdit.lastRow !== undefined){
 		var positionLastRow = ctx.inlineEdit.lastRow.idx;
 
-		var $fila = $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(positionLastRow);
+		var $fila = $('#' + ctx.sTableId + ' > tbody > tr:not(.dtrg-group)').eq(positionLastRow);
 		//Sin responsive
 		_restaurarCeldas(ctx,$fila,$fila.find('td'),0);
 		var contRest = $fila.find('td:not([style*="display: none"])').length;
@@ -783,7 +789,7 @@ function _restaurarFila(ctx,limpiar){
 		_restaurarCeldas(ctx,$fila.next('.child'),$fila.next('.child').find(ctx.oInit.responsive.selectorResponsive),contRest);
 	}
 	if(ctx.inlineEdit !== undefined && limpiar){//si se limpia, no queda ninguna marcada
-		const $selectorTr = $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(positionLastRow);
+		const $selectorTr = $('#' + ctx.sTableId + ' > tbody > tr:not(.dtrg-group)').eq(positionLastRow);
 		ctx.inlineEdit.lastRow = undefined;
             if ($selectorTr.data('events') !== undefined) {
 			$selectorTr.off('keydown');
@@ -813,7 +819,7 @@ function _restaurarFila(ctx,limpiar){
 *
 * @name _changeInputsToRup
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Contexto del Datatable.
 * @param {integer} idRow - Número con la posición de la fila que hay que obtener.
@@ -825,7 +831,7 @@ function _changeInputsToRup(ctx,idRow){
 	if(ctx.oInit.colModel !== undefined){
 		var table = $('#'+ctx.sTableId).DataTable( );
 		var cont = 0;
-		ctx.inlineEdit.lastRow = $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(idRow);
+		ctx.inlineEdit.lastRow = $('#' + ctx.sTableId + ' > tbody > tr:not(.dtrg-group)').eq(idRow);
 		ctx.inlineEdit.lastRow.cellValues = {};
 		ctx.inlineEdit.lastRow.columnsHidden = table.columns().responsiveHidden();
 		ctx.inlineEdit.lastRow.submit = 0;
@@ -857,7 +863,7 @@ function _changeInputsToRup(ctx,idRow){
 *
 * @name _recorrerCeldas
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - fila que se está editando.
@@ -866,7 +872,7 @@ function _changeInputsToRup(ctx,idRow){
 *
 */
 function _recorrerCeldas(ctx,$fila,$celdas,cont){
-	$fila.addClass('editable');
+	$fila.addClass('editable inline');
 	var colModel = ctx.oInit.colModel;
         var child = '';
 	if($fila.hasClass('child')){
@@ -891,9 +897,16 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 			var cellColModel = colModel[cont];
 			
 			if (cellColModel.editable === true || !edicion) {
-				var $input = $('<input />').val($celda.text()).attr('name', cellColModel.name+'_inline'+child);
+				let $input = $('<input />');
+				if(cellColModel.rupType !== undefined && cellColModel.rupType === 'select'){
+					$input = $('<select />');
+				}
+				$input
+					.val(ctx.oInit.inlineEdit.useLocalValues ? $celda.text() : ctx.json.rows[$fila.idx][cellColModel.name])
+					.attr('name', cellColModel.name+'_inline'+child);
+					
 				var title = cellColModel.name.charAt(0).toUpperCase() + cellColModel.name.slice(1);
-                    $input.attr('id', cellColModel.name + '_inline' + child).attr('oldtitle', title);
+				$input.attr('id', cellColModel.name + '_inline' + child).attr('oldtitle', title);
 				
 				// Si es el primero dejar el focus
 				if(ctx.inlineEdit.lastRow.cellValues[0] === undefined){
@@ -926,23 +939,21 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
                         $('#' + colModelName + '_inline_child').wrap('<div class=\'form-groupMaterial\'></div>');
 				}
 
-
 				$elem.attr({
 					'title': '',
-					'class': 'editable customelement form-control-customer'
+					'class': 'editable customelement form-control-customer',
+					...($.rup_utils.isNumeric(cellColModel.editoptions?.maxlength) && { 'maxlength': cellColModel.editoptions.maxlength })
 				}).removeAttr('readOnly');
 				// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
 				if(searchRupType !== undefined && cellColModel.editoptions) {
 					var searchEditOptions = cellColModel.editoptions;
-					if(searchRupType === 'combo'){//se marca el selected
-						searchEditOptions.selected = ctx.inlineEdit.lastRow.cellValues[cont]
+					if(searchRupType === 'select'){
+						searchEditOptions.selected = ctx.oInit.inlineEdit.useLocalValues ? ctx.inlineEdit.lastRow.cellValues[cont] : ctx.json.rows[$fila.idx][cellColModel.name] + '';
 						searchEditOptions.inlineEditFieldName = cellColModel.name;
-					} else if (searchRupType === 'autocomplete') {
-						const cellValue = ctx.inlineEdit.lastRow.cellValues[cont];
-						searchEditOptions.loadValue = cellValue;
-						if(cellValue != null){
-							searchEditOptions.loadObjectsAuto = {[cellValue]:cellValue};
-						}
+						// Permite inicializar el componente con el source correcto.
+						searchEditOptions.inlineEdit = {};
+						searchEditOptions.inlineEdit.$auxForm = ctx.oInit.inlineEdit.idForm;
+						searchEditOptions.inlineEdit.auxSiblingFieldName = cellColModel.name;
 					}
 					
 					//Se Comprueba que los elemnetos menu estan eliminados.
@@ -998,7 +1009,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 *
 * @name _restaurarCeldas
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - Fila que se está editando.
@@ -1009,7 +1020,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 function _restaurarCeldas(ctx, $fila, $celdas, contRest) {
     if ($fila.hasClass('editable')) {
     	var colModel = ctx.oInit.colModel;
-        $fila.removeClass('editable');
+        $fila.removeClass('editable inline');
 	
 		$celdas.each( function() {
 			var celda = $(this);
@@ -1065,7 +1076,7 @@ function _restaurarCeldas(ctx, $fila, $celdas, contRest) {
 *
 * @name _comprobarFila
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - fila que se está editando.
@@ -1101,7 +1112,7 @@ function _comprobarFila(ctx,$fila){
 *
 * @name _crearEventos
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $selector - fila que se está editando.
@@ -1142,7 +1153,7 @@ function _crearEventos(ctx,$selector){
 *
 * @name _lastIndexEditable
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $target - fila que se está editando.
@@ -1181,7 +1192,7 @@ function _lastIndexEditable(ctx,$target){
 *
 * @name _inlineEditFormSerialize
 * @function
-* @since UDA 3.7.0 // Table 1.2.0
+* @since UDA 3.7.0
 *
 * @param {object} $fila - Fila la cual estamos editando.
 * @param {object} ctx - Contexto del table.
@@ -1214,21 +1225,25 @@ function _inlineEditFormSerialize($fila,ctx,child){
 		if (this.hasClass('child')) {
 			busqueda = 'select,input,textarea';
 		}
-		$.each( this.find(busqueda), function( i, obj ) {
-			var nombre = obj.id.replace('_inline','').replace('_child','');
+		
+		$.each(this.find(busqueda), function(i, obj) {
 			var value = $(obj).val();
-			// Comprobar si contiene un caracter invalido
-			if(value.includes("%")){
-				serializedForm = false;
-				return false;
-			}
-			if($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox'){
-                    value = '0';
-				if($(obj).prop('checked')){
-                        value = '1';
+
+			if (value != null) {
+				var nombre = obj.id.replace('_inline', '').replace('_child', '');
+				// Comprobar si contiene un caracter invalido
+				if (value.includes("%")) {
+					serializedForm = false;
+					return false;
 				}
+				if ($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox') {
+					value = '0';
+					if ($(obj).prop('checked')) {
+						value = '1';
+					}
+				}
+				serializedForm[nombre] = value;
 			}
-			serializedForm[nombre] = value;
 		});
 	});
 	
@@ -1236,7 +1251,7 @@ function _inlineEditFormSerialize($fila,ctx,child){
 	if(!selectores[0].hasClass('new') && typeof serializedForm !== "boolean"){
 		jQuery.grep(ctx.oInit.colModel, function( n,i) {
 			  if ( n.editable !== true ){
-				  var text = ctx.json.rows[$fila.index()][n.name];
+				  const text = ctx.json.rows[$('tr:not(.dtrg-group)', $(ctx.nTBody)).index($fila)][n.name];
 				  serializedForm[n.name] = text;
 				  return n;
 			  }
@@ -1251,7 +1266,7 @@ function _inlineEditFormSerialize($fila,ctx,child){
 *
 * @name _guardar
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - fila que se está editando.
@@ -1264,7 +1279,7 @@ function _guardar(ctx,$fila,child){
 	var row = _inlineEditFormSerialize($fila,ctx,child);
 	
     $.each(ctx.oInit.primaryKey, function (index, key) {
-    	row[key] = ctx.json.rows[$fila.index()][key];
+    	row[key] = ctx.json.rows[$('tr:not(.dtrg-group)', $(ctx.nTBody)).index($fila)][key];
     });
 	
 	if(!row) {
@@ -1306,7 +1321,7 @@ function _guardar(ctx,$fila,child){
 *
 * @name _callSaveAjax
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {string} actionType - Es la acción que se va a ajecutar en el formulario para ir al controller, basado en rest.
 * @param {object} ctx - Es el contexto table.
@@ -1342,7 +1357,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
                 'text': 'text/plain',
                 'xml': 'application/xml, text/xml'
             },
-			type: actionType,
+			type: ctx.oInit.inlineEdit.multipart || (actionType == 'PUT' && ctx.oInit.inlineEdit.usePostAsEditActionType) ? 'POST' : actionType,
 			data: row,
 			dataType: 'json',
 			showLoading: false,
@@ -1362,9 +1377,10 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 					_callFeedbackOk(ctx, msgFeedBack, 'ok');
 					
 					if(actionType === 'PUT'){
+						const rowIndex = $('tr:not(.dtrg-group)', $(ctx.nTBody)).index($fila);
 						// Modificar
-						dt.row($fila.index()).data(data);
-						ctx.json.rows[$fila.index()] = data;
+						dt.row(rowIndex).data(data);
+						ctx.json.rows[rowIndex] = data;
 						
 						// Actualizamos el último id seleccionado (por si ha sido editado)
 						let posicion = 0;
@@ -1376,7 +1392,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 						});
 						
 						if (ctx.seeker !== undefined && !jQuery.isEmptyObject(ctx.seeker.ajaxOption.data.search) && ctx.seeker.search.funcionParams !== undefined && ctx.seeker.search.funcionParams.length > 0) {
-							_comprobarSeeker(data, ctx, $fila.index());
+							_comprobarSeeker(data, ctx, rowIndex);
 						}
 						
 						ctx.multiselection.lastSelectedId = idPk;
@@ -1474,22 +1490,33 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
             delete ajaxOptions.data;
             $.rup_ajax(ajaxOptions);
         } else if (isDeleting || $('#' + ctx.sTableId + '_search_searchForm').valid()) {
-        	// Obtener el valor del parámetro HDIV_STATE (en caso de no estar disponible se devolverá vacío) siempre y cuando no se trate de un deleteAll porque en ese caso ya lo contiene el filtro
             if (url.indexOf('deleteAll') === -1) {
-            	// Elimina los campos _label generados por los autocompletes que no forman parte de la entidad
-            	$.fn.deleteAutocompleteLabelFromObject(ajaxOptions.data);
-                
-                // Elimina los campos autogenerados por los multicombos que no forman parte de la entidad
-                $.fn.deleteMulticomboLabelFromObject(ajaxOptions.data, $fila);
-            	
-            	$.when(_loadAuxForm(ctx, actionType)).then(function () {
-	            	var hdivStateParamValue = $.fn.getHDIV_STATE(undefined, ctx.oInit.inlineEdit.idForm);
-	                if (hdivStateParamValue !== '') {
-	                	ajaxOptions.data._HDIV_STATE_ = hdivStateParamValue;
-	                }
-	                ajaxOptions.data = JSON.stringify(ajaxOptions.data);
-	                $.rup_ajax(ajaxOptions);
-            	});
+				// Comprueba si debe enviarse como multipart.
+				if (ctx.oInit.inlineEdit.multipart === true) {
+					ajaxOptions.enctype = 'multipart/form-data';
+					ajaxOptions.processData = false;
+					ajaxOptions.contentType = false;
+		
+					let formData = new FormData();
+		
+					$.each(ajaxOptions.data, function(key, value) {
+						const field = $fila.find('input[type="file"][name="' + key + '_inline"]');
+		
+						// Gestiona el guardado de ficheros.
+						if (field.length != 0 && field.prop('files').length > 0) {
+							$.each(field.prop('files'), function(fileIndex, fileValue) {
+								formData.append(key, fileValue);
+							});
+						} else {
+							formData.append(key, value);
+						}
+					});
+		
+					ajaxOptions.data = formData;
+				} else {
+					ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+				}
+				$.rup_ajax(ajaxOptions);
             } else {
             	ajaxOptions.data = JSON.stringify(ajaxOptions.data);
             	$.rup_ajax(ajaxOptions);
@@ -1518,30 +1545,34 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 }
 
 /**
- * Función que gestiona la carga del formulario del que se obtendrá el parámetro HDIV_STATE en función del tipo de method, POST o PUT.
+ * Función que gestiona la carga del formulario.
  *
  * @name loadAuxForm
  * @function
- * @since UDA 5.0.0 (backported) // Table 1.0.0
+ * @since UDA 5.0.0
  *
  * @param {object} ctx - Contexto del Datatable.
  * @param {string} actionType - Acción a ajecutar en el formulario para ir al controller, basado en REST.
+ * @param {object} row - Valores de los campos del formulario.
  *
  * @return {object}
  */
-function _loadAuxForm(ctx, actionType) {
+function _loadAuxForm(ctx, actionType, row) {
 	var idForm = ctx.oInit.inlineEdit !== undefined ? ctx.oInit.inlineEdit.idForm : undefined;
 	
 	// Servirá para saber si la última llamada a inlineEdit fue para añadir, editar o si aún no ha sido inicializado
 	let lastAction = ctx.oInit.inlineEdit.actionType;
 	
-	// Si el usuario ha activado los formularios dinámicos y la última acción no es la misma que la actual, es necesario volver a obtener el formulario
-	if (ctx.oInit.enableDynamicForms && lastAction !== actionType) {
-		// Preparar la información a enviar al servidor. Como mínimo se enviará el actionType y el identificador de la tabla.
-		let defaultData = {
-				'actionType': actionType,
-				'tableID': ctx.sTableId
-			};
+	// Si el usuario ha activado los formularios dinámicos, la última acción no es la misma que la actual o el valor del identificador ha cambiado,
+	// es necesario volver a obtener el formulario.
+	if (_validarFormulario(ctx,lastAction, actionType, row)) {
+		// Preparar la información a enviar al servidor. Como mínimo se enviará el actionType, un booleano que indique si el formulario es multipart y 
+		// el valor de la clave primaria siempre y cuando no contenga un string vacío.
+		const defaultData = {
+			'actionType': actionType == 'PUT' && ctx.oInit.inlineEdit.usePostAsEditActionType ? 'POST' : actionType,
+			'isMultipart': ctx.oInit.inlineEdit.multipart === true ? true : false,
+			...(ctx.oInit.inlineEdit.rowDefault?.actionType != "CLONE" && DataTable.Api().rupTable.getIdPk(row, ctx.oInit) != "" && { 'pkValue': DataTable.Api().rupTable.getIdPk(row, ctx.oInit) })
+		};
 		let data = ctx.oInit.inlineEdit.data !== undefined ? $.extend({}, defaultData, ctx.oInit.inlineEdit.data) : defaultData;
 		
 		return $.post(ctx.oInit.inlineEdit.url !== undefined ? ctx.oInit.inlineEdit.url : ctx.oInit.urlBase + '/inlineEdit', data, function (form) {
@@ -1571,11 +1602,35 @@ function _loadAuxForm(ctx, actionType) {
 }
 
 /**
+ * Valida los formularios para no, buscarlos.
+ *
+ * @name validarFormulario
+ * @function
+ * @since UDA 5.0.2
+ *
+ * @param {object} ctx - Contexto de la tabla.
+ * @param {object} lastAction - última accion realizado.
+ * @param {object} actionType - Tipo de acción.
+ * @param {object} row - Datos de la fila que se cargan.
+ */
+function _validarFormulario(ctx, lastAction, actionType, row){    	
+	if(ctx.oInit.enableDynamicForms){ 
+		let lastSelectedIdUsed = ctx.oInit.inlineEdit.lastSelectedIdUsed;
+		let lastSelected = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
+		ctx.oInit.inlineEdit.lastSelectedIdUsed = lastSelected;
+		if(lastAction !== actionType || lastSelectedIdUsed === undefined || lastSelected !== lastSelectedIdUsed){
+			return true
+		}
+	}
+	return false;
+}
+
+/**
  * Llamada para crear el feedback dentro del dialog.
  *
  * @name callFeedbackOk
  * @function
- * @since UDA 3.7.0 // Table 1.0.0
+ * @since UDA 3.7.0
  *
  * @param {object} ctx - Settings object to operate on.
  * @param {object} feedback - Div donde se va ejecutar el feedback.
@@ -1597,7 +1652,7 @@ function _callFeedbackOk(ctx, msgFeedBack, type) {
 *
 * @name _inResponsiveChangeInputsValues
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - fila que se está editando.
@@ -1687,7 +1742,7 @@ function _inResponsiveChangeInputsValues(ctx,$fila){
 *
 * @name _asignarInputsValues
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 * @param {object} $fila - fila que se está editando.
@@ -1699,7 +1754,7 @@ function _asignarInputsValues(ctx,$fila){
 		if(celda.value !== undefined ){
 			if(celda.visible){// se asignan a los inputs ocultos
 				if($fila.find('td').eq(celda.idCell).find('select').length > 0){
-					$fila.find('td').eq(celda.idCell).find('select').rup_combo('setRupValue',celda.value);
+					$fila.find('td').eq(celda.idCell).find('select').rup_select('setRupValue',celda.value);
 				}else{
 					$fila.find('td').eq(celda.idCell).find('input').val(celda.value);
 					if($fila.find('td').eq(celda.idCell).find('input').is(':checkbox')){
@@ -1712,7 +1767,7 @@ function _asignarInputsValues(ctx,$fila){
 				}
 			}else{//se asignan alos child
 				if($fila.next('.child').find('li').eq(contChild).find('select').length > 0){
-					$fila.next('.child').find('li').eq(contChild).find('select').rup_combo('setRupValue',celda.value);
+					$fila.next('.child').find('li').eq(contChild).find('select').rup_select('setRupValue',celda.value);
 				}else{
 					$fila.next('.child').find('li').eq(contChild).find('input').val(celda.value);
 					if($fila.next('.child').find('li').eq(contChild).find('input').is(':checkbox')){
@@ -1736,7 +1791,7 @@ function _asignarInputsValues(ctx,$fila){
 *
 * @name _createTr
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - table
 * @param {object} ctx - Es el contexto de cada tabla.
@@ -1759,7 +1814,7 @@ function  _createTr(dt,ctx,columns){
 *
 * @name _drawInLineEdit
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} tabla - Api de la tabla
 * @param {object} ctx - Es el contexto de cada tabla.
@@ -1786,7 +1841,7 @@ function _drawInlineEdit(tabla,ctx){
 *
 * @name _notExistOnPage
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} ctx - Es el contexto de cada tabla.
 *
@@ -1811,7 +1866,7 @@ function _notExistOnPage(ctx){
 *
 * @name _deleteAllSelects
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} dt - Es el objeto table.
 *
@@ -1865,7 +1920,7 @@ function _deleteAllSelects(dt){
 *
 * @name _comprobarSeeker
 * @function
-* @since UDA 3.7.0 // Table 1.0.0
+* @since UDA 3.7.0
 *
 * @param {object} row - Son los datos que se cargan.
 * @param {object} ctx - Settings object to operate on.
@@ -1906,8 +1961,8 @@ apiRegister( 'inlineEdit.add()', function ( dt,ctx ) {
 	_add(dt,ctx);
 } );
 
-apiRegister( 'inlineEdit.editInline()', function (dt, ctx, idRow ) {
-	_editInline(dt,ctx,idRow);
+apiRegister( 'inlineEdit.editInline()', function (dt, ctx, idRow, actionType) {
+	_editInline(dt, ctx, idRow, actionType);
 } );
 
 apiRegister( 'inlineEdit.restaurarFila()', function (ctx, limpiar ) {
