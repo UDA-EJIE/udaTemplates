@@ -43,7 +43,7 @@
 			<div class="form-groupMaterial col">
 				<form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_filter_table"/>
 				{% endif %}	
-				<label for="{{column.name|snakeToCamel}}_filter_table"><spring:message code="${columnProperties.label}"/></label>
+				<label for="{{column.name|snakeToCamel}}_filter_table"><spring:message code="{{column.name|snakeToCamel}}"/></label>
 			</div>
 			{% endfor %}
 			<!-- Fin campos del formulario de filtrado -->
