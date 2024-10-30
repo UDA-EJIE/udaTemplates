@@ -187,7 +187,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	@SuppressWarnings("unchecked")
     	List<Object> params = (List<Object>) mapaWhere.get("params");
     	
-    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params, "{% if listPks %}{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}{%endif%}"));
+    	StringBuilder sbMultipleSQL = query.append(TableManager.getSelectMultipleQuery(tableRequestDto, {{tableName}}.class, params,{{tableName}}DaoImpl.ORDER_BY_WHITE_LIST, "{% if listPks %}{% for column in listPks %}{{ column.name }}{% if loop.index != listPks|length %} AND {% endif%}{% endfor %}{%endif%}"));
     	
     	return this.jdbcTemplate.query(sbMultipleSQL.toString(), this.rwMap, params.toArray());
     }
@@ -458,7 +458,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	
 	@Override
 	public void removeMultiple(TableRequestDto tableRequestDto) {
-		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(tableRequestDto, {{tableName}}.class, "{{tableName}}", new String[]{{'{'}}{% if listPks %}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%}{{'}'}});
+		StringBuilder sbRemoveMultipleSQL = TableManager.getRemoveMultipleQuery(null,tableRequestDto, {{tableName}}.class, "{{tableName}}", "t1",new String[]{{'{'}}{% if listPks %}{% for column in listPks %}"{{ column.name }}"{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%}{{'}'}});
 		
 		List<String> params = tableRequestDto.getMultiselection().getSelectedIds();
 		
