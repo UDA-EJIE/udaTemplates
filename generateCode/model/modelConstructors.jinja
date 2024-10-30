@@ -14,18 +14,19 @@
   {% endfor %}
  }
  {% endif %}
-
-{% if not constructorEntidad %}
+{% set non_list_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}
+{% if not constructorEntidad and non_list_columns | length != allColumns | length %}
  /** 
  * Method '{{tableName}}'.
- {% for column in columnasDaos %}* @param {{ column.name|snakeToCamel }}
+ {% for column in allColumns %}* @param {{ column.name | snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in columnasDaos %}{% if column.DATO_TYPE == 'List' %} List<{{ column.entidad|toCamelCase }}> {{ column.name|snakeToCamel}} {% else %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}) {
-	{% for column in columnasDaos %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
-  {% endfor %}
- }
+public {{tableName}}({% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    {% for column in filtered_columns %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
+    {% endfor %}
+}
 {% endif %}
+
 
  /** 
  * Method '{{tableName}}'.
