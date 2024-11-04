@@ -14,22 +14,37 @@
   {% endfor %}
  }
  {% endif %}
-{% set non_list_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}
-{% if not constructorEntidad and non_list_columns | length != allColumns | length %}
+{% if not constructorEntidad and columOriNoForeing | length != allColumns | length %}
+ {% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}
+ {%if filtered_columns| length !=  columOriNoForeing | length%}
  /** 
- * Method '{{tableName}}'.
- {% for column in allColumns %}* @param {{ column.name | snakeToCamel }}
+ * Methzzzod '{{tableName}}'.
+ {% for column in columOriNoForeing %}{% if column.primaryKey != 'R'%}* @param {{ column.name | snakeToCamel }}
+ {%endif%}{% endfor %}*
+ */    
+public {{tableName}}({% for column in columOriNoForeing %}{% if column.primaryKey != 'R' %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %}, {% endif %}{%endif%}{% endfor %}) {
+    {% for column in columOriNoForeing %}{% if column.primaryKey != 'R' %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
+     {%endif%}{% endfor %}
+}
+{%endif%}
+
+{% set filtered_columns_noL_noR = allColumns | selectattr("DATO_TYPE", "ne", "List") | selectattr("primaryKey", "ne", "R") | list %}
+{% if filtered_columns_noL_noR | length != allColumns | length or filtered_columns_noL_noR | length != allColumns | length %}
+ /** 
+ * Method sss '{{tableName}}'.
+ {% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}* @param {{ column.name | snakeToCamel }}
  {% endfor %}*
  */    
-public {{tableName}}({% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %}, {% endif %}{% endfor %}) {
-    {% for column in filtered_columns %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
-    {% endfor %}
+public {{tableName}}({% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}{% if column.primaryKey != 'R' %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %},{% endif %} {% endif %}{% endfor %}) {
+    {% for column in filtered_columns %}{% if column.primaryKey != 'R' %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
+    {% endif %} {% endfor %}
 }
+{%endif%}
 {% endif %}
 
 
  /** 
- * Method '{{tableName}}'.
+ * Method aa '{{tableName}}'.
  {% for column in allColumns %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
