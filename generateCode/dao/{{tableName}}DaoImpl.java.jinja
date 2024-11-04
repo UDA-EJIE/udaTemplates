@@ -33,9 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.ejie.{{project_name}}.model.{{tableName}};
-{% if entidadPadre %}
-import com.ejie.{{ project_name }}.model.{{ entidadPadre }};
-{% endif %}
+{%for mappers in rowMapper%}
+import com.ejie.{{project_name}}.model.{{mappers.entidadPadre}};
+{%endfor%}
 
 
 /**
@@ -46,12 +46,13 @@ import com.ejie.{{ project_name }}.model.{{ entidadPadre }};
 @Transactional
 public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 
+												
 	/**
 	 * StringBuilder initilization value
 	 */
 	public static final int STRING_BUILDER_INIT = 4096;
 
-    protected static final String[] ORDER_BY_WHITE_LIST = new String[] { {% for column in columOriNoForeing %}"{{ column.name }}"{% if loop.index != columOriNoForeing|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %}"{{entidadPadre.upper()}}{{ column.name }}"{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %}{%endif %} };
+    protected static final String[] ORDER_BY_WHITE_LIST = new String[] { {% for column in columOriNoForeing %}"{{ column.name }}"{% if loop.index != columOriNoForeing|length %},{% endif%}{% endfor %} {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%},{% for column in entidades.padreOriginalCol %}"{{entidades.entidadPadre.upper()}}{{ column.name }}"{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %}{%endif %} };
 
     private JdbcTemplate jdbcTemplate;
 
@@ -61,7 +62,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	private RowMapper<{{tableName}}> rwMap = new RowMapper<{{tableName}}>() {
 		public {{tableName}} mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 			return new {{tableName}}({% if not constructorEntidad %}	
-			{% for column in columOriNoForeing %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != columOriNoForeing|length %},{% endif%} {% endfor %}{% if dao is not none %}, new {{entidadPadre}}({% for column in padreOriginalCol[0] %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{entidadPadre.upper()}}{{ column.name }}"){% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %}){%endif %} {%else%}
+			{% for column in columOriNoForeing %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != columOriNoForeing|length %},{% endif%} {% endfor %}{% if dao is not none %} {%for entidades in rowMapper%}, new {{entidades.entidadPadre}}({% for column in entidades.padreOriginalCol %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{entidades.entidadPadre.upper()}}{{ column.name }}"){% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}){%endfor%}{%endif %}{%else%}
 			{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %} 
 			{%endif%}
 			);
@@ -111,12 +112,15 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     	String query = "INSERT INTO {{tableNameOriginal.upper()}} ({% for column in columnasDaos %}{{ column.name}}{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %}) VALUES ({% for column in columnasDaos %}?{% if loop.index != columnasDaos|length %},{% endif%} {% endfor %})";
 
 		{% if dao is not none %}
-			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
-			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
-				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
+			{%for entidades in entidadesRelacionadasDaos %}
+			Object 	get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux = null;
+			if ({{tableNameDecapitalize}}.get{{entidades.entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{entidades.primaryKeyPadre}}()!=null ){
+				get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{entidades.primaryKeyPadre}}();
 			}
+		{%endfor%}
 		{% endif %}		
-		this.jdbcTemplate.update(query, {% for column in columnasDaos %}{{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != columnasDaos|length %},{% endif%} {% endfor %});
+		this.jdbcTemplate.update(query {% if dao is not none %}{% for column in columOriNoForeing %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endfor %}{%for entidades in entidadesRelacionadasDaos %},get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux {%endfor%}{% else %}{% for column in columnasDaos %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endfor %}{% endif %});
+
 		return {{tableNameDecapitalize}};
 	}
 
@@ -133,13 +137,16 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		String query = "UPDATE {{tableNameOriginal.upper()}} SET {% for column in columnasDaos %}{% if column.primaryKey != 'P' %} {{ column.name }}=?{% if loop.index != columnasDaos|length %},{% endif%}{% endif%}{% endfor %} WHERE {% if listPks %} {% for column in listPks %}{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{% endif%}";
 			
 			{% if dao is not none %}
-			Object 	get{{entidadPadre}}{{primaryKeyPadre}}Aux = null;
-			if ({{tableNameDecapitalize}}.get{{entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}()!=null ){
-				get{{entidadPadre}}{{primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{primaryKeyPadre}}();
+			{%for entidades in entidadesRelacionadasDaos %}
+			
+			Object 	get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux = null;
+			if ({{tableNameDecapitalize}}.get{{entidades.entidadPadre}}()!= null && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{entidades.primaryKeyPadre}}()!=null ){
+				get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux= {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{entidades.primaryKeyPadre}}();
 			}
-			{% endif %}
-		this.jdbcTemplate.update(query {% for column in columnasDaos %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% endif%} {% endfor %}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}() {% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
-	
+			{%endfor%}
+			{% endif %}	
+		this.jdbcTemplate.update(query {% if dao is not none %}{% for column in columOriNoForeing %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endif %}{% endfor %}{%for entidades in entidadesRelacionadasDaos %},get{{entidades.entidadPadre}}{{entidades.primaryKeyPadre}}Aux {%endfor%}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endfor %}{% endif %}{% else %}{% for column in columnasDaos %}{% if column.primaryKey != 'P' %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endif %}{% endfor %}{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase }}(){% endfor %}{% endif %}{% endif %});
+
 		return {{tableNameDecapitalize}};
 	}
 
@@ -154,7 +161,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} , {{entidadPadre.upper()}}  t2 {% endif%} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
+		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} ,  {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%}  t2 {% endif%} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
 
 		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
@@ -175,9 +182,9 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
    	public List<{{tableName}}> getMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 
     	// SELECT
-    	StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %}{%endif %} ");
+    	StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %}{%endif %} ");
     	// FROM
-    	query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+    	query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
     	// WHERE clause & Params
     	Map<String, Object> mapaWhere = this.getWhereLikeMap(filter{{tableName}}, startsWith);
     	StringBuilder where = new StringBuilder(" WHERE 1=1 ");
@@ -208,8 +215,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 
 		StringBuffer where = new StringBuffer({{tableName}}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ArrayList<Object>();
-
-		{% for column in columnasDaos %}
+		{%if dao is not none %}{% set columnasDaos = columOriNoForeing %}{%endif%}
+		{% for column in columnasDaos %} {% if column.primaryKey != 'R' %}
 		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null ) {
 			{% if column.DATO_TYPE == 'String' %}
 			where.append(" AND UPPER(t1.{{column.name}}) like ? ESCAPE  '\\'");
@@ -221,22 +228,25 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			where.append(" AND t1.{{column.name}} IS NOT NULL");{% else%} 
 			where.append(" AND t1.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());{% endif%}
-			}{% endfor %}
+			}{%endif%}{% endfor %}
+
 		{%if dao is not none %}
-		{% for column in padreOriginalCol[0] %}
-		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
+		{%for entidades in entidadesRelacionadasDaos%}
+		{% for column in entidades.padreOriginalCol %} {% if column.primaryKey != 'R' %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase}}()!=null) {
 			{% if column.DATO_TYPE == 'String' %}
 			where.append(" AND UPPER(t2.{{column.name}}) like ? ESCAPE  '\\'");
 			if (startsWith){
-				params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
+				params.add({{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
 			}else{
-				params.add("%"+{{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
+				params.add("%"+{{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase }}().toUpperCase() +"%");
 			}
 			where.append(" AND t2.{{column.name}} IS NOT NULL");{% else%} 
 			where.append(" AND t2.{{column.name}} = ?");
-			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
+			params.add({{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase }}());
 			{% endif%}
-		}	
+		}
+		{% endif %}{% endfor %} 
 		{% endfor %}
 		{% endif %}
 
@@ -263,19 +273,24 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuffer where = new StringBuffer({{tableName}}DaoImpl.STRING_BUILDER_INIT);
 		List<Object> params = new ArrayList<Object>();
 
-		{% for column in columnasDaos %}
+		{%if dao is not none %}{% set columnasDaos = columOriNoForeing %}{%endif%}
+
+	
+		{% for column in columnasDaos %} {% if column.primaryKey != 'R' %}
 		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{column.name|toCamelCase }}() != null ) {
 			where.append(" AND t1.{{column.name}} = ?");
 			params.add({{tableNameDecapitalize}}.get{{column.name|toCamelCase }}());
 		}	
-		{% endfor %}
+		{%endif%}{% endfor %}
 
 		{%if dao is not none %}
-		{% for column in padreOriginalCol[0] %}
-		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
+		{%for entidades in entidadesRelacionadasDaos%}
+		{% for column in entidades.padreOriginalCol %} {% if column.primaryKey != 'R' %}
+		if ({{tableNameDecapitalize}}  != null  && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}() != null && {{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase}}()!=null ) {
 			where.append(" AND t2.{{column.name}} = ?");
-			params.add({{tableNameDecapitalize}}.get{{entidadPadre}}().get{{column.name|toCamelCase }}());
-		}	
+			params.add({{tableNameDecapitalize}}.get{{entidades.entidadPadre}}().get{{column.name|toCamelCase }}());
+		}
+		{% endif %}{% endfor %}
 		{% endfor %}
 		{% endif %}
 
@@ -295,8 +310,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	 */
 	 @Transactional (readOnly = true)
 	 public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
-		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %} {% endif %}"); 
-		query.append("FROM {{tableNameDecapitalize}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %}"); 
+		query.append("FROM {{tableNameDecapitalize}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
@@ -322,7 +337,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
@@ -346,8 +361,8 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %} {% endif %} "); 
-        query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} "); 
+        query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
       	
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -374,7 +389,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
@@ -392,10 +407,10 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			Boolean startsWith) {
 		
 		// SELECT
-		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %} {% endif %} ");
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} ");
 		
 		// FROM
-        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
         
 		// FILTRADO 
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
@@ -415,10 +430,10 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	public List<TableRowDto<{{tableName}}>> search({{tableName}} filterParams, {{tableName}} searchParams, TableRequestDto tableRequestDto, Boolean startsWith) {
 		
 		// SELECT 
-		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {% for column in padreOriginalCol[0] %} t2.{{ column.name }} {{entidadPadre.upper()}}{{ column.name }}{% if loop.index != padreOriginalCol[0]|length %},{% endif%}{% endfor %} {% endif %} ");
+		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} ");
 		
 		// FROM
-		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {{entidadPadre.upper()}} t2 {% endif %} ");
+		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
       	
 		//TABLAS_ALIAS
 		List<String> from_alias = new ArrayList<String>();
