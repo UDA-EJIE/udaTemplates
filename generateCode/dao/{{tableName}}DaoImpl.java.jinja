@@ -75,7 +75,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 			return new {{tableName}}(
 				{% if listPks %} {% for column in listPks %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != listPks|length %},{% endif%} {% endfor %} {%else%}
 				{% if not constructorEntidad %}	
-			{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %} {%else%}
+			{% for column in columOriNoForeing %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != columOriNoForeing|length %},{% endif%} {% endfor %}{% if dao is not none %} {%for entidades in rowMapper%}, new {{entidades.entidadPadre}}({% for column in entidades.padreOriginalCol %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{entidades.entidadPadre.upper()}}{{ column.name }}"){% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}){%endfor%}{%endif %}{%else%}
 			{% for column in allColumns %}resultSet.get{{ column.DATO_TYPE|replace("Integer", "Int") }}("{{ column.name }}"){% if loop.index != allColumns|length %},{% endif%} {% endfor %} 
 			{%endif%}
 			{%endif%}
@@ -161,7 +161,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
     @Transactional (readOnly = true)
     public {{tableName}} find({{tableName}} {{tableNameDecapitalize}}) {
 
-		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%} ,  {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%}  t2 {% endif%} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%} {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}";
+		String query = "SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %}{%endif %} FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none%}   {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%}  t2 {% endif%} WHERE {% if listPks %}{% for column in listPks %}t1.{{ column.name }}=?{% if loop.index != listPks|length %},{% endif%} {% endfor %}{%endif%} {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}";
 
 		List<{{tableName}}> {{tableNameDecapitalize}}List = this.jdbcTemplate.query(query, this.rwMap{% if listPks %}{% for column in listPks %}, {{tableNameDecapitalize}}.get{{ column.name|toCamelCase}}(){% if loop.index != listPks|length %}{% endif%} {% endfor %}{%endif%});
 		return DataAccessUtils.uniqueResult({{tableNameDecapitalize}}List);
@@ -311,11 +311,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	 @Transactional (readOnly = true)
 	 public List<{{tableName}}> findAll({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %}"); 
-		query.append("FROM {{tableNameDecapitalize}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
+		query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 		
@@ -337,11 +337,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
     @Transactional (readOnly = true)
     public Long findAllCount({{tableName}} {{tableNameDecapitalize}}) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}  {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 		
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereMap({{tableNameDecapitalize}}); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);		
 		
@@ -362,11 +362,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Transactional (readOnly = true)
     public List<{{tableName}}> findAllLike({{tableName}} {{tableNameDecapitalize}}, TableRequestDto tableRequestDto, Boolean startsWith) {
 		StringBuilder query = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} "); 
-        query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
+        query.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
       	
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
@@ -389,11 +389,11 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 	@Override 
 	@Transactional (readOnly = true)
     public Long findAllLikeCount({{tableName}} {{tableNameDecapitalize}}, Boolean startsWith) {
-		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
+		StringBuilder query = new StringBuilder("SELECT COUNT(1) FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
 
 		//Where clause & Params
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}},startsWith); 
-		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}");
+		StringBuilder where = new StringBuilder(" WHERE 1=1 {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}");
 		where.append(mapaWhere.get("query"));
 		query.append(where);
 
@@ -410,12 +410,12 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} ");
 		
 		// FROM
-        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
+        sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
         
 		// FILTRADO 
 		Map<String, ?> mapaWhere = this.getWhereLikeMap({{tableNameDecapitalize}}, startsWith);
 		// Claula where  de filtrado
-		sbSQL.append(" WHERE 1=1 {% if dao is not none %}  AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}").append(mapaWhere.get("query"));
+		sbSQL.append(" WHERE 1=1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}").append(mapaWhere.get("query"));
 		// Parámetros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhere.get("params");		
@@ -433,7 +433,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		StringBuilder sbSQL = new StringBuilder("SELECT {% for column in columnasDaos %} t1.{{ column.name }} {{ column.name }}{% if loop.index != columnasDaos|length %},{% endif%}{% endfor %} {% if dao is not none %}, {%for entidades in entidadesRelacionadasDaos%}{% for column in entidades.padreOriginalCol %} t2.{{ column.name }} {{entidades.entidadPadre.upper()}}{{ column.name }}{% if loop.index != entidades.padreOriginalCol|length %},{% endif%}{% endfor %}{% endfor %} {% endif %} ");
 		
 		// FROM
-		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %} , {%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %} ");
+		sbSQL.append("FROM {{tableNameOriginal.upper()}} t1 {% if dao is not none %}{%for entidades in entidadesRelacionadasDaos%} , {{entidades.entidadPadre.upper()}}{%endfor%} t2 {% endif %}");
       	
 		//TABLAS_ALIAS
 		List<String> from_alias = new ArrayList<String>();
@@ -446,7 +446,7 @@ public class {{tableName}}DaoImpl implements {{tableName}}Dao {
 		// Mapa de filtrado
 		Map<String, ?> mapaWhereFilter = this.getWhereLikeMap(filterParams, startsWith); 
 		// Claula where  de filtrado
-		sbSQL.append(" WHERE 1=1 {% if dao is not none %}  AND t1.{{tableFKey}}=t2.{{primaryKPadre}}(+){% endif %}").append(mapaWhereFilter.get("query"));
+		sbSQL.append(" WHERE 1=1 {% if dao is not none %} {%for entidades in entidadesRelacionadasDaos%} AND t1.{{entidades.tableFKey}}=t2.{{entidades.primaryKPadre}}(+){%endfor%}{% endif %}").append(mapaWhereFilter.get("query"));
 		// Parámetros de filtrado
 		@SuppressWarnings("unchecked")
 		List<Object> filterParamList = (List<Object>) mapaWhereFilter.get("params");
