@@ -147,8 +147,8 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	 * @param startsWith Boolean
 	 */
 	@Transactional(rollbackFor = Throwable.class)
-	public void removeMultiple({{tableName}} filter{{tableName}}, TableRequestDto tableRequestDto, Boolean startsWith) {
-		this.{{tableNameDecapitalize}}Dao.removeMultiple(filter{{tableName}}, tableRequestDto, startsWith);
+	public void removeMultiple(TableRequestDto tableRequestDto) {
+		this.{{tableNameDecapitalize}}Dao.removeMultiple(tableRequestDto);
 	}
         
 	/**
