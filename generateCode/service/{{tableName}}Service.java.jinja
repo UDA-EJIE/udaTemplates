@@ -20,7 +20,6 @@ import com.ejie.x38.dto.TableResponseDto;
 import com.ejie.x38.dto.TableRowDto;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.ejie.{{project_name}}.model.{{tableName}};
@@ -94,11 +93,10 @@ public interface {{tableName}}Service {
 	/**
 	 * Removes rows from the {{tableName}} table.
 	 *
-	 * @param filter{{tableName}} {{tableName}}
 	 * @param tableRequestDto TableRequestDto
-	 * @param startsWith Boolean
 	 */	
 	void removeMultiple(TableRequestDto tableRequestDto);
+   
     
 	/**
 	 * Filter method in the {{tableName}} table.
@@ -153,12 +151,11 @@ public interface {{tableName}}Service {
 	 * @param sheetTitle String
 	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
-	 * @param locale Locale
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
 	void generateReport({{tableName}} filter{{tableName}}, String[] columns, String[] columnsName, String fileName, String sheetTitle,
-			ArrayList<?> reportsParams, TableRequestDto tableRequestDto, Locale locale, HttpServletRequest request, 
+			ArrayList<?> reportsParams, TableRequestDto tableRequestDto, HttpServletRequest request, 
 			HttpServletResponse response);
      
 }

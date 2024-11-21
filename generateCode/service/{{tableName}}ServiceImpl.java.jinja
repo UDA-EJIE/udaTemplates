@@ -31,7 +31,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
@@ -142,9 +141,7 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	/**
 	 * Removes rows from the {{tableName}} table.
 	 *
-	 * @param filter{{tableName}} {{tableName}}
 	 * @param tableRequestDto TableRequestDto
-	 * @param startsWith Boolean
 	 */
 	@Transactional(rollbackFor = Throwable.class)
 	public void removeMultiple(TableRequestDto tableRequestDto) {
@@ -221,19 +218,15 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 	 * @param sheetTitle String
 	 * @param reportsParams ArrayList<?>
 	 * @param tableRequestDto TableRequestDto
-	 * @param locale Locale
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 */
 	@Override
 	public void generateReport({{tableName}} filter{{tableName}}, String[] columns, String[] columnsName, String fileName, String sheetTitle, ArrayList<?> reportsParams,
-			TableRequestDto tableRequestDto, Locale locale, HttpServletRequest request, HttpServletResponse response) {
+			TableRequestDto tableRequestDto, HttpServletRequest request, HttpServletResponse response) {
 		// Accede a la DB para recuperar datos
 		List<{{tableName}}> filteredData = getDataForReports(filter{{tableName}}, tableRequestDto);
 		String extension = null;
-		
-		// Obtener idioma
-		String language = locale.getLanguage();
 
 		// Comprobar si las siguientes variables estan vacias, en caso de estarlo se las
 		// asigna un valor generico
@@ -241,7 +234,7 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 		sheetTitle = (sheetTitle != null && !sheetTitle.isEmpty()) ? sheetTitle : {{tableName}}.class.getSimpleName();
 
 		// Obtener el formato de fecha especifico del locale
-		SimpleDateFormat formatter = DateTimeManager.getDateTimeFormat(locale);
+		SimpleDateFormat formatter = DateTimeManager.getDateTimeFormat(request.getLocale());
 
 		// Cuando no se definen columnas porque se quieren obtener todas
 		if (columns == null) {
@@ -289,6 +282,8 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 			generateODSReport(filteredData, columns,columnsName, fileName, sheetTitle, response);
 		} else if (reportType.equals("csvReport")) {
 			extension = ".csv";
+			// Obtener idioma
+			String language = request.getLocale().getLanguage();
 			generateCSVReport(filteredData, columns,columnsName, fileName, sheetTitle, language, response);
 		}
 

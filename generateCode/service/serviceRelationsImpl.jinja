@@ -47,11 +47,11 @@
 	 *
 	 * @param ${pojo.getDeclarationName()?lower_case} ${pojo.getDeclarationName()}
 	 * @param  ${nombreSubclass?lower_case} ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}
-	 * @param tableRequestDto ${pojo.importType("com.ejie.x38.dto.TableRequestDto")}
+	 * @param pagination ${pojo.importType("com.ejie.x38.dto.Pagination")}
 	 * @return ${pojo.getDeclarationName()}
 	 */
-	public ${pojo.getDeclarationName()} find${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}  ${ctrTl.stringDecapitalize(nombreSubclass)}, ${pojo.importType("com.ejie.x38.dto.TableRequestDto")} tableRequestDto) {
-		return this.${nombreDao}.find${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${ctrTl.stringDecapitalize(nombreSubclass)}, tableRequestDto);
+	public ${pojo.getDeclarationName()} find${tablaMN}(${pojo.getDeclarationName()} ${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${pojo.importType(pojo.getPackageName()+'.model.'+ pojo.beanCapitalize(nombreSubclass))}  ${ctrTl.stringDecapitalize(nombreSubclass)}, ${pojo.importType("com.ejie.x38.dto.Pagination")} pagination) {
+		return this.${nombreDao}.find${tablaMN}(${ctrTl.stringDecapitalize(pojo.getDeclarationName())}, ${ctrTl.stringDecapitalize(nombreSubclass)}, pagination);
 	}
     
 	/**

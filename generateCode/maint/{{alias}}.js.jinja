@@ -26,8 +26,10 @@ jQuery(function($) {
 				name: "{{column.name|snakeToCamel}}",
 				index: "{{column.name|snakeToCamel}}",
 				editable: {{column.editable}},
-			{% if column.type == "Select" %}
-				rupType: "select",
+			{% if column.type == "Text" %}
+				rupType: "combo",
+			{% elif column.type == "Autocomplete" %}
+				rupType: "autocomplete",
 			{% elif column.type == "Datepicker" %}
 				rupType: "date",
 			{% endif%}	
@@ -43,7 +45,7 @@ jQuery(function($) {
 			order: [
 				[{{maint.order.sidx}}, "{{maint.order.sord}}"]
 			],
-			{% if maint.filter %}filter: {
+			{% if maint.filter != false: %}filter: {
 				id: "{{maint.name}}_filter_form",
 				filterToolbar: "{{maint.name}}_filter_toolbar",
 				collapsableLayerId: "{{maint.name}}_filter_fieldset"
@@ -55,70 +57,75 @@ jQuery(function($) {
 			formEdit: {
 				titleForm: jQuery.rup.i18nParse(jQuery.rup.i18n.base, "rup_table.edit.editCaption"),
 				detailForm: "#{{maint.name}}_detail_div",
-				{% if not maint.detail.requestData %}
+						{% if not maint.detail.requestData %}
 				loadFromModel: true,
-				{% endif %}
-				{% if maint.clientValidation %}
-				validate: { 
-					rules: {
-						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
-						"{{column.name|snakeToCamel}}": {
-							required: {{column.requiredEditRules}},
-							{% if column.typeEditRules %}{% if column.typeEditRules == "number" %}
-							number: true,
-							min: {{column.minValueEditRules}},
-							max: {{column.maxValueEditRules}}
-							{% elif column.typeEditRules == "integer" %}
-							integer: true
-							{% elif column.typeEditRules == "email" %}
-							email: true
-							{% elif column.typeEditRules == "url" %}
-							url: true
-							{% elif column.typeEditRules == "date" %}
-							date: true
-							{% elif column.typeEditRules == "time" %}
-							time: true
-							{% endif %}{% endif %}
-						{% endif %}	
-						}{% if not loop.last %},{% endif %}
-						{% endfor %}
-					}
-				}
-				{% endif %}
-			},
-			{% endif %}
-			{% if maint.type == "INLINE" %}
-			inlineEdit: {
-				activate: true,
-				{% if maint.clientValidation %}
-				validate: { 
-					rules: {
-						{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
-						"{{column.name|snakeToCamel}}": {
-							required: {{column.requiredEditRules}},
-							{% if column.typeEditRules %}{% if column.typeEditRules == "number" %}
-							number: true,
-							min: {{column.minValueEditRules}},
-							max: {{column.maxValueEditRules}}
-							{% elif column.typeEditRules == "integer" %}
-							integer: true
-							{% elif column.typeEditRules == "email" %}
-							email: true
-							{% elif column.typeEditRules == "url" %}
-							url: true
-							{% elif column.typeEditRules == "date" %}
-							date: true
-							{% elif column.typeEditRules == "time" %}
-							time: true
-							{% endif %}{% endif %}
 						{% endif %}
-						}{% if not loop.last %},{% endif %}
-						{% endfor %}
-					}
-				}
+						{% if maint.clientValidation %}
+				validate: { 
+					rules: {
+							{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
+							"{{column.name.lower()|toCamelCase}}": {
+							required: {{column.requiredEditRules}},
+											{% if column.typeEditRules %}
+												{% if column.typeEditRules == "number" %}
+							number: true,
+							min: {{column.minValueEditRules}},
+							max: {{column.maxValueEditRules}}
+												{% elif column.typeEditRules == "integer" %}
+							integer: true
+												{% elif column.typeEditRules == "email" %}
+							email: true
+												{% elif column.typeEditRules == "url" %}
+							url: true
+												{% elif column.typeEditRules == "date" %}
+							date: true
+												{% elif column.typeEditRules == "time" %}
+							time: true
+												{% endif %}
+											{% endif %}
+										{% endif %}	
+							}{% if not loop.last %},{% endif %}
+									{% endfor %}
+									}
+								}
+						{% endif %}
+					},
 				{% endif %}
-			},
-			{% endif %}{% endif %}
+				{% if maint.type == "INLINE" %}
+			inlineEdit: {
+					activate: true,
+						{% if maint.clientValidation %}
+					validate: { 
+						rules: {
+								{% for column in allColumnsNoPk %}{% if maint.primaryKey and not column.name in maint.primaryKey %}
+						"{{column.name.lower()|toCamelCase}}": {
+						required: {{column.requiredEditRules}},
+											{% if column.typeEditRules %}
+												{% if column.typeEditRules == "number" %}
+						number: true,
+						min: {{column.minValueEditRules}},
+						max: {{column.maxValueEditRules}}
+												{% elif column.typeEditRules == "integer" %}
+						integer: true
+												{% elif column.typeEditRules == "email" %}
+						email: true
+												{% elif column.typeEditRules == "url" %}
+						url: true
+												{% elif column.typeEditRules == "date" %}
+						date: true
+												{% elif column.typeEditRules == "time" %}
+						time: true
+												{% endif %}
+											{% endif %}
+										{% endif %}
+						}{% if not loop.last %},{% endif %}
+									{% endfor %}
+									}
+								}
+						{% endif %}
+						},
+				{% endif %}
+			{% endif %}
 			{% if maint.multiselection %}multiSelect: {
 				style: "multi"
 			},
@@ -132,14 +139,14 @@ jQuery(function($) {
 			{% endif %}
 			{% if maint.buttons %}buttons: {
 				activate: true
-				{% if not maint.isMaint %}
+					{% if not maint.isMaint %}
 				,blackListButtons : ["addButton", "editButton", "cloneButton", "deleteButton"]
-				{% endif %}
-				{% if not maint.contextMenu %}
-				,contextMenu: false{% endif %}
+					{% endif %}
+					{% if not maint.contextMenu %}
+				,contextMenu: false	{% endif %}
 			},
-			{% endif %}
-			colModel: tableColModel
+			{% endif %}	
+			colModel: tableColModel	
 		});
 	});
 });

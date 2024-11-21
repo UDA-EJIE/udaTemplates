@@ -47,9 +47,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor; {# fin imports necesarios#}
 import {{packageName}}.service.{{tableName}}Service;
 {% for column in columnsDates 
@@ -294,7 +294,7 @@ public class {{tableName}}Controller  {
 			throws ServletException {
 		{{tableName}}Controller.logger.info("[POST - generateExcelReport] : Devuelve un fichero excel");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle,reportsParams, tableRequestDto, request, response);
 	}
 	
 		/**
@@ -319,7 +319,7 @@ public class {{tableName}}Controller  {
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generatePDFReport] : Devuelve un fichero pdf");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle,reportsParams, tableRequestDto, request, response);
 	}
 	
 		/**
@@ -344,7 +344,7 @@ public class {{tableName}}Controller  {
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generateODSReport] : Devuelve un fichero ods");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle,reportsParams, tableRequestDto, request, response);
 	}
 
 	/**
@@ -369,7 +369,7 @@ public class {{tableName}}Controller  {
 			HttpServletResponse response) {
 		{{tableName}}Controller.logger.info("[POST - generateCSVReport] : Devuelve un fichero csv");
 
-		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle, reportsParams, tableRequestDto, LocaleContextHolder.getLocale(), request, response);
+		this.{{tableNameDecapitalize}}Service.generateReport(filter, columns,columnsName, fileName, sheetTitle,reportsParams, tableRequestDto, request, response);
 	}
 	
 	

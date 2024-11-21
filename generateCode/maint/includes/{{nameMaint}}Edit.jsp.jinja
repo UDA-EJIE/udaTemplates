@@ -67,12 +67,12 @@
 			<button id="{{maint.name}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="save" />
 			</button>
-			{% if maint.detail.saveButton == "SAVE_REPEAT" %}
+			{% if maint.detail.saveButton != false: %}
 			<!-- Botón guardar y continuar -->
 			<button id="{{maint.name}}_detail_button_save_repeat" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
 				<spring:message code="saveAndContinue" />
 			</button>
-			{% endif%}
+			{% endif%}>
 		</div>
 	</div>	
 </div>
