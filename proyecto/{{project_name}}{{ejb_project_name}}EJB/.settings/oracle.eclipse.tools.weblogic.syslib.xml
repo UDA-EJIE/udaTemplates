@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<system-libraries>
-    <module id="javax.ejb"/>
-    <module id="javax.interceptor"/>
-	<module id="javax.persistence"/>
-    <library javadoc="http://java.sun.com/j2ee/1.4/docs/api" path="server/lib/api.jar"/>
-    <library path="server/lib/weblogic.jar"/>
-    <library path="server/lib/wls-api.jar"/>
-</system-libraries>
