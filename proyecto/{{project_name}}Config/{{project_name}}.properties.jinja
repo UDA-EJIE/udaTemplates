@@ -6,6 +6,10 @@ isEjie=true
 {% else %}
 isEjie=false
 {% endif %}
+# Redirection on auth error
+xhr.redirectOnError=true
+xhr.unauthorizedPage=referer
+
 #Cookie
 cookie.rootPath=true
 cookie.secure=true
