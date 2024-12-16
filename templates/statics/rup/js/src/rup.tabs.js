@@ -235,14 +235,23 @@
          * @name addTab
          * @param {string} args.idTab - Selector del componente pestaña
          * @param {integer} args.position - Posición de las pestaña a añadir
-         * @param {string} args.url - la url a añadir a la pestaña.
+         * @param {string} args.url - URL a añadir a la pestaña.
+         * @param {string} args.layer - Identificador de un fragmento HTML previamente cargado.
          * @param {string} args.label - Literal a mostrar en la pestaña.
          * @example
+		 * // Añadir pestaña remota
          * $("#tabs").rup_tabs("addTab",{
-         *    idTab: "tabs",
-         *  position: 2,
+         *   idTab: "tabs",
+         *   position: 2,
          *   url: "fragmento3"
-         *  });
+         * });
+		 * 
+		 * // Añadir pestaña local
+         * $("#tabs").rup_tabs("addTab",{
+         *   idTab: "tabs",
+         *   position: 2,
+         *   layer: "#fragmentoLocal"
+         * });
          */
         addTab: function (args) {
             var newTab, auxTabName, nameLiteral = 'rup-tabs-',
@@ -409,81 +418,84 @@
     //********************************
     // DEFINICIÓN DE MÉTODOS PRIVADOS
     //********************************
+	$.fn.rup_tabs('extend', {
+		_init: function(args) {
+			global.initRupI18nPromise.then(() => {
+				var $self = $(this);
 
-    $.fn.rup_tabs('extend', {
-        _init: function (args) {
-            var $self = $(this);
+				if (args.length > 1) {
+					$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_global.initError') + $(this).attr('id'));
+				} else {
+					//Se recogen y cruzan las paremetrizaciones del objeto
+					var settings = $.extend({}, $.fn.rup_tabs.defaults, args[0]);
 
-            if (args.length > 1) {
-                $.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_global.initError') + $(this).attr('id'));
-            } else {
-                //Se recogen y cruzan las paremetrizaciones del objeto
-                var settings = $.extend({}, $.fn.rup_tabs.defaults, args[0]);
+					settings.id = $(this).attr('id');
+					settings.iniLoad = false;
 
-                settings.id = $(this).attr('id');
-                settings.iniLoad = false;
+					this.on('tabsload', () => {
+						setTimeout(function() {
+							$self.trigger('afterTabDataLoad');
+						}, 300);
+					});
+					//Establecemos el ancho general de las pestañas en caso de venir informado
+					if (undefined !== settings.width) {
+						$('#' + settings.id).css('width', settings.width).addClass('rup-tabs_overflow');
+					}
+					//Establecemos la altura general de las pestañas en caso de venir informada
+					if (undefined !== settings.height) {
+						$('#' + settings.id).css('height', settings.height).addClass('rup-tabs_overflow');
+					}
 
-                this.on('tabsload', () => {
-                    setTimeout(function () {
-                        $self.trigger('afterTabDataLoad');
-                    }, 300);
-                });
-                //Establecemos el ancho general de las pestañas en caso de venir informado
-                if (undefined !== settings.width) {
-                    $('#' + settings.id).css('width', settings.width).addClass('rup-tabs_overflow');
-                }
-                //Establecemos la altura general de las pestañas en caso de venir informada
-                if (undefined !== settings.height) {
-                    $('#' + settings.id).css('height', settings.height).addClass('rup-tabs_overflow');
-                }
+					var structure = settings.tabs,
+						profun = 0;
 
-                var structure = settings.tabs,
-                    profun = 0;
+					while (structure !== undefined) {
+						profun = profun + 1;
+						structure = structure[0].tabs;
+					}
 
-                while (structure !== undefined) {
-                    profun = profun + 1;
-                    structure = structure[0].tabs;
-                }
+					settings.profun = profun;
+					//Generar estructura
+					this._parseJSON(settings.tabs, $.rup.i18n.app[settings.id], $('#' + settings.id), '', 1, settings);
 
-                settings.profun = profun;
-                //Generar estructura
-                this._parseJSON(settings.tabs, $.rup.i18n.app[settings.id], $('#' + settings.id), '', 1, settings);
+					//Una vez creadas todas las pestanyas, se permite la carga normal de las mismas
+					settings.iniLoad = true;
 
-                //Una vez creadas todas las pestanyas, se permite la carga normal de las mismas
-                settings.iniLoad = true;
+					//Convertir en pestanyas
+					this._tabify($('#' + settings.id), settings);
 
-                //Convertir en pestanyas
-                this._tabify($('#' + settings.id), settings);
-
-                //altura
-                if (undefined !== settings.fixedHeight) {
-                    $('#' + settings.id + '>.ui-tabs-panel').css('height', settings.fixedHeight);
-                }
+					//altura
+					if (undefined !== settings.fixedHeight) {
+						$('#' + settings.id + '>.ui-tabs-panel').css('height', settings.fixedHeight);
+					}
 
 
-                //Añadir evento de conversión a pestanyas en los enlaces
-                //$('#'+settings.id).find("a[rupLevel]").click ({disabled: settings.disabled}, tabClick);
+					//Añadir evento de conversión a pestanyas en los enlaces
+					//$('#'+settings.id).find("a[rupLevel]").click ({disabled: settings.disabled}, tabClick);
 
-                //evento limite de numero de pestañas
-                $('#' + settings.id).on('limitTabs', function () {
-                	$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_tabs.tabLimitError'));
-                });
+					//evento limite de numero de pestañas
+					$('#' + settings.id).on('limitTabs', function() {
+						$.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_tabs.tabLimitError'));
+					});
 
-                //Deshabilitar las pestanyas indicadas
-                if (settings.disabled !== undefined) {
-                    for (var i in settings.disabled) {
-                        $('#' + settings.id).rup_tabs('disableTabs', {
-                            idTab: i,
-                            position: settings.disabled[i]
-                        });
-                    }
-                }
-                $('#' + settings.id).triggerHandler('load');
-            }
+					//Deshabilitar las pestanyas indicadas
+					if (settings.disabled !== undefined) {
+						for (var i in settings.disabled) {
+							$('#' + settings.id).rup_tabs('disableTabs', {
+								idTab: i,
+								position: settings.disabled[i]
+							});
+						}
+					}
+					$('#' + settings.id).triggerHandler('load');
+				}
 
-            //Se audita el componente
-            $.rup.auditComponent('rup_tabs', 'init');
-        },
+				//Se audita el componente
+				$.rup.auditComponent('rup_tabs', 'init');
+			}).catch((error) => {
+				console.error('Error al inicializar el componente:\n', error);
+			});
+		},
         //Funcion encargada de crear los distintos tab's
         _tabify: function (div, settings) {
 
@@ -554,6 +566,16 @@
                     beforeClose: userFunction
                 });
             };
+            
+			// Permite eliminar diálogos huerfanos
+			const notTabDialogCount = $("div.rup-dialog").length;
+
+			settings.show = function() {
+				if ($("div.rup-dialog").length > notTabDialogCount) {
+					$("div.rup-dialog").last().remove();
+				}
+			};
+            
             //if (settings.navigation!==true){
             $(div).tabs({
                 ajaxOptions: settings.cache === false ? $.extend(ajaxOptions, {

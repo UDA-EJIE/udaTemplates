@@ -572,13 +572,7 @@ function _getRowSelected(dt, actionType){
 		};
 	var lastSelectedId = ctx.multiselection.lastSelectedId;
 	if (!ctx.multiselection.selectedAll) {
-		let staticID = $.fn.getStaticHdivID(ctx.multiselection.lastSelectedId);
 		$.each(ctx.multiselection.selectedRowsPerPage, function(index, p) {
-			// Obtener el último seleccionado para tener el identificador actualizado (solamente es necesario cuando se usa Hdiv porque cambia el cifrado entre peticiones)
-			if ($.fn.isHdiv(p.id) && staticID === $.fn.getStaticHdivID(p.id)) {
-				ctx.multiselection.lastSelectedId = p.id;
-			}
-			
 			if (p.id == ctx.multiselection.lastSelectedId) {
 				rowDefault.id = p.id;
 				rowDefault.page = p.page;
@@ -866,7 +860,7 @@ function _changeInputsToRup(ctx,idRow){
 *
 */
 function _recorrerCeldas(ctx,$fila,$celdas,cont){
-	$fila.addClass('editable');
+	$fila.addClass('editable inline');
 	var colModel = ctx.oInit.colModel;
         var child = '';
 	if($fila.hasClass('child')){
@@ -926,10 +920,10 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
                         $('#' + colModelName + '_inline_child').wrap('<div class=\'form-groupMaterial\'></div>');
 				}
 
-
 				$elem.attr({
 					'title': '',
-					'class': 'editable customelement form-control-customer'
+					'class': 'editable customelement form-control-customer',
+					...($.rup_utils.isNumeric(cellColModel.editoptions?.maxlength) && { 'maxlength': cellColModel.editoptions.maxlength })
 				}).removeAttr('readOnly');
 				// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
 				if(searchRupType !== undefined && cellColModel.editoptions) {
@@ -1019,7 +1013,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 function _restaurarCeldas(ctx, $fila, $celdas, contRest) {
     if ($fila.hasClass('editable')) {
     	var colModel = ctx.oInit.colModel;
-        $fila.removeClass('editable');
+        $fila.removeClass('editable inline');
 	
 		$celdas.each( function() {
 			var celda = $(this);
@@ -1224,21 +1218,25 @@ function _inlineEditFormSerialize($fila,ctx,child){
 		if (this.hasClass('child')) {
 			busqueda = 'select,input,textarea';
 		}
-		$.each( this.find(busqueda), function( i, obj ) {
-			var nombre = obj.id.replace('_inline','').replace('_child','');
+		
+		$.each(this.find(busqueda), function(i, obj) {
 			var value = $(obj).val();
-			// Comprobar si contiene un caracter invalido
-			if(value.includes("%")){
-				serializedForm = false;
-				return false;
-			}
-			if($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox'){
-                    value = '0';
-				if($(obj).prop('checked')){
-                        value = '1';
+
+			if (value != null) {
+				var nombre = obj.id.replace('_inline', '').replace('_child', '');
+				// Comprobar si contiene un caracter invalido
+				if (value.includes("%")) {
+					serializedForm = false;
+					return false;
 				}
+				if ($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox') {
+					value = '0';
+					if ($(obj).prop('checked')) {
+						value = '1';
+					}
+				}
+				serializedForm[nombre] = value;
 			}
-			serializedForm[nombre] = value;
 		});
 	});
 	
@@ -1485,8 +1483,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
             delete ajaxOptions.data;
             $.rup_ajax(ajaxOptions);
         } else if (isDeleting || $('#' + ctx.sTableId + '_search_searchForm').valid()) {
-        	// Obtener el valor del parámetro HDIV_STATE (en caso de no estar disponible se devolverá vacío) siempre y cuando no se trate de un deleteAll porque en ese caso ya lo contiene el filtro
-            if (url.indexOf('deleteAll') === -1) {
+			if (url.indexOf('deleteAll') === -1) {
             	// Elimina los campos _label generados por los autocompletes que no forman parte de la entidad
             	$.fn.deleteAutocompleteLabelFromObject(ajaxOptions.data);
                 
@@ -1494,12 +1491,32 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
                 $.fn.deleteMulticomboLabelFromObject(ajaxOptions.data, $fila);
             	
             	$.when(_loadAuxForm(ctx, actionType)).then(function () {
-	            	var hdivStateParamValue = $.fn.getHDIV_STATE(undefined, ctx.oInit.inlineEdit.idForm);
-	                if (hdivStateParamValue !== '') {
-	                	ajaxOptions.data._HDIV_STATE_ = hdivStateParamValue;
-	                }
-	                ajaxOptions.data = JSON.stringify(ajaxOptions.data);
-	                $.rup_ajax(ajaxOptions);
+					// Comprueba si debe enviarse como multipart.
+					if (ctx.oInit.inlineEdit.multipart === true) {
+						ajaxOptions.enctype = 'multipart/form-data';
+						ajaxOptions.processData = false;
+						ajaxOptions.contentType = false;
+
+						let formData = new FormData();
+
+						$.each(ajaxOptions.data, function(key, value) {
+							const field = $fila.find('input[type="file"][name="' + key + '_inline"]');
+
+							// Gestiona el guardado de ficheros.
+							if (field.length != 0 && field.prop('files').length > 0) {
+								$.each(field.prop('files'), function(fileIndex, fileValue) {
+									formData.append(key, fileValue);
+								});
+							} else {
+								formData.append(key, value);
+							}
+						});
+
+						ajaxOptions.data = formData;
+					} else {
+						ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+					}
+					$.rup_ajax(ajaxOptions);
             	});
             } else {
             	ajaxOptions.data = JSON.stringify(ajaxOptions.data);
@@ -1529,7 +1546,7 @@ function _callSaveAjax(actionType, ctx, $fila, row, url, isDeleting){
 }
 
 /**
- * Función que gestiona la carga del formulario del que se obtendrá el parámetro HDIV_STATE en función del tipo de method, POST o PUT.
+ * Función que gestiona la carga del formulario.
  *
  * @name loadAuxForm
  * @function

@@ -18252,8 +18252,7 @@ i.mdi.error {
     font-weight: 400; }
   .form-groupMaterial.rup-validate-field-error .error:last-child {
     display: block;
-    padding-top: 2px;
-    padding-left: 19px; }
+    padding-top: 2px; }
   .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
     padding-right: 45px; }
     .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
@@ -18299,6 +18298,11 @@ i.mdi.error {
     font-size: 1.3rem;
     font-style: normal;
     font-weight: 400; }
+
+.inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial; }
 
 /* ESTILOS GENERALES */
 .material-rounded {
@@ -44777,8 +44781,7 @@ i.mdi.error {
     font-weight: 400; }
   .form-groupMaterial.rup-validate-field-error .error:last-child {
     display: block;
-    padding-top: 2px;
-    padding-left: 19px; }
+    padding-top: 2px; }
   .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
     padding-right: 45px; }
     .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
@@ -44824,6 +44827,11 @@ i.mdi.error {
     font-size: 1.3rem;
     font-style: normal;
     font-weight: 400; }
+
+.inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial; }
 
 /* ESTILOS GENERALES */
 .material-rounded {

@@ -26455,7 +26455,6 @@
 .r01gContainer .form-groupMaterial.rup-validate-field-error .error:last-child {
   display: block;
   padding-top: 2px;
-  padding-left: 19px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error select,
@@ -26591,6 +26590,12 @@
   font-size: 1.3rem;
   font-style: normal;
   font-weight: 400;
+}
+
+.r01gContainer .inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial;
 }
 
 /* ESTILOS GENERALES */
@@ -62664,7 +62669,6 @@
 .r01gContainer .form-groupMaterial.rup-validate-field-error .error:last-child {
   display: block;
   padding-top: 2px;
-  padding-left: 19px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error select,
@@ -62800,6 +62804,12 @@
   font-size: 1.3rem;
   font-style: normal;
   font-weight: 400;
+}
+
+.r01gContainer .inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial;
 }
 
 /* ESTILOS GENERALES */

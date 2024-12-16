@@ -447,10 +447,11 @@
         	});
         } else {
         	// Para cuando el formulario actual sigue siendo válido (ya sea dinámico o no)
-        	let deferred = $.Deferred();
-        	ctx.oInit.formEdit.actionType = actionType;
-        	deferred.resolve();
-    		return deferred.promise();
+			let deferred = $.Deferred();
+			ctx.oInit.formEdit.actionType = actionType;
+			$(ctx.oInit.formEdit.idForm).rup_form('clearForm', true);
+			deferred.resolve();
+			return deferred.promise();
         }
     }
     
@@ -494,8 +495,8 @@
     					} else if (column.rupType === 'select') {
     						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
     						if (row !== undefined) {
-    							let rowName = $.fn.getStaticHdivID(row[column.name]);
-    							let flatter	= $.fn.getStaticHdivID($.fn.flattenJSON(row)[column.name]);
+    							let rowName = row[column.name];
+    							let flatter	= $.fn.flattenJSON(row)[column.name];
     							column.editoptions.selected = column.name.includes('.') ? flatter : rowName;    							
     						}
     					}
@@ -604,23 +605,6 @@
 	                    async: false,
 	                    success: function (data) {
 	                    	row = data;
-	                    	if(ctx.oInit.primaryKey !== undefined && ctx.oInit.primaryKey.length === 1){//si hdiv esta activo.
-		                        // Actualizar el nuevo id que viene de HDIV.
-	                    		let idHdiv = "" + data[ctx.oInit.primaryKey];
-		                        if (pk == ctx.multiselection.lastSelectedId) {
-		                            ctx.multiselection.lastSelectedId = idHdiv;
-		                        }
-		                        let pos = jQuery.inArray(pk, ctx.multiselection.selectedIds);
-		                        if (pos >= 0) {
-		                            ctx.multiselection.selectedIds[pos] = idHdiv;
-		                        }
-		                        let result = $.grep(ctx.multiselection.selectedRowsPerPage, function (v) {
-		                                return v.id == pk;
-		                            });
-		                        if (result !== undefined && result.length > 0) {
-		                            result[0].id = idHdiv;
-		                        }
-	                    	}
 	                    },
 	                    error: function (xhr) {
 	                        var divErrorFeedback = feed; //idTableDetail.find('#'+feed[0].id + '_ok');
@@ -704,10 +688,21 @@
 	    	if ($('#' + ctx.sTableId + '_formEdit_dialog_loading').length > 0) {
 	    		$('#' + ctx.sTableId + '_formEdit_dialog_loading').remove();
 	    	}
+			
+			// Evitar problemas visuales con el componente rup_select.
+			$.each($('select[ruptype="select"]', idForm), function(index, element) {
+				$(this).rup_select('close', true);
+
+				const $selectContainer = $("#" + element.id + " + span");
+
+				if ($selectContainer.hasClass('select2-container--focus') && $(document.activeElement) != $(element)) {
+					$selectContainer.removeClass('select2-container--focus');
+				}
+			});
 	
 	        // Establecemos el foco al primer elemento input o select que se
 	        // encuentre habilitado en el formulario
-	        $(idForm[0]).find('input,select').filter(':not([readonly])').first().focus();
+	        $(idForm).find('input,select').filter(':not([readonly],[type=hidden])').first().focus();
 	
 	        // Se guardan los datos originales
 	        ctx.oInit.formEdit.dataOrigin = _editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
@@ -881,9 +876,7 @@
                 $('#' + ctx.sTableId+'_detail_masterPK').val($('#' + ctx.sTableId + '_filter_masterPK').val());
                 row = jQuery.extend(true, row,masterPkObject);
             }
-            if (ctx.oInit.formEdit.multiPart) { //si es multiPart el row se coje solo.
-                row = {};
-            }
+            
             var ajaxOptions = {
                 url: ctx.oInit.urlBase + url,
                 accepts: {
@@ -1004,11 +997,11 @@
                              */
                             dt.ajax.reload();
                             
-                            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow',actionType,ctx);
+                            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow', [ctx, actionType]);
                         }
                         if(actionType === 'PUT'){
 	                        dt.ajax.reload(function () {
-	                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+	                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
 	                        }, false);
                         } else {
                         	if (ctx.oInit.multiSelect === undefined) {
@@ -1020,7 +1013,7 @@
                         		ctx.multiselection.selectedRowsPerPage[0] = arra;
                         		DataTable.Api().select.drawSelectId(ctx);
                         	}
-                        	$('#' + ctx.sTableId).trigger('tableAddFormSuccessCallSaveAjax',actionType,ctx);
+                        	$('#' + ctx.sTableId).trigger('tableAddFormSuccessCallSaveAjax', [ctx, actionType]);
                         }
 
                     } else { // Eliminar
@@ -1029,12 +1022,12 @@
 
                         if (ctx.oInit.multiSelect !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().multiSelect.deselectAll(dt);
                             }, false);                        
                         } else if (ctx.oInit.select !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().select.deselect(ctx);
                             }, false);                        
                         }
@@ -1042,7 +1035,12 @@
                     }
                 },
                 complete: function () {
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax',actionType,ctx);
+					if(ctx.oInit.formEdit.buttonsForm != undefined){
+						$.each(ctx.oInit.formEdit.buttonsForm, function(index, button) {
+						    $(button).prop('disabled', false);
+						});
+					}
+                    $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax', [ctx, actionType]);
                 },
                 error: function (xhr) {
                 	let divErrorFeedback;
@@ -1082,7 +1080,7 @@
                         _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
     				}
 
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax',actionType,ctx);
+                    $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType]);
                 },
                 validate: validaciones,
                 feedback: feed.rup_feedback({
@@ -1096,22 +1094,46 @@
                 delete ajaxOptions.data;
                 $.rup_ajax(ajaxOptions);
             } else if (isDeleting || ctx.oInit.formEdit.idForm.valid()) {
-            	// Obtener el valor del parámetro HDIV_STATE (en caso de no estar disponible se devolverá vacío) siempre y cuando no se trate de un deleteAll porque en ese caso ya lo contiene el filtro
-                if (url.indexOf('deleteAll') === -1) {
-                	// Elimina los campos _label generados por los autocompletes que no forman parte de la entidad
-                    $.fn.deleteAutocompleteLabelFromObject(ajaxOptions.data);
-                    
-                    // Elimina los campos autogenerados por los multicombos que no forman parte de la entidad
-                    $.fn.deleteMulticomboLabelFromObject(ajaxOptions.data, ctx.oInit.formEdit.detailForm);
-                    
-                	var hdivStateParamValue = $.fn.getHDIV_STATE(undefined, ctx.oInit.formEdit.idForm);
-                    if (hdivStateParamValue !== '') {
-                    	ajaxOptions.data._HDIV_STATE_ = hdivStateParamValue;
-                    }
-                }
-                
-                ajaxOptions.data = JSON.stringify(ajaxOptions.data);
-                $.rup_ajax(ajaxOptions);
+				if (url.indexOf('deleteAll') === -1) {
+					// Elimina los campos _label generados por los autocompletes que no forman parte de la entidad
+					$.fn.deleteAutocompleteLabelFromObject(ajaxOptions.data);
+
+					// Elimina los campos autogenerados por los multicombos que no forman parte de la entidad
+					$.fn.deleteMulticomboLabelFromObject(ajaxOptions.data, ctx.oInit.formEdit.detailForm);
+
+					// Comprueba si debe enviarse como multipart.
+					if (ctx.oInit.formEdit.multipart === true) {
+						ajaxOptions.enctype = 'multipart/form-data';
+						ajaxOptions.processData = false;
+						ajaxOptions.contentType = false;
+
+						let formData = new FormData();
+
+						$.each(ajaxOptions.data, function(key, value) {
+							const field = ctx.oInit.formEdit.idForm.find('input[type="file"][name="' + key + '"]');
+
+							// Gestiona el guardado de ficheros.
+							if (field.length != 0 && field.prop('files').length > 0) {
+								$.each(field.prop('files'), function(fileIndex, fileValue) {
+									formData.append(key, fileValue);
+								});
+							} else {
+								formData.append(key, value);
+							}
+						});
+
+						ajaxOptions.data = formData;
+					}
+				}
+
+				if (ajaxOptions.enctype != 'multipart/form-data') {
+					ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+				}
+				ctx.oInit.formEdit.buttonsForm = $('#' + ctx.sTableId + '_detail_div').find('button:enabled');
+				$.each(ctx.oInit.formEdit.buttonsForm, function(index, button) {
+				    $(button).prop('disabled', true);
+				});
+				$.rup_ajax(ajaxOptions);
             }
         }
         
@@ -1395,7 +1417,7 @@
         				ctx.oInit.formEdit.idForm.find('[name="' + column.name + '"]')['rup_combo']('hardReset');
         			} else if (column.rupType === 'autocomplete') {
         				// Establecer el valor por defecto del componente.
-        				const newDefaultValue = ctx.json.rows.find(row => $.fn.getStaticHdivID(row.id) === $.fn.getStaticHdivID(ctx.oInit.formEdit.$navigationBar.currentPos.id))[column.name];
+        				const newDefaultValue = ctx.json.rows.find(row => row.id === ctx.oInit.formEdit.$navigationBar.currentPos.id)[column.name];
         				column.editoptions.defaultValue = newDefaultValue;
         				ctx.oInit.formEdit.idForm.find('[name="' + column.name + '"]').data('rup.autocomplete').$labelField.data('settings').defaultValue = newDefaultValue;
         			}

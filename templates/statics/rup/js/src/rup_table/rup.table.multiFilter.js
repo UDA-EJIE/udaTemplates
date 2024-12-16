@@ -395,7 +395,7 @@
      * @param {object} filter - Objeto json con la información del filtro a añadir.
      * @fires module:rup_table#rupTable_multifilter_beforeAdd
      * @example
-     * 
+     * $("#idComponente").rup_table("addFilter", filter);
      */
     function _addFilter(filter, ctx) {
         var settings = ctx.oInit;
@@ -487,22 +487,7 @@
 				
         		filter.filterValue = $.toJSON(dataForm);
         
-				var objetoJSON = JSON.parse(filter.filterValue);
-				
-				if (hdivStateParamValue !== '') {
-					
-					var clave = settings.primaryKey[0];
-					
-					var $select = $('[name='+ clave+']' );
-					
-					if($('#'+  $select[0].id).attr('ruptype') === 'select'){
-						var label = $('#'+  $select[0].id).rup_select("label");
-					
-						objetoJSON[clave] = label;
-					}
-					
-				}
-				
+				var objetoJSON = JSON.parse(filter.filterValue);				
 				
 				// Crear una nueva cadena con comillas simples por dentro
 				var nuevaCadena = ''
@@ -762,7 +747,7 @@
      * @param {object} settings - Propiedades de configuración del componente.
      * @return {object} - Objeto jQuery con el contenido html de la template.
      * @example
-     * 
+     * $("#idComponente").rup_table("getMultifilterDialogTemplate", settings);
      */
     function getMultifilterDialogTemplate(ctx) {
         var settings = ctx.oInit;
