@@ -12,8 +12,8 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.{{project_name}}.control' -->
-	<context:component-scan base-package="com.ejie.{{project_name}}.control" />
+	<!-- Crea un bean por cada clase anotada con @Component en el paquete 'com.ejie.{{project_name}}' -->
+	<context:component-scan base-package="com.ejie.{{project_name}}" />
 
 	<!-- Mapeos directos -->
 	<mvc:view-controller path="/sessionInfo" view-name="serSessionTestServlet" />
