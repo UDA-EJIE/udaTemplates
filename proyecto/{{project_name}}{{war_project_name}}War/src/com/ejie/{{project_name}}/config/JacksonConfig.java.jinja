@@ -72,9 +72,8 @@ public class JacksonConfig implements WebMvcConfigurer {
 		UdaModule udaModule = new UdaModule();
 
 		Map<Class<? extends Object>, JsonSerializer<Object>> serializers = new HashMap<Class<? extends Object>, JsonSerializer<Object>>();
-
+		
 		udaModule.setSerializers(serializers);
-		//udaModule.setSerializationInclusions(serializationInclusions());
 		udaModule.setSerializationFeature(serializationFeature());
 		udaModule.setDeserializationFeature(deserializationFeature());
 
