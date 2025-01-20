@@ -927,7 +927,7 @@ input.
 				}
 				
 				// Concatena los datos a enviar.
-				settings.data += ($.fn.getHDIV_STATE(undefined, $form) != '' ? '&' : '?') + data;
+				settings.data += (settings.data.includes('?') ? '&' : '?') + data;
 			}
 			return settings.data;
 		},
@@ -1331,9 +1331,6 @@ input.
 						});
 					});
 				}
-
-				// Se audita el componente
-				$.rup.auditComponent('rup_autocomplete', 'init');
 			}
 		}
 	});

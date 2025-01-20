@@ -1212,8 +1212,10 @@
 
                 // Validaciones 
                 if (filterOpts.rules) {
+					const {$feedbackContainer, ...feedbackOptions} = options.feedback;
                     filterOpts.$filterContainer.rup_validate({
                         feedback: options.feedback.$feedbackContainer,
+                        feedbackOptions: feedbackOptions,
                         rules: filterOpts.rules
                     });
                 }
@@ -1263,19 +1265,37 @@
             
 			// Objeto auxiliar para contar repeticiones
 			const repeticiones = {};
-
+			// Objeto auxiliar para almacenar los valores concatenados
+			var valoresConcatenados = {};
 			// Crear un nuevo array de objetos manteniendo "value" original para valores únicos y actualizando "value" para valores repetidos
 			const nuevoArrayDeObjetos = aux.reduce((result, objeto) => {
 				const { name, value } = objeto;
 				if (!repeticiones[name]) {
 					repeticiones[name] = { value, count: 0 };
+					
+					valoresConcatenados[name] = [];
 				}
-				repeticiones[name].count++;
-				if (repeticiones[name].count === 1) {
-					result.push({ name, value });
-				} else {
-					result.find(item => item.name === name).value = 'Seleccionados ' + repeticiones[name].count;
-				}
+				if(value != ""){
+					repeticiones[name].count++;
+				
+					if (repeticiones[name].count === 1) {
+						result.push({ name, value });
+						valoresConcatenados[name].push(value);
+					} else if($('[name=\'' + name + '\']').prop("type") != "hidden") {
+						var existingItem = result.find(function (item) {
+			        return item.name === name;
+				      });
+					
+				     if (repeticiones[name].count < 4) {
+						valoresConcatenados[name].push(value);
+				        // Concatenar valores si las repeticiones son menores que 4
+				        existingItem.value = valoresConcatenados[name].join(", ");
+				     } else {
+				        // Mostrar el número de seleccionados si las repeticiones son 4 o más
+				        existingItem.value = 'Seleccionados ' + repeticiones[name].count;
+				      }
+				    }
+			  }
 				return result;
 			}, []);
 	
@@ -1312,7 +1332,7 @@
                     fieldId = $(field[fieldIteration++]).attr('id');
                     
                     // Reinicia el contador porque ya se han iterado todos los campos
-                    if (fieldIteration === field.length) {
+                    if (field.length == 0 || fieldIteration === field.length) {
                     	fieldIteration = 0;
                     }
                     
@@ -1328,10 +1348,18 @@
                     //NAME
                     label = $('label[for^=\'' + fieldId + '\']', searchForm);
                     if (isRadio && settings.adapter === 'table_material') {
-                    	fieldName = $('#' + fieldId).closest('.form-radioGroupMaterial').children('label').html();
+						if($('label[data-name="'+aux[i].name+'"]').length == 1){
+							fieldName = $('label[data-name="'+aux[i].name+'"]').text();
+						}else{
+                    		fieldName = $('#' + fieldId).attr('name');
+						}
                     	isRadio = false;
                     } else if (isCheckbox && settings.adapter === 'table_material') {
-                		fieldName = $('#' + fieldId).closest('.form-checkboxGroupMaterial').children('label').html();
+						if($('label[data-name="'+aux[i].name+'"]').length == 1){
+								fieldName = $('label[data-name="'+aux[i].name+'"]').text();
+						}else{
+								fieldName = $('#' + fieldId).attr('name');
+						}
                     	if (searchString !== '' && searchString !== undefined && new RegExp(fieldName, 'i').test(searchString)) {
                     		searchString = searchString.replace(/.{2}$/,","); 
                     		fieldName = '';
@@ -1371,10 +1399,18 @@
                     //VALUE
                     fieldValue = ' = ';
 
-                    switch ($(field)[0].tagName) {
+                    switch (field.length > 0 && $(field)[0].tagName) {
 	                    case 'INPUT':
+							if($(field) != null && $(field)[0].type === 'checkbox' && $(field).length > 1){
+								fieldValue += aux[i].value;
+								break;
+							}
 	                        if ($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio') {
-	                            fieldValue += label.html();
+								if($(field).closest('label').text() != undefined && $(field).closest('label').text() != ""){
+	                            	fieldValue += $(field).closest('label').text();
+								}else{
+									fieldValue += aux[i].value;
+								}
 	                        } else {
 	                        	//Mirar si es masterDetail
 	                            
@@ -1443,11 +1479,7 @@
                     if (fieldName === '' && fieldValue.trim() === '') {
                         continue;
                     }
-                    //Miramos si el elemento es es un checkbox o un radio, en caso de serlo revisamos fieldName para quitar los inputs
-		            if($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio'){
-						let fValue=fieldValue.split('<span>')[1];
-						fieldValue='<span> '+fValue;
-	          		} 
+ 
                     searchString = searchString + fieldName + fieldValue + '; ';
                 }
             }
@@ -1795,6 +1827,10 @@
                 tabla.on('draw', function (e, settingsTable) {
                     var ctx = tabla.context[0];
                     
+					if (filterOptions != 'noFilter') {
+						$self._showSearchCriteria();
+					}
+                    
                     if (options.searchPaginator) { //Mirar el crear paginador
                         $self._createSearchPaginator($(this), settingsTable);
                         // Deshabilitamos los botones de paginacion si es necesario
@@ -1843,7 +1879,7 @@
                                 DataTable.Api().editForm.updateDetailPagination(ctx, index, numTotal);
                             }
                             
-                            if (ctx.multiselection.selectedRowsPerPage.length === 1) {
+                            if (ctx.multiselection.selectedRowsPerPage.length === 1 && ctx.multiselection.selectedRowsPerPage[0].page == ctx.json.page) {
                                 DataTable.Api().select.selectRowIndex(tabla, ctx.multiselection.selectedRowsPerPage[0].line, false);
                             }
                             
@@ -1957,10 +1993,6 @@
                         DataTable.Api().editForm.addchildIcons(tabla.context[0]);
                     }));
                 }
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_table', 'init');
-
             }).catch((error) => {
                 console.error('Error al inicializar el componente:\n', error);
             });

@@ -459,15 +459,16 @@
         	});
         } else {
         	// Para cuando el formulario actual sigue siendo válido (ya sea dinámico o no)
-        	let deferred = $.Deferred();
-        	ctx.oInit.formEdit.actionType = actionType;
-        	deferred.resolve();
-    		return deferred.promise();
+			let deferred = $.Deferred();
+			ctx.oInit.formEdit.actionType = actionType;
+			$(ctx.oInit.formEdit.idForm).rup_form('clearForm', true);
+			deferred.resolve();
+			return deferred.promise();
         }
     }
     
     /**
-     * Valida los formularios para no, buscarlos.
+     * Valida los formularios para no buscarlos.
      *
      * @name validarFormulario
      * @function
@@ -751,10 +752,21 @@
 	    	if ($('#' + ctx.sTableId + '_formEdit_dialog_loading').length > 0) {
 	    		$('#' + ctx.sTableId + '_formEdit_dialog_loading').remove();
 	    	}
+			
+			// Evitar problemas visuales con el componente rup_select.
+			$.each($('select[ruptype="select"]', idForm), function(index, element) {
+				$(this).rup_select('close', true);
+
+				const $selectContainer = $("#" + element.id + " + span");
+
+				if ($selectContainer.hasClass('select2-container--focus') && $(document.activeElement) != $(element)) {
+					$selectContainer.removeClass('select2-container--focus');
+				}
+			});
 	
 	        // Establecemos el foco al primer elemento input o select que se
 	        // encuentre habilitado en el formulario
-	        $(idForm[0]).find('input,select').filter(':not([readonly])').first().focus();
+	        $(idForm).find('input,select').filter(':not([readonly],[type=hidden])').first().focus();
 	
 	        // Se guardan los datos originales
 	        ctx.oInit.formEdit.dataOrigin = _editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
@@ -1051,11 +1063,11 @@
                              */
                             dt.ajax.reload();
                             
-                            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow',actionType,ctx);
+                            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow', [ctx, actionType]);
                         }
                         if(actionType === 'PUT'){
 	                        dt.ajax.reload(function () {
-	                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+	                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
 	                        }, false);
                         } else {
                         	if (ctx.oInit.multiSelect === undefined) {
@@ -1067,7 +1079,7 @@
                         		ctx.multiselection.selectedRowsPerPage[0] = arra;
                         		DataTable.Api().select.drawSelectId(ctx);
                         	}
-                        	$('#' + ctx.sTableId).trigger('tableAddFormSuccessCallSaveAjax',actionType,ctx);
+                        	$('#' + ctx.sTableId).trigger('tableAddFormSuccessCallSaveAjax', [ctx, actionType]);
                         }
 
                     } else { // Eliminar
@@ -1076,12 +1088,12 @@
 
                         if (ctx.oInit.multiSelect !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().multiSelect.deselectAll(dt);
                             }, false);                        
                         } else if (ctx.oInit.select !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax',actionType,ctx);
+                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().select.deselect(ctx);
                             }, false);                        
                         }
@@ -1089,7 +1101,7 @@
                     }
                 },
                 complete: function () {
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax',actionType,ctx);
+                    $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax', [ctx, actionType]);
                 },
                 error: function (xhr) {
                 	let divErrorFeedback;
@@ -1129,7 +1141,7 @@
                         _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
     				}
 
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax',actionType,ctx);
+                    $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType]);
                 },
                 validate: validaciones,
                 feedback: feed.rup_feedback({

@@ -355,7 +355,7 @@
             /**
              * Se eliminan los menssajes de error de las reglas de validacion.
              *
-             * @function resetForm
+             * @function resetElements
              * @example
              * $("#formValidaciones").rup_validate("resetElements");
              */
@@ -599,9 +599,6 @@
 
                 // Se almacena la configuracion del componente en el objeto dom para poder recuperarla en sucesivas invocaciones a los metodos del componente.
                 self.data('settings', settings);
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_validate', 'init');
             }
         });
 

@@ -17499,8 +17499,7 @@ i.mdi.error {
     font-weight: 400; }
   .form-groupMaterial.rup-validate-field-error .error:last-child {
     display: block;
-    padding-top: 2px;
-    padding-left: 19px; }
+    padding-top: 2px; }
   .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
     padding-right: 45px; }
     .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
@@ -17559,12 +17558,10 @@ i.mdi.error {
     font-style: normal;
     font-weight: 400; }
 
-/* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR DE RUP_SELECT */
-.form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 35px; }
-
-:not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error, :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error, :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 45px; }
+.inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial; }
 
 /* ESTILOS GENERALES */
 .material-rounded {
@@ -34937,6 +34934,26 @@ ul.rup_menu_horizontal.ui-widget.ui-widget-content {
 .rup-table-filter-toggle-label {
   text-decoration: underline; }
 
+.collapse_icon_right {
+  float: right;
+  cursor: pointer;
+  opacity: 0.5; }
+  .collapse_icon_right:hover {
+    opacity: 0.3; }
+
+.collapse_label,
+.matched_layer {
+  font-weight: normal; }
+
+.matched_layer {
+  float: left; }
+
+.search_collapse_layer {
+  float: left; }
+
+.search_nav_layer {
+  float: right; }
+
 .table-bordered {
   border: 1px solid #c0c0c0;
   border-bottom: 1px solid #dee2e6; }
@@ -34989,7 +35006,8 @@ td > div.centerOnResponsiveContainer {
   cursor: pointer;
   text-decoration: underline; }
 
-.collapse_label, .matched_layer {
+.collapse_label,
+.matched_layer {
   font-weight: normal; }
 
 .collapse_icon_right:hover {
@@ -43259,8 +43277,7 @@ i.mdi.error {
     font-weight: 400; }
   .form-groupMaterial.rup-validate-field-error .error:last-child {
     display: block;
-    padding-top: 2px;
-    padding-left: 19px; }
+    padding-top: 2px; }
   .form-groupMaterial.rup-validate-field-error select, .form-groupMaterial.rup-validate-field-error .ui-multiselect, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown {
     padding-right: 45px; }
     .form-groupMaterial.rup-validate-field-error select ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-multiselect ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown ~ i.mdi.error {
@@ -43319,12 +43336,10 @@ i.mdi.error {
     font-style: normal;
     font-weight: 400; }
 
-/* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR DE RUP_SELECT */
-.form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error, .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 35px; }
-
-:not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error, :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error, :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 45px; }
+.inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial; }
 
 /* ESTILOS GENERALES */
 .material-rounded {

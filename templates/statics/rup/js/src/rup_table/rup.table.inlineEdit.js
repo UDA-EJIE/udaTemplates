@@ -872,7 +872,7 @@ function _changeInputsToRup(ctx,idRow){
 *
 */
 function _recorrerCeldas(ctx,$fila,$celdas,cont){
-	$fila.addClass('editable');
+	$fila.addClass('editable inline');
 	var colModel = ctx.oInit.colModel;
         var child = '';
 	if($fila.hasClass('child')){
@@ -939,10 +939,10 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
                         $('#' + colModelName + '_inline_child').wrap('<div class=\'form-groupMaterial\'></div>');
 				}
 
-
 				$elem.attr({
 					'title': '',
-					'class': 'editable customelement form-control-customer'
+					'class': 'editable customelement form-control-customer',
+					...($.rup_utils.isNumeric(cellColModel.editoptions?.maxlength) && { 'maxlength': cellColModel.editoptions.maxlength })
 				}).removeAttr('readOnly');
 				// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
 				if(searchRupType !== undefined && cellColModel.editoptions) {
@@ -1032,7 +1032,7 @@ function _recorrerCeldas(ctx,$fila,$celdas,cont){
 function _restaurarCeldas(ctx, $fila, $celdas, contRest) {
     if ($fila.hasClass('editable')) {
     	var colModel = ctx.oInit.colModel;
-        $fila.removeClass('editable');
+        $fila.removeClass('editable inline');
 	
 		$celdas.each( function() {
 			var celda = $(this);
@@ -1238,21 +1238,24 @@ function _inlineEditFormSerialize($fila,ctx,child){
 			busqueda = 'select,input,textarea';
 		}
 		
-		$.each( this.find(busqueda), function( i, obj ) {
-			var nombre = obj.id.replace('_inline','').replace('_child','');
+		$.each(this.find(busqueda), function(i, obj) {
 			var value = $(obj).val();
-			// Comprobar si contiene un caracter invalido
-			if(value.includes("%")){
-				serializedForm = false;
-				return false;
-			}
-			if($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox'){
-                    value = '0';
-				if($(obj).prop('checked')){
-                        value = '1';
+
+			if (value != null) {
+				var nombre = obj.id.replace('_inline', '').replace('_child', '');
+				// Comprobar si contiene un caracter invalido
+				if (value.includes("%")) {
+					serializedForm = false;
+					return false;
 				}
+				if ($(obj).prop('type') !== undefined && $(obj).prop('type') === 'checkbox') {
+					value = '0';
+					if ($(obj).prop('checked')) {
+						value = '1';
+					}
+				}
+				serializedForm[nombre] = value;
 			}
-			serializedForm[nombre] = value;
 		});
 	});
 	

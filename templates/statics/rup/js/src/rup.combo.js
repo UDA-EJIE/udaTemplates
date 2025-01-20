@@ -1723,7 +1723,7 @@
 				
 				if (data) {
 					// Escapa los caracteres '#' para evitar problemas en la petición.
-					source += ($.fn.getHDIV_STATE(undefined, $form) != '' ? '&' : '?') + data.replaceAll('#', '%23');
+					source += (source.includes('?') ? '&' : '?') + data.replaceAll('#', '%23');
 				}
 			}
 			return source;
@@ -2084,9 +2084,6 @@
 	                $('#' + settings.id).next('a').click(function () {
 	                    $('#ui-datepicker-div').hide();
 	                });
-	
-	                //Se audita el componente
-	                $.rup.auditComponent('rup_combo', 'init');
 	                
 	                // Comunicar la inicialización del componente.
 	                $('label[for="' + settings.id + '"]').triggerHandler('comboIsInitialized');

@@ -99,14 +99,20 @@
                 if (tmpDate === null || tmpDate.toString() === 'Invalid Date') {
                     return '';
                 }
+                const settings = $(this).data('datepicker').settings;
                 var fechaArray = $(this).rup_date('getDate').split(' ');
 
-                var formattedTime = $(this).data('datepicker').settings.timeFormat;
+                var formattedTime = settings.timeFormat;
                 var separator = formattedTime[2];
-                var tmpTime = fechaArray[1].split(separator).join(':');
-                var dateFormat = $(this).data('datepicker').settings.dateFormat;
-
-                return $.datepicker.formatDate(dateFormat, tmpDate) + ' ' + tmpTime;
+                var tmpTime = fechaArray[1] ? fechaArray[1].split(separator).join(':') : false;
+                var dateFormat = settings.dateFormat;
+                
+                if (tmpTime) {
+					return $.datepicker.formatDate(dateFormat, tmpDate) + ' ' + tmpTime;
+				} else {
+					console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_date.errors.missingTime')), settings.id);
+					return $.datepicker.formatDate(dateFormat, tmpDate);
+				}
             } else {
                 return $(this).rup_date('getDate');
             }
@@ -125,11 +131,13 @@
          * $("#idDate").rup_date("setRupValue", ["21/06/2015", "22/06/2015"]);
          */
 		setRupValue: function(param = '') {
+			const $this = $(this);
+			
 			if (param === '') {
+				$this.val(param);
 				return param;
 			}
 			
-			const $this = $(this);
 			const element = this;
 			const settings = $this.data('datepicker').settings;
 			let date;
@@ -148,7 +156,15 @@
 			} else if (settings.multiSelect) {
 				date = [];
 
+				if (!Array.isArray(param)) {
+					param = element._splitDate(param.replace(",", ""));
+				}
+
 				for (let index = 0; index < settings.multiSelect; index++) {
+					if (!param[index]) {
+						break;
+					}
+
 					const newValue = new Date(element._defineCorrectFormat(element._splitDate(param[index])[0]));
 
 					if (newValue.toString() === 'Invalid Date') {
@@ -509,9 +525,6 @@
                 if (settings.create) {
                     settings.create();
                 }
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_date', 'init');
             }
         },
         _defineCorrectFormat: function(dateString) {

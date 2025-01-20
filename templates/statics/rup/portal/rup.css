@@ -25500,7 +25500,6 @@
 .r01gContainer .form-groupMaterial.rup-validate-field-error .error:last-child {
   display: block;
   padding-top: 2px;
-  padding-left: 19px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error select,
@@ -25672,18 +25671,10 @@
   font-weight: 400;
 }
 
-/* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR DE RUP_SELECT */
-
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 35px;
-}
-
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error,
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error,
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 45px;
+.r01gContainer .inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial;
 }
 
 /* ESTILOS GENERALES */
@@ -48610,6 +48601,33 @@
   text-decoration: underline;
 }
 
+.r01gContainer .collapse_icon_right {
+  float: right;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.r01gContainer .collapse_icon_right:hover {
+  opacity: 0.3;
+}
+
+.r01gContainer .collapse_label,
+.r01gContainer .matched_layer {
+  font-weight: normal;
+}
+
+.r01gContainer .matched_layer {
+  float: left;
+}
+
+.r01gContainer .search_collapse_layer {
+  float: left;
+}
+
+.r01gContainer .search_nav_layer {
+  float: right;
+}
+
 .r01gContainer .table-bordered {
   border: 1px solid #c0c0c0;
   border-bottom: 1px solid #dee2e6;
@@ -60702,7 +60720,6 @@
 .r01gContainer .form-groupMaterial.rup-validate-field-error .error:last-child {
   display: block;
   padding-top: 2px;
-  padding-left: 19px;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error select,
@@ -60874,18 +60891,10 @@
   font-weight: 400;
 }
 
-/* AYUDA A MOSTRAR EN CONJUNTO LOS ICONOS DE APERTURA Y ERROR DE RUP_SELECT */
-
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error,
-.r01gContainer .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 35px;
-}
-
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] select[ruptype="select"] ~ i.mdi.error,
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-multiselect[ruptype="select"] ~ i.mdi.error,
-.r01gContainer :not(.form-row) > .form-groupMaterial.rup-validate-field-error[class*="col-"] .ui-selectmenu-dropdown[ruptype="select"] ~ i.mdi.error {
-  right: 45px;
+.r01gContainer .inline .form-groupMaterial.rup-validate-field-error .error:last-child {
+  display: block;
+  position: absolute;
+  padding: initial;
 }
 
 /* ESTILOS GENERALES */
