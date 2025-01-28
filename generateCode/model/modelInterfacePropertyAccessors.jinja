@@ -1,11 +1,11 @@
  {% for column in allColumns %}
+	{% set add_json_property = column.name|snakeToCamel|get_index(1)|is_upper() %}
  	/**
      * Method 'get{{ column.name|toCamelCase }}'.
      *
      * @return {{ column.DATO_TYPE }}
-     */
-	
-	
+     */	
+	{% if add_json_property %}@JsonProperty("{{ column.name|snakeToCamel }}"){% endif %}
 	public {{ column.DATO_TYPE }} get{{ column.name|toCamelCase }}() {
 		return this.{{ column.name|snakeToCamel }};
 	}
