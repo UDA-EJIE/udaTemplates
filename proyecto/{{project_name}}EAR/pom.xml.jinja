@@ -14,7 +14,12 @@
 		<org.logback.version>1.2.11</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
 		<com.ejie.x38.version>6.1.0-RELEASE</com.ejie.x38.version>
+		{% if typeTemplate == "thymeleaf" %}
+		<org.thymeleaf.version>3.1.3-RELEASE</org.thymeleaf.version>
+		{% endif %}
+		{% if typeTemplate == "tiles" %}
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
+		{% endif %}
 		<org.jackson.version>2.12.7.1</org.jackson.version>
 	</properties>		
 	<dependencies>
@@ -268,8 +273,8 @@
 			<artifactId>x38ShLibClasses-rup</artifactId>
 			<version>${com.ejie.x38.version}</version>
 		</dependency>
-		
-		<!-- Tiles -->
+		{% if typeTemplate == "tiles" %}
+				<!-- Tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-api</artifactId>
@@ -321,7 +326,20 @@
 		    <artifactId>tiles-request-servlet</artifactId>
 		    <version>1.0.7</version>
 		</dependency>
-		
+		{% endif %}
+		{% if typeTemplate == "thymeleaf" %}
+		<!-- thymeleaf -->
+		<dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf</artifactId>
+		    <version>${org.thymeleaf.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf-spring5</artifactId>
+		    <version>${org.thymeleaf.version}</version>
+		</dependency>
+		{% endif %}
 		<!-- Validation API -->
 		<dependency>
 	    	<groupId>javax.validation</groupId>

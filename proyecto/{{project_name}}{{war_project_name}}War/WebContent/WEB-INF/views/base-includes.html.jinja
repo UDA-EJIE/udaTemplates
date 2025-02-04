@@ -1,0 +1,25 @@
+<div th:fragment="base-includes">
+<script type="text/javascript">
+    // Añadir una variable para determinar si se hacen o no las trazas
+    var IS_EJIE = '';
+    var APP_RESOURCES = '{{project_name}}';
+    var CTX_PATH = '[[${httpServletRequest.contextPath}]]'+'/';
+    var STATICS = '[[${staticsUrl}]]';
+    var RUP = STATICS + '/rup';
+    var WAR_NAME = '{{project_name}}{{war_project_name}}';
+    // model
+    var LAYOUT = '[[${mvcInterceptor.defaultLayout}]]';
+    // mvc-config.xml
+    var LOCALE_COOKIE_NAME = '[[${localeResolver.cookieName}]]';
+    var LOCALE_PARAM_NAME = '[[${mvcInterceptor.paramName}]]';
+    var AVAILABLE_LANGS = '[[${mvcInterceptor.availableLangs}]]';
+    // breadCrumbs
+    var LOGGED_USER = '[[${udaAuthenticationProvider}]]';
+    var DESTROY_XLNETS_SESSION = 'false';
+</script>
+
+<!-- Scripts RUP -->
+<div th:replace="includes/rup.scripts :: scripts"></div>
+<!-- Cargador del layout para el idioma, menu y migas -->
+<div th:replace="includes/{{project_name}}.scripts :: scripts"></div> 
+</div>

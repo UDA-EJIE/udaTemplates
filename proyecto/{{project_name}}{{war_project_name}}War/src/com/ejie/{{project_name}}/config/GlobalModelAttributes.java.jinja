@@ -1,0 +1,43 @@
+package com.ejie.{{project_name}}.config;
+
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
+import com.ejie.x38.control.MvcInterceptor;
+import com.ejie.x38.util.StaticsContainer;
+
+@ControllerAdvice
+public class GlobalModelAttributes {
+	
+	private final MvcInterceptor mvcInterceptor;
+	private final CookieLocaleResolver localeResolver;
+	private String url = null;
+	
+	@Autowired
+    public GlobalModelAttributes(MvcInterceptor mvcInterceptor,CookieLocaleResolver localeResolver) {
+        this.mvcInterceptor = mvcInterceptor;
+        this.localeResolver = localeResolver;
+    }
+
+    @ModelAttribute("staticsUrl")
+    public String getStaticsUrl(Model model,HttpServletRequest request) {
+    	url = StaticsContainer.getStaticsUrl();
+        model.addAttribute("httpServletRequest", request);
+        return url;
+    }
+    
+    @ModelAttribute("mvcInterceptor")
+    public MvcInterceptor addMvcInterceptorToModel() {
+        return mvcInterceptor;
+    }
+    
+    @ModelAttribute("localeResolver")
+    public CookieLocaleResolver addLocaleResolverToModel() {
+        return localeResolver;
+    }
+    
+}

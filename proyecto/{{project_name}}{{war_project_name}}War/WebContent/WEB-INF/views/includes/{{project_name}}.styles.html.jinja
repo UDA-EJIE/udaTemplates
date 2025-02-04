@@ -1,0 +1,7 @@
+<th:block th:fragment="styles">
+<!-- Icono -->
+<link rel="shortcut icon" th:href="${staticsUrl}+@{//{{project_name}}/favicon.ico}">
+
+<!-- CSS personalizado -->
+<link th:href="${staticsUrl}+@{//{{project_name}}/styles/{{project_name}}.css}" rel="stylesheet" type="text/css" />
+</th:block>

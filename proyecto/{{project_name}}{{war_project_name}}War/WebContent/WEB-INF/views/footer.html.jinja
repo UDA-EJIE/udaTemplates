@@ -1,0 +1,22 @@
+<footer th:fragment="footer">
+    <div class="footer-row-content d-flex p-2">
+        <div class="col-sm-6 text-left">
+            <span class="text-white">
+                <!-- Mensaje Thymeleaf para 'footer.avisoLegal' -->
+                <span th:text="#{footer.avisoLegal}"></span>
+            </span>
+        </div>
+        <div class="col-sm-6 text-right">
+            <span class="text-white">
+                <!-- Mensaje Thymeleaf para 'footer.ejgv' -->
+                <span th:text="#{footer.ejgv}"></span>
+            </span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <img class="img-fluid position-absolute" 
+             th:src="${staticsUrl}+@{//{{project_name}}/images/web01-2014_claim_pertsona_helburu_es.gif}" />
+        <img class="img-fluid w-100" 
+             th:src="${staticsUrl}+@{//{{project_name}}/images/web01-2014_oina_logo_atzekoa.gif}" />
+    </div>
+</footer>
