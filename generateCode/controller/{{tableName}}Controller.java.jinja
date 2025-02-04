@@ -43,8 +43,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.Date;
@@ -57,7 +55,9 @@ import {{packageName}}.service.{{tableName}}Service;
 import {{ column.DATA_IMPORT }};{% endfor %}
 import {{packageName}}.model.{{tableName}};
 {% if controller is not none %}
-	import {{packageName}}.model.{{entidadRelacion}};
+import {{packageName}}.model.{{entidadRelacion}};
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 {%endif%}
 
 /**
@@ -184,7 +184,13 @@ public class {{tableName}}Controller  {
 	public String getFormEdit(Model model) {
 		{{tableName}}Controller.logger.info("[GET - View] : {{tableNameOriginal|snakeToCamel}}");
 		model.addAttribute("{{tableNameOriginal|snakeToCamel}}", new {{tableName}}());
+		{% if typeTemplate == "tiles" %}
 		return "{{tableNameOriginal|snakeToCamel}}";
+		{% else %}
+		model.addAttribute("content", "{{tableNameOriginal|snakeToCamel}}/{{tableNameOriginal|snakeToCamel}}");
+		model.addAttribute("includes", "{{tableNameOriginal|snakeToCamel}}/{{tableNameOriginal|snakeToCamel}}-includes");
+		return "template";
+		{% endif %}
 	}
 	 
 	 /**
