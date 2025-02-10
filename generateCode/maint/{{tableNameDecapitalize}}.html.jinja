@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>{{maint.title}}</title>
+</head>
+<body>
+
+    <h2 class="title">{{maint.title}}</h2>
+
+    <div th:replace="{{maint.name}}/includes/{{maint.name}}FilterForm :: {{maint.name}}FilterForm"></div>
+
+    <table id="{{maint.name}}" class="tableFit table-striped table-bordered table-material" 
+        data-url-base="../{{tableNameOriginal|snakeToCamel}}"
+        data-filter-form="#{{maint.name}}_filter_form">
+        <thead>
+            <tr>
+				{% for column in allColumns %}
+				<th data-col-prop="{{column.name|snakeToCamel}}" data-col-sidx="{{ column.name.upper()}}" data-col-type="{{ column.type}}">
+					<span th:text="#{'{{ column.name|snakeToCamel }}'}"></span>
+				</th>
+				{% endfor %}
+            </tr>
+        </thead>
+    </table>
+
+    <div th:replace="{{maint.name}}/includes/{{maint.name}}Edit :: {{maint.name}}Edit"></div>
+</body>
+</html>
