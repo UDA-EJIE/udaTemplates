@@ -27,7 +27,7 @@ import com.ejie.x38.control.MvcInterceptor;
 import com.ejie.x38.util.StaticsContainer;
 
 @Configuration
-public class MvcConfig extends DelegatingWebMvcConfiguration {
+public class MvcConfig implements WebMvcConfigurer {
 
 	/** 
      * Gestiona la locale (idioma) mediante una cookie.
