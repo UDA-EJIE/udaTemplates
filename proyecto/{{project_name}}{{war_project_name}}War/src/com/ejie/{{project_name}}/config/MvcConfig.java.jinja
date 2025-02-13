@@ -19,7 +19,9 @@ package com.ejie.{{project_name}}.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import com.ejie.x38.control.MvcInterceptor;
 import com.ejie.x38.util.StaticsContainer;
@@ -55,4 +57,10 @@ public class MvcConfig extends DelegatingWebMvcConfiguration {
         return mvcInterceptor;
     }
 
+    @Override
+	public void addInterceptors(InterceptorRegistry registry) {
+	    registry.addInterceptor(mvcInterceptor())
+	            .addPathPatterns("/**")  // Aplica a todas las rutas
+	            .excludePathPatterns("/login", "/error"); // Excepciones opcionales
+	}
 }
