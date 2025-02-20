@@ -407,6 +407,16 @@
  		 <groupId>org.apache.poi</groupId>
   		 <artifactId>poi-ooxml-schemas</artifactId>
    		 <version>3.17</version>
+   		 <exclusions>
+			<exclusion>
+				<artifactId>stax-api</artifactId>
+				<groupId>javax.xml.stream</groupId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+			</exclusion>
+		 </exclusions>		
 		</dependency>
 
 		<!-- xlsx -->
