@@ -7,3 +7,9 @@
 <h3>Name: </h3>${(empty param)? exception_name : param.exception_name}<br>
 <h3>Message: </h3>${(empty param)? exception_message : param.exception_message}<br>
 <h3>Trace: </h3>${(empty param)? exception_trace : param.exception_trace}<br>
+
+<c:if test="${param.query_string_limit}">
+    <p>
+        <spring:message code="error.note" />
+    </p>
+</c:if>
