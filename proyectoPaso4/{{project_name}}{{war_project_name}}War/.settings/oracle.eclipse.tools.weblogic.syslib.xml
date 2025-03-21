@@ -2,5 +2,4 @@
 <system-libraries>
     <library javadoc="http://java.sun.com/j2ee/1.4/docs/api" path="server/lib/api.jar"/>
     <library path="server/lib/weblogic.jar"/>
-    <library path="server/lib/wls-api.jar"/>
 </system-libraries>
