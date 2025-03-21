@@ -1,0 +1,58 @@
+<div th:fragment="{{maint.name}}FilterForm">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>{{maint.name}} Filter Form</title>
+</head>
+<body>
+    <!-- Formulario de filtrado -->
+    <form th:object="{{ '${' ~ tableNameOriginal|snakeToCamel ~ '}' }}" id="{{maint.name}}_filter_form">
+        <!-- Barra de herramientas del formulario de filtrado -->
+        <div id="{{maint.name}}_filter_toolbar" class="formulario_legend"></div>
+        <fieldset id="{{maint.name}}_filter_fieldset" class="rup-table-filter-fieldset">
+            <div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
+            <!-- Campos del formulario de filtrado -->
+            {% for column in allColumns %}
+                {% if column.type == "Text" %}
+                    <div class="form-groupMaterial col">
+                        <input type="text" name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"/>
+                {% elif column.type == "Textarea" %}             
+                    <div class="form-groupMaterial col">
+                        <textarea name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"></textarea>
+                {% elif column.type == "Checkbox" %}
+                    <div class="checkbox-material col">
+                        <input type="checkbox" name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"/>                         
+                {% elif column.type == "Datepicker" %}
+                    <div class="form-groupMaterial col">
+                        <input type="date" name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"/>
+                {% elif column.type == "Password" %}
+                    <div class="form-groupMaterial col">
+                        <input type="password" name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"/>
+                {% else %}
+                    <div class="form-groupMaterial col">
+                        <input type="text" name="{{ column.name|snakeToCamel }}" id="{{ column.name|snakeToCamel }}_filter_table"/>
+                {% endif %}    
+                    <label for="{{ column.name|snakeToCamel }}_filter_table">{{ column.name|snakeToCamel }}</label>
+                </div>
+            {% endfor %}
+            <!-- Fin campos del formulario de filtrado -->
+            </div>
+            <!-- Botonera del formulario de filtrado -->
+            <div id="{{maint.name}}_filter_buttonSet" class="text-right">
+                <!-- Botón de limpiar -->
+                <button id="{{maint.name}}_filter_cleanButton" type="button" class="btn-material btn-material-primary-low-emphasis mr-2">
+                    <i class="mdi mdi-eraser"></i>
+                    <span th:text="#{clear}"></span>
+                </button>
+                <!-- Botón de filtrado -->
+                <button id="{{maint.name}}_filter_filterButton" type="button" class="btn-material btn-material-primary-low-emphasis">
+                    <i class="mdi mdi-filter"></i>
+                    <span th:text="#{filter}"></span>
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>
+</div>

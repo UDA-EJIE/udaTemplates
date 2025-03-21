@@ -19,7 +19,7 @@
 <header data-belongs-to-portal="false">
   <div id="cabecera" class="cabecera" >
   	<div style="float: left;" >
-  		<span id="tituloAplicacion"><a href="<%= request.getContextPath()%>/" >{{project_name}} - Demo RUP</a></span>
+  		<a href="<%= request.getContextPath()%>/" ><img src="${staticsUrl}/{{project_name}}/images/ejie.jpg"/></a>
   	</div>
   	<spring:url value="/" var="urlWar" htmlEscape="true" />
   	<a href="${urlWar}" style="float: right;">

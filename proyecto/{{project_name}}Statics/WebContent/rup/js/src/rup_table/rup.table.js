@@ -112,9 +112,9 @@
 					ctx.ext.buttons.editButton.eventDT = dt;
 				},
 				action: function (e, dt, button, config) {
-					$('#' + ctx.sTableId).triggerHandler('tableButtonsBeforeEditClick', [dt, button, config]);
+					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableButtonsBeforeEditClick', [dt, button, config]);
 					DataTable.Api().buttons.actions(dt, config);
-					$('#' + ctx.sTableId).triggerHandler('tableButtonsAfterEditClick', [dt, button, config]);
+					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableButtonsAfterEditClick', [dt, button, config]);
 				}
 			}, 0);
          */
@@ -290,7 +290,7 @@
          * $("#idTable").rup_table("clear");
          */
         clear: function () {
-        	$('#' + this[0].id + ' tbody').empty();
+        	$('#' + $.escapeSelector(this[0].id) + ' tbody').empty();
         },
         /**
          * Recarga la tabla.
@@ -346,11 +346,11 @@
 
             apiRegister('rupTable.selectPencil()', function (ctx, idRow) {
                 //Se elimina el lapicero indicador.
-                $('#' + ctx.sTableId + ' tbody tr td.select-checkbox i.selected-pencil').remove();
+                $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr td.select-checkbox i.selected-pencil').remove();
                 //se añade el span con el lapicero
                 if (idRow >= 0) {
                     var spanPencil = $('<i></i>').addClass('mdi mdi-pencil ui-icon-rupInfoCol selected-pencil');
-                    $($('#' + ctx.sTableId + ' tbody tr td.select-checkbox')[idRow]).append(spanPencil);
+                    $($('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr td.select-checkbox')[idRow]).append(spanPencil);
                 }
             });
 
@@ -396,7 +396,7 @@
                     ctx._buttons[0].inst.s.disableAllButtons = undefined;
                     DataTable.Api().buttons.displayRegex(ctx);
                 }
-                $('#' + ctx.sTableId).triggerHandler('tableAfterReorderData',ctx);
+                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableAfterReorderData',ctx);
             });
 
             apiRegister('rupTable.getIdPk()', function (json = {}, optionsParam) {
@@ -460,7 +460,7 @@
                 if (ctx.oInit.formEdit !== undefined) {
                     idForm = ctx.oInit.formEdit.idForm;
                 } else {
-                    idForm = $('#' + ctx.sTableId + '_search_searchForm');
+                    idForm = $('#' + $.escapeSelector(ctx.sTableId) + '_search_searchForm');
                 }
                 var primaryKey = ctx.oInit.primaryKey;
 
@@ -477,6 +477,8 @@
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo disable.
                             if (input.attr('ruptype') === 'date' && !input.rup_date('isDisabled')) {
                                 input.rup_date('disable');
+							} else if (input.attr('ruptype') === 'select' && !input.rup_select('isDisabled')) {
+								    input.rup_select('disable');	
                             } else if (input.attr('ruptype') === 'time' && !input.rup_time('isDisabled')) {
                                 input.rup_time('disable');
                             } else if (input.attr('type') === 'checkbox') {
@@ -485,7 +487,7 @@
                                 }
 
                                 var valorCheck = input.is(':checked') ? 1 : 0;
-                                var selectorInputSustituto = $('#' + id + '_bloqueado');
+                                var selectorInputSustituto = $('#' + $.escapeSelector(id) + '_bloqueado');
 
                                 // Comprobamos si es necesario cambiar el check
                                 if (selectorInputSustituto.attr('valor') !== valorCheck) {
@@ -520,7 +522,7 @@
                     // En caso de ser clonación permitimos la edición
                     else if (actionType === 'POST') {
                         $.each(primaryKey, function (key, id) {
-                            var input = $(idForm[0]).find(':input[name=\'' + id + '\']');
+                            var input = $(idForm[0]).find(':input[name=\'' + $.escapeSelector(id) + '\']');
 
                             // Comprobamos si es un componente rup o no. En caso de serlo usamos el metodo enable.
                             if (input.attr('ruptype') === 'date' && input.rup_date('isDisabled')) {
@@ -531,7 +533,7 @@
                                 input.rup_time('enable');
                             } else if (input.attr('type') === 'checkbox') {
                                 input.removeClass('checkboxPKBloqueado');
-                                $('#' + id + '_bloqueado').remove();
+                                $('#' + $.escapeSelector(id) + '_bloqueado').remove();
                             } else {
                                 input.prop('readOnly', false);
                             }
@@ -566,7 +568,7 @@
 
                     var value = data ? $('<ul data-dtr-index="' + rowIdx + '" class="dtr-details"></ul>').append(data) : false;
                     var ctx = api.context[0];
-                    var $row = $('#' + ctx.sTableId + ' tbody tr:not(.child)').eq(rowIdx);
+                    var $row = $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr:not(.child)').eq(rowIdx);
                     if ($row.hasClass('editable')) {
                         DataTable.Api().inlineEdit.inResponsiveChangeInputsValues(ctx, $row);
                         if (ctx.oInit.inlineEdit.rowDefault !== undefined && ctx.oInit.inlineEdit.rowDefault === 'cambioEstado') {
@@ -729,7 +731,7 @@
             var $self = this;
             let reloadTable = () => {
                 $self.DataTable().ajax.reload(() => {
-                    $('#' + options.id).trigger('tableFilterSearch',options);
+                    $('#' + $.escapeSelector(options.id)).trigger('tableFilterSearch',options);
                 });
             };
 
@@ -760,13 +762,13 @@
         _ajaxOptions(options) {
 
             options.id = this[0].id;
-            $('#' + options.id).triggerHandler('tableFilterInitialize',options);
+            $('#' + $.escapeSelector(options.id)).triggerHandler('tableFilterInitialize',options);
 
             let ajaxData = {
                 'url': options.urls.filter,
                 'dataSrc': function (json) {
                     let ret = {};
-                    $('#' + options.id).triggerHandler('tableFilterBeforeShow',options);
+                    $('#' + $.escapeSelector(options.id)).triggerHandler('tableFilterBeforeShow',options);
                     json.recordsTotal = json.records;
                     json.recordsFiltered = json.records;
 
@@ -774,7 +776,7 @@
                     ret.recordsFiltered = json.records;
                     ret.data = json.rows;
 
-                    let table = $('#' + options.id).DataTable();
+                    let table = $('#' + $.escapeSelector(options.id)).DataTable();
                     let ctx = table.context[0];
 
                     if (options !== undefined && (options.multiSelect !== undefined || options.select !== undefined)) {
@@ -786,7 +788,7 @@
                     }
 
                     if (ctx.oInit.inlineEdit !== undefined) {
-                        if (ctx.oInit.inlineEdit.alta && !$('#' + ctx.sTableId + ' tbody tr').eq(0).hasClass('new')) {
+                        if (ctx.oInit.inlineEdit.alta && !$('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr').eq(0).hasClass('new')) {
                             ret.data = DataTable.Api().inlineEdit.createTr(table, ctx, ret.data);
                         } else {
                             ctx.oInit.inlineEdit.alta = undefined;
@@ -903,7 +905,7 @@
          */
         _createSearchPaginator(tabla, settingsT) {
             //buscar la paginación.
-            if ($('#' + tabla[0].id + '_paginate').length === 1 && settingsT.json !== undefined && settingsT.json.total !== '0') {
+            if ($('#' + $.escapeSelector(tabla[0].id) + '_paginate').length === 1 && settingsT.json !== undefined && settingsT.json.total !== '0') {
                 var liSearch = $('<li></li>').addClass('paginate_button page-item pageSearch searchPaginator align-self-center');
                 var textPagina = jQuery.rup.i18nTemplate(settingsT.oLanguage, 'pagina', settingsT.json.total);
                 var toPagina = jQuery.rup.i18nTemplate(settingsT.oLanguage, 'toPagina', settingsT.json.total);
@@ -911,14 +913,14 @@
                     type: 'text',
                     size: '3',
                     value: settingsT.json.page,
-                    maxlength: '3'
+                    maxlength: '6'
                 }).addClass('ui-pg-input text-center');
 
                 liSearch.append(textPagina);
                 liSearch.append(input);
                 liSearch.append(toPagina);
 
-                $('#' + tabla[0].id + '_previous').after(liSearch);
+                $('#' + $.escapeSelector(tabla[0].id) + '_previous').after(liSearch);
                 input.keypress(function (e) {
                     if (e.which === 13) // the enter key code
                     {
@@ -935,7 +937,7 @@
 
             // Añade iconos para versiones moviles/tablets
             $('<i class="mdi mdi-page-first d-sm-none"></i>')
-                .insertAfter($('#' + tabla[0].id + '_first')
+                .insertAfter($('#' + $.escapeSelector(tabla[0].id) + '_first')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
@@ -944,7 +946,7 @@
                     })
                 );
             $('<i class="mdi mdi-chevron-left d-sm-none"></i>')
-                .insertAfter($('#' + tabla[0].id + '_previous')
+                .insertAfter($('#' + $.escapeSelector(tabla[0].id) + '_previous')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
@@ -953,7 +955,7 @@
                     })
                 );
             $('<i class="mdi mdi-chevron-right d-sm-none"></i>')
-                .insertAfter($('#' + tabla[0].id + '_next')
+                .insertAfter($('#' + $.escapeSelector(tabla[0].id) + '_next')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
@@ -962,7 +964,7 @@
                     })
                 );
             $('<i class="mdi mdi-page-last d-sm-none"></i>')
-                .insertAfter($('#' + tabla[0].id + '_last')
+                .insertAfter($('#' + $.escapeSelector(tabla[0].id) + '_last')
                     .addClass('recolocatedPagination_iconButton')
                     .children('a')
                     .addClass('btn-material btn-material-sm btn-material-primary-low-emphasis d-none d-sm-block')
@@ -972,7 +974,7 @@
                 );
 
             // Inserta la lista de botones de paginacion al div anteriormente creado
-            $('#' + tabla[0].id + '_paginate ul').detach().appendTo($('#' + tabla[0].id + '_paginate'));
+            $('#' + $.escapeSelector(tabla[0].id) + '_paginate ul').detach().appendTo($('#' + $.escapeSelector(tabla[0].id) + '_paginate'));
 
         },
 
@@ -987,9 +989,9 @@
          *
          */
         _clearFilter(options) {
-			$('#' + options.sTableId).triggerHandler('tableFilterBeforeReset', options);
+			$('#' + $.escapeSelector(options.sTableId)).triggerHandler('tableFilterBeforeReset', options);
 
-			const $form = $('#' + options.sTableId + '_filter_form');
+			const $form = $('#' + $.escapeSelector(options.sTableId) + '_filter_form');
 			jQuery.each($('select[rupType=select], input:not([rupType]), select:not([rupType]), input[rupType=date]', $form), function(index, elem) {
 				const elemSettings = jQuery(elem).data('settings');
 
@@ -1006,8 +1008,12 @@
 						}
 					}
 				} else {
-					elem.defaultValue = "";
-					elem.value = "";
+					if(elem.type == 'checkbox'){//los checkbox pueden tener valor asignado.
+						elem.value = elem.defaultValue;
+					}else{
+						elem.defaultValue = "";
+						elem.value = "";
+					}
 				}
 			});
 
@@ -1017,7 +1023,7 @@
 				const rowSelected = tableMaster.rows('.selected').indexes();
 				const row = tableMaster.rows(rowSelected).data();
 				const id = DataTable.Api().rupTable.getIdPk(row[0], tableMaster.context[0].oInit);
-				$('#' + options.id + '_filter_masterPK').val('' + id);
+				$('#' + $.escapeSelector(options.id) + '_filter_masterPK').val('' + id);
 			}
 
 			options.filter.$filterSummary.html(' <i></i>');
@@ -1030,7 +1036,7 @@
 			
 			$(this).DataTable().ajax.reload();
 
-			$('#' + options.sTableId).triggerHandler('tableFilterAfterReset', options);
+			$('#' + $.escapeSelector(options.sTableId)).triggerHandler('tableFilterAfterReset', options);
         },
         
         /**
@@ -1047,8 +1053,8 @@
                 tableId = $self[0].id,
                 feedbackOpts = options.feedback;
                 
-            if (feedbackOpts && feedbackOpts.id && $('#' + feedbackOpts.id).length > 0) {
-                feedbackOpts.$feedbackContainer = $('#' + feedbackOpts.id);
+            if (feedbackOpts && feedbackOpts.id && $('#' + $.escapeSelector(feedbackOpts.id)).length > 0) {
+                feedbackOpts.$feedbackContainer = $('#' + $.escapeSelector(feedbackOpts.id));
                 feedbackOpts.$feedbackContainer.rup_feedback(feedbackOpts);
             } else {
                 feedbackOpts.id = 'rup_feedback_' + tableId;
@@ -1148,7 +1154,8 @@
                 
                 // Se asigna a la tecla ENTER la función de búsqueda
                 filterOpts.$collapsableLayer.on('keydown', function (evt) {
-                    if (evt.keyCode === 13) {
+                    if (evt.code === 'Enter') {
+						evt.preventDefault();
                         let customFiltrar = options.validarFiltrar;
                         if (typeof customFiltrar === "function" && customFiltrar(options)) {
                             return false;
@@ -1210,7 +1217,7 @@
          */
         _showSearchCriteria() {
             var $self = this,
-                settings = $('#' + $self[0].id).data('settings' + $self[0].id),
+                settings = $('#' + $.escapeSelector($self[0].id)).data('settings' + $self[0].id),
                 searchString = ' ',
                 label, numSelected,
                 field, fieldId, fieldName, fieldValue,
@@ -1244,22 +1251,37 @@
             
 			// Objeto auxiliar para contar repeticiones
 			const repeticiones = {};
-
+			// Objeto auxiliar para almacenar los valores concatenados
+			var valoresConcatenados = {};
 			// Crear un nuevo array de objetos manteniendo "value" original para valores únicos y actualizando "value" para valores repetidos
 			const nuevoArrayDeObjetos = aux.reduce((result, objeto) => {
 				const { name, value } = objeto;
 				if (!repeticiones[name]) {
 					repeticiones[name] = { value, count: 0 };
+					
+					valoresConcatenados[name] = [];
 				}
 				if(value != ""){
 					repeticiones[name].count++;
 				
 					if (repeticiones[name].count === 1) {
 						result.push({ name, value });
+						valoresConcatenados[name].push(value);
 					} else if($('[name=\'' + name + '\']').prop("type") != "hidden") {
-						result.find(item => item.name === name).value = 'Seleccionados ' + repeticiones[name].count;
-					}
-				}
+						var existingItem = result.find(function (item) {
+			        return item.name === name;
+				      });
+					
+				     if (repeticiones[name].count < 4) {
+						valoresConcatenados[name].push(value);
+				        // Concatenar valores si las repeticiones son menores que 4
+				        existingItem.value = valoresConcatenados[name].join(", ");
+				     } else {
+				        // Mostrar el número de seleccionados si las repeticiones son 4 o más
+				        existingItem.value = 'Seleccionados ' + repeticiones[name].count;
+				      }
+				    }
+			  }
 				return result;
 			}, []);
 	
@@ -1306,14 +1328,14 @@
 						if($('label[data-name="'+aux[i].name+'"]').length == 1){
 							fieldName = $('label[data-name="'+aux[i].name+'"]').text();
 						}else{
-                    		fieldName = $('#' + fieldId).attr('name');
+                    		fieldName = $('#' + $.escapeSelector(fieldId)).attr('name');
 						}
                     	isRadio = false;
                     } else if (isCheckbox && settings.adapter === 'table_material') {
 						if($('label[data-name="'+aux[i].name+'"]').length == 1){
 								fieldName = $('label[data-name="'+aux[i].name+'"]').text();
 						}else{
-								fieldName = $('#' + fieldId).attr('name');
+								fieldName = $('#' + $.escapeSelector(fieldId)).attr('name');
 						}
                     	if (searchString !== '' && searchString !== undefined && new RegExp(fieldName, 'i').test(searchString)) {
                     		searchString = searchString.replace(/.{2}$/,","); 
@@ -1344,10 +1366,16 @@
 								break;
 							}
 	                        if ($(field)[0].type === 'checkbox' || $(field)[0].type === 'radio') {
-								if($(field).closest('label').text() != undefined && $(field).closest('label').text() != ""){
-	                            	fieldValue += $(field).closest('label').text();
+								if (typeof settings.criterianCheckRadio === "function") {// se puede usar una función personalizada
+									fieldValue += settings.criterianCheckRadio($(field));
 								}else{
-									fieldValue += aux[i].value;
+									if($(field).siblings('label').first().text() != undefined && $(field).siblings('label').first().text() != ""){
+		                            	fieldValue += $(field).siblings('label').first().text();
+									}else if($(field).closest('label').text() != undefined && $(field).closest('label').text() != ""){
+										fieldValue += $(field).closest('label').text();
+									}else{
+									    fieldValue += aux[i].value;
+									}
 								}
 	                        } else {
 	                        	//Mirar si es masterDetail
@@ -1514,7 +1542,7 @@
             $('#contextMenu1 li.context-menu-icon-uncheck').addClass('disabledButtonsTable');
             $('#contextMenu1 li.context-menu-icon-uncheck_all').addClass('disabledButtonsTable');
             // Desmarcamos el check del tHead
-            $('#inputSelectTableHead' + ctx.sTableId).prop('checked', false);
+            $('#inputSelectTableHead' + $.escapeSelector(ctx.sTableId)).prop('checked', false);
 
             DataTable.Api().rupTable.selectPencil(ctx, -1);
             if (ctx.multiselection === undefined) {
@@ -1633,7 +1661,7 @@
                         //async : false,
                         complete: function () {
 							global.initTableMultiFilter.resolve();
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterCompleteGetActiveFilter',ctx);
+                            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMultiFilterCompleteGetActiveFilter',ctx);
                         },
                         success: function (data) {
                             if (data != null) {
@@ -1649,10 +1677,10 @@
 								$(options.filter.$filterSummary, 'i').prepend(' ' + data.text + ' ');
 								$(options.filter.$filterSummary, 'i').append(data.data ? data.data : '{ }');
                             }
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterSuccessGetActiveFilter',ctx);
+                            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMultiFilterSuccessGetActiveFilter',ctx);
                         },
                         error: function () {
-                            $('#' + ctx.sTableId).triggerHandler('tableMultiFilterErrorGetActiveFilter',ctx);
+                            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMultiFilterErrorGetActiveFilter',ctx);
                         }
                     });
                 }
@@ -1677,7 +1705,7 @@
                 	'default': 'd-block'
                 };
                 const arrowsStyle = displayStyle[options.columnOrderArrows.display] || displayStyle['default'];
-                $.each($('#' + $self[0].id + ' thead th'), function () {
+                $.each($('#' + $.escapeSelector($self[0].id) + ' thead th'), function () {
                 	const $this = $(this);
                 	
                 	// Reubicar título de la columna.
@@ -1747,14 +1775,14 @@
                 
                 // Cuando el seeker esté activo, se mueve bajo la cabecera de la tabla (necesario desde DataTables 1.10.25).
                 if (options.seeker?.activate) {
-                	$('#' + options.sTableId + ' tfoot').insertBefore('#' + options.sTableId + ' tbody');
+                	$('#' + $.escapeSelector(options.sTableId) + ' tfoot').insertBefore('#' + options.sTableId + ' tbody');
                 }
                 
                 $self._initializeMultiselectionProps(tabla.context[0]);
                 
                if(options.createTooltipHead !== false){
 	                //Crear tooltips cabecera;
-	                $.each($('#' + $self[0].id + ' thead th'), function () {
+	                $.each($('#' + $.escapeSelector($self[0].id) + ' thead th'), function () {
 	                    $self._createTooltip($(this));
 	                });
                }
@@ -1770,9 +1798,9 @@
                         // Deshabilitamos los botones de paginacion si es necesario
                         $.each($('ul.pagination li.recolocatedPagination_iconButton'), function () {
                             if ($(this).hasClass('disabled')) {
-                                $('#' + this.id + ' a').prop('tabindex', '-1');
+                                $('#' + $.escapeSelector(this.id) + ' a').prop('tabindex', '-1');
                             } else {
-                                $('#' + this.id + ' a').prop('tabindex', '0');
+                                $('#' + $.escapeSelector(this.id) + ' a').prop('tabindex', '0');
                             }
                         });
                         //Si el seeker esta vacio ocultarlo
@@ -1832,7 +1860,7 @@
                     
                     if(options.createTooltipBody !== false){
 	                    //Crear tooltips tds;
-	                    $.each($('#' + settingsTable.sTableId + ' tbody td'), function () {
+	                    $.each($('#' + $.escapeSelector(settingsTable.sTableId) + ' tbody td'), function () {
 	                        $self._createTooltip($(this));
 	                    });
                     }
@@ -1889,7 +1917,7 @@
                     if(options.filter && options.filter.$filterToolbar){
                         options.filter.$filterToolbar.empty();
                     }
-                    $('#' + settingsTable.sTableId + '_detail_navigation').empty();
+                    $('#' + $.escapeSelector(settingsTable.sTableId) + '_detail_navigation').empty();
 
                 });
                 
@@ -1913,6 +1941,12 @@
 
                 // Se almacena el objeto settings para facilitar su acceso desde los métodos del componente.
                 $self.data('settings' + $self[0].id, options);
+				
+				if(tabla.context[0].oInit.scrollX && !tabla.context[0].oInit.showScrollFootInner){
+					tabla.on('init.dt', function () {
+					    $('#'+$.escapeSelector(tabla.context[0].sTableId)+'_wrapper .dataTables_scrollFootInner').hide();
+					});
+				}
 
                 $self.triggerHandler('tableAfterInit',tabla.context[0]);
 
@@ -1977,7 +2011,7 @@
         searchPaginator: true,
         pagingType: 'full',
         createdRow: function (row) {
-            var ctx = $('#' + this[0].id).rup_table('getContext');
+            var ctx = $('#' + $.escapeSelector(this[0].id)).rup_table('getContext');
 
             if (ctx.oInit.select != undefined || (ctx.oInit.multiSelect != undefined && ctx.oInit.multiSelect.hideMultiselect)) {
                 $(row).attr('tabindex', '0');

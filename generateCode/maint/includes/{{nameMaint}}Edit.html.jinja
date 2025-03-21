@@ -1,0 +1,65 @@
+<div th:fragment="{{maint.name}}Edit">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>{{maint.name}} Edit</title>
+</head>
+<body>
+    <!-- Formulario de detalle -->
+    <div id="{{maint.name}}_detail_div" class="rup-table-formEdit-detail d-none">
+        <!-- Barra de navegación del detalle -->
+        <div id="{{maint.name}}_detail_navigation" class="row no-gutters"></div>
+        <!-- Separador -->
+        <hr class="m-1">
+        <div class="dialog-content-material">
+            <!-- Formulario -->
+            <form th:object="{{ '${' ~ tableNameOriginal|snakeToCamel ~ '}' }}" id="{{maint.name}}_detail_form">
+                <!-- Feedback del formulario de detalle -->
+                <div id="{{maint.name}}_detail_feedback"></div>
+                <div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                    <!-- Campos del formulario de detalle -->
+                    {% for column in allColumns %}				
+                    {% if column.type == "Text" %}
+                    <div class="form-groupMaterial col">
+                        <input name="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table"/>
+                    {% elif column.type == "Textarea" %}
+                    <div class="form-groupMaterial col">
+                        <textarea name="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table"/>					
+                    {% elif column.type == "Checkbox" %}
+                    <div class="checkbox-material col">
+                        <input type="checkbox" name="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table" value=""/>							
+                    {% elif column.type == "Datepicker" %}
+                    <div class="form-groupMaterial col">
+                        <form:input path="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table"/>
+                    {% elif column.type == "Password" %}
+                        <div class="form-groupMaterial col">
+                        <input type="date" name="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table" type="password"/>
+                    {% else %}
+                    <div class="form-groupMaterial col">
+                        <input name="{{column.name|snakeToCamel}}" id="{{column.name|snakeToCamel}}_detail_table"/>
+                    {% endif %}
+                        <label for="{{ column.name|snakeToCamel }}_detail_table">{{ column.name|snakeToCamel }}</label>
+                    </div>				
+                    {% endfor %}
+                    <!-- Fin campos del formulario de detalle -->
+                </div>
+            </form>
+        </div>
+        <!-- Botonera del formulario de detalle -->
+        <div class="rup-table-buttonpanel-material">
+            <div class="text-right">
+                <!-- Botón cancelar -->
+                <button id="{{maint.name}}_detail_button_cancel" class="btn-material btn-material-sm btn-material-primary-low-emphasis" type="button">
+                    <span th:text="#{cancel}"></span>
+                </button>
+                <!-- Botón guardar -->
+                <button id="{{maint.name}}_detail_button_save" class="btn-material btn-material-sm btn-material-primary-high-emphasis" type="button">
+                    <span th:text="#{save}"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+</div>

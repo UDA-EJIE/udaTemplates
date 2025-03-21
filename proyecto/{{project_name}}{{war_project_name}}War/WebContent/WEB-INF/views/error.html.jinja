@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link th:href="${staticsUrl}+@{//{{project_name}}/styles/{{project_name}}.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Error</h2>
+        <br/>
+        <a th:href="@{/}" class="btn btn-primary">
+            <span th:text="#{error.volver}">Volver</span>
+        </a>
+
+        <h3>Name:</h3>
+        <p th:text="${param.exception_name ?: exception_name}">[Nombre de la excepción]</p>
+
+        <h3>Message:</h3>
+        <p th:text="${param.exception_message ?: exception_message}">[Mensaje de la excepción]</p>
+
+        <h3>Trace:</h3>
+        <p th:if="${param.exception_trace ?: exception_trace}"
+           th:text="${param.exception_trace ?: exception_trace}">[Rastro de la excepción]</p>
+    </div>
+</body>
+</html>

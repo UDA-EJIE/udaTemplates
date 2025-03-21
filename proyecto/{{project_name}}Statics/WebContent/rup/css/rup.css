@@ -12889,6 +12889,16 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   margin-right: 20px;
   vertical-align: middle; }
 
+/* Sobrescribir si tiene la clase NotCheck */
+.select2-results__option.select2-results__optionNotCheck:before {
+  display: none !important;
+  content: "" !important;
+  /* Asegura que no se muestre */
+  width: 0 !important;
+  height: 0 !important;
+  border: none !important;
+  background: none !important; }
+
 .select2-results__option[role=group]:before {
   display: none; }
 
@@ -12941,6 +12951,17 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 
 .select-icon .select2-search--dropdown {
   display: none; }
+
+.select2-search__field {
+  width: 100% !important;
+  padding: 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 5px !important;
+  box-sizing: border-box; }
+
+.ocultar-before::before {
+  display: none !important; }
 
 .context-menu-list {
   font-family: "Roboto", sans-serif;
@@ -17138,6 +17159,7 @@ table.dataTable tbody td::selection {
 
 /* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
 .paginationContainer .searchPaginator input {
+  width: 50px;
   padding: 1px;
   border: 1px solid #757575;
   border-radius: 5px;
@@ -37923,6 +37945,16 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
   margin-right: 20px;
   vertical-align: middle; }
 
+/* Sobrescribir si tiene la clase NotCheck */
+.select2-results__option.select2-results__optionNotCheck:before {
+  display: none !important;
+  content: "" !important;
+  /* Asegura que no se muestre */
+  width: 0 !important;
+  height: 0 !important;
+  border: none !important;
+  background: none !important; }
+
 .select2-results__option[role=group]:before {
   display: none; }
 
@@ -37975,6 +38007,17 @@ button, button.ui-button, .ui-button.rup-button, .rup-dropdown-btn-group .rup-dr
 
 .select-icon .select2-search--dropdown {
   display: none; }
+
+.select2-search__field {
+  width: 100% !important;
+  padding: 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 5px !important;
+  box-sizing: border-box; }
+
+.ocultar-before::before {
+  display: none !important; }
 
 .context-menu-list {
   font-family: "Roboto", sans-serif;
@@ -42172,6 +42215,7 @@ table.dataTable tbody td::selection {
 
 /* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
 .paginationContainer .searchPaginator input {
+  width: 50px;
   padding: 1px;
   border: 1px solid #757575;
   border-radius: 5px;

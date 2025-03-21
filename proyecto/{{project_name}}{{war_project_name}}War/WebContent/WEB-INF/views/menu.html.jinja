@@ -1,0 +1,59 @@
+<!-- 
+ Copyright 2020 E.J.I.E., S.A.
+ Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+ Solo podrá usarse esta obra si se respeta la Licencia.
+ Puede obtenerse una copia de la Licencia en:
+
+ http://ec.europa.eu/idabc/eupl.html
+
+ Salvo cuando lo exija la legislación aplicable o se acuerde por escrito, 
+ el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+ SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+ Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+ que establece la Licencia.
+-->
+
+<nav th:fragment="menu" class="rup-navbar navbar">
+    <button type="button" class="navbar-toggler d-lg-none" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div id="navbarResponsive" class="collapse navbar-toggleable-md col-md-12 no-gutter">
+        <!-- URL para el inicio -->
+        <a class="navbar-brand" th:href="@{/}">
+            <!-- Mensaje de inicio -->
+            <span th:text="#{inicio}"></span>
+        </a>
+        <ul class="nav navbar-nav">
+            <!-- Mantenimientos generados con el plugin -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span th:text="#{mantenimientos}"></span>
+                </a>
+                <!-- Incluir contenido de mantenimientos -->
+                <div th:replace="menuMantenimientos.html"></div>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav float-md-right rup-nav-tools">
+            <li class="nav-item">
+                <a class="nav-link rup-nav-tool-icon" href="#" id="{{project_name}}{{war_project_name}}War_language" data-toggle="dropdown">
+                    <i class="mdi mdi-earth" aria-hidden="true"></i>
+                    <span data-rup-lang-current=""></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="{{project_name}}{{war_project_name}}War_language"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rup-nav-tool-icon" href="#">
+                    <i class="mdi mdi-settings" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
+                    <i class="mdi mdi-account-circle" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item swingTop">
+                <a class="nav-link rup-nav-user rup-nav-tool-icon" href="#">
+                    <i class="mdi mdi-arrow-up" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

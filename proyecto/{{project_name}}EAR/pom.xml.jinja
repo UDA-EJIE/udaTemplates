@@ -13,8 +13,13 @@
 		<org.springframework.security.version>5.8.15</org.springframework.security.version>
 		<org.logback.version>1.2.11</org.logback.version>
 		<org.slf4j.version>1.7.30</org.slf4j.version>
-		<com.ejie.x38.version>6.2.0-SNAPSHOT</com.ejie.x38.version>
+		<com.ejie.x38.version>6.2.0-RELEASE</com.ejie.x38.version>
+		{% if typeTemplate == "thymeleaf" %}
+		<org.thymeleaf.version>3.1.3.RELEASE</org.thymeleaf.version>
+		{% endif %}
+		{% if typeTemplate == "tiles" %}
 		<org.apache.tiles.version>3.0.8</org.apache.tiles.version>
+		{% endif %}
 		<org.jackson.version>2.12.7.1</org.jackson.version>
 	</properties>		
 	<dependencies>
@@ -30,41 +35,6 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -111,39 +81,24 @@
 		
 		<!-- JAVAX -->
 		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>javax.jms-api</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<version>2.3.3</version>
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- JAKARTA -->
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-			<version>1.3.4</version>
-		</dependency>		
-		
 		<!-- COMMONS-IO -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.5</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		
 		<!-- XALAN -->
@@ -210,45 +165,14 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.4.3.Final</version>
+			<version>6.2.5.Final</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.jboss.logging</groupId>
-					<artifactId>jboss-logging</artifactId>
-				</exclusion>
+					<groupId>jakarta.validation</groupId>
+					<artifactId>jakarta.validation-api</artifactId>
+				</exclusion> 
 			</exclusions>
 		</dependency>
-		
-		<!-- Jackson JSON Mapper -->	
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${org.jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.7.9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		
-		<!-- Classmate -->
-		<dependency>
-	      	<groupId>com.fasterxml</groupId>
-	      	<artifactId>classmate</artifactId>
-	      	<version>1.3.1</version>
-	    </dependency>
-		
-		<!-- Commons Digester -->
-		<dependency>
-	    	<groupId>commons-digester</groupId>
-	      	<artifactId>commons-digester</artifactId>
-	      	<version>2.0</version>
-	    </dependency>
 
 		<!-- AspectJ -->
 		<dependency>
@@ -262,14 +186,50 @@
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses</artifactId>
 			<version>${com.ejie.x38.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.ejie.x38</groupId>
 			<artifactId>x38ShLibClasses-rup</artifactId>
 			<version>${com.ejie.x38.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
-		<!-- Tiles -->
+		{% if typeTemplate == "tiles" %}
+				<!-- Tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-api</artifactId>
@@ -301,34 +261,20 @@
 			<artifactId>tiles-template</artifactId>
 			<version>${org.apache.tiles.version}</version>
 		</dependency>
+		{% endif %}
+		{% if typeTemplate == "thymeleaf" %}
+		<!-- thymeleaf -->
 		<dependency>
-	      	<groupId>org.apache.tiles</groupId>
-	      	<artifactId>tiles-autotag-core-runtime</artifactId>
-	      	<version>1.2</version>
-	    </dependency>
-		<dependency>
-		    <groupId>org.apache.tiles</groupId>
-		    <artifactId>tiles-request-api</artifactId>
-		    <version>1.0.7</version>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf</artifactId>
+		    <version>${org.thymeleaf.version}</version>
 		</dependency>
 		<dependency>
-	      	<groupId>org.apache.tiles</groupId>
-	      	<artifactId>tiles-request-jsp</artifactId>
-	      	<version>1.0.7</version>
-	    </dependency>
-		<dependency>
-		    <groupId>org.apache.tiles</groupId>
-		    <artifactId>tiles-request-servlet</artifactId>
-		    <version>1.0.7</version>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf-spring5</artifactId>
+		    <version>${org.thymeleaf.version}</version>
 		</dependency>
-		
-		<!-- Validation API -->
-		<dependency>
-	    	<groupId>javax.validation</groupId>
-	      	<artifactId>validation-api</artifactId>
-	      	<version>1.1.0.Final</version>
-	    </dependency>
-	    
+		{% endif %}
 	   	<!-- Reports -->
 		<!-- odf -->
 		<dependency>
@@ -354,6 +300,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!-- pdf -->
 		<dependency>
 		    <groupId>com.lowagie</groupId>
 		    <artifactId>itext</artifactId>
@@ -389,6 +337,16 @@
  		 <groupId>org.apache.poi</groupId>
   		 <artifactId>poi-ooxml-schemas</artifactId>
    		 <version>3.17</version>
+   		 <exclusions>
+			<exclusion>
+				<artifactId>stax-api</artifactId>
+				<groupId>javax.xml.stream</groupId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+			</exclusion>
+		 </exclusions>		
 		</dependency>
 
 		<!-- xlsx -->
@@ -618,6 +576,12 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.13</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>

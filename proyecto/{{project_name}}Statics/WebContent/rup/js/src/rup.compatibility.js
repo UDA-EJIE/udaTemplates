@@ -143,7 +143,7 @@
                     },
                     'focus': function (event) {
                         if ($(event.currentTarget).attr('rup_shift_nofocus') === undefined) {
-                            if ($('#' + this.menuId).attr('rup_menu_nofocus') === undefined) {
+                            if ($('#' + $.escapeSelector(this.menuId)).attr('rup_menu_nofocus') === undefined) {
                                 $(event.currentTarget).find('.ui-menu-item a').first().focus();
                             }
                         } else {
@@ -265,32 +265,32 @@
                     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
                 }
 
-                switch (event.keyCode) {
-                case $.ui.keyCode.PAGE_UP:
+                switch (event.code) {
+                case "PageUp":
                     this.previousPage(event);
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     break;
-                case $.ui.keyCode.PAGE_DOWN:
+                case "PageDown":
                     this.nextPage(event);
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     break;
-                case $.ui.keyCode.HOME:
+                case "Home":
                     this._move('first', 'first', event);
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     break;
-                case $.ui.keyCode.END:
+                case "End":
                     this._move('last', 'last', event);
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     break;
-                case $.ui.keyCode.UP:
+                case "ArrowUp":
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     if (!horizontal) {
@@ -301,7 +301,7 @@
                         $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     }
                     break;
-                case $.ui.keyCode.DOWN:
+                case "ArrowDown":
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     if (!horizontal) {
@@ -312,7 +312,7 @@
                         $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     }
                     break;
-                case $.ui.keyCode.LEFT:
+                case "Left":
                     if (!horizontal) {
                         $(event.target).parent().parent().parent().children('a').focus();
                         event.stopImmediatePropagation();
@@ -324,7 +324,7 @@
                         $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     }
                     break;
-                case $.ui.keyCode.RIGHT:
+                case "Right":
                     if (!horizontal) {
                         if (this.expand(event)) {
                             event.stopImmediatePropagation();
@@ -337,7 +337,7 @@
                         $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     }
                     break;
-                case $.ui.keyCode.ENTER:
+                case "Enter":
                     event.stopImmediatePropagation();
                     event.preventDefault();
 
@@ -355,14 +355,14 @@
                     }
                     event.preventDefault();
                     break;
-                case $.ui.keyCode.ESCAPE:
+                case "Escape":
                     if (this.collapse(event)) {
                         event.stopImmediatePropagation();
                     }
                     event.preventDefault();
                     $.merge($(event.currentTarget).find('.ui-state-focus').children('a'), $(event.currentTarget).find('.ui-state-focus').not('li')).focus();
                     break;
-                case $.ui.keyCode.TAB:
+                case "Tab":
                     this.collapseAll(event, true);
                     if (!event.shiftKey) {
                         var principalParent = $(event.target).parent().parent();
@@ -475,7 +475,7 @@
             restoreScrollEvents: function () {
                 this._bind({
                     'mouseover': function () {
-                        $('#' + this.menuId).attr('rup_menu_nofocus', 'true');
+                        $('#' + $.escapeSelector(this.menuId)).attr('rup_menu_nofocus', 'true');
                     },
                     'mouseover .rup_menu_horizontal_children': function (event) {
                         var target = $(event.currentTarget);
@@ -484,7 +484,7 @@
                         $(target).focus();
                     },
                     'mouseover .ui-menu-item': function (event) {
-                        $('#' + this.menuId).attr('rup_menu_nofocus', 'true');
+                        $('#' + $.escapeSelector(this.menuId)).attr('rup_menu_nofocus', 'true');
                         event.stopImmediatePropagation();
                         var target = $(event.currentTarget);
 
@@ -492,15 +492,15 @@
                         // to avoid a jump caused by adjacent elements both having a class with a border
                         target.siblings().children('.ui-state-active').removeClass('ui-state-active');
 
-                        if ((target.offset().left + target.width() > event.pageX) && ((target.offset().top + $('#' + this.menuId).height() > event.pageY) || (target.offset().top + target.height() > event.pageY))) {
-                            if (($('#' + target.children('a').attr('id') + ':focus').length <= 0)) {
-                                $('#' + target.children('a').attr('id')).focus();
-                                $('#' + target.children('a').attr('id')).focus();
+                        if ((target.offset().left + target.width() > event.pageX) && ((target.offset().top + $('#' + $.escapeSelector(this.menuId)).height() > event.pageY) || (target.offset().top + target.height() > event.pageY))) {
+                            if (($('#' + $.escapeSelector(target.children('a').attr('id')) + ':focus').length <= 0)) {
+                                $('#' + $.escapeSelector(target.children('a').attr('id'))).focus();
+                                $('#' + $.escapeSelector(target.children('a').attr('id'))).focus();
                             } else {
                                 if (!(target.hasClass('rup_menu_horizontal_children'))) {
-                                    if (!($('#' + target.children('a').attr('id')).hasClass('ui-state-focus'))) {
-                                        $('#' + target.children('a').attr('id')).addClass('ui-state-focus');
-                                        if ($('#' + target.children('a').attr('id')).attr('role') === 'menuitem') {
+                                    if (!($('#' + $.escapeSelector(target.children('a').attr('id'))).hasClass('ui-state-focus'))) {
+                                        $('#' + $.escapeSelector(target.children('a').attr('id'))).addClass('ui-state-focus');
+                                        if ($('#' + $.escapeSelector(target.children('a').attr('id'))).attr('role') === 'menuitem') {
                                             this._startOpening($(target).children('[role = \'menu\']'));
                                         }
                                     }
@@ -511,11 +511,11 @@
                     'mouseleave': function (event) {
                         this.collapseAll(event, true);
                         $('.ui-state-focus').removeClass('ui-state-focus');
-                        $('#' + this.menuId).removeAttr('rup_menu_nofocus');
+                        $('#' + $.escapeSelector(this.menuId)).removeAttr('rup_menu_nofocus');
                     },
                     'mouseleave .ui-menu-item': function (event) {
                         var target = $(event.currentTarget);
-                        if (target.attr('rupmenu_firslevel') === undefined || ((target.offset().top - 1 < event.pageY) && (target.offset().top + $('#' + this.menuId).height() + 1 < event.pageY))) {
+                        if (target.attr('rupmenu_firslevel') === undefined || ((target.offset().top - 1 < event.pageY) && (target.offset().top + $('#' + $.escapeSelector(this.menuId)).height() + 1 < event.pageY))) {
                             this._close();
                             $('.ui-state-focus').removeClass('ui-state-focus');
                         }
