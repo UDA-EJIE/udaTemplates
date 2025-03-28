@@ -565,7 +565,7 @@ public class {{tableName}}ServiceImpl implements {{tableName}}Service {
 			if (filter{{tableName}} != null) {
 				return this.{{tableNameDecapitalize}}Dao.findAllLike(filter{{tableName}}, tableRequestDto, false);
 			} else {
-				return this.{{tableNameDecapitalize}}Dao.findAll(new {{tableName}}(), null);
+				return this.{{tableNameDecapitalize}}Dao.findAll(new {{tableName}}(), tableRequestDto);
 			}
 		} else {
 			return this.{{tableNameDecapitalize}}Dao.getMultiple(filter{{tableName}}, tableRequestDto, false);
