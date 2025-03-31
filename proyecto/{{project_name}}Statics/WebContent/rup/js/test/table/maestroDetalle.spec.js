@@ -2,6 +2,9 @@
 //     doesNotReject
 // } from 'assert';
 
+global.queryString = queryString;
+global.flatten = flatten;
+global.unflatten = unflatten;
 var selected = {};
 
 function clearDatatable(done) {
