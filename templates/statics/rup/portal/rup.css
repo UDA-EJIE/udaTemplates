@@ -13009,6 +13009,15 @@
   max-width: 300px;
 }
 
+.r01gContainer .rup_report .ui-progressbar-value {
+  width: 100%px;
+  height: 20px;
+}
+
+.r01gContainer .rup_report .ui-progressbar-value {
+  background: url(images/pbar-ani.gif);
+}
+
 @media (max-width: 767px) {
   .r01gContainer .fileupload-buttonbar .toggle,
   .r01gContainer .files .toggle,
@@ -19399,6 +19408,18 @@
   vertical-align: middle;
 }
 
+/* Sobrescribir si tiene la clase NotCheck */
+
+.r01gContainer .select2-results__option.select2-results__optionNotCheck:before {
+  display: none !important;
+  content: "" !important;
+  /* Asegura que no se muestre */
+  width: 0 !important;
+  height: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
 .r01gContainer .select2-results__option[role=group]:before {
   display: none;
 }
@@ -19465,6 +19486,19 @@
 
 .r01gContainer .select-icon .select2-search--dropdown {
   display: none;
+}
+
+.r01gContainer .select2-search__field {
+  width: 100% !important;
+  padding: 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 5px !important;
+  box-sizing: border-box;
+}
+
+.r01gContainer .ocultar-before::before {
+  display: none !important;
 }
 
 .r01gContainer .context-menu-list {
@@ -24598,6 +24632,12 @@
   font-weight: bold;
   vertical-align: middle;
   font-size: 1.35rem;
+  /* FIX PARA EL ALINEAMIENTO DEL RELOJ DE RUP.TIME DENTRO DE LA TABLA */
+}
+
+.r01gContainer table.table-material i.mdi.mdi-clock {
+  vertical-align: initial;
+  font-size: 1.1rem;
 }
 
 .r01gContainer table.table-material .checkbox-material {
@@ -26248,6 +26288,7 @@
 /* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
 
 .r01gContainer .paginationContainer .searchPaginator input {
+  width: 50px;
   padding: 1px;
   border: 1px solid #757575;
   border-radius: 5px;
@@ -26345,6 +26386,7 @@
   /* SELECT */
   /* TEXTAREA */
   /* AUTOCOMPLETE COMBOBOX */
+  /* RUP.SELECT */
   /* RUP.DATE */
 }
 
@@ -26493,6 +26535,39 @@
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
   background-color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"]:enabled + span:hover span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"]:enabled + span:hover span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"]:enabled + span:hover span.select2-selection {
+  border-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"]:enabled + span.select2-container--focus + label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"]:enabled + span.select2-container--focus + label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"]:enabled + span.select2-container--focus + label {
+  color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--focus span.select2-selection:focus,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--focus span.select2-selection:focus,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--focus span.select2-selection:focus {
+  border-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--disabled ~ label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--disabled ~ label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--disabled ~ label {
+  color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span span.select2-selection {
+  border: 1px solid #d9534f;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled {
@@ -55613,6 +55688,18 @@
   vertical-align: middle;
 }
 
+/* Sobrescribir si tiene la clase NotCheck */
+
+.r01gContainer .select2-results__option.select2-results__optionNotCheck:before {
+  display: none !important;
+  content: "" !important;
+  /* Asegura que no se muestre */
+  width: 0 !important;
+  height: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
 .r01gContainer .select2-results__option[role=group]:before {
   display: none;
 }
@@ -55679,6 +55766,19 @@
 
 .r01gContainer .select-icon .select2-search--dropdown {
   display: none;
+}
+
+.r01gContainer .select2-search__field {
+  width: 100% !important;
+  padding: 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 5px !important;
+  box-sizing: border-box;
+}
+
+.r01gContainer .ocultar-before::before {
+  display: none !important;
 }
 
 .r01gContainer .context-menu-list {
@@ -60812,6 +60912,12 @@
   font-weight: bold;
   vertical-align: middle;
   font-size: 1.35rem;
+  /* FIX PARA EL ALINEAMIENTO DEL RELOJ DE RUP.TIME DENTRO DE LA TABLA */
+}
+
+.r01gContainer table.table-material i.mdi.mdi-clock {
+  vertical-align: initial;
+  font-size: 1.1rem;
 }
 
 .r01gContainer table.table-material .checkbox-material {
@@ -62462,6 +62568,7 @@
 /* ESTILIZA EL INPUT, LABEL Y SELECT DEL PAGINADOR DE LA TABLA */
 
 .r01gContainer .paginationContainer .searchPaginator input {
+  width: 50px;
   padding: 1px;
   border: 1px solid #757575;
   border-radius: 5px;
@@ -62559,6 +62666,7 @@
   /* SELECT */
   /* TEXTAREA */
   /* AUTOCOMPLETE COMBOBOX */
+  /* RUP.SELECT */
   /* RUP.DATE */
 }
 
@@ -62707,6 +62815,39 @@
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error span.rup-combobox input:not([type="checkbox"]):not([type="radio"]) ~ a:focus {
   background-color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"]:enabled + span:hover span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"]:enabled + span:hover span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"]:enabled + span:hover span.select2-selection {
+  border-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"]:enabled + span.select2-container--focus + label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"]:enabled + span.select2-container--focus + label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"]:enabled + span.select2-container--focus + label {
+  color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--focus span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--focus span.select2-selection:focus,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--focus span.select2-selection:focus,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--focus span.select2-selection:focus {
+  border-color: #d43f3a;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span.select2-container--disabled ~ label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span.select2-container--disabled ~ label,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span.select2-container--disabled ~ label {
+  color: #d9534f;
+}
+
+.r01gContainer .form-groupMaterial.rup-validate-field-error select[ruptype="select"] + span span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-multiselect[ruptype="select"] + span span.select2-selection,
+.r01gContainer .form-groupMaterial.rup-validate-field-error .ui-selectmenu-dropdown[ruptype="select"] + span span.select2-selection {
+  border: 1px solid #d9534f;
 }
 
 .r01gContainer .form-groupMaterial.rup-validate-field-error div.rup-date-input-group-material input:not([type="checkbox"]):not([type="radio"]):enabled {

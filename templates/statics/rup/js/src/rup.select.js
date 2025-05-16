@@ -27,9 +27,14 @@
  *      {@link https://select2.org//|Select2}. Para mas información acerca de
  *      las funcionalidades y opciones de configuración pinche
  *      {@link https://select2.org//|aquí}.
- * @example $("#idSelect").rup_select({ source : "selectSimple/remote",
- *          sourceParam : {label:"desc"+$.rup_utils.capitalizedLang(),
- *          value:"code", style:"css"} });
+ * @example $("#idSelect").rup_select({
+ * 				url: "selectSimple/remote",
+ *          	sourceParam : {
+ * 					text: "desc" + $.rup_utils.capitalizedLang(),
+ *          		id: "code",
+ * 					style: "css"
+ * 				}
+ * 			});
  */
 
 /* global define */
@@ -114,7 +119,8 @@
 		 * @example $("#idSelect").rup_select('setRupValue', 'Si');
 		 */
         setRupValue: function (param) {
-            var $self = $(this),
+            var self = this,
+            	$self = $(self),
                 settings = $self.data('settings');
             
             // Tipo de select
@@ -138,9 +144,9 @@
             			});
             		}
  	              	if(data[0] !== undefined){
- 	              	 if($('#'+ settings.id).find("option[value='" + data[0] .id + "']").length == 0){
+ 	              	 if($('#' + $.escapeSelector(settings.id)).find("option[value='" + data[0] .id + "']").length == 0){
  	              	   data = data[0];
- 	              	   _this._createOption(settings,data);
+ 	              	   self._createOption(settings,data);
  	              	   param = data.id;// mantenga el cifrado
  	              	   texto = data.text;
  	              	 }else{
@@ -174,7 +180,6 @@
             		settings.selected = param;
             		
 	            	$self.val(param).trigger('change');
-	            	$('#' + settings.id).rup_select('change');
             	}
 
             } else {
@@ -198,9 +203,9 @@
 		                    return v.id == value;
 	            			});
 	            		}
-	            		if(data[0] != undefined && $('#'+ settings.id).find("option[value='" + data[0] .id + "']").length == 0){
+	            		if(data[0] != undefined && $('#' + $.escapeSelector(settings.id)).find("option[value='" + data[0] .id + "']").length == 0){
 	            			data = data[0];
-	            			_this._createOption(settings,data);
+	            			self._createOption(settings,data);
 	            			arrayDatos.push(data.id);
 	            		}else{
 	            			arrayDatos.push(value);
@@ -210,11 +215,12 @@
             		// Guardar seleccionados.
             		settings.selected = arrayDatos;
             		
-            		$('#' + settings.id).val(arrayDatos).trigger('change');
+            		$('#' + $.escapeSelector(settings.id)).val(arrayDatos).trigger('change');
             	}
             	
             }
-            
+			
+			$('#' + $.escapeSelector(settings.id)).rup_select('change');
         },
         /**
 		 * Método que limpia el valor seleccionado en el select. En el caso de
@@ -230,16 +236,21 @@
 				const settings = $self.data('settings');
             	var dataSelect2 = $self.data('select2');
             	dataSelect2.$selection.find('input').val('');
+				if(settings.data == undefined){//si es remoto
+					$('#' + $.escapeSelector(settings.id)).empty();
+				}
                 // Simple y multi
 				if (settings.blank !== undefined) {
 					if (settings.multiple) {
-						$self.rup_select('setRupValue', [$self.data('settings').blank]);
+						const blankValue = $self.data('settings').blank;
+						$self.rup_select('setRupValue', $.isArray(blankValue) ? blankValue : [blankValue]);
 					} else {
 						$self.rup_select('setRupValue', $self.data('settings').blank);
 					}
 				} else {
 					$self.rup_select('setRupValue', null);
 				}
+				
             } 
         },
         /**
@@ -266,7 +277,7 @@
             if ($(this).data('settings').multiple) {
                 // Multiple > multiselect
             	var selectedItems = [];
-            	var allOptions = $("#"+$(this)[0].id+" option");
+            	var allOptions = $("#" + $.escapeSelector($(this)[0].id) + " option");
             	allOptions.each(function() {
             	    selectedItems.push( $(this).val() );
             	});
@@ -351,6 +362,17 @@
         		}
         	}
         },
+		/**
+		 * Método que lanza el evento deselect del componente.
+		 * 
+		 * @function deselect
+		 * @example $("#idSelect").rup_select("deselect");
+		 */
+		deselect: function() {
+			if ($(this).data('settings').deselect) {
+				$(this).data('settings').deselect();
+			}
+		},
         /**
 		 * Método que devuelve el label asociado al valor seleccionado en el
 		 * select. En el caso de la selección múltiple se devolverá un array.
@@ -490,8 +512,9 @@
 		 * @example $("#idSelect").rup_select("setSource", source, sourceParam);
 		 */
         setSource: function (source,sourceParam) {
+			var self = this;
         	if (source !== undefined && source !== '') {
-            	let $self = $(this);
+            	let $self = $(self);
             	let settings = $self.data().settings;
             	let dataSelect2 = $self.data('select2');
             	if($self.data().settings.data === undefined){// remoto
@@ -510,7 +533,7 @@
                 	$self.empty();
                 	if(settings.data !== undefined && settings.autocomplete){
                 		 $.each(settings.data, function () {
-                			 _this._createOption(settings, this);
+                			 self._createOption(settings, this);
                 		});
                 		
                 	}else{
@@ -638,7 +661,7 @@
                 //Habilitar select
                 this.find('[value=\'' + optValue + '\']').removeAttr('disabled');
 
-                var obj = $('#rup-multiCombo_' + $(this).attr('id')).find('[value=\'' + optValue + '\']');
+                var obj = $('#rup-multiCombo_' + $.escapeSelector($(this).attr('id'))).find('[value=\'' + optValue + '\']');
 
                 //Habilitar input
                 obj.removeAttr('disabled');
@@ -893,22 +916,38 @@
                
             let parentsFull = 0;
             $.each(parent, function (idx, parentId) {
-	            if (parentId != undefined && $('#' + parentId).val() != null && $('#' + parentId).val().trim() !== '') {
-	            	if(settings.blank == $('#' + parentId).val()){
-	            		retorno = '';
-	            	}else{
-	            		if(remote){// PAra remoto
-	            			retorno += $('#' + parentId).attr('name') + '=' + $('#' + parentId).val() + '&';
-	            		}else{ // PAra local
-	            			if(retorno != ''){
-	            				retorno = retorno + multiValueToken + $('#' + parentId).val();
-	            			}else{
-	            				retorno = $('#' + parentId).val();
-	            			}
-	            			
-	            		}
-	            		parentsFull = parentsFull +1;
-	            	}
+	            if (parentId != undefined && $('#' + $.escapeSelector(parentId)).val() != null)
+					{
+					//Si el padre es simple
+					if(!$.isArray($('#' + $.escapeSelector(parentId)).val()) && $('#' + $.escapeSelector(parentId)).val().trim() != '')	{
+		            	if(settings.blank == $('#' + $.escapeSelector(parentId)).val()){
+		            		retorno = '';
+		            	}else{
+		            		if(remote){// PAra remoto
+		            			retorno += $('#' + $.escapeSelector(parentId)).attr('name') + '=' + $('#' + $.escapeSelector(parentId)).val() + '&';
+		            		}else{ // PAra local
+		            			if(retorno != ''){
+		            				retorno = retorno + multiValueToken + $('#' + $.escapeSelector(parentId)).val();
+		            			}else{
+		            				retorno = $('#' + $.escapeSelector(parentId)).val();
+		            			}
+		            			
+		            		}
+		            		parentsFull = parentsFull +1;
+		            	}
+					}else if ($.isArray($('#' + $.escapeSelector(parentId)).val()) && $('#' + $.escapeSelector(parentId)).val().length > 0){// si el padre es multiple
+						if(remote){// PAra remoto
+							retorno += $('#' + $.escapeSelector(parentId)).attr('name') + '=' + $('#' + $.escapeSelector(parentId)).val() + '&';
+						}else{ // PAra local
+							if(retorno != ''){
+								retorno = retorno + multiValueToken + $('#' + $.escapeSelector(parentId)).val();
+							}else{
+								retorno = $('#' + $.escapeSelector(parentId)).val();
+							}
+							
+						}
+						parentsFull = parentsFull +1;
+					}
 	            } 
             });
             
@@ -939,6 +978,7 @@
 		 *            isParent - Si tiene datos en forma parent.
 		 */
         _parseLOCAL: function (data,i18nId,isParent) {
+			var self = this;
             let text;
             let array = data;
             if(isParent){// Si es padre llamar a la recursividad
@@ -946,7 +986,7 @@
             		data = data[0];
             	}
             	$.each(data, function (key, value) {
-            		data[key] = _this._parseLOCAL(data[key],i18nId,false);
+            		data[key] = self._parseLOCAL(data[key],i18nId,false);
             	});
             }else{
             	data = [];
@@ -1019,14 +1059,14 @@
         _ajaxBeforeSend: function (xhr, settings, html) {
             // Crear select (vacío) y deshabilitarlo
             if (html !== undefined) {
-                $('#' + settings.id).replaceWith(html);
+                $('#' + $.escapeSelector(settings.id)).replaceWith(html);
             } // Si no es 'reload' se debe inicializar vacío
             
-            $('#' + settings.id).rup_select('disable');
+            $('#' + $.escapeSelector(settings.id)).rup_select('disable');
 
             // LOADING...
-            $('#' + settings.id + '-button span:first-child').removeClass("ui-icon ui-icon-triangle-1-s").addClass('rup-select_loadingText').text($.rup.i18n.base.rup_select.loadingText);
-            var icon = $('#' + settings.id + '-button span:last-child');
+            $('#' + $.escapeSelector(settings.id) + '-button span:first-child').removeClass("ui-icon ui-icon-triangle-1-s").addClass('rup-select_loadingText').text($.rup.i18n.base.rup_select.loadingText);
+            var icon = $('#' + $.escapeSelector(settings.id) + '-button span:last-child');
             $(icon).removeClass('ui-icon-triangle-1-s');
             $(icon).text(''); // Evita errores de visualización con el icono
             $(icon).addClass('rup-select_loading');
@@ -1074,7 +1114,7 @@
 			 */
 
         _loadRemote: function (settings,first) {
-        	var rupSelect = this;
+        	var self = this;
         	settings.ajax = {
 				url: settings.url,
 			    dataType: settings.dataType,
@@ -1100,7 +1140,7 @@
 			    		}
 			    		
 			    		settings.options = response;
-			    		$('#' + settings.id).data('settings', settings);
+			    		$('#' + $.escapeSelector(settings.id)).data('settings', settings);
 		    		     return {
 	 		    	 		results: response
 	 		     		};
@@ -1109,46 +1149,68 @@
 			    data: function () {
 			    	// Es necesario enviarlo vacío para que el componente subyacente no genere parámetros extra.
 			    	//se hará en el transport
-			    	return  _this._getParentsValues(settings, true);
+			    	return  self._getParentsValues(settings, true);
 			    },
 			    error: function (xhr, textStatus, errorThrown) {
 			               if (settings.onLoadError !== null) {
 			                 jQuery(settings.onLoadError(xhr, textStatus, errorThrown));
 			               } else {
 			            	 if(textStatus != 'abort'){//Si se hacen 2 llamadas se cancela la primera.
-			            		 rupSelect._ajaxError(xhr, textStatus, errorThrown);
+			            		 self._ajaxError(xhr, textStatus, errorThrown);
 			            	 }
 			            	 console.log(textStatus);
 			               }
 			    }		
 	    	};
+				if(settings.firstLoad == undefined){//si no esta definido en la primera vez
+					settings.firstLoad = true;
+				}
         	 	
         	 	if(settings.selected || (settings.autocomplete && settings.defaultValue != undefined)){
         	 		settings.firstLoad = true;
         	 	}
         	 	if(settings.parent != undefined 
-        	 			&& ($('#' + settings.parent).val() == null || $('#' + settings.parent).val().trim() === '')){
+        	 			&& ($('#' + $.escapeSelector(settings.parent)).val() == null ||
+						($.isArray($('#' + $.escapeSelector(settings.parent)).val()) && $('#' + $.escapeSelector(settings.parent)).val().length == 0) ||
+						 (!$.isArray($('#' + $.escapeSelector(settings.parent)).val()) && $('#' + $.escapeSelector(settings.parent)).val().trim() === ''))){
         	 		settings.firstLoad = false;
         	 	}
 
 				let __cache = [];
 				let __lastQuery = null;
+				settings.cacheUrlSelectData = {};
 		    	settings.ajax.transport = function(params, success, failure) {
 
 					// retrieve the cached key or default to _ALL_
 			        let __cachekey = params.data || '_ALL_';
+					let sameParam = true;
 		    		//Se actualiza el data, para mantener la misma función.
 			        if(!settings.autocomplete){
 			        	params.data = "" ;
 			        }
-			        let mySelect = $('#' + settings.id).data('select2');
+			        let mySelect = $('#' + $.escapeSelector(settings.id)).data('select2');
 			        if(settings.autocomplete){
-			        	params.data.q = mySelect.$container.find('input').val();
-			        	__cachekey = params.data.q;
+						if(settings.multiple){
+							let searchField = document.querySelector('.select2-search--dropdown .select2-search__field');
+							params.data.q = searchField.value;
+							__cachekey = params.data.q;
+							if (settings.cacheUrl === true && Object.keys(settings.cacheUrlSelectData).length > 0) {
+							      // filtrar datos en caché, no va al controller
+							      let filtered = settings.cacheUrlSelectData.filter(function (item) {
+								    return self._normalizeString(item.text).includes(self._normalizeString(__cachekey));
+								  });
+							      success(filtered);
+							      return;
+							 }
+						}else{						
+				        	params.data.q = mySelect.$container.find('input').val();
+				        	__cachekey = params.data.q;
+						}
 			        }
 			        if (__lastQuery !== __cachekey) {
 			          // remove caches not from last query
 			          __cache = [];
+					  sameParam = false;
 			        }
 			        __lastQuery = __cachekey;
 			        //Si esta cacheado, no busca
@@ -1156,8 +1218,16 @@
 						// display the cached results
 						success(__cache[__cachekey]);
 						// Marca el valor definido como seleccionado.
-						if (!settings.autocomplete && settings.selected) {
-							$('#' + settings.id).rup_select('setRupValue', settings.selected);
+						if (!settings.multiple) {
+							if (!settings.autocomplete && settings.selected) {
+								$('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', settings.selected);
+							}
+
+						}else{
+							//para multiples
+							if (!settings.autocomplete && (settings.selected != "" || settings.selected.length > 0)) {
+								$('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', settings.selected);
+							}
 						}
 						return;
 					}
@@ -1168,10 +1238,10 @@
 			        //Si tiene padres deshabilitarlos
 			        if(settings.parent){
 			        	if(typeof settings.parent === 'string'){
-			        		$('#' + settings.parent).rup_select("disable"); 
+			        		$('#' + $.escapeSelector(settings.parent)).rup_select("disable"); 
 			        	}else{
 		                   $.each(settings.parent, function (ind, elem) {
-		                	 $('#' + elem).rup_select("disable"); 
+		                	 $('#' + $.escapeSelector(elem)).rup_select("disable"); 
 	                      });
 			        	}
 			        }
@@ -1190,7 +1260,7 @@
 			            }, settings.extraParams);
 			        }
 			        if (settings.parent) {
-			        	var datosParent = _this._getParentsValues(settings, true);
+			        	var datosParent = self._getParentsValues(settings, true);
 			        	if(datosParent != ''){
 			        		if(settings.autocomplete){//añadir el data del padre
 			        			let padres = datosParent.split('&');//split por si tiene varios padres	
@@ -1217,22 +1287,34 @@
 				    
 				          // store data in cache
 				          __cache[__cachekey] = data;
+
 				          // display the results
-				          $('#' + settings.id).rup_select("enable");
+				          $('#' + $.escapeSelector(settings.id)).rup_select("enable");
 					        //Si tiene padres deshabilitarlos
 					        if(settings.parent){
 					        	if(typeof settings.parent === 'string'){
-					        		$('#' + settings.parent).rup_select("enable"); 
+					        		$('#' + $.escapeSelector(settings.parent)).rup_select("enable"); 
 					        	}else{
 				                   $.each(settings.parent, function (ind, elem) {
-				                	 $('#' + elem).rup_select("enable"); 
+				                	 $('#' + $.escapeSelector(elem)).rup_select("enable"); 
 			                      });
 					        	}
 					        }
+							if (settings.autocomplete && settings.multiple && settings.cacheUrl !== true && !sameParam) {
+									$('#' + $.escapeSelector(settings.id)).empty();
+								}	
 				          success(__cache[__cachekey]);
+						  if (settings.autocomplete && settings.multiple) {
+							  if (settings.cacheUrl === true) {//almacena los datos para no ir al controller
+							     settings.cacheUrlSelectData = data;
+							  }else if(!settings.firstLoad && !sameParam){//Vaciamos las opciones, porque recargan nuevas
+							  	//la primera carga no hace falta.
+							  	mySelect.selection.update([]);//actualizo con los nuevos datos	
+							  }
+						  }
 				          // Actualizar seleccionado en la lista//css
 				          let positions = [];
-				          let valueSelect = settings.selected ? settings.selected : $('#' + settings.id).rup_select('getRupValue');
+				          let valueSelect = settings.selected ? settings.selected : $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue');
 				          
 				          if(settings.groups){// Parseo de grupos para
 												// seleccionar
@@ -1265,6 +1347,9 @@
 								  v.text = v[settings.sourceParam.text];
 							  }
 							  if(settings.multiple ){
+								if (typeof valueSelect === 'string') {//si viene String lo convierte, no debería
+									valueSelect = [valueSelect];
+								}
 								let selectMultiple = $.grep(valueSelect, function (h) {
 										return String(h) == v.id;
 									});
@@ -1280,25 +1365,25 @@
 								  return v.id == settings.selected;
 							  }
 						  });
-				          if( $('#' + settings.id).rup_select('getRupValue') != ''){
+				          if( $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue') != ''){
 				        	  seleccionado = $.grep(data, function (v) {
-				                    return v.id == $('#' + settings.id).rup_select('getRupValue');
+				                    return v.id == $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue');
 				                  });
 				          }
 							// Si es el mismo, no cambia porque esta abriendo
-							if (seleccionado !== undefined && seleccionado.length >= 1 && $('#' + settings.id).rup_select('getRupValue') != seleccionado[0].id) {
+							if (seleccionado !== undefined && seleccionado.length >= 1 && $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue') != seleccionado[0].id) {
 								if (settings.multiple) {// Revisar varios selects
 									let dats = [];
 									$.each(seleccionado, function(index, valor) {
 										dats.push(valor.id) 
 									});
-									$('#' + settings.id).rup_select('setRupValue', dats);
+									$('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', dats);
 								} else {
-									$('#' + settings.id).rup_select('setRupValue', seleccionado[0].id);
+									$('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', seleccionado[0].id);
 								}
 
 								$.each(positions, function(index, valor) {
-									let $option = $('#' + settings.id).data('select2').$results.find('li')[valor];
+									let $option = $('#' + $.escapeSelector(settings.id)).data('select2').$results.find('li')[valor];
 									if ($option != undefined) {
 										$($option).attr('aria-selected', 'true');
 									}
@@ -1306,44 +1391,52 @@
 							} else {
 								if(settings.autocomplete){
 								  let valorInput = mySelect.selection.$selection.find('input').val() 
-								  $('#' + settings.id).rup_select('setRupValue', seleccionado.length == 1 ? seleccionado[0].id : settings.blank);
+								  $('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', seleccionado.length == 1 ? seleccionado[0].id : settings.blank);
 								  mySelect.selection.$selection.find('input').val(valorInput); 
 								  mySelect.selection.$selection.find('input').focus();
 								}else{
-									$('#' + settings.id).rup_select('setRupValue', seleccionado.length == 1 ? seleccionado[0].id : settings.blank);
+									$('#' + $.escapeSelector(settings.id)).rup_select('setRupValue', seleccionado.length == 1 ? seleccionado[0].id : settings.blank);
 								}
 							}
+
 				          
 				         if (settings.onLoadSuccess !== null && settings.onLoadSuccess !== undefined) {
-				            jQuery(settings.onLoadSuccess($('#' + settings.id)));
+				            jQuery(settings.onLoadSuccess($('#' + $.escapeSelector(settings.id))));
 				          }
-				          $('#' + settings.id).data('settings', settings);
-	              		  $('#' + settings.id).triggerHandler('selectAjaxSuccess', [data]);
+				          $('#' + $.escapeSelector(settings.id)).data('settings', settings);
+	              		  $('#' + $.escapeSelector(settings.id)).triggerHandler('selectAjaxSuccess', [data]);
 	              		  if(settings.firstLoad){
+							if(settings.multiple){//actualizar el número de lo cargado, siempre que sea multiple
+								mySelect.selection.update([]);
+							}	
 	              			if(settings.autocomplete && settings.selected == undefined && settings.defaultValue != undefined && data != undefined &&
-	              					($('#' + settings.id).rup_select('getRupValue') == '' || $('#' + settings.id).rup_select('getRupValue') == settings.blank)){
+	              					($('#' + $.escapeSelector(settings.id)).rup_select('getRupValue') == '' || $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue') == settings.blank)){
 	              				//setear el valor para el defaultValue
 	                            var datos2 = $.grep(data, function (v) {
 	                                return v.text.toUpperCase() === settings.defaultValue.toUpperCase();
 	                              });
 
 	                              if (datos2[0] != undefined) {
-	                            	  $('#' + settings.id).rup_select('setRupValue',datos2[0].id);
+	                            	  $('#' + $.escapeSelector(settings.id)).rup_select('setRupValue',datos2[0].id);
 	                              }
 	              			}
 	              			settings.firstLoad = false;
-	              			settings.selected = $('#' + settings.id).rup_select('getRupValue');
+							if(settings.cache){
+								settings.selected = "";
+							}else{
+								settings.selected = $('#' + $.escapeSelector(settings.id)).rup_select('getRupValue');
+							}
 	              		  }
 				        });
 				        $request.fail(failure);
 			        }else{// cerrar
-			        	$('#' + settings.id).select2('close');
+			        	$('#' + $.escapeSelector(settings.id)).select2('close');
 			            if (settings.parent) {
 			                if (typeof settings.parent === 'string') {
-			                  $('#' + settings.parent).rup_select("enable");
+			                  $('#' + $.escapeSelector(settings.parent)).rup_select("enable");
 			                } else {
 			                  $.each(settings.parent, function (ind, elem) {
-			                    $('#' + elem).rup_select("enable");
+			                    $('#' + $.escapeSelector(elem)).rup_select("enable");
 			                  });
 			                }
 			              }
@@ -1361,7 +1454,7 @@
 		    	if(settings.autocomplete){
 		    		//busqueda accentFolding
 		    		let term = '';
-		    		let mySelect = $('#' + settings.id).data('select2');
+		    		let mySelect = $('#' + $.escapeSelector(settings.id)).data('select2');
 		    		if($('input.select2-search__field') != undefined && $('input.select2-search__field').val() != undefined){
 		    			term = $('input.select2-search__field').val();
 		    		}
@@ -1387,26 +1480,29 @@
 			
 
         	if(settings.multiple){
-         		$('#' + settings.id).select2MultiCheckboxes(settings);
+				if(settings.closeOnSelect == undefined){//en los multiples por defecto que o se cierre.
+					settings.closeOnSelect = false;
+				}
+         		$('#' + $.escapeSelector(settings.id)).select2MultiCheckboxes(settings);
         	}else{
                 if (settings.placeholder == undefined || settings.placeholder == '') {
                     // si es vació se asigna el label
-                    settings.placeholder = rupSelect._getBlankLabel(settings.id);
+                    settings.placeholder = self._getBlankLabel(settings.id);
                  }
         		if(settings.autocomplete){
-        			$('#' + settings.id).select2MultiCheckboxes(settings);
+        			$('#' + $.escapeSelector(settings.id)).select2MultiCheckboxes(settings);
 					if(settings.spaceEnable){//permitir en la busqueda en espacio
-						sel = $('#' + settings.id).data('select2').selection;
+						sel = $('#' + $.escapeSelector(settings.id)).data('select2').selection;
 						sel.$selection.off('keydown');
 					}
         		}else{
-        			$('#' + settings.id).select2(settings);
+        			$('#' + $.escapeSelector(settings.id)).select2(settings);
         		}
         	}
 			
-    	 	if(settings.firstLoad){// ejecutar los datos
+    	 	if(settings.firstLoad || settings.loadOnStartUp){// ejecutar los datos
     	 		
-    	 		let $el = $('#' + settings.id);
+    	 		let $el = $('#' + $.escapeSelector(settings.id));
     	 		let mySelect = $el.data('select2');
     	 		let $search = mySelect.dropdown.$search || mySelect.selection.$search;
     	 		if(settings.autocomplete && settings.defaultValue != undefined){
@@ -1422,6 +1518,10 @@
     	 	}
  
         },
+		_normalizeString(str) {
+		  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+		},
+
         /**
 		 * Método de inicialización del componente.
 		 * 
@@ -1483,7 +1583,7 @@
               newOption.setAttribute('imgStyle', data.imgStyle);
             }
 
-            $('#' + settings.id).append(newOption);
+            $('#' + $.escapeSelector(settings.id)).append(newOption);
         },
         /**
 		 * Método de inicialización del componente.
@@ -1494,10 +1594,11 @@
 		 *            args - Parámetros de inicialización del componente.
 		 */
         _init: function (args) {
-        	_this = this;
+			var self = this,
+				$self = $(self);
         	global.initRupI18nPromise.then(() => {
 	            if (args.length > 1) {
-	                $.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_global.initError') + $(this).attr('id'));
+	                $.rup.errorGestor($.rup.i18nParse($.rup.i18n.base, 'rup_global.initError') + $self.attr('id'));
 	            } else {
 	                // Se recogen y cruzan las paremetrizaciones del objeto
 	                var settings = $.extend({}, $.fn.rup_select.defaults, args[0]),
@@ -1506,7 +1607,7 @@
 	                    attrs;
 	
 	                // Se recoge el tabindex indicado en el elemento
-	                settings.tabindex = $(this).attr('tabindex');
+	                settings.tabindex = $self.attr('tabindex');
 	
 	                // Sobreescribir literales por defecto para
 					// multiselect:REVISAR
@@ -1514,12 +1615,12 @@
 					// $.rup.i18n.base.rup_select.multiselect);
 	
 	                // Se carga el identificador del padre del patron
-	                settings.id = $.rup_utils.escapeId($(this).attr('id'));
-	                if($(this).attr('name') === undefined){
-	                	$(this).attr('name',settings.id);
+	                settings.id = $.escapeSelector($self.attr('id'));
+	                if($self.attr('name') === undefined){
+	                	$self.attr('name',settings.id);
 	                }
-	                settings.name = $(this).attr('name');
-	                $('#' + settings.id).attr('ruptype', 'select');
+	                settings.name = $self.attr('name');
+	                $('#' + $.escapeSelector(settings.id)).attr('ruptype', 'select');
 	
 	                // Si no se recibe identificador para el acceso a literales
 					// se usa el ID del objeto
@@ -1528,19 +1629,17 @@
 	                }
 	
 	                // Guardar valor del INPUT
-	                settings.inputValue = $('#' + settings.id).val() === null ? $('#' + settings.id).prop('value') : $('#' + settings.id).val();
+	                settings.inputValue = $('#' + $.escapeSelector(settings.id)).val() === null ? $('#' + $.escapeSelector(settings.id)).prop('value') : $('#' + $.escapeSelector(settings.id)).val();
 	
-	                attrs = $(this).prop('attributes');
+	                attrs = $self.prop('attributes');
 	
 	                // Revisar apra el select
-	                if (settings.firstLoad === null && ($(this).is('select') && settings.loadFromSelect)) {
+	                if (settings.firstLoad === null && ($self.is('select') && settings.loadFromSelect)) {
 	                    loadAsLocal = true;
-	                }
-	
-	                
+	                }                
 	
 	                // Asociar evento CHANGE para propagar cambios a los hijos
-	                $('#' + settings.id).on('change', function () {
+	                $('#' + $.escapeSelector(settings.id)).on('change', function () {
 	                    
 	                });
 	                
@@ -1562,14 +1661,14 @@
 		                        if (data.style != null && data.id !== settings.blank) {
 		                            // adjust for custom placeholder values,
 									// restaurar
-		                            return _this._textIcon(data);
+		                            return self._textIcon(data);
 		                          }
 	
 		                        return data.text;
 		                      }
 		                	if(settings.placeholder == ''){// si es vació se
 															// asigna el label
-		                		settings.placeholder = this._getBlankLabel(settings.id)
+		                		settings.placeholder = self._getBlankLabel(settings.id)
 		                	}
 		                	if(settings.data !== undefined && !settings.multiple){// y si
 																					// no
@@ -1585,12 +1684,12 @@
 		                              });
 		                		}
 		                	}
-	                	 }else if($('#' + settings.id).find('option').length == 0){// revisar
+	                	 }else if($('#' + $.escapeSelector(settings.id)).find('option').length == 0){// revisar
 																					// y
 																					// crear
 																					// option
 																					// vacio.
-	                		 $('#' + settings.id).append(new Option("", ""));
+	                		 $('#' + $.escapeSelector(settings.id)).append(new Option("", ""));
 	                	 }
 	                }
 	                
@@ -1624,7 +1723,7 @@
 																									// placeholder
 																									// values,
 																									// restaurar
-			                			return _this._textIcon(data);
+			                			return self._textIcon(data);
 			                        }
 		
 			                        return data.text;
@@ -1638,7 +1737,7 @@
 																							// placeholder
 																							// values,
 																							// restaurar
-			                			return _this._textIcon(data);
+			                			return self._textIcon(data);
 			                        }
 		
 			                        return data.text;
@@ -1653,7 +1752,7 @@
 	                // delete html;
 	
 	                // Ocultar posibles elementos de fechas/horas
-	                $('#' + settings.id).next('a').click(function () {
+	                $('#' + $.escapeSelector(settings.id)).next('a').click(function () {
 	                    $('#ui-datepicker-div').hide();
 	                });
 	
@@ -1663,7 +1762,7 @@
 	                // Añade clase Personalizada
 	                if (settings.customClasses) {
 	                $.each(settings.customClasses, function (index, value) {
-	                    $('#' + settings.id + '-button' + ', #' + settings.id + '-menu').addClass(value);
+	                    $('#' + $.escapeSelector(settings.id) + '-button' + ', #' + $.escapeSelector(settings.id) + '-menu').addClass(value);
 	                    $('[for=' + settings.id + ']').addClass(value);
 	                  });
 	                }
@@ -1680,9 +1779,9 @@
 	    		            let dates = data.sort(function (a, b) {
 	    		              return a.text.localeCompare(b.text);
 	    		            });
-	    		            let mySettings = $('#' + settings.id).data('settings');
+	    		            let mySettings = $('#' + $.escapeSelector(settings.id)).data('settings');
 	    		            mySettings.options = dates;
-	        		    	$('#' + settings.id).data('settings', mySettings);
+	        		    	$('#' + $.escapeSelector(settings.id)).data('settings', mySettings);
 	    		            return dates;
     		        	}
     		        	return data;
@@ -1698,12 +1797,12 @@
 		    				settings.sorter = settings.sortered;
 		    			}
 		            	if(settings.dataGroups === undefined){// LOcal
-		            		settings.data = this._parseLOCAL(settings.data,settings.i18nId,settings.parent);
+		            		settings.data = self._parseLOCAL(settings.data,settings.i18nId,settings.parent);
 		            	}else{// grupos
 		            		  let optionsGroups = [];
 		            	      for (var i = 0; i < settings.dataGroups.length; i = i + 1) {
 		            	          if (typeof settings.dataGroups[i] === 'object') {
-		            	        	  settings.dataGroups[i].children = this._parseLOCAL(settings.dataGroups[i].children,settings.i18nId,settings.parent);
+		            	        	  settings.dataGroups[i].children = self._parseLOCAL(settings.dataGroups[i].children,settings.i18nId,settings.parent);
 		            	        	  for (var j = 0; j < settings.dataGroups[i].children.length; j = j + 1) {
 		            	        		  optionsGroups.push(settings.dataGroups[i].children[j]);
 		            	        	  }
@@ -1723,13 +1822,13 @@
 		    			}else if(settings.sortered !== false){
 		    				settings.sorter = settings.sortered;
 		    			}
-	                	this._loadRemote(settings,true);
+	                	self._loadRemote(settings,true);
 		           } else {// por si viene cargado de un select
 		        	   settings.data = true;
 		        	   if(settings.parent){//convertir el data, formato parent	
 		        		   settings.data = [];
-		        		   $('#'+settings.id).find('option').each(function () {
-		        			   let idPadre = $(this).data('idpadre');
+		        		   $('#' + $.escapeSelector(settings.id)).find('option').each(function () {
+		        			   let idPadre = $self.data('idpadre');
 		        			   if(idPadre != undefined){
 		        				   //si no existe
 		        				   if(settings.data[idPadre] === undefined){
@@ -1738,7 +1837,7 @@
 		        						   settings.data[idPadre].push({id:settings.blank, text:settings.placeholder});
 		        					   }
 		        				   }
-		        				   settings.data[idPadre].push({id:$(this).val(), text:$(this).text()});
+		        				   settings.data[idPadre].push({id:$self.val(), text:$self.text()});
 		        			   }
 		        	            
 		        	          });
@@ -1749,27 +1848,27 @@
 	                // Change
 	                if(settings.change){
 	                	if(!settings.clean){
-	                		$('#' + settings.id).off('select2:clearing');
-		                	$('#' + settings.id).on('select2:clearing', function (e) {
+	                		$('#' + $.escapeSelector(settings.id)).off('select2:clearing');
+		                	$('#' + $.escapeSelector(settings.id)).on('select2:clearing', function (e) {
 		                		settings.change(e);
 		                	});
 	                	}
 	                }
 	                // clean
 	                if(settings.clean){
-	                	$('#' + settings.id).off('select2:clearing');
-	                	$('#' + settings.id).on('select2:clearing', function (e) {
+	                	$('#' + $.escapeSelector(settings.id)).off('select2:clearing');
+	                	$('#' + $.escapeSelector(settings.id)).on('select2:clearing', function (e) {
 	                		settings.clean(e);
 	                	});
 	                }
 	                // event select
 	
-                	$('#' + settings.id).off('select2:select');
-                	$('#' + settings.id).on('select2:select', function (e) {
+                	$('#' + $.escapeSelector(settings.id)).off('select2:select');
+                	$('#' + $.escapeSelector(settings.id)).on('select2:select', function (e) {
 						settings.selected = e.params.data.id;
                         if(settings.autocomplete){//Change input
-                        	let mySelect2 = $('#' + settings.id).data('select2');
-                        	let data = $(this).select2('data')[0];
+                        	let mySelect2 = $('#' + $.escapeSelector(settings.id)).data('select2');
+                        	let data = $self.select2('data')[0];
                             mySelect2.$selection.find('input').val(data.text);
                         }
                         if(settings.select){
@@ -1780,6 +1879,22 @@
     	                }
                 		
                 	});
+                	
+                	// Lanzar evento change cuando se deselecciona una opción.
+                	$('#' + $.escapeSelector(settings.id)).off('select2:unselect');
+					$('#' + $.escapeSelector(settings.id)).on('select2:unselect', function(e) {
+						if (!settings.multiple) {//quitar el valor por defecto
+							settings.selected = settings.blank;
+						}
+						if(settings.deselect){
+                        	settings.deselect(e);
+    	                }
+    	                
+						if (settings.change) {
+							settings.change(e);
+						}
+					});                	
+                	
 	                if (settings.data) {// local y groups
 	                	if(settings.parent){// si depende de otro selects.
 	                		// Si es uno meterlo como string - local
@@ -1794,7 +1909,7 @@
 																	// fijos.
 	                			settings.dataParents = settings.data;
 	                		}
-	                		let valorValue = _this._getParentsValues(settings,false,settings.multiValueToken);
+	                		let valorValue = self._getParentsValues(settings,false,settings.multiValueToken);
 	                		if(valorValue != ''){	                			
 	                			valoresParent = settings.dataParents[valorValue];
 	                			if(valoresParent == undefined && settings.dataParents[0] != undefined){
@@ -1809,19 +1924,22 @@
 	                	
 
 	                	if(settings.multiple){
-	 	                        $('#' + settings.id).select2MultiCheckboxes(settings);
+								if(settings.closeOnSelect == undefined){//en los multiples por defecto que o se cierre.
+									settings.closeOnSelect = false;
+								}
+	 	                        $('#' + $.escapeSelector(settings.id)).select2MultiCheckboxes(settings);
 	                	}else{	  
 	                        if (settings.placeholder == undefined || settings.placeholder == '') {
 	                            // si es vació se asigna el label
-	                            settings.placeholder = _this._getBlankLabel(settings.id);
+	                            settings.placeholder = self._getBlankLabel(settings.id);
 	                         }
 	                		if(settings.autocomplete){//local y autocomplete
 	                			if(settings.matcher == undefined && settings.accentFolding == false){
 	                				settings.matcher = udaMatcher;
 	                			}
 	        
-	                			$('#' + settings.id).select2MultiCheckboxes(settings);
-								let mySelect2 = $('#' + settings.id).data('select2');
+	                			$('#' + $.escapeSelector(settings.id)).select2MultiCheckboxes(settings);
+								let mySelect2 = $('#' + $.escapeSelector(settings.id)).data('select2');
 								if(settings.spaceEnable){//permitir en la busqueda en espacio
 									mySelect2.$selection.off('keydown');
 								}
@@ -1837,19 +1955,19 @@
 	                				}
 	                   			}
 	                		}else{
-	                			$('#' + settings.id).select2(settings);
+	                			$('#' + $.escapeSelector(settings.id)).select2(settings);
 	                		}
 	                		//Propiedad para deselecionar una mismo en simple.
 	                		if(settings.deleteOnDeselect){
 			                	
-	                			let mySelect2 = $('#' + settings.id).data('select2');
+	                			let mySelect2 = $('#' + $.escapeSelector(settings.id)).data('select2');
 			                	mySelect2.on('close', function (e) {
 				                	if (Object.keys(e).length === 1) {
 				                	  mySelect2.$selection.find('input').val('');
 									  settings.selected = undefined;
-					                  $('#' + settings.id).val(null).trigger('change');
+					                  $('#' + $.escapeSelector(settings.id)).val(null).trigger('change');
 					                  if(!settings.closeOnSelect){
-					                	  $('#' + settings.id).select2('open');
+					                	  $('#' + $.escapeSelector(settings.id)).select2('open');
 					                  }
 					                }
 			                	});
@@ -1858,7 +1976,7 @@
 	                	}
 		                
 		                if(settings.selected){
-		                	$('#' + settings.id).val(settings.selected).trigger('change')
+		                	$('#' + $.escapeSelector(settings.id)).val(settings.selected).trigger('change')
 		                }
 		                // cargar los options
 		                settings.options = settings.data;
@@ -1867,14 +1985,14 @@
                 		//Propiedad para deselecionar una mismo en simple.
                 		if(settings.deleteOnDeselect){
 		                	
-                			let remotoSelect = $('#' + settings.id).data('select2');
+                			let remotoSelect = $('#' + $.escapeSelector(settings.id)).data('select2');
                 			remotoSelect.on('close', function (e) {
 			                	if (Object.keys(e).length === 1) {
 			                	  remotoSelect.$selection.find('input').val('');
 								  settings.selected = undefined;	
-				                  $('#' + settings.id).val(null).trigger('change');
+				                  $('#' + $.escapeSelector(settings.id)).val(null).trigger('change');
 				                  if(!settings.closeOnSelect){
-				                	  $('#' + settings.id).select2('open');
+				                	  $('#' + $.escapeSelector(settings.id)).select2('open');
 				                  }
 				                }
 		                	});
@@ -1897,8 +2015,8 @@
 	                	}
 	                	// Bucle para eventos Padres
 	                	$.each(parent, function (idx, eventoPadre) {
-		                	$('#' + eventoPadre).off('change.parent'+ settings.id);
-			                $('#' + eventoPadre).on('change.parent'+  settings.id, function (){// Cambios
+		                	$('#' + $.escapeSelector(eventoPadre)).off('change.parent'+ settings.id);
+			                $('#' + $.escapeSelector(eventoPadre)).on('change.parent'+  settings.id, function (){// Cambios
 																					// para
 																					// los
 																					// hijos,onchange
@@ -1921,9 +2039,9 @@
 			                				settings.multiValueToken = '';
 			                			}
 			                			$.each(settings.parent, function (ind, elem) {
-			                				let val = $('#' + elem).rup_select('getRupValue');
+			                				let val = $('#' + $.escapeSelector(elem)).rup_select('getRupValue');
 			                		        clave = clave + val + settings.multiValueToken  ;
-			                		        let dataSelected = $('#'+elem).rup_select("getDataSelected");
+			                		        let dataSelected = $('#' + $.escapeSelector(elem)).rup_select("getDataSelected");
 			                		        if(dataSelected !== undefined){
 			                		        	val = dataSelected.id;
 			                		        	ClaveNoCifrar = ClaveNoCifrar + val + settings.multiValueToken  ;
@@ -1936,13 +2054,23 @@
 																						// Cargados
 			                				let valores = datosParents[clave] || datosParents[ClaveNoCifrar];
 			                				settings.data = datosParents;
-			                				$('#'+settings.id).rup_select("setSource", valores);
+			                				$('#' + $.escapeSelector(settings.id)).rup_select("setSource", valores);
 			                			}
 			                		}else{// si tiene un solo padre
-				                		let val = $('#'+settings.parent).rup_select('getRupValue');
+				                		let val = $('#' + $.escapeSelector(settings.parent)).rup_select('getRupValue');
 				                		if(val != settings.blank && val != ''){
-				                			$('#'+settings.id).rup_select("enable");
-					                		let valores = settings.dataParents[val];
+				                			$('#' + $.escapeSelector(settings.id)).rup_select("enable");
+											let valores = undefined;
+											//si es multiple sera un array.
+											if($.isArray(val)){
+												valores = [];
+												$.each(val, function (ind, elem) {
+													valores = valores.concat(settings.dataParents[elem]);
+													});
+											}else{
+											 valores = settings.dataParents[val];
+											}
+					                		
 					                		settings.data = settings.dataParents;
 					                		if(valores == undefined){// Si no
 																		// hay
@@ -1951,57 +2079,72 @@
 																		// inicializa
 					                			valores =[];
 					                		}
-					                		$('#'+settings.id).rup_select("setSource", valores);
+					                		$('#' + $.escapeSelector(settings.id)).rup_select("setSource", valores);
 				                		}else{//deshabilitamos el hijo
-				                			$('#'+settings.id).rup_select("disable");
+				                			$('#' + $.escapeSelector(settings.id)).rup_select("disable");
 				                		}
 			                		}
 	
 			                		// Aseguramos el valor limpio al cambiar el
 									// padre
-			                		$('#'+settings.id).rup_select("setRupValue",settings.blank);
+			                		$('#' + $.escapeSelector(settings.id)).rup_select("setRupValue",settings.blank);
 			                	}else{// si soy Remoto
-			                		
-			                		let datosParent = _this._getParentsValues(settings, true);
-			                		
-			                		// Sola llamar si el padre tiene valor.
-			                		if(datosParent != ''){
-			                			$('#' + settings.id).rup_select("disable");
-	                		          // ejecutar los datos
-	                		          let $el = $('#' + settings.id);
-	                		          let $search = $el.data('select2').dropdown.$search || $el.data('select2').selection.$search;
-	                		          if(settings.autocomplete){
-	                		        	  $el.data('select2').$container.find('input').val('');  
-	                		          }
-	                		          
-	                		          if($search != undefined){
-	                		        	  $search.trigger('keyup');
-	                		        	  $el.select2('close');
-	                		          }
-	                		         
-	                		          if(!settings.multiple && $("#" + settings.id).val() != null && $("#" + settings.id).val().trim() != ''){
-	                		        	  $("#" + settings.id).val(null).trigger('change');
-	                		          }else if(settings.multiple && $("#" + settings.id).val() != null && $("#" + settings.id).val().length > 0){
-										$("#" + settings.id).val(null).trigger('change');
-									  }
-	                		          setTimeout($('#' + settings.id).rup_select("enable"), 200);
-	                		          
-			                		}else if(!settings.multiple && $("#" + settings.id).val() != null && $("#" + settings.id).val().trim() != ''){
-								  	       	$("#" + settings.id).val(null).trigger('change');
-											$('#'+settings.id).rup_select("disable");
-								  	      }else if(settings.multiple && $("#" + settings.id).val() != null && $("#" + settings.id).val().length > 0){
-								  			$("#" + settings.id).val(null).trigger('change');
-											$('#'+settings.id).rup_select("disable");
-								  	}
-			                	}
+									const elemId = $.escapeSelector(settings.id);
+									let datosParent = self._getParentsValues(settings, true);
+
+									// Sola llamar si el padre tiene valor.
+									if (datosParent != '') {
+										$('#' + elemId).rup_select("disable");
+										// ejecutar los datos
+										let $el = $('#' + elemId);
+										let $search = $el.data('select2').dropdown.$search || $el.data('select2').selection.$search;
+										//al tener padre, si es multiple init
+										if (settings.multiple) {
+											selection = $el.data('select2').$selection.find('.select2-selection__rendered');
+											texto = $el.data('select2').options.options.templateSelection({ selected: [], all: [] }, selection);
+											selection.text(texto);
+										}
+										if (settings.autocomplete) {
+											$el.data('select2').$container.find('input').val('');
+										}
+
+										if ($search != undefined) {
+											$search.trigger('keyup');
+											$el.select2('close');
+										}
+
+										if (!settings.multiple && $("#" + elemId).val() != null && $("#" + elemId).val().trim() != '') {
+											$("#" + elemId).val(null).trigger('change');
+										} else if (settings.multiple && $("#" + elemId).val() != null && $("#" + elemId).val().length > 0) {
+											$("#" + elemId).val(null).trigger('change');
+										}
+										setTimeout($('#' + elemId).rup_select("enable"), 200);
+
+									} else if (!settings.multiple && $("#" + elemId).val() != null && $("#" + elemId).val().trim() != '') {
+										$("#" + elemId).val(null).trigger('change');
+										$('#' + elemId).rup_select("disable");
+									} else if (settings.multiple && $("#" + elemId).val() != null && $("#" + elemId).val().length > 0) {
+										$("#" + elemId).val(null).trigger('change');
+										$('#' + elemId).rup_select("disable");
+									}
+								}
 			                	
 			                });
 	                	});
 		                // Fin funcion evento padre
 	                }
-	                $('#' + settings.id).data('settings', settings);
+					if (settings.noCheck){
+						let mySelectCheck = $('#' + $.escapeSelector(settings.id)).data('select2');
+						mySelectCheck.on("results:all", function() {
+						    let listItems = mySelectCheck.$results.find('li');
+							listItems.each(function () {
+						   		$(this).addClass('ocultar-before');
+						    });
+						});
+					}	
+	                $('#' + $.escapeSelector(settings.id)).data('settings', settings);
 	                //Si es remoto, el último evento es: selectAjaxSuccess
-	                $('#' + settings.id).triggerHandler('selectFinish', settings);
+	                $('#' + $.escapeSelector(settings.id)).triggerHandler('selectFinish', settings);
 	            }
         	}).catch((error) => {
                 console.error('Error al inicializar el componente:\n', error);
@@ -2100,6 +2243,10 @@
 	 * @property {boolean} [autocomplete=false] - Habilita la funcionalidad de
 	 *           autocompletado, permitiendo hacer búsquedas sobre los resultados.
 	 * @property {boolean} [spaceEnable=true] - Habilita la funcionalidad de búsquedas con barra espaciadora.
+	 * @property {jQuery.rup_select~select} [select] - Función de callback
+	 *           a ejecutar cuando se selecciona una opción de la lista.
+	 * @property {jQuery.rup_select~deselect} [deselect] - Función de callback
+	 *           a ejecutar cuando se deselecciona una opción de la lista.
 	 */
 	$.fn.rup_select.defaults = {
 		onLoadError: null,

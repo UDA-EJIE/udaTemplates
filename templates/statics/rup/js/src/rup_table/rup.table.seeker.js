@@ -88,7 +88,7 @@
             contentType: 'application/json',
             async: true,
             success: function (data, status, xhr) {
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchSuccess',ctx);
+                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerSearchSuccess',ctx);
                 ctx.seeker.search.funcionParams = data;
                 ctx.seeker.search.pos = 0; // se inicializa por cada busqueda.
                 _processData(dt, ctx, data);
@@ -96,11 +96,11 @@
             error: function (xhr, ajaxOptions, thrownError) {
                 ctx.oInit.feedback.$feedbackContainer.rup_feedback('set', thrownError + ': ' + xhr.responseText, 'error');
                 ctx.oInit.feedback.$feedbackContainer.rup_feedback('show');
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchError',ctx);
+                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerSearchError',ctx);
 
             },
             complete: function (xhr, status) {
-                $('#' + ctx.sTableId).triggerHandler('tableSeekerSearchComplete',ctx);
+                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerSearchComplete',ctx);
             }
         };
 
@@ -113,7 +113,7 @@
             ctx.seeker.search.$searchRow.show();
         }
 
-        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterCreateToolbar',ctx);
+        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerAfterCreateToolbar',ctx);
     };
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -147,8 +147,8 @@
     function _createFilterColumn(dt, ctx) {
 
         let idTabla = ctx.sTableId;
-        $('#' + idTabla + ' tfoot').css('display', 'table-header-group');
-        $('#' + idTabla + ' tfoot th').each(function () {
+        $('#' + $.escapeSelector(idTabla) + ' tfoot').css('display', 'table-header-group');
+        $('#' + $.escapeSelector(idTabla) + ' tfoot th').each(function () {
             let title = this.innerText;
             let index = $(this).index();
             let colModel = ctx.oInit.colModel;            
@@ -156,19 +156,19 @@
             if (index > 0 || ctx.oInit.multiSelect === undefined) {
 
                 let position = index + 1;
-                let nombre = $('#' + idTabla + ' thead th:nth-child(' + position + ')').attr('data-col-prop')
+                let nombre = $('#' + $.escapeSelector(idTabla) + ' thead th:nth-child(' + position + ')').attr('data-col-prop')
 
                 let result = $.grep(colModel, function (v) {
-                    return v.index.toUpperCase() === nombre.toUpperCase();
+                    return v.name.toUpperCase() === nombre.toUpperCase();
                 });
 
                 // Comprobamos si queremos deshabilitar la búsqueda de la columna
-                if (colModel != undefined && result[0].hidden) {
+                if (colModel != undefined && result[0]?.hidden) {
                     $(this).empty();
-                } else if (result[0].rupType == 'select' || result[0].searchoptions?.rupType == 'select') {
+                } else if (result[0]?.rupType == 'select' || result[0]?.searchoptions?.rupType == 'select') {
                     $(this).html('<select name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"></select>');
                 } else {
-					const maxlength = $.rup_utils.isNumeric(result[0].searchoptions?.maxlength) ? ' maxlength="' + result[0].searchoptions.maxlength + '"' : '';
+					const maxlength = $.rup_utils.isNumeric(result[0]?.searchoptions?.maxlength) ? ' maxlength="' + result[0].searchoptions.maxlength + '"' : '';
 
 					$(this).html('<input type="text" placeholder="' + title + '" name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"' + maxlength + '/>');
                 }
@@ -178,23 +178,23 @@
       dt.columns().eq(0).each(function (colIdx) {
     	  	
             if (colIdx > 0 || ctx.oInit.multiSelect === undefined) {//evitar el checkbox
-            	let celda = $('#' + idTabla + ' tfoot')[0].rows[0].cells[colIdx];
+            	let celda = $('#' + $.escapeSelector(idTabla) + ' tfoot')[0].rows[0].cells[colIdx];
             	if(celda !== undefined){
 	                $('input', celda).on('keypress', function (ev) {
 	                    this.focus();
-	                    if (ev.keyCode === 13 && this.value !== '') { //Se hace la llamada de busqueda.
+	                    if (ev.code === 'Enter' && this.value !== '') { //Se hace la llamada de busqueda.
 	                    	let customBuscar = ctx.oInit.validarBuscar;
 	                    	if(typeof customBuscar === "function" && customBuscar(ctx)){
 	                    		return false;
 	                    	}
 	                        ctx.seeker.ajaxOption.data = _getDatos(ctx);
 	                        var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
-	                        $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
+	                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerBeforeSearch',ctx);
 	                        if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
 	                            $('#' + idTabla + '_search_searchForm').rup_form();
 	                            $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
 	                        }
-	                        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
+	                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerAfterSearch',ctx);
 	
 	                    }
 	                });
@@ -203,7 +203,7 @@
         });
 
         _createSearchRow(dt, ctx);
-        ctx.seeker.searchForm = $('#' + idTabla + ' tfoot tr:nth-child(2)');
+        ctx.seeker.searchForm = $('#' + $.escapeSelector(idTabla) + ' tfoot tr:nth-child(2)');
         ctx.seeker.searchForm.hide();
         _createRupComponent(dt, ctx);
     }
@@ -298,21 +298,21 @@
 
         // Evento de búsqueda asociado al botón
         $navSearchButton.on('click', function () {
-            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
+            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerBeforeSearch',ctx);
         	let customBuscar = ctx.oInit.validarBuscar;
         	if(typeof customBuscar === "function" && customBuscar(ctx)){
         		return false;
         	}
             ctx.seeker.ajaxOption.data = _getDatos(ctx);
             var ajaxOptions = $.extend(true, [], ctx.seeker.ajaxOption);
-            $('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeSearch',ctx);
+            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerBeforeSearch',ctx);
             if (!jQuery.isEmptyObject(ajaxOptions.data.search)) {
                 $('#' + idTabla + '_search_searchForm').rup_form();
                 var tmp = ajaxOptions.success;
                 ajaxOptions.success = function () {
                     tmp(arguments[0], arguments[1], arguments[2]);
                     ajaxOptions.success = tmp;
-                    $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterSearch',ctx);
+                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerAfterSearch',ctx);
                 };
                 $('#' + idTabla + '_search_searchForm').rup_form('ajaxSubmit', ajaxOptions);
             }
@@ -359,9 +359,9 @@
         // Se recubre con un form
         var $searchForm = jQuery('<form>').attr('id', idTabla + '_search_searchForm');
 
-        $('#' + idTabla).wrapAll($searchForm);
+        $('#' + $.escapeSelector(idTabla)).wrapAll($searchForm);
 
-        ctx.seeker.search.$searchForm = $('#' + idTabla + '_search_searchForm');
+        ctx.seeker.search.$searchForm = $('#' + $.escapeSelector(idTabla) + '_search_searchForm');
         ctx.seeker.search.$searchRow.hide();
         ctx.seeker.search.pos = 0;
         ctx.seeker.search.accion = '';
@@ -381,8 +381,8 @@
      */
     function _selectSearch(dt, ctx, rows) {
         //Se limina el lapicero indicador.
-        $('#' + ctx.sTableId + ' tbody tr td.select-checkbox i.filtered-row').remove();
-        $('#' + ctx.sTableId + ' tbody tr td i.filtered-row').remove();
+        $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr td.select-checkbox i.filtered-row').remove();
+        $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr td i.filtered-row').remove();
 
         //se añade el span con la lupa
         if (rows.length > 0 && ctx.fnRecordsTotal() > 0) {
@@ -399,7 +399,7 @@
                 if (result.length === 1) {
                     var searchIcon = $('<i></i>').addClass('mdi mdi-magnify ui-icon-rupInfoCol filtered-row');
 
-                    $($('#' + ctx.sTableId + ' tbody tr td:nth-child(1)')[idx]).append(searchIcon);
+                    $($('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr td:nth-child(1)')[idx]).append(searchIcon);
 
                 }
             });
@@ -415,7 +415,7 @@
             }
             ctx.seeker.search.accion = '';
         }
-        $('#' + ctx.sTableId).trigger('selected.rup.dt',ctx);
+        $('#' + $.escapeSelector(ctx.sTableId)).trigger('selected.rup.dt',ctx);
     }
 
     /**
@@ -490,7 +490,7 @@
         if (!_paginar(ctx, data[ctx.seeker.search.pos])) {
             _selectSearch(dt, ctx, data);
         } else {
-            var tabla = $('#' + ctx.sTableId);
+            var tabla = $('#' + $.escapeSelector(ctx.sTableId));
             tabla.dataTable().fnPageChange(data[ctx.seeker.search.pos].page - 1);
         }
 
@@ -533,60 +533,78 @@
      * @param {object} ctx - Es el contecto del table donde esta la configuración del mismo.
      *
      */
-    function _createRupComponent(dt, ctx) {
-        var colModel = ctx.oInit.colModel,
-            searchEditOptions;
-        if (colModel !== undefined) {
-        	var idTabla = ctx.sTableId;
-            $('#' + idTabla + ' tfoot tr').eq(1).find('th:not(.select-checkbox)').each(function () { // El primer tr corresponde al desplegable de filtros
+	function _createRupComponent(dt, ctx) {
+	    var colModel = ctx.oInit.colModel,
+	        searchEditOptions;
+	    if (colModel !== undefined) {
+	        var idTabla = $.escapeSelector(ctx.sTableId);
 
-                // Se añade la clase necesaria para mostrar los inputs con estilos material
-                $(this).addClass('form-groupMaterial');
-                
-                let nombre = $(this).find('input, select').attr('name');
-                let cellColModel = $.grep(colModel, function (v) {
-                    return v.index.toUpperCase() === nombre.toUpperCase();
-                });
+	        // Buscar en la primera fila del tfoot
+	        var $footerCells = $('#' + idTabla + ' tfoot tr').eq(1).find('th:not(.select-checkbox)');
+	        var $inputs = $footerCells.find('input, select');
 
-                if(cellColModel !== undefined){
-                	cellColModel = cellColModel[0];
-	                var searchRupType = (cellColModel.searchoptions !== undefined && cellColModel.searchoptions.rupType !== undefined) ? cellColModel.searchoptions.rupType : cellColModel.rupType;
-	
-	                var colModelName = cellColModel.name;
-	                var $elem = $('[name=\'' + colModelName + '\']', ctx.seeker.searchForm);
-	                
-	                if($elem.length == 1){
-	                	// Se añade el title de los elementos de acuerdo al colname
-	                	$elem.attr({
-	                		'title': $('#' + cellColModel.name + '_' + idTabla + '_seeker').attr('placeholder'),
-	                		'class': 'editable customelement form-control-customer'
-	                	}).removeAttr('readOnly');
-	                	
-	                	// Añadir label oculto que se usará principalmente para la gestión de los combos enlazados.
-	                	$('<label></label>', {
-	                		'for': $elem.attr('id'), 
-	                		'class': "d-none", 
-	                		'text': $elem.attr('placeholder')
-	                	}).insertAfter($elem);
-	                	
-	                	// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
-	                	if (searchRupType !== undefined && cellColModel.searchoptions) {
-	                		searchEditOptions = cellColModel.searchoptions;
-	                		
-	                		// Invocación al componente RUP
-	                		$elem['rup_' + searchRupType](searchEditOptions);
-	                	}
-	                }
-            	}
-            });
-        }
+	        // Si no hay elementos en la primera fila, buscar en la segunda
+	        if ($inputs.length === 0) {
+	            $footerCells = $('#' + idTabla + ' tfoot tr').eq(2).find('th:not(.select-checkbox)');
+	            $inputs = $footerCells.find('input, select');
+	        }
 
-    }
+			// Iterar sobre las columnas del tfoot
+			$footerCells.each(function() {
+				$(this).addClass('form-groupMaterial');
+
+				let nombre = $(this).find('input, select').attr('name');
+				let cellColModel = $.grep(colModel, function(v) {
+					return v.name.toUpperCase() === nombre.toUpperCase();
+				});
+
+				if (cellColModel !== undefined && cellColModel.length > 0) {
+					cellColModel = cellColModel[0];
+					const rupType = cellColModel.searchoptions?.rupType !== undefined ? cellColModel.searchoptions.rupType : cellColModel.rupType;
+					var $elem = $('[name=\'' + cellColModel.name + '\']', ctx.seeker.searchForm);
+
+					if ($elem.length == 1) {
+						// Se añade el title de los elementos de acuerdo al colname
+						$elem.attr({
+							'title': $('#' + cellColModel.name + '_' + idTabla + '_seeker').attr('placeholder'),
+							'class': 'editable customelement form-control-customer'
+						}).removeAttr('readOnly');
+
+						// Añadir label oculto que se usará principalmente para la gestión de los combos enlazados.
+						$('<label></label>', {
+							'for': $elem.attr('id'),
+							'class': "d-none",
+							'text': $elem.attr('placeholder')
+						}).insertAfter($elem);
+
+						// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
+						if (rupType !== undefined) {
+							if ((rupType === 'select' || rupType === 'combo' || rupType === 'autocomplete') && cellColModel.searchoptions === undefined) {
+								// El componente necesita recibir propiedades para la inicialización.
+								console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), cellColModel.name, 'searchoptions'));
+							} else if (rupType === 'tree') {
+								// El componente rup_tree no puede ser inicializado en el seeker.
+								console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.treeSeeker'), cellColModel.name));
+							} else {
+								if (new Set(["select"]).has(rupType)) {
+									cellColModel.searchoptions.$forceForm = $('#' + idTabla + '_seeker_form');
+								}
+
+								// Invocación al componente RUP
+								$elem['rup_' + rupType](cellColModel.searchoptions);
+							}
+						}
+					}
+				}
+			});
+	    }
+	}
+
 
     function _limpiarSeeker(dt, ctx) {
-    	$('#' + ctx.sTableId).triggerHandler('tableSeekerBeforeClear',ctx);
+    	$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerBeforeClear',ctx);
         
-        const $form = $('#' + ctx.sTableId + '_search_searchForm');
+        const $form = $('#' + $.escapeSelector(ctx.sTableId) + '_search_searchForm');
         
         // Reinicia el formulario.
         $form.resetForm();
@@ -617,12 +635,12 @@
         ctx.seeker.search.funcionParams = {};
         ctx.seeker.search.pos = 0;
         _processData(dt, ctx, []);
-        $('#' + ctx.sTableId).triggerHandler('tableSeekerAfterClear',ctx);
+        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableSeekerAfterClear',ctx);
     }
 
     function _enabledButtons(ctx) {
         if (ctx.seeker !== undefined) {
-            $.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
+            $.each($('#' + $.escapeSelector(ctx.sTableId) + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
                 if ($(this).attr('ruptype') === 'date') {
                     $(this).rup_date('disable');
                     $(this).next().addClass('form-control-customer');
@@ -640,7 +658,7 @@
 
     function _disabledButtons(ctx) {
         if (ctx.seeker !== undefined) {
-            $.each($('#' + ctx.sTableId + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
+            $.each($('#' + $.escapeSelector(ctx.sTableId) + ' tfoot [id*="seeker"]:not(a)'), function (key, id) {
                 if ($(this).attr('ruptype') === 'date') {
                     $(this).rup_date('enable');
                 } else if ($(this).attr('ruptype') === 'combo') {
@@ -702,6 +720,11 @@
         }
         if (ctx.oInit.seeker !== undefined && ctx.oInit.seeker.activate !== false ) {
             DataTable.seeker.init(new DataTable.Api(ctx));
+			if(ctx.oInit.scrollX){//Si hay scroll para no perder el seeker
+				$('#' + $.escapeSelector(ctx.sTableId) + '_wrapper .dataTables_scrollBody').on('scroll', function() {
+				    $.fn.dataTable.seeker.init(new $.fn.dataTable.Api($('#' + $.escapeSelector(ctx.sTableId)).DataTable().settings()[0]));
+				});
+			}			
         } else {
             $('tfoot').hide();
         }

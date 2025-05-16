@@ -1,5 +1,9 @@
 /* eslint-env jquery,jasmine */
 
+global.queryString = queryString;
+global.flatten = flatten;
+global.unflatten = unflatten;
+
 function generateFormEditDatatable(callback) {
     dtGen.createDatatable1(0, callback);
 }

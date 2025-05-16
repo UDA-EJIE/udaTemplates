@@ -10,7 +10,7 @@ describe('Test Report > ', () => {
         testutils.loadCss(done);
     });
 
-    beforeEach(() => {
+    beforeEach((done) => {
         var handler = () => {
         };
         let html = '<div id="exampleToolbar"></div>';
@@ -46,18 +46,21 @@ describe('Test Report > ', () => {
         };
         $('#content').append(html);
         $('#exampleToolbar').rup_toolbar(options);
+        
+		setTimeout(function() {
+			let reportOpts = {
+				appendTo: 'exampleToolbar',
+				buttons: [{
+					i18nCaption: 'exportar',
+					url: testutils.DEMO + '/resources/w_n_p.pdf',
+					right: true
+				}]
+			};
 
-        let reportOpts = {
-            appendTo: 'exampleToolbar',
-            buttons: [{
-                i18nCaption: 'exportar',
-                url: testutils.DEMO + '/resources/w_n_p.pdf',
-                right: true
-            }]
-        };
-
-        $.rup_report(reportOpts);
-        $report = $('[id="exampleToolbar##exportar"]');
+			$.rup_report(reportOpts);
+			$report = $('[id="exampleToolbar##exportar"]');
+			done();
+		}, 200);
     });
     afterEach(() => {
         if($('[aria-describedby="reportFileWait"]').length > 0) {

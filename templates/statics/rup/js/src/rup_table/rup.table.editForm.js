@@ -121,7 +121,7 @@
                         }
                         _getRowSelected(dt, 'PUT');
                         DataTable.editForm.fnOpenSaveDialog('PUT', dt, idRow, ctx.oInit.formEdit.customTitle);
-                        $('#' + ctx.sTableId).triggerHandler('tableEditFormClickRow',ctx);
+                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormClickRow',ctx);
                     }
                 });
             }
@@ -130,13 +130,27 @@
         // Establece el valor de las propiedades del formulario de edición.
         ctx.oInit.formEdit.loadSpinner = typeof ctx.oInit.formEdit.loadSpinner === 'boolean' ? ctx.oInit.formEdit.loadSpinner : true;
         
-        ctx.oInit.formEdit.detailForm.settings = {
-            type: ctx.oInit.formEdit.type !== undefined ? ctx.oInit.formEdit.type : $.rup.dialog.DIV,
-            width: ctx.oInit.formEdit.width !== undefined ? ctx.oInit.formEdit.width : 569,
-            saveDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.saveDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.saveDialog : true,
-            cancelDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.cancelDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.cancelDialog : true,
-            deleteDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.deleteDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.deleteDialog : true
-        };
+		ctx.oInit.formEdit.detailForm.settings = {
+			type: ctx.oInit.formEdit.type !== undefined ? ctx.oInit.formEdit.type : $.rup.dialog.DIV,
+			width: ctx.oInit.formEdit.width !== undefined ? ctx.oInit.formEdit.width : 569,
+			saveDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.saveDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.saveDialog : true,
+			saveDialogMessages: {
+				titleOnAddAction: ctx.oInit.formEdit.confirmDialogs?.saveDialogMessages?.titleOnAddAction ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.saveDialogMessages.titleOnAddAction) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.add.save'),
+				messageOnAddAction: ctx.oInit.formEdit.confirmDialogs?.saveDialogMessages?.messageOnAddAction ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.saveDialogMessages.messageOnAddAction) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.add.saveData'),
+				titleOnEditAction: ctx.oInit.formEdit.confirmDialogs?.saveDialogMessages?.titleOnEditAction ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.saveDialogMessages.titleOnEditAction) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.edit.save'),
+				messageOnEditAction: ctx.oInit.formEdit.confirmDialogs?.saveDialogMessages?.messageOnEditAction ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.saveDialogMessages.messageOnEditAction) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.edit.saveData'),
+			},
+			cancelDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.cancelDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.cancelDialog : true,
+			cancelDialogMessages: {
+				title: ctx.oInit.formEdit.confirmDialogs?.cancelDialogMessages?.title ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.cancelDialogMessages.title) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.changes'),
+				message: ctx.oInit.formEdit.confirmDialogs?.cancelDialogMessages?.message ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.cancelDialogMessages.message) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.saveAndContinue'),
+			},
+			deleteDialog: (ctx.oInit.formEdit.confirmDialogs !== undefined && ctx.oInit.formEdit.confirmDialogs.deleteDialog !== undefined) ? ctx.oInit.formEdit.confirmDialogs.deleteDialog : true,
+			deleteDialogMessages: {
+				title: ctx.oInit.formEdit.confirmDialogs?.deleteDialogMessages?.title ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.deleteDialogMessages.title) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.delete'),
+				message: ctx.oInit.formEdit.confirmDialogs?.deleteDialogMessages?.message ? $.rup.i18nParse($.rup.i18n.app, ctx.oInit.formEdit.confirmDialogs.deleteDialogMessages.message) : $.rup.i18nParse($.rup.i18n.base, 'rup_table.deleteAll'),
+			}
+		};
         
         // Calcula el responsive
         $(window).on('resize.dtr', DataTable.util.throttle(function () {
@@ -160,30 +174,33 @@
             if (event.originalEvent !== undefined) { //el evento es cerrado por el aspa
                 ctx.oInit.formEdit.okCallBack = false;
             }
-            // Si es igual no se debe hacer nada
-            var formSerializado = _editFormSerialize(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.serializerSplitter);
+            
+			// TODO: eliminar uso de editFormSerialize en UDA 7
+			// Si es igual no se debe hacer nada
+			var formSerializado = ctx.oInit.formEdit.serializerSplitter ? $.rup_utils.editFormSerialize(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.serializerSplitter) : $.rup_utils.formDataToQueryString(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.formDataToQueryStringOptions);
+
             if (ctx.oInit.formEdit.dataOrigin === formSerializado || !ctx.oInit.formEdit.detailForm.settings.cancelDialog) {
                 _cancelPopup(ctx);
                 return true;
             }
             if (ctx.oInit.formEdit.dataOrigin !== formSerializado && !ctx.oInit.formEdit.okCallBack) {
                 $.rup_messages('msgConfirm', {
-                    message: $.rup.i18nParse($.rup.i18n.base, 'rup_table.saveAndContinue'),
-                    title: $.rup.i18nParse($.rup.i18n.base, 'rup_table.changes'),
+                    title: ctx.oInit.formEdit.detailForm.settings.cancelDialogMessages.title,
+                    message: ctx.oInit.formEdit.detailForm.settings.cancelDialogMessages.message,
                     OKFunction: function () {
                         _cancelPopup(ctx);
                         ctx.oInit.formEdit.okCallBack = true;
                         ctx.oInit.formEdit.detailForm.rup_dialog('close');
-                        $('#' + ctx.sTableId).triggerHandler('tableMessageOk', ctx);
+                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageOk', ctx);
                     },
                     CANCELFunction: function () {
                         ctx.oInit.formEdit.okCallBack = false;
-                        $('#' + ctx.sTableId).triggerHandler('tableMessageCancel', ctx);
+                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageCancel', ctx);
                     }
                     ,
                     CLOSEFunction: function () {
                         ctx.oInit.formEdit.okCallBack = false;
-                        $('#' + ctx.sTableId).triggerHandler('tableMessageClose', ctx);
+                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageClose', ctx);
                     }
                 });
             }
@@ -396,7 +413,7 @@
 			const defaultData = {'actionType': actionType};
 			let data = ctx.oInit.formEdit.data !== undefined ? $.extend({}, defaultData, ctx.oInit.formEdit.data) : defaultData;
 			
-			$('#' + ctx.sTableId).triggerHandler('tableEditFormBeforeLoad', ctx);
+			$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormBeforeLoad', ctx);
 			
 			return $.post(ctx.oInit.formEdit.url !== undefined ? ctx.oInit.formEdit.url : ctx.oInit.urlBase + '/editForm', data, function (form) {				
 				// Guardar anterior formulario para poder comprobarlo con el recién recibido
@@ -419,25 +436,25 @@
 				
 				// Si el diálogo no ha sido inicializado, se inicializa
 				if (lastAction === undefined) {
-					$('#' + ctx.sTableId).triggerHandler('tableEditFormInitialize', ctx);
+					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormInitialize', ctx);
 				}
 				
 				// Detectar componentes RUP e inicializarlos
-				_formInitializeRUP(ctx, row, $(formContainerID + ' #' + receivedForm.attr("id")));
+				_formInitializeFields(ctx, row, $(formContainerID + ' #' + receivedForm.attr("id")));
 				
 				// Añadir validaciones
 				_addValidation(ctx);
 								
-				$('#' + ctx.sTableId).triggerHandler('tableEditFormAfterLoad', ctx);
+				$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAfterLoad', ctx);
 	    	}, 'html');
         } else if (!ctx.oInit.enableDynamicForms && lastAction === undefined) {
         	// Entrará por aquí cuando los formularios dinámicos hayan sido desactivados (comportamiento por defecto) y se necesite inicializar el formulario por ser la primera llamada
         	ctx.oInit.formEdit.actionType = actionType;
-        	$.when($('#' + ctx.sTableId).triggerHandler('tableEditFormInitialize', ctx)).then(function () {
+        	$.when($('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormInitialize', ctx)).then(function () {
         		let deferred = $.Deferred();
         		
         		// Detectar componentes RUP e inicializarlos
-        		_formInitializeRUP(ctx, row, idForm);
+        		_formInitializeFields(ctx, row, idForm);
 				
 				// Añadir validaciones
 				_addValidation(ctx);
@@ -458,7 +475,7 @@
     /**
      * Detecta los componentes RUP del formulario y los inicializa.
      *
-     * @name formInitializeRUP
+     * @name _formInitializeFields
      * @function
      * @since UDA 5.0.2 // Table 1.0.0
      *
@@ -466,14 +483,29 @@
      * @param {object} row - Datos para alimentar los campos del formulario.
      * @param {object} form - Formulario en el que hay que inicializar los componentes.
      */
-    function _formInitializeRUP(ctx, row, form) {
-    	if (ctx.oInit.colModel !== undefined && (ctx.oInit.multiSelect !== undefined || ctx.oInit.select !== undefined)) {
-    		$.each(ctx.oInit.colModel, function (key, column) {
-    			const element = form.find('[name="' + column.name + '"]');
-    			// Comprobar que es un componente RUP y editable. En caso de no ser editable, se añade la propiedad readonly.
-    			if (column.rupType && column.editable) {
-    				if (column.editoptions !== undefined) {
-    					if (column.rupType === 'combo') {
+	function _formInitializeFields(ctx, row, form) {
+		if (ctx.oInit.colModel !== undefined && (ctx.oInit.multiSelect !== undefined || ctx.oInit.select !== undefined)) {
+			$.each(ctx.oInit.colModel, function(key, column) {
+				const rupType = column.editoptions?.rupType !== undefined ? column.editoptions.rupType : column.rupType;
+				const element = rupType !== 'tree' ? form.find('[name="' + column.name + '"]') : form.find('div[class*="rup_tree"]');
+
+				// Comprobar si el campo debe ser mostrado, si debe serlo, se verificará si es editable y un componente RUP, de no cumplir, 
+				// se terminará verificando si es o no editable y en caso de no serlo, se añadirá el atributo readonly.
+				if (column.hidden) {
+					element.prop('hidden', true);
+
+					// Cuando el campo del formulario no comparta contenedor con ningún otro campo, se ocultará el contenedor, en el resto de casos, el label.
+					if (element.parent().is('div') && element.parent().find('input,textarea,select').length === 1) {
+						element.parent().addClass('d-none');
+					} else {
+						form.find('label[for="' + element.attr('id') + '"]').addClass('d-none');
+					}
+				}
+				else if (column.editable && rupType !== undefined) {
+					if (column.editoptions !== undefined) {
+						// Definir el tipo de componente RUP a inicializar.
+						const rupType = column.editoptions.rupType !== undefined ? column.editoptions.rupType : column.rupType;
+						if (rupType === 'combo') {
     						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el combo.
     						if (row !== undefined) {
     							column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];    							
@@ -482,7 +514,7 @@
     						if (column.editoptions.appendTo === undefined) {
     							column.editoptions.appendTo = 'body';
     						}
-    					} else if (column.rupType === 'autocomplete') {
+    					} else if (rupType === 'autocomplete') {
     						// Establece el valor por defecto.
     						if (row !== undefined) {
     							column.editoptions.defaultValue = row[column.name];
@@ -492,25 +524,23 @@
     							// Cuando no se haya definido un elemento al que hacer el append del menú del autocomplete, se hace al "body" para evitar problemas de CSS.
     							column.editoptions.menuAppendTo = 'body';
     						}
-    					} else if (column.rupType === 'select') {
-    						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
-    						if (row !== undefined) {
-    							let rowName = row[column.name];
-    							let flatter	= $.fn.flattenJSON(row)[column.name];
-    							column.editoptions.selected = column.name.includes('.') ? flatter : rowName;    							
-    						}
-    					}
-    					// Inicializar componente.
-    					element['rup_' + column.rupType](column.editoptions);
-    				} else if (column.searchoptions === undefined) {
-    					console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), column.name));
-    				}
-    			} else if (!column.editable) {
-    				element.prop('readonly', true);
-    			}
-    		});
-    	}
-    }
+    					} else if (rupType === 'select') {
+							// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
+							if (row !== undefined) {
+								column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
+							}
+						}
+						// Inicializar componente.
+						element['rup_' + rupType](column.editoptions);
+					} else if (column.searchoptions === undefined) {
+						console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), column.name));
+					}
+				} else if (!column.editable) {
+					element.prop('readonly', true);
+				}
+			});
+		}
+	}
 
     /**
      * Función que gestiona el comportamiento de abrir el dialog para añadir o editar un registro.
@@ -529,7 +559,7 @@
         var ctx = dt.settings()[0];
 
     	// Mostrar spinner de carga hasta que el formulario sea visible (sólo si fue activado). La segunda comprobación, evita que aparezca el spinner cuando se pagina dentro de editForm entre registros porque para ese caso, ya existe otro spinner
-    	if (ctx.oInit.formEdit.loadSpinner && $('#' + ctx.sTableId + '_detail_div_loading').length == 0) {
+    	if (ctx.oInit.formEdit.loadSpinner && $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div_loading').length == 0) {
     		$('body').append(
     				'<div id="' + ctx.sTableId + '_formEdit_dialog_loading" class="formEdit_dialog_loading_container">' +
     					'<div></div>' +
@@ -567,9 +597,7 @@
 	        var buttonContinue = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_save_repeat');
 	
 
-	        $('#' + ctx.sTableId).triggerHandler('tableEditFormAddEditBeforeInitData',ctx);
-
-	        let rowArray = $.rup_utils.jsontoarray(row);
+	        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditBeforeInitData',ctx);
 	        
 	        let title = customTitle != (undefined && null) ? customTitle : "";
 	        
@@ -613,7 +641,7 @@
 	                            divErrorFeedback.rup_feedback(ctx.oInit.feedback);
 	                        }
 	                        _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
-	                        $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjaxGet',ctx);
+	                        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjaxGet',ctx);
 	                    },
 	                    complete: () => {
 	                        if (ctx.oInit.formEdit.$navigationBar.funcionParams && ctx.oInit.formEdit.$navigationBar.funcionParams.length >= 4) {
@@ -621,17 +649,30 @@
 	                        }
 	                    }
 	                };
-	                loadPromise = $.rup_ajax(ajaxOptions);
-	                //Se carga desde bbdd y se actualiza la fila
-	                dt.row(idRow).data(row);
-	                ctx.json.rows[idRow] = row;
+	                
+					// Estando loadFromModel a true no se lanza la petición de carga de datos (se depende de lo cargado a través del modelo).
+					if(!ctx.oInit.formEdit.loadFromModel) {
+						loadPromise = $.rup_ajax(ajaxOptions);
+	                }
+					if(!ctx.oInit.formEdit.noRefreshAfterEdit) {
+		                //Se carga desde bbdd y se actualiza la fila
+		                dt.row(idRow).data(row);
+		                ctx.json.rows[idRow] = row;
+					}
 	                // Recrear iconos del responsive en caso de ser necesario.
 	                _addChildIcons(ctx);
 	                //Se mantiene el checked sin quitar.
-	                $('#' + ctx.sTableId + ' > tbody > tr:not(.group)').eq(idRow).find('td.select-checkbox input[type="checkbox"]').prop('checked', true);
-	                rowArray = $.rup_utils.jsontoarray(row);
+	                $('#' + $.escapeSelector(ctx.sTableId) + ' > tbody > tr:not(.group)').eq(idRow).find('td.select-checkbox input[type="checkbox"]').prop('checked', true);
 	            }
-	            $.rup_utils.populateForm(rowArray, idForm);
+	           
+				// Estando loadFromModel a true no se cargan los datos de la fila obtenida a partir de la tabla (se depende de lo cargado a través del modelo).
+				if (!ctx.oInit.formEdit.loadFromModel && typeof row !== 'undefined') {
+					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormBeforePopulate', [ctx, idForm, row]);
+					$.when($.rup_utils.populateForm($.fn.flattenObject(row, { safe: true }), idForm)).then(function() {
+						$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAfterPopulate', [ctx, idForm, row]);
+					});
+				}
+	            
 	            var multiselection = ctx.multiselection;
 	            var indexInArray = jQuery.inArray(DataTable.Api().rupTable.getIdPk(row, ctx.oInit), multiselection.selectedIds);
 	            if (ctx.multiselection.selectedAll) { //Si es selecAll recalcular el numero de los selects. Solo la primera vez es necesario.
@@ -647,13 +688,14 @@
 	                indexInArray = (Number(ctx.json.page) - 1) * ctx.aBaseJson.length;
 	                indexInArray = indexInArray + idRow;
 	            }
-	            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterFillData',ctx);
+	            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAfterFillData',ctx);
 	            if(ctx.oInit.formEdit.$navigationBar.funcionParams == undefined || ctx.oInit.formEdit.$navigationBar.funcionParams.length == undefined){
 	            	_updateDetailPagination(ctx, indexInArray + 1, numTotal);
 	            }
 	            DataTable.Api().rupTable.selectPencil(ctx, idRow);
 	            // Se guarda el ultimo id editado.
 	            ctx.multiselection.lastSelectedId = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
+
 	            // Se muestra el dialog.
 	            ctx.oInit.formEdit.$navigationBar.show();
 	            // Si no se ha definido un 'customTitle' asignamos un valor a la variable del título del formulario
@@ -667,7 +709,14 @@
 	        	jQuery.each($('select.rup_combo', idForm), function (index, elem) {
 	                jQuery(elem).rup_combo('setRupValue','')
 	            });
-	            $.rup_utils.populateForm(rowArray, idForm);
+	            
+				if (typeof row !== 'undefined') {
+					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormBeforePopulate', [ctx, idForm, row]);
+					$.when($.rup_utils.populateForm($.fn.flattenObject(row, { safe: true }), idForm)).then(function() {
+						$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAfterPopulate', [ctx, idForm, row]);
+					});
+				}
+				
 	            ctx.oInit.formEdit.$navigationBar.hide();
 	            // Si no se ha definido un 'customTitle' asignamos un valor a la variable del título del formulario
 	            if(customTitle == (undefined || null)) {
@@ -677,35 +726,45 @@
 	            DataTable.Api().rupTable.blockPKEdit(ctx, actionType);
 	        }
 	
-	        $('#' + ctx.sTableId).triggerHandler('tableEditFormAddEditBeforeShowForm',ctx);
+	        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditBeforeShowForm',ctx);
 	        
 	        // Establecemos el título del formulario
 	        ctx.oInit.formEdit.detailForm.rup_dialog(ctx.oInit.formEdit.detailForm.settings);
 	        ctx.oInit.formEdit.detailForm.rup_dialog('setOption', 'title', title);
 	        ctx.oInit.formEdit.detailForm.rup_dialog('open');
+			
+			//se desactiva los focos para que  se centren en el buscador de los select.
+			if(_haySelectMultipleAutocomplete(ctx.oInit.colModel)){
+				$(document).off('focusin');
+			}
 	        
 	        // Quitar spinner de carga porque el formulario ya es visible (si fue activado)
-	    	if ($('#' + ctx.sTableId + '_formEdit_dialog_loading').length > 0) {
-	    		$('#' + ctx.sTableId + '_formEdit_dialog_loading').remove();
+	    	if ($('#' + $.escapeSelector(ctx.sTableId) + '_formEdit_dialog_loading').length > 0) {
+	    		$('#' + $.escapeSelector(ctx.sTableId) + '_formEdit_dialog_loading').remove();
 	    	}
 			
 			// Evitar problemas visuales con el componente rup_select.
 			$.each($('select[ruptype="select"]', idForm), function(index, element) {
 				$(this).rup_select('close', true);
 
-				const $selectContainer = $("#" + element.id + " + span");
+				const $selectContainer = $("#" + $.escapeSelector(element.id) + " + span");
 
 				if ($selectContainer.hasClass('select2-container--focus') && $(document.activeElement) != $(element)) {
 					$selectContainer.removeClass('select2-container--focus');
 				}
 			});
 	
-	        // Establecemos el foco al primer elemento input o select que se
-	        // encuentre habilitado en el formulario
-	        $(idForm).find('input,select').filter(':not([readonly],[type=hidden])').first().focus();
-	
-	        // Se guardan los datos originales
-	        ctx.oInit.formEdit.dataOrigin = _editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+	        // Establece el foco al primer elemento input, textarea o select que se encuentre habilitado en el formulario.
+	        $(idForm).find('input,textarea,select').filter(':not([readonly],[type=hidden])').first().focus();
+	        
+			// TODO: eliminar uso de editFormSerialize en UDA 7
+			// Se guardan los datos originales
+			if (ctx.oInit.formEdit.serializerSplitter) {
+				ctx.oInit.formEdit.dataOrigin = $.rup_utils.editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+			} else {
+				ctx.oInit.formEdit.dataOrigin = $.rup_utils.formDataToQueryString(idForm, ctx.oInit.formEdit.formDataToQueryStringOptions);
+			}
+			
 	        ctx.oInit.formEdit.okCallBack = false;
 	
 	
@@ -724,12 +783,23 @@
 		        		return false;
 		        	}
 	        	}
-	            // Comprobar si row ha sido modificada
-	            // Se serializa el formulario con los cambios
-	            row = _editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+	        	
+				// TODO: eliminar uso de editFormSerialize en UDA 7
+				// Comprobar si row ha sido modificada
+				// Procesar formulario para obtener los datos
+				if (ctx.oInit.formEdit.serializerSplitter) {
+					row = $.rup_utils.editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+				} else {
+					row = $.rup_utils.formDataToQueryString(idForm, ctx.oInit.formEdit.formDataToQueryStringOptions);
+				}
 	            
-	            // Se transforma
-	            row = $.rup_utils.queryStringToJson(row, ctx.oInit.formEdit.serializerSplitter, ctx.oInit.formEdit.allowAllCharacters);
+				// Transformación de query string a un objeto.
+				// Se mantiene la compatibilidad con aplicaciones que usen las propiedades deprecadas.
+				if (ctx.oInit.formEdit.serializerSplitter || ctx.oInit.formEdit.allowAllCharacters) {
+					row = $.rup_utils.queryStringToJson(row, ctx.oInit.formEdit.serializerSplitter, ctx.oInit.formEdit.allowAllCharacters);
+				} else {
+					row = $.rup_utils.queryStringToObject(row, ctx.oInit.formEdit.queryStringToObjectOptions,$(idForm));
+				}
 	            
 	            //listas checkbox
 	            row = _addListType(idForm,row);
@@ -752,7 +822,7 @@
 	                    divErrorFeedback.rup_feedback(ctx.oInit.feedback);
 	                }
 	                _callFeedbackOk(ctx, divErrorFeedback, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
-	                $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjaxNotRow',ctx);
+	                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjaxNotRow',ctx);
 	            } else {
 	            	let url = actionType == 'POST' ? '/add' : '/edit';
 	            	
@@ -764,7 +834,7 @@
 	            	
 	            	_callSaveAjax(actionType, dt, row, idRow, false, idTableDetail, url, false);
 	            }
-	            $('#' + ctx.sTableId).triggerHandler('tableButtonSave',ctx);
+	            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableButtonSave',ctx);
 	        });
 	
 	
@@ -787,12 +857,23 @@
 	        	}
 	        	
 	            var actionSaveContinue = ctx.oInit.formEdit.detailForm.buttonSaveContinue.actionType;
-	            // Comprobar si row ha sido modificada
-	            // Se serializa el formulario con los cambios
-	            row = _editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+				
+				// TODO: eliminar uso de editFormSerialize en UDA 7
+				// Comprobar si row ha sido modificada
+				// Procesar formulario para obtener los datos
+				if (ctx.oInit.formEdit.serializerSplitter) {
+					row = $.rup_utils.editFormSerialize(idForm, ctx.oInit.formEdit.serializerSplitter);
+				} else {
+					row = $.rup_utils.formDataToQueryString(idForm, ctx.oInit.formEdit.formDataToQueryStringOptions);
+				}
 	
-	            // Se transforma
-	            row = $.rup_utils.queryStringToJson(row, ctx.oInit.formEdit.serializerSplitter, ctx.oInit.formEdit.allowAllCharacters);
+				// Transformación de query string a un objeto.
+				// Se mantiene la compatibilidad con aplicaciones que usen las propiedades deprecadas.
+				if (ctx.oInit.formEdit.serializerSplitter || ctx.oInit.formEdit.allowAllCharacters) {
+					row = $.rup_utils.queryStringToJson(row, ctx.oInit.formEdit.serializerSplitter, ctx.oInit.formEdit.allowAllCharacters);
+				} else {
+					row = $.rup_utils.queryStringToObject(row, ctx.oInit.formEdit.queryStringToObjectOptions);
+				}
 	            
 	            //listas checkbox
 	            row = _addListType(idForm,row);
@@ -815,7 +896,7 @@
 	                    divErrorFeedback.rup_feedback(ctx.oInit.feedback);
 	                }
 	                _callFeedbackOk(ctx, divErrorFeedback, $.rup.i18nParse($.rup.i18n.base, 'rup_global.charError'), 'error');
-	                $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjaxNotRow',ctx);
+	                $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjaxNotRow',ctx);
 	            } else {
 	            	let url = actionType == 'POST' ? '/add' : '/edit';
 	            	
@@ -827,10 +908,10 @@
 	            	
 	            	_callSaveAjax(actionSaveContinue, dt, row, idRow, true, idTableDetail, url, false);
 	            }
-	            $('#' + ctx.sTableId).triggerHandler('tableButtonSaveContinue', ctx);
+	            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableButtonSaveContinue', ctx);
 	        });
 	
-	        $('#' + ctx.sTableId).triggerHandler('tableEditFormAddEditAfterShowForm', ctx);
+	        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditAfterShowForm', ctx);
 	
 	        return loadPromise;
         });
@@ -858,7 +939,7 @@
         var ctx = dt.settings()[0];
         
         let _makeAjaxCall = function () {
-        	$('#' + ctx.sTableId).triggerHandler('tableEditFormBeforeCallAjax', [ctx, actionType, url]);
+        	$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormBeforeCallAjax', [ctx, actionType, url]);
         	
         	// Añadir filtro
             var feed = idTableDetail.find('#' + ctx.sTableId + '_detail_feedback');
@@ -873,7 +954,7 @@
 
             if (ctx.oInit.masterDetail !== undefined) { //Asegurar que se recoge el idPadre
                 var masterPkObject = DataTable.Api().masterDetail.getMasterTablePkObject(ctx);
-                $('#' + ctx.sTableId+'_detail_masterPK').val($('#' + ctx.sTableId + '_filter_masterPK').val());
+                $('#' + $.escapeSelector(ctx.sTableId) + '_detail_masterPK').val($('#' + $.escapeSelector(ctx.sTableId) + '_filter_masterPK').val());
                 row = jQuery.extend(true, row,masterPkObject);
             }
             
@@ -896,6 +977,9 @@
                 success: function (valor) {
                 	ctx.oInit.formEdit.okCallBack = true;
                 	ctx.oInit.formEdit.lastValue = valor;
+					if(ctx.oInit.filter != undefined){
+						ctx.oInit.filter.type = "operation";
+					}
                     if (url !== '/deleteAll' && actionType !== 'DELETE') {
                         if (continuar) { //Se crea un feedback_ok, para que no se pise con el de los errores
                             var divOkFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
@@ -972,8 +1056,14 @@
                             } else { //mantener y borrar
                             	ctx.oInit.formEdit.idForm.resetForm();
                             }
-
-                            ctx.oInit.formEdit.dataOrigin = _editFormSerialize(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.serializerSplitter);
+                            
+							// TODO: eliminar uso de editFormSerialize en UDA 7
+							if (ctx.oInit.formEdit.serializerSplitter) {
+								ctx.oInit.formEdit.dataOrigin = $.rup_utils.editFormSerialize(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.serializerSplitter);
+							} else {
+								ctx.oInit.formEdit.dataOrigin = $.rup_utils.formDataToQueryString(ctx.oInit.formEdit.idForm, ctx.oInit.formEdit.formDataToQueryStringOptions);
+							}
+                            
                             if (ctx.oInit.multiSelect !== undefined) {
                                 ctx.oInit.feedback.type = 'noBorrar';
                                 dt.row().multiSelect();
@@ -995,13 +1085,13 @@
                              * Filtrar para colocar cada registro en su lugar correspondiente. 
                              * Si no se filtra, aparece un error visual en la selección de registros y otro en el paginador del formulario de edición.
                              */
-                            dt.ajax.reload();
-                            
-                            $('#' + ctx.sTableId).triggerHandler('tableEditFormAfterInsertRow', [ctx, actionType]);
+							dt.ajax.reload(function () {
+								$('#' + $.escapeSelector(ctx.sTableId)).trigger('tableEditFormAfterInsertRow', [ctx, actionType]);
+							}, false);
                         }
                         if(actionType === 'PUT'){
 	                        dt.ajax.reload(function () {
-	                            $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
+	                            $('#' + $.escapeSelector(ctx.sTableId)).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
 	                        }, false);
                         } else {
                         	if (ctx.oInit.multiSelect === undefined) {
@@ -1013,7 +1103,7 @@
                         		ctx.multiselection.selectedRowsPerPage[0] = arra;
                         		DataTable.Api().select.drawSelectId(ctx);
                         	}
-                        	$('#' + ctx.sTableId).trigger('tableAddFormSuccessCallSaveAjax', [ctx, actionType]);
+                        	$('#' + $.escapeSelector(ctx.sTableId)).trigger('tableAddFormSuccessCallSaveAjax', [ctx, actionType]);
                         }
 
                     } else { // Eliminar
@@ -1022,12 +1112,12 @@
 
                         if (ctx.oInit.multiSelect !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
+                                $('#' + $.escapeSelector(ctx.sTableId)).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().multiSelect.deselectAll(dt);
                             }, false);                        
                         } else if (ctx.oInit.select !== undefined) {
                             dt.ajax.reload(function () {
-                                $('#' + ctx.sTableId).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
+                                $('#' + $.escapeSelector(ctx.sTableId)).trigger('tableEditFormSuccessCallSaveAjax', [ctx, actionType]);
                                 DataTable.Api().select.deselect(ctx);
                             }, false);                        
                         }
@@ -1040,7 +1130,7 @@
 						    $(button).prop('disabled', false);
 						});
 					}
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormCompleteCallSaveAjax', [ctx, actionType]);
+                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormCompleteCallSaveAjax', [ctx, actionType]);
                 },
                 error: function (xhr) {
                 	let divErrorFeedback;
@@ -1080,7 +1170,7 @@
                         _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
     				}
 
-                    $('#' + ctx.sTableId).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType]);
+                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType]);
                 },
                 validate: validaciones,
                 feedback: feed.rup_feedback({
@@ -1129,7 +1219,7 @@
 				if (ajaxOptions.enctype != 'multipart/form-data') {
 					ajaxOptions.data = JSON.stringify(ajaxOptions.data);
 				}
-				ctx.oInit.formEdit.buttonsForm = $('#' + ctx.sTableId + '_detail_div').find('button:enabled');
+				ctx.oInit.formEdit.buttonsForm = $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div').find('button:enabled');
 				$.each(ctx.oInit.formEdit.buttonsForm, function(index, button) {
 				    $(button).prop('disabled', true);
 				});
@@ -1139,17 +1229,17 @@
         
         if (ctx.oInit.formEdit.detailForm.settings.saveDialog && !isDeleting) {
         	$.rup_messages('msgConfirm', {
-                title: actionType == 'POST' ? $.rup.i18nParse($.rup.i18n.base, 'rup_table.add.save') : $.rup.i18nParse($.rup.i18n.base, 'rup_table.edit.save'),
-                message: actionType == 'POST' ? $.rup.i18nParse($.rup.i18n.base, 'rup_table.add.saveData') : $.rup.i18nParse($.rup.i18n.base, 'rup_table.edit.saveData'),
+                title: actionType == 'POST' ? ctx.oInit.formEdit.detailForm.settings.saveDialogMessages.titleOnAddAction : ctx.oInit.formEdit.detailForm.settings.saveDialogMessages.titleOnEditAction,
+                message: actionType == 'POST' ? ctx.oInit.formEdit.detailForm.settings.saveDialogMessages.messageOnAddAction : ctx.oInit.formEdit.detailForm.settings.saveDialogMessages.messageOnEditAction,
                 OKFunction: function () {
                 	_makeAjaxCall();
-                	$('#' + ctx.sTableId).triggerHandler('tableMessageOk', ctx);
+                	$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageOk', ctx);
                 },
                 CANCELFunction: function () {
-                	$('#' + ctx.sTableId).triggerHandler('tableMessageCancel', ctx);
+                	$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageCancel', ctx);
                 },
                 CLOSEFunction: function () {
-                	$('#' + ctx.sTableId).triggerHandler('tableMessageClose', ctx);
+                	$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageClose', ctx);
                 }
             });
         } else {
@@ -1174,7 +1264,7 @@
     	if(ctx.oInit.formEdit.disabledFeedback){//no muestra el feedback
     		return false;
     	}
-        $('#' + ctx.sTableId).triggerHandler('tableEditFormFeedbackShow',ctx);
+        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormFeedbackShow',ctx);
         feedback.rup_feedback('set', msgFeedBack, type);
         feedback.rup_feedback('show');
     }
@@ -1255,17 +1345,17 @@
         }
         
         if (currentRowNum === 1) {
-        	$('#first_' + tableId + ', #back_' + tableId, ctx.oInit.formEdit.detailForm).prop('disabled', true);
+        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', true);
         } else {
-        	$('#first_' + tableId + ', #back_' + tableId, ctx.oInit.formEdit.detailForm).prop('disabled', false);
+        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', false);
         }
         if (currentRowNum === totalRowNum) {
-        	$('#forward_' + tableId + ', #last_' + tableId, ctx.oInit.formEdit.detailForm).prop('disabled', true);
+        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', true);
         } else {
-        	$('#forward_' + tableId + ', #last_' + tableId, ctx.oInit.formEdit.detailForm).prop('disabled', false);
+        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', false);
         }
 
-        $('#rup_table_selectedElements_' + tableId).text($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.defaults.detailForm_pager'), currentRowNum, totalRowNum));
+        $('#rup_table_selectedElements_' + $.escapeSelector(tableId)).text($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.defaults.detailForm_pager'), currentRowNum, totalRowNum));
     }
 
     /**
@@ -1389,10 +1479,10 @@
                     // Solventar problemas de los componentes combo y autocomplete en los formularios de edición.
                     _fixComboAutocompleteOnEditForm(ctx);
                 }
-                $('#first_' + tableId+'_detail_navigation' + 
-                		', #back_' + tableId+'_detail_navigation' +
-                		', #forward_' + tableId+'_detail_navigation' +
-                		', #last_' + tableId+'_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
+                $('#first_' + $.escapeSelector(tableId) + '_detail_navigation' + 
+                		', #back_' + $.escapeSelector(tableId) + '_detail_navigation' +
+                		', #forward_' + $.escapeSelector(tableId) + '_detail_navigation' +
+                		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
             });
 
             // Actualizar la última posición movida
@@ -1429,7 +1519,7 @@
     function _hideOnNav(dt, linkType, callback) {
         const ctx = dt.settings()[0];
         const direction = (linkType === 'prev' || linkType === 'first') ? 'right' : 'left';
-        const $dialogContent = $('#' + ctx.sTableId + '_detail_div .dialog-content-material');
+        const $dialogContent = $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div .dialog-content-material');
         $dialogContent.parent().css('overflow-x', 'hidden');
         $dialogContent.hide('slide', {
             direction: direction
@@ -1442,8 +1532,8 @@
     function _showOnNav(dt, linkType) {
         const ctx = dt.settings()[0];
         const direction = (linkType === 'prev' || linkType === 'first') ? 'left' : 'right';
-        const $dialogContent = $('#' + ctx.sTableId + '_detail_div .dialog-content-material');
-        $('#' + ctx.sTableId + '_detail_div_loading').remove();
+        const $dialogContent = $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div .dialog-content-material');
+        $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div_loading').remove();
         $dialogContent.show('slide', {
             direction: direction
         }, 100, () => {
@@ -1503,7 +1593,7 @@
             }
             // Cambio de pagina
             if (Number(futurePage) !== page) {
-                var table = $('#' + ctx.sTableId).DataTable();
+                var table = $('#' + $.escapeSelector(ctx.sTableId)).DataTable();
                 ctx.select.selectedRowsPerPage = {};
                 ctx.select.selectedRowsPerPage.cambio = linkType;
                 ctx.select.selectedRowsPerPage.page = futurePage;
@@ -1517,10 +1607,10 @@
             //Se actualiza la ultima posicion movida.
             //ctx.oInit.formEdit.$navigationBar.currentPos = rowSelected;
             let tableId = ctx.sTableId;
-            $('#first_' + tableId+'_detail_navigation' + 
-            		', #back_' + tableId+'_detail_navigation' +
-            		', #forward_' + tableId+'_detail_navigation' +
-            		', #last_' + tableId+'_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
+            $('#first_' + $.escapeSelector(tableId) + '_detail_navigation' + 
+            		', #back_' + $.escapeSelector(tableId) + '_detail_navigation' +
+            		', #forward_' + $.escapeSelector(tableId) + '_detail_navigation' +
+            		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
             
             return [linkType, execute, changePage, index - 1, npos, newPage, newPageIndex - 1];
         };
@@ -1602,7 +1692,7 @@
         // En caso de estar en una página distinta, navegamos a ella
         if (dt.page() + 1 !== Number(rowDefault.page)) {
             var pageActual = dt.page() + 1;
-            var table = $('#' + ctx.sTableId).DataTable();
+            var table = $('#' + $.escapeSelector(ctx.sTableId)).DataTable();
             table.page(rowDefault.page - 1).draw('page');
             if (ctx.oInit.formEdit !== undefined) {
                 ctx.oInit.formEdit.$navigationBar.funcionParams = [actionType, dt, rowDefault.line, undefined, pageActual];
@@ -1818,65 +1908,17 @@
         
         if (ctx.oInit.formEdit.detailForm.settings.deleteDialog) {
         	$.rup_messages('msgConfirm', {
-                message: $.rup.i18nParse($.rup.i18n.base, 'rup_table.deleteAll'),
-                title: $.rup.i18nParse($.rup.i18n.base, 'rup_table.delete'),
+                title: ctx.oInit.formEdit.detailForm.settings.deleteDialogMessages.title,
+                message: ctx.oInit.formEdit.detailForm.settings.deleteDialogMessages.message,
                 OKFunction: function () {
                 	_doDelete();
-                    $('#' + ctx.sTableId).triggerHandler('tableMessageOk', ctx);
+                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageOk', ctx);
                 },
                 CANCELFunction: ctx.oInit.formEdit.cancelDeleteFunction
             });
         } else {
         	_doDelete();
         }
-    }
-
-    /**
-     * Método que serializa los datos del formulario.
-     *
-     * @name _editFormSerialize
-     * @function
-     * @since UDA 3.6.0 // Table 1.2.0
-     *
-     * @param {object} idForm - Formulario que alberga los datos.
-     * @param {string} [serializerSplitter=&] - Cadena a usar para separar los campos.
-     *
-     * @return {string} - Devuelve los datos del formulario serializados
-     *
-     */
-    function _editFormSerialize(idForm, serializerSplitter = '&') {
-        let serializedForm = '';
-        let idFormArray = idForm.formToArray();
-        let ultimo = '';
-        let count = 0;
-
-        $.each(idFormArray, function (key, obj) {
-        	if (ultimo != obj.name) {
-        		count = 0;
-    		}
-        	let element = idForm.find('[name="' + obj.name + '"]');
-        	let ruptype = element.attr('ruptype');
-        	if (ruptype === undefined) {
-        		ruptype = element.data('ruptype');
-        	}
-        	if ((obj.type === 'hidden' && element.attr('id') !== undefined) || obj.type !== 'hidden' || ruptype === 'autocomplete' || ruptype === 'custom') {
-        		let valor = '';
-        		if ($(idForm).find('[name="' + obj.name + '"]').prop('multiple')) {
-        			valor = '[' + count++ + ']';
-        		}
-        		else if (ultimo === obj.name) {//Se mete como lista
-        			//se hace replace del primer valor
-        			serializedForm = serializedForm.replace(ultimo + '=', ultimo + '[' + count++ + ']=');
-        			valor = '[' + count++ + ']'; //y se mete el array
-        		}
-	            serializedForm += (obj.name + valor + '=' + obj.value);
-                serializedForm += serializerSplitter;
-                ultimo = obj.name;
-        	}
-        });
-        // Evitar que el último carácter sea "&" o el separador definido por el usuario.
-        serializedForm = serializedForm.substring(0, serializedForm.length - serializerSplitter.length);
-        return serializedForm;
     }
 
     /**
@@ -1905,8 +1947,8 @@
             });
             // se borra el icono
 
-            $('#' + ctx.sTableId + ' tbody tr').eq(idRow).find('td.select-checkbox i.filtered-row').remove();
-            $('#' + ctx.sTableId + ' tbody tr').eq(idRow).find('td i.filtered-row').remove();
+            $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr').eq(idRow).find('td.select-checkbox i.filtered-row').remove();
+            $('#' + $.escapeSelector(ctx.sTableId) + ' tbody tr').eq(idRow).find('td i.filtered-row').remove();
             DataTable.Api().seeker.updateDetailSeekPagination(1, ctx.seeker.search.funcionParams.length, ctx);
         }
     }
@@ -1947,7 +1989,7 @@
                         }
 
                         var valorCheck = input.is(':checked') ? 1 : 0;
-                        var selectorInputSustituto = $('#' + id + '_bloqueado');
+                        var selectorInputSustituto = $('#' + $.escapeSelector(id) + '_bloqueado');
 
                         // Comprobamos si es necesario cambiar el check
                         if (selectorInputSustituto.attr('valor') !== valorCheck) {
@@ -1956,9 +1998,9 @@
                             }
 
                             if (valorCheck === 1) {
-                                input.after('<i id=\'' + id + '_bloqueado\' class=\'mdi mdi-check sustitutoCheckboxPKBloqueadoGeneral\' valor=\'1\' aria-hidden=\'true\'></i>');
+                                input.after('<i id=\'' + $.escapeSelector(id) + '_bloqueado\' class=\'mdi mdi-check sustitutoCheckboxPKBloqueadoGeneral\' valor=\'1\' aria-hidden=\'true\'></i>');
                             } else {
-                                input.after('<i id=\'' + id + '_bloqueado\' class=\'mdi mdi-close sustitutoCheckboxPKBloqueadoGeneral sustitutoCheckboxPKBloqueadoCross\' valor=\'0\' aria-hidden=\'true\'></i>');
+                                input.after('<i id=\'' + $.escapeSelector(id) + '_bloqueado\' class=\'mdi mdi-close sustitutoCheckboxPKBloqueadoGeneral sustitutoCheckboxPKBloqueadoCross\' valor=\'0\' aria-hidden=\'true\'></i>');
                             }
                         }
                     } else {
@@ -1987,7 +2029,7 @@
                         input.rup_time('enable');
                     } else if (input.attr('type') === 'checkbox') {
                         input.removeClass('checkboxPKBloqueado');
-                        $('#' + id + '_bloqueado').remove();
+                        $('#' + $.escapeSelector(id) + '_bloqueado').remove();
                     } else {
                         input.prop('readOnly', false);
                     }
@@ -2001,6 +2043,28 @@
             }
         }
     }
+	
+	/**
+	 * Se verifica si hay algún select multiple con autocomplete.
+	 *
+	 * @name _haySelectMultipleAutocomplete
+	 * @function
+	 * @since UDA 6.3.0
+	 *
+	 * @param {object} colModel - definición de las columnas..
+	 *
+	 */
+	function _haySelectMultipleAutocomplete(colModel) {
+	  if(colModel == undefined || colModel == null){
+		return false;
+	  }	
+	  return colModel.some(col =>
+	    col.rupType === "select" &&
+	    col.editoptions?.multiple === true &&
+	    col.editoptions?.autocomplete === true
+	  );
+	}
+
 
 
     /**
@@ -2026,9 +2090,9 @@
             }
 
             if (ctx.responsive.c.details.target === 'td span.openResponsive') { //por defecto
-                $('#' + ctx.sTableId).find('tbody td:first-child span.openResponsive').remove();
+                $('#' + $.escapeSelector(ctx.sTableId)).find('tbody td:first-child span.openResponsive').remove();
                 if (hasHidden) { //añadir span ala primera fila
-                    $.each($('#' + ctx.sTableId).find('tbody td:first-child:not(.child):not(.dataTables_empty)'), function () {
+                    $.each($('#' + $.escapeSelector(ctx.sTableId)).find('tbody td:first-child:not(.child):not(.dataTables_empty)'), function () {
                         var $span = $('<span></span>');
                         if ($(this).find('span.openResponsive').length === 0) {
                             $(this).prepend($span.addClass('openResponsive'));
@@ -2054,7 +2118,7 @@
                 }
             }
 
-            $('#' + ctx.sTableId).triggerHandler('tableEditFormAddChildIcons',ctx);
+            $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddChildIcons',ctx);
         } catch (error) {}
     }
 
@@ -2117,7 +2181,7 @@
         if (!ctx.oInit.noEdit && ctx.oInit.formEdit !== undefined && ctx.oInit.formEdit.activate !== false) {
 	        DataTable.editForm.preConfigure(new DataTable.Api(ctx));
 	        
-        	$('#' + ctx.sTableId).on('tableEditFormInitialize', function(event, ctx) {
+        	$('#' + $.escapeSelector(ctx.sTableId)).on('tableEditFormInitialize', function(event, ctx) {
         		let deferred = $.Deferred();
     	        DataTable.editForm.init(ctx);
 	            
@@ -2132,7 +2196,7 @@
 	                     * en el formEdit para evitar un bug visual en el que hacia que sus campos apareciesen 
 	                     * bajo la tabla y fueran visibles previa a la inicializacion del componente rup.dialog.
 	                     */
-	                    $('#'+ctx.sTableId+'_detail_div.rup-table-formEdit-detail').removeClass('d-none');
+	                    $('#' + $.escapeSelector(ctx.sTableId) + '_detail_div.rup-table-formEdit-detail').removeClass('d-none');
 	                }
 	            }, ctx.oInit.formEdit.detailForm.customDialog));
 		        //Propiedad para poder customizar desde el usuario

@@ -67,7 +67,7 @@
          * $("#idlanguage").rup_menu("disable","opAdmin);
          */
         disable: function (entryMenuId) {
-            var entryMenu = $('#' + entryMenuId);
+            var entryMenu = $('#' + $.escapeSelector(entryMenuId));
             entryMenu.addClass('ui-state-disabled');
             //			entryMenu.on("click", function(event){event.preventDefault(); event.stopImmediatePropagation();});
         },
@@ -81,7 +81,7 @@
          * $("#idlanguage").rup_menu("enable","opAdmin);
          */
         enable: function (entryMenuId) {
-            var entryMenu = $('#' + entryMenuId);
+            var entryMenu = $('#' + $.escapeSelector(entryMenuId));
             entryMenu.removeClass('ui-state-disabled');
             //			entryMenu.off("click");
         }
@@ -253,14 +253,14 @@
                             var $uiMenu = selectorSelf.data().uiMenu;
                             //								console.log($uiMenu.active);
 
-                            switch (event.keyCode) {
-                            case $.ui.keyCode.UP:
+                            switch (event.code) {
+                            case "ArrowUp":
                                 $uiMenu.previous(event);
                                 event.stopImmediatePropagation();
                                 event.preventDefault();
                                 event.stopPropagation();
                                 break;
-                            case $.ui.keyCode.DOWN:
+                            case "ArrowDown":
                                 if ($uiMenu.active && !$uiMenu.active.is('.ui-state-disabled')) {
                                     if ($uiMenu.active.hasClass('rup_menu_horizontal_children')) {
                                         $uiMenu.options.position = {
@@ -279,7 +279,7 @@
                                 event.preventDefault();
                                 event.stopPropagation();
                                 break;
-                            case $.ui.keyCode.LEFT:
+                            case "Left":
                                 if (!$uiMenu.active.hasClass('rup_menu_horizontal_children')) {
                                     $uiMenu.collapse(event);
                                 } else {
@@ -289,7 +289,7 @@
                                 event.preventDefault();
                                 event.stopPropagation();
                                 break;
-                            case $.ui.keyCode.RIGHT:
+                            case "Right":
                                 if (!$uiMenu.active.hasClass('rup_menu_horizontal_children') && $uiMenu.active.is('[aria-haspopup=\'true\']')) {
                                     $uiMenu.options.position = {
                                         my: 'left bottom',
@@ -304,7 +304,7 @@
                                 event.preventDefault();
                                 event.stopPropagation();
                                 break;
-                            case $.ui.keyCode.HOME:
+                            case "Home":
                                 $uiMenu._move('first', 'first', event);
                                 event.stopImmediatePropagation();
                                 event.preventDefault();
@@ -368,7 +368,7 @@
                             'margin-top': '0em',
                             'margin-bottom': '0em'
                         });
-                        $('#' + menuId + ' li.rup_menu_horizontal_children > a .ui-icon-caret-1-e').removeClass('ui-icon-caret-1-e').addClass('ui-icon-caret-1-s').addClass('rup-menu_horizontalIcon');
+                        $('#' + $.escapeSelector(menuId) + ' li.rup_menu_horizontal_children > a .ui-icon-caret-1-e').removeClass('ui-icon-caret-1-e').addClass('ui-icon-caret-1-s').addClass('rup-menu_horizontalIcon');
                         selectorSelf.children().children('a').css('font-weight', 'bold');
                         selectorSelf.children().each(function (position, object) {
                             var iconsWidth = 0;
@@ -391,11 +391,11 @@
                         //Asignación de los menús desplegables de primer menú
 
                         selectorSelf.children().children('[aria-haspopup=\'true\']').parent().attr('rupMenu_firsLevel', 'true');
-                        $('#' + menuId + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').addClass('rup_menu_vertical_horizontal');
+                        $('#' + $.escapeSelector(menuId) + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').addClass('rup_menu_vertical_horizontal');
                         if (settings.verticalWidth === undefined) {
-                            $('#' + menuId + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').css('white-space', 'nowrap');
+                            $('#' + $.escapeSelector(menuId) + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').css('white-space', 'nowrap');
                         } else {
-                            $('#' + menuId + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').css('width', settings.verticalWidth);
+                            $('#' + $.escapeSelector(menuId) + ' [rupmenu_firslevel=\'true\'] [role=\'menu\']').css('width', settings.verticalWidth);
                         }
 
                         //Enlaces externos en primer nivel: editar estilos
@@ -428,7 +428,7 @@
 
                         //Se ajustan los tamaños de las sub-entradas del menú
                         if (settings.verticalWidth !== undefined) {
-                            $('#' + menuId + ' .ui-menu .ui-menu-item').css('width', settings.verticalWidth);
+                            $('#' + $.escapeSelector(menuId) + ' .ui-menu .ui-menu-item').css('width', settings.verticalWidth);
                         }
 
                     } else {
@@ -461,7 +461,7 @@
                     });
 
                     //Ajuste de estilos para cubrir arista
-                    //						$("#"+menuId+" [role = 'menuitem']").not($("[aria-haspopup = 'true']")).css("text-decoration","underline");
+                    //						$("#"+$.escapeSelector(menuId)+" [role = 'menuitem']").not($("[aria-haspopup = 'true']")).css("text-decoration","underline");
 
                     //Se deshabilitan los botones desconectados
                     selectorSelf.find('a').on('click', function (event) {
@@ -493,7 +493,7 @@
                 self.attr('uda-submenu', '');
             } else {
                 self.replaceWith($('<ul>').attr('id', self.attr('id')).attr('style', self.attr('style')).attr('class', self.attr('class')));
-                self = $('#' + self.attr('id'));
+                self = $('#' + $.escapeSelector(self.attr('id')));
             }
 
             //Recorrer json para añadir elementos

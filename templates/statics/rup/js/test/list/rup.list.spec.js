@@ -66,7 +66,7 @@ describe('Test rup_list', () => {
             beforeEach((done) => {
                 listGen.createList('rup-list', 'listFilterForm', () => {
                     $('#rup-list').on('load', () => {
-                        $('#rup-list-header-sidx').rup_select('setRupValue', 'EDAD');
+                        $('#rup-list-header-sidx').rup_combo('setRupValue', 'EDAD');
                         $('#rup-list').off('load');
                         $('#rup-list').on('load', () => {
                         	$('#rup-list').off('load');
@@ -201,7 +201,7 @@ describe('Test rup_list', () => {
                        	$('#rup-list').on('load', () => {
                     		done();
                     	});
-                        $('#rup-list-header-rowNum').rup_select('setRupValue', '10');
+                        $('#rup-list-header-rowNum').rup_combo('setRupValue', '10');
                     });
                     $('#rup-list').rup_list('filter');
                 });
@@ -1184,12 +1184,16 @@ describe('Test rup_list', () => {
                         expect($('#listFilterForm').find('input').eq(2).val()).toEqual('20');
                     });
                     describe('Elegir un filtro', () => {
-                        beforeEach(() => {
-                            $('#rup-list').rup_list('filter');
-                            $('#rup-list_dropdownDialog_btn_apply').click();
-                        });
+						beforeEach((done) => {
+							$('#rup-list').off('load');
+							$('#rup-list').on('load', () => {
+								done();
+							});
+							$('#rup-list').rup_list('filter');
+							$('#rup-list_dropdownDialog_btn_apply').click();
+						});
                         it('El filtro elegido tiene que aparecer en el select', () => {
-                            expect($('label[for="rup-list_dropdownDialog_select"]').val()).toEqual('Filter 2');
+                            expect($('input[id="rup-list_dropdownDialog_combo_label"]').val()).toEqual('Filter 2');
                         });
                     });
                 });
