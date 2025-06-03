@@ -17,7 +17,7 @@
             <form th:object="{{ '${' ~ tableNameOriginal|snakeToCamel ~ '}' }}" id="{{maint.name}}_detail_form">
                 <!-- Feedback del formulario de detalle -->
                 <div id="{{maint.name}}_detail_feedback"></div>
-                <div class="form-row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
                     <!-- Campos del formulario de detalle -->
                     {% for column in allColumns %}				
                     {% if column.type == "Text" %}
