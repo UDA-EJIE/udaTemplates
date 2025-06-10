@@ -463,7 +463,7 @@
 				}
 				
 				// Detectar componentes RUP e inicializarlos
-				_formInitializeRUP(ctx, row, $(formContainerID + ' #' + receivedForm.attr("id")));
+				_formInitializeFields(ctx, row, $(formContainerID + ' #' + receivedForm.attr("id")));
 				
 				// Añadir validaciones
 				_addValidation(ctx);
@@ -477,7 +477,7 @@
         		let deferred = $.Deferred();
         		
         		// Detectar componentes RUP e inicializarlos
-        		_formInitializeRUP(ctx, row, idForm);
+        		_formInitializeFields(ctx, row, idForm);
 				
 				// Añadir validaciones
 				_addValidation(ctx);
@@ -520,9 +520,9 @@
     }
     
     /**
-     * Detecta los componentes RUP del formulario y los inicializa.
+     * Procesa el colModel para gestionar los campos del formulario de edición además de inicializar los componentes RUP.
      *
-     * @name formInitializeRUP
+     * @name _formInitializeFields
      * @function
      * @since UDA 5.0.2
      *
@@ -530,32 +530,48 @@
      * @param {object} row - Datos para alimentar los campos del formulario.
      * @param {object} form - Formulario en el que hay que inicializar los componentes.
      */
-    function _formInitializeRUP(ctx, row, form) {
-    	if (ctx.oInit.colModel !== undefined && (ctx.oInit.multiSelect !== undefined || ctx.oInit.select !== undefined)) {
-    		$.each(ctx.oInit.colModel, function (key, column) {
-    			const element = form.find('[name="' + column.name + '"]');
-    			// Comprobar que es un componente RUP y editable. En caso de no ser editable, se añade la propiedad readonly.
-    			if (column.rupType && column.editable) {
-    				if (column.editoptions !== undefined) {
-						// Definir el tipo de componente RUP a inicializar.
-						const rupType = column.editoptions.rupType !== undefined ? column.editoptions.rupType : column.rupType;
-    					if (rupType === 'select') {
-    						// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
-    						if (row !== undefined) {
-    							column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
-    						}
-    					}
-    					// Inicializar componente.
-    					element['rup_' + rupType](column.editoptions);
-    				} else if (column.searchoptions === undefined) {
-    					console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), column.name));
-    				}
-    			} else if (!column.editable) {
-    				element.prop('readonly', true);
-    			}
-    		});
-    	}
-    }
+	function _formInitializeFields(ctx, row, form) {
+		if (ctx.oInit.colModel !== undefined && (ctx.oInit.multiSelect !== undefined || ctx.oInit.select !== undefined)) {
+			$.each(ctx.oInit.colModel, function(key, column) {
+				const rupType = column.editoptions?.rupType !== undefined ? column.editoptions.rupType : column.rupType;
+				const element = rupType !== 'tree' ? form.find('[name="' + column.name + '"]') : form.find('div[class*="rup_tree"]');
+
+				// Comprobar si el campo debe ser mostrado, si debe serlo, se verificará si es editable y un componente RUP, de no cumplir, 
+				// se terminará verificando si es o no editable y en caso de no serlo, se añadirá el atributo readonly.
+				if (column.hidden) {
+					element.prop('hidden', true);
+
+					// Cuando el campo del formulario no comparta contenedor con ningún otro campo, se ocultará el contenedor, en el resto de casos, el label.
+					if (element.parent().is('div') && element.parent().find('input,textarea,select').length === 1) {
+						element.parent().addClass('d-none');
+					} else {
+						form.find('label[for="' + element.attr('id') + '"]').addClass('d-none');
+					}
+				}
+				else if (column.editable && rupType !== undefined) {
+					if (rupType === 'select') {
+						if (column.editoptions === undefined) {
+							// El componente rup_select necesita recibir propiedades para la inicialización.
+							console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), column.name, 'editoptions'));
+						} else {
+							// Si se recibe una fila con valores, se establece el valor del campo correspondiente como el registro seleccionado en el select.
+							if (row !== undefined) {
+								column.editoptions.selected = column.name.includes('.') ? $.fn.flattenJSON(row)[column.name] : row[column.name];
+							}
+
+							// Inicializar componente.
+							element['rup_' + rupType](column.editoptions);
+						}
+					} else {
+						// Inicializar componente.
+						element['rup_' + rupType](column.editoptions);
+					}
+				} else if (!column.editable) {
+					element.prop('readonly', true);
+				}
+			});
+		}
+	}
 
     /**
      * Función que gestiona el comportamiento de abrir el dialog para añadir o editar un registro.
@@ -671,9 +687,11 @@
 					if(!ctx.oInit.formEdit.loadFromModel) {
 						loadPromise = $.rup_ajax(ajaxOptions);
 	                }
-	                //Se carga desde bbdd y se actualiza la fila
-	                dt.row(idRow).data(row);
-	                ctx.json.rows[idRow] = row;
+					if(!ctx.oInit.formEdit.noRefreshAfterEdit) {
+		                //Se carga desde bbdd y se actualiza la fila
+		                dt.row(idRow).data(row);
+		                ctx.json.rows[idRow] = row;
+					}
 	                // Recrear iconos del responsive en caso de ser necesario.
 	                _addChildIcons(ctx);
 	                //Se mantiene el checked sin quitar.
@@ -710,6 +728,7 @@
 	            DataTable.Api().rupTable.selectPencil(ctx, idRow);
 	            // Se guarda el ultimo id editado.
 	            ctx.multiselection.lastSelectedId = DataTable.Api().rupTable.getIdPk(row, ctx.oInit);
+
 	            // Se muestra el dialog.
 	            ctx.oInit.formEdit.$navigationBar.show();
 	            // Si no se ha definido un 'customTitle' asignamos un valor a la variable del título del formulario
@@ -746,6 +765,11 @@
 	        ctx.oInit.formEdit.detailForm.rup_dialog(ctx.oInit.formEdit.detailForm.settings);
 	        ctx.oInit.formEdit.detailForm.rup_dialog('setOption', 'title', title);
 	        ctx.oInit.formEdit.detailForm.rup_dialog('open');
+			
+			//se desactiva los focos para que  se centren en el buscador de los select.
+			if(_haySelectMultipleAutocomplete(ctx.oInit.colModel)){
+				$(document).off('focusin');
+			}
 	        
 	        // Quitar spinner de carga porque el formulario ya es visible (si fue activado)
 	    	if ($('#' + $.escapeSelector(ctx.sTableId) + '_formEdit_dialog_loading').length > 0) {
@@ -763,9 +787,8 @@
 				}
 			});
 	
-	        // Establecemos el foco al primer elemento input o select que se
-	        // encuentre habilitado en el formulario
-	        $(idForm).find('input,select').filter(':not([readonly],[type=hidden])').first().focus();
+	        // Establece el foco al primer elemento input, textarea o select que se encuentre habilitado en el formulario.
+	        $(idForm).find('input,textarea,select').filter(':not([readonly],[type=hidden])').first().focus();
 	        
 			// TODO: eliminar uso de editFormSerialize en UDA 7
 			// Se guardan los datos originales
@@ -809,7 +832,7 @@
 				if (ctx.oInit.formEdit.serializerSplitter || ctx.oInit.formEdit.allowAllCharacters) {
 					row = $.rup_utils.queryStringToJson(row, ctx.oInit.formEdit.serializerSplitter, ctx.oInit.formEdit.allowAllCharacters);
 				} else {
-					row = $.rup_utils.queryStringToObject(row, ctx.oInit.formEdit.queryStringToObjectOptions);
+					row = $.rup_utils.queryStringToObject(row, ctx.oInit.formEdit.queryStringToObjectOptions,$(idForm));
 				}
 	            
 	            //listas checkbox
@@ -989,6 +1012,9 @@
                 success: function (valor) {
                 	ctx.oInit.formEdit.okCallBack = true;
                 	ctx.oInit.formEdit.lastValue = valor;
+					if(ctx.oInit.filter != undefined){
+						ctx.oInit.filter.type = "operation";
+					}
                     if (url !== '/deleteAll' && actionType !== 'DELETE') {
                         if (continuar) { //Se crea un feedback_ok, para que no se pise con el de los errores
                             var divOkFeedback = idTableDetail.find('#' + feed[0].id + '_ok');
@@ -2020,6 +2046,28 @@
             }
         }
     }
+	
+	/**
+	 * Se verifica si hay algún select multiple con autocomplete.
+	 *
+	 * @name _haySelectMultipleAutocomplete
+	 * @function
+	 * @since UDA 6.3.0
+	 *
+	 * @param {object} colModel - definición de las columnas..
+	 *
+	 */
+	function _haySelectMultipleAutocomplete(colModel) {
+	  if(colModel == undefined || colModel == null){
+		return false;
+	  }	
+	  return colModel.some(col =>
+	    col.rupType === "select" &&
+	    col.editoptions?.multiple === true &&
+	    col.editoptions?.autocomplete === true
+	  );
+	}
+
 
 
     /**

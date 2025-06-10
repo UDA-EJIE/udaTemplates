@@ -159,16 +159,16 @@
                 let nombre = $('#' + $.escapeSelector(idTabla) + ' thead th:nth-child(' + position + ')').attr('data-col-prop')
 
                 let result = $.grep(colModel, function (v) {
-                    return v.index.toUpperCase() === nombre.toUpperCase();
+                    return v.name.toUpperCase() === nombre.toUpperCase();
                 });
 
                 // Comprobamos si queremos deshabilitar la búsqueda de la columna
-                if (colModel != undefined && result[0].hidden) {
+                if (colModel != undefined && result[0]?.hidden) {
                     $(this).empty();
-                } else if (result[0].rupType == 'select' || result[0].searchoptions?.rupType == 'select') {
+                } else if (result[0]?.rupType == 'select' || result[0]?.searchoptions?.rupType == 'select') {
                     $(this).html('<select name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"></select>');
                 } else {
-					const maxlength = $.rup_utils.isNumeric(result[0].searchoptions?.maxlength) ? ' maxlength="' + result[0].searchoptions.maxlength + '"' : '';
+					const maxlength = $.rup_utils.isNumeric(result[0]?.searchoptions?.maxlength) ? ' maxlength="' + result[0].searchoptions.maxlength + '"' : '';
 
 					$(this).html('<input type="text" placeholder="' + title + '" name="' + nombre + '" id="' + nombre + '_' + idTabla + '_seeker"' + maxlength + '/>');
                 }
@@ -226,12 +226,12 @@
             collapseLayerTmpl = "<div id='{0}' class='search_collapse_layer'></div>",
             collapseIconTmpl = "<span id='{0}' class='collapse_icon mdi mdi-chevron-right'></span>",
             collapseLabelTmpl = "<a id='{0}' class='text-primary text-decoration-underline' href='#0'>{1}:</a>",
-            matchedLayerTmpl = "<div id='{0}' class='matched_layer mr-3'></div>",
-            matchedLabelTmpl = "<span id='{0}' class='ml-2'>{1}</span>",
+            matchedLayerTmpl = "<div id='{0}' class='matched_layer me-3'></div>",
+            matchedLabelTmpl = "<span id='{0}' class='ms-2'>{1}</span>",
             navLayerTmpl = "<div id='{0}' class='search_nav_layer row no-gutters'></div>",
-            navButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-secondary-low-emphasis col-3 col-sm-auto mr-sm-2' type='button' alt='{1}' disabled>{1}</button>",
-            navClearButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-primary-low-emphasis col-5 ml-4 mt-2 col-sm-auto ml-sm-0 mt-sm-auto mr-sm-2' type='button' alt='{1}'><i class='mdi mdi-eraser'></i><span class='ui-button-text'>{1}</span></button>",
-            navSearchButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-primary-low-emphasis col-5 ml-4 mt-2 col-sm-auto ml-sm-0 mt-sm-auto mr-sm-2' type='button'><i class='mdi mdi-magnify'></i><span class='ui-button-text'>{1}</span></button>",
+            navButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-secondary-low-emphasis col-3 col-sm-auto me-sm-2' type='button' alt='{1}' disabled>{1}</button>",
+            navClearButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-primary-low-emphasis col-5 ms-4 mt-2 col-sm-auto ms-sm-0 mt-sm-auto me-sm-2' type='button' alt='{1}'><i class='mdi mdi-eraser'></i><span class='ui-button-text'>{1}</span></button>",
+            navSearchButtonTmpl = "<button id='{0}' class='btn-material btn-material-sm btn-material-primary-low-emphasis col-5 ms-4 mt-2 col-sm-auto ms-sm-0 mt-sm-auto me-sm-2' type='button'><i class='mdi mdi-magnify'></i><span class='ui-button-text'>{1}</span></button>",
 
             // Objetos
             $searchRow = $("<tr class='search_row'></tr>"),
@@ -351,7 +351,7 @@
         });
 
         // Se recubre con un form
-        var $searchForm = jQuery('<form>').attr('id', idTabla + '_search_searchForm');
+        var $searchForm = jQuery('<form>').attr('id', idTabla + '_search_searchForm').addClass('w-100');
 
         $('#' + $.escapeSelector(idTabla)).wrapAll($searchForm);
 
@@ -485,7 +485,7 @@
             _selectSearch(dt, ctx, data);
         } else {
             var tabla = $('#' + $.escapeSelector(ctx.sTableId));
-            tabla.dataTable().fnPageChange(data[ctx.seeker.search.pos].page - 1);
+            tabla.DataTable().page(data[ctx.seeker.search.pos].page - 1).draw('page');
         }
 
         if (data.length === 0) {
@@ -554,17 +554,13 @@
 
 	            let nombre = $(this).find('input, select').attr('name');
 	            let cellColModel = $.grep(colModel, function (v) {
-	                return v.index.toUpperCase() === nombre.toUpperCase();
+	                return v.name.toUpperCase() === nombre.toUpperCase();
 	            });
 
 	            if (cellColModel !== undefined && cellColModel.length > 0) {
 	                cellColModel = cellColModel[0];
-	                var searchRupType = (cellColModel.searchoptions !== undefined && cellColModel.searchoptions.rupType !== undefined)
-	                    ? cellColModel.searchoptions.rupType
-	                    : cellColModel.rupType;
-
-	                var colModelName = cellColModel.name;
-	                var $elem = $('[name=\'' + colModelName + '\']', ctx.seeker.searchForm);
+	                const rupType = cellColModel.searchoptions?.rupType !== undefined ? cellColModel.searchoptions.rupType : cellColModel.rupType;
+	                var $elem = $('[name=\'' + cellColModel.name + '\']', ctx.seeker.searchForm);
 
 	                if ($elem.length == 1) {
 						// Se añade el title de los elementos de acuerdo al colname
@@ -581,16 +577,22 @@
 	                    }).insertAfter($elem);
 
 						// En caso de tratarse de un componente rup, se inicializa de acuerdo a la configuracón especificada en el colModel
-	                    if (searchRupType !== undefined && cellColModel.searchoptions) {
-	                        searchEditOptions = cellColModel.searchoptions;
+						if (rupType !== undefined) {
+							if (rupType === 'select' && cellColModel.searchoptions === undefined) {
+								// El componente rup_select necesita recibir propiedades para la inicialización.
+								console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.wrongColModel'), cellColModel.name, 'searchoptions'));
+							} else if (rupType === 'tree') {
+								// El componente rup_tree no puede ser inicializado en el seeker.
+								console.error($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.errors.treeSeeker'), cellColModel.name));
+							} else {
+								if (new Set(["select"]).has(rupType)) {
+									cellColModel.searchoptions.$forceForm = $('#' + idTabla + '_seeker_form');
+								}
 
-	                        if (new Set(["select"]).has(searchRupType)) {
-	                            searchEditOptions.$forceForm = $('#' + idTabla + '_seeker_form');
-	                        }
-
-							// Invocación al componente RUP
-	                        $elem['rup_' + searchRupType](searchEditOptions);
-	                    }
+								// Invocación al componente RUP
+								$elem['rup_' + rupType](cellColModel.searchoptions);
+							}
+						}
 	                }
 	            }
 	        });

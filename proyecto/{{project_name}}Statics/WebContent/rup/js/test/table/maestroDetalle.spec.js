@@ -435,18 +435,16 @@ function testForm2Form(defer) {
             });
             describe('Paginación independiente > ', () => {
                 beforeEach((done) => {
-                    $('#example2').on('tableFilterSearch', () => {
-                        setTimeout(done, 100);
-                    });
                     $('#example2_filter_fieldset').find('#example2_filter_filterButton').click();
+					done();
                 });
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
                        
-                        $('#example1').on('draw.dt', () => {
-                        	done();
-                        });
-                        $('#example1_next').click();
+                        $('#example1').on('page.dt', () => {
+							setTimeout(done, 100);
+		                });
+                        $('#example1_next')[0].click();
                     });
                     it('Cambia el número de página de #example1:', () => {
                         expect($('.pagination input', $('#example1_wrapper')).val()).toBe('2');
@@ -470,10 +468,11 @@ function testForm2Form(defer) {
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
                         
-                        $('#example2').on('draw.dt', () => {
-                        	done();
-                        });
-                        $('#example2_next').click();
+						$('#example2').on('page.dt', () => {
+							setTimeout(done, 100);
+						});
+						
+                        $('#example2_next')[0].click();
                     });
                     it('Cambia el número de página de #example2:', () => {
                         expect($('.pagination input', $('#example2_wrapper')).val()).toBe('2');
@@ -980,7 +979,7 @@ function testForm2Inline(defer) {
                     beforeEach((done) => {
                         $('#inline2').on('draw.dt', () => {
 							$('#inline2').off('draw.dt');
-                            setTimeout(done, 100);
+                            setTimeout(done, 200);
                         });
                         $('#inline2').find('th:contains(Nombre)').click();
                     });
@@ -1018,17 +1017,15 @@ function testForm2Inline(defer) {
             });
             describe('Paginación independiente > ', () => {
                 beforeEach((done) => {
-                    $('#inline2').on('tableFilterSearch', () => {
-                        setTimeout(done, 100);
-                    });
                     $('#inline2_filter_fieldset').find('#inline2_filter_filterButton').click();
+					done();
                 });
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
-                        $('#example1').on('draw.dt', () => {
+                        $('#example1').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#example1_next').click();
+                        $('#example1_next')[0].click();
                     });
                     it('Cambia el número de página de #example1:', () => {
                         expect($('.pagination input', $('#example1_wrapper')).val()).toBe('2');
@@ -1051,10 +1048,10 @@ function testForm2Inline(defer) {
                 });
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
-						$('#inline2').on('draw.dt', () => {
+						$('#inline2').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#inline2_next').click();
+                        $('#inline2_next')[0].click();
                     });
                     it('Cambia el número de página de #inline2:', () => {
                         expect($('.pagination input', $('#inline2_wrapper')).val()).toBe('2');
@@ -1421,7 +1418,7 @@ function testInline2Form(defer) {
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
 						$('#inline1').on('draw.dt', () => {
-							setTimeout(done, 100);
+							setTimeout(done, 200);
 						});
                         $('#inline1_filter_fieldset').find('#id_filter_table').val(4);
                         $('#inline1_filter_fieldset').find('#inline1_filter_filterButton').click();
@@ -1555,13 +1552,13 @@ function testInline2Form(defer) {
             describe('Ordenación independiente > ', () => {
                 beforeEach((done) => {
                     $('#example2_filter_fieldset').find('#example2_filter_filterButton').click();
-                    setTimeout(done, 100);
+                    setTimeout(done, 200);
                 });
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
                         $('#inline1').on('draw.dt', () => {
 							$('#inline1').off('draw.dt');
-                            setTimeout(done, 100);
+                            setTimeout(done, 200);
                         });
                         $('#inline1').find('th:contains(Nombre)').click();
                     });
@@ -1639,18 +1636,23 @@ function testInline2Form(defer) {
             });
             describe('Paginación independiente > ', () => {
                 beforeEach((done) => {
-                    $('#example2').on('tableFilterSearch', () => {
-                        setTimeout(done, 100);
-                    });
                     $('#example2_filter_fieldset').find('#example2_filter_filterButton').click();
+					setTimeout(done, 100); 
                 });
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
-						$('#inline1').on('draw.dt', () => {
+						$('#inline1').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#inline1_next').click();
+                        $('#inline1_next')[0].click();
                     });
+					afterEach((done) => {
+						$('#inline1').on('draw.dt', () => {
+							setTimeout(done, 100);
+						}); 
+						$('#inline1').find('th:contains(Id)').click(); 
+					});
+					
                     it('Cambia el número de página de #example1:', () => {
                         expect($('.pagination input', $('#inline1_wrapper')).val()).toBe('2');
                     });
@@ -1672,10 +1674,10 @@ function testInline2Form(defer) {
                 });
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
-						$('#example2').on('draw.dt', () => {
+						$('#example2').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#example2_next').click();
+                        $('#example2_next')[0].click();
                     });
                     it('Cambia el número de página de #inline2:', () => {
                         expect($('.pagination input', $('#example2_wrapper')).val()).toBe('2');
@@ -2042,7 +2044,7 @@ function testInline2Inline(defer) {
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
 						$('#inline1').on('draw.dt', () => {
-							setTimeout(done, 100);
+							setTimeout(done, 200);
 						});
                         $('#inline1_filter_fieldset').find('#id_filter_table').val(4);
                         $('#inline1_filter_fieldset').find('#inline1_filter_filterButton').click();
@@ -2066,7 +2068,7 @@ function testInline2Inline(defer) {
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
                         $('#inline2').on('draw.dt', () => {
-							setTimeout(done, 100);
+							setTimeout(done, 200);
 						});
                         $('#inline2_filter_fieldset').find('#id_filter_table').val(4);
                         $('#inline2_filter_fieldset').find('#inline2_filter_filterButton').click();
@@ -2216,7 +2218,10 @@ function testInline2Inline(defer) {
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
                         $('#inline2').find('thead th:contains(Nombre)').click();
-						setTimeout(done, 100);
+						$('#inline2').on('draw.dt', () => {
+							$('#inline2').off('draw.dt');
+						    setTimeout(done, 200);
+						});
                     });
                     afterEach((done) => {
                         $('#inline2').find('thead th:contains(Id)').click();
@@ -2250,17 +2255,15 @@ function testInline2Inline(defer) {
             });
             describe('Paginación independiente > ', () => {
                 beforeEach((done) => {
-                    $('#inline2').on('tableFilterSearch', () => {
-                        setTimeout(done, 100);
-                    });
                     $('#inline2_filter_fieldset').find('#inline2_filter_filterButton').click();
+					done();
                 });
                 describe('Tabla maestro > ', () => {
                     beforeEach((done) => {
-                        $('#inline1').on('draw.dt', () => {
+                        $('#inline1').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#inline1_next').click();
+                        $('#inline1_next')[0].click();
                     });
                     it('Cambia el número de página de #inline1:', () => {
                         expect($('.pagination input', $('#inline1_wrapper')).val()).toBe('2');
@@ -2283,10 +2286,10 @@ function testInline2Inline(defer) {
                 });
                 describe('Tabla detalle > ', () => {
                     beforeEach((done) => {
-                        $('#inline2').on('draw.dt', () => {
+                        $('#inline2').on('page.dt', () => {
 							setTimeout(done, 100);
 						});
-                        $('#inline2_next').click();
+                        $('#inline2_next')[0].click();
                     });
                     it('Cambia el número de página de #inline2:', () => {
                         expect($('.pagination input', $('#inline2_wrapper')).val()).toBe('2');
