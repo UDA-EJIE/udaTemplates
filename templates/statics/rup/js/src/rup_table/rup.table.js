@@ -337,9 +337,9 @@
 
             options.ajax = this._ajaxOptions(options);
 
-            options.language = {
-                'url': $.rup.RUP + '/resources/rup.i18n_' + $.rup.lang + '.json'
-            };
+			$.extend(true, options.language !== undefined ? options.language : options.language = {}, {
+				'url': $.rup.RUP + '/resources/rup.i18n_' + $.rup.lang + '.json'
+			});
 
             //Se cargan los metodos en la API, Se referencia al Register
             var apiRegister = DataTable.Api.register;
@@ -2016,10 +2016,6 @@
                         DataTable.Api().editForm.addchildIcons(tabla.context[0]);
                     }));
                 }
-
-                //Se audita el componente
-                $.rup.auditComponent('rup_table', 'init');
-
             }).catch((error) => {
                 console.error('Error al inicializar el componente:\n', error);
             });

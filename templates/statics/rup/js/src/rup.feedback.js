@@ -145,9 +145,6 @@ de la aplicación pueda cerrar la capa manualmente.
             if (opciones.message) {
                 this.set(opciones.message, opciones.type, opciones.imgClass);
             }
-
-            //Se audita el componente
-            $.rup.auditComponent('rup_feedback', 'init');
         },
         /**
      * @description Añade el enlace de cierre.
@@ -295,8 +292,6 @@ de la aplicación pueda cerrar la capa manualmente.
             element.delay(delay).fadeOut(eval(fadeSpeed), function () {
                 $('#' + $.escapeSelector(opciones._idFeedback)).rup_feedback('close', true);
             });
-
-            $('#' + $.escapeSelector(this.options._idFeedback) + '_closeDiv').hide();
         },
         /**
      * Oculta la capa del feedback sin animación alguna.<br/>
