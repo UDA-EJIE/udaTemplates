@@ -18,5 +18,11 @@
 <%-- DESARROLLO --%>
 <link href="${staticsUrl}/rup/css/rup.css" rel="stylesheet" type="text/css" />
 
-<%-- PORTAL --%>
+<%-- PORTAL - DESARROLLO --%>
 <%-- <link href="${staticsUrl}/rup/portal/rup.css" rel="stylesheet" type="text/css" /> --%>
+
+<%-- PRODUCCIÓN --%>
+<%-- <link href="${staticsUrl}/rup/css/rup.min.css" rel="stylesheet" type="text/css" /> --%>
+
+<%-- PORTAL - PRODUCCIÓN --%>
+<%-- <link href="${staticsUrl}/rup/portal/rup.min.css" rel="stylesheet" type="text/css" /> --%>
