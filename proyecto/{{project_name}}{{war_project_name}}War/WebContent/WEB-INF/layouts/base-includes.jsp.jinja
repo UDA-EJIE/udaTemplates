@@ -18,7 +18,6 @@
 
 <!-- Include de los elementos comunes -->
 <script type="text/javascript">
-	// Añadir una variable para determinar si se hacen o no las trazas
 	IS_EJIE = '${isEjie}',
 	APP_RESOURCES = '{{project_name}}',
 	CTX_PATH = '<%= request.getContextPath()%>/',
@@ -27,9 +26,11 @@
 	WAR_NAME = '{{project_name}}{{war_project_name}}',
 	//model
 	LAYOUT = '${empty defaultLayout ?  mvcInterceptor.defaultLayout : defaultLayout}',
-	//mvc-config.xml
+	//mvc-config
 	LOCALE_PARAM_NAME = '${mvcInterceptor.paramName}',
 	AVAILABLE_LANGS = '${mvcInterceptor.availableLangs}',
+	DEFAULT_LANG = "${mvcInterceptor.defaultLanguage}",
+	LANG = "${pageContext.response.locale}",
 	//breadCrumbs
 	LOGGED_USER = '${udaAuthenticationProvider.userCredentials.fullName}',
 	DESTROY_XLNETS_SESSION = '${!empty sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal ? sessionScope.SPRING_SECURITY_CONTEXT.authentication.credentials.destroySessionSecuritySystem : sessionScope.destroySessionSecuritySystem}';
