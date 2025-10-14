@@ -1,4 +1,16 @@
 /* eslint-env jquery,jasmine */
+import 'jquery';
+import 'jasmine-jquery';
+import queryString from 'query-string';
+import { flatten, unflatten } from 'flat';
+import 'rup.feedback';
+import 'rup.dialog';
+import 'rup.message';
+import 'rup.contextMenu';
+import 'rup_table/rup.table';
+import * as testutils from '../common/specCommonUtils.js';
+import * as dtGen from './tableCreator';
+// import {
 //     doesNotReject
 // } from 'assert';
 

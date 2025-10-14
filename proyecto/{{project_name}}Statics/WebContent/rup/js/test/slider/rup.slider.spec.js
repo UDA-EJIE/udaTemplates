@@ -1,6 +1,9 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils.js';
+import 'rup.slider';
 
 describe('Test Slider > ', () => {
     var $slider;

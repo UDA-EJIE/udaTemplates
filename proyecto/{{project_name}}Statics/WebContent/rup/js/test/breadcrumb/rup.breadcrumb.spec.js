@@ -1,6 +1,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import 'rup.base';
+import * as testutils from '../common/specCommonUtils.js';
+import 'jasmine-jquery';
+import 'rup.breadCrumb';
 
 describe('Test BreadCrumb >', () => {
     var $breadcrumb;

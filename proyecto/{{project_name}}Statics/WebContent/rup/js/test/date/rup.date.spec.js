@@ -1,6 +1,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import 'rup.tooltip';
+import * as testutils from '../common/specCommonUtils.js';
+import 'rup.tooltip';
+import 'rup.date';
 
 var unavailableDay = 0;
 

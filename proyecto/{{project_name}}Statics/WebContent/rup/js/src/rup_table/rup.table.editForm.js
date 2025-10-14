@@ -74,12 +74,12 @@
         }
 
         // DetailForm se convierte en función y se inicializan los botones
-        ctx.oInit.formEdit.detailForm = $(ctx.oInit.formEdit.detailForm);
-        ctx.oInit.formEdit.idForm = ctx.oInit.formEdit.detailForm.find('form').first();
-        ctx.oInit.formEdit.id = ctx.oInit.formEdit.detailForm[0].id.replace('_detail_div', '');
+        ctx.oInit.formEdit.detailForm.$dialog = $(ctx.oInit.formEdit.detailForm.id);
+        ctx.oInit.formEdit.idForm = ctx.oInit.formEdit.detailForm.$dialog.find('form').first();
+        ctx.oInit.formEdit.id = ctx.oInit.formEdit.detailForm.$dialog[0].id.replace('_detail_div', '');
         if (ctx.oInit.formEdit.detailForm !== undefined &&
-            $('body').find('[aria-describedby=\'' + ctx.oInit.formEdit.detailForm[0].id + '\']').length > 0) {
-            $('body').find('[aria-describedby=\'' + ctx.oInit.formEdit.detailForm[0].id + '\']').remove();
+            $('body').find('[aria-describedby=\'' + ctx.oInit.formEdit.detailForm.$dialog[0].id + '\']').length > 0) {
+            $('body').find('[aria-describedby=\'' + ctx.oInit.formEdit.detailForm.$dialog[0].id + '\']').remove();
         }
 
         // Obtiene el adapter y crea la barra de navegación en función de si la multiselección está o no activada
@@ -92,11 +92,11 @@
         _updateDetailPagination(ctx, 1, 1);
 
         // Añade el botón de cancelar
-        ctx.oInit.formEdit.buttoCancel = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_cancel');
+        ctx.oInit.formEdit.buttoCancel = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_button_cancel');
         ctx.oInit.formEdit.buttoCancel.on('click', function () {
             _cancelPopup(ctx);
             // Cierra el dialog
-            ctx.oInit.formEdit.detailForm.rup_dialog('close');
+            ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('close');
         });
         var idRow;
         var rowsBody = $(ctx.nTBody);
@@ -181,7 +181,7 @@
      */
     DataTable.editForm.init = function (ctx) {
     	// Capturar evento de cierre
-        ctx.oInit.formEdit.detailForm.on('dialogbeforeclose', function (event) {
+        ctx.oInit.formEdit.detailForm.$dialog.on('dialogbeforeclose', function (event) {
             if (event.originalEvent !== undefined) { //el evento es cerrado por el aspa
                 ctx.oInit.formEdit.okCallBack = false;
             }
@@ -192,6 +192,7 @@
 
             if (ctx.oInit.formEdit.dataOrigin === formSerializado || !ctx.oInit.formEdit.detailForm.settings.cancelDialog) {
                 _cancelPopup(ctx);
+				$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditAfterCloseForm', ctx);
                 return true;
             }
             if (ctx.oInit.formEdit.dataOrigin !== formSerializado && !ctx.oInit.formEdit.okCallBack) {
@@ -201,7 +202,8 @@
                     OKFunction: function () {
                         _cancelPopup(ctx);
                         ctx.oInit.formEdit.okCallBack = true;
-                        ctx.oInit.formEdit.detailForm.rup_dialog('close');
+                        ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('close');
+						$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditAfterCloseForm', ctx);
                         $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableMessageOk', ctx);
                     },
                     CANCELFunction: function () {
@@ -332,7 +334,7 @@
 
     function _cancelPopup(ctx) {
         ctx.oInit.formEdit.okCallBack = false;
-        var feedback = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_feedback');
+        var feedback = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_feedback');
 
         //Despues de cerrar
         //Se limpia los elementos.
@@ -343,11 +345,20 @@
             ctx.oInit.formEdit.idForm.find('.rup-validate-field-error').removeClass('rup-validate-field-error');
         }
 
-
+		if (feedback.length === 0) {
+		    // Si no hay ningún elemento en "feedback", intentamos mirar prevObject[0]
+		    var prev = feedback.prevObject[0];
+		    if (prev.length > 0 && prev[0].className !== '') {
+		        prev.rup_feedback('hide', 0);
+		    }
+		} else {
+		    // Si sí hay elementos en "feedback", comprobamos su className
+		    if (feedback[0].className !== '') {
+		        feedback.rup_feedback('hide', 0);
+		    }
+		}
         //Se cierran los mensajes del feedback
-        if (feedback[0].className !== '') {
-            feedback.rup_feedback('hide',0);
-        }
+        
     }
     
     /**
@@ -361,7 +372,7 @@
      *
      */
     function _addValidation(ctx) {
-        let idTableDetail = ctx.oInit.formEdit.detailForm;
+        let idTableDetail = ctx.oInit.formEdit.detailForm.$dialog;
         let feed = idTableDetail.find('#' + ctx.sTableId + '_detail_feedback');
         let validaciones;
         if (ctx.oInit.formEdit.validate !== undefined) {
@@ -369,7 +380,7 @@
         }
         
         if (feed.length === 0) {
-        	feed = $('<div></div>').attr('id', feed[0].id + '_ok').insertBefore(feed);
+        	feed = $('<div></div>').attr('id', feed.prevObject[0].id).insertBefore(feed);
         }
         
     	feed.rup_feedback(ctx.oInit.feedback);
@@ -411,7 +422,7 @@
 		let isClone = false;
 		
 		// Botón de guardar y continuar
-        let buttonContinue = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_save_repeat');
+        let buttonContinue = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_button_save_repeat');
         
         // En caso de ser clonado el method ha de ser POST
         if (actionType === 'CLONE') {
@@ -455,7 +466,7 @@
 				$(formContainerID).prepend(receivedForm);
 				
 				ctx.oInit.formEdit.actionType = actionType;
-				ctx.oInit.formEdit.idForm = $(ctx.oInit.formEdit.detailForm).find('form').first();
+				ctx.oInit.formEdit.idForm = $(ctx.oInit.formEdit.detailForm.id).find('form').first();
 				
 				// Si el diálogo no ha sido inicializado, se inicializa
 				if (lastAction === undefined) {
@@ -612,8 +623,8 @@
             let loadPromise = $.Deferred();
         	var idForm = ctx.oInit.formEdit.idForm;
         	// Limpiar los errores en caso de haberlos
-	        var feed = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_feedback');
-	        var divErrorFeedback = ctx.oInit.formEdit.detailForm.find('#' + feed[0].id);
+	        var feed = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_feedback');
+	        var divErrorFeedback = ctx.oInit.formEdit.detailForm.$dialog.find('#' + feed.prevObject[0].id);
 	        if (divErrorFeedback.length > 0) {
 	            divErrorFeedback.hide();
 	        }
@@ -623,9 +634,9 @@
 	        }
 	
 	        // Botón de guardar
-	        var button = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_save');
+	        var button = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_button_save');
 	        // Botón de guardar y continuar
-	        var buttonContinue = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_button_save_repeat');
+	        var buttonContinue = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_button_save_repeat');
 	
 
 	        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditBeforeInitData',ctx);
@@ -699,7 +710,7 @@
 	            }
 	           
 				// Estando loadFromModel a true no se cargan los datos de la fila obtenida a partir de la tabla (se depende de lo cargado a través del modelo).
-				if(!ctx.oInit.formEdit.loadFromModel && typeof row !== 'undefined') {
+				if(typeof row !== 'undefined') {
 					$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormBeforePopulate', [ctx, idForm, row]);
 					$.when($.rup_utils.populateForm($.fn.flattenObject(row, { safe: true }), idForm)).then(function() {
 						$('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAfterPopulate', [ctx, idForm, row]);
@@ -762,9 +773,9 @@
 	        $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormAddEditBeforeShowForm',ctx);
 	        
 	        // Establecemos el título del formulario
-	        ctx.oInit.formEdit.detailForm.rup_dialog(ctx.oInit.formEdit.detailForm.settings);
-	        ctx.oInit.formEdit.detailForm.rup_dialog('setOption', 'title', title);
-	        ctx.oInit.formEdit.detailForm.rup_dialog('open');
+	        ctx.oInit.formEdit.detailForm.$dialog.rup_dialog(ctx.oInit.formEdit.detailForm.settings);
+	        ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('setOption', 'title', title);
+	        ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('open');
 			
 			//se desactiva los focos para que  se centren en el buscador de los select.
 			if(_haySelectMultipleAutocomplete(ctx.oInit.colModel)){
@@ -844,7 +855,7 @@
 	                });   
 	            }
 	            
-	        	let idTableDetail = ctx.oInit.formEdit.detailForm;
+	        	let idTableDetail = ctx.oInit.formEdit.detailForm.$dialog;
 	            
 	            // Muestra un feedback de error por caracter ilegal
 	            if(!row) {
@@ -919,7 +930,7 @@
 	                });
 	            }
                 
-	            let idTableDetail = ctx.oInit.formEdit.detailForm;
+	            let idTableDetail = ctx.oInit.formEdit.detailForm.$dialog;
 	            
 	            // Muestra un feedback de error por caracter ilegal
 	            if(!row) {
@@ -1024,7 +1035,7 @@
                             }
                             _callFeedbackOk(ctx, divOkFeedback, msgFeedBack, 'ok'); //Se informa, feedback del formulario
                         } else {
-                            ctx.oInit.formEdit.detailForm.rup_dialog('close');
+                            ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('close');
                             _callFeedbackOk(ctx, ctx.oInit.feedback.$feedbackContainer, msgFeedBack, 'ok'); //Se informa feedback de la tabla
                         }
 
@@ -1187,13 +1198,13 @@
     				if (xhr.status === 406 && xhr.responseText !== '') {
     					try {
     						let responseJSON = JSON.parse(xhr.responseText);
-    						if (responseJSON.rupErrorFields) {
-    							if (responseJSON.rupErrorFields !== undefined || responseJSON.rupFeedback !== undefined) {
+    						if (responseJSON.rupErrorFields || responseJSON.rupFeedback) {
+    							if (responseJSON.rupErrorFields !== undefined) {
     								let $form = ctx.oInit.formEdit.idForm;
     								$form.validate().submitted = $.extend(true, $form.validate().submitted, responseJSON.rupErrorFields);
     								$form.validate().invalid = responseJSON.rupErrorFields;
     								$form.validate().showErrors(responseJSON.rupErrorFields);
-    							} else if (errors.rupFeedback !== undefined) {
+    							} else if (responseJSON.rupFeedback !== undefined) {
     								let mensajeJSON = $.rup_utils.printMsg(responseJSON.rupFeedback.message);
     								_callFeedbackOk(ctx, divErrorFeedback, mensajeJSON, 'error');
     							}
@@ -1207,7 +1218,7 @@
                         _callFeedbackOk(ctx, divErrorFeedback, xhr.responseText, 'error');
     				}
 
-                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType]);
+                    $('#' + $.escapeSelector(ctx.sTableId)).triggerHandler('tableEditFormErrorCallSaveAjax', [ctx, actionType, xhr]);
                 },
                 validate: validaciones,
                 feedback: feed.rup_feedback({
@@ -1370,20 +1381,20 @@
         	let focusedElement = document.activeElement;
             
         	// Eliminar foco del elemento porque va a ser deshabilitado a continuación
-        	if ($(ctx.oInit.formEdit.detailForm).find(focusedElement).length > 0) {
+        	if ($(ctx.oInit.formEdit.detailForm.id).find(focusedElement).length > 0) {
         		focusedElement.blur();
         	}
         }
         
         if (currentRowNum === 1) {
-        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', true);
+        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', true);
         } else {
-        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', false);
+        	$('#first_' + $.escapeSelector(tableId) + ', #back_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', false);
         }
         if (currentRowNum === totalRowNum) {
-        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', true);
+        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', true);
         } else {
-        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm).prop('disabled', false);
+        	$('#forward_' + $.escapeSelector(tableId) + ', #last_' + $.escapeSelector(tableId), ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', false);
         }
 
         $('#rup_table_selectedElements_' + $.escapeSelector(tableId)).text($.rup_utils.format(jQuery.rup.i18nParse(jQuery.rup.i18n.base, 'rup_table.defaults.detailForm_pager'), currentRowNum, totalRowNum));
@@ -1402,7 +1413,7 @@
     function _callNavigationBar(dt) {
         var ctx = dt.settings()[0];
         ctx.oInit._ADAPTER = $.rup.adapter[jQuery.fn.rup_table.defaults.adapter];
-        ctx.oInit.formEdit.$navigationBar = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_navigation');
+        ctx.oInit.formEdit.$navigationBar = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_navigation');
         var settings = {};
         // Funcion para obtener los parametros de navegacion.
         settings.fncGetNavigationParams = function getNavigationParams_multiselection(linkType) {
@@ -1508,7 +1519,7 @@
                 $('#first_' + $.escapeSelector(tableId) + '_detail_navigation' + 
                 		', #back_' + $.escapeSelector(tableId) + '_detail_navigation' +
                 		', #forward_' + $.escapeSelector(tableId) + '_detail_navigation' +
-                		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
+                		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', true);
             });
 
             // Actualizar la última posición movida
@@ -1561,7 +1572,7 @@
     function _callNavigationSelectBar(dt) {
         var ctx = dt.settings()[0];
         ctx.oInit._ADAPTER = $.rup.adapter[jQuery.fn.rup_table.defaults.adapter];
-        ctx.oInit.formEdit.$navigationBar = ctx.oInit.formEdit.detailForm.find('#' + ctx.sTableId + '_detail_navigation');
+        ctx.oInit.formEdit.$navigationBar = ctx.oInit.formEdit.detailForm.$dialog.find('#' + ctx.sTableId + '_detail_navigation');
         var settings = {};
 
         // Funcion para obtener los parametros de navegacion.
@@ -1617,7 +1628,7 @@
             $('#first_' + $.escapeSelector(tableId) + '_detail_navigation' + 
             		', #back_' + $.escapeSelector(tableId) + '_detail_navigation' +
             		', #forward_' + $.escapeSelector(tableId) + '_detail_navigation' +
-            		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm).prop('disabled', true);
+            		', #last_' + $.escapeSelector(tableId) + '_detail_navigation', ctx.oInit.formEdit.detailForm.$dialog).prop('disabled', true);
             
             return [linkType, execute, changePage, index - 1, npos, newPage, newPageIndex - 1];
         };
@@ -1905,11 +1916,11 @@
                 } else {
                     row.multiselection.selectedIds = ctx.multiselection.selectedIds;
                 }
-                _callSaveAjax(actionType, dt, row, idRow, false, ctx.oInit.formEdit.detailForm, '/deleteAll', true);
+                _callSaveAjax(actionType, dt, row, idRow, false, ctx.oInit.formEdit.detailForm.$dialog, '/deleteAll', true);
             } else {
                 row = ctx.multiselection.selectedIds[0];
                 row = row.replace(regex, '/');
-                _callSaveAjax(actionType, dt, '', idRow, false, ctx.oInit.formEdit.detailForm, '/' + row, true);
+                _callSaveAjax(actionType, dt, '', idRow, false, ctx.oInit.formEdit.detailForm.$dialog, '/' + row, true);
             }
         };
         
@@ -2188,7 +2199,7 @@
         		let deferred = $.Deferred();
     	        DataTable.editForm.init(ctx);
 	            
-		        $(ctx.oInit.formEdit.detailForm).rup_dialog($.extend({}, {
+		        $(ctx.oInit.formEdit.detailForm.id).rup_dialog($.extend({}, {
 	                type: $.rup.dialog.DIV,
 	                autoOpen: false,
 	                modal: true,

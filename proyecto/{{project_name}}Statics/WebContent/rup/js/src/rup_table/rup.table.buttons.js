@@ -1030,11 +1030,13 @@
                 if (!document.activeElement || document.activeElement === document.body) {
                     // SUse a string of characters for fast lookup of if we need to
                     // handle this
-                    var character = e.code.toLowerCase();
-
-                    if (that.s.listenKeys.toLowerCase().indexOf(character) !== -1) {
-                        that._keypress(character, e);
-                    }
+					if(e.code != undefined){
+	                    var character = e.code.toLowerCase();
+	
+	                    if (that.s.listenKeys.toLowerCase().indexOf(character) !== -1) {
+	                        that._keypress(character, e);
+	                    }
+					}
                 }
             });
         },
@@ -1431,7 +1433,7 @@
 							config.icon = 'mdi-file-excel';
 							break;
 						case 'pdfButton':
-							config.icon = 'mdi-file-pdf';
+							config.icon = 'mdi-file-pdf-box';
 							break;
 						case 'odsButton':
 							config.icon = 'mdi-file';
@@ -2556,7 +2558,7 @@
 	 * Common function for stripping HTML comments
 	 *
 	 * @param {*} input 
-	 * @returns 
+	 * @returns input
 	 */
 	Buttons.stripHtmlComments = function(input) {
 		var previous;
@@ -2573,7 +2575,7 @@
 	 * Common function for stripping HTML script tags
 	 *
 	 * @param {*} input 
-	 * @returns 
+	 * @returns input
 	 */
 	Buttons.stripHtmlScript = function(input) {
 		var previous;
@@ -3097,11 +3099,11 @@
         	ctx.oInit.buttons.myLastAction = 'add';
             if (ctx.oInit.formEdit !== undefined) {
             	$.when(DataTable.Api().editForm.loadSaveDialogForm(ctx, 'POST')).then(function () {
-            		let idTableDetail = ctx.oInit.formEdit.detailForm;
+            		let idTableDetail = ctx.oInit.formEdit.detailForm.$dialog;
                     // Limpiamos el formulario
-                    if($(idTableDetail).find('form')[0] !== undefined) {
-                    	$(idTableDetail).find('form')[0].reset();
-                        jQuery.each($('select.rup_select',$(idTableDetail)), function (index, elem) {
+                    if(idTableDetail.find('form')[0] !== undefined) {
+                    	idTableDetail.find('form')[0].reset();
+                        jQuery.each($('select.rup_select', idTableDetail), function (index, elem) {
             				jQuery(elem).rup_select('refresh');
                         });
                         if (ctx.multiselection.numSelected > 0) {
@@ -3127,10 +3129,10 @@
                             DataTable.Api().editForm.openSaveDialog('POST', dt, null, ctx.oInit.formEdit.customTitle);
                         }
                     } else {
-                    	$.rup_messages('msgError', {
-                            title: 'Error grave',
-                            message: '<p>Falta definir "detailForm" en la inicialización de la tabla.</p>'
-                        });
+						$.rup_messages('msgError', {
+							title: $.rup.i18nParse($.rup.i18n.base, 'rup_table.errors.errcap'),
+							message: $.rup.i18nParse($.rup.i18n.base, 'rup_table.errors.missingDetailForm')
+						});
                     }
             	});
             } else { //edicion en linea
@@ -4207,8 +4209,8 @@
                     ctx.oInit.formEdit.okCallBack = true;
                 }
                 _reportsToClipboard(dt, that, exportDataRows, hiddenDiv, textarea);
-                if (ctx.oInit.formEdit !== undefined && !ctx.oInit.formEdit.detailForm.hasClass('d-none')) {//si esta oculto, no hace falta
-                    ctx.oInit.formEdit.detailForm.rup_dialog('close');
+                if (ctx.oInit.formEdit !== undefined && !ctx.oInit.formEdit.detailForm.$dialog.hasClass('d-none')) {//si esta oculto, no hace falta
+                    ctx.oInit.formEdit.detailForm.$dialog.rup_dialog('close');
                 }
             },
             beforeClose: function () {

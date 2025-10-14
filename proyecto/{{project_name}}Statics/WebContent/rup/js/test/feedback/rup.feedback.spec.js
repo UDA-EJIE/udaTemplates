@@ -1,5 +1,11 @@
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import 'handlebars';
+import 'jasmine-jquery';
+import 'rup.feedback';
+import 'rup.tooltip';
+import * as testutils from '../common/specCommonUtils.js';
 
 describe('RUP Feedback Tests', () => {
     beforeAll((done) => {

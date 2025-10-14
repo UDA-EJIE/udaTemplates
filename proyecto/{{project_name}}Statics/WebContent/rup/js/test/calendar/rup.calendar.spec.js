@@ -1,6 +1,9 @@
 /* jshint -W107 */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils';
+import 'rup.calendar';
 
 var EVENTS = [{
     'id': '48605',

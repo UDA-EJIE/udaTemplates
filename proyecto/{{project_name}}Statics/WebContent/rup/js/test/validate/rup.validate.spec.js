@@ -1,6 +1,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils';
+import 'jasmine-jquery';
+import 'rup.feedback';
+import 'rup.validate';
 
 
 describe('Test Validate >  ', () => {

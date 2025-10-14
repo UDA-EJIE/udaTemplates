@@ -2,6 +2,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils.js';
+import 'handlebars';
+import 'jasmine-jquery';
+import 'rup.message';
 
 $.when(messageTester('Ok'))
     .then(messageTester('Alert'))

@@ -1,6 +1,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils.js';
+import 'handlebars';
+import 'jasmine-jquery';
+import 'rup.button';
 
 describe('TEST Button', () => {
     var $button, $mButton, $dropdownButton;

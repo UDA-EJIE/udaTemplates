@@ -1,6 +1,12 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils.js';
+import 'jasmine-jquery';
+import 'rup.select';
+import 'rup.feedback';
+import 'rup.form';
 
 const formHtml = '<div id="feedbackMensajes"></div>\
                 <div id="tabsFormulario"></div>\

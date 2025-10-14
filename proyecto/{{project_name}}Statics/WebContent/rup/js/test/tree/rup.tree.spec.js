@@ -1,6 +1,11 @@
 /* jslint multistr: true */
 /* eslint-env jasmine, jquery */
 
+import 'jquery';
+import * as testutils from '../common/specCommonUtils.js';
+import * as creator   from './treeCreator';
+import 'jasmine-jquery';
+import 'rup.tree';
 
 // Declaración de variables
 
