@@ -17,3 +17,6 @@
 
 <%-- DESARROLLO --%>
 <script src="${staticsUrl}/rup/js/rup.js" type="text/javascript"></script>
+
+<%-- PRODUCCIÓN --%>
+<%-- <script src="${staticsUrl}/rup/js/rup.min.js" type="text/javascript"></script> --%>
