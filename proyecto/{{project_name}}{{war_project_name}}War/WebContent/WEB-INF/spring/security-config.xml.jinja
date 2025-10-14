@@ -43,7 +43,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/security
 	  <property name="accessDecisionManager" ref="affirmativeBased"/>
 	  <property name="securityMetadataSource">
 		<security:filter-security-metadata-source use-expressions="true" request-matcher="regex">
+			{% if xlnets %}
+			<security:intercept-url pattern="/**" access="isAuthenticated()"/>
+			{% else %}	
 			<security:intercept-url pattern="/**" access=""/>
+			{% endif%}
 			<security:intercept-url pattern="/logout" access="isAuthenticated()" />
 		 </security:filter-security-metadata-source>
 	  </property>
