@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.ejie.x38.control.MvcInterceptor;
 import com.ejie.x38.util.StaticsContainer;
@@ -14,11 +14,11 @@ import com.ejie.x38.util.StaticsContainer;
 public class GlobalModelAttributes {
 	
 	private final MvcInterceptor mvcInterceptor;
-	private final CookieLocaleResolver localeResolver;
+	private final SessionLocaleResolver localeResolver;
 	private String url = null;
 	
 	@Autowired
-    public GlobalModelAttributes(MvcInterceptor mvcInterceptor,CookieLocaleResolver localeResolver) {
+    public GlobalModelAttributes(MvcInterceptor mvcInterceptor,SessionLocaleResolver localeResolver) {
         this.mvcInterceptor = mvcInterceptor;
         this.localeResolver = localeResolver;
     }
@@ -36,7 +36,7 @@ public class GlobalModelAttributes {
     }
     
     @ModelAttribute("localeResolver")
-    public CookieLocaleResolver addLocaleResolverToModel() {
+    public SessionLocaleResolver addLocaleResolverToModel() {
         return localeResolver;
     }
     
