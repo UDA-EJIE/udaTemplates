@@ -1,0 +1,83 @@
+/*
+* Copyright 2025 E.J.I.E., S.A.
+*
+* Licencia con arreglo a la EUPL, Versión 1.1 exclusivamente (la «Licencia»);
+* Solo podrá usarse esta obra si se respeta la Licencia.
+* Puede obtenerse una copia de la Licencia en
+*
+* http://ec.europa.eu/idabc/eupl.html
+*
+* Salvo cuando lo exija la legislación aplicable o se acuerde por escrito,
+* el programa distribuido con arreglo a la Licencia se distribuye «TAL CUAL»,
+* SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
+* Véase la Licencia en el idioma concreto que rige los permisos y limitaciones
+* que establece la Licencia.
+*/
+
+package com.ejie.{{project_name}}.config;
+
+import java.util.Locale;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.handler.MappedInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import com.ejie.x38.control.MvcInterceptor;
+
+@ComponentScan("com.ejie.{{project_name}}")
+@Configuration
+@EnableWebMvc
+public class MvcConfig {
+
+	private WebApplicationContext webApplicationContext;
+
+	// Constructor con inyección de dependencias.
+	public MvcConfig(WebApplicationContext webApplicationContext) {
+		this.webApplicationContext = webApplicationContext;
+	}
+
+	/**
+	 * Gestiona las propiedades del WAR: idioma (cuando se envía el parametro
+	 * 'locale' en la request '/?locale=en'), layout, idioma disponible...
+	 * 
+	 * @return MvcInterceptor
+	 */
+	@Bean
+	public MvcInterceptor mvcInterceptor() {
+		MvcInterceptor mvcInterceptor = new MvcInterceptor(webApplicationContext);
+		mvcInterceptor.setParamName("locale");
+		mvcInterceptor.setDefaultLanguage("{{defaultLanguage}}");
+		mvcInterceptor.setDefaultLayout("horizontal");
+		mvcInterceptor.setAvailableLangs("{{availableLangs}}");
+		mvcInterceptor.setPortalCookie("r01euskadiCookie");
+		return mvcInterceptor;
+	}
+
+	/**
+	 * Gestiona la locale (idioma) mediante la sesión.
+	 * 
+	 * @return LocaleResolver
+	 */
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(new Locale("{{defaultLanguage}}"));
+		return sessionLocaleResolver;
+	}
+
+	/**
+	 * Declaración del interceptor (Gestión idomática).
+	 * 
+	 * @return MappedInterceptor
+	 */
+	@Bean
+	public MappedInterceptor myInterceptor() {
+		return new MappedInterceptor(null, mvcInterceptor());
+	}
+
+}
