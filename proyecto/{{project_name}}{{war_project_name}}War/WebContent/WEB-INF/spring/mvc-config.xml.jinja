@@ -36,21 +36,6 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
 	</bean>
-	{% if typeTemplate == "tiles" %}
-	<!-- Gestiona las propiedades del WAR: idioma (cuando se envía el parametro 'locale' en la request '/?locale=en'), layout, idioma disponible... -->
-    <bean id="mvcInterceptor" class="com.ejie.x38.control.MvcInterceptor" >
-		<!-- <property name="paramName" value="locale" /> -->
-       	<property name="defaultLanguage" value="{{defaultLanguage}}" />
-       	<property name="defaultLayout" value="horizontal" />
-       	<property name="availableLangs" value="{{availableLangs}}" />
-		<!-- <property name="portalCookie" value="r01euskadiCookie" /> -->
-     </bean>
-
-	<!-- Declaración del interceptor (Gestión idomática) -->
-    <mvc:interceptors>
-         <ref bean="mvcInterceptor"/>
-    </mvc:interceptors>
-	{% endif %}
      <!-- Configurar Excepciones propagadas en los Controller -->
 	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
 <!-- 		<property name="handlers"> -->
