@@ -35,7 +35,6 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
         <property name="fallbackToSystemLocale" value="false" />
 	</bean>
-
      <!-- Configurar Excepciones propagadas en los Controller -->
 	<bean class="com.ejie.x38.control.exception.MvcExceptionResolverConfig">
 <!-- 		<property name="handlers"> -->
@@ -62,9 +61,8 @@
 		</property>
 	</bean>
 	
-
 	<!-- Configurar MVC -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <bean class="com.ejie.x38.spring.context.DefaultAnnotationHandlerMapping">
         <property name="order" value="1" />
     </bean>
     
@@ -91,15 +89,38 @@
         </property>
 	</bean>
 	<!-- FIN -->
-		
+	
 	<!-- Gestión de la Vista (View) -->
-    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+	{% if typeTemplate == "tiles" %}
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
             <list>
                 <value>/WEB-INF/views/tiles.xml</value>
             </list>
         </property>
+	</bean>	
+	{% endif %}
+	{% if typeTemplate == "thymeleaf" %}
+	<bean id="templateResolver"
+          class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML" />
     </bean>
+    
+        <!-- Template Engine: Motor de plantillas Thymeleaf -->
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        <property name="enableSpringELCompiler" value="true" />
+    </bean>
+
+    <!-- View Resolver: Resuelve vistas de Thymeleaf -->
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="order" value="1" />
+    </bean>
+	{% endif %}
 	<bean id="viewResolver" class="com.ejie.x38.control.view.UdaViewResolver">
         <property name="viewClass" value="com.ejie.x38.control.view.UdaTilesView"/>
         <property name="exposedContextBeanNames" >
@@ -109,16 +130,5 @@
         		<value>udaAuthenticationProvider</value>
         	</list>
         </property>
-    </bean> 
-	
-	<!-- Audit  -->
-	<bean id="auditController" class="com.ejie.x38.audit.AuditController" />
-	
-	<!-- Reports -->	
-<!-- 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"> -->
-<!-- 	   <property name="location"> -->
-<!-- 	       <value>/WEB-INF/spring/reports-config.xml</value> -->
-<!-- 	   </property> -->
-<!-- 	   <property name="order" value="0" /> -->
-<!-- 	</bean> -->
+    </bean>
 </beans>

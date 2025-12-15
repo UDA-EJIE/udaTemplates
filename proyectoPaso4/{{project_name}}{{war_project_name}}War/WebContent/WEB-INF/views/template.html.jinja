@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{app.title}">Título de la aplicación</title>
+
+    <!-- Estilos RUP -->
+    <link th:replace="includes/rup.styles.html :: headerStyle"> </link>
+
+    <!-- Estilos Aplicación -->
+    <th:block th:replace="includes/{{project_name}}.styles.html :: styles"></th:block>
+	
+    <script>
+        // Habilitar el envío de trazas a PIB.
+        window.IS_EJIE = true;
+    </script>
+</head>
+<body>
+    <div class="contenedor">
+        <!-- Cabecera -->
+        <header th:replace="header :: header"></header>
+	
+        <!-- Idioma (opcional, descomentado si se necesita) -->
+        <!-- <div th:replace="includes/language :: language"></div> -->
+
+        <!-- Menú -->
+        <nav th:replace="menu :: menu"></nav>
+        <div id="overlay"></div>
+		
+        <!-- Migas de pan -->
+        <div th:replace="breadCrumb :: breadCrumb"></div>
+		
+        <!-- Contenidos -->
+        <div id="{{project_name}}{{war_project_name}}War_content" class="m-0 m-md-3 p-4 clear">
+            <div th:replace="~{${content}}"></div>
+        </div>
+		
+        <!-- Pie -->
+        <footer th:replace="footer :: footer"></footer>
+		
+        <!-- Includes JS -->
+        <div th:replace="base-includes :: base-includes"></div>
+       <div th:if="${includes != null and includes != ''}">
+        <div th:replace="~{${includes}}"></div>
+       </div>
+        
+    </div>
+</body>
+</html>

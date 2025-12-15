@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido wp</title>
+    <link rel="stylesheet" th:href="${staticsUrl}+@{//rup/css/rup.css}" />
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h1>
+                <img alt="El contenido estático no está correctamente desplegado."
+                     th:src="${staticsUrl}+@{//rup/css/images/uda_logo.png}" /> v6.1.0.2
+                <small>(Portal demostrativo)</small>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <section id="mainContent">
+                <p>
+                    <a href="https://es.wikipedia.org/wiki/Rich_Internet_Application" target="_blank">RIA</a> - 
+                    <a href="https://es.wikipedia.org/wiki/AJAX" target="_blank">Ajax</a>
+                    son las tecnologías que permiten desarrollar interfaces más ricas.
+                </p>
+                <p>
+                    <a th:href="${staticsUrl}+@{//rup/css/images/uda-mini-micro2.png}" target="_blank">
+                        <img th:src="${staticsUrl}+@{//rup/css/images/uda-mini-micro2.png}" style="max-width: 100%;" />
+                    </a>
+                    Este proyecto proporciona utilidades, herramientas y guías para acelerar el desarrollo de aplicaciones Java.
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+                <h2>Verlo en funcionamiento</h2>
+                <ul>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Videos" target="_blank">Videos</a>
+                    </li>
+                    <li>
+                        <a href="/demoApp" target="_blank">Aplicación de demostración</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="col-md-4">
+            <section>
+                <h2>Profundizar</h2>
+                <ul>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Arquitectura" target="_blank">Guías funcionales y técnicas</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Componentes" target="_blank">Utilidades, herramientas, plugins</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Patrones" target="_blank">Patrones de usabilidad web</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Documentacion" target="_blank">Documentación</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="col-md-4">
+            <section>
+                <h2>Pasar a la acción</h2>
+                <ul>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Instalar" target="_blank">Instalar</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Actualizar" target="_blank">Actualizar</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/UDA-EJIE/uda-ejie.github.io/wiki/Versiones" target="_blank">Versiones</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.querySelector('.contenedor').classList.add('show');
+</script>
+</body>
+</html>
