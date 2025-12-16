@@ -235,7 +235,10 @@
     "illegalChar": "Karaktereren bat ez dago baimenduta.",
     "relToAbsUrlParamError": "<b style='color:red'>&#34",
     "relToAbsUrlParamErrorEnd": "&#34</b><br/> &#34$.rup_utils.relToAbsUrl&#34; funtzioaren url-a ez da zuzena",
-    "relToAbsUrlParamFormatError": "&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da."
+    "relToAbsUrlParamFormatError": "&#34$.rup_utils.relToAbsUrl&#34; funtzioaren parametroa ez da zuzena.<br/>Url-a string-mota izan behar da.",
+    "deprecated": "'{0}' propietatea zaharkituta dago. Mesedez, erabili '{1}' haren ordez.",
+    "errorNotjQueryElement": "Rup_utilen warn metodoak jQuery elementu bat behar du.",
+    "errorjQueryElementMissingId": "jQuery elementuak id atributua izan behar du, edo gako pertsonalizatua eman."
   },
   "rup_validate": {
     "format": {
@@ -605,6 +608,12 @@
         "matchedRecords": "{0} elementu aurkitu dira",
         "matchedRecordsCount": "{1}-tik {0} erakusten",
         "searchCriteria": "Bilaketa irizpideak"
+      },
+      "buttons": {
+        "display": {
+          "invalidReturnType": "Display propietateari lotutako funtzioak balio boolearra itzuli behar du. Jaso da: {0}",
+          "invalidDisplayPropertyType": "\"Display\" propietateak RegExp edo Function izan behar du. Jasotako mota: {0}"
+        }
       }
     },
     "previous": "Aurrekoa",
