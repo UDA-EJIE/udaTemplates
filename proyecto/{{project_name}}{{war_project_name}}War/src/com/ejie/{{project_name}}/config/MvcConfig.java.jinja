@@ -26,12 +26,13 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.ejie.x38.control.MvcInterceptor;
 
 @ComponentScan("com.ejie.{{project_name}}")
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 public class MvcConfig {
 
 	private WebApplicationContext webApplicationContext;
