@@ -1,9 +1,25 @@
+{# =========================================================
+   Anti-duplicados de constructores por firma
+   ========================================================= #}
+{% set ns = namespace(ctors=[]) %}
+
+{% macro emit_ctor(sig) -%}
+  {% if sig not in ns.ctors %}
+    {% set ns.ctors = ns.ctors + [sig] %}
+    {{ caller() }}
+  {% endif %}
+{%- endmacro %}
+
  /** 
  * Method '{{tableName}}'.
  */
  public {{tableName}}() {
   }
+
+{# --------------------- ctor por PKs ---------------------- #}
 {% if listPks | length > 0 %}
+{% set sig_listpks = (listPks | map(attribute='DATO_TYPE') | list | join(',')) ~ '|' ~ (listPks | map(attribute='name') | list | join(',')) %}
+{% call emit_ctor(sig_listpks) %}
  /** 
  * Method '{{tableName}}'.
  {% for column in listPks %}* @param {{ column.name|snakeToCamel }}
@@ -13,42 +29,68 @@
 	{% for column in listPks %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
- {% endif %}
+{% endcall %}
+{% endif %}
+
 {% if not constructorEntidad and columOriNoForeing | length != allColumns | length %}
  {% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}
- {%if filtered_columns| length !=  columOriNoForeing | length%}
+ {% if filtered_columns| length !=  columOriNoForeing | length %}
+
+{# ----------------- ctor Methzzzod (columOriNoForeing sin R) ---------------- #}
+{% set cols_meth = columOriNoForeing | rejectattr("primaryKey", "equalto", "R") | list %}
+{% set sig_meth = (cols_meth | map(attribute='DATO_TYPE') | list | join(',')) ~ '|' ~ (cols_meth | map(attribute='name') | list | join(',')) %}
+{% call emit_ctor(sig_meth) %}
  /** 
  * Methzzzod '{{tableName}}'.
  {% for column in columOriNoForeing %}{% if column.primaryKey != 'R'%}* @param {{ column.name | snakeToCamel }}
- {%endif%}{% endfor %}*
+ {% endif %}{% endfor %}*
  */    
-public {{tableName}}({% for column in columOriNoForeing %}{% if column.primaryKey != 'R' %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %}, {% endif %}{%endif%}{% endfor %}) {
+public {{tableName}}({% for column in columOriNoForeing %}{% if column.primaryKey != 'R' %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %}, {% endif %}{% endif %}{% endfor %}) {
     {% for column in columOriNoForeing %}{% if column.primaryKey != 'R' %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
-     {%endif%}{% endfor %}
+    {% endif %}{% endfor %}
 }
-{%endif%}
-
-{% set filtered_columns_noL_noR = allColumns | selectattr("DATO_TYPE", "ne", "List") | selectattr("primaryKey", "ne", "R") | list %}
-{% if filtered_columns_noL_noR | length != allColumns | length or filtered_columns_noL_noR | length != allColumns | length %}
- /** 
- * Method sss '{{tableName}}'.
- {% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}* @param {{ column.name | snakeToCamel }}
- {% endfor %}*
- */    
-public {{tableName}}({% set filtered_columns = allColumns | selectattr("DATO_TYPE", "ne", "List") | list %}{% for column in filtered_columns %}{% if column.primaryKey != 'R' %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %},{% endif %} {% endif %}{% endfor %}) {
-    {% for column in filtered_columns %}{% if column.primaryKey != 'R' %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
-    {% endif %} {% endfor %}
-}
-{%endif%}
+{% endcall %}
 {% endif %}
 
+{# ----------------- ctor sss (filtered_columns sin List y sin R) ---------------- #}
+{% set filtered_columns_noL_noR = allColumns
+  | selectattr("DATO_TYPE", "ne", "List")
+  | selectattr("primaryKey", "ne", "R")
+  | list %}
 
+{% if filtered_columns_noL_noR | length != allColumns | length or filtered_columns_noL_noR | length != allColumns | length %}
+{% set sig_sss = (filtered_columns_noL_noR | map(attribute='DATO_TYPE') | list | join(',')) ~ '|' ~ (filtered_columns_noL_noR | map(attribute='name') | list | join(',')) %}
+{% call emit_ctor(sig_sss) %}
+ /** 
+ * Method sss '{{tableName}}'.
+ {% for column in filtered_columns_noL_noR %}* @param {{ column.name | snakeToCamel }}
+ {% endfor %}*
+ */    
+public {{tableName}}({% for column in filtered_columns_noL_noR %}{{ column.DATO_TYPE }} {{ column.name | snakeToCamel }}{% if not loop.last %},{% endif %} {% endfor %}) {
+    {% for column in filtered_columns_noL_noR %}this.{{ column.name | snakeToCamel }} = {{ column.name | snakeToCamel }};
+    {% endfor %}
+}
+{% endcall %}
+{% endif %}
+{% endif %}
+
+{# ----------------- ctor aa (allColumns) ---------------- #}
+{% set sig_aa = (allColumns | map(attribute='DATO_TYPE') | list | join(',')) ~ '|' ~ (allColumns | map(attribute='name') | list | join(',')) %}
+{% call emit_ctor(sig_aa) %}
  /** 
  * Method aa '{{tableName}}'.
  {% for column in allColumns %}* @param {{ column.name|snakeToCamel }}
  {% endfor %}*
  */    
- public {{tableName}}({% for column in allColumns %}{% if column.DATO_TYPE == 'List' %} List<{{ column.entidad|toCamelCase }}> {{ column.name|snakeToCamel}} {% else %}{{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}) {
+ public {{tableName}}({% for column in allColumns %}
+   {% if column.DATO_TYPE == 'List' %}
+     List<{{ column.entidad|toCamelCase }}> {{ column.name|snakeToCamel}}
+   {% else %}
+     {{ column.DATO_TYPE }} {{ column.name|snakeToCamel }}
+   {% endif %}
+   {% if not loop.last %}, {% endif %}
+ {% endfor %}) {
 	{% for column in allColumns %}this.{{ column.name|snakeToCamel }} = {{ column.name|snakeToCamel }};
   {% endfor %}
  }
+{% endcall %}
